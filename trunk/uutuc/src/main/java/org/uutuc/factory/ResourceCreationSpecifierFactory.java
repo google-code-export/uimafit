@@ -75,15 +75,21 @@ public class ResourceCreationSpecifierFactory {
 	 */
 	public static ResourceCreationSpecifier createResourceCreationSpecifier(XMLInputSource xmlInput, Object[] parameters)
 	throws UIMAException, IOException {
+		if (parameters.length % 2 != 0) {
+			String message = "a value must be specified for each parameter name: an odd number of values passed in ("+parameters.length+")";
+			throw new IllegalArgumentException(message);
+		}
+
 		ResourceCreationSpecifier specifier;
 		XMLParser parser = UIMAFramework.getXMLParser();
 		specifier = (ResourceCreationSpecifier) parser.parseResourceSpecifier(xmlInput);
 		
 		ResourceMetaData metaData = specifier.getMetaData();
 		ConfigurationParameterSettings settings = metaData.getConfigurationParameterSettings();
-		for (int i = 0; i < parameters.length; i += 2) {
-			settings.setParameterValue((String) parameters[i], parameters[i + 1]);
-		}
+		setConfigurationParameters(settings, null, parameters);
+//		for (int i = 0; i < parameters.length; i += 2) {
+//			settings.setParameterValue((String) parameters[i], parameters[i + 1]);
+//		}
 		return specifier;
 
 	}
@@ -128,6 +134,12 @@ public class ResourceCreationSpecifierFactory {
 		ResourceMetaData metaData = specifier.getMetaData();
 		ConfigurationParameterDeclarations paramDecls = metaData.getConfigurationParameterDeclarations();
 		ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();
+		setConfigurationParameters(paramSettings, paramDecls, configurationParameters);
+	}
+	
+	public static void setConfigurationParameters(ConfigurationParameterSettings paramSettings, ConfigurationParameterDeclarations paramDecls,
+			Object... configurationParameters) {
+		
 		for (int i = 0; i < configurationParameters.length; i += 2) {
 			String name = (String) configurationParameters[i];
 			Object value = configurationParameters[i + 1];
@@ -146,7 +158,8 @@ public class ResourceCreationSpecifierFactory {
 			param.setName(name);
 			param.setType(uimaType);
 			param.setMultiValued(javaClass.isArray());
-			paramDecls.addConfigurationParameter(param);
+			if(paramDecls != null)
+				paramDecls.addConfigurationParameter(param);
 			paramSettings.setParameterValue(name, value);
 		}
 
