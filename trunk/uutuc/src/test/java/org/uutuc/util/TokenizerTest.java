@@ -27,6 +27,7 @@ import org.apache.uima.jcas.JCas;
 import org.junit.Before;
 import org.junit.Test;
 import org.uutuc.factory.JCasFactory;
+import org.uutuc.factory.TokenFactory;
 import org.uutuc.type.Sentence;
 import org.uutuc.type.Token;
 /**
@@ -47,7 +48,7 @@ public class TokenizerTest {
 	@Test
 	public void test1() throws UIMAException {
 		String text = "What if we built a rocket ship made of cheese?" + "We could fly it to the moon for repairs.";
-		Tokenizer.createTokens(jCas, text, Token.class, Sentence.class,
+		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
 				"What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
 				"A B C D E F G H I J K L M N O P Q R S T U", null, "org.uutuc.type.Token:pos", null);
 
@@ -82,7 +83,7 @@ public class TokenizerTest {
 	@Test
 	public void test2() throws UIMAException {
 		String text = "What if we built a rocket ship made of cheese? \n" + "We could fly it to the moon for repairs.";
-		Tokenizer.createTokens(jCas, text, Token.class, Sentence.class,
+		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
 				"What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
 				"A B C D E F G H I J K L M N O P Q R S T U", null, "org.uutuc.type.Token:pos", null);
 
@@ -93,7 +94,7 @@ public class TokenizerTest {
 
 		jCas.reset();
 		text = "What if we built a rocket ship made of cheese? \n" + "We could fly it to the moon for repairs.";
-		Tokenizer.createTokens(jCas, text, Token.class, Sentence.class,
+		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
 				"What if we built a rocket ship made of cheese ?\nWe could fly it to the moon for repairs .",
 				"A B C D E F G H I J K L M N O P Q R S T U", null, "org.uutuc.type.Token:pos", null);
 
@@ -106,7 +107,7 @@ public class TokenizerTest {
 	@Test
 	public void test3() throws UIMAException {
 		String text = "If you like line writer, then you should really check out line rider.";
-		Tokenizer.createTokens(jCas, text, Token.class, Sentence.class);
+		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class);
 
 		FSIndex tokenIndex = jCas.getAnnotationIndex(Token.type);
 		assertEquals(13, tokenIndex.size());
@@ -139,7 +140,7 @@ public class TokenizerTest {
 		String text = "If you like line writer, then you should really check out line rider.";
 		IllegalArgumentException iae = null;
 		try {
-			Tokenizer.createTokens(jCas, text, Token.class, Sentence.class, "If you like line rider, then you really don't need line writer");
+			TokenFactory.createTokens(jCas, text, Token.class, Sentence.class, "If you like line rider, then you really don't need line writer");
 		}catch (IllegalArgumentException e) {
 			iae = e;
 		}
@@ -150,7 +151,7 @@ public class TokenizerTest {
 	public void testStems() throws UIMAException {
 		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
 		String text = "Me and all my friends are non-conformists.";
-		Tokenizer.createTokens(jCas, text, Token.class, Sentence.class,
+		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
 				"Me and all my friends are non - conformists .",
 				"M A A M F A N - C .",
 				"me and all my friend are non - conformist .",

@@ -24,9 +24,9 @@ import org.apache.uima.cas.impl.XCASSerializer;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.util.XMLSerializer;
 import org.uutuc.factory.JCasFactory;
+import org.uutuc.factory.TokenFactory;
 import org.uutuc.type.Sentence;
 import org.uutuc.type.Token;
-import org.uutuc.util.Tokenizer;
 import org.xml.sax.SAXException;
 
 /**
@@ -39,7 +39,7 @@ public class CreateSampleXCASFile {
 		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
 		//quote from http://www.gutenberg.org/files/20417/20417-h/20417-h.htm
 		String text = "... the more knowledge advances the more it becomes possible to condense it into little books.";
-		Tokenizer.createTokens(jCas, text, Token.class, Sentence.class,
+		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
 				"... the more knowledge advances the more it becomes possible to condense it into little books . ",
 				". T M K A T M I B P T C I I L B .",
 				"... the more knowledge advance the more it become possible to condense it into little book . ",
