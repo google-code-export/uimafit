@@ -78,8 +78,14 @@ public class ResourceCreationSpecifierFactory {
 		ResourceCreationSpecifier specifier;
 		XMLParser parser = UIMAFramework.getXMLParser();
 		specifier = (ResourceCreationSpecifier) parser.parseResourceSpecifier(xmlInput);
-		setConfigurationParameters(specifier, parameters);
+		
+		ResourceMetaData metaData = specifier.getMetaData();
+		ConfigurationParameterSettings settings = metaData.getConfigurationParameterSettings();
+		for (int i = 0; i < parameters.length; i += 2) {
+			settings.setParameterValue((String) parameters[i], parameters[i + 1]);
+		}
 		return specifier;
+
 	}
 
 	/**
