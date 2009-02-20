@@ -15,7 +15,7 @@
  limitations under the License.
 */
 
-package org.uutuc.util;
+package org.uutuc.factory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -26,15 +26,15 @@ import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.junit.Before;
 import org.junit.Test;
-import org.uutuc.factory.JCasFactory;
-import org.uutuc.factory.TokenFactory;
 import org.uutuc.type.Sentence;
 import org.uutuc.type.Token;
+import org.uutuc.util.AnnotationRetrieval;
+import org.uutuc.util.Util;
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
-public class TokenizerTest {
+public class TokenFactoryTest {
 
 	JCas jCas;
 	
