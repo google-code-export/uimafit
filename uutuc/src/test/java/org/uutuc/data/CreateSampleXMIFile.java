@@ -24,9 +24,9 @@ import org.apache.uima.cas.impl.XmiCasSerializer;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.util.XMLSerializer;
 import org.uutuc.factory.JCasFactory;
+import org.uutuc.factory.TokenFactory;
 import org.uutuc.type.Sentence;
 import org.uutuc.type.Token;
-import org.uutuc.util.Tokenizer;
 import org.xml.sax.SAXException;
 /**
  * @author Steven Bethard, Philip Ogren
@@ -37,7 +37,7 @@ public class CreateSampleXMIFile {
 	public static void main(String[] args) throws UIMAException, SAXException, IOException {
 		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
 		String text = "Me and all my friends are non-conformists.";
-		Tokenizer.createTokens(jCas, text, Token.class, Sentence.class,
+		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
 				"Me and all my friends are non - conformists .",
 				"M A A M F A N - C .",
 				"me and all my friend are non - conformist .",

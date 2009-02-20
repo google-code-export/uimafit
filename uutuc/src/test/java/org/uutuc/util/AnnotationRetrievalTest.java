@@ -23,6 +23,7 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.jcas.JCas;
 import org.junit.Test;
 import org.uutuc.factory.JCasFactory;
+import org.uutuc.factory.TokenFactory;
 import org.uutuc.type.Sentence;
 import org.uutuc.type.Token;
 /**
@@ -35,7 +36,7 @@ public class AnnotationRetrievalTest {
 	public void testGet() throws UIMAException {
 		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
 		String text = "Rot wood cheeses dew?";
-		Tokenizer.createTokens(jCas, text, Token.class, Sentence.class);
+		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class);
 		
 		Token lastToken = AnnotationRetrieval.get(jCas, Token.class, -1);
 		assertEquals("dew?", lastToken.getCoveredText());
