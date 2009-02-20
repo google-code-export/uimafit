@@ -15,7 +15,7 @@
  limitations under the License.
 */
 
-package org.uutuc.util;
+package org.uutuc.factory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,6 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
-import org.uutuc.factory.AnnotationFactory;
 
 /**
  * This class was written as a simple way to populate a JCas with tokens along
@@ -34,7 +33,7 @@ import org.uutuc.factory.AnnotationFactory;
  * 
  * @author Steven Bethard, Philip Ogren
  */
-public class Tokenizer {
+public class TokenFactory {
 
 	public static <TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends Annotation> void createTokens(JCas jCas,
 			String text, Class<TOKEN_TYPE> tokenClass, Class<SENTENCE_TYPE> sentenceClass) throws UIMAException {
