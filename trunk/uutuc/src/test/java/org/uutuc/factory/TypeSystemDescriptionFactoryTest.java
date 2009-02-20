@@ -15,10 +15,18 @@
  limitations under the License.
 */
 package org.uutuc.factory;
+
+import org.junit.Test;
+
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
 public class TypeSystemDescriptionFactoryTest {
 
+	@Test
+	public void testFromPath() {
+		TypeSystemDescriptionFactory.createTypeSystemDescriptionFromPath("src/test/java/org/uutuc/type/TypeSystem.xml");
+		
+	}
 }
