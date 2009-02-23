@@ -1,4 +1,4 @@
-#A simple example for testing the RoomNumberAnnotator from the UIMA examples project
+A simple example for testing the !RoomNumberAnnotator from the UIMA examples project
 
 = Introduction =
 
