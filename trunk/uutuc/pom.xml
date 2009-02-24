@@ -62,7 +62,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-        <linksource value="true"/>
+        <linksource>true</linksource>
         <links>
         	<link>http://incubator.apache.org/uima/apidocs/</link>
         </links>
