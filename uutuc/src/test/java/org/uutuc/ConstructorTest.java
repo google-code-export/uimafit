@@ -14,10 +14,23 @@
  See the License for the specific language governing permissions and 
  limitations under the License.
 */
-package org.uutuc.factory;
+package org.uutuc;
 
 import org.junit.Test;
+import org.uutuc.factory.AnalysisEngineFactory;
+import org.uutuc.factory.AnnotationFactory;
+import org.uutuc.factory.CollectionReaderFactory;
+import org.uutuc.factory.JCasFactory;
+import org.uutuc.factory.ResourceCreationSpecifierFactory;
+import org.uutuc.factory.TokenFactory;
+import org.uutuc.factory.TypePrioritiesFactory;
+import org.uutuc.factory.TypeSystemDescriptionFactory;
+import org.uutuc.factory.UimaContextFactory;
+import org.uutuc.util.AnnotationRetrieval;
+import org.uutuc.util.DisableLogging;
+import org.uutuc.util.SingleFileXReader;
 import org.uutuc.util.TearDownUtil;
+import org.uutuc.util.Util;
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -38,5 +51,12 @@ public class ConstructorTest {
 		new TypeSystemDescriptionFactory();
 		new UimaContextFactory();
 		new TearDownUtil();
+		new TypePrioritiesFactory();
+		new TokenFactory();
+		new AnnotationRetrieval();
+		new DisableLogging();
+		new TearDownUtil();
+		new Util();
+		new SingleFileXReader();
 	}
 }
