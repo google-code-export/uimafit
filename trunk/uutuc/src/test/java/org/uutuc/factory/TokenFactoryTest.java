@@ -163,4 +163,22 @@ public class TokenFactoryTest {
 		assertEquals("F", friendToken.getPos());
 		assertEquals("friend", friendToken.getStem());
 	}
+	
+	
+	@Test
+	public void test4() throws UIMAException {
+		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
+		String text = "a b-c de--fg h,i,j,k";
+		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
+				"a b - c d e - - f g h , i , j , k");
+
+		FSIterator tokens = jCas.getAnnotationIndex(Token.type).iterator();
+		int tokenCount = 0;
+		while(tokens.hasNext()) {
+			tokenCount++;
+			tokens.next();
+		}
+		assertEquals(17, tokenCount);
+	}
+
 }
