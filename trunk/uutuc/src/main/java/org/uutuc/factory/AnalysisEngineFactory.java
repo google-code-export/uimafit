@@ -32,6 +32,7 @@ import org.apache.uima.analysis_engine.impl.PrimitiveAnalysisEngine_impl;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
+import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.resource.metadata.impl.Import_impl;
 import org.apache.uima.util.FileUtils;
@@ -111,18 +112,34 @@ public class AnalysisEngineFactory {
 	 */
 	public static AnalysisEngine createAnalysisEngine(Class<? extends AnalysisComponent> componentClass,
 			TypeSystemDescription typeSystem, Object... configurationParameters) throws ResourceInitializationException {
+		return createAnalysisEngine(componentClass, typeSystem, (TypePriorities) null, configurationParameters);
+	}
+
+	public static AnalysisEngine createAnalysisEngine(Class<? extends AnalysisComponent> componentClass,
+			TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationParameters) throws ResourceInitializationException {
+		TypePriorities typePriorities = TypePrioritiesFactory.createTypePriorities(prioritizedTypeNames);
+		return createAnalysisEngine(componentClass, typeSystem, typePriorities, configurationParameters);
+
+	}
+	public static AnalysisEngine createAnalysisEngine(Class<? extends AnalysisComponent> componentClass,
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationParameters) throws ResourceInitializationException {
 
 		// create the descriptor and set configuration parameters
 		AnalysisEngineDescription desc = new AnalysisEngineDescription_impl();
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setPrimitive(true);
 		desc.setAnnotatorImplementationName(componentClass.getName());
-		ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters);
+		
+		if(configurationParameters != null)
+			ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters);
 
 		// set the type system
 		if (typeSystem != null) {
 			desc.getAnalysisEngineMetaData().setTypeSystem(typeSystem);
 		}
+		
+		if(typePriorities != null)
+			desc.getAnalysisEngineMetaData().setTypePriorities(typePriorities);
 
 		// create the AnalysisEngine, initialize it and return it
 		AnalysisEngine engine = new PrimitiveAnalysisEngine_impl();
@@ -130,7 +147,8 @@ public class AnalysisEngineFactory {
 		return engine;
 
 	}
-
+	
+	
 	/**
 	 * Creates an AnalysisEngine from the given descriptor, and uses the engine
 	 * to process the file or text.
