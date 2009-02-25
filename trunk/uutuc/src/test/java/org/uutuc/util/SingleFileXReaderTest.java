@@ -34,7 +34,7 @@ import org.uutuc.factory.TypeSystemDescriptionFactory;
  * @author Steven Bethard, Philip Ogren
  */
 
-public class XReaderTest {
+public class SingleFileXReaderTest {
 
 	@Test
 	public void testXReader() throws UIMAException, IOException {
@@ -70,6 +70,15 @@ public class XReaderTest {
 		cr.close();
 		
 
+		cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, typeSystemDescription , SingleFileXReader.PARAM_XML_SCHEME, "XCAS", SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/test.xcas");
+		UnsupportedOperationException uoe = null;
+		try {
+			new JCasIterable(cr).iterator().remove();
+		} catch(UnsupportedOperationException e) {
+			uoe = e;
+		}
+		assertNotNull(uoe);
+		cr.close();
 		
 		cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, typeSystemDescription , SingleFileXReader.PARAM_XML_SCHEME, "XCAS", SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/bad.xcas");
 		RuntimeException re = null;
