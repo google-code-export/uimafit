@@ -22,18 +22,27 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.analysis_engine.metadata.SofaMapping;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypePriorityList;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Test;
+import org.uutuc.factory.testAes.Annotator1;
+import org.uutuc.factory.testAes.Annotator2;
+import org.uutuc.factory.testAes.Annotator3;
+import org.uutuc.factory.testAes.ViewNames;
 import org.uutuc.type.Sentence;
 import org.uutuc.type.Token;
 import org.uutuc.util.AnnotationRetrieval;
+import org.uutuc.util.Util;
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -86,6 +95,38 @@ public class AnalysisEngineFactoryTest {
 		tokensInSentence = jCas.getAnnotationIndex().subiterator(AnnotationRetrieval.get(jCas, Sentence.class, 0));
 		assertTrue(tokensInSentence.hasNext());
 
+	}
+	
+	
+	@Test
+	public void testAggregate() throws UIMAException {
+		JCas jCas = Util.JCAS.get();
+		jCas.reset();
+		TokenFactory.createTokens(jCas, "Anyone up for a game of Foosball?", Token.class, Sentence.class);
+		
+		SofaMapping[] sofaMappings = new SofaMapping[] {
+			SofaMappingFactory.createSofaMapping("A", Annotator1.class, ViewNames.PARENTHESES_VIEW),
+			SofaMappingFactory.createSofaMapping("B", Annotator2.class, ViewNames.SORTED_VIEW),
+			SofaMappingFactory.createSofaMapping("C", Annotator2.class, ViewNames.SORTED_PARENTHESES_VIEW),
+			SofaMappingFactory.createSofaMapping("A", Annotator2.class, ViewNames.PARENTHESES_VIEW),
+			SofaMappingFactory.createSofaMapping("B", Annotator3.class, ViewNames.INITIAL_VIEW)
+		};
+		
+		List<Class<? extends AnalysisComponent>> primitiveAEClasses = new ArrayList<Class<? extends AnalysisComponent>>();
+		primitiveAEClasses.add(Annotator1.class);
+		primitiveAEClasses.add(Annotator2.class);
+		primitiveAEClasses.add(Annotator3.class);
+
+		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
+		AnalysisEngine aggregateEngine = AnalysisEngineFactory.createAggregateAnalysisEngine(primitiveAEClasses, typeSystemDescription, null, sofaMappings);
+		
+		aggregateEngine.process(jCas);
+		
+		assertEquals("Anyone up for a game of Foosball?", jCas.getDocumentText());
+		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas.getView("A").getDocumentText());
+		assertEquals("?AFaaabeeffgllmnnoooooprsuy", jCas.getView("B").getDocumentText());
+		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C").getDocumentText());
+		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
 		
 	}
 	
