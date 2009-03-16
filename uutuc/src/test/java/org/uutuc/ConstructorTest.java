@@ -22,6 +22,7 @@ import org.uutuc.factory.AnnotationFactory;
 import org.uutuc.factory.CollectionReaderFactory;
 import org.uutuc.factory.JCasFactory;
 import org.uutuc.factory.ResourceCreationSpecifierFactory;
+import org.uutuc.factory.SofaMappingFactory;
 import org.uutuc.factory.TokenFactory;
 import org.uutuc.factory.TypePrioritiesFactory;
 import org.uutuc.factory.TypeSystemDescriptionFactory;
@@ -58,5 +59,6 @@ public class ConstructorTest {
 		new TearDownUtil();
 		new Util();
 		new SingleFileXReader();
+		new SofaMappingFactory();
 	}
 }
