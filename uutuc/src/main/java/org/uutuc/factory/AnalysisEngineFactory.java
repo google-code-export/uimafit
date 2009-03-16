@@ -20,6 +20,8 @@ package org.uutuc.factory;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.uima.Constants;
 import org.apache.uima.UIMAException;
@@ -27,8 +29,14 @@ import org.apache.uima.UIMAFramework;
 import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.analysis_engine.impl.AggregateAnalysisEngine_impl;
 import org.apache.uima.analysis_engine.impl.AnalysisEngineDescription_impl;
 import org.apache.uima.analysis_engine.impl.PrimitiveAnalysisEngine_impl;
+import org.apache.uima.analysis_engine.metadata.FixedFlow;
+import org.apache.uima.analysis_engine.metadata.FlowControllerDeclaration;
+import org.apache.uima.analysis_engine.metadata.SofaMapping;
+import org.apache.uima.analysis_engine.metadata.impl.FixedFlow_impl;
+import org.apache.uima.analysis_engine.metadata.impl.FlowControllerDeclaration_impl;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
@@ -121,7 +129,8 @@ public class AnalysisEngineFactory {
 		return createAnalysisEngine(componentClass, typeSystem, typePriorities, configurationParameters);
 
 	}
-	public static AnalysisEngine createAnalysisEngine(Class<? extends AnalysisComponent> componentClass,
+
+	public static AnalysisEngineDescription createPrimitiveAnalysisEngineDescription(Class<? extends AnalysisComponent> componentClass,
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationParameters) throws ResourceInitializationException {
 
 		// create the descriptor and set configuration parameters
@@ -141,13 +150,53 @@ public class AnalysisEngineFactory {
 		if(typePriorities != null)
 			desc.getAnalysisEngineMetaData().setTypePriorities(typePriorities);
 
+		return desc;
+	}
+
+	public static AnalysisEngine createAnalysisEngine(Class<? extends AnalysisComponent> componentClass,
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationParameters) throws ResourceInitializationException {
+
+		AnalysisEngineDescription desc = createPrimitiveAnalysisEngineDescription(componentClass, typeSystem, typePriorities, configurationParameters);
+
 		// create the AnalysisEngine, initialize it and return it
 		AnalysisEngine engine = new PrimitiveAnalysisEngine_impl();
 		engine.initialize(desc, null);
 		return engine;
 
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public static AnalysisEngine createAggregateAnalysisEngine(List<Class<? extends AnalysisComponent>> componentClasses, 
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings, Object... configurationParameters) throws ResourceInitializationException {
+
+		// create the descriptor and set configuration parameters
+		AnalysisEngineDescription desc = new AnalysisEngineDescription_impl();
+		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
+		desc.setPrimitive(false);
+		
+		List<String> flowNames = new ArrayList<String>();
+		for(Class<? extends AnalysisComponent> componentClass : componentClasses) {
+			AnalysisEngineDescription primitiveDescription = createPrimitiveAnalysisEngineDescription(componentClass, typeSystem, typePriorities, configurationParameters);
+			desc.getDelegateAnalysisEngineSpecifiersWithImports().put(componentClass.getName(), primitiveDescription);
+			flowNames.add(componentClass.getName());
+		}
+
+		FixedFlow fixedFlow = new FixedFlow_impl();
+	    fixedFlow.setFixedFlow(flowNames.toArray(new String[flowNames.size()]));
+	    desc.getAnalysisEngineMetaData().setFlowConstraints(fixedFlow);
+
+	    desc.setSofaMappings(sofaMappings);
+		
+	    if(configurationParameters != null)
+			ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters);
+
+		// create the AnalysisEngine, initialize it and return it
+		AnalysisEngine engine = new AggregateAnalysisEngine_impl();
+		engine.initialize(desc, null);
+		return engine;
+
+	}
+
 	
 	/**
 	 * Creates an AnalysisEngine from the given descriptor, and uses the engine
