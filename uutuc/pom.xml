@@ -4,7 +4,7 @@
   <groupId>org.uutuc</groupId>
   <artifactId>uutuc</artifactId>
   <packaging>jar</packaging>
-  <version>0.9.0</version>
+  <version>0.9.1</version>
   <name>UUTUC</name>
   <url>http://uutuc.googlecode.com</url>
   <repositories>
