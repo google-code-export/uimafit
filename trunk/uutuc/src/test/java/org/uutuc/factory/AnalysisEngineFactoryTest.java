@@ -23,11 +23,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.metadata.SofaMapping;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
@@ -129,5 +131,41 @@ public class AnalysisEngineFactoryTest {
 		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
 		
 	}
+
 	
+	@Test
+	public void testAggregate2() throws UIMAException {
+		JCas jCas = Util.JCAS.get();
+		jCas.reset();
+		TokenFactory.createTokens(jCas, "Anyone up for a game of Foosball?", Token.class, Sentence.class);
+		
+		SofaMapping[] sofaMappings = new SofaMapping[] {
+			SofaMappingFactory.createSofaMapping("A", "ann1", ViewNames.PARENTHESES_VIEW),
+			SofaMappingFactory.createSofaMapping("B", "ann2", ViewNames.SORTED_VIEW),
+			SofaMappingFactory.createSofaMapping("C", "ann2", ViewNames.SORTED_PARENTHESES_VIEW),
+			SofaMappingFactory.createSofaMapping("A", "ann2", ViewNames.PARENTHESES_VIEW),
+			SofaMappingFactory.createSofaMapping("B", "ann3", ViewNames.INITIAL_VIEW)
+		};
+
+		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
+
+		List<AnalysisEngineDescription> primitiveDescriptors = new ArrayList<AnalysisEngineDescription>();
+		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveAnalysisEngineDescription(Annotator1.class, typeSystemDescription, (TypePriorities)null));
+		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveAnalysisEngineDescription(Annotator2.class, typeSystemDescription, (TypePriorities)null));
+		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveAnalysisEngineDescription(Annotator3.class, typeSystemDescription, (TypePriorities)null));
+
+		List<String> componentNames = Arrays.asList("ann1", "ann2", "ann3");
+		
+		AnalysisEngine aggregateEngine = AnalysisEngineFactory.createAggregateAnalysisEngine(primitiveDescriptors, componentNames, typeSystemDescription, null, sofaMappings);
+		
+		aggregateEngine.process(jCas);
+		
+		assertEquals("Anyone up for a game of Foosball?", jCas.getDocumentText());
+		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas.getView("A").getDocumentText());
+		assertEquals("?AFaaabeeffgllmnnoooooprsuy", jCas.getView("B").getDocumentText());
+		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C").getDocumentText());
+		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
+		
+	}
+
 }
