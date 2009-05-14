@@ -129,6 +129,11 @@ public class AnalysisEngineFactory {
 	}
 
 	public static AnalysisEngineDescription createPrimitiveAnalysisEngineDescription(Class<? extends AnalysisComponent> componentClass,
+			TypeSystemDescription typeSystem, Object... configurationParameters) throws ResourceInitializationException {
+		 return createPrimitiveAnalysisEngineDescription(componentClass, typeSystem, (TypePriorities)null, configurationParameters);
+	}
+
+	public static AnalysisEngineDescription createPrimitiveAnalysisEngineDescription(Class<? extends AnalysisComponent> componentClass,
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationParameters) throws ResourceInitializationException {
 
 		// create the descriptor and set configuration parameters
