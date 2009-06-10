@@ -116,24 +116,24 @@ public class AnalysisEngineFactory {
 	 *         parameters.
 	 * @throws ResourceInitializationException
 	 */
-	public static AnalysisEngine createAnalysisEngine(Class<? extends AnalysisComponent> componentClass,
+	public static AnalysisEngine createPrimitive(Class<? extends AnalysisComponent> componentClass,
 			TypeSystemDescription typeSystem, Object... configurationParameters) throws ResourceInitializationException {
-		return createAnalysisEngine(componentClass, typeSystem, (TypePriorities) null, configurationParameters);
+		return createPrimitive(componentClass, typeSystem, (TypePriorities) null, configurationParameters);
 	}
 
-	public static AnalysisEngine createAnalysisEngine(Class<? extends AnalysisComponent> componentClass,
+	public static AnalysisEngine createPrimitive(Class<? extends AnalysisComponent> componentClass,
 			TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationParameters) throws ResourceInitializationException {
 		TypePriorities typePriorities = TypePrioritiesFactory.createTypePriorities(prioritizedTypeNames);
-		return createAnalysisEngine(componentClass, typeSystem, typePriorities, configurationParameters);
+		return createPrimitive(componentClass, typeSystem, typePriorities, configurationParameters);
 
 	}
 
-	public static AnalysisEngineDescription createPrimitiveAnalysisEngineDescription(Class<? extends AnalysisComponent> componentClass,
+	public static AnalysisEngineDescription createPrimitiveDescription(Class<? extends AnalysisComponent> componentClass,
 			TypeSystemDescription typeSystem, Object... configurationParameters) throws ResourceInitializationException {
-		 return createPrimitiveAnalysisEngineDescription(componentClass, typeSystem, (TypePriorities)null, configurationParameters);
+		 return createPrimitiveDescription(componentClass, typeSystem, (TypePriorities)null, configurationParameters);
 	}
 
-	public static AnalysisEngineDescription createPrimitiveAnalysisEngineDescription(Class<? extends AnalysisComponent> componentClass,
+	public static AnalysisEngineDescription createPrimitiveDescription(Class<? extends AnalysisComponent> componentClass,
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationParameters) throws ResourceInitializationException {
 
 		// create the descriptor and set configuration parameters
@@ -156,37 +156,64 @@ public class AnalysisEngineFactory {
 		return desc;
 	}
 
-	public static AnalysisEngine createAnalysisEngine(Class<? extends AnalysisComponent> componentClass,
+	public static AnalysisEngine createPrimitive(Class<? extends AnalysisComponent> componentClass,
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationParameters) throws ResourceInitializationException {
 
-		AnalysisEngineDescription desc = createPrimitiveAnalysisEngineDescription(componentClass, typeSystem, typePriorities, configurationParameters);
+		AnalysisEngineDescription desc = createPrimitiveDescription(componentClass, typeSystem, typePriorities, configurationParameters);
 
 		// create the AnalysisEngine, initialize it and return it
-		return createPrimitiveAnalysisEngine(desc);
+		return createPrimitive(desc);
 	}
 
-	public static AnalysisEngine createPrimitiveAnalysisEngine( AnalysisEngineDescription desc) throws ResourceInitializationException {
+	public static AnalysisEngine createPrimitive( AnalysisEngineDescription desc) throws ResourceInitializationException {
 		AnalysisEngine engine = new PrimitiveAnalysisEngine_impl();
 		engine.initialize(desc, null);
 		return engine;
 	}
 	
-	public static AnalysisEngine createAggregateAnalysisEngine(List<Class<? extends AnalysisComponent>> componentClasses, 
+	public static AnalysisEngine createAggregate(List<Class<? extends AnalysisComponent>> componentClasses, 
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings, Object... configurationParameters) throws ResourceInitializationException {
+		AnalysisEngineDescription desc = createAggregateDescription(componentClasses, typeSystem, typePriorities, sofaMappings, configurationParameters);
+		// create the AnalysisEngine, initialize it and return it
+		AnalysisEngine engine = new AggregateAnalysisEngine_impl();
+		engine.initialize(desc, null);
+		return engine;
+	}
+
+	public static AnalysisEngine createAggregate(AnalysisEngineDescription desc) throws ResourceInitializationException {
+		// create the AnalysisEngine, initialize it and return it
+		AnalysisEngine engine = new AggregateAnalysisEngine_impl();
+		engine.initialize(desc, null);
+		return engine;
+	}
+
+	public static AnalysisEngineDescription createAggregateDescription(List<Class<? extends AnalysisComponent>> componentClasses, 
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings, Object... configurationParameters) throws ResourceInitializationException {
 
 		List<AnalysisEngineDescription> primitiveEngineDescriptions = new ArrayList<AnalysisEngineDescription>();
 		List<String> componentNames = new ArrayList<String>();
 		
 		for(Class<? extends AnalysisComponent> componentClass : componentClasses) {
-			AnalysisEngineDescription primitiveDescription = createPrimitiveAnalysisEngineDescription(componentClass, typeSystem, typePriorities, configurationParameters);
+			AnalysisEngineDescription primitiveDescription = createPrimitiveDescription(componentClass, typeSystem, typePriorities, configurationParameters);
 			primitiveEngineDescriptions.add(primitiveDescription);
 			componentNames.add(componentClass.getName());
 		}
-		return createAggregateAnalysisEngine(primitiveEngineDescriptions, componentNames, typeSystem, typePriorities, sofaMappings);
+		return createAggregateDescription(primitiveEngineDescriptions, componentNames, typeSystem, typePriorities, sofaMappings);
 	}
 
+	public static AnalysisEngine createAggregate(List<AnalysisEngineDescription> analysisEngineDescriptions, List<String> componentNames,
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings) throws ResourceInitializationException {
+
+		AnalysisEngineDescription desc = createAggregateDescription(analysisEngineDescriptions, componentNames, typeSystem, typePriorities, sofaMappings);
+		// create the AnalysisEngine, initialize it and return it
+		AnalysisEngine engine = new AggregateAnalysisEngine_impl();
+		engine.initialize(desc, null);
+		return engine;
+
+	}
+	
 	@SuppressWarnings("unchecked")
-	public static AnalysisEngine createAggregateAnalysisEngine(List<AnalysisEngineDescription> analysisEngineDescriptions, List<String> componentNames,
+	public static AnalysisEngineDescription createAggregateDescription(List<AnalysisEngineDescription> analysisEngineDescriptions, List<String> componentNames,
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings) throws ResourceInitializationException {
 
 		// create the descriptor and set configuration parameters
@@ -207,13 +234,13 @@ public class AnalysisEngineFactory {
 	    fixedFlow.setFixedFlow(flowNames.toArray(new String[flowNames.size()]));
 	    desc.getAnalysisEngineMetaData().setFlowConstraints(fixedFlow);
 
-	    desc.setSofaMappings(sofaMappings);
-		
-		// create the AnalysisEngine, initialize it and return it
-		AnalysisEngine engine = new AggregateAnalysisEngine_impl();
-		engine.initialize(desc, null);
-		return engine;
+		if(typePriorities != null)
+			desc.getAnalysisEngineMetaData().setTypePriorities(typePriorities);
 
+	    if(sofaMappings != null)
+	    	desc.setSofaMappings(sofaMappings);
+		
+	    return desc;
 	}
 
 	

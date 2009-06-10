@@ -33,7 +33,7 @@ public class JCasFactory {
 
 
 	public static JCas createJCas(String typeSystemDescriptorName) throws UIMAException {
-		AnalysisEngine engine = AnalysisEngineFactory.createAnalysisEngine(JCasAnnotatorAdapter.class, TypeSystemDescriptionFactory
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, TypeSystemDescriptionFactory
 				.createTypeSystemDescription(typeSystemDescriptorName));
 		return engine.newJCas();
 
@@ -49,7 +49,7 @@ public class JCasFactory {
 
 
 	public static JCas createJCas(TypeSystemDescription typeSystemDescription) throws UIMAException {
-		AnalysisEngine engine = AnalysisEngineFactory.createAnalysisEngine(JCasAnnotatorAdapter.class, typeSystemDescription);
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, typeSystemDescription);
 		return engine.newJCas();
 
 	}
