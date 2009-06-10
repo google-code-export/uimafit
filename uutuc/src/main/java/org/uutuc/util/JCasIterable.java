@@ -59,7 +59,7 @@ public class JCasIterable implements Iterator<JCas>, Iterable<JCas> {
 	 * @throws IOException
 	 */
 	public JCasIterable(CollectionReader reader, TypeSystemDescription typeSystemDescription) throws UIMAException, IOException {
-		this(reader, AnalysisEngineFactory.createAnalysisEngine(JCasAnnotatorAdapter.class, typeSystemDescription));
+		this(reader, AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, typeSystemDescription));
 	}
 
 	/**
