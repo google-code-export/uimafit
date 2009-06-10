@@ -62,7 +62,7 @@
 <FONT color="green">059</FONT>             * @throws IOException<a name="line.59"></a>
 <FONT color="green">060</FONT>             */<a name="line.60"></a>
 <FONT color="green">061</FONT>            public JCasIterable(CollectionReader reader, TypeSystemDescription typeSystemDescription) throws UIMAException, IOException {<a name="line.61"></a>
-<FONT color="green">062</FONT>                    this(reader, AnalysisEngineFactory.createAnalysisEngine(JCasAnnotatorAdapter.class, typeSystemDescription));<a name="line.62"></a>
+<FONT color="green">062</FONT>                    this(reader, AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, typeSystemDescription));<a name="line.62"></a>
 <FONT color="green">063</FONT>            }<a name="line.63"></a>
 <FONT color="green">064</FONT>    <a name="line.64"></a>
 <FONT color="green">065</FONT>            /**<a name="line.65"></a>
