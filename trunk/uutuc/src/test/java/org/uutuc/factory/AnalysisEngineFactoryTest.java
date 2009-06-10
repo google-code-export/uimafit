@@ -75,7 +75,7 @@ public class AnalysisEngineFactoryTest {
 	public void testCreateAnalysisEngineWithPrioritizedTypes() throws UIMAException, IOException {
 		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem");
 		String[] prioritizedTypeNames = new String[] { "org.uutuc.type.Token", "org.uutuc.type.Sentence"};
-		AnalysisEngine engine = AnalysisEngineFactory.createAnalysisEngine(org.uutuc.util.JCasAnnotatorAdapter.class, typeSystemDescription, prioritizedTypeNames, (Object[])null);
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(org.uutuc.util.JCasAnnotatorAdapter.class, typeSystemDescription, prioritizedTypeNames, (Object[])null);
 		
 		TypePriorities typePriorities = engine.getAnalysisEngineMetaData().getTypePriorities();
 		assertEquals(1, typePriorities.getPriorityLists().length);
@@ -91,7 +91,7 @@ public class AnalysisEngineFactoryTest {
 		
 
 		prioritizedTypeNames = new String[] { "org.uutuc.type.Sentence", "org.uutuc.type.Token"};
-		engine = AnalysisEngineFactory.createAnalysisEngine(org.uutuc.util.JCasAnnotatorAdapter.class, typeSystemDescription, prioritizedTypeNames, (Object[])null);
+		engine = AnalysisEngineFactory.createPrimitive(org.uutuc.util.JCasAnnotatorAdapter.class, typeSystemDescription, prioritizedTypeNames, (Object[])null);
 		jCas = engine.newJCas();
 		TokenFactory.createTokens(jCas, "word", Token.class, Sentence.class);
 		tokensInSentence = jCas.getAnnotationIndex().subiterator(AnnotationRetrieval.get(jCas, Sentence.class, 0));
@@ -120,7 +120,7 @@ public class AnalysisEngineFactoryTest {
 		primitiveAEClasses.add(Annotator3.class);
 
 		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
-		AnalysisEngine aggregateEngine = AnalysisEngineFactory.createAggregateAnalysisEngine(primitiveAEClasses, typeSystemDescription, null, sofaMappings);
+		AnalysisEngine aggregateEngine = AnalysisEngineFactory.createAggregate(primitiveAEClasses, typeSystemDescription, null, sofaMappings);
 		
 		aggregateEngine.process(jCas);
 		
@@ -150,13 +150,13 @@ public class AnalysisEngineFactoryTest {
 		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
 
 		List<AnalysisEngineDescription> primitiveDescriptors = new ArrayList<AnalysisEngineDescription>();
-		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveAnalysisEngineDescription(Annotator1.class, typeSystemDescription, (TypePriorities)null));
-		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveAnalysisEngineDescription(Annotator2.class, typeSystemDescription, (TypePriorities)null));
-		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveAnalysisEngineDescription(Annotator3.class, typeSystemDescription, (TypePriorities)null));
+		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription, (TypePriorities)null));
+		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, typeSystemDescription, (TypePriorities)null));
+		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, typeSystemDescription, (TypePriorities)null));
 
 		List<String> componentNames = Arrays.asList("ann1", "ann2", "ann3");
 		
-		AnalysisEngine aggregateEngine = AnalysisEngineFactory.createAggregateAnalysisEngine(primitiveDescriptors, componentNames, typeSystemDescription, null, sofaMappings);
+		AnalysisEngine aggregateEngine = AnalysisEngineFactory.createAggregate(primitiveDescriptors, componentNames, typeSystemDescription, null, sofaMappings);
 		
 		aggregateEngine.process(jCas);
 		
