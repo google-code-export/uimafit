@@ -36,7 +36,7 @@ public class UimaContextFactory {
 	 *             If the context could not be created.
 	 */
 	public static UimaContext createUimaContext(Object... configurationParameters) throws ResourceInitializationException {
-		AnalysisEngine engine = AnalysisEngineFactory.createAnalysisEngine(JCasAnnotatorAdapter.class, null, configurationParameters);
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, null, configurationParameters);
 		return engine.getUimaContext();
 	}
 
