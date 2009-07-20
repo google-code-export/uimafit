@@ -19,7 +19,9 @@ package org.uutuc;
 import org.junit.Test;
 import org.uutuc.factory.AnalysisEngineFactory;
 import org.uutuc.factory.AnnotationFactory;
+import org.uutuc.factory.CapabilityFactory;
 import org.uutuc.factory.CollectionReaderFactory;
+import org.uutuc.factory.ConfigurationParameterFactory;
 import org.uutuc.factory.JCasFactory;
 import org.uutuc.factory.ResourceCreationSpecifierFactory;
 import org.uutuc.factory.SofaMappingFactory;
@@ -29,6 +31,7 @@ import org.uutuc.factory.TypeSystemDescriptionFactory;
 import org.uutuc.factory.UimaContextFactory;
 import org.uutuc.util.AnnotationRetrieval;
 import org.uutuc.util.DisableLogging;
+import org.uutuc.util.SimplePipeline;
 import org.uutuc.util.SingleFileXReader;
 import org.uutuc.util.TearDownUtil;
 import org.uutuc.util.Util;
@@ -46,7 +49,9 @@ public class ConstructorTest {
 	public void testConstructors() {
 		new AnalysisEngineFactory();
 		new AnnotationFactory();
+		new CapabilityFactory();
 		new CollectionReaderFactory();
+		new ConfigurationParameterFactory();
 		new JCasFactory();
 		new ResourceCreationSpecifierFactory();
 		new TypeSystemDescriptionFactory();
@@ -58,6 +63,7 @@ public class ConstructorTest {
 		new DisableLogging();
 		new TearDownUtil();
 		new Util();
+		new SimplePipeline();
 		new SingleFileXReader();
 		new SofaMappingFactory();
 	}

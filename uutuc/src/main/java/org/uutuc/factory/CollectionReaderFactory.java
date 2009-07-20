@@ -29,14 +29,67 @@ import org.apache.uima.collection.impl.CollectionReaderDescription_impl;
 import org.apache.uima.resource.ResourceCreationSpecifier;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
+import org.apache.uima.resource.metadata.Capability;
+import org.apache.uima.resource.metadata.ConfigurationParameter;
+import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.resource.metadata.impl.Import_impl;
+import org.uutuc.factory.ConfigurationParameterFactory.ConfigurationData;
 
 /**
  * @author Steven Bethard, Philip Ogren
  */
 public class CollectionReaderFactory {
 
+	/**
+	 * Create a CollectionReader from an XML descriptor file and a set of
+	 * configuration parameters.
+	 * 
+	 * @param descriptorPath
+	 *            The path to the XML descriptor file.
+	 * @param configurationData
+	 *            Any additional configuration parameters to be set. These
+	 *            should be supplied as (name, value) pairs, so there should
+	 *            always be an even number of parameters.
+	 * @return The CollectionReader created from the XML descriptor and the
+	 *         configuration parameters.
+	 * @throws UIMAException
+	 * @throws IOException
+	 */
+	public static CollectionReader createCollectionReaderFromPath(String descriptorPath, Object... configurationData)
+			throws UIMAException, IOException {
+		ResourceCreationSpecifier specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(
+				descriptorPath, configurationData);
+		return UIMAFramework.produceCollectionReader(specifier);
+	}
+
+	/**
+	 * Get a CollectionReader from the name (Java-style, dotted) of an XML
+	 * descriptor file, and a set of configuration parameters.
+	 * 
+	 * @param descriptorName
+	 *            The fully qualified, Java-style, dotted name of the XML
+	 *            descriptor file.
+	 * @param configurationData
+	 *            Any additional configuration parameters to be set. These
+	 *            should be supplied as (name, value) pairs, so there should
+	 *            always be an even number of parameters.
+	 * @return The AnalysisEngine created from the XML descriptor and the
+	 *         configuration parameters.
+	 * @throws UIMAException
+	 * @throws IOException
+	 */
+
+	public static CollectionReader createCollectionReader(String descriptorName, Object... configurationData)
+			throws UIMAException, IOException {
+		Import_impl imp = new Import_impl();
+		imp.setName(descriptorName);
+		URL url = imp.findAbsoluteUrl(UIMAFramework.newDefaultResourceManager());
+		ResourceSpecifier specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(url, configurationData);
+		return UIMAFramework.produceCollectionReader(specifier);
+	}
+
+	
 	/**
 	 * Get a CollectionReader from a CollectionReader class, a type system, and
 	 * a set of configuration parameters.
@@ -55,82 +108,103 @@ public class CollectionReaderFactory {
 	 * @throws ResourceInitializationException
 	 */
 	public static CollectionReader createCollectionReader(Class<? extends CollectionReader> readerClass,
-			TypeSystemDescription typeSystem, Object... configurationParameters) throws ResourceInitializationException {
+			TypeSystemDescription typeSystem, Object... configurationData) throws ResourceInitializationException {
+		return createCollectionReader(readerClass, typeSystem, (TypePriorities) null, configurationData);
+	}
 
+	public static CollectionReader createCollectionReader(Class<? extends CollectionReader> readerClass,
+			TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationData) throws ResourceInitializationException {
+		TypePriorities typePriorities = TypePrioritiesFactory.createTypePriorities(prioritizedTypeNames);
+		return createCollectionReader(readerClass, typeSystem, typePriorities, configurationData);
+
+	}
+
+	public static CollectionReader createCollectionReader(Class<? extends CollectionReader> readerClass,
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationData) throws ResourceInitializationException {
+		CollectionReaderDescription desc = createDescription(readerClass, typeSystem, typePriorities, configurationData);
+		return createCollectionReader(desc);
+	}
+
+	
+	public static CollectionReader createCollectionReader(CollectionReaderDescription desc) throws ResourceInitializationException {
+		// create the CollectionReader
+		CollectionReader reader;
+		try {
+			reader = (CollectionReader)  (Class.forName(desc.getImplementationName()).newInstance());
+		}
+		catch (Exception e) {
+			throw new ResourceInitializationException(e);
+		}
+		reader.initialize(desc, null);
+		return reader;
+	}
+
+	
+
+	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
+			TypeSystemDescription typeSystem, Object... configurationData) throws ResourceInitializationException {
+		 return createDescription(readerClass, typeSystem, (TypePriorities)null, configurationData);
+	}
+
+	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
+			TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationData) throws ResourceInitializationException {
+		TypePriorities typePriorities = TypePrioritiesFactory.createTypePriorities(prioritizedTypeNames);
+		return createDescription(readerClass, typeSystem, typePriorities, configurationData);
+
+	}
+
+	
+	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationData) throws ResourceInitializationException {
+		return createDescription(readerClass, typeSystem, typePriorities, (Capability[])null, configurationData);
+	}
+
+	
+	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, Capability[] capabilities, Object... configurationData) throws ResourceInitializationException {
+		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
+		return createDescription(readerClass, typeSystem, typePriorities, capabilities, cdata.configurationParameters, cdata.configurationValues);
+	}
+
+	
+	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, Capability[] capabilities, ConfigurationParameter[] configurationParameters, Object[] configurationValues) throws ResourceInitializationException {
 		// create the descriptor and set configuration parameters
 		CollectionReaderDescription desc = new CollectionReaderDescription_impl();
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setImplementationName(readerClass.getName());
-		ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters);
+		
+		if(configurationParameters != null)
+			ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters, configurationValues);
 
 		// set the type system
 		if (typeSystem != null) {
 			desc.getCollectionReaderMetaData().setTypeSystem(typeSystem);
 		}
+		
+		if(typePriorities != null)
+			desc.getCollectionReaderMetaData().setTypePriorities(typePriorities);
 
-		// create the CollectionReader
-		CollectionReader reader;
-		try {
-			reader = readerClass.newInstance();
-		}
-		catch (InstantiationException e) {
-			throw new ResourceInitializationException(e);
-		}
-		catch (IllegalAccessException e) {
-			throw new ResourceInitializationException(e);
-		}
-
-		// initialize the CollectionReader and return it
-		reader.initialize(desc, null);
-		return reader;
+		if(capabilities != null)
+			desc.getCollectionReaderMetaData().setCapabilities(capabilities);
+		
+		return desc;
 	}
 
-	/**
-	 * Create a CollectionReader from an XML descriptor file and a set of
-	 * configuration parameters.
-	 * 
-	 * @param descriptorPath
-	 *            The path to the XML descriptor file.
-	 * @param parameters
-	 *            Any additional configuration parameters to be set. These
-	 *            should be supplied as (name, value) pairs, so there should
-	 *            always be an even number of parameters.
-	 * @return The CollectionReader created from the XML descriptor and the
-	 *         configuration parameters.
-	 * @throws UIMAException
-	 * @throws IOException
-	 */
-	public static CollectionReader createCollectionReaderFromPath(String descriptorPath, Object... parameters)
-			throws UIMAException, IOException {
-		ResourceCreationSpecifier specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(
-				descriptorPath, parameters);
-		return UIMAFramework.produceCollectionReader(specifier);
+	public static CollectionReaderDescription reflectDescription(Class<? extends CollectionReader> readerClass,
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... cData) throws ResourceInitializationException {
+		
+		ConfigurationData configurationData = ConfigurationParameterFactory.createConfigurationData(readerClass);
+		Capability[] capabilities = CapabilityFactory.createCapability(readerClass);
+		CollectionReaderDescription aed = createDescription(readerClass, typeSystem, typePriorities, capabilities, configurationData.configurationParameters, configurationData.configurationValues);
+		setConfigurationParameters(aed, cData);
+		return aed;
 	}
 
-	/**
-	 * Get a CollectionReader from the name (Java-style, dotted) of an XML
-	 * descriptor file, and a set of configuration parameters.
-	 * 
-	 * @param descriptorName
-	 *            The fully qualified, Java-style, dotted name of the XML
-	 *            descriptor file.
-	 * @param parameters
-	 *            Any additional configuration parameters to be set. These
-	 *            should be supplied as (name, value) pairs, so there should
-	 *            always be an even number of parameters.
-	 * @return The AnalysisEngine created from the XML descriptor and the
-	 *         configuration parameters.
-	 * @throws UIMAException
-	 * @throws IOException
-	 */
-
-	public static CollectionReader createCollectionReader(String descriptorName, Object... parameters)
-			throws UIMAException, IOException {
-		Import_impl imp = new Import_impl();
-		imp.setName(descriptorName);
-		URL url = imp.findAbsoluteUrl(UIMAFramework.newDefaultResourceManager());
-		ResourceSpecifier specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(url, parameters);
-		return UIMAFramework.produceCollectionReader(specifier);
+	public static void setConfigurationParameters(CollectionReaderDescription collectionReaderDescription, Object... configurationData) throws ResourceInitializationException {
+		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
+		ResourceCreationSpecifierFactory.setConfigurationParameters(collectionReaderDescription, cdata.configurationParameters, cdata.configurationValues);
 	}
 
+	
 }

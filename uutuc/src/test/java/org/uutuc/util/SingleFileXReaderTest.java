@@ -46,7 +46,6 @@ public class SingleFileXReaderTest {
 		}
 		assertNotNull(rie);
 
-	
 		rie = null;
 		try {
 			CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, null, SingleFileXReader.PARAM_XML_SCHEME, "XML", SingleFileXReader.PARAM_FILE_NAME, "myxslt.xml");
@@ -54,6 +53,7 @@ public class SingleFileXReaderTest {
 			rie = e;
 		}
 		assertNotNull(rie);
+
 
 		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem");
 		CollectionReader cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, typeSystemDescription , SingleFileXReader.PARAM_XML_SCHEME, "XCAS", SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/test.xcas");
@@ -69,7 +69,6 @@ public class SingleFileXReaderTest {
 		
 		cr.close();
 		
-
 		cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, typeSystemDescription , SingleFileXReader.PARAM_XML_SCHEME, "XCAS", SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/test.xcas");
 		UnsupportedOperationException uoe = null;
 		try {
@@ -79,7 +78,9 @@ public class SingleFileXReaderTest {
 		}
 		assertNotNull(uoe);
 		cr.close();
-		
+
+
+		HideOutput hideOutput = new HideOutput();
 		cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, typeSystemDescription , SingleFileXReader.PARAM_XML_SCHEME, "XCAS", SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/bad.xcas");
 		RuntimeException re = null;
 		try {
@@ -88,6 +89,8 @@ public class SingleFileXReaderTest {
 			re = e;
 		}
 		assertNotNull(re);
+		hideOutput.restoreOutput();
+		
 
 		cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, typeSystemDescription , SingleFileXReader.PARAM_XML_SCHEME, "XMI", SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/dne.xmi");
 		re = null;

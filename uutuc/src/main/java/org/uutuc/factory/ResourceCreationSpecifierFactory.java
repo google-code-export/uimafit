@@ -13,14 +13,12 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 
 package org.uutuc.factory;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.UIMAFramework;
@@ -29,15 +27,14 @@ import org.apache.uima.resource.metadata.ConfigurationParameter;
 import org.apache.uima.resource.metadata.ConfigurationParameterDeclarations;
 import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
 import org.apache.uima.resource.metadata.ResourceMetaData;
-import org.apache.uima.resource.metadata.impl.ConfigurationParameter_impl;
 import org.apache.uima.util.XMLInputSource;
 import org.apache.uima.util.XMLParser;
+
 /**
  * @author Steven Bethard, Philip Ogren
  */
 public class ResourceCreationSpecifierFactory {
 
-	
 	/**
 	 * Parse a ResourceCreationSpecifier from the URL of an XML descriptor file,
 	 * setting additional configuration parameters as necessary.
@@ -54,13 +51,13 @@ public class ResourceCreationSpecifierFactory {
 	 * @throws IOException
 	 */
 	public static ResourceCreationSpecifier createResourceCreationSpecifier(URL descriptorURL, Object[] parameters)
-	throws UIMAException, IOException {
+			throws UIMAException, IOException {
 		return createResourceCreationSpecifier(new XMLInputSource(descriptorURL), parameters);
 	}
 
 	/**
-	 * Parse a ResourceCreationSpecifier from XML descriptor file input,
-	 * setting additional configuration parameters as necessary.
+	 * Parse a ResourceCreationSpecifier from XML descriptor file input, setting
+	 * additional configuration parameters as necessary.
 	 * 
 	 * @param xmlInput
 	 *            The descriptor file as an XMLInputSource.
@@ -74,22 +71,19 @@ public class ResourceCreationSpecifierFactory {
 	 * @throws IOException
 	 */
 	public static ResourceCreationSpecifier createResourceCreationSpecifier(XMLInputSource xmlInput, Object[] parameters)
-	throws UIMAException, IOException {
+			throws UIMAException, IOException {
 		if (parameters.length % 2 != 0) {
-			String message = "a value must be specified for each parameter name: an odd number of values passed in ("+parameters.length+")";
+			String message = "a value must be specified for each parameter name: an odd number of values passed in ("
+					+ parameters.length + ")";
 			throw new IllegalArgumentException(message);
 		}
 
 		ResourceCreationSpecifier specifier;
 		XMLParser parser = UIMAFramework.getXMLParser();
 		specifier = (ResourceCreationSpecifier) parser.parseResourceSpecifier(xmlInput);
+		setConfigurationParameters(specifier, parameters);
+
 		
-		ResourceMetaData metaData = specifier.getMetaData();
-		ConfigurationParameterSettings settings = metaData.getConfigurationParameterSettings();
-		setConfigurationParameters(settings, null, parameters);
-//		for (int i = 0; i < parameters.length; i += 2) {
-//			settings.setParameterValue((String) parameters[i], parameters[i + 1]);
-//		}
 		return specifier;
 
 	}
@@ -110,7 +104,7 @@ public class ResourceCreationSpecifierFactory {
 	 * @throws IOException
 	 */
 	public static ResourceCreationSpecifier createResourceCreationSpecifier(String descriptorPath, Object[] parameters)
-	throws UIMAException, IOException {
+			throws UIMAException, IOException {
 		return createResourceCreationSpecifier(new XMLInputSource(descriptorPath), parameters);
 	}
 
@@ -126,55 +120,37 @@ public class ResourceCreationSpecifierFactory {
 	 *            even number of parameters.
 	 */
 	public static void setConfigurationParameters(ResourceCreationSpecifier specifier,
-			Object... configurationParameters) {
-		if (configurationParameters.length % 2 != 0) {
-			String message = "a value must be specified for each parameter name: an odd number of values passed in ("+configurationParameters.length+")";
+			Object... configurationData) {
+		if (configurationData.length % 2 != 0) {
+			String message = "a value must be specified for each parameter name: an odd number of values passed in ("
+					+ configurationData.length + ")";
 			throw new IllegalArgumentException(message);
 		}
+
+		ConfigurationParameter[] configurationParameters = new ConfigurationParameter[configurationData.length / 2];
+		Object[] configurationValues = new Object[configurationData.length / 2];
+
+		for (int i = 0; i < configurationValues.length; i++) {
+			String name = (String) configurationData[i * 2];
+			Object value = configurationData[i * 2 + 1];
+			ConfigurationParameter param = ConfigurationParameterFactory.createPrimitiveParameter(name, value
+					.getClass(), null, false);
+			configurationParameters[i] = param;
+			configurationValues[i] = value;
+		}
+		setConfigurationParameters(specifier, configurationParameters, configurationValues);
+	}
+
+	public static void setConfigurationParameters(ResourceCreationSpecifier specifier,
+			ConfigurationParameter[] configurationParameters, Object[] configurationValues) {
 		ResourceMetaData metaData = specifier.getMetaData();
 		ConfigurationParameterDeclarations paramDecls = metaData.getConfigurationParameterDeclarations();
 		ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();
-		setConfigurationParameters(paramSettings, paramDecls, configurationParameters);
-	}
-	
-	public static void setConfigurationParameters(ConfigurationParameterSettings paramSettings, ConfigurationParameterDeclarations paramDecls,
-			Object... configurationParameters) {
-		
-		for (int i = 0; i < configurationParameters.length; i += 2) {
-			String name = (String) configurationParameters[i];
-			Object value = configurationParameters[i + 1];
-
-			Class<?> javaClass = value.getClass();
-			String javaClassName;
-			if (javaClass.isArray()) javaClassName = javaClass.getComponentType().getName();
-			else javaClassName = javaClass.getName();
-
-			String uimaType = javaUimaTypeMap.get(javaClassName);
-			if (uimaType == null) {
-				String message = "invalid parameter type " + javaClassName;
-				throw new IllegalArgumentException(message);
-			}
-			ConfigurationParameter param = new ConfigurationParameter_impl();
-			param.setName(name);
-			param.setType(uimaType);
-			param.setMultiValued(javaClass.isArray());
-			if(paramDecls != null)
-				paramDecls.addConfigurationParameter(param);
-			paramSettings.setParameterValue(name, value);
+		for (int i = 0; i < configurationParameters.length; i++) {
+			if (paramDecls != null &&  paramDecls.getConfigurationParameter(null, configurationParameters[i].getName()) == null)
+					paramDecls.addConfigurationParameter(configurationParameters[i]);
+			paramSettings.setParameterValue(configurationParameters[i].getName(), configurationValues[i]);
 		}
-
 	}
-
-	/**
-	 * A mapping from Java class names to UIMA configuration parameter type
-	 * names. Used by setConfigurationParameters().
-	 */
-	public static final Map<String, String> javaUimaTypeMap = new HashMap<String, String>();
-	static {
-		javaUimaTypeMap.put(Boolean.class.getName(), ConfigurationParameter.TYPE_BOOLEAN);
-		javaUimaTypeMap.put(Float.class.getName(), ConfigurationParameter.TYPE_FLOAT);
-		javaUimaTypeMap.put(Integer.class.getName(), ConfigurationParameter.TYPE_INTEGER);
-		javaUimaTypeMap.put(String.class.getName(), ConfigurationParameter.TYPE_STRING);
-	};
 
 }

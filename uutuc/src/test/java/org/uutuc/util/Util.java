@@ -17,13 +17,25 @@
 package org.uutuc.util;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_component.AnalysisComponent;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.metadata.TypePriorities;
+import org.apache.uima.resource.metadata.TypeSystemDescription;
+import org.uutuc.factory.AnalysisEngineFactory;
 import org.uutuc.factory.JCasFactory;
+import org.uutuc.factory.TypeSystemDescriptionFactory;
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
 public class Util {
+
+	public static TypeSystemDescription TYPE_SYSTEM_DESCRIPTION =
+		TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem");
+	
+	public static TypePriorities TYPE_PRIORITIES = null;
 
 	public static ThreadLocal<JCas> JCAS = new ThreadLocal<JCas>();
 	static {
@@ -36,4 +48,8 @@ public class Util {
 		}
 	}
 	
+	public static AnalysisEngineDescription createPrimitiveDescription(Class<? extends AnalysisComponent> componentClass, Object... configurationData) throws ResourceInitializationException {
+		return AnalysisEngineFactory.reflectPrimitiveDescription(componentClass, TYPE_SYSTEM_DESCRIPTION, TYPE_PRIORITIES, configurationData);
+	}
+
 }

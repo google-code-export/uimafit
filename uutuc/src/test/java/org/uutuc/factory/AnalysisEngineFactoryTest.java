@@ -16,11 +16,15 @@
 */
 package org.uutuc.factory;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,8 +35,14 @@ import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.metadata.SofaMapping;
+import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.metadata.Capability;
+import org.apache.uima.resource.metadata.ConfigurationParameter;
+import org.apache.uima.resource.metadata.ConfigurationParameterDeclarations;
+import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypePriorityList;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
@@ -40,11 +50,14 @@ import org.junit.Test;
 import org.uutuc.factory.testAes.Annotator1;
 import org.uutuc.factory.testAes.Annotator2;
 import org.uutuc.factory.testAes.Annotator3;
+import org.uutuc.factory.testAes.ParameterizedAE;
 import org.uutuc.factory.testAes.ViewNames;
 import org.uutuc.type.Sentence;
 import org.uutuc.type.Token;
 import org.uutuc.util.AnnotationRetrieval;
+import org.uutuc.util.JCasAnnotatorAdapter;
 import org.uutuc.util.Util;
+import org.xml.sax.SAXException;
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -168,4 +181,83 @@ public class AnalysisEngineFactoryTest {
 		
 	}
 
+	@Test
+	public void testReflectPrimitiveDescription() throws ResourceInitializationException, FileNotFoundException, SAXException, IOException {
+		AnalysisEngineDescription aed = AnalysisEngineFactory.reflectPrimitiveDescription(ParameterizedAE.class, Util.TYPE_SYSTEM_DESCRIPTION, Util.TYPE_PRIORITIES);
+		Capability[] capabilities = aed.getAnalysisEngineMetaData().getCapabilities();
+		assertEquals(1, capabilities.length);
+		String[] inputSofas = capabilities[0].getInputSofas();
+		assertArrayEquals(new String[] {CAS.NAME_DEFAULT_SOFA, "MyInputSofa"}, inputSofas);
+		String[] outputSofas = capabilities[0].getOutputSofas();
+		assertArrayEquals(new String[] {"MyOutputSofa"}, outputSofas);
+		
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_1, ConfigurationParameter.TYPE_STRING, true, false, "pineapple");
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_2, ConfigurationParameter.TYPE_STRING, false, true, new String[]{ "coconut", "mango" });
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_3, ConfigurationParameter.TYPE_STRING, false, false, null);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_4, ConfigurationParameter.TYPE_STRING, true, true, new String[] {"apple"});
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_5, ConfigurationParameter.TYPE_STRING, false, true, new String[] {""});
+
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_1, ConfigurationParameter.TYPE_BOOLEAN, true, false, Boolean.FALSE);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_2, ConfigurationParameter.TYPE_BOOLEAN, false, false, null);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_3, ConfigurationParameter.TYPE_BOOLEAN, true, true, new Boolean[] {true, true, false});
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_4, ConfigurationParameter.TYPE_BOOLEAN, true, true, new Boolean[] {true, false, true});
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_5, ConfigurationParameter.TYPE_BOOLEAN, true, true, new Boolean[] {false});
+		
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_INT_1, ConfigurationParameter.TYPE_INTEGER, true, false, 0);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_INT_2, ConfigurationParameter.TYPE_INTEGER, false, false, 42);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_INT_3, ConfigurationParameter.TYPE_INTEGER, false, true, new Integer[] {42,111});
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_INT_4, ConfigurationParameter.TYPE_INTEGER, true, true, new Integer[] {2});
+
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_1, ConfigurationParameter.TYPE_FLOAT, true, false, 0.0f);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_2, ConfigurationParameter.TYPE_FLOAT, false, false, 3.1415f);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_3, ConfigurationParameter.TYPE_FLOAT, true, false, null);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_4, ConfigurationParameter.TYPE_FLOAT, false, true, null);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_5, ConfigurationParameter.TYPE_FLOAT, false, true, new Float[]{0.0f, 3.1415f, 2.7182818f});
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_6, ConfigurationParameter.TYPE_FLOAT, true, true, null);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_7, ConfigurationParameter.TYPE_FLOAT, true, true, new Float[] {1.1111f, 2.2222f, 3.333f});
+		
+
+
+	}
+	
+	private void testConfigurationParameter(AnalysisEngineDescription aed, String parameterName, String parameterType, boolean mandatory, boolean multiValued, Object parameterValue) {
+		ConfigurationParameterDeclarations cpd = aed.getMetaData().getConfigurationParameterDeclarations();
+		ConfigurationParameter cp = cpd.getConfigurationParameter(null, parameterName);
+		assertEquals(parameterName, cp.getName());
+		assertEquals(parameterType, cp.getType());
+		assertEquals(mandatory, cp.isMandatory());
+		assertEquals(multiValued, cp.isMultiValued());
+		ConfigurationParameterSettings cps = aed.getMetaData().getConfigurationParameterSettings();
+		Object actualValue = cps.getParameterValue(parameterName);
+		if(!multiValued) {
+			if(parameterValue == null)
+				assertNull(actualValue);
+			else if(parameterType.equals(ConfigurationParameter.TYPE_FLOAT))
+				assertEquals(((Float)parameterValue).floatValue(), ((Float) actualValue).floatValue(), .001f);
+			else 
+				assertEquals(parameterValue, actualValue);
+		} else {
+			if(parameterType.equals(ConfigurationParameter.TYPE_BOOLEAN)) {
+				assertArrayEquals((Boolean[])parameterValue, (Boolean[])actualValue);
+			}
+			else if(parameterType.equals(ConfigurationParameter.TYPE_FLOAT)) {
+				assertArrayEquals((Float[])parameterValue, (Float[])actualValue);
+			}
+			if(parameterType.equals(ConfigurationParameter.TYPE_INTEGER)) {
+				assertArrayEquals((Integer[])parameterValue, (Integer[])actualValue);
+			}
+			if(parameterType.equals(ConfigurationParameter.TYPE_STRING)) {
+				assertArrayEquals((String[])parameterValue, (String[])actualValue);
+			}
+		}
+		
+	}
+	
+	@Test
+	public void testPrimitiveDescription() throws ResourceInitializationException {
+		
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(JCasAnnotatorAdapter.class, Util.TYPE_SYSTEM_DESCRIPTION);
+		assertNotNull(aed);
+//		assertEquals("org.uutuc.type.TypeSystem", aed.getAnalysisEngineMetaData().getTypeSystem().getImports()[0].getName());
+	}
 }
