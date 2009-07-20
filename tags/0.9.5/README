@@ -1,0 +1,5 @@
+
+- make sure that descriptors are copied to classpath when you compile and run unit tests from ant.
+- test descriptor files
+- test license statement
+- license
