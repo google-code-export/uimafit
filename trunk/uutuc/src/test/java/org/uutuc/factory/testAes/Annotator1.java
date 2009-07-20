@@ -17,16 +17,27 @@
 package org.uutuc.factory.testAes;
 
 
+import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ResourceInitializationException;
+import org.uutuc.util.InitializeUtil;
 
 /**
  * @author Philip Ogren
  */
 
 public class Annotator1 extends JCasAnnotator_ImplBase {
+
+	
+	
+	@Override
+	public void initialize(UimaContext context) throws ResourceInitializationException {
+		super.initialize(context);
+		InitializeUtil.initialize(this, context);
+	}
 
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {

@@ -22,7 +22,10 @@ import java.awt.Point;
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.UIMA_IllegalArgumentException;
+import org.apache.uima.resource.ResourceCreationSpecifier;
 import org.junit.Test;
+import org.uutuc.factory.testAes.ParameterizedAE;
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -48,13 +51,24 @@ public class ResourceCreationSpecifierFactoryTest {
 		}
 		assertNotNull(iae);
 		
-		iae = null;
+		UIMA_IllegalArgumentException uiae = null;
 		try {
 			ResourceCreationSpecifierFactory.createResourceCreationSpecifier("src/main/java/org/uutuc/util/JCasAnnotatorAdapter.xml", new Object[] { "test", new Point(0,5)});
-		}catch(IllegalArgumentException e) {
+		}catch(UIMA_IllegalArgumentException e) {
+			uiae = e;
+		}
+		assertNotNull(uiae);
+		
+	}
+	
+	@Test
+	public void test1() {
+		IllegalArgumentException iae = null;
+		try {
+			ResourceCreationSpecifierFactory.setConfigurationParameters((ResourceCreationSpecifier) null, ParameterizedAE.PARAM_BOOLEAN_1);
+		} catch(IllegalArgumentException e) {
 			iae = e;
 		}
 		assertNotNull(iae);
-		
 	}
 }
