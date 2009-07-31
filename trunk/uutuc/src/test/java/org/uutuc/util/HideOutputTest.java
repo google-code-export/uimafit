@@ -26,9 +26,9 @@ public class HideOutputTest {
 	@Test
 	public void testHideOutput() {
 		HideOutput ho = new HideOutput();
-		System.out.println("you should not see this!");
+		System.out.println("you should not see this!  Please consider this a test failure!  Message brought to you by org.uutuc.util.HideOutputTest.testHideOutput()");
 		ho.restoreOutput();
-		System.out.println("you should see this");
+		System.out.println("you should see this.  Message brought to you by org.uutuc.util.HideOutputTest.testHideOutput()");
 		
 		
 	}
