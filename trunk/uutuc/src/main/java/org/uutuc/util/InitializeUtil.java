@@ -20,12 +20,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.uima.UimaContext;
-import org.apache.uima.analysis_component.AnalysisComponent;
-import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.uutuc.factory.ConfigurationParameterFactory;
 
@@ -34,18 +35,15 @@ import org.uutuc.factory.ConfigurationParameterFactory;
  */
 
 public class InitializeUtil {
-	public static void initialize(AnalysisComponent component, UimaContext context) throws ResourceInitializationException {
+	public static void initialize(Object component, UimaContext context) throws ResourceInitializationException {
 		initializeParameters(component, context);
-	}
-
-	public static void initialize(CollectionReader collectionReader, UimaContext context) throws ResourceInitializationException {
-		initializeParameters(collectionReader, context);
 	}
 
 	public static void initializeParameters(Object component, UimaContext context) throws ResourceInitializationException {
 		try {
-		for (Field field : component.getClass().getDeclaredFields()) {
+		for (Field field : getFields(component)) { //component.getClass().getDeclaredFields()) {
 			if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
+				
 				Object defaultValue = ConfigurationParameterFactory.getDefaultValue(field);
 				org.uutuc.descriptor.ConfigurationParameter annotation = field
 						.getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);
@@ -65,6 +63,18 @@ public class InitializeUtil {
 		
 	}
 
+	public static List<Field> getFields(Object object) {
+		Class<?> cls = object.getClass();
+		List<Field> fields = new ArrayList<Field>();
+		while(!cls.equals(Object.class)) {
+			Field[] flds = cls.getDeclaredFields();
+			fields.addAll(Arrays.asList(flds));
+			cls = cls.getSuperclass();
+		}
+		return fields;
+	}
+	
+	
 	private static void setParameterValue(Object component, Field field, Object value) throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchMethodException, InvocationTargetException {
 			
 		
@@ -92,7 +102,12 @@ public class InitializeUtil {
 	private static Method getSetter(Class<?> clazz, Field field) throws SecurityException, NoSuchMethodException {
 		String name = field.getName();
 		name = "set" + name.substring(0, 1).toUpperCase(Locale.US) + name.substring(1);
-		return clazz.getMethod(name, field.getType());
+		try {
+			return clazz.getMethod(name, field.getType());
+		} catch(Exception nsme) {
+			String message = "setter method for the configuration parameter "+field.getName()+" in the class "+field.getDeclaringClass()+" does not exist or is not public.  Please verify that a method named "+name+ " exists for this configuration parameter.";
+			throw new NoSuchMethodException(message);
+		}
 
 	}
 	
