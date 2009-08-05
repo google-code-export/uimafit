@@ -41,7 +41,7 @@ public class InitializeUtil {
 
 	public static void initializeParameters(Object component, UimaContext context) throws ResourceInitializationException {
 		try {
-		for (Field field : getFields(component)) { //component.getClass().getDeclaredFields()) {
+		for (Field field : ReflectionUtil.getFields(component)) { //component.getClass().getDeclaredFields()) {
 			if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
 				
 				Object defaultValue = ConfigurationParameterFactory.getDefaultValue(field);
@@ -63,16 +63,8 @@ public class InitializeUtil {
 		
 	}
 
-	public static List<Field> getFields(Object object) {
-		Class<?> cls = object.getClass();
-		List<Field> fields = new ArrayList<Field>();
-		while(!cls.equals(Object.class)) {
-			Field[] flds = cls.getDeclaredFields();
-			fields.addAll(Arrays.asList(flds));
-			cls = cls.getSuperclass();
-		}
-		return fields;
-	}
+	
+	
 	
 	
 	private static void setParameterValue(Object component, Field field, Object value) throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchMethodException, InvocationTargetException {

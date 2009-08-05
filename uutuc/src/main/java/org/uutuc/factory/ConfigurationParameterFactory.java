@@ -26,6 +26,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.uima.UIMA_IllegalArgumentException;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
 import org.apache.uima.resource.metadata.impl.ConfigurationParameter_impl;
+import org.uutuc.util.ReflectionUtil;
 /**
  * @author Philip Ogren
  */
@@ -219,7 +220,7 @@ public class ConfigurationParameterFactory {
 		List<ConfigurationParameter> configurationParameters = new ArrayList<ConfigurationParameter>();
 		List<Object> configurationValues = new ArrayList<Object>();
 		
-		for (Field field : componentClass.getDeclaredFields()) {
+		for (Field field : ReflectionUtil.getFields(componentClass)) {
 			if(ConfigurationParameterFactory.isConfigurationParameterField(field)) {
 				configurationParameters.add(ConfigurationParameterFactory.createPrimitiveParameter(field)); 
 				configurationValues.add(ConfigurationParameterFactory.getDefaultValue(field));
