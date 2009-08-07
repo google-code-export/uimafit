@@ -1,20 +1,20 @@
 
-/* First created by JCasGen Thu Feb 05 20:53:33 MST 2009 */
+/* First created by JCasGen Fri Aug 07 10:40:43 MDT 2009 */
 package org.uutuc.type;
 
-import org.apache.uima.cas.Feature;
-import org.apache.uima.cas.FeatureStructure;
-import org.apache.uima.cas.Type;
-import org.apache.uima.cas.impl.CASImpl;
-import org.apache.uima.cas.impl.FSGenerator;
-import org.apache.uima.cas.impl.FeatureImpl;
-import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
+import org.apache.uima.cas.impl.CASImpl;
+import org.apache.uima.cas.impl.FSGenerator;
+import org.apache.uima.cas.FeatureStructure;
+import org.apache.uima.cas.impl.TypeImpl;
+import org.apache.uima.cas.Type;
+import org.apache.uima.cas.impl.FeatureImpl;
+import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Thu Feb 05 20:53:52 MST 2009
+ * Updated by JCasGen Fri Aug 07 10:40:43 MDT 2009
  * @generated */
 public class Token_Type extends Annotation_Type {
   /** @generated */

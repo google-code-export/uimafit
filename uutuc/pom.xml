@@ -13,36 +13,42 @@
 			<id>UIMA</id>
 			<url>http://people.apache.org/repo/m2-incubating-repository</url>
 		</repository>
-        <repository>
-            <id>maven2-repository.dev.java.net</id>
-            <name>Java.net Repository for Maven</name>
-            <url>http://download.java.net/maven/2/</url>
-        </repository>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2/</url>
+		</repository>
 	</repositories>
-   	<dependencies>
-   		<dependency>
-   			<groupId>junit</groupId>
-   			<artifactId>junit</artifactId>
-   			<version>4.5</version>
-   			<type>jar</type>
-   			<scope>test</scope>
-   			<optional>false</optional>
-   		</dependency>
-   		<dependency>
-   			<groupId>commons-lang</groupId>
-   			<artifactId>commons-lang</artifactId>
-   			<version>2.4</version>
-   			<type>jar</type>
-   			<optional>false</optional>
-   		</dependency>
-   		<dependency>
-   			<groupId>org.apache.uima</groupId>
-   			<artifactId>uimaj-core</artifactId>
-   			<version>2.2.2-incubating</version>
-   			<type>jar</type>
-   			<optional>false</optional>
-   		</dependency>
-   	</dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.5</version>
+			<type>jar</type>
+			<scope>test</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.4</version>
+			<type>jar</type>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.uima</groupId>
+			<artifactId>uimaj-core</artifactId>
+			<version>2.2.2-incubating</version>
+			<type>jar</type>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.uima</groupId>
+			<artifactId>uimaj-tools</artifactId>
+			<version>2.2.2-incubating</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -64,14 +70,36 @@
 					<target>1.5</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<classpathScope>test</classpathScope>
+					<mainClass>org.apache.uima.tools.jcasgen.Jg</mainClass>
+					<arguments>
+						<argument>-jcasgeninput</argument>
+						<argument>${basedir}/src/test/resources/org/uutuc/type/TypeSystem.xml</argument>
+						<argument>-jcasgenoutput</argument>
+						<argument>${basedir}/src/test/java</argument>
+					</arguments>
+				</configuration>
+			</plugin>
 		</plugins>
-        <extensions>
-            <extension>
-                <groupId>org.jvnet.wagon-svn</groupId>
-                <artifactId>wagon-svn</artifactId>
-                <version>1.8</version>
-            </extension>
-        </extensions>
+		<extensions>
+			<extension>
+				<groupId>org.jvnet.wagon-svn</groupId>
+				<artifactId>wagon-svn</artifactId>
+				<version>1.8</version>
+			</extension>
+		</extensions>
 	</build>
 	<reporting>
 		<plugins>
@@ -87,11 +115,11 @@
 			</plugin>
 		</plugins>
 	</reporting>
-    <distributionManagement>
-        <repository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>googlecode</id>
-            <url>svn:https://uutuc.googlecode.com/svn/repo</url>
-        </repository>
-    </distributionManagement>
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>googlecode</id>
+			<url>svn:https://uutuc.googlecode.com/svn/repo</url>
+		</repository>
+	</distributionManagement>
 </project>

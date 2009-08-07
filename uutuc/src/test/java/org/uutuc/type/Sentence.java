@@ -1,17 +1,18 @@
 
 
-/* First created by JCasGen Thu Feb 05 20:53:17 MST 2009 */
+/* First created by JCasGen Fri Aug 07 10:40:32 MDT 2009 */
 package org.uutuc.type;
 
-import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.JCas; 
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
+
 import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Thu Feb 05 20:53:52 MST 2009
- * XML source: C:/Documents and Settings/Philip/My Documents/CSLR/workspace/uutuc/test/desc/TestTypeSystem.xml
+ * Updated by JCasGen Fri Aug 07 10:40:32 MDT 2009
+ * XML source: C:/Users/bethard/Documents/projects/uutuc/src/test/resources/org/uutuc/type/TypeSystem.xml
  * @generated */
 public class Sentence extends Annotation {
   /** @generated
