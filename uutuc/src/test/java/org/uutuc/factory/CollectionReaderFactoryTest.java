@@ -72,7 +72,7 @@ public class CollectionReaderFactoryTest {
 		assertEquals(".", token.getStem());
 
 		
-		reader = CollectionReaderFactory.createCollectionReaderFromPath("src/main/java/org/uutuc/util/SingleFileXReader.xml", 
+		reader = CollectionReaderFactory.createCollectionReaderFromPath("src/main/resources/org/uutuc/util/SingleFileXReader.xml", 
 				SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/test.xmi",
 				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
 
