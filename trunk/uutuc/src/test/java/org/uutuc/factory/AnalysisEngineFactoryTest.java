@@ -65,7 +65,7 @@ public class AnalysisEngineFactoryTest {
 
 	@Test
 	public void testCreateAnalysisEngineFromPath() throws UIMAException, IOException {
-		AnalysisEngine engine = AnalysisEngineFactory.createAnalysisEngineFromPath("src/main/java/org/uutuc/util/JCasAnnotatorAdapter.xml");
+		AnalysisEngine engine = AnalysisEngineFactory.createAnalysisEngineFromPath("src/main/resources/org/uutuc/util/JCasAnnotatorAdapter.xml");
 		assertNotNull(engine);
 	}
 	

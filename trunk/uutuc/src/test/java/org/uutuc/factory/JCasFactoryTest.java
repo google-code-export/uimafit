@@ -47,7 +47,7 @@ public class JCasFactoryTest {
 
 	@Test
 	public void testFromPath() throws UIMAException {
-		JCas jCas = JCasFactory.createJCasFromPath("src/test/java/org/uutuc/type/TypeSystem.xml");
+		JCas jCas = JCasFactory.createJCasFromPath("src/test/resources/org/uutuc/type/TypeSystem.xml");
 		jCas.setDocumentText("For great 20 minute talks, check out TED.com.");
 		AnnotationFactory.createAnnotation(jCas, 0, 3, Token.class);
 		assertEquals("For", AnnotationRetrieval.get(jCas, Token.class, 0).getCoveredText());

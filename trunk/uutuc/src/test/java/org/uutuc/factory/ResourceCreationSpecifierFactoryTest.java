@@ -37,7 +37,7 @@ public class ResourceCreationSpecifierFactoryTest {
 	public void test2() throws UIMAException, IOException {
 		IllegalArgumentException iae = null;
 		try {
-			ResourceCreationSpecifierFactory.createResourceCreationSpecifier("src/main/java/org/uutuc/util/JCasAnnotatorAdapter.xml", new String[] {"test"});
+			ResourceCreationSpecifierFactory.createResourceCreationSpecifier("src/main/resources/org/uutuc/util/JCasAnnotatorAdapter.xml", new String[] {"test"});
 		} catch(IllegalArgumentException e) {
 			iae = e;
 		}
@@ -53,7 +53,7 @@ public class ResourceCreationSpecifierFactoryTest {
 		
 		UIMA_IllegalArgumentException uiae = null;
 		try {
-			ResourceCreationSpecifierFactory.createResourceCreationSpecifier("src/main/java/org/uutuc/util/JCasAnnotatorAdapter.xml", new Object[] { "test", new Point(0,5)});
+			ResourceCreationSpecifierFactory.createResourceCreationSpecifier("src/main/resources/org/uutuc/util/JCasAnnotatorAdapter.xml", new Object[] { "test", new Point(0,5)});
 		}catch(UIMA_IllegalArgumentException e) {
 			uiae = e;
 		}
