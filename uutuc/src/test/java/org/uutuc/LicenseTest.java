@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uutuc;
 
 import java.io.File;
@@ -25,6 +25,7 @@ import java.util.List;
 import org.apache.uima.util.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.uutuc.util.io.Files;
 
 /**
  * @author Steven Bethard, Philip Ogren
@@ -45,7 +46,22 @@ public class LicenseTest {
 
 	private void test(File directory) throws IOException {
 		List<String> filesMissingLicense = new ArrayList<String>();
-		test(directory, filesMissingLicense);
+
+		Iterable<File> files = Files.getFiles(directory, new String[] { ".java" });
+
+		for (File file : files) {
+			if (file.getParentFile().getName().equals("type") || file.getName().equals("Files.java")) continue;
+
+			String fileText = FileUtils.file2String(file);
+
+			if (fileText.indexOf("Copyright 2009 Regents of the University of Colorado.") == -1
+					|| fileText.indexOf("Licensed under the Apache License, Version 2.0") == -1
+					|| fileText.indexOf("@author") == -1) {
+				filesMissingLicense.add(file.getPath());
+			}
+		}
+
+		
 		if (filesMissingLicense.size() > 0) {
 			String message = String.format("%d source file missing license or author attribution: ",
 					filesMissingLicense.size());
@@ -56,30 +72,7 @@ public class LicenseTest {
 			}
 			Assert.fail(message);
 		}
-	}	
-	
-	private void test(File directory, List<String> filesMissingLicense) throws IOException {
-				
-		File[] files = directory.listFiles();
-
-		for (File file : files) {
-			if (file.isDirectory()) {
-				test(file, filesMissingLicense);
-			}
-
-			if (file.getName().endsWith(".java")) {
-				if (file.getParentFile().getName().equals("type")) continue;
-
-				String fileText = FileUtils.file2String(file);
-
-
-				if (fileText.indexOf("Copyright 2009 Regents of the University of Colorado.") == -1
-						|| fileText.indexOf("Licensed under the Apache License, Version 2.0") == -1
-						|| fileText.indexOf("@author") == -1) {
-					filesMissingLicense.add(file.getPath());
-				}
-			}
-		}
-		
 	}
+
+
 }
