@@ -73,7 +73,7 @@ public @interface ConfigurationParameter {
 	 * default value is a string here that you should give an actual integer
 	 * (not an integer parseable string) value when setting the parameter via
 	 * e.g. AnalysisEngineFactory.createPrimitiveDescription(). If the field is
-	 * an float, then the default value can be any string that
+	 * a float, then the default value can be any string that
 	 * Float.parseFloat() can successfully parse. Remember that just because the
 	 * default value is a string here that you should give an actual float value
 	 * (not a float parseable string) when setting the parameter via e.g.
