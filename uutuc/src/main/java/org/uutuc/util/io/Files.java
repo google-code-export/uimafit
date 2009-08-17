@@ -1,4 +1,4 @@
- //  Copyright (c) 1998-2008 Adrian Kuhn <akuhn(a)students.unibe.ch>
+//  Copyright (c) 1998-2008 Adrian Kuhn <akuhn(a)students.unibe.ch>
 //  
 //  This file is part of ch.akuhn.util.
 //  
@@ -40,10 +40,8 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-
-
 public class Files {
-	
+
 	public static FileFilter createPatternFilter(final String[] patternStrings) {
 		int length = patternStrings == null ? 0 : patternStrings.length;
 		final Pattern[] patterns = new Pattern[length];
@@ -54,9 +52,10 @@ public class Files {
 			public boolean accept(File file) {
 				if (patterns.length == 0) {
 					return true;
-				} else {
+				}
+				else {
 					String path = file.getName();
-					for (Pattern pattern: patterns) {
+					for (Pattern pattern : patterns) {
 						if (pattern.matcher(path).find()) {
 							return true;
 						}
@@ -66,19 +65,23 @@ public class Files {
 			}
 		};
 	}
-	
-	public static FileFilter createSuffixFilter(final String[] suffixes) {
+
+	public static FileFilter createSuffixFilter(final String[] suffixes, final String[] exclusionSuffixes) {
 		return new FileFilter() {
 
 			public boolean accept(File file) {
-				if(suffixes == null)
-					return true;
-				if(suffixes.length == 0)
-					return true;
+				if (suffixes == null) return true;
+				if (suffixes.length == 0) return true;
 				else {
-					for(String suffix : suffixes) {
-						if(file.getName().endsWith(suffix))
-							return true;
+					if (exclusionSuffixes != null) {
+						for (String exclusionSuffix : exclusionSuffixes) {
+							if (file.getName().endsWith(exclusionSuffix)) return false;
+						}
+					}
+					if (suffixes != null) {
+						for (String suffix : suffixes) {
+							if (file.getName().endsWith(suffix)) return true;
+						}
 					}
 				}
 				return false;
@@ -104,20 +107,17 @@ public class Files {
 
 					public File next() {
 						this.processDirectories();
-						if (queue.isEmpty())
-							throw new NoSuchElementException();
+						if (queue.isEmpty()) throw new NoSuchElementException();
 						return queue.poll();
 					}
 
 					private void processDirectories() {
 						while (!queue.isEmpty()) {
-							if (!queue.peek().isDirectory())
-								break;
+							if (!queue.peek().isDirectory()) break;
 							File next = queue.poll();
 							for (File file : next.listFiles()) {
 								String fileName = file.getName();
-								if(file.getName().startsWith("."))
-									continue;
+								if (file.getName().startsWith(".")) continue;
 								if (file.isDirectory() || fileNames.contains(fileName)) {
 									queue.offer(file);
 								}
@@ -134,6 +134,7 @@ public class Files {
 		};
 
 	}
+
 	public static Iterable<File> getFiles(final File folder, final FileFilter filter) {
 		return new Iterable<File>() {
 
@@ -152,19 +153,16 @@ public class Files {
 
 					public File next() {
 						this.processDirectories();
-						if (queue.isEmpty())
-							throw new NoSuchElementException();
+						if (queue.isEmpty()) throw new NoSuchElementException();
 						return queue.poll();
 					}
 
 					private void processDirectories() {
 						while (!queue.isEmpty()) {
-							if (!queue.peek().isDirectory())
-								break;
+							if (!queue.peek().isDirectory()) break;
 							File next = queue.poll();
 							for (File each : next.listFiles()) {
-								if(each.getName().startsWith("."))
-									continue;
+								if (each.getName().startsWith(".")) continue;
 								if (each.isDirectory() || filter == null || filter.accept(each)) {
 									queue.offer(each);
 								}
@@ -197,10 +195,17 @@ public class Files {
 		return getFiles(new File(filename), suffixes);
 	}
 
-	public static Iterable<File> getFiles(File file, String[] suffixes) {
-		return getFiles(file, createSuffixFilter(suffixes));
+	public static Iterable<File> getFiles(String filename, String[] suffixes, String[] exclusionSuffixes) {
+		return getFiles(new File(filename), suffixes, exclusionSuffixes);
 	}
 
+	public static Iterable<File> getFiles(File file, String[] suffixes) {
+		return getFiles(file, suffixes, null);
+	}
+
+	public static Iterable<File> getFiles(File file, String[] suffixes, String[] exclusionSuffixes) {
+		return getFiles(file, createSuffixFilter(suffixes, exclusionSuffixes));
+	}
 
 	/**
 	 * Makes the file name relative to the root directory by stripping the input
@@ -225,18 +230,3 @@ public class Files {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
