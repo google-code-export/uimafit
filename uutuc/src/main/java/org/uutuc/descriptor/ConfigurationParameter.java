@@ -20,7 +20,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
+ 
 /**
  * This annotation marks an analysis component member variable as a
  * configuration parameter. The types of member variables that can use this
