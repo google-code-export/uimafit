@@ -4,7 +4,7 @@
 	<groupId>org.uutuc</groupId>
 	<artifactId>uutuc</artifactId>
 	<packaging>jar</packaging>
-	<version>0.9.7</version>
+	<version>0.9.8-SNAPSHOT</version>
 	<name>UUTUC</name>
 	<description>Convenience classes for testing UIMA components</description>
 	<url>http://uutuc.googlecode.com</url>
