@@ -47,7 +47,12 @@ public class SimplePipeline {
 			IOException {
 		AnalysisEngine[] engines = new AnalysisEngine[descs.length];
 		for (int i = 0; i < engines.length; ++i) {
-			engines[i] = AnalysisEngineFactory.createPrimitive(descs[i]);
+			if (descs[i].isPrimitive()) {
+				engines[i] = AnalysisEngineFactory.createPrimitive(descs[i]);
+			}
+			else {
+				engines[i] = AnalysisEngineFactory.createAggregate(descs[i]);
+			}
 		}
 		runPipeline(reader, engines);
 	}
