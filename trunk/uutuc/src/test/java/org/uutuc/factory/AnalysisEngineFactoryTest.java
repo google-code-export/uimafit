@@ -36,6 +36,7 @@ import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.metadata.SofaMapping;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.Capability;
@@ -55,6 +56,8 @@ import org.uutuc.type.Sentence;
 import org.uutuc.type.Token;
 import org.uutuc.util.AnnotationRetrieval;
 import org.uutuc.util.JCasAnnotatorAdapter;
+import org.uutuc.util.SimplePipeline;
+import org.uutuc.util.SingleFileXReader;
 import org.uutuc.util.Util;
 import org.xml.sax.SAXException;
 /**
@@ -146,7 +149,7 @@ public class AnalysisEngineFactoryTest {
 
 	
 	@Test
-	public void testAggregate2() throws UIMAException {
+	public void testAggregate2() throws UIMAException, IOException {
 		JCas jCas = Util.JCAS.get();
 		jCas.reset();
 		TokenFactory.createTokens(jCas, "Anyone up for a game of Foosball?", Token.class, Sentence.class);
@@ -177,6 +180,14 @@ public class AnalysisEngineFactoryTest {
 		assertEquals("?AFaaabeeffgllmnnoooooprsuy", jCas.getView("B").getDocumentText());
 		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C").getDocumentText());
 		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
+		
+		
+		CollectionReader cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, 
+				Util.TYPE_SYSTEM_DESCRIPTION, SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/test.xmi",
+				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
+		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, Util.TYPE_SYSTEM_DESCRIPTION);
+
+		SimplePipeline.runPipeline(cr, ae1, aggregateEngine);
 		
 	}
 
