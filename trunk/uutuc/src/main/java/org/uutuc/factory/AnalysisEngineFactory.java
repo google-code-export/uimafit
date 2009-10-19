@@ -13,15 +13,19 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 
 package org.uutuc.factory;
+
+import static java.util.Arrays.asList;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.uima.Constants;
 import org.apache.uima.UIMAException;
@@ -40,6 +44,10 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.metadata.Capability;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
+import org.apache.uima.resource.metadata.ConfigurationParameterDeclarations;
+import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
+import org.apache.uima.resource.metadata.OperationalProperties;
+import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.resource.metadata.impl.Import_impl;
@@ -49,7 +57,7 @@ import org.uutuc.factory.ConfigurationParameterFactory.ConfigurationData;
 /**
  * 
  * @author Steven Bethard, Philip Ogren
- *
+ * 
  */
 public class AnalysisEngineFactory {
 
@@ -74,7 +82,8 @@ public class AnalysisEngineFactory {
 		Import_impl imprt = new Import_impl();
 		imprt.setName(descriptorName);
 		URL url = imprt.findAbsoluteUrl(UIMAFramework.newDefaultResourceManager());
-		ResourceSpecifier specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(url, configurationData);
+		ResourceSpecifier specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(url,
+				configurationData);
 		return UIMAFramework.produceAnalysisEngine(specifier);
 	}
 
@@ -125,91 +134,129 @@ public class AnalysisEngineFactory {
 	}
 
 	public static AnalysisEngine createPrimitive(Class<? extends AnalysisComponent> componentClass,
-			TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationData) throws ResourceInitializationException {
+			TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationData)
+			throws ResourceInitializationException {
 		TypePriorities typePriorities = TypePrioritiesFactory.createTypePriorities(prioritizedTypeNames);
 		return createPrimitive(componentClass, typeSystem, typePriorities, configurationData);
 
 	}
 
-	public static AnalysisEngineDescription createPrimitiveDescription(Class<? extends AnalysisComponent> componentClass,
-			TypeSystemDescription typeSystem, Object... configurationData) throws ResourceInitializationException {
-		 return createPrimitiveDescription(componentClass, typeSystem, (TypePriorities)null, configurationData);
+	public static AnalysisEngineDescription createPrimitiveDescription(
+			Class<? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
+			Object... configurationData) throws ResourceInitializationException {
+		return createPrimitiveDescription(componentClass, typeSystem, (TypePriorities) null, configurationData);
 	}
 
-	public static AnalysisEngineDescription createPrimitiveDescription(Class<? extends AnalysisComponent> componentClass,
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationData) throws ResourceInitializationException {
-		return createPrimitiveDescription(componentClass, typeSystem, typePriorities, (Capability[])null, configurationData);
+	public static AnalysisEngineDescription createPrimitiveDescription(
+			Class<? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
+			TypePriorities typePriorities, Object... configurationData) throws ResourceInitializationException {
+		return createPrimitiveDescription(componentClass, typeSystem, typePriorities, (Capability[]) null,
+				configurationData);
 	}
-	
-	public static AnalysisEngineDescription createPrimitiveDescription(Class<? extends AnalysisComponent> componentClass,
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, Capability[] capabilities, Object... configurationData) throws ResourceInitializationException {
+
+	public static AnalysisEngineDescription createPrimitiveDescription(
+			Class<? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
+			TypePriorities typePriorities, Capability[] capabilities, Object... configurationData)
+			throws ResourceInitializationException {
 		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
-		return createPrimitiveDescription(componentClass, typeSystem, typePriorities, capabilities, cdata.configurationParameters, cdata.configurationValues);
+		return createPrimitiveDescription(componentClass, typeSystem, typePriorities, capabilities,
+				cdata.configurationParameters, cdata.configurationValues);
 	}
-	
-	
-	public static AnalysisEngineDescription createPrimitiveDescription(Class<? extends AnalysisComponent> componentClass,
-				TypeSystemDescription typeSystem, TypePriorities typePriorities, Capability[] capabilities, ConfigurationParameter[] configurationParameters, Object[] configurationValues) throws ResourceInitializationException {
+
+	public static AnalysisEngineDescription createPrimitiveDescription(
+			Class<? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
+			TypePriorities typePriorities, Capability[] capabilities, ConfigurationParameter[] configurationParameters,
+			Object[] configurationValues) throws ResourceInitializationException {
 
 		// create the descriptor and set configuration parameters
 		AnalysisEngineDescription desc = new AnalysisEngineDescription_impl();
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setPrimitive(true);
 		desc.setAnnotatorImplementationName(componentClass.getName());
-		
-		
-		if(configurationParameters != null)
-			ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters, configurationValues);
+		if (componentClass.isAnnotationPresent(org.uutuc.descriptor.AnalysisComponent.class)) {
+			org.uutuc.descriptor.AnalysisComponent anno = componentClass
+					.getAnnotation(org.uutuc.descriptor.AnalysisComponent.class);
+			OperationalProperties op = desc.getAnalysisEngineMetaData().getOperationalProperties();
+			op.setMultipleDeploymentAllowed(anno.multipleDeploymentAllowed());
+			op.setModifiesCas(anno.modifiesCas());
+			op.setOutputsNewCASes(anno.outputsNewCases());
+		}
+
+		ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
+				.createConfigurationData(componentClass);
+		ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
+				reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);
+		if (configurationParameters != null) ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
+				configurationParameters, configurationValues);
 
 		// set the type system
 		if (typeSystem != null) {
 			desc.getAnalysisEngineMetaData().setTypeSystem(typeSystem);
 		}
-		
-		if(typePriorities != null)
-			desc.getAnalysisEngineMetaData().setTypePriorities(typePriorities);
 
-		if(capabilities != null)
+		if (typePriorities != null) desc.getAnalysisEngineMetaData().setTypePriorities(typePriorities);
+
+		if (capabilities == null) {
+			capabilities = CapabilityFactory.createCapability(componentClass);
+		}
+		if (capabilities != null) {
 			desc.getAnalysisEngineMetaData().setCapabilities(capabilities);
-		
+		}
 		return desc;
 	}
 
-	public static void setConfigurationParameters(AnalysisEngineDescription analysisEngineDescription, Object... configurationData) throws ResourceInitializationException {
+	public static void setConfigurationParameters(AnalysisEngineDescription analysisEngineDescription,
+			Object... configurationData) throws ResourceInitializationException {
 		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
-		ResourceCreationSpecifierFactory.setConfigurationParameters(analysisEngineDescription, cdata.configurationParameters, cdata.configurationValues);
+		ResourceCreationSpecifierFactory.setConfigurationParameters(analysisEngineDescription,
+				cdata.configurationParameters, cdata.configurationValues);
 
 	}
-	
-	public static AnalysisEngine createPrimitive(Class<? extends AnalysisComponent> componentClass,
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationParameters) throws ResourceInitializationException {
 
-		AnalysisEngineDescription desc = createPrimitiveDescription(componentClass, typeSystem, typePriorities, configurationParameters);
+	public static AnalysisEngine createPrimitive(Class<? extends AnalysisComponent> componentClass,
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationParameters)
+			throws ResourceInitializationException {
+
+		AnalysisEngineDescription desc = createPrimitiveDescription(componentClass, typeSystem, typePriorities,
+				configurationParameters);
 
 		// create the AnalysisEngine, initialize it and return it
 		return createPrimitive(desc);
 	}
 
-	public static AnalysisEngine createPrimitive( AnalysisEngineDescription desc) throws ResourceInitializationException {
+	@SuppressWarnings("unchecked")
+	public static AnalysisEngine createPrimitive(AnalysisEngineDescription desc, Object... configurationData)
+			throws ResourceInitializationException {
 		AnalysisEngine engine = new PrimitiveAnalysisEngine_impl();
-		engine.initialize(desc, null);
+
+		if (configurationData != null) {
+			ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
+			ConfigurationParameter[] configurationParameters = cdata.configurationParameters;
+			Object[] configurationValues = cdata.configurationValues;
+			ResourceMetaData metaData = desc.getMetaData();
+			ConfigurationParameterDeclarations paramDecls = metaData.getConfigurationParameterDeclarations();
+			ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();
+			for (int i = 0; i < configurationParameters.length; i++) {
+				if (paramDecls != null
+						&& paramDecls.getConfigurationParameter(null, configurationParameters[i].getName()) == null) paramDecls
+						.addConfigurationParameter(configurationParameters[i]);
+				paramSettings.setParameterValue(configurationParameters[i].getName(), configurationValues[i]);
+			}
+			Map additionalParameters = new HashMap();
+			additionalParameters.put(AnalysisEngine.PARAM_CONFIG_PARAM_SETTINGS, paramSettings);
+			engine.initialize(desc, additionalParameters);
+		}
+		else {
+			engine.initialize(desc, null);
+		}
 		return engine;
 	}
 
-	public static AnalysisEngineDescription reflectPrimitiveDescription(Class<? extends AnalysisComponent> componentClass,
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... cData) throws ResourceInitializationException {
-		
-		ConfigurationData configurationData = ConfigurationParameterFactory.createConfigurationData(componentClass);
-		Capability[] capabilities = CapabilityFactory.createCapability(componentClass);
-		AnalysisEngineDescription aed = createPrimitiveDescription(componentClass, typeSystem, typePriorities, capabilities, configurationData.configurationParameters, configurationData.configurationValues);
-		setConfigurationParameters(aed, cData);
-		return aed;
-	}
-
-	
-	public static AnalysisEngine createAggregate(List<Class<? extends AnalysisComponent>> componentClasses, 
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings, Object... configurationParameters) throws ResourceInitializationException {
-		AnalysisEngineDescription desc = createAggregateDescription(componentClasses, typeSystem, typePriorities, sofaMappings, configurationParameters);
+	public static AnalysisEngine createAggregate(List<Class<? extends AnalysisComponent>> componentClasses,
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings,
+			Object... configurationParameters) throws ResourceInitializationException {
+		AnalysisEngineDescription desc = createAggregateDescription(componentClasses, typeSystem, typePriorities,
+				sofaMappings, configurationParameters);
 		// create the AnalysisEngine, initialize it and return it
 		AnalysisEngine engine = new AggregateAnalysisEngine_impl();
 		engine.initialize(desc, null);
@@ -223,42 +270,62 @@ public class AnalysisEngineFactory {
 		return engine;
 	}
 
-	public static AnalysisEngineDescription createAggregateDescription(List<Class<? extends AnalysisComponent>> componentClasses, 
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings, Object... configurationParameters) throws ResourceInitializationException {
+	public static AnalysisEngineDescription createAggregateDescription(
+			List<Class<? extends AnalysisComponent>> componentClasses, TypeSystemDescription typeSystem,
+			TypePriorities typePriorities, SofaMapping[] sofaMappings, Object... configurationParameters)
+			throws ResourceInitializationException {
 
 		List<AnalysisEngineDescription> primitiveEngineDescriptions = new ArrayList<AnalysisEngineDescription>();
 		List<String> componentNames = new ArrayList<String>();
-		
-		for(Class<? extends AnalysisComponent> componentClass : componentClasses) {
-			AnalysisEngineDescription primitiveDescription = createPrimitiveDescription(componentClass, typeSystem, typePriorities, configurationParameters);
+
+		for (Class<? extends AnalysisComponent> componentClass : componentClasses) {
+			AnalysisEngineDescription primitiveDescription = createPrimitiveDescription(componentClass, typeSystem,
+					typePriorities, configurationParameters);
 			primitiveEngineDescriptions.add(primitiveDescription);
 			componentNames.add(componentClass.getName());
 		}
-		return createAggregateDescription(primitiveEngineDescriptions, componentNames, typeSystem, typePriorities, sofaMappings);
+		return createAggregateDescription(primitiveEngineDescriptions, componentNames, typeSystem, typePriorities,
+				sofaMappings);
 	}
 
-	public static AnalysisEngine createAggregate(List<AnalysisEngineDescription> analysisEngineDescriptions, List<String> componentNames,
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings) throws ResourceInitializationException {
+	public static AnalysisEngine createAggregate(List<AnalysisEngineDescription> analysisEngineDescriptions,
+			List<String> componentNames, TypeSystemDescription typeSystem, TypePriorities typePriorities,
+			SofaMapping[] sofaMappings) throws ResourceInitializationException {
 
-		AnalysisEngineDescription desc = createAggregateDescription(analysisEngineDescriptions, componentNames, typeSystem, typePriorities, sofaMappings);
+		AnalysisEngineDescription desc = createAggregateDescription(analysisEngineDescriptions, componentNames,
+				typeSystem, typePriorities, sofaMappings);
 		// create the AnalysisEngine, initialize it and return it
 		AnalysisEngine engine = new AggregateAnalysisEngine_impl();
 		engine.initialize(desc, null);
 		return engine;
 
 	}
-	
+
+	public static AnalysisEngineDescription createAggregateDescription(
+			AnalysisEngineDescription... analysisEngineDescriptions) throws ResourceInitializationException {
+		String[] names = new String[analysisEngineDescriptions.length];
+		int i = 0;
+		for (AnalysisEngineDescription aed : analysisEngineDescriptions) {
+			names[i] = aed.getImplementationName() + "-" + i;
+			i++;
+		}
+
+		return createAggregateDescription(asList(analysisEngineDescriptions), asList(names), null, null, null);
+	}
+
 	@SuppressWarnings("unchecked")
-	public static AnalysisEngineDescription createAggregateDescription(List<AnalysisEngineDescription> analysisEngineDescriptions, List<String> componentNames,
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings) throws ResourceInitializationException {
+	public static AnalysisEngineDescription createAggregateDescription(
+			List<AnalysisEngineDescription> analysisEngineDescriptions, List<String> componentNames,
+			TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings)
+			throws ResourceInitializationException {
 
 		// create the descriptor and set configuration parameters
 		AnalysisEngineDescription desc = new AnalysisEngineDescription_impl();
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setPrimitive(false);
-		
+
 		List<String> flowNames = new ArrayList<String>();
-		
+
 		for (int i = 0; i < analysisEngineDescriptions.size(); i++) {
 			AnalysisEngineDescription aed = analysisEngineDescriptions.get(i);
 			String componentName = componentNames.get(i);
@@ -267,20 +334,16 @@ public class AnalysisEngineFactory {
 		}
 
 		FixedFlow fixedFlow = new FixedFlow_impl();
-	    fixedFlow.setFixedFlow(flowNames.toArray(new String[flowNames.size()]));
-	    desc.getAnalysisEngineMetaData().setFlowConstraints(fixedFlow);
+		fixedFlow.setFixedFlow(flowNames.toArray(new String[flowNames.size()]));
+		desc.getAnalysisEngineMetaData().setFlowConstraints(fixedFlow);
 
-		if(typePriorities != null)
-			desc.getAnalysisEngineMetaData().setTypePriorities(typePriorities);
+		if (typePriorities != null) desc.getAnalysisEngineMetaData().setTypePriorities(typePriorities);
 
-	    if(sofaMappings != null)
-	    	desc.setSofaMappings(sofaMappings);
-		
-	    return desc;
+		if (sofaMappings != null) desc.setSofaMappings(sofaMappings);
+
+		return desc;
 	}
 
-	
-	
 	/**
 	 * Creates an AnalysisEngine from the given descriptor, and uses the engine
 	 * to process the file or text.

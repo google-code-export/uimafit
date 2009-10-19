@@ -49,7 +49,7 @@ public class Util {
 	}
 	
 	public static AnalysisEngineDescription createPrimitiveDescription(Class<? extends AnalysisComponent> componentClass, Object... configurationData) throws ResourceInitializationException {
-		return AnalysisEngineFactory.reflectPrimitiveDescription(componentClass, TYPE_SYSTEM_DESCRIPTION, TYPE_PRIORITIES, configurationData);
+		return AnalysisEngineFactory.createPrimitiveDescription(componentClass, TYPE_SYSTEM_DESCRIPTION, TYPE_PRIORITIES, configurationData);
 	}
 
 }

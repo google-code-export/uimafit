@@ -54,8 +54,8 @@ public class LicenseTest {
 
 			String fileText = FileUtils.file2String(file);
 
-			if (fileText.indexOf("Copyright 2009 Regents of the University of Colorado.") == -1
-					|| fileText.indexOf("Licensed under the Apache License, Version 2.0") == -1
+			if (fileText.indexOf("Copyright") == -1 ||
+					fileText.indexOf("Licensed under the Apache License, Version 2.0") == -1
 					|| fileText.indexOf("@author") == -1) {
 				filesMissingLicense.add(file.getPath());
 			}
