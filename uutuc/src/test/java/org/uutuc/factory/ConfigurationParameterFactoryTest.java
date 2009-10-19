@@ -34,7 +34,7 @@ public class ConfigurationParameterFactoryTest {
 	@ConfigurationParameter(name = PARAM_DOUBLE_1, mandatory = true, defaultValue="3.1415")
 	private Double double1;
 
-	public static final String PARAM_DOUBLE_2 = "org.uutuc.factory.ConfigurationParameterFactoryTest.PARAM_STRING_1";
+	public static final String PARAM_DOUBLE_2 = "org.uutuc.factory.ConfigurationParameterFactoryTest.PARAM_DOUBLE_2";
 	@ConfigurationParameter(name = PARAM_DOUBLE_2, mandatory = true, defaultValue="3.3333")
 	private Double[] double2;
 	private Double[] double3;

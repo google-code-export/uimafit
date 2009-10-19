@@ -174,6 +174,8 @@ public class CollectionReaderFactory {
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setImplementationName(readerClass.getName());
 		
+		ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory.createConfigurationData(readerClass);
+		ResourceCreationSpecifierFactory.setConfigurationParameters(desc, reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);
 		if(configurationParameters != null)
 			ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters, configurationValues);
 
@@ -185,20 +187,13 @@ public class CollectionReaderFactory {
 		if(typePriorities != null)
 			desc.getCollectionReaderMetaData().setTypePriorities(typePriorities);
 
+		if(capabilities == null) {
+			capabilities = CapabilityFactory.createCapability(readerClass);
+		}
 		if(capabilities != null)
 			desc.getCollectionReaderMetaData().setCapabilities(capabilities);
 		
 		return desc;
-	}
-
-	public static CollectionReaderDescription reflectDescription(Class<? extends CollectionReader> readerClass,
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... cData) throws ResourceInitializationException {
-		
-		ConfigurationData configurationData = ConfigurationParameterFactory.createConfigurationData(readerClass);
-		Capability[] capabilities = CapabilityFactory.createCapability(readerClass);
-		CollectionReaderDescription aed = createDescription(readerClass, typeSystem, typePriorities, capabilities, configurationData.configurationParameters, configurationData.configurationValues);
-		setConfigurationParameters(aed, cData);
-		return aed;
 	}
 
 	public static void setConfigurationParameters(CollectionReaderDescription collectionReaderDescription, Object... configurationData) throws ResourceInitializationException {

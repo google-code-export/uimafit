@@ -193,7 +193,7 @@ public class AnalysisEngineFactoryTest {
 
 	@Test
 	public void testReflectPrimitiveDescription() throws ResourceInitializationException, FileNotFoundException, SAXException, IOException {
-		AnalysisEngineDescription aed = AnalysisEngineFactory.reflectPrimitiveDescription(ParameterizedAE.class, Util.TYPE_SYSTEM_DESCRIPTION, Util.TYPE_PRIORITIES);
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(ParameterizedAE.class, Util.TYPE_SYSTEM_DESCRIPTION, Util.TYPE_PRIORITIES);
 		Capability[] capabilities = aed.getAnalysisEngineMetaData().getCapabilities();
 		assertEquals(1, capabilities.length);
 		String[] inputSofas = capabilities[0].getInputSofas();
@@ -226,7 +226,12 @@ public class AnalysisEngineFactoryTest {
 		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_6, ConfigurationParameter.TYPE_FLOAT, true, true, null);
 		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_7, ConfigurationParameter.TYPE_FLOAT, true, true, new Float[] {1.1111f, 2.2222f, 3.333f});
 		
-
+		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(aed, ParameterizedAE.PARAM_FLOAT_3, 3.1415f, ParameterizedAE.PARAM_FLOAT_6, new Float[] {2.71828183f});
+		Object paramValue = ae.getAnalysisEngineMetaData().getConfigurationParameterSettings().getParameterValue(ParameterizedAE.PARAM_FLOAT_3);
+		assertEquals(paramValue, 3.1415f);
+		paramValue = ae.getAnalysisEngineMetaData().getConfigurationParameterSettings().getParameterValue(ParameterizedAE.PARAM_FLOAT_6);
+		assertEquals(((Float[])paramValue)[0].floatValue(), 2.71828183f, 0.00001f);
+		
 
 	}
 	
