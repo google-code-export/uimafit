@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ import org.apache.uima.analysis_engine.metadata.FixedFlow;
 import org.apache.uima.analysis_engine.metadata.SofaMapping;
 import org.apache.uima.analysis_engine.metadata.impl.FixedFlow_impl;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ExternalResourceDependency;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.metadata.Capability;
@@ -181,6 +183,12 @@ public class AnalysisEngineFactory {
 			op.setModifiesCas(anno.modifiesCas());
 			op.setOutputsNewCASes(anno.outputsNewCases());
 		}
+		
+		// Extract external resource dependencies
+		Collection<ExternalResourceDependency> deps = ExternalResourceConfigurator
+				.analyze(null, componentClass).values();
+		desc.setExternalResourceDependencies(deps
+				.toArray(new ExternalResourceDependency[deps.size()]));
 
 		ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
 				.createConfigurationData(componentClass);
