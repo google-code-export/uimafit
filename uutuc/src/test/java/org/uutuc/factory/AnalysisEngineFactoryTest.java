@@ -238,10 +238,11 @@ public class AnalysisEngineFactoryTest {
 	private void testConfigurationParameter(AnalysisEngineDescription aed, String parameterName, String parameterType, boolean mandatory, boolean multiValued, Object parameterValue) {
 		ConfigurationParameterDeclarations cpd = aed.getMetaData().getConfigurationParameterDeclarations();
 		ConfigurationParameter cp = cpd.getConfigurationParameter(null, parameterName);
-		assertEquals(parameterName, cp.getName());
-		assertEquals(parameterType, cp.getType());
-		assertEquals(mandatory, cp.isMandatory());
-		assertEquals(multiValued, cp.isMultiValued());
+		assertNotNull("Parameter ["+parameterName+"] does not exist!", cp);
+		assertEquals("Parameter ["+parameterName+"] has wrong name", parameterName, cp.getName());
+		assertEquals("Parameter ["+parameterName+"] has wrong type", parameterType, cp.getType());
+		assertEquals("Parameter ["+parameterName+"] has wrong mandatory flag", mandatory, cp.isMandatory());
+		assertEquals("Parameter ["+parameterName+"] has wrong multi-value flag",  multiValued, cp.isMultiValued());
 		ConfigurationParameterSettings cps = aed.getMetaData().getConfigurationParameterSettings();
 		Object actualValue = cps.getParameterValue(parameterName);
 		if(!multiValued) {

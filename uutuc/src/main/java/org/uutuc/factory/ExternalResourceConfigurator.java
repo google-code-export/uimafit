@@ -16,10 +16,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-
 package org.uutuc.factory;
 
-import static org.apache.uima.util.Level.FINEST;
 import static org.uutuc.factory.ExternalResourceFactory.createExternalResourceDependency;
 
 import java.lang.reflect.Field;
@@ -35,7 +33,7 @@ import org.uutuc.descriptor.ExternalResourceLocator;
 
 /**
  * Configurator class for {@link ExternalResource} annotations.
- * 
+ *
  * @author Richard Eckart de Castilho
  */
 public class ExternalResourceConfigurator
@@ -51,97 +49,60 @@ public class ExternalResourceConfigurator
 		throws ResourceInitializationException
 	{
 		try {
-			Map<String, Object> paramIn = new HashMap<String, Object>();
-			for (String name : aContext.getConfigParameterNames()) {
-				paramIn.put(name, aContext.getConfigParameterValue(name));
-			}
-			analyzeComponent(aContext, object.getClass(), object.getClass(),
-					object, null);
+			configure(aContext, object.getClass(), object.getClass(),
+					object, getResourceDeclarations(object.getClass()));
 		}
 		catch (Exception e) {
 			throw new ResourceInitializationException(e);
 		}
 	}
-	
-	/**
-	 * Get a map describing the external dependencies of the given component
-	 * class.
-	 * 
-	 * @param <T> the component type.
-	 * @param aContext UIMA context (used for logging).
-	 * @param aClazz the component class.
-	 * @return External resource dependencies.
-	 * @throws ResourceInitializationException
-	 */
-	public static <T> Map<String, ExternalResourceDependency> analyze(
-			UimaContext aContext, Class<?> aClazz)
-		throws ResourceInitializationException
-	{
-		Map<String, ExternalResourceDependency> deps = 
-			new HashMap<String, ExternalResourceDependency>();
-		analyzeComponent(aContext, aClazz, aClazz, null, deps);
-		return deps;
-	}
 
-	@SuppressWarnings("unchecked")
-	private static <T> void analyzeComponent(
+	/**
+	 * Helper method for recursively configuring super-classes.
+	 *
+	 * @param <T> the component type.
+	 * @param aContext the context containing the resource bindings.
+	 * @param aBaseClazz the class on which configuration started.
+	 * @param aClazz the class currently being configured.
+	 * @param object the object being configured.
+	 * @param aDeps the dependencies.
+	 * @throws ResourceInitializationException if required resources could not
+	 * 		be bound.
+	 */
+	private static <T> void configure(
 			UimaContext aContext, Class<?> aBaseClazz, Class<?> aClazz, T object,
 			Map<String, ExternalResourceDependency> aDeps)
 		throws ResourceInitializationException
 	{
 		try {
-			// Configure super-classes first. This allows sub-classes to
-			// override behaviour
 			if (aClazz.getSuperclass() != null) {
-				analyzeComponent(aContext, aBaseClazz, aClazz.getSuperclass(), object, aDeps);
+				configure(aContext, aBaseClazz, aClazz.getSuperclass(), object, aDeps);
 			}
 
 			for (Field field : aClazz.getDeclaredFields()) {
 				if (!field.isAnnotationPresent(ExternalResource.class)) {
 					continue;
 				}
-				
-				ExternalResource cpa = field.getAnnotation(ExternalResource.class);
-				// If no API is set, get it from the annotated field
-				Class<? extends Resource> api = cpa.api();
-				if (api == Resource.class) {
-					api = (Class<? extends Resource>) field.getType();
-				}
-				
-				// If no name is set, use the field classname as name
-				String key = cpa.key();
-				if (key.length() == 0) {
-					key = field.getType().getName();
+
+				// Obtain the resource
+				Object value = aContext.getResourceObject(getKey(field));
+				if (value instanceof ExternalResourceLocator) {
+					value = ((ExternalResourceLocator) value).getResource();
 				}
 
-				trace(aContext, "Found annotation on field " + field.getName()
-								+ " of type " + field.getType());
-
-				if (aDeps != null) {
-					aDeps.put(key, createExternalResourceDependency(key, api, !cpa.mandatory()));
+				// Sanity checks
+				if (value == null && isMandatory(field)) {
+					throw new ResourceInitializationException(
+							new IllegalStateException("Mandatory resource ["
+									+ getKey(field) + "] is not set on ["+aBaseClazz+"]"));
 				}
-				
-				if (object != null) {
-					// Obtain the resource
-					Object value = aContext.getResourceObject(key);
-					if (value instanceof ExternalResourceLocator) {
-						value = ((ExternalResourceLocator) value).getResource();
-					}
-		
-					// Sanity checks
-					if (value == null && cpa.mandatory()) {
-						throw new ResourceInitializationException(
-								new IllegalStateException("Mandatory resource ["
-										+ key + "] is not set on ["+aBaseClazz+"]"));
-					}
-		
-					// Now record the setting and optionally apply it to the given
-					// instance.
-					if (value != null) {
-						field.setAccessible(true);
-						field.set(object, value);
-						field.setAccessible(false);
-					}
+
+				// Now record the setting and optionally apply it to the given
+				// instance.
+				if (value != null) {
+					field.setAccessible(true);
+					field.set(object, value);
+					field.setAccessible(false);
 				}
 			}
 		}
@@ -153,10 +114,93 @@ public class ExternalResourceConfigurator
 		}
 	}
 
-	private static void trace(UimaContext aContext, String aMsg)
+	public static <T> Map<String, ExternalResourceDependency> getResourceDeclarations(
+			Class<?> aClazz)
+		throws ResourceInitializationException
 	{
-		if (aContext != null) {
-			aContext.getLogger().log(FINEST, aMsg);
+		try {
+			Map<String, ExternalResourceDependency> deps =
+				new HashMap<String, ExternalResourceDependency>();
+			getResourceDeclarations(aClazz, aClazz, deps);
+			return deps;
 		}
+		catch (ResourceInitializationException e) {
+			throw e;
+		}
+		catch (Exception e) {
+			throw new ResourceInitializationException(e);
+		}
+	}
+
+	private static <T> void getResourceDeclarations(
+			Class<?> aBaseClazz, Class<?> aClazz,
+			Map<String, ExternalResourceDependency> aDeps)
+		throws ResourceInitializationException
+	{
+		if (aClazz.getSuperclass() != null) {
+			getResourceDeclarations(aBaseClazz, aClazz.getSuperclass(), aDeps);
+		}
+
+		for (Field field : aClazz.getDeclaredFields()) {
+			if (!field.isAnnotationPresent(ExternalResource.class)) {
+				continue;
+			}
+
+			if (aDeps.containsKey(getKey(field))) {
+				throw new ResourceInitializationException(new IllegalStateException(
+						"Key ["+getKey(field)+"] may only be used on a single field."));
+			}
+
+			aDeps.put(getKey(field), createExternalResourceDependency(getKey(field),
+					getApi(field), !isMandatory(field)));
+		}
+	}
+
+	/**
+	 * Determine if the field is mandatory.
+	 *
+	 * @param field the field to bind.
+	 * @return whether the field is mandatory.
+	 */
+	private static boolean isMandatory(Field field)
+	{
+		return field.getAnnotation(ExternalResource.class).mandatory();
+	}
+
+	/**
+	 * Get the binding key for the specified field. If no key is set, use the
+	 * field class name as key.
+	 *
+	 * @param field the field to bind.
+	 * @return the binding key.
+	 */
+	private static String getKey(Field field)
+	{
+		ExternalResource cpa = field.getAnnotation(ExternalResource.class);
+		String key = cpa.key();
+		if (key.length() == 0) {
+			key = field.getType().getName();
+		}
+		return key;
+	}
+
+	/**
+	 * Get the type of class/interface a resource has to implement to bind to
+	 * the annotated field. If no API is set, get it from the annotated field
+	 * type.
+	 *
+	 * @param field the field to bind.
+	 * @return the API type.
+	 */
+	@SuppressWarnings("unchecked")
+	private static Class<? extends Resource> getApi(Field field)
+	{
+		ExternalResource cpa = field.getAnnotation(ExternalResource.class);
+		// If no API is set, get it from the annotated field
+		Class<? extends Resource> api = cpa.api();
+		if (api == Resource.class) {
+			api = (Class<? extends Resource>) field.getType();
+		}
+		return api;
 	}
 }

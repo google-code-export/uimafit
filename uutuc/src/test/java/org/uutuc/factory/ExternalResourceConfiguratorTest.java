@@ -44,7 +44,7 @@ public class ExternalResourceConfiguratorTest
 	@Test
 	public void testAnalyze() throws Exception
 	{
-		Map<String, ExternalResourceDependency> deps = analyze(null, ParameterizedAE2.class);
+		Map<String, ExternalResourceDependency> deps = getResourceDeclarations(ParameterizedAE2.class);
 
 		verify(deps);
 	}
