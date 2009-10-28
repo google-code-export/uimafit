@@ -16,9 +16,15 @@
 */
 package org.uutuc.factory;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Point;
+import java.lang.reflect.Field;
 
 import org.apache.uima.UIMA_IllegalArgumentException;
 import org.junit.Test;
@@ -38,6 +44,7 @@ public class ConfigurationParameterFactoryTest {
 	@ConfigurationParameter(name = PARAM_DOUBLE_2, mandatory = true, defaultValue="3.3333")
 	private Double[] double2;
 	private Double[] double3;
+	
 	
 	
 	public Double[] getDouble2() {
@@ -123,4 +130,79 @@ public class ConfigurationParameterFactoryTest {
 		assertNotNull(uiae);
 		
 	}
+	
+	@ConfigurationParameter
+	public String param1;
+
+	@Test
+	public void testParam1() throws Exception, NoSuchFieldException {
+		Field field1 =ConfigurationParameterFactoryTest.class.getDeclaredField("param1"); 
+		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field1);
+		assertEquals("org.uutuc.factory.ConfigurationParameterFactoryTest.param1", cp.getName());
+		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING, cp.getType());
+		assertEquals("", cp.getDescription());
+		assertFalse(cp.isMandatory());
+		assertFalse(cp.isMultiValued());
+		assertNull(ConfigurationParameterFactory.getDefaultValue(field1));
+	}
+	
+	@SuppressWarnings("unused")
+	@ConfigurationParameter(
+			name = "my-boolean-param",
+			mandatory = true,
+			description = "my description",
+			defaultValue = {"false", "false", "true"})
+	private boolean[] param2;
+
+	@Test
+	public void testParam2() throws Exception, NoSuchFieldException {
+		Field field2 =ConfigurationParameterFactoryTest.class.getDeclaredField("param2"); 
+		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field2);
+		assertEquals("my-boolean-param", cp.getName());
+		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_BOOLEAN, cp.getType());
+		assertEquals("my description", cp.getDescription());
+		assertTrue(cp.isMandatory());
+		assertTrue(cp.isMultiValued());
+		Boolean[] defaultValue =  (Boolean[])ConfigurationParameterFactory.getDefaultValue(field2);
+		assertFalse(defaultValue[0]);
+		assertFalse(defaultValue[1]);
+		assertTrue(defaultValue[2]);
+	}
+
+
+	@SuppressWarnings("unused")
+	@ConfigurationParameter
+	private Integer param3;
+
+	@Test
+	public void testParam3() throws Exception, NoSuchFieldException {
+		Field field3 =ConfigurationParameterFactoryTest.class.getDeclaredField("param3"); 
+		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field3);
+		assertEquals("org.uutuc.factory.ConfigurationParameterFactoryTest.param3", cp.getName());
+		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_INTEGER, cp.getType());
+		assertEquals("", cp.getDescription());
+		assertFalse(cp.isMandatory());
+		assertFalse(cp.isMultiValued());
+		assertNull(ConfigurationParameterFactory.getDefaultValue(field3));
+	}
+
+	private static class CPFT {
+		@SuppressWarnings("unused")
+		@ConfigurationParameter(
+				defaultValue= {"a","b","c"})
+		private String[] param4;
+	}
+	
+	@Test
+	public void testParam4() throws Exception, NoSuchFieldException {
+		Field field4 =CPFT.class.getDeclaredField("param4"); 
+		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field4);
+		assertEquals("org.uutuc.factory.ConfigurationParameterFactoryTest$CPFT.param4", cp.getName());
+		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING, cp.getType());
+		assertEquals("", cp.getDescription());
+		assertFalse(cp.isMandatory());
+		assertTrue(cp.isMultiValued());
+		assertArrayEquals(new String[] {"a","b","c"}, (String[])ConfigurationParameterFactory.getDefaultValue(field4) );
+	}
+
 }
