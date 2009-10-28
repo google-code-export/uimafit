@@ -138,9 +138,13 @@ public class ConfigurationParameterFactory {
 	public static ConfigurationParameter createPrimitiveParameter(Field field) {
 		if (isConfigurationParameterField(field)) {
 			org.uutuc.descriptor.ConfigurationParameter annotation = field.getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);
+			String name = annotation.name();
+			if(name.equals(org.uutuc.descriptor.ConfigurationParameter.USE_FIELD_NAME)) {
+				name = field.getDeclaringClass().getName()+"."+field.getName();
+			}
 			boolean multiValued = isMultiValued(field); 
 			String parameterType = getConfigurationParameterType(field);
-			return createPrimitiveParameter(annotation.name(), parameterType, annotation.description(), multiValued, annotation.mandatory());
+			return createPrimitiveParameter(name, parameterType, annotation.description(), multiValued, annotation.mandatory());
 		}
 		else {
 			throw new IllegalArgumentException("field is not annotated with annotation of type "
