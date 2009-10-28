@@ -19,10 +19,13 @@ package org.uutuc.factory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.uima.Constants;
 import org.apache.uima.UIMAException;
 import org.apache.uima.UIMAFramework;
+import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.collection.CollectionReaderDescription;
 import org.apache.uima.collection.impl.CollectionReaderDescription_impl;
@@ -31,6 +34,8 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.metadata.Capability;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
+import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
+import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.resource.metadata.impl.Import_impl;
@@ -126,7 +131,8 @@ public class CollectionReaderFactory {
 	}
 
 	
-	public static CollectionReader createCollectionReader(CollectionReaderDescription desc) throws ResourceInitializationException {
+	@SuppressWarnings("unchecked")
+	public static CollectionReader createCollectionReader(CollectionReaderDescription desc, Object... configurationData) throws ResourceInitializationException {
 		// create the CollectionReader
 		CollectionReader reader;
 		try {
@@ -135,8 +141,26 @@ public class CollectionReaderFactory {
 		catch (Exception e) {
 			throw new ResourceInitializationException(e);
 		}
-		reader.initialize(desc, null);
+		
+		if (configurationData != null) {
+			ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
+			ConfigurationParameter[] configurationParameters = cdata.configurationParameters;
+			Object[] configurationValues = cdata.configurationValues;
+			ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters, configurationValues);
+			ResourceMetaData metaData = desc.getMetaData();
+			ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();
+			Map additionalParameters = new HashMap();
+			additionalParameters.put(AnalysisEngine.PARAM_CONFIG_PARAM_SETTINGS, paramSettings);
+			reader.initialize(desc, additionalParameters);
+		}
+		else {
+			reader.initialize(desc, null);
+		}
 		return reader;
+		
+		
+		
+
 	}
 
 	
