@@ -57,7 +57,14 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface ConfigurationParameter {
 
-	String name();
+	public static final String USE_FIELD_NAME = "org.uutuc.descriptor.ConfigurationParameter.USE_FIELD_NAME";
+
+	/**
+	 * If you do not specify a name then the default name will be given by {@link #USE_FIELD_NAME} will be the default name.  This 
+	 * tells ConfigurationParameterFactory to use the name of the annotated field as the name of the configuration parameter.
+	 * @return
+	 */
+	String name() default USE_FIELD_NAME;
 
 	String description() default "";
 
@@ -85,14 +92,6 @@ public @interface ConfigurationParameter {
 	 * If you want a field to be initialized with a null value, then do not specify a default value or specify the value given by the field {@link #NO_DEFAULT_VALUE}
 	 */
 	String[] defaultValue() default NO_DEFAULT_VALUE;
-
-	public static final String TYPE_STRING = org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING;
-
-	public static final String TYPE_BOOLEAN = org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_BOOLEAN;
-
-	public static final String TYPE_INTEGER = org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_INTEGER;
-
-	public static final String TYPE_FLOAT = org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_FLOAT;
 
 	public static final String NO_DEFAULT_VALUE = "org.uutuc.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE";
 
