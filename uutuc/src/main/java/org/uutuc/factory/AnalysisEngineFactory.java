@@ -1,17 +1,17 @@
-/*
- Copyright 2009 Regents of the University of Colorado.
- All rights reserved.
+/* 
+ Copyright 2009 Regents of the University of Colorado.  
+ All rights reserved. 
 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+ Licensed under the Apache License, Version 2.0 (the "License"); 
+ you may not use this file except in compliance with the License. 
+ You may obtain a copy of the License at 
 
- http://www.apache.org/licenses/LICENSE-2.0
+ http://www.apache.org/licenses/LICENSE-2.0 
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
+ Unless required by applicable law or agreed to in writing, software 
+ distributed under the License is distributed on an "AS IS" BASIS, 
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ See the License for the specific language governing permissions and 
  limitations under the License.
  */
 
@@ -57,16 +57,16 @@ import org.apache.uima.util.FileUtils;
 import org.uutuc.factory.ConfigurationParameterFactory.ConfigurationData;
 
 /**
- *
+ * 
  * @author Steven Bethard, Philip Ogren
- *
+ * 
  */
 public class AnalysisEngineFactory {
 
 	/**
 	 * Get an AnalysisEngine from the name (Java-style, dotted) of an XML
 	 * descriptor file, and a set of configuration parameters.
-	 *
+	 * 
 	 * @param descriptorName
 	 *            The fully qualified, Java-style, dotted name of the XML
 	 *            descriptor file.
@@ -92,7 +92,7 @@ public class AnalysisEngineFactory {
 	/**
 	 * Get an AnalysisEngine from an XML descriptor file and a set of
 	 * configuration parameters.
-	 *
+	 * 
 	 * @param descriptorPath
 	 *            The path to the XML descriptor file.
 	 * @param configurationData
@@ -114,7 +114,7 @@ public class AnalysisEngineFactory {
 	/**
 	 * Get an AnalysisEngine from an AnalysisComponent class, a type system and
 	 * a set of configuration parameters.
-	 *
+	 * 
 	 * @param componentClass
 	 *            The class of the AnalysisComponent to be created as an
 	 *            AnalysisEngine.
@@ -185,10 +185,9 @@ public class AnalysisEngineFactory {
 		}
 
 		// Extract external resource dependencies
-		Collection<ExternalResourceDependency> deps = ExternalResourceConfigurator
-				.getResourceDeclarations(componentClass).values();
-		desc.setExternalResourceDependencies(deps
-				.toArray(new ExternalResourceDependency[deps.size()]));
+		Collection<ExternalResourceDependency> deps = ExternalResourceConfigurator.getResourceDeclarations(
+				componentClass).values();
+		desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps.size()]));
 
 		ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
 				.createConfigurationData(componentClass);
@@ -245,17 +244,10 @@ public class AnalysisEngineFactory {
 			ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
 			ConfigurationParameter[] configurationParameters = cdata.configurationParameters;
 			Object[] configurationValues = cdata.configurationValues;
+			ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters,
+					configurationValues);
 			ResourceMetaData metaData = desc.getMetaData();
-			ConfigurationParameterDeclarations paramDecls = metaData.getConfigurationParameterDeclarations();
 			ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();
-			for (int i = 0; i < configurationParameters.length; i++) {
-				if (paramDecls != null
-						&& paramDecls.getConfigurationParameter(null, configurationParameters[i].getName()) == null) {
-					paramDecls
-					.addConfigurationParameter(configurationParameters[i]);
-				}
-				paramSettings.setParameterValue(configurationParameters[i].getName(), configurationValues[i]);
-			}
 			Map additionalParameters = new HashMap();
 			additionalParameters.put(AnalysisEngine.PARAM_CONFIG_PARAM_SETTINGS, paramSettings);
 			engine.initialize(desc, additionalParameters);
@@ -365,7 +357,7 @@ public class AnalysisEngineFactory {
 	/**
 	 * Creates an AnalysisEngine from the given descriptor, and uses the engine
 	 * to process the file or text.
-	 *
+	 * 
 	 * @param descriptorFileName
 	 *            The fully qualified, Java-style, dotted name of the XML
 	 *            descriptor file.
@@ -386,7 +378,7 @@ public class AnalysisEngineFactory {
 
 	/**
 	 * Processes the file or text with the given AnalysisEngine.
-	 *
+	 * 
 	 * @param analysisEngine
 	 *            The AnalysisEngine object to process the text.
 	 * @param fileNameOrText
