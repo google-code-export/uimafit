@@ -21,6 +21,7 @@ package org.uutuc.factory;
 
 import static java.util.Arrays.asList;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,13 +31,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.resource.CustomResourceSpecifier;
 import org.apache.uima.resource.Parameter;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.impl.ConfigurationParameter_impl;
+import org.uutuc.descriptor.ConfigurationParameter;
+import org.uutuc.factory.converters.BooleanConverter;
+import org.uutuc.factory.converters.Converter;
+import org.uutuc.factory.converters.FloatConverter;
+import org.uutuc.factory.converters.IntegerConverter;
+import org.uutuc.factory.converters.MatcherConverter;
+import org.uutuc.factory.converters.NullConverter;
+import org.uutuc.factory.converters.StringConverter;
 
 /**
  * Access or interpret parameter annotations on UIMA components. A component
@@ -50,7 +58,8 @@ public final class ConfigurationParameterConfigurator
 	public static enum Cardinality { ZERO, ONE, ONE_OR_MORE, ZERO_OR_MORE }
 
 	private static final Map<Class<?>, Class<?>> typeMapping;
-	private static final Map<Class<?>, Class<?>> uimaTypeMapping;
+//	private static final Map<Class<?>, Class<?>> uimaTypeMapping;
+	private static final Map<Class<?>, Class<? extends Converter>> defaultConverters;
 
 	static {
 		// Legal field types and with which type of object to fill them
@@ -61,16 +70,25 @@ public final class ConfigurationParameterConfigurator
 		typeMapping.put(Integer.TYPE, Integer.class);
 		typeMapping.put(Float.class, Float.class);
 		typeMapping.put(Float.TYPE, Float.class);
-		typeMapping.put(String.class, String.class);
-		typeMapping.put(Matcher.class, Matcher.class);
 
-		// How field types map to UIMA types.
-		uimaTypeMapping = new HashMap<Class<?>, Class<?>>();
-		uimaTypeMapping.put(Boolean.class, Boolean.class);
-		uimaTypeMapping.put(Integer.class, Integer.class);
-		uimaTypeMapping.put(Float.class, Float.class);
-		uimaTypeMapping.put(String.class, String.class);
-		uimaTypeMapping.put(Matcher.class, String.class);
+//
+//		// How field types map to UIMA types.
+//		uimaTypeMapping = new HashMap<Class<?>, Class<?>>();
+//		uimaTypeMapping.put(Boolean.class, Boolean.class);
+//		uimaTypeMapping.put(Integer.class, Integer.class);
+//		uimaTypeMapping.put(Float.class, Float.class);
+//		uimaTypeMapping.put(String.class, String.class);
+//		uimaTypeMapping.put(Matcher.class, String.class);
+
+		defaultConverters = new HashMap<Class<?>, Class<? extends Converter>>();
+		defaultConverters.put(Boolean.class, BooleanConverter.class);
+		defaultConverters.put(Boolean.TYPE, BooleanConverter.class);
+		defaultConverters.put(Integer.class, IntegerConverter.class);
+		defaultConverters.put(Integer.TYPE, IntegerConverter.class);
+		defaultConverters.put(Float.class, FloatConverter.class);
+		defaultConverters.put(Float.TYPE, FloatConverter.class);
+		defaultConverters.put(String.class, StringConverter.class);
+		defaultConverters.put(Matcher.class, MatcherConverter.class);
 	}
 
 	private ConfigurationParameterConfigurator()
@@ -162,13 +180,13 @@ public final class ConfigurationParameterConfigurator
 				// Obtain the parameter value from the provided map
 				Object[] value = null;
 				if (aParam.get(getParameterName(field)) != null) {
-					value = toObjectArray(aParam.get(getParameterName(field)));
+					value = cook(field, toObjectArray(aParam.get(getParameterName(field))));
 				}
 
 				// If the caller did not provide the parameter, try to get a
 				// default value
 				if (value == null) {
-					value = getDefaultValue(field);
+					value = cook(field, getDefaultValue(field));
 				}
 
 				// Check for the presence of mandatory parameters.
@@ -314,13 +332,20 @@ public final class ConfigurationParameterConfigurator
 					continue;
 				}
 
+				Converter converter = getConverter(field);
+
+				if (converter == null) {
+					throw new ResourceInitializationException(
+							new IllegalStateException("No converter found for field ["+field.getName()+"]"));
+				}
+
 				org.apache.uima.resource.metadata.ConfigurationParameter param =
 					new ConfigurationParameter_impl();
 				param.setDescription(getDescripton(field));
 				param.setMandatory(isMandatory(field));
 				param.setMultiValued(isMultiValue(field));
 				param.setName(getParameterName(field));
-				param.setType(getUimaType(getType(field)).getSimpleName());
+				param.setType(converter.getUimaType().getSimpleName());
 
 				if (aParam.containsKey(getParameterName(field))) {
 					throw new ResourceInitializationException(
@@ -439,7 +464,6 @@ public final class ConfigurationParameterConfigurator
 //			else if (field.isAnnotationPresent(DefaultValueString.class)) {
 //				return String.class;
 //			}
-			// This is currently open to discussion
 			return null;
 //			throw new IllegalArgumentException("Collection field ["
 //					+ field.getName() + "] in class ["
@@ -454,32 +478,40 @@ public final class ConfigurationParameterConfigurator
 				type = type.getComponentType();
 			}
 
-			if (typeMapping.get(type) == null) {
-				throw new IllegalArgumentException("Fields of type ["+type+
-						"] are not supported");
+			if (typeMapping.get(type) != null) {
+				return typeMapping.get(type);
 			}
-
-			return typeMapping.get(type);
+			else {
+				return type;
+			}
 		}
 	}
 
-	/**
-	 * Get the type to be set in the UIMA descriptor.
-	 *
-	 * @param type field data type.
-	 * @return the UIMA type.
-	 */
-	private static Class<?> getUimaType(Class<?> type)
+	private static Converter getConverter(Field field)
+		throws ResourceInitializationException
 	{
-		if (type == null) {
-			return String.class;
+		try {
+			Class<? extends Converter> clazz;
+
+			if (field.isAnnotationPresent(ConfigurationParameter.class)) {
+				clazz = field.getAnnotation(ConfigurationParameter.class).converter();
+				if (clazz.equals(NullConverter.class)) {
+					clazz = defaultConverters.get(getType(field));
+				}
+			}
+			else {
+				clazz = defaultConverters.get(getType(field));
+			}
+
+			if (clazz == null) {
+				// ERROR
+				return null;
+			}
+
+			return clazz.newInstance();
 		}
-		else if (uimaTypeMapping.get(type) == null) {
-			throw new IllegalArgumentException("Fields of type ["+type+
-					"] are not supported");
-		}
-		else {
-			return uimaTypeMapping.get(type);
+		catch (Exception e) {
+			throw new ResourceInitializationException(e);
 		}
 	}
 
@@ -505,10 +537,6 @@ public final class ConfigurationParameterConfigurator
 			requireCardinality(value, Cardinality.ZERO_OR_MORE);
 			field.set(object, value);
 		}
-		else if (field.getType().isAssignableFrom(Matcher.class)) {
-			requireCardinality(value, Cardinality.ONE);
-			field.set(object, Pattern.compile((String) value[0]).matcher(""));
-		}
 		else {
 			requireCardinality(value, Cardinality.ONE);
 			field.set(object, (value)[0]);
@@ -522,105 +550,100 @@ public final class ConfigurationParameterConfigurator
 	 *
 	 * @param field the field.
 	 * @return the default value or null if no value is specified.
+	 * @throws ResourceInitializationException
 	 */
 	private static Object[] getDefaultValue(Field field)
+		throws ResourceInitializationException
 	{
-		// Alternative means of getting a default value, e.g. via a converter
-		// are currently being discussed.
-		// Get the default value for DKPro-style annotations.
+//		// Get the default value for DKPro-style annotations.
 //		if (field.isAnnotationPresent(ConfigurationParameter.class)) {
-//			Object result[] = null;
+//			Object raw[] = null;
 //			// Convert String values
 //			if (field.isAnnotationPresent(DefaultValueString.class)) {
-//				result = field.getAnnotation(DefaultValueString.class).value();
+//				raw = field.getAnnotation(DefaultValueString.class).value();
 //			}
 //
 //			// Convert Boolean/boolean values
 //			else if (field.isAnnotationPresent(DefaultValueBoolean.class)) {
-//				result = toObjectArray(field.getAnnotation(DefaultValueBoolean.class).value());
+//				raw = toObjectArray(field.getAnnotation(DefaultValueBoolean.class).value());
 //			}
 //
 //			// Convert Integer/integer values
 //			else if (field.isAnnotationPresent(DefaultValueInteger.class)) {
-//				result = toObjectArray(field.getAnnotation(DefaultValueInteger.class).value());
+//				raw = toObjectArray(field.getAnnotation(DefaultValueInteger.class).value());
 //			}
 //
 //			// Convert Float/float values
 //			else if (field.isAnnotationPresent(DefaultValueFloat.class)) {
-//				result = toObjectArray(field.getAnnotation(DefaultValueFloat.class).value());
+//				raw = toObjectArray(field.getAnnotation(DefaultValueFloat.class).value());
 //			}
 //
-//			return result;
+//			return raw;
 //		}
-		// Get the default value for UUTUC-style annotations.
+//		// Get the default value for UUTUC-style annotations.
 //		else
 		if (field.isAnnotationPresent(org.uutuc.descriptor.ConfigurationParameter.class)) {
 			org.uutuc.descriptor.ConfigurationParameter cpa =
 					field.getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);
-			String[] values = cpa.defaultValue();
+			String[] raw = cpa.defaultValue();
 
 			// No default value
-			if (values.length == 1
+			if (raw.length == 1
 					&& org.uutuc.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE
-							.equals(values[0])) {
+							.equals(raw[0])) {
 				return null;
 			}
 
-			if (isCollection(field)) {
-				throw new IllegalArgumentException(
-						"UUTUC-style annotations do not support collection types");
-			}
+			Converter converter = getConverter(field);
 
-			Object[] result;
-			Class<?> type = getType(field);
-
-			if (type == null) {
-				return null; // FIXME! NO TYPE SHOULD BE AN ERROR!
-			}
-
-			// Convert String values
-			if (type.isAssignableFrom(String.class)) {
-				result = values;
-			}
+			Class<?> type = converter.getResultType();
 
 			// Convert Boolean/boolean values
-			else if (type.isAssignableFrom(Boolean.class)) {
-				Boolean[] t = new Boolean[values.length];
+			if (type.isAssignableFrom(Boolean.class)) {
+				Boolean[] t = new Boolean[raw.length];
 				for (int i = 0; i < t.length; i++) {
-					t[i] = Boolean.parseBoolean(values[i]);
+					t[i] = Boolean.parseBoolean(raw[i]);
 				}
-				result = t;
+				return t;
 			}
 
 			// Convert Integer/integer values
 			else if (type.isAssignableFrom(Integer.class)) {
-				Integer[] t = new Integer[values.length];
+				Integer[] t = new Integer[raw.length];
 				for (int i = 0; i < t.length; i++) {
-					t[i] = Integer.parseInt(values[i]);
+					t[i] = Integer.parseInt(raw[i]);
 				}
-				result = t;
+				return t;
 			}
 
 			// Convert Float/float values
 			else if (type.isAssignableFrom(Float.class)) {
-				Float[] t = new Float[values.length];
+				Float[] t = new Float[raw.length];
 				for (int i = 0; i < t.length; i++) {
-					t[i] = Float.parseFloat(values[i]);
+					t[i] = Float.parseFloat(raw[i]);
 				}
-				result = t;
+				return t;
 			}
-
-			// Unknown type
 			else {
-				throw new IllegalArgumentException("Unsupported type ["
-						+ type + "]");
+				return raw;
 			}
-			return result;
 		}
 		else {
 			throw new IllegalArgumentException("Field [" + field
 					+ "] carries no ConfigurationParameter annotation");
 		}
+	}
+
+	private static Object[] cook(Field field, Object[] raw)
+		throws ResourceInitializationException
+	{
+		Converter converter = getConverter(field);
+		Object cooked[] = (Object[]) Array.newInstance(converter
+				.getResultType(), raw.length);
+		for (int i = 0; i < raw.length; i++) {
+			cooked[i] = converter.convert(raw[i]);
+		}
+		return cooked;
 	}
 
 	/**
