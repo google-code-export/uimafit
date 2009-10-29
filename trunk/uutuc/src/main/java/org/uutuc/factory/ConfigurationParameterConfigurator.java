@@ -314,11 +314,6 @@ public final class ConfigurationParameterConfigurator
 					continue;
 				}
 
-				Class<?> type = getType(field);
-				if (type == null) {
-					continue; // FIXME! NO TYPE SHOULD BE AN ERROR!
-				}
-
 				org.apache.uima.resource.metadata.ConfigurationParameter param =
 					new ConfigurationParameter_impl();
 				param.setDescription(getDescripton(field));
@@ -445,7 +440,7 @@ public final class ConfigurationParameterConfigurator
 //				return String.class;
 //			}
 			// This is currently open to discussion
-			return null; // FIXME! NO TYPE SHOULD BE AN ERROR!
+			return null;
 //			throw new IllegalArgumentException("Collection field ["
 //					+ field.getName() + "] in class ["
 //					+ field.getDeclaringClass().getName() + "] needs a "
@@ -464,7 +459,7 @@ public final class ConfigurationParameterConfigurator
 						"] are not supported");
 			}
 
-			return typeMapping.get(type); // FIXME! NO TYPE SHOULD BE AN ERROR!
+			return typeMapping.get(type);
 		}
 	}
 
@@ -476,7 +471,10 @@ public final class ConfigurationParameterConfigurator
 	 */
 	private static Class<?> getUimaType(Class<?> type)
 	{
-		if (uimaTypeMapping.get(type) == null) {
+		if (type == null) {
+			return String.class;
+		}
+		else if (uimaTypeMapping.get(type) == null) {
 			throw new IllegalArgumentException("Fields of type ["+type+
 					"] are not supported");
 		}
