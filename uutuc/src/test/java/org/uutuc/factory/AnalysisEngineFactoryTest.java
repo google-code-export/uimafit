@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -226,7 +227,8 @@ public class AnalysisEngineFactoryTest {
 		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_6, ConfigurationParameter.TYPE_FLOAT, true, true, null);
 		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_7, ConfigurationParameter.TYPE_FLOAT, true, true, new Float[] {1.1111f, 2.2222f, 3.333f});
 		
-		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(aed, ParameterizedAE.PARAM_FLOAT_3, 3.1415f, ParameterizedAE.PARAM_FLOAT_6, new Float[] {2.71828183f});
+		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(aed, ParameterizedAE.PARAM_FLOAT_3, 3.1415f, ParameterizedAE.PARAM_FLOAT_6, new Float[] {2.71828183f},
+				"file2", "foo/bar");
 		Object paramValue = ae.getAnalysisEngineMetaData().getConfigurationParameterSettings().getParameterValue(ParameterizedAE.PARAM_FLOAT_3);
 		assertEquals(paramValue, 3.1415f);
 		paramValue = ae.getAnalysisEngineMetaData().getConfigurationParameterSettings().getParameterValue(ParameterizedAE.PARAM_FLOAT_6);
@@ -245,25 +247,17 @@ public class AnalysisEngineFactoryTest {
 		assertEquals("Parameter ["+parameterName+"] has wrong multi-value flag",  multiValued, cp.isMultiValued());
 		ConfigurationParameterSettings cps = aed.getMetaData().getConfigurationParameterSettings();
 		Object actualValue = cps.getParameterValue(parameterName);
-		if(!multiValued) {
-			if(parameterValue == null)
-				assertNull(actualValue);
-			else if(parameterType.equals(ConfigurationParameter.TYPE_FLOAT))
+		if (parameterValue == null) {
+			assertNull(actualValue);
+		} else if (!multiValued) {
+			if(parameterType.equals(ConfigurationParameter.TYPE_FLOAT))
 				assertEquals(((Float)parameterValue).floatValue(), ((Float) actualValue).floatValue(), .001f);
 			else 
 				assertEquals(parameterValue, actualValue);
 		} else {
-			if(parameterType.equals(ConfigurationParameter.TYPE_BOOLEAN)) {
-				assertArrayEquals((Boolean[])parameterValue, (Boolean[])actualValue);
-			}
-			else if(parameterType.equals(ConfigurationParameter.TYPE_FLOAT)) {
-				assertArrayEquals((Float[])parameterValue, (Float[])actualValue);
-			}
-			if(parameterType.equals(ConfigurationParameter.TYPE_INTEGER)) {
-				assertArrayEquals((Integer[])parameterValue, (Integer[])actualValue);
-			}
-			if(parameterType.equals(ConfigurationParameter.TYPE_STRING)) {
-				assertArrayEquals((String[])parameterValue, (String[])actualValue);
+			assertEquals(Array.getLength(parameterValue), Array.getLength(actualValue));
+			for (int i = 0; i < Array.getLength(parameterValue); ++i) {
+				assertEquals(Array.get(parameterValue, i), Array.get(actualValue, i));
 			}
 		}
 		

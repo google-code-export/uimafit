@@ -24,7 +24,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Point;
+import java.io.File;
 import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.uima.UIMA_IllegalArgumentException;
 import org.junit.Test;
@@ -85,21 +88,12 @@ public class ConfigurationParameterFactoryTest {
 
 	@Test
 	public void test1() throws SecurityException, NoSuchFieldException {
-		UIMA_IllegalArgumentException uiae = null;
-		try {
-		ConfigurationParameterFactory.getDefaultValue(ConfigurationParameterFactoryTest.class.getDeclaredField("double1"));
-		}catch(UIMA_IllegalArgumentException e) {
-			uiae = e;
-		}
-		assertNotNull(uiae);
+		Float value = (Float)ConfigurationParameterFactory.getDefaultValue(ConfigurationParameterFactoryTest.class.getDeclaredField("double1"));
+		assertEquals(3.1415, value, 1e-4);
 
-		uiae = null;
-		try {
-		ConfigurationParameterFactory.getDefaultValue(ConfigurationParameterFactoryTest.class.getDeclaredField("double2"));
-		}catch(UIMA_IllegalArgumentException e) {
-			uiae = e;
-		}
-		assertNotNull(uiae);
+		Float[] values = (Float[])ConfigurationParameterFactory.getDefaultValue(ConfigurationParameterFactoryTest.class.getDeclaredField("double2"));
+		assertEquals(1, values.length);
+		assertEquals(3.3333, values[0], 1e-4);
 
 		IllegalArgumentException iae = null;
 		try {
@@ -203,6 +197,41 @@ public class ConfigurationParameterFactoryTest {
 		assertFalse(cp.isMandatory());
 		assertTrue(cp.isMultiValued());
 		assertArrayEquals(new String[] {"a","b","c"}, (String[])ConfigurationParameterFactory.getDefaultValue(field4) );
+	}
+	
+	@SuppressWarnings("unused")
+	@ConfigurationParameter(defaultValue={"data/foo", "bar"})
+	private List<File> fileList;
+
+	@Test
+	public void testFileList() throws Exception {
+		Field field = this.getClass().getDeclaredField("fileList");
+		org.apache.uima.resource.metadata.ConfigurationParameter param;
+		param = ConfigurationParameterFactory.createPrimitiveParameter(field);
+		assertEquals(this.getClass().getName() + ".fileList", param.getName());
+		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING, param.getType());
+		assertEquals("", param.getDescription());
+		assertFalse(param.isMandatory());
+		String[] expected = new String[] {"data/foo","bar"};
+		String[] actual = (String[]) ConfigurationParameterFactory.getDefaultValue(field);
+		assertArrayEquals(expected, actual);
+	}
+	
+	@SuppressWarnings("unused")
+	@ConfigurationParameter(defaultValue={"5", "5", "4", "3"})
+	private Set<String> stringSet;
+
+	@Test
+	public void testStringSet() throws Exception {
+		Field field = this.getClass().getDeclaredField("stringSet");
+		org.apache.uima.resource.metadata.ConfigurationParameter param;
+		param = ConfigurationParameterFactory.createPrimitiveParameter(field);
+		assertEquals(this.getClass().getName() + ".stringSet", param.getName());
+		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING, param.getType());
+		assertFalse(param.isMandatory());
+		String[] expected = new String[] {"5", "5", "4", "3"};
+		String[] actual = (String[]) ConfigurationParameterFactory.getDefaultValue(field);
+		assertArrayEquals(expected, actual);
 	}
 
 }

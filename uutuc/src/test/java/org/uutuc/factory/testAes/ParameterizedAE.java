@@ -16,6 +16,12 @@
 */
 package org.uutuc.factory.testAes;
 
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
+
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -52,7 +58,29 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	public static final String PARAM_STRING_5 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_STRING_5";
 	@ConfigurationParameter(name = PARAM_STRING_5, mandatory = false, defaultValue="")
 	private String[] string5;
+	
+	@ConfigurationParameter(name="strings6", defaultValue = {"kiwi fruit", "grape", "pear"})
+	private Set<String> strings6;
 
+	public Set<String> getStrings6() {
+		return strings6;
+	}
+
+	@ConfigurationParameter(name="strings7")
+	private Set<String> strings7;
+
+	public Set<String> getStrings7() {
+		return strings7;
+	}
+
+	public Set<String> getStrings8() {
+		return strings8;
+	}
+
+	@ConfigurationParameter(name="strings8", defaultValue="cherry")
+	private Set<String> strings8;
+	
+	
 	public static final String PARAM_BOOLEAN_1 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_1";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_1, mandatory = true, defaultValue = "false")
 	private boolean boolean1;
@@ -60,6 +88,12 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	public static final String PARAM_BOOLEAN_2 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_2";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_2)
 	private Boolean boolean2;
+	@ConfigurationParameter
+	private boolean boolean2b;
+
+	public boolean isBoolean2b() {
+		return boolean2b;
+	}
 
 	public static final String PARAM_BOOLEAN_3 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_3";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_3, mandatory = true, defaultValue = { "true", "true", "false" })
@@ -72,6 +106,13 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	public static final String PARAM_BOOLEAN_5 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_5";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_5, mandatory = true, defaultValue="false")
 	private boolean[] boolean5;
+	
+	@ConfigurationParameter(name = "booleans6", defaultValue = {"true", "true", "true", "false"})
+	private LinkedList<Boolean> booleans6;
+
+	public LinkedList<Boolean> getBooleans6() {
+		return booleans6;
+	}
 
 	public static final String PARAM_INT_1= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_INT_1";
 	@ConfigurationParameter(name = PARAM_INT_1, mandatory = true, defaultValue="0")
@@ -89,6 +130,19 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(name = PARAM_INT_4, defaultValue= "2", mandatory = true)
 	private Integer[] int4;
 
+	@ConfigurationParameter(name = "ints5", defaultValue= "2")
+	private List<Integer> ints5;
+
+	public List<Integer> getInts5() {
+		return ints5;
+	}
+
+	public List<Integer> getInts6() {
+		return ints6;
+	}
+
+	@ConfigurationParameter(name = "ints6", defaultValue= {"1", "2", "3", "4", "5"})
+	private List<Integer> ints6;
 
 	public static final String PARAM_FLOAT_1= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_FLOAT_1";
 	@ConfigurationParameter(name = PARAM_FLOAT_1, mandatory = true, defaultValue="0.0f")
@@ -118,38 +172,79 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(name = PARAM_FLOAT_7, mandatory = true, defaultValue= {"1.1111f", "2.2222f", "3.333f"})
 	private Float[] float7;
 
-	public float[] getFloat4() {
-		return float4;
+	@ConfigurationParameter(name = "file1", mandatory = true, defaultValue= "test/data/file")
+	private File file1;
+	@ConfigurationParameter(name = "file1b", mandatory = true, defaultValue= {"test/data/file", "test/data/file2"})
+	private File file1b;
+	@ConfigurationParameter(name = "file2", mandatory = true)
+	private File file2;
+
+	@ConfigurationParameter(name = "files3")
+	private File[] files3;
+	@ConfigurationParameter(name = "files4", defaultValue = "test/data/file")
+	private File[] files4;
+	@ConfigurationParameter(name = "files5", defaultValue = {"test/data/file", "test/data/file2"})
+	private File[] files5;
+
+	@ConfigurationParameter(name = "files6")
+	private List <File> files6; 
+	@ConfigurationParameter(name = "files7", defaultValue = "test/data/file")
+	private List<File> files7;
+	@ConfigurationParameter(name = "files8", defaultValue = {"test/data/file", "test/data/file2"})
+	private List<File> files8;
+	
+	
+	public File getFile1() {
+		return file1;
 	}
 
-	public void setFloat4(float[] float4) {
-		this.float4 = float4;
+	public File getFile1b() {
+		return file1b;
+	}
+
+	public File getFile2() {
+		return file2;
+	}
+
+	public File[] getFiles3() {
+		return files3;
+	}
+
+	public File[] getFiles4() {
+		return files4;
+	}
+
+	public File[] getFiles5() {
+		return files5;
+	}
+
+	public List<File> getFiles6() {
+		return files6;
+	}
+
+	public List<File> getFiles7() {
+		return files7;
+	}
+
+	public List<File> getFiles8() {
+		return files8;
+	}
+
+	public float[] getFloat4() {
+		return float4;
 	}
 
 	public float[] getFloat5() {
 		return float5;
 	}
 
-	public void setFloat5(float[] float5) {
-		this.float5 = float5;
-	}
-
 	public Float[] getFloat6() {
 		return float6;
-	}
-
-	public void setFloat6(Float[] float6) {
-		this.float6 = float6;
 	}
 
 	public Float[] getFloat7() {
 		return float7;
 	}
-
-	public void setFloat7(Float[] float7) {
-		this.float7 = float7;
-	}
-
 
 	public Integer[] getInt4() {
 		return int4;
@@ -159,84 +254,40 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 		return float1;
 	}
 
-	public void setFloat1(float float1) {
-		this.float1 = float1;
-	}
-
 	public float getFloat2() {
 		return float2;
-	}
-
-	public void setFloat2(float float2) {
-		this.float2 = float2;
 	}
 
 	public float getFloat3() {
 		return float3;
 	}
 
-	public void setFloat3(float float3) {
-		this.float3 = float3;
-	}
-
-	public void setInt4(Integer[] int4) {
-		this.int4 = int4;
-	}
-
 	public int[] getInt3() {
 		return int3;
-	}
-
-	public void setInt3(int[] int3) {
-		this.int3 = int3;
 	}
 
 	public int getInt2() {
 		return int2;
 	}
 
-	public void setInt2(int int2) {
-		this.int2 = int2;
-	}
-
 	public int getInt1() {
 		return int1;
-	}
-
-	public void setInt1(int int1) {
-		this.int1 = int1;
 	}
 
 	public boolean[] getBoolean5() {
 		return boolean5;
 	}
 
-	public void setBoolean5(boolean[] boolean5) {
-		this.boolean5 = boolean5;
-	}
-
 	public Boolean[] getBoolean3() {
 		return boolean3;
-	}
-
-	public void setBoolean3(Boolean[] boolean3) {
-		this.boolean3 = boolean3;
 	}
 
 	public boolean isBoolean2() {
 		return boolean2;
 	}
 
-	public void setBoolean2(Boolean boolean2) {
-		this.boolean2 = boolean2;
-	}
-
 	public boolean isBoolean1() {
 		return boolean1;
-	}
-
-	public void setBoolean1(boolean boolean1) {
-		this.boolean1 = boolean1;
 	}
 
 	@Override
@@ -255,40 +306,27 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 		return string1;
 	}
 
-	public void setString1(String string1) {
-		this.string1 = string1;
-	}
-
 	public String[] getString2() {
 		return string2;
-	}
-
-	public void setString2(String[] string2) {
-		this.string2 = string2;
 	}
 
 	public String getString3() {
 		return string3;
 	}
 
-	public void setString3(String string3) {
-		this.string3 = string3;
-	}
-
 	public String[] getString4() {
 		return string4;
-	}
-
-	public void setString4(String[] string4) {
-		this.string4 = string4;
 	}
 
 	public String[] getString5() {
 		return string5;
 	}
 
-	public void setString5(String[] string5) {
-		this.string5 = string5;
-	}
-
+	
+	@ConfigurationParameter(name = "regex1")
+	private Pattern regex1;
+	
+	@ConfigurationParameter(name = "regex2")
+	private Pattern regex2;
+	
 }
