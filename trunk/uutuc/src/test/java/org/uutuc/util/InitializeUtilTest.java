@@ -23,11 +23,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.lang.reflect.Modifier;
+import java.io.File;
 
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.junit.Assert;
 import org.junit.Test;
 import org.uutuc.factory.AnalysisEngineFactory;
 import org.uutuc.factory.testAes.Annotator1;
@@ -41,7 +40,6 @@ public class InitializeUtilTest {
 
 	@Test
 	public void testInitialize() throws ResourceInitializationException, SecurityException, NoSuchFieldException {
-		Assert.assertTrue((ParameterizedAE.class.getDeclaredField("boolean4").getModifiers() & Modifier.PUBLIC) > 0);
 		
 		ResourceInitializationException rie = null;
 		try {
@@ -51,7 +49,8 @@ public class InitializeUtilTest {
 		}
 		assertNotNull(rie);
 		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class, ParameterizedAE.PARAM_FLOAT_3, 1.234f,
-				ParameterizedAE.PARAM_FLOAT_6, new Float[] {1.234f, 0.001f}));
+				ParameterizedAE.PARAM_FLOAT_6, new Float[] {1.234f, 0.001f},
+				"file2", "foo/bar"));
 		
 		ParameterizedAE component = new ParameterizedAE();
 		component.initialize(engine.getUimaContext());
@@ -60,6 +59,17 @@ public class InitializeUtilTest {
 		assertEquals(null, component.getString3());
 		assertArrayEquals(new String[] {"apple"}, component.getString4());
 		assertArrayEquals(new String[] {""}, component.getString5());
+		assertEquals(3, component.getStrings6().size());
+		assertTrue(component.getStrings6().contains("kiwi fruit"));
+		assertTrue(component.getStrings6().contains("grape"));
+		assertTrue(component.getStrings6().contains("pear"));
+		assertNull(component.getStrings7());
+		assertEquals(1, component.getStrings8().size());
+		assertTrue(component.getStrings8().contains("cherry"));
+		
+		
+		
+		
 		assertFalse(component.isBoolean1());
 		
 		NullPointerException npe = null;
@@ -70,6 +80,9 @@ public class InitializeUtilTest {
 		}
 		assertNotNull(npe);
 		
+		assertFalse(component.isBoolean2b());
+		
+		
 		assertTrue(component.getBoolean3()[0]);
 		assertTrue(component.getBoolean3()[1]);
 		assertFalse(component.getBoolean3()[2]);
@@ -77,11 +90,26 @@ public class InitializeUtilTest {
 		assertFalse(component.boolean4[1]);
 		assertTrue(component.boolean4[2]);
 		assertFalse(component.getBoolean5()[0]);
+		assertEquals(4, component.getBooleans6().size());
+		assertTrue(component.getBooleans6().get(0));
+		assertTrue(component.getBooleans6().get(1));
+		assertTrue(component.getBooleans6().get(2));
+		assertFalse(component.getBooleans6().get(3));
+		
 		assertEquals(0, component.getInt1());
 		assertEquals(42, component.getInt2());
 		assertEquals(42, component.getInt3()[0]);
 		assertEquals(111, component.getInt3()[1]);
 		assertEquals(Integer.valueOf(2), component.getInt4()[0]);
+		assertEquals(1, component.getInts5().size());
+		assertEquals(2, component.getInts5().get(0).intValue());
+		assertEquals(5, component.getInts6().size());
+		assertEquals(1, component.getInts6().get(0).intValue());
+		assertEquals(2, component.getInts6().get(1).intValue());
+		assertEquals(3, component.getInts6().get(2).intValue());
+		assertEquals(4, component.getInts6().get(3).intValue());
+		assertEquals(5, component.getInts6().get(4).intValue());
+		
 		assertEquals(0.0f, component.getFloat1(), 0.001f);
 		assertEquals(3.1415f, component.getFloat2(), 0.001f);
 		assertEquals(1.234f, component.getFloat3(), 0.001f);
@@ -94,13 +122,27 @@ public class InitializeUtilTest {
 		assertEquals(1.1111f, component.getFloat7()[0], 0.001f);
 		assertEquals(2.2222f, component.getFloat7()[1], 0.001f);
 		assertEquals(3.3333f, component.getFloat7()[2], 0.001f);
+		
+		assertEquals(new File("test/data/file"), component.getFile1());
+		assertEquals(new File("test/data/file"), component.getFile1b());
+		assertEquals(new File("foo/bar"), component.getFile2());
+		assertNull(component.getFiles3());
+		assertArrayEquals(new File[] {new File("test/data/file")}, component.getFiles4());
+		assertArrayEquals(new File[] {new File("test/data/file"), new File("test/data/file2")}, component.getFiles5());
+		assertNull(component.getFiles6());
+		assertEquals(1, component.getFiles7().size());
+		assertEquals(new File("test/data/file"), component.getFiles7().get(0));
+		assertEquals(2, component.getFiles8().size());
+		assertEquals(new File("test/data/file"), component.getFiles8().get(0));
+		assertEquals(new File("test/data/file2"), component.getFiles8().get(1));
+
 
 		engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class, ParameterizedAE.PARAM_FLOAT_3, 1.234f,
 				ParameterizedAE.PARAM_FLOAT_6, new Float[] {1.234f, 0.001f}, ParameterizedAE.PARAM_STRING_1, "lime",
 				ParameterizedAE.PARAM_STRING_2, new String[] {"banana", "strawberry"},
 				ParameterizedAE.PARAM_STRING_3, "cherry",
 				ParameterizedAE.PARAM_STRING_4, new String[] {"raspberry", "blueberry", "blackberry"},
-				ParameterizedAE.PARAM_STRING_5, new String[2],
+				ParameterizedAE.PARAM_STRING_5, new String[] {"a"},
 				ParameterizedAE.PARAM_BOOLEAN_1, true,
 				ParameterizedAE.PARAM_BOOLEAN_2, true,
 				ParameterizedAE.PARAM_BOOLEAN_3, new boolean[] {true, true, false},
@@ -108,15 +150,24 @@ public class InitializeUtilTest {
 				ParameterizedAE.PARAM_BOOLEAN_5, new Boolean[] {true},
 				ParameterizedAE.PARAM_INT_1, 0,
 				ParameterizedAE.PARAM_INT_2, 24,
-				ParameterizedAE.PARAM_INT_3, new int[] {5}));
+				ParameterizedAE.PARAM_INT_3, new int[] {5},
+				"file1", "foo1/bar1",
+				"file1b", "foo1b/bar1b",
+				"file2", "foo2/bar2",
+				"files3", new String[] {"C:\\Documents and Settings\\Philip\\My Documents\\", "/usr/local/bin"},
+				"files4", new String[0],
+				"files5", new String[] {"foos/bars"},
+				"files6", new String[] {"C:\\Documents and Settings\\Philip\\My Documents\\", "/usr/local/bin"},
+				"files7", new String[0],
+				"files8", new String[] {"foos/bars"}
+				));
 		component = new ParameterizedAE();
 		component.initialize(engine.getUimaContext());
 		assertEquals("lime", component.getString1());
 		assertArrayEquals(new String[] {"banana", "strawberry"}, component.getString2());
 		assertEquals("cherry", component.getString3());
 		assertArrayEquals(new String[] {"raspberry", "blueberry", "blackberry"}, component.getString4());
-		assertArrayEquals(new String[2], component.getString5());
-		assertEquals(null, component.getString5()[0]);
+		assertArrayEquals(new String[] {"a"}, component.getString5());
 		assertTrue(component.isBoolean1());
 		assertTrue(component.isBoolean2());
 		assertTrue(component.getBoolean3()[0]);
@@ -130,10 +181,24 @@ public class InitializeUtilTest {
 		assertEquals(24, component.getInt2());
 		assertEquals(5, component.getInt3()[0]);
 
+		assertEquals(new File("foo1/bar1"), component.getFile1());
+		assertEquals(new File("foo1b/bar1b"), component.getFile1b());
+		assertEquals(new File("foo2/bar2"), component.getFile2());
+		assertArrayEquals(new File[] {new File("C:\\Documents and Settings\\Philip\\My Documents\\"), new File("/usr/local/bin")}, component.getFiles3());
+		assertEquals(0, component.getFiles4().length);
+		assertArrayEquals(new File[] {new File("foos/bars")}, component.getFiles5());
+		assertEquals(2, component.getFiles6().size());
+		assertEquals(new File("C:\\Documents and Settings\\Philip\\My Documents\\"), component.getFiles6().get(0));
+		assertEquals(new File("/usr/local/bin"), component.getFiles6().get(1));
+		assertEquals(0, component.getFiles7().size());
+		assertEquals(1, component.getFiles8().size());
+		assertEquals(new File("foos/bars"), component.getFiles8().get(0));
+
 		engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class, ParameterizedAE.PARAM_FLOAT_3, 1.234f,
 				ParameterizedAE.PARAM_FLOAT_6, new Float[] {1.234f, 0.001f}, ParameterizedAE.PARAM_BOOLEAN_1, true,
 				ParameterizedAE.PARAM_BOOLEAN_3, new boolean[3],
-				ParameterizedAE.PARAM_FLOAT_5, new float[] {1.2f, 3.4f}));
+				ParameterizedAE.PARAM_FLOAT_5, new float[] {1.2f, 3.4f},
+				"file2", "foo2/bar2"));
 		component = new ParameterizedAE();
 		component.initialize(engine.getUimaContext());
 		assertFalse(component.getBoolean3()[0]);
@@ -157,6 +222,5 @@ public class InitializeUtilTest {
 	public void testInitialize2() throws ResourceInitializationException {
 		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(Annotator1.class));
 		assertEquals(0, engine.getAnalysisEngineMetaData().getCapabilities().length);
-		
 	}
 }

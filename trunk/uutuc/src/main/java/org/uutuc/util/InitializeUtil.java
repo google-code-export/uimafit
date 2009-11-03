@@ -13,18 +13,27 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uutuc.util;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Locale;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.uima.UimaContext;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.uutuc.descriptor.ConfigurationParameter;
+import org.uutuc.factory.AnalysisEngineFactory;
 import org.uutuc.factory.ConfigurationParameterFactory;
 
 /**
@@ -32,120 +41,230 @@ import org.uutuc.factory.ConfigurationParameterFactory;
  */
 
 public class InitializeUtil {
+
+	public static final Map<Class<?>, Converter<?>> converters = new HashMap<Class<?>, Converter<?>>();
+	static {
+		converters.put(Boolean.class, new BooleanConverter());
+		converters.put(Float.class, new FloatConverter());
+		converters.put(Integer.class, new IntegerConverter());
+		converters.put(String.class, new StringConverter());
+		converters.put(boolean.class, new BooleanConverter());
+		converters.put(float.class, new FloatConverter());
+		converters.put(int.class, new IntegerConverter());
+		converters.put(Pattern.class, new PatternConverter());
+	}
+
+	
 	public static void initialize(Object component, UimaContext context) throws ResourceInitializationException {
 		initializeParameters(component, context);
 	}
 
-	public static void initializeParameters(Object component, UimaContext context) throws ResourceInitializationException {
-		try {
-		for (Field field : ReflectionUtil.getFields(component)) { //component.getClass().getDeclaredFields()) {
-			if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
-				
-				Object defaultValue = ConfigurationParameterFactory.getDefaultValue(field);
-				org.uutuc.descriptor.ConfigurationParameter annotation = field
-						.getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);
-
-				Object value;
-				if(annotation.mandatory()) {
-					value = getRequiredConfigParameterValue(context, annotation.name());
-				} else {
-					value = getDefaultingConfigParameterValue(context, annotation.name(), defaultValue);
-				}
-				setParameterValue(component, field, value);
-			}
-		}
-		} catch(Exception e) {
-			throw new ResourceInitializationException(e);
-		}
-		
-	}
-
-	
-	
-	
-	
-	private static void setParameterValue(Object component, Field field, Object value) throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchMethodException, InvocationTargetException {
-			
-		
-		if(value != null && !field.getType().isAssignableFrom(value.getClass())) {
-			if(field.getType().isArray() && value.getClass().getComponentType().getName().equals(Boolean.class.getName())) {
-				value = ArrayUtils.toPrimitive((Boolean[]) value);
-			}
-			else if(field.getType().isArray() && value.getClass().getComponentType().getName().equals(Integer.class.getName())) {
-				value = ArrayUtils.toPrimitive((Integer[]) value);
-			}
-			else if(field.getType().isArray() && value.getClass().getComponentType().getName().equals(Float.class.getName())) {
-				value = ArrayUtils.toPrimitive((Float[]) value);
-			}
-		}
-		
-		if((field.getModifiers() & Modifier.PUBLIC) > 0) {
-			field.set(component, value);
-		} else {
-			Method method = getSetter(component.getClass(), field);
-			method.invoke(component, value);
-		}
-		
-	}
-	
-	private static Method getSetter(Class<?> clazz, Field field) throws SecurityException, NoSuchMethodException {
-		String name = field.getName();
-		name = "set" + name.substring(0, 1).toUpperCase(Locale.US) + name.substring(1);
-		try {
-			return clazz.getMethod(name, field.getType());
-		} catch(Exception nsme) {
-			String message = "setter method for the configuration parameter "+field.getName()+" in the class "+field.getDeclaringClass()+" does not exist or is not public.  Please verify that a method named "+name+ " exists for this configuration parameter.";
-			throw new NoSuchMethodException(message);
-		}
-
-	}
-	
-	public static Object getDefaultingConfigParameterValue(UimaContext context, String paramName, Object defaultValue) {
-		Object paramValue = context.getConfigParameterValue(paramName);
-		if (paramValue == null) {
-			paramValue = defaultValue;
-		}
-		else if (paramValue instanceof String) {
-			String str = (String) paramValue;
-			if (str.trim().equals("")) paramValue = defaultValue;
-		}
-		else if (paramValue instanceof String[]) {
-			String[] strs = (String[]) paramValue;
-			if (strs.length == 0) paramValue = defaultValue;
-			if (strs.length == 1 && strs[0].trim().equals("")) paramValue = defaultValue;
-		}
-		return paramValue;
-	}
-
 	/**
-	 * Get a configuration parameter value, raising an exception if it was not
-	 * specified.
+	 * This code can be a little confusing because the configuration parameter
+	 * annotations are used in two contexts: in describing the component and to
+	 * initialize member variables from a {@link UimaContext}. Here we are
+	 * performing the latter task. It is important to remember that the
+	 * {@link UimaContext} passed in to this method may or may not have been
+	 * derived using reflection of the annotations (i.e. using
+	 * {@link ConfigurationParameterFactory}). It is just as possible for the
+	 * description of the component to come directly from an XML descriptor
+	 * file. So, for example, just because the a configuration parameter
+	 * specifies a default value, this does not mean that the passed in context
+	 * will have a value for that configuration parameter. It should be
+	 * possible for a descriptor file to specify its own value or to not
+	 * provide one at all. Therefore, we will ignore the defaultValue element of
+	 * the {@link ConfigurationParameter} annotation here assuming that if
+	 * someone wants to use the defaultValue element for the parameters default
+	 * value, then they will use {@link ConfigurationParameterFactory} when
+	 * generating the {@link UimaContext} (i.e. the components description will
+	 * come from an UUTUC factory method such as
+	 * {@link AnalysisEngineFactory#createPrimitive(Class, org.apache.uima.resource.metadata.TypeSystemDescription, Object...)}
+	 * ).
 	 * 
+	 * @param component
 	 * @param context
-	 *            The UIMAContext where the parameter should be defined.
-	 * @param paramName
-	 *            The name of the parameter.
-	 * @return The value of the named parameter.
 	 * @throws ResourceInitializationException
 	 */
-	public static Object getRequiredConfigParameterValue(UimaContext context, String paramName)
+	public static void initializeParameters(Object component, UimaContext context)
 			throws ResourceInitializationException {
-		Object paramValue = context.getConfigParameterValue(paramName);
-		if (paramValue == null) {
-			String key = ResourceInitializationException.CONFIG_SETTING_ABSENT;
-			throw new ResourceInitializationException(key, new Object[] { paramName });
-		}
-		else if (paramValue instanceof String) {
-			String str = (String) paramValue;
-			if (str.trim().equals("")) {
-				String key = ResourceInitializationException.CONFIG_SETTING_ABSENT;
-				throw new ResourceInitializationException(key, new Object[] { paramName });
+		try {
+			for (Field field : ReflectionUtil.getFields(component)) { // component.getClass().getDeclaredFields())
+				// {
+				if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
+					org.uutuc.descriptor.ConfigurationParameter annotation = field
+							.getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);
+
+					Object parameterValue;
+					String configurationParameterName = ConfigurationParameterFactory.getConfigurationParameterName(field);
+					//TODO does this check really belong here?  It seems that this check is already performed by UIMA
+					if (annotation.mandatory()) {
+						parameterValue = context.getConfigParameterValue(configurationParameterName);
+						if (parameterValue == null) {
+							String key = ResourceInitializationException.CONFIG_SETTING_ABSENT;
+							throw new ResourceInitializationException(key, new Object[] { configurationParameterName });
+						}
+					}
+					else {
+						parameterValue = context.getConfigParameterValue(configurationParameterName);
+						if (parameterValue == null) {
+							continue;
+						}
+					}
+					Object fieldValue = convertValue(field, parameterValue);
+					setParameterValue(component, field, fieldValue);
+				}
 			}
 		}
-		return paramValue;
+		catch (Exception e) {
+			throw new ResourceInitializationException(e);
+		}
+
 	}
 
-	private InitializeUtil() {}
+	public static Object convertValue(Field field, Object uimaValue) {
+		if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
 
+			Object result;
+			Class<?> fieldType = field.getType();
+			Class<?> componentType = getComponentType(field);
+			Converter<?> converter = getConverter(componentType);
+			
+			// arrays
+			if (fieldType.isArray()) {
+				Object[] uimaValues = (Object[]) uimaValue;
+				result = Array.newInstance(componentType, uimaValues.length);
+				for (int index = 0; index < uimaValues.length; ++index) {
+					Array.set(result, index, converter.convert(uimaValues[index]));
+				}
+			}
+
+			// collections
+			else if (Collection.class.isAssignableFrom(fieldType)) {
+				Collection<Object> collection;
+				if (fieldType == List.class) {
+					collection = new ArrayList<Object>();
+				}
+				else if (fieldType == Set.class) {
+					collection = new HashSet<Object>();
+				}
+				else {
+					collection = newCollection(fieldType);
+				}
+				Object[] uimaValues = (Object[]) uimaValue;
+				for (Object value : uimaValues) {
+					collection.add(converter.convert(value));
+				}
+				result = collection;
+			}
+
+			// other
+			else {
+				result = converter.convert(uimaValue);
+			}
+			return result;
+		}
+		else {
+			throw new IllegalArgumentException("field is not annotated with annotation of type "
+					+ org.uutuc.descriptor.ConfigurationParameter.class.getName());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private static Collection<Object> newCollection(Class<?> cls) {
+		try {
+			return cls.asSubclass(Collection.class).newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static Class<?> getComponentType(Field field) {
+		Class<?> fieldType = field.getType();
+		if (fieldType.isArray()) {
+			return fieldType.getComponentType();
+		} else if (Collection.class.isAssignableFrom(fieldType)) {
+			ParameterizedType collectionType = (ParameterizedType)field.getGenericType();
+			return (Class<?>)collectionType.getActualTypeArguments()[0];
+		} else {
+			return fieldType;
+		}
+	}
+
+	
+	
+	private static void setParameterValue(Object component, Field field, Object value) throws IllegalArgumentException,
+			IllegalAccessException, SecurityException, NoSuchMethodException, InvocationTargetException {
+
+		boolean accessible = field.isAccessible();
+		field.setAccessible(true);
+		try {
+			field.set(component, value);
+		} finally {
+			field.setAccessible(accessible);
+		}
+	}
+
+	private InitializeUtil() {
+	}
+
+	
+	private static Converter<?> getConverter(Class<?> cls) {
+		Converter<?> converter = converters.get(cls);
+		if (converter == null) {
+			try {
+				Constructor<?> constructor = cls.getConstructor(String.class);
+				converter = new ConstructorConverter(constructor);
+			} catch (NoSuchMethodException e) {
+				throw new IllegalArgumentException("don't know how to convert type " + cls);
+			}
+		}
+		return converter;
+	}
+
+	
+	private static interface Converter<T> {
+		public T convert(Object o);
+	}
+	private static class BooleanConverter implements Converter<Boolean> {
+		public Boolean convert(Object o) {
+			return (Boolean) o;
+		}
+	}
+	private static class FloatConverter implements Converter<Float> {
+		public Float convert(Object o) {
+			return (Float) o;
+		}
+	}
+	private static class IntegerConverter implements Converter<Integer> {
+		public Integer convert(Object o) {
+			return (Integer) o;
+		}
+	}
+	private static class StringConverter implements Converter<String> {
+		public String convert(Object o) {
+			return o.toString();
+		}
+	}
+
+	private static class PatternConverter implements Converter<Pattern> {
+		public Pattern convert(Object o) {
+			return Pattern.compile(o.toString());
+		}
+	}
+
+	private static class ConstructorConverter implements Converter<Object> {
+		private Constructor<?> constructor;
+		public ConstructorConverter(Constructor<?> constructor) {
+			this.constructor = constructor;
+		}
+		public Object convert(Object o) {
+			try {
+				return this.constructor.newInstance(o);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+	}
 
 }

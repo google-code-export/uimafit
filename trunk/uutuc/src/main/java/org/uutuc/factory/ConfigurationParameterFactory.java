@@ -13,11 +13,13 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uutuc.factory;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,7 @@ import org.apache.uima.UIMA_IllegalArgumentException;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
 import org.apache.uima.resource.metadata.impl.ConfigurationParameter_impl;
 import org.uutuc.util.ReflectionUtil;
+
 /**
  * @author Philip Ogren
  */
@@ -41,12 +44,14 @@ public class ConfigurationParameterFactory {
 	static {
 		javaUimaTypeMap.put(Boolean.class.getName(), ConfigurationParameter.TYPE_BOOLEAN);
 		javaUimaTypeMap.put(Float.class.getName(), ConfigurationParameter.TYPE_FLOAT);
+		javaUimaTypeMap.put(Double.class.getName(), ConfigurationParameter.TYPE_FLOAT);
 		javaUimaTypeMap.put(Integer.class.getName(), ConfigurationParameter.TYPE_INTEGER);
 		javaUimaTypeMap.put(String.class.getName(), ConfigurationParameter.TYPE_STRING);
 		javaUimaTypeMap.put("boolean", ConfigurationParameter.TYPE_BOOLEAN);
 		javaUimaTypeMap.put("float", ConfigurationParameter.TYPE_FLOAT);
+		javaUimaTypeMap.put("double", ConfigurationParameter.TYPE_FLOAT);
 		javaUimaTypeMap.put("int", ConfigurationParameter.TYPE_INTEGER);
-		
+
 	};
 
 	public static boolean isConfigurationParameterField(Field field) {
@@ -57,47 +62,48 @@ public class ConfigurationParameterFactory {
 		if (isConfigurationParameterField(field)) {
 			org.uutuc.descriptor.ConfigurationParameter annotation = field
 					.getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);
-			
+
 			String[] stringValue = annotation.defaultValue();
-			if(stringValue.length == 1 && stringValue[0].equals(org.uutuc.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE))
-				return null;
-			
+			if (stringValue.length == 1
+					&& stringValue[0].equals(org.uutuc.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE)) return null;
+
 			String valueType = getConfigurationParameterType(field);
 			boolean isMultiValued = isMultiValued(field);
-			
-			if(!isMultiValued) {
-			if (ConfigurationParameter.TYPE_BOOLEAN.equals(valueType)) {
-				return Boolean.parseBoolean(stringValue[0]);
+
+			if (!isMultiValued) {
+				if (ConfigurationParameter.TYPE_BOOLEAN.equals(valueType)) {
+					return Boolean.parseBoolean(stringValue[0]);
+				}
+				else if (ConfigurationParameter.TYPE_FLOAT.equals(valueType)) {
+					return Float.parseFloat(stringValue[0]);
+				}
+				else if (ConfigurationParameter.TYPE_INTEGER.equals(valueType)) {
+					return Integer.parseInt(stringValue[0]);
+				}
+				else if (ConfigurationParameter.TYPE_STRING.equals(valueType)) {
+					return stringValue[0];
+				}
+				throw new UIMA_IllegalArgumentException(UIMA_IllegalArgumentException.METADATA_ATTRIBUTE_TYPE_MISMATCH,
+						new Object[] { valueType, "type" });
 			}
-			else if (ConfigurationParameter.TYPE_FLOAT.equals(valueType)) {
-				return Float.parseFloat(stringValue[0]);
-			}
-			else if (ConfigurationParameter.TYPE_INTEGER.equals(valueType)) {
-				return Integer.parseInt(stringValue[0]);
-			}
-			else if (ConfigurationParameter.TYPE_STRING.equals(valueType)) {
-				return stringValue[0];
-			}
-			throw new UIMA_IllegalArgumentException(UIMA_IllegalArgumentException.METADATA_ATTRIBUTE_TYPE_MISMATCH,
-					new Object[] { valueType, "type" });
-			} else {
+			else {
 				if (ConfigurationParameter.TYPE_BOOLEAN.equals(valueType)) {
 					Boolean[] returnValues = new Boolean[stringValue.length];
-					for(int i=0; i<stringValue.length; i++) {
+					for (int i = 0; i < stringValue.length; i++) {
 						returnValues[i] = Boolean.parseBoolean(stringValue[i]);
 					}
 					return returnValues;
 				}
 				else if (ConfigurationParameter.TYPE_FLOAT.equals(valueType)) {
 					Float[] returnValues = new Float[stringValue.length];
-					for(int i=0; i<stringValue.length; i++) {
+					for (int i = 0; i < stringValue.length; i++) {
 						returnValues[i] = Float.parseFloat(stringValue[i]);
 					}
 					return returnValues;
 				}
 				else if (ConfigurationParameter.TYPE_INTEGER.equals(valueType)) {
 					Integer[] returnValues = new Integer[stringValue.length];
-					for(int i=0; i<stringValue.length; i++) {
+					for (int i = 0; i < stringValue.length; i++) {
 						returnValues[i] = Integer.parseInt(stringValue[i]);
 					}
 					return returnValues;
@@ -109,7 +115,7 @@ public class ConfigurationParameterFactory {
 						new Object[] { valueType, "type" });
 
 			}
-			
+
 		}
 		else {
 			throw new IllegalArgumentException("field is not annotated with annotation of type "
@@ -118,40 +124,63 @@ public class ConfigurationParameterFactory {
 	}
 
 	private static String getConfigurationParameterType(Field field) {
-		Class<?> parameterClass= field.getType();
+		Class<?> parameterClass = field.getType();
 		String parameterClassName;
 		if (parameterClass.isArray()) {
 			parameterClassName = parameterClass.getComponentType().getName();
 		}
-		else parameterClassName = parameterClass.getName();
-		return javaUimaTypeMap.get(parameterClassName);
+		else if (Collection.class.isAssignableFrom(parameterClass)) {
+			ParameterizedType collectionType = (ParameterizedType) field.getGenericType();
+			parameterClassName = ((Class<?>) (collectionType.getActualTypeArguments()[0])).getName();
+		}
+		else {
+			parameterClassName = parameterClass.getName();
+		}
+		String parameterType = javaUimaTypeMap.get(parameterClassName);
+		if (parameterType == null) {
+			return ConfigurationParameter.TYPE_STRING;
+		}
+		return parameterType;
 	}
-	
+
 	private static boolean isMultiValued(Field field) {
-		Class<?> parameterClass= field.getType();
+		Class<?> parameterClass = field.getType();
 		if (parameterClass.isArray()) {
+			return true;
+		} else if (Collection.class.isAssignableFrom(parameterClass)) {
 			return true;
 		}
 		return false;
 	}
+
+	public static String getConfigurationParameterName(Field field) {
+		if (isConfigurationParameterField(field)) {
+			org.uutuc.descriptor.ConfigurationParameter annotation = field
+			.getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);
+			String name = annotation.name();
+			if (name.equals(org.uutuc.descriptor.ConfigurationParameter.USE_FIELD_NAME)) {
+				name = field.getDeclaringClass().getName() + "." + field.getName();
+			}
+			return name;
+		}
+		return null;
+	}
 	
 	public static ConfigurationParameter createPrimitiveParameter(Field field) {
 		if (isConfigurationParameterField(field)) {
-			org.uutuc.descriptor.ConfigurationParameter annotation = field.getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);
-			String name = annotation.name();
-			if(name.equals(org.uutuc.descriptor.ConfigurationParameter.USE_FIELD_NAME)) {
-				name = field.getDeclaringClass().getName()+"."+field.getName();
-			}
-			boolean multiValued = isMultiValued(field); 
+			org.uutuc.descriptor.ConfigurationParameter annotation = field
+					.getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);
+			String name = getConfigurationParameterName(field);
+			boolean multiValued = isMultiValued(field);
 			String parameterType = getConfigurationParameterType(field);
-			return createPrimitiveParameter(name, parameterType, annotation.description(), multiValued, annotation.mandatory());
+			return createPrimitiveParameter(name, parameterType, annotation.description(), multiValued, annotation
+					.mandatory());
 		}
 		else {
 			throw new IllegalArgumentException("field is not annotated with annotation of type "
 					+ org.uutuc.descriptor.ConfigurationParameter.class.getName());
 		}
 	}
-
 
 	/*
 	 * The UIMA_IllegalArgumentException statement was copied from
@@ -185,7 +214,7 @@ public class ConfigurationParameterFactory {
 	}
 
 	public static ConfigurationData createConfigurationData(Object... configurationData) {
-		if(configurationData == null) {
+		if (configurationData == null) {
 			return new ConfigurationData(new ConfigurationParameter[0], new Object[0]);
 		}
 		if (configurationData.length % 2 != 0) {
@@ -193,7 +222,7 @@ public class ConfigurationParameterFactory {
 					+ configurationData.length + ")";
 			throw new IllegalArgumentException(message);
 		}
-		
+
 		int numberOfParameters = configurationData.length / 2;
 		ConfigurationParameter[] configurationParameters = new ConfigurationParameter[numberOfParameters];
 		Object[] configurationValues = new Object[numberOfParameters];
@@ -201,14 +230,14 @@ public class ConfigurationParameterFactory {
 		for (int i = 0; i < numberOfParameters; i++) {
 			String name = (String) configurationData[i * 2];
 			Object value = configurationData[i * 2 + 1];
-			
-			if(value.getClass().isArray() && value.getClass().getComponentType().getName().equals("boolean")) {
+
+			if (value.getClass().isArray() && value.getClass().getComponentType().getName().equals("boolean")) {
 				value = ArrayUtils.toObject((boolean[]) value);
 			}
-			if(value.getClass().isArray() && value.getClass().getComponentType().getName().equals("int")) {
+			if (value.getClass().isArray() && value.getClass().getComponentType().getName().equals("int")) {
 				value = ArrayUtils.toObject((int[]) value);
 			}
-			if(value.getClass().isArray() && value.getClass().getComponentType().getName().equals("float")) {
+			if (value.getClass().isArray() && value.getClass().getComponentType().getName().equals("float")) {
 				value = ArrayUtils.toObject((float[]) value);
 			}
 
@@ -219,29 +248,31 @@ public class ConfigurationParameterFactory {
 		}
 		return new ConfigurationData(configurationParameters, configurationValues);
 	}
-	
+
 	public static ConfigurationData createConfigurationData(Class<?> componentClass) {
 		List<ConfigurationParameter> configurationParameters = new ArrayList<ConfigurationParameter>();
 		List<Object> configurationValues = new ArrayList<Object>();
-		
+
 		for (Field field : ReflectionUtil.getFields(componentClass)) {
-			if(ConfigurationParameterFactory.isConfigurationParameterField(field)) {
-				configurationParameters.add(ConfigurationParameterFactory.createPrimitiveParameter(field)); 
+			if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
+				configurationParameters.add(ConfigurationParameterFactory.createPrimitiveParameter(field));
 				configurationValues.add(ConfigurationParameterFactory.getDefaultValue(field));
 			}
-	      }
+		}
 
-		return new ConfigurationData(configurationParameters.toArray(new ConfigurationParameter[configurationParameters.size()]),
-				configurationValues.toArray(new Object[configurationValues.size()]));
+		return new ConfigurationData(configurationParameters.toArray(new ConfigurationParameter[configurationParameters
+				.size()]), configurationValues.toArray(new Object[configurationValues.size()]));
 	}
-		
+
 	public static class ConfigurationData {
 		public ConfigurationParameter[] configurationParameters;
+
 		public Object[] configurationValues;
+
 		public ConfigurationData(ConfigurationParameter[] configurationParameters, Object[] configurationValues) {
 			this.configurationParameters = configurationParameters;
 			this.configurationValues = configurationValues;
 		}
-		
+
 	}
 }
