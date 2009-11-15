@@ -181,4 +181,16 @@ public class TokenFactoryTest {
 		assertEquals(17, tokenCount);
 	}
 
+	@Test
+	public void test5() throws Exception {
+		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
+		
+		JCas myView = jCas.createView("MyView");
+		
+		TokenFactory.createTokens(myView, "red and blue cars and tipsy motorcycles", Token.class, Sentence.class);
+		
+		Token token = AnnotationRetrieval.get(myView, Token.class, 6);
+		assertEquals("motorcycles", token.getCoveredText());
+
+	}
 }
