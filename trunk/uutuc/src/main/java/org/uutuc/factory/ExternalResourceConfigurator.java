@@ -44,6 +44,8 @@ public class ExternalResourceConfigurator
 	 * @param <T> the component type.
 	 * @param aContext the UIMA context.
 	 * @param object the component.
+	 * @throws ResourceInitializationException if the external resource cannot
+	 * 		be configured.
 	 */
 	public static <T> void configure(UimaContext aContext, T object)
 		throws ResourceInitializationException

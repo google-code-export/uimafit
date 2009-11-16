@@ -69,7 +69,7 @@ public class AnalysisEngineFactory {
 	 * @param descriptorName
 	 *            The fully qualified, Java-style, dotted name of the XML
 	 *            descriptor file.
-	 * @param parameters
+	 * @param configurationData
 	 *            Any additional configuration parameters to be set. These
 	 *            should be supplied as (name, value) pairs, so there should
 	 *            always be an even number of parameters.

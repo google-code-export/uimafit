@@ -19,6 +19,7 @@ package org.uutuc.factory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.collection.CollectionReaderDescription;
 import org.apache.uima.collection.impl.CollectionReaderDescription_impl;
+import org.apache.uima.resource.ExternalResourceDependency;
 import org.apache.uima.resource.ResourceCreationSpecifier;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
@@ -104,7 +106,7 @@ public class CollectionReaderFactory {
 	 * @param typeSystem
 	 *            A description of the types used by the CollectionReader (may
 	 *            be null).
-	 * @param configurationParameters
+	 * @param configurationData
 	 *            Any additional configuration parameters to be set. These
 	 *            should be supplied as (name, value) pairs, so there should
 	 *            always be an even number of parameters.
@@ -198,10 +200,19 @@ public class CollectionReaderFactory {
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setImplementationName(readerClass.getName());
 		
-		ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory.createConfigurationData(readerClass);
-		ResourceCreationSpecifierFactory.setConfigurationParameters(desc, reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);
-		if(configurationParameters != null)
-			ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters, configurationValues);
+		// Extract external resource dependencies
+		Collection<ExternalResourceDependency> deps = ExternalResourceConfigurator.getResourceDeclarations(
+				readerClass).values();
+		desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps.size()]));
+		
+		ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
+				.createConfigurationData(readerClass);
+		ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
+				reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);
+		if (configurationParameters != null) {
+			ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
+					configurationParameters, configurationValues);
+		}
 
 		// set the type system
 		if (typeSystem != null) {

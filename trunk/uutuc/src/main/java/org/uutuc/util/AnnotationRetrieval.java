@@ -28,7 +28,6 @@ import org.apache.uima.jcas.tcas.Annotation;
 public class AnnotationRetrieval {
 
 	/**
-	 * 
 	 * This method exists simply as a convenience method for unit testing. It is
 	 * not very efficient and should not, in general be used outside the context
 	 * of unit testing.
@@ -39,7 +38,6 @@ public class AnnotationRetrieval {
 	 *            this can be either positive (0 corresponds to the first
 	 *            annotation of a type) or negative (-1 corresponds to the last
 	 *            annotation of a type.)
-	 * @return
 	 */
 	public static <T extends Annotation> T get(JCas jCas, Class<T> cls, int index) {
 		int type;

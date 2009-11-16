@@ -62,7 +62,6 @@ public @interface ConfigurationParameter {
 	/**
 	 * If you do not specify a name then the default name will be given by {@link #USE_FIELD_NAME} will be the default name.  This 
 	 * tells ConfigurationParameterFactory to use the name of the annotated field as the name of the configuration parameter.
-	 * @return
 	 */
 	String name() default USE_FIELD_NAME;
 
