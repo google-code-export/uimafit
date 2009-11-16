@@ -323,9 +323,11 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	}
 
 	
+	@SuppressWarnings("unused")
 	@ConfigurationParameter(name = "regex1")
 	private Pattern regex1;
 	
+	@SuppressWarnings("unused")
 	@ConfigurationParameter(name = "regex2")
 	private Pattern regex2;
 	
