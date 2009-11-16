@@ -144,24 +144,4 @@ public class ExternalResourceFactoryTest
 			return url;
 		}
 	}
-	
-	public static final class DummySharedResourceObject
-	implements SharedResourceObject
-	{
-		private URL url;
-		
-		public void load(DataResource aData)
-			throws ResourceInitializationException
-		{
-			System.out.println("Testing "+this.getClass().getName());
-			System.out.println("Would be loading: "+aData.getUrl());
-			assertEquals(EX_URL, aData.getUrl().toString());
-			url = aData.getUrl();
-		}
-		
-		public URL getUrl()
-		{
-			return url;
-		}
-	}
 }
