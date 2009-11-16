@@ -114,7 +114,7 @@ public class ResourceCreationSpecifierFactory {
 	 * 
 	 * @param specifier
 	 *            The ResourceCreationSpecifier whose parameters are to be set.
-	 * @param configurationParameters
+	 * @param configurationData
 	 *            The configuration parameters to be set. These should be
 	 *            supplied as (name, value) pairs, so there should always be an
 	 *            even number of parameters.
@@ -143,7 +143,11 @@ public class ResourceCreationSpecifierFactory {
 
 	public static void setConfigurationParameters(ResourceCreationSpecifier specifier,
 			ConfigurationParameter[] configurationParameters, Object[] configurationValues) {
-		ResourceMetaData metaData = specifier.getMetaData();
+		setConfigurationParameters(specifier.getMetaData(), configurationParameters, configurationValues);
+	}
+
+	public static void setConfigurationParameters(ResourceMetaData metaData,
+			ConfigurationParameter[] configurationParameters, Object[] configurationValues) {
 		ConfigurationParameterDeclarations paramDecls = metaData.getConfigurationParameterDeclarations();
 		ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();
 		for (int i = 0; i < configurationParameters.length; i++) {
