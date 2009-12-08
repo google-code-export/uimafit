@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.uima.UIMA_IllegalArgumentException;
+import org.apache.uima.resource.ResourceCreationSpecifier;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
 import org.apache.uima.resource.metadata.impl.ConfigurationParameter_impl;
 import org.uutuc.util.ReflectionUtil;
@@ -275,4 +276,29 @@ public class ConfigurationParameterFactory {
 		}
 
 	}
+	
+	public static void addConfigurationParameters(ResourceCreationSpecifier specifier, Object... configurationData) {
+		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
+		ResourceCreationSpecifierFactory.setConfigurationParameters(specifier, cdata.configurationParameters,
+				cdata.configurationValues);
+	}
+
+	public static void addConfigurationParameters(ResourceCreationSpecifier specifier, List<Class<?>> dynamicallyLoadedClasses) {
+		for (Class<?> dynamicallyLoadedClass : dynamicallyLoadedClasses) {
+			ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
+					.createConfigurationData(dynamicallyLoadedClass);
+			ResourceCreationSpecifierFactory.setConfigurationParameters(specifier,
+					reflectedConfigurationData.configurationParameters,
+					reflectedConfigurationData.configurationValues);
+		}
+
+	}
+
+	public static void addConfigurationParameter(ResourceCreationSpecifier specifier, String name, Object value) {
+		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(name, value);
+		ResourceCreationSpecifierFactory.setConfigurationParameters(specifier, cdata.configurationParameters,
+				cdata.configurationValues);
+		
+	}
+
 }
