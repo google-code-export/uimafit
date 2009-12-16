@@ -1,18 +1,19 @@
 Here is the current (but not perfect) procedure for creating a release:
-
+{{{
 >cd uutuc-home-dir
 >mvn release:prepare
 >mvn release:perform
-
-This does everything except update the javadoc pages on the project website or upload a new downloadable to the project downloads page.  Both of these tasks can probably be accomplished using the antrun plugin (see [this http://maven.riedelcastro.org/gcupload-maven-plugin/usage.html].)
+}}}
+This does everything except update the javadoc pages on the project website or upload a new downloadable to the project downloads page.  Both of these tasks can probably be accomplished using the antrun plugin (see [http://maven.riedelcastro.org/gcupload-maven-plugin/usage.html this].)
 
 To update javadoc pages:
-  # temporarily edit the pom file to specify the version that was just released (rather than the next snapshot version)
-  # run the following
+  * temporarily edit the pom file to specify the version that was just released (rather than the next snapshot version)
+  * run the following
+{{{ 
 >cd uutuc-home-dir
 >mvn javadoc:javadoc
 >cp -R target\site\apidocs .
-
-  # refresh apidocs folder in eclipse and commit the folder
+}}}
+  * refresh apidocs folder in eclipse and commit the folder
 
 Uploading the new downloadable files can be done by clicking on the Downloads tab above and following the instructions.  The files should be located in the target directory.
