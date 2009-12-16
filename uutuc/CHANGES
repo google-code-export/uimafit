@@ -1,0 +1,15 @@
+changes for 0.9.9
+- added several addConfigurationParameters methods to ConfigurationParameterFactory. 
+  These are useful for a variety of scenarios - esp. when you need configuration parameter
+  information from dynamically loaded classes.
+- added this CHANGES file you are reading
+- Changes to External Resources
+  - Updated external resources code to handle SharedResourceObjects created using 
+    ConfigurableDataResourceSpecifiers. 
+  - Added convenience methods to use Files and URLs as external resources.
+  - Updated JavaDoc
+  - Added external dependencies reflection code used in AnalysisEngineFactory also 
+    to CollectionReaderFactory .
+  - Split ResourceCreationSpecifiedFactory.setConfigurationParameters() into two 
+    methods to reuse the part operating on ResourceMetaData.
+  
