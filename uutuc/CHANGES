@@ -1,4 +1,4 @@
-changes for 0.9.9
+changes in 0.9.9
 - added several addConfigurationParameters methods to ConfigurationParameterFactory. 
   These are useful for a variety of scenarios - esp. when you need configuration parameter
   information from dynamically loaded classes.
