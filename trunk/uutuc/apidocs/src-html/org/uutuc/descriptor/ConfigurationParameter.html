@@ -65,40 +65,39 @@
 <FONT color="green">062</FONT>            /**<a name="line.62"></a>
 <FONT color="green">063</FONT>             * If you do not specify a name then the default name will be given by {@link #USE_FIELD_NAME} will be the default name.  This <a name="line.63"></a>
 <FONT color="green">064</FONT>             * tells ConfigurationParameterFactory to use the name of the annotated field as the name of the configuration parameter.<a name="line.64"></a>
-<FONT color="green">065</FONT>             * @return<a name="line.65"></a>
-<FONT color="green">066</FONT>             */<a name="line.66"></a>
-<FONT color="green">067</FONT>            String name() default USE_FIELD_NAME;<a name="line.67"></a>
-<FONT color="green">068</FONT>    <a name="line.68"></a>
-<FONT color="green">069</FONT>            String description() default "";<a name="line.69"></a>
-<FONT color="green">070</FONT>    <a name="line.70"></a>
-<FONT color="green">071</FONT>            boolean mandatory() default false;<a name="line.71"></a>
-<FONT color="green">072</FONT>    <a name="line.72"></a>
-<FONT color="green">073</FONT>            /**<a name="line.73"></a>
-<FONT color="green">074</FONT>             * What can be the value should correspond with the type of the field that<a name="line.74"></a>
-<FONT color="green">075</FONT>             * is annotated. If for example, the field is a String, then the default<a name="line.75"></a>
-<FONT color="green">076</FONT>             * value can be any string - e.g. "asdf". If the field is a boolean, then<a name="line.76"></a>
-<FONT color="green">077</FONT>             * the default value can be "true" for true or any other string for false.<a name="line.77"></a>
-<FONT color="green">078</FONT>             * If the field is an integer, then the default value can be any string that<a name="line.78"></a>
-<FONT color="green">079</FONT>             * Integer.parseInt() can successfully parse. Remember that just because the<a name="line.79"></a>
-<FONT color="green">080</FONT>             * default value is a string here that you should give an actual integer<a name="line.80"></a>
-<FONT color="green">081</FONT>             * (not an integer parseable string) value when setting the parameter via<a name="line.81"></a>
-<FONT color="green">082</FONT>             * e.g. AnalysisEngineFactory.createPrimitiveDescription(). If the field is<a name="line.82"></a>
-<FONT color="green">083</FONT>             * a float, then the default value can be any string that<a name="line.83"></a>
-<FONT color="green">084</FONT>             * Float.parseFloat() can successfully parse. Remember that just because the<a name="line.84"></a>
-<FONT color="green">085</FONT>             * default value is a string here that you should give an actual float value<a name="line.85"></a>
-<FONT color="green">086</FONT>             * (not a float parseable string) when setting the parameter via e.g.<a name="line.86"></a>
-<FONT color="green">087</FONT>             * AnalysisEngineFactory.createPrimitiveDescription().<a name="line.87"></a>
-<FONT color="green">088</FONT>             * &lt;p&gt;<a name="line.88"></a>
-<FONT color="green">089</FONT>             * If the field is multiValued, then the value should look something like<a name="line.89"></a>
-<FONT color="green">090</FONT>             * this '{"value1", "value2"}' <a name="line.90"></a>
-<FONT color="green">091</FONT>             * &lt;p&gt;<a name="line.91"></a>
-<FONT color="green">092</FONT>             * If you want a field to be initialized with a null value, then do not specify a default value or specify the value given by the field {@link #NO_DEFAULT_VALUE}<a name="line.92"></a>
-<FONT color="green">093</FONT>             */<a name="line.93"></a>
-<FONT color="green">094</FONT>            String[] defaultValue() default NO_DEFAULT_VALUE;<a name="line.94"></a>
-<FONT color="green">095</FONT>    <a name="line.95"></a>
-<FONT color="green">096</FONT>            public static final String NO_DEFAULT_VALUE = "org.uutuc.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE";<a name="line.96"></a>
-<FONT color="green">097</FONT>    <a name="line.97"></a>
-<FONT color="green">098</FONT>    }<a name="line.98"></a>
+<FONT color="green">065</FONT>             */<a name="line.65"></a>
+<FONT color="green">066</FONT>            String name() default USE_FIELD_NAME;<a name="line.66"></a>
+<FONT color="green">067</FONT>    <a name="line.67"></a>
+<FONT color="green">068</FONT>            String description() default "";<a name="line.68"></a>
+<FONT color="green">069</FONT>    <a name="line.69"></a>
+<FONT color="green">070</FONT>            boolean mandatory() default false;<a name="line.70"></a>
+<FONT color="green">071</FONT>    <a name="line.71"></a>
+<FONT color="green">072</FONT>            /**<a name="line.72"></a>
+<FONT color="green">073</FONT>             * What can be the value should correspond with the type of the field that<a name="line.73"></a>
+<FONT color="green">074</FONT>             * is annotated. If for example, the field is a String, then the default<a name="line.74"></a>
+<FONT color="green">075</FONT>             * value can be any string - e.g. "asdf". If the field is a boolean, then<a name="line.75"></a>
+<FONT color="green">076</FONT>             * the default value can be "true" for true or any other string for false.<a name="line.76"></a>
+<FONT color="green">077</FONT>             * If the field is an integer, then the default value can be any string that<a name="line.77"></a>
+<FONT color="green">078</FONT>             * Integer.parseInt() can successfully parse. Remember that just because the<a name="line.78"></a>
+<FONT color="green">079</FONT>             * default value is a string here that you should give an actual integer<a name="line.79"></a>
+<FONT color="green">080</FONT>             * (not an integer parseable string) value when setting the parameter via<a name="line.80"></a>
+<FONT color="green">081</FONT>             * e.g. AnalysisEngineFactory.createPrimitiveDescription(). If the field is<a name="line.81"></a>
+<FONT color="green">082</FONT>             * a float, then the default value can be any string that<a name="line.82"></a>
+<FONT color="green">083</FONT>             * Float.parseFloat() can successfully parse. Remember that just because the<a name="line.83"></a>
+<FONT color="green">084</FONT>             * default value is a string here that you should give an actual float value<a name="line.84"></a>
+<FONT color="green">085</FONT>             * (not a float parseable string) when setting the parameter via e.g.<a name="line.85"></a>
+<FONT color="green">086</FONT>             * AnalysisEngineFactory.createPrimitiveDescription().<a name="line.86"></a>
+<FONT color="green">087</FONT>             * &lt;p&gt;<a name="line.87"></a>
+<FONT color="green">088</FONT>             * If the field is multiValued, then the value should look something like<a name="line.88"></a>
+<FONT color="green">089</FONT>             * this '{"value1", "value2"}' <a name="line.89"></a>
+<FONT color="green">090</FONT>             * &lt;p&gt;<a name="line.90"></a>
+<FONT color="green">091</FONT>             * If you want a field to be initialized with a null value, then do not specify a default value or specify the value given by the field {@link #NO_DEFAULT_VALUE}<a name="line.91"></a>
+<FONT color="green">092</FONT>             */<a name="line.92"></a>
+<FONT color="green">093</FONT>            String[] defaultValue() default NO_DEFAULT_VALUE;<a name="line.93"></a>
+<FONT color="green">094</FONT>    <a name="line.94"></a>
+<FONT color="green">095</FONT>            public static final String NO_DEFAULT_VALUE = "org.uutuc.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE";<a name="line.95"></a>
+<FONT color="green">096</FONT>    <a name="line.96"></a>
+<FONT color="green">097</FONT>    }<a name="line.97"></a>
 
 
 
