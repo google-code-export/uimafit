@@ -294,6 +294,16 @@ public class ConfigurationParameterFactory {
 
 	}
 
+	public static void addConfigurationParameters(ResourceCreationSpecifier specifier,
+			Class<?>... dynamicallyLoadedClasses) {
+		for (Class<?> dynamicallyLoadedClass : dynamicallyLoadedClasses) {
+			ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
+					.createConfigurationData(dynamicallyLoadedClass);
+			ResourceCreationSpecifierFactory.setConfigurationParameters(specifier,
+					reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);
+		}
+	}
+
 	public static void addConfigurationParameter(ResourceCreationSpecifier specifier, String name, Object value) {
 		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(name, value);
 		ResourceCreationSpecifierFactory.setConfigurationParameters(specifier, cdata.configurationParameters,
