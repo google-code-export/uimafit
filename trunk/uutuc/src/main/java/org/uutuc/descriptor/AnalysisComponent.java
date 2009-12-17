@@ -15,7 +15,12 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ 
+ JavaDoc for multipleDeploymentAllowed(), modifiesCas() and outputsNewCases() is duplicated from 
+ org.apache.uima.resource.metadata.OperationalProperties for sake of the users' convenience. The 
+ copied JavaDoc is licensed as under the Apache 2.0 license as well. No particular author 
+ attribution was given in the original source file.
+ */
 
 package org.uutuc.descriptor;
 
@@ -24,16 +29,46 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.cas.CAS;
+import org.apache.uima.resource.metadata.OperationalProperties;
+
 /**
- * Control aspects of the UIMA analysis component.
- *
+ * Control aspects of the UIMA analysis component.<br/>
+ * 
  * @author Richard Eckart de Castilho
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface AnalysisComponent
 {
+	/**
+	 * Gets whether multiple instances of this component can be run in parallel,
+	 * each receiving a subset of the documents from a collection.
+	 * 
+	 * @return true if multiple instances can be run in parallel, false if not
+	 * @see OperationalProperties#isMultipleDeploymentAllowed()
+	 */
 	boolean multipleDeploymentAllowed() default true;
+
+	/**
+	 * Gets whether this component will modify the CAS.
+	 * 
+	 * @return true if this component modifies the CAS, false if it does not.
+	 * @see OperationalProperties#getModifiesCas()
+	 */
 	boolean modifiesCas() default true;
+
+	/**
+	 * Gets whether this AnalysisEngine may output new CASes. If this property
+	 * is set to true, an application can use the
+	 * {@link AnalysisEngine#processAndOutputNewCASes(CAS)} to pass a CAS to
+	 * this this AnalysisEngine and then step through all of the output CASes
+	 * that it produces. For example, such an AnalysisEngine could segment a CAS
+	 * into smaller pieces, emitting each as a separate CAS.
+	 * 
+	 * @return true if this component may output new CASes, false if it does not
+	 * @see OperationalProperties#getOutputsNewCASes()
+	 */
 	boolean outputsNewCases() default false;
 }
