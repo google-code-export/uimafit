@@ -33,14 +33,14 @@ public class JCasFactoryTest {
 
 	@Test
 	public void testXMI() throws UIMAException, IOException {
-		JCas jCas = JCasFactory.createJCas("test/data/docs/test.xmi", TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem"));
+		JCas jCas = JCasFactory.createJCas("src/test/resources/data/docs/test.xmi", TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem"));
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
 
 	}
 
 	@Test
 	public void testXCAS() throws UIMAException, IOException {
-		JCas jCas = JCasFactory.createJCas("test/data/docs/test.xcas", TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem"), false);
+		JCas jCas = JCasFactory.createJCas("src/test/resources/data/docs/test.xcas", TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem"), false);
 		assertEquals("... the more knowledge advances the more it becomes possible to condense it into little books.", jCas.getDocumentText());
 
 	}

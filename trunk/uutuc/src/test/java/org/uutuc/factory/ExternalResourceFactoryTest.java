@@ -106,7 +106,6 @@ public class ExternalResourceFactoryTest
 		public void process(JCas aJCas)
 			throws AnalysisEngineProcessException
 		{
-			System.out.println("Testing "+this.getClass().getName());
 			assertNotNull(r);
 			assertNotNull(sharedObject);
 			assertEquals(EX_URL, sharedObject.getUrl().toString());
@@ -133,8 +132,6 @@ public class ExternalResourceFactoryTest
 		public void load(DataResource aData)
 			throws ResourceInitializationException
 		{
-			System.out.println("Testing "+this.getClass().getName());
-			System.out.println("Would be loading: "+aData.getUrl());
 			assertEquals(EX_URL, aData.getUrl().toString());
 			url = aData.getUrl();
 		}

@@ -38,7 +38,7 @@ public class SimplePipelineTest {
 	@Test
 	public void test1() throws UIMAException, IOException {
 		CollectionReader cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, 
-				Util.TYPE_SYSTEM_DESCRIPTION, SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/test.xmi",
+				Util.TYPE_SYSTEM_DESCRIPTION, SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
 				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
 		AnalysisEngineDescription aed1 = AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, Util.TYPE_SYSTEM_DESCRIPTION);
 		AnalysisEngineDescription aed2 = AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, Util.TYPE_SYSTEM_DESCRIPTION);
