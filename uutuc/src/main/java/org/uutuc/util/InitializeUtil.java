@@ -22,6 +22,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -88,6 +89,8 @@ public class InitializeUtil {
 	public static void initializeParameters(Object component, UimaContext context)
 			throws ResourceInitializationException {
 		try {
+			Set<String> configParameterNames = new HashSet<String>(Arrays
+					.asList(context.getConfigParameterNames()));
 			for (Field field : ReflectionUtil.getFields(component)) { // component.getClass().getDeclaredFields())
 				// {
 				if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
@@ -96,16 +99,32 @@ public class InitializeUtil {
 
 					Object parameterValue;
 					String configurationParameterName = ConfigurationParameterFactory.getConfigurationParameterName(field);
+					
+					// Obtain either from the context - or - if the context does
+					// not provide the parameter, check if there is a default
+					// value. Note there are three possibilities:
+					// 1) Parameter present and set
+					// 2) Parameter present and not set (null value)
+					// 3) Parameter not present
+					// For case 1 and 2 we have to respect the choice made by
+					// the user. For case 3 we can be sure that the user has no
+					// opinion and we fall back to the default provided by the
+					// developer.
+					if (configParameterNames.contains(configurationParameterName)) {
+						parameterValue = context.getConfigParameterValue(configurationParameterName);
+					}
+					else {
+						parameterValue = ConfigurationParameterFactory.getDefaultValue(field);
+					}
+					
 					//TODO does this check really belong here?  It seems that this check is already performed by UIMA
 					if (annotation.mandatory()) {
-						parameterValue = context.getConfigParameterValue(configurationParameterName);
 						if (parameterValue == null) {
 							String key = ResourceInitializationException.CONFIG_SETTING_ABSENT;
 							throw new ResourceInitializationException(key, new Object[] { configurationParameterName });
 						}
 					}
 					else {
-						parameterValue = context.getConfigParameterValue(configurationParameterName);
 						if (parameterValue == null) {
 							continue;
 						}

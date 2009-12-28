@@ -194,13 +194,21 @@ public class AnalysisEngineFactoryTest {
 
 	@Test
 	public void testReflectPrimitiveDescription() throws ResourceInitializationException, FileNotFoundException, SAXException, IOException {
-		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(ParameterizedAE.class, Util.TYPE_SYSTEM_DESCRIPTION, Util.TYPE_PRIORITIES);
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, Util.TYPE_SYSTEM_DESCRIPTION, Util.TYPE_PRIORITIES);
 		Capability[] capabilities = aed.getAnalysisEngineMetaData().getCapabilities();
 		assertEquals(1, capabilities.length);
 		String[] inputSofas = capabilities[0].getInputSofas();
-		assertArrayEquals(new String[] {CAS.NAME_DEFAULT_SOFA, "MyInputSofa"}, inputSofas);
+		assertArrayEquals(new String[] {CAS.NAME_DEFAULT_SOFA, ViewNames.PARENTHESES_VIEW}, inputSofas);
 		String[] outputSofas = capabilities[0].getOutputSofas();
-		assertArrayEquals(new String[] {"MyOutputSofa"}, outputSofas);
+		assertArrayEquals(new String[] {ViewNames.SORTED_VIEW, ViewNames.SORTED_PARENTHESES_VIEW}, outputSofas);
+
+		aed = AnalysisEngineFactory.createPrimitiveDescription(ParameterizedAE.class, Util.TYPE_SYSTEM_DESCRIPTION, Util.TYPE_PRIORITIES);
+		capabilities = aed.getAnalysisEngineMetaData().getCapabilities();
+		assertEquals(1, capabilities.length);
+		inputSofas = capabilities[0].getInputSofas();
+		assertArrayEquals(new String[] {CAS.NAME_DEFAULT_SOFA}, inputSofas);
+		outputSofas = capabilities[0].getOutputSofas();
+		assertArrayEquals(new String[] {}, outputSofas);
 		
 		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_1, ConfigurationParameter.TYPE_STRING, true, false, "pineapple");
 		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_2, ConfigurationParameter.TYPE_STRING, false, true, new String[]{ "coconut", "mango" });

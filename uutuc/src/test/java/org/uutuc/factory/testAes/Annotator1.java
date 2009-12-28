@@ -20,18 +20,19 @@ package org.uutuc.factory.testAes;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.uutuc.descriptor.SofaCapability;
 import org.uutuc.util.InitializeUtil;
 
 /**
  * @author Philip Ogren
  */
 
+@SofaCapability(inputSofas = CAS.NAME_DEFAULT_SOFA, outputSofas = ViewNames.PARENTHESES_VIEW)
 public class Annotator1 extends JCasAnnotator_ImplBase {
-
-	
 	
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {
@@ -43,6 +44,7 @@ public class Annotator1 extends JCasAnnotator_ImplBase {
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		try {
 			JCas parentheticalView = jCas.createView(ViewNames.PARENTHESES_VIEW);
+			jCas = jCas.getView(CAS.NAME_DEFAULT_SOFA);
 			String initialText = jCas.getDocumentText();
 			String parentheticalText = initialText.replaceAll("[aeiou]+", "($0)");
 			parentheticalView.setDocumentText(parentheticalText);

@@ -24,13 +24,24 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
+import org.apache.uima.UIMAException;
+import org.apache.uima.UimaContext;
+import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.junit.Test;
+import org.uutuc.descriptor.ConfigurationParameter;
 import org.uutuc.factory.AnalysisEngineFactory;
 import org.uutuc.factory.testAes.Annotator1;
 import org.uutuc.factory.testAes.ParameterizedAE;
+import org.xml.sax.SAXException;
 
 /**
  * @author Philip Ogren
@@ -221,6 +232,71 @@ public class InitializeUtilTest {
 	@Test
 	public void testInitialize2() throws ResourceInitializationException {
 		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(Annotator1.class));
-		assertEquals(0, engine.getAnalysisEngineMetaData().getCapabilities().length);
+		assertEquals(1, engine.getAnalysisEngineMetaData().getCapabilities().length);
+	}
+
+	@Test
+	public void testInitialize3() throws FileNotFoundException, SAXException, IOException, UIMAException {
+		//here we test an optional parameter that is missing from the configuration to ensure that it is filled in with the default value
+		AnalysisEngine aed = AnalysisEngineFactory.createAnalysisEngineFromPath("src/test/resources/data/descriptor/DefaultValueAE1.xml");
+		DefaultValueAE1 ae = new DefaultValueAE1();
+		ae.initialize(aed.getUimaContext());
+		assertEquals("green", ae.color);
+
+		//here we test a mandatory parameter that is missing from the configuration and ensure that an exception is thrown because
+		//no default value is given in the configuration parameter annotation.  
+		ResourceInitializationException rie = null;
+		try {
+		aed = AnalysisEngineFactory.createAnalysisEngineFromPath("src/test/resources/data/descriptor/DefaultValueAE2.xml");
+		} catch (ResourceInitializationException e) {
+			rie = e;
+		}
+		assertNotNull(rie);
+	}
+
+	public static class DefaultValueAE1 extends JCasAnnotator_ImplBase {
+		@ConfigurationParameter(defaultValue = "green") 
+		private String color;
+		
+		@Override
+		public void initialize(UimaContext aContext) throws ResourceInitializationException {
+			super.initialize(aContext);
+			InitializeUtil.initialize(this, aContext);
+		}
+
+		@Override
+		public void process(JCas aJCas) throws AnalysisEngineProcessException {
+		}
+		
+	}
+
+	public static class DefaultValueAE2 extends JCasAnnotator_ImplBase {
+		@SuppressWarnings("unused")
+		@ConfigurationParameter(mandatory = true) 
+		private String color;
+		
+		@Override
+		public void initialize(UimaContext aContext) throws ResourceInitializationException {
+			super.initialize(aContext);
+			InitializeUtil.initialize(this, aContext);
+		}
+
+		@Override
+		public void process(JCas aJCas) throws AnalysisEngineProcessException {
+		}
+		
+	}
+
+	/**
+	 * This main method creates the descriptor files used in testInitialize3.  If I weren't lazy I would figure out how to programmatically
+	 * remove the configuration parameter corresponding to 'color'.  As it is, however, the parameter must be manually removed (I used
+	 * the Component Descriptor Editor to do this.)  This point is moot anyways because I am checking in the generated descriptor files and
+	 * there is no reason to run this main method in the future.   
+	 */
+	public static void main(String[] args) throws ResourceInitializationException, FileNotFoundException, SAXException, IOException {
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(DefaultValueAE1.class, null);
+		aed.toXML(new FileOutputStream("src/test/resources/data/descriptor/DefaultValueAE1.xml"));
+		aed = AnalysisEngineFactory.createPrimitiveDescription(DefaultValueAE2.class, null);
+		aed.toXML(new FileOutputStream("src/test/resources/data/descriptor/DefaultValueAE2.xml"));
 	}
 }

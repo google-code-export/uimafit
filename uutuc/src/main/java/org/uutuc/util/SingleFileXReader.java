@@ -23,14 +23,14 @@ import java.io.IOException;
 
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.impl.XCASDeserializer;
-import org.apache.uima.cas.impl.XCASSerializer;
 import org.apache.uima.cas.impl.XmiCasDeserializer;
-import org.apache.uima.cas.impl.XmiCasSerializer;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.collection.CollectionReader_ImplBase;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
 import org.apache.uima.util.ProgressImpl;
+import org.uutuc.descriptor.ConfigurationParameter;
+import org.uutuc.factory.ConfigurationParameterFactory;
 import org.xml.sax.SAXException;
 
 /**
@@ -42,29 +42,26 @@ import org.xml.sax.SAXException;
  * 
  * @author Steven Bethard, Philip Ogren
  */
+
 public class SingleFileXReader extends CollectionReader_ImplBase {
 
-	/**
-	 * "FileName" is a single, required, string parameter that takes either the
-	 * name of a single file or the root directory containing all the files to
-	 * be processed.
-	 */
-	public static final String PARAM_FILE_NAME = "org.uutuc.util.SingleFileXReader.PARAM_FILE_NAME";
+	public static final String PARAM_FILE_NAME = ConfigurationParameterFactory.createConfigurationParameterName(SingleFileXReader.class, "fileName");
 
-	/**
-	 * "XMLScheme" is a single, optional, string parameter that specifies the
-	 * UIMA XML serialization scheme that should be used. Valid values for this
-	 * parameter are "XMI" (default) and "XCAS".
-	 * 
-	 * @see XmiCasSerializer
-	 * @see XCASSerializer
-	 */
-	public static final String PARAM_XML_SCHEME = "org.uutuc.util.SingleFileXReader.PARAM_XML_SCHEME";
+	@ConfigurationParameter(
+			mandatory = true,
+			description = "takes the name of a single xmi or xcas file to be processed.")
+	private String fileName;
 
 	public static final String XMI = "XMI";
-
 	public static final String XCAS = "XCAS";
 
+	public static final String PARAM_XML_SCHEME  = ConfigurationParameterFactory.createConfigurationParameterName(SingleFileXReader.class, "xmlScheme");
+	@ConfigurationParameter(
+			mandatory = true,
+			description = "specifies the UIMA XML serialization scheme that should be usedValid values for this parameter are 'XMI' and 'XCAS'. See XmiCasSerializer or XCASSerializer",
+			defaultValue = XMI)
+	private String xmlScheme;
+	
 	private boolean useXMI = true;
 
 	private boolean hasNext = true;
@@ -75,16 +72,9 @@ public class SingleFileXReader extends CollectionReader_ImplBase {
 	public void initialize() throws ResourceInitializationException {
 		super.initialize();
 
-		// get the input directory
-		String fileName = (String) this.getUimaContext().getConfigParameterValue(PARAM_FILE_NAME);
-
-		if (fileName == null) {
-			throw new ResourceInitializationException(ResourceInitializationException.CONFIG_SETTING_ABSENT,
-					new Object[] { PARAM_FILE_NAME });
-		}
+		InitializeUtil.initialize(this, getUimaContext());
+		
 		file = new File(fileName);
-
-		String xmlScheme = (String) this.getUimaContext().getConfigParameterValue(PARAM_XML_SCHEME);
 
 		if (xmlScheme.equals(XMI)) useXMI = true;
 		else if (xmlScheme.equals(XCAS)) useXMI = false;
@@ -94,6 +84,7 @@ public class SingleFileXReader extends CollectionReader_ImplBase {
 	}
 
 	public void getNext(CAS cas) throws IOException, CollectionException {
+		
 		FileInputStream inputStream = new FileInputStream(file);
 
 		try {
