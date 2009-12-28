@@ -82,7 +82,7 @@ public class AnalysisEngineFactoryTest {
 	
 	@Test
 	public void testProcess2() throws UIMAException, IOException {
-		JCas jCas = AnalysisEngineFactory.process("org.uutuc.util.JCasAnnotatorAdapter", "test/data/docs/A.txt");
+		JCas jCas = AnalysisEngineFactory.process("org.uutuc.util.JCasAnnotatorAdapter", "src/test/resources/data/docs/A.txt");
 		
 		assertEquals("Aaa Bbbb Cc Dddd eeee ff .", jCas.getDocumentText());
 	}
@@ -184,7 +184,7 @@ public class AnalysisEngineFactoryTest {
 		
 		
 		CollectionReader cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, 
-				Util.TYPE_SYSTEM_DESCRIPTION, SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/test.xmi",
+				Util.TYPE_SYSTEM_DESCRIPTION, SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
 				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
 		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, Util.TYPE_SYSTEM_DESCRIPTION);
 

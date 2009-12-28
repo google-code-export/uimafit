@@ -1,7 +1,9 @@
 changes in 0.9.10
  	- fixed issue 23 "use default values in InitializeUtil"
- 	- added ConfigurationParameterFactory.createConfigurationParameterName method
+ 	- added ConfigurationParameterFactory.createConfigurationParameterName 
+ 	  method which resolves issue 22 "ConfigurationParameter name quandry" 
  	- fixed issue 17 "all test components should use annotations"
+ 	- 
 changes in 0.9.9
 - added several addConfigurationParameters methods to ConfigurationParameterFactory. 
   These are useful for a variety of scenarios - esp. when you need configuration parameter

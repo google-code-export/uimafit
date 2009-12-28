@@ -45,7 +45,7 @@ public class CollectionReaderFactoryTest {
 	public void testCreateCollectionReader() throws UIMAException, IOException {
 		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem");
 		CollectionReader reader = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, 
-				typeSystemDescription, SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/test.xmi",
+				typeSystemDescription, SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
 				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
 		
 		JCasIterable jCasIterable = new JCasIterable(reader, typeSystemDescription);
@@ -59,7 +59,7 @@ public class CollectionReaderFactoryTest {
 
 		
 		reader = CollectionReaderFactory.createCollectionReader("org.uutuc.util.SingleFileXReader", 
-				SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/test.xmi",
+				SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
 				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
 
 		jCasIterable = new JCasIterable(reader, typeSystemDescription);
@@ -73,7 +73,7 @@ public class CollectionReaderFactoryTest {
 
 		
 		reader = CollectionReaderFactory.createCollectionReaderFromPath("src/main/resources/org/uutuc/util/SingleFileXReader.xml", 
-				SingleFileXReader.PARAM_FILE_NAME, "test/data/docs/test.xmi",
+				SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
 				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
 
 		jCasIterable = new JCasIterable(reader, typeSystemDescription);
