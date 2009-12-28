@@ -167,6 +167,16 @@ public class ConfigurationParameterFactory {
 		return null;
 	}
 	
+	 public static String createConfigurationParameterName(Class<?> clazz, String fieldName) throws RuntimeException {
+		 try {
+			 return ConfigurationParameterFactory.getConfigurationParameterName(
+					clazz.getDeclaredField(fieldName));
+		 } catch(Exception e) {
+			 throw new RuntimeException(e);
+		 }
+	 }
+
+	
 	public static ConfigurationParameter createPrimitiveParameter(Field field) {
 		if (isConfigurationParameterField(field)) {
 			org.uutuc.descriptor.ConfigurationParameter annotation = field

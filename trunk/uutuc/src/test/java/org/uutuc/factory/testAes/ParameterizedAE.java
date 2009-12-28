@@ -36,7 +36,7 @@ import org.uutuc.util.InitializeUtil;
  * @author Philip Ogren
  */
 
-@SofaCapability(inputSofas= {CAS.NAME_DEFAULT_SOFA, "MyInputSofa"}, outputSofas="MyOutputSofa")
+@SofaCapability(inputSofas= CAS.NAME_DEFAULT_SOFA)
 public class ParameterizedAE extends JCasAnnotator_ImplBase {
 
 	public static final String PARAM_STRING_1 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_STRING_1";

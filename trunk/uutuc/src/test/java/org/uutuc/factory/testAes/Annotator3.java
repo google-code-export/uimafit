@@ -18,20 +18,23 @@ package org.uutuc.factory.testAes;
 
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
+import org.uutuc.descriptor.SofaCapability;
 
 /**
  * @author Philip Ogren
  */
-
+@SofaCapability(inputSofas=CAS.NAME_DEFAULT_SOFA, outputSofas=ViewNames.REVERSE_VIEW)
 public class Annotator3 extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
-		String text = jCas.getDocumentText();
-		String reverseText = reverse(text);
 		try {
+			jCas = jCas.getView(CAS.NAME_DEFAULT_SOFA);
+			String text = jCas.getDocumentText();
+			String reverseText = reverse(text);
 			JCas reverseView = jCas.createView(ViewNames.REVERSE_VIEW);
 			reverseView.setDocumentText(reverseText);
 		}
@@ -49,4 +52,6 @@ public class Annotator3 extends JCasAnnotator_ImplBase {
 		}
 		return returnValue.toString();
 	}
+	
+
 }

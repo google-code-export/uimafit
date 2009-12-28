@@ -43,7 +43,7 @@ public class SimplePipelineTest {
 		AnalysisEngineDescription aed1 = AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, Util.TYPE_SYSTEM_DESCRIPTION);
 		AnalysisEngineDescription aed2 = AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, Util.TYPE_SYSTEM_DESCRIPTION);
 		AnalysisEngineDescription aed3 = AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, Util.TYPE_SYSTEM_DESCRIPTION);
-		
 		SimplePipeline.runPipeline(cr, aed1, aed2, aed3);
+		
 	}
 }

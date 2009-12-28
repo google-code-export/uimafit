@@ -13,26 +13,30 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uutuc.factory.testAes;
 
 import java.util.Arrays;
 
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
+import org.uutuc.descriptor.SofaCapability;
 
 /**
  * @author Philip Ogren
  */
 
+@SofaCapability(inputSofas = { CAS.NAME_DEFAULT_SOFA, ViewNames.PARENTHESES_VIEW }, outputSofas = {ViewNames.SORTED_VIEW, ViewNames.SORTED_PARENTHESES_VIEW})
 public class Annotator2 extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		try {
 			JCas sortedView = jCas.createView(ViewNames.SORTED_VIEW);
+			jCas = jCas.getView(CAS.NAME_DEFAULT_SOFA);
 			String initialText = jCas.getDocumentText();
 			char[] chars = initialText.toCharArray();
 			Arrays.sort(chars);
@@ -52,7 +56,6 @@ public class Annotator2 extends JCasAnnotator_ImplBase {
 			throw new AnalysisEngineProcessException(e);
 		}
 
-		
 	}
 
 }

@@ -24,13 +24,13 @@
     <vendor/>
     <configurationParameters>
       <configurationParameter>
-        <name>org.uutuc.util.SingleFileXReader.PARAM_FILE_NAME</name>
+        <name>org.uutuc.util.SingleFileXReader.fileName</name>
         <type>String</type>
         <multiValued>false</multiValued>
         <mandatory>true</mandatory>
       </configurationParameter>
       <configurationParameter>
-        <name>org.uutuc.util.SingleFileXReader.PARAM_XML_SCHEME</name>
+        <name>org.uutuc.util.SingleFileXReader.xmlScheme</name>
         <type>String</type>
         <multiValued>false</multiValued>
         <mandatory>false</mandatory>
