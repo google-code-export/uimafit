@@ -1,5 +1,4 @@
 
-
 Here is the current (but not perfect) procedure for creating a release:
 
 First update the javadoc pages:
@@ -11,6 +10,7 @@ First update the javadoc pages:
 >cp -R target\site\apidocs .
 }}}
   * be sure to change the pom file back so that the version is the snapshot version
+  * commit files to the repository before performing the release so that they get tagged correctly.
 
 Next run the following:
 
