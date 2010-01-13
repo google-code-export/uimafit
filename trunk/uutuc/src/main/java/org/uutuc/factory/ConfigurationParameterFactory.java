@@ -148,7 +148,8 @@ public class ConfigurationParameterFactory {
 		Class<?> parameterClass = field.getType();
 		if (parameterClass.isArray()) {
 			return true;
-		} else if (Collection.class.isAssignableFrom(parameterClass)) {
+		}
+		else if (Collection.class.isAssignableFrom(parameterClass)) {
 			return true;
 		}
 		return false;
@@ -157,7 +158,7 @@ public class ConfigurationParameterFactory {
 	public static String getConfigurationParameterName(Field field) {
 		if (isConfigurationParameterField(field)) {
 			org.uutuc.descriptor.ConfigurationParameter annotation = field
-			.getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);
+					.getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);
 			String name = annotation.name();
 			if (name.equals(org.uutuc.descriptor.ConfigurationParameter.USE_FIELD_NAME)) {
 				name = field.getDeclaringClass().getName() + "." + field.getName();
@@ -166,17 +167,16 @@ public class ConfigurationParameterFactory {
 		}
 		return null;
 	}
-	
-	 public static String createConfigurationParameterName(Class<?> clazz, String fieldName) throws RuntimeException {
-		 try {
-			 return ConfigurationParameterFactory.getConfigurationParameterName(
-					clazz.getDeclaredField(fieldName));
-		 } catch(Exception e) {
-			 throw new RuntimeException(e);
-		 }
-	 }
 
-	
+	public static String createConfigurationParameterName(Class<?> clazz, String fieldName) throws RuntimeException {
+		try {
+			return ConfigurationParameterFactory.getConfigurationParameterName(clazz.getDeclaredField(fieldName));
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public static ConfigurationParameter createPrimitiveParameter(Field field) {
 		if (isConfigurationParameterField(field)) {
 			org.uutuc.descriptor.ConfigurationParameter annotation = field
@@ -234,30 +234,35 @@ public class ConfigurationParameterFactory {
 			throw new IllegalArgumentException(message);
 		}
 
+		
 		int numberOfParameters = configurationData.length / 2;
-		ConfigurationParameter[] configurationParameters = new ConfigurationParameter[numberOfParameters];
-		Object[] configurationValues = new Object[numberOfParameters];
-
+		List<ConfigurationParameter> configurationParameters = new ArrayList<ConfigurationParameter>();
+		List<Object> configurationValues = new ArrayList<Object>();
+		
 		for (int i = 0; i < numberOfParameters; i++) {
 			String name = (String) configurationData[i * 2];
 			Object value = configurationData[i * 2 + 1];
 
+			if (value == null) {
+				continue;
+			}
+			
 			if (value.getClass().isArray() && value.getClass().getComponentType().getName().equals("boolean")) {
 				value = ArrayUtils.toObject((boolean[]) value);
 			}
-			if (value.getClass().isArray() && value.getClass().getComponentType().getName().equals("int")) {
+			else if (value.getClass().isArray() && value.getClass().getComponentType().getName().equals("int")) {
 				value = ArrayUtils.toObject((int[]) value);
 			}
-			if (value.getClass().isArray() && value.getClass().getComponentType().getName().equals("float")) {
+			else if (value.getClass().isArray() && value.getClass().getComponentType().getName().equals("float")) {
 				value = ArrayUtils.toObject((float[]) value);
 			}
 
 			ConfigurationParameter param = ConfigurationParameterFactory.createPrimitiveParameter(name, value
 					.getClass(), null, false);
-			configurationParameters[i] = param;
-			configurationValues[i] = value;
+			configurationParameters.add(param);
+			configurationValues.add(value);
 		}
-		return new ConfigurationData(configurationParameters, configurationValues);
+		return new ConfigurationData(configurationParameters.toArray(new ConfigurationParameter[configurationParameters.size()]), configurationValues.toArray());
 	}
 
 	public static ConfigurationData createConfigurationData(Class<?> componentClass) {
@@ -286,20 +291,20 @@ public class ConfigurationParameterFactory {
 		}
 
 	}
-	
+
 	public static void addConfigurationParameters(ResourceCreationSpecifier specifier, Object... configurationData) {
 		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
 		ResourceCreationSpecifierFactory.setConfigurationParameters(specifier, cdata.configurationParameters,
 				cdata.configurationValues);
 	}
 
-	public static void addConfigurationParameters(ResourceCreationSpecifier specifier, List<Class<?>> dynamicallyLoadedClasses) {
+	public static void addConfigurationParameters(ResourceCreationSpecifier specifier,
+			List<Class<?>> dynamicallyLoadedClasses) {
 		for (Class<?> dynamicallyLoadedClass : dynamicallyLoadedClasses) {
 			ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
 					.createConfigurationData(dynamicallyLoadedClass);
 			ResourceCreationSpecifierFactory.setConfigurationParameters(specifier,
-					reflectedConfigurationData.configurationParameters,
-					reflectedConfigurationData.configurationValues);
+					reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);
 		}
 
 	}
@@ -318,7 +323,7 @@ public class ConfigurationParameterFactory {
 		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(name, value);
 		ResourceCreationSpecifierFactory.setConfigurationParameters(specifier, cdata.configurationParameters,
 				cdata.configurationValues);
-		
+
 	}
 
 }
