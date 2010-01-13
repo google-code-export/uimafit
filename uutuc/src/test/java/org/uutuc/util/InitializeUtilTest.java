@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.UIMAFramework;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngine;
@@ -36,6 +37,7 @@ import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.metadata.impl.ConfigurationParameterSettings_impl;
 import org.junit.Test;
 import org.uutuc.descriptor.ConfigurationParameter;
 import org.uutuc.factory.AnalysisEngineFactory;
@@ -252,6 +254,27 @@ public class InitializeUtilTest {
 			rie = e;
 		}
 		assertNotNull(rie);
+	}
+
+	/**
+	 * Check that an Analysis Engine created from a descriptor declaring optional parameters but not
+	 * setting them actually uses the default values declared in the Java annotation
+	 */
+	@Test
+	public void testUnsetOptionalParameter() throws Exception {
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(
+				DefaultValueAE1.class, null);
+		// Remove the settings from the descriptor, but leave the declarations. The settings
+		// are already filled with default values by createPrimitiveDescription, but here we
+		// want to simulate loading a descriptor without settings from a file. The file of
+		// course would declare the parameters optional and thus the settings for the optional
+		// parameters would be empty. We expect that a default value from the annotation is used
+		// in this case.
+		aed.getMetaData().setConfigurationParameterSettings(new ConfigurationParameterSettings_impl());
+		AnalysisEngine template = UIMAFramework.produceAnalysisEngine(aed);
+		DefaultValueAE1 ae = new DefaultValueAE1();
+		ae.initialize(template.getUimaContext());
+		assertEquals("green", ae.color);
 	}
 
 	public static class DefaultValueAE1 extends JCasAnnotator_ImplBase {
