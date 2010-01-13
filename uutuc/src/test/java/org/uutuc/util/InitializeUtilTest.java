@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uutuc.util;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -53,25 +53,26 @@ public class InitializeUtilTest {
 
 	@Test
 	public void testInitialize() throws ResourceInitializationException, SecurityException, NoSuchFieldException {
-		
+
 		ResourceInitializationException rie = null;
 		try {
 			AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class));
-		} catch(ResourceInitializationException e) {
+		}
+		catch (ResourceInitializationException e) {
 			rie = e;
 		}
 		assertNotNull(rie);
-		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class, ParameterizedAE.PARAM_FLOAT_3, 1.234f,
-				ParameterizedAE.PARAM_FLOAT_6, new Float[] {1.234f, 0.001f},
-				"file2", "foo/bar"));
-		
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(
+				ParameterizedAE.class, ParameterizedAE.PARAM_FLOAT_3, 1.234f, ParameterizedAE.PARAM_FLOAT_6,
+				new Float[] { 1.234f, 0.001f }, "file2", "foo/bar"));
+
 		ParameterizedAE component = new ParameterizedAE();
 		component.initialize(engine.getUimaContext());
 		assertEquals("pineapple", component.getString1());
-		assertArrayEquals(new String[]{"coconut", "mango"}, component.getString2());
+		assertArrayEquals(new String[] { "coconut", "mango" }, component.getString2());
 		assertEquals(null, component.getString3());
-		assertArrayEquals(new String[] {"apple"}, component.getString4());
-		assertArrayEquals(new String[] {""}, component.getString5());
+		assertArrayEquals(new String[] { "apple" }, component.getString4());
+		assertArrayEquals(new String[] { "" }, component.getString5());
 		assertEquals(3, component.getStrings6().size());
 		assertTrue(component.getStrings6().contains("kiwi fruit"));
 		assertTrue(component.getStrings6().contains("grape"));
@@ -79,23 +80,20 @@ public class InitializeUtilTest {
 		assertNull(component.getStrings7());
 		assertEquals(1, component.getStrings8().size());
 		assertTrue(component.getStrings8().contains("cherry"));
-		
-		
-		
-		
+
 		assertFalse(component.isBoolean1());
-		
+
 		NullPointerException npe = null;
 		try {
 			assertFalse(component.isBoolean2());
-		} catch(NullPointerException e) {
+		}
+		catch (NullPointerException e) {
 			npe = e;
 		}
 		assertNotNull(npe);
-		
+
 		assertFalse(component.isBoolean2b());
-		
-		
+
 		assertTrue(component.getBoolean3()[0]);
 		assertTrue(component.getBoolean3()[1]);
 		assertFalse(component.getBoolean3()[2]);
@@ -108,7 +106,7 @@ public class InitializeUtilTest {
 		assertTrue(component.getBooleans6().get(1));
 		assertTrue(component.getBooleans6().get(2));
 		assertFalse(component.getBooleans6().get(3));
-		
+
 		assertEquals(0, component.getInt1());
 		assertEquals(42, component.getInt2());
 		assertEquals(42, component.getInt3()[0]);
@@ -122,7 +120,7 @@ public class InitializeUtilTest {
 		assertEquals(3, component.getInts6().get(2).intValue());
 		assertEquals(4, component.getInts6().get(3).intValue());
 		assertEquals(5, component.getInts6().get(4).intValue());
-		
+
 		assertEquals(0.0f, component.getFloat1(), 0.001f);
 		assertEquals(3.1415f, component.getFloat2(), 0.001f);
 		assertEquals(1.234f, component.getFloat3(), 0.001f);
@@ -135,13 +133,13 @@ public class InitializeUtilTest {
 		assertEquals(1.1111f, component.getFloat7()[0], 0.001f);
 		assertEquals(2.2222f, component.getFloat7()[1], 0.001f);
 		assertEquals(3.3333f, component.getFloat7()[2], 0.001f);
-		
+
 		assertEquals(new File("test/data/file"), component.getFile1());
 		assertEquals(new File("test/data/file"), component.getFile1b());
 		assertEquals(new File("foo/bar"), component.getFile2());
 		assertNull(component.getFiles3());
-		assertArrayEquals(new File[] {new File("test/data/file")}, component.getFiles4());
-		assertArrayEquals(new File[] {new File("test/data/file"), new File("test/data/file2")}, component.getFiles5());
+		assertArrayEquals(new File[] { new File("test/data/file") }, component.getFiles4());
+		assertArrayEquals(new File[] { new File("test/data/file"), new File("test/data/file2") }, component.getFiles5());
 		assertNull(component.getFiles6());
 		assertEquals(1, component.getFiles7().size());
 		assertEquals(new File("test/data/file"), component.getFiles7().get(0));
@@ -149,38 +147,27 @@ public class InitializeUtilTest {
 		assertEquals(new File("test/data/file"), component.getFiles8().get(0));
 		assertEquals(new File("test/data/file2"), component.getFiles8().get(1));
 
-
-		engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class, ParameterizedAE.PARAM_FLOAT_3, 1.234f,
-				ParameterizedAE.PARAM_FLOAT_6, new Float[] {1.234f, 0.001f}, ParameterizedAE.PARAM_STRING_1, "lime",
-				ParameterizedAE.PARAM_STRING_2, new String[] {"banana", "strawberry"},
-				ParameterizedAE.PARAM_STRING_3, "cherry",
-				ParameterizedAE.PARAM_STRING_4, new String[] {"raspberry", "blueberry", "blackberry"},
-				ParameterizedAE.PARAM_STRING_5, new String[] {"a"},
-				ParameterizedAE.PARAM_BOOLEAN_1, true,
-				ParameterizedAE.PARAM_BOOLEAN_2, true,
-				ParameterizedAE.PARAM_BOOLEAN_3, new boolean[] {true, true, false},
-				ParameterizedAE.PARAM_BOOLEAN_4, new Boolean[] {true, false, false},
-				ParameterizedAE.PARAM_BOOLEAN_5, new Boolean[] {true},
-				ParameterizedAE.PARAM_INT_1, 0,
-				ParameterizedAE.PARAM_INT_2, 24,
-				ParameterizedAE.PARAM_INT_3, new int[] {5},
-				"file1", "foo1/bar1",
-				"file1b", "foo1b/bar1b",
-				"file2", "foo2/bar2",
-				"files3", new String[] {"C:\\Documents and Settings\\Philip\\My Documents\\", "/usr/local/bin"},
-				"files4", new String[0],
-				"files5", new String[] {"foos/bars"},
-				"files6", new String[] {"C:\\Documents and Settings\\Philip\\My Documents\\", "/usr/local/bin"},
-				"files7", new String[0],
-				"files8", new String[] {"foos/bars"}
-				));
+		engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class,
+				ParameterizedAE.PARAM_FLOAT_3, 1.234f, ParameterizedAE.PARAM_FLOAT_6, new Float[] { 1.234f, 0.001f },
+				ParameterizedAE.PARAM_STRING_1, "lime", ParameterizedAE.PARAM_STRING_2, new String[] { "banana",
+						"strawberry" }, ParameterizedAE.PARAM_STRING_3, "cherry", ParameterizedAE.PARAM_STRING_4,
+				new String[] { "raspberry", "blueberry", "blackberry" }, ParameterizedAE.PARAM_STRING_5,
+				new String[] { "a" }, ParameterizedAE.PARAM_BOOLEAN_1, true, ParameterizedAE.PARAM_BOOLEAN_2, true,
+				ParameterizedAE.PARAM_BOOLEAN_3, new boolean[] { true, true, false }, ParameterizedAE.PARAM_BOOLEAN_4,
+				new Boolean[] { true, false, false }, ParameterizedAE.PARAM_BOOLEAN_5, new Boolean[] { true },
+				ParameterizedAE.PARAM_INT_1, 0, ParameterizedAE.PARAM_INT_2, 24, ParameterizedAE.PARAM_INT_3,
+				new int[] { 5 }, "file1", "foo1/bar1", "file1b", "foo1b/bar1b", "file2", "foo2/bar2", "files3",
+				new String[] { "C:\\Documents and Settings\\Philip\\My Documents\\", "/usr/local/bin" }, "files4",
+				new String[0], "files5", new String[] { "foos/bars" }, "files6", new String[] {
+						"C:\\Documents and Settings\\Philip\\My Documents\\", "/usr/local/bin" }, "files7",
+				new String[0], "files8", new String[] { "foos/bars" }));
 		component = new ParameterizedAE();
 		component.initialize(engine.getUimaContext());
 		assertEquals("lime", component.getString1());
-		assertArrayEquals(new String[] {"banana", "strawberry"}, component.getString2());
+		assertArrayEquals(new String[] { "banana", "strawberry" }, component.getString2());
 		assertEquals("cherry", component.getString3());
-		assertArrayEquals(new String[] {"raspberry", "blueberry", "blackberry"}, component.getString4());
-		assertArrayEquals(new String[] {"a"}, component.getString5());
+		assertArrayEquals(new String[] { "raspberry", "blueberry", "blackberry" }, component.getString4());
+		assertArrayEquals(new String[] { "a" }, component.getString5());
 		assertTrue(component.isBoolean1());
 		assertTrue(component.isBoolean2());
 		assertTrue(component.getBoolean3()[0]);
@@ -197,9 +184,10 @@ public class InitializeUtilTest {
 		assertEquals(new File("foo1/bar1"), component.getFile1());
 		assertEquals(new File("foo1b/bar1b"), component.getFile1b());
 		assertEquals(new File("foo2/bar2"), component.getFile2());
-		assertArrayEquals(new File[] {new File("C:\\Documents and Settings\\Philip\\My Documents\\"), new File("/usr/local/bin")}, component.getFiles3());
+		assertArrayEquals(new File[] { new File("C:\\Documents and Settings\\Philip\\My Documents\\"),
+				new File("/usr/local/bin") }, component.getFiles3());
 		assertEquals(0, component.getFiles4().length);
-		assertArrayEquals(new File[] {new File("foos/bars")}, component.getFiles5());
+		assertArrayEquals(new File[] { new File("foos/bars") }, component.getFiles5());
 		assertEquals(2, component.getFiles6().size());
 		assertEquals(new File("C:\\Documents and Settings\\Philip\\My Documents\\"), component.getFiles6().get(0));
 		assertEquals(new File("/usr/local/bin"), component.getFiles6().get(1));
@@ -207,11 +195,10 @@ public class InitializeUtilTest {
 		assertEquals(1, component.getFiles8().size());
 		assertEquals(new File("foos/bars"), component.getFiles8().get(0));
 
-		engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class, ParameterizedAE.PARAM_FLOAT_3, 1.234f,
-				ParameterizedAE.PARAM_FLOAT_6, new Float[] {1.234f, 0.001f}, ParameterizedAE.PARAM_BOOLEAN_1, true,
-				ParameterizedAE.PARAM_BOOLEAN_3, new boolean[3],
-				ParameterizedAE.PARAM_FLOAT_5, new float[] {1.2f, 3.4f},
-				"file2", "foo2/bar2"));
+		engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class,
+				ParameterizedAE.PARAM_FLOAT_3, 1.234f, ParameterizedAE.PARAM_FLOAT_6, new Float[] { 1.234f, 0.001f },
+				ParameterizedAE.PARAM_BOOLEAN_1, true, ParameterizedAE.PARAM_BOOLEAN_3, new boolean[3],
+				ParameterizedAE.PARAM_FLOAT_5, new float[] { 1.2f, 3.4f }, "file2", "foo2/bar2"));
 		component = new ParameterizedAE();
 		component.initialize(engine.getUimaContext());
 		assertFalse(component.getBoolean3()[0]);
@@ -219,56 +206,95 @@ public class InitializeUtilTest {
 		assertFalse(component.getBoolean3()[2]);
 		assertEquals(component.getFloat5()[0], 1.2f, 0.001f);
 		assertEquals(component.getFloat5()[1], 3.4f, 0.001f);
-		
+
 		rie = null;
 		try {
-		engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class, ParameterizedAE.PARAM_FLOAT_3, 1.234f,
-				ParameterizedAE.PARAM_FLOAT_6, new Float[] {1.234f, 0.001f}, ParameterizedAE.PARAM_STRING_1, true));
-		} catch(ResourceInitializationException e) {
+			engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class,
+					ParameterizedAE.PARAM_FLOAT_3, 1.234f, ParameterizedAE.PARAM_FLOAT_6,
+					new Float[] { 1.234f, 0.001f }, ParameterizedAE.PARAM_STRING_1, true));
+		}
+		catch (ResourceInitializationException e) {
 			rie = e;
 		}
 		assertNotNull(rie);
-		
+
 	}
-	
+
 	@Test
 	public void testInitialize2() throws ResourceInitializationException {
-		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(Annotator1.class));
+		AnalysisEngine engine = AnalysisEngineFactory
+				.createPrimitive(Util.createPrimitiveDescription(Annotator1.class));
 		assertEquals(1, engine.getAnalysisEngineMetaData().getCapabilities().length);
 	}
 
 	@Test
 	public void testInitialize3() throws FileNotFoundException, SAXException, IOException, UIMAException {
-		//here we test an optional parameter that is missing from the configuration to ensure that it is filled in with the default value
-		AnalysisEngine aed = AnalysisEngineFactory.createAnalysisEngineFromPath("src/test/resources/data/descriptor/DefaultValueAE1.xml");
+		// here we test an optional parameter that is missing from the
+		// configuration to ensure that it is filled in with the default value
+		AnalysisEngine aed = AnalysisEngineFactory
+				.createAnalysisEngineFromPath("src/test/resources/data/descriptor/DefaultValueAE1.xml");
 		DefaultValueAE1 ae = new DefaultValueAE1();
 		ae.initialize(aed.getUimaContext());
 		assertEquals("green", ae.color);
 
-		//here we test a mandatory parameter that is missing from the configuration and ensure that an exception is thrown because
-		//no default value is given in the configuration parameter annotation.  
+		// here we test a mandatory parameter that is missing from the
+		// configuration and ensure that an exception is thrown because
+		// no default value is given in the configuration parameter annotation.
 		ResourceInitializationException rie = null;
 		try {
-		aed = AnalysisEngineFactory.createAnalysisEngineFromPath("src/test/resources/data/descriptor/DefaultValueAE2.xml");
-		} catch (ResourceInitializationException e) {
+			aed = AnalysisEngineFactory
+					.createAnalysisEngineFromPath("src/test/resources/data/descriptor/DefaultValueAE2.xml");
+		}
+		catch (ResourceInitializationException e) {
 			rie = e;
 		}
 		assertNotNull(rie);
 	}
 
 	/**
-	 * Check that an Analysis Engine created from a descriptor declaring optional parameters but not
-	 * setting them actually uses the default values declared in the Java annotation
+	 * If a parameter value is set to null, that is as good as if it was not set
+	 * at all. If a default value is specified, it should be used.
+	 */
+	@Test
+	public void testParameterSetToNull() throws Exception {
+			String paramColor = DefaultValueAE1.class.getName() + ".color";
+			AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultValueAE1.class, null, paramColor, null);
+			DefaultValueAE1 ae = new DefaultValueAE1();
+			ae.initialize(aed.getUimaContext());
+			assertEquals("green", ae.color);
+	}
+
+	/**
+	 * If a parameter value is set to null, that is as good as if it was not set
+	 * at all. If it is mandatory, an exception has to be thrown.
+	 */
+	@Test(expected = ResourceInitializationException.class)
+	public void testMandatoryParameterSetToNull() throws Exception {
+			String paramColor = DefaultValueAE2.class.getName() + ".color";
+			AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultValueAE2.class, null, paramColor, null);
+			DefaultValueAE2 ae = new DefaultValueAE2();
+			ae.initialize(aed.getUimaContext());
+
+	}
+
+	/**
+	 * Check that an Analysis Engine created from a descriptor declaring
+	 * optional parameters but not setting them actually uses the default values
+	 * declared in the Java annotation
 	 */
 	@Test
 	public void testUnsetOptionalParameter() throws Exception {
-		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(
-				DefaultValueAE1.class, null);
-		// Remove the settings from the descriptor, but leave the declarations. The settings
-		// are already filled with default values by createPrimitiveDescription, but here we
-		// want to simulate loading a descriptor without settings from a file. The file of
-		// course would declare the parameters optional and thus the settings for the optional
-		// parameters would be empty. We expect that a default value from the annotation is used
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(DefaultValueAE1.class, null);
+		// Remove the settings from the descriptor, but leave the declarations.
+		// The settings
+		// are already filled with default values by createPrimitiveDescription,
+		// but here we
+		// want to simulate loading a descriptor without settings from a file.
+		// The file of
+		// course would declare the parameters optional and thus the settings
+		// for the optional
+		// parameters would be empty. We expect that a default value from the
+		// annotation is used
 		// in this case.
 		aed.getMetaData().setConfigurationParameterSettings(new ConfigurationParameterSettings_impl());
 		AnalysisEngine template = UIMAFramework.produceAnalysisEngine(aed);
@@ -278,9 +304,9 @@ public class InitializeUtilTest {
 	}
 
 	public static class DefaultValueAE1 extends JCasAnnotator_ImplBase {
-		@ConfigurationParameter(defaultValue = "green") 
+		@ConfigurationParameter(defaultValue = "green")
 		private String color;
-		
+
 		@Override
 		public void initialize(UimaContext aContext) throws ResourceInitializationException {
 			super.initialize(aContext);
@@ -290,14 +316,14 @@ public class InitializeUtilTest {
 		@Override
 		public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		}
-		
+
 	}
 
 	public static class DefaultValueAE2 extends JCasAnnotator_ImplBase {
 		@SuppressWarnings("unused")
-		@ConfigurationParameter(mandatory = true) 
+		@ConfigurationParameter(mandatory = true)
 		private String color;
-		
+
 		@Override
 		public void initialize(UimaContext aContext) throws ResourceInitializationException {
 			super.initialize(aContext);
@@ -307,16 +333,20 @@ public class InitializeUtilTest {
 		@Override
 		public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		}
-		
+
 	}
 
 	/**
-	 * This main method creates the descriptor files used in testInitialize3.  If I weren't lazy I would figure out how to programmatically
-	 * remove the configuration parameter corresponding to 'color'.  As it is, however, the parameter must be manually removed (I used
-	 * the Component Descriptor Editor to do this.)  This point is moot anyways because I am checking in the generated descriptor files and
-	 * there is no reason to run this main method in the future.   
+	 * This main method creates the descriptor files used in testInitialize3. If
+	 * I weren't lazy I would figure out how to programmatically remove the
+	 * configuration parameter corresponding to 'color'. As it is, however, the
+	 * parameter must be manually removed (I used the Component Descriptor
+	 * Editor to do this.) This point is moot anyways because I am checking in
+	 * the generated descriptor files and there is no reason to run this main
+	 * method in the future.
 	 */
-	public static void main(String[] args) throws ResourceInitializationException, FileNotFoundException, SAXException, IOException {
+	public static void main(String[] args) throws ResourceInitializationException, FileNotFoundException, SAXException,
+			IOException {
 		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(DefaultValueAE1.class, null);
 		aed.toXML(new FileOutputStream("src/test/resources/data/descriptor/DefaultValueAE1.xml"));
 		aed = AnalysisEngineFactory.createPrimitiveDescription(DefaultValueAE2.class, null);
