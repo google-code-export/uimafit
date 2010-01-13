@@ -1,7 +1,7 @@
 changes in 0.9.11
 	- fixed issue #23 "use default values in InitializeUtil" again.  See final comments in that issue for the mo' better fix.
 	- fixed issue #27 "Parameters cannot be set to null".
-	
+	- add javadoc for @SofaCapability per wontfix issue #26 "sofa aware components treat "base CAS" differently then "_InitialView""
 
 changes in 0.9.10
  	- fixed issue 23 "use default values in InitializeUtil"
