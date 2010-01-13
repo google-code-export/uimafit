@@ -89,8 +89,6 @@ public class InitializeUtil {
 	public static void initializeParameters(Object component, UimaContext context)
 			throws ResourceInitializationException {
 		try {
-			Set<String> configParameterNames = new HashSet<String>(Arrays
-					.asList(context.getConfigParameterNames()));
 			for (Field field : ReflectionUtil.getFields(component)) { // component.getClass().getDeclaredFields())
 				// {
 				if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
@@ -104,16 +102,14 @@ public class InitializeUtil {
 					// not provide the parameter, check if there is a default
 					// value. Note there are three possibilities:
 					// 1) Parameter present and set
-					// 2) Parameter present and not set (null value)
-					// 3) Parameter not present
-					// For case 1 and 2 we have to respect the choice made by
-					// the user. For case 3 we can be sure that the user has no
-					// opinion and we fall back to the default provided by the
-					// developer.
-					if (configParameterNames.contains(configurationParameterName)) {
-						parameterValue = context.getConfigParameterValue(configurationParameterName);
-					}
-					else {
+					// 2) Parameter present and set to null (null value)
+					// 3) Parameter not present (also provided as null value by UIMA)
+					// Unfortunately we cannot make a difference between case 2 and 3 since UIMA
+					// does not allow us to actually get a list of the parameters set in the 
+					// context. We can only get a list of the declared parameters. Thus we
+					// have to rely on the null value. 
+					parameterValue = context.getConfigParameterValue(configurationParameterName);
+					if (parameterValue == null) {
 						parameterValue = ConfigurationParameterFactory.getDefaultValue(field);
 					}
 					
