@@ -57,6 +57,8 @@ public class TearDownUtilTest {
 		TearDownUtil.removeDirectory(removeDir);
 		assertFalse(subDir.exists());
 		assertFalse(removeDir.exists());
+		
+		TearDownUtil.removeDirectory(new File("test/data"));
 	}
 	
 	@Test
@@ -78,6 +80,8 @@ public class TearDownUtilTest {
 		
 		TearDownUtil.removeDirectory(emptyDir);
 		assertFalse(emptyDir.exists());
-		
+
+		TearDownUtil.removeDirectory(new File("test/data"));
+
 	}
 }
