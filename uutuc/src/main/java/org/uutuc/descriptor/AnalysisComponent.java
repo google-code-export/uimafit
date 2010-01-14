@@ -42,6 +42,10 @@ import org.apache.uima.resource.metadata.OperationalProperties;
 @Target(ElementType.TYPE)
 public @interface AnalysisComponent
 {
+	public static final boolean MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT = true;
+	public static final boolean MODIFIES_CAS_DEFAULT = true;	
+	public static final boolean OUTPUTS_NEW_CASES_DEFAULT = false;
+	
 	/**
 	 * Gets whether multiple instances of this component can be run in parallel,
 	 * each receiving a subset of the documents from a collection.
@@ -49,7 +53,7 @@ public @interface AnalysisComponent
 	 * @return true if multiple instances can be run in parallel, false if not
 	 * @see OperationalProperties#isMultipleDeploymentAllowed()
 	 */
-	boolean multipleDeploymentAllowed() default true;
+	boolean multipleDeploymentAllowed() default MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT;
 
 	/**
 	 * Gets whether this component will modify the CAS.
@@ -57,7 +61,7 @@ public @interface AnalysisComponent
 	 * @return true if this component modifies the CAS, false if it does not.
 	 * @see OperationalProperties#getModifiesCas()
 	 */
-	boolean modifiesCas() default true;
+	boolean modifiesCas() default MODIFIES_CAS_DEFAULT;
 
 	/**
 	 * Gets whether this AnalysisEngine may output new CASes. If this property
@@ -70,5 +74,5 @@ public @interface AnalysisComponent
 	 * @return true if this component may output new CASes, false if it does not
 	 * @see OperationalProperties#getOutputsNewCASes()
 	 */
-	boolean outputsNewCases() default false;
+	boolean outputsNewCases() default OUTPUTS_NEW_CASES_DEFAULT;
 }

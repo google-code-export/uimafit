@@ -32,8 +32,10 @@ import java.util.List;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_component.AnalysisComponent;
+import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.analysis_engine.metadata.SofaMapping;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.FSIterator;
@@ -278,4 +280,58 @@ public class AnalysisEngineFactoryTest {
 		assertNotNull(aed);
 //		assertEquals("org.uutuc.type.TypeSystem", aed.getAnalysisEngineMetaData().getTypeSystem().getImports()[0].getName());
 	}
+	
+	/**
+	 * Test that a {@link AnalysisComponent} annotation on an ancestor of a analysis engine class
+	 * is found and taken into account.
+	 */
+	@Test
+	public void testComponentAnnotationOnAncestor() throws Exception {
+		AnalysisEngineDescription desc1 = AnalysisEngineFactory.createPrimitiveDescription(
+				PristineAnnotatorClass.class, null);
+		assertTrue("Multiple deployment should be allowed on "
+				+ desc1.getAnnotatorImplementationName(), desc1.getAnalysisEngineMetaData()
+				.getOperationalProperties().isMultipleDeploymentAllowed());
+
+		AnalysisEngineDescription desc2 = AnalysisEngineFactory.createPrimitiveDescription(
+				UnannotatedAnnotatorClass.class, null);
+		assertFalse("Multiple deployment should be prohibited on "
+				+ desc2.getAnnotatorImplementationName(), desc2.getAnalysisEngineMetaData()
+				.getOperationalProperties().isMultipleDeploymentAllowed());
+
+		AnalysisEngineDescription desc3 = AnalysisEngineFactory.createPrimitiveDescription(
+				AnnotatedAnnotatorClass.class, null);
+		assertTrue("Multiple deployment should be allowed  on "
+				+ desc3.getAnnotatorImplementationName(), desc3.getAnalysisEngineMetaData()
+				.getOperationalProperties().isMultipleDeploymentAllowed());
+	}
+	
+	private static class PristineAnnotatorClass extends JCasAnnotator_ImplBase {
+		@Override
+		public void process(JCas aJCas)
+			throws AnalysisEngineProcessException
+		{
+			// Dummy
+		}	
+	}
+	
+	@org.uutuc.descriptor.AnalysisComponent(multipleDeploymentAllowed=false)
+	private static class AncestorClass extends JCasAnnotator_ImplBase  { 
+		@Override
+		public void process(JCas aJCas)
+			throws AnalysisEngineProcessException
+		{
+			// Dummy
+		}	
+	}
+	
+	private static class UnannotatedAnnotatorClass extends AncestorClass {
+		// Dummy
+	}
+	
+	@org.uutuc.descriptor.AnalysisComponent(multipleDeploymentAllowed=true)
+	private static class AnnotatedAnnotatorClass extends UnannotatedAnnotatorClass {
+		// Vessel for the annotation 
+	}
+	
 }

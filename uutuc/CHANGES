@@ -3,6 +3,7 @@ changes in 0.9.11
 	- fixed issue #27 "Parameters cannot be set to null".
 	- add javadoc for @SofaCapability per wontfix issue #26 "sofa aware components treat "base CAS" differently then "_InitialView""
 	- fixed issue #28 "Support for enumeration fields" see org.uutuc.util.InitializeUtilTest.testEnumDefaultValue()
+	- fixed issue #29 "AnalysisComponent annotations on ancestor classes are not taken into account".  See org.uutuc.factory.AnalysisEngineFactoryTest.testComponentAnnotationOnAncestor().
 
 changes in 0.9.10
  	- fixed issue 23 "use default values in InitializeUtil"
