@@ -54,6 +54,7 @@ import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.resource.metadata.impl.Import_impl;
 import org.apache.uima.util.FileUtils;
 import org.uutuc.factory.ConfigurationParameterFactory.ConfigurationData;
+import org.uutuc.util.ReflectionUtil;
 
 /**
  * 
@@ -174,13 +175,20 @@ public class AnalysisEngineFactory {
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setPrimitive(true);
 		desc.setAnnotatorImplementationName(componentClass.getName());
-		if (componentClass.isAnnotationPresent(org.uutuc.descriptor.AnalysisComponent.class)) {
-			org.uutuc.descriptor.AnalysisComponent anno = componentClass
-					.getAnnotation(org.uutuc.descriptor.AnalysisComponent.class);
+		org.uutuc.descriptor.AnalysisComponent componentAnno = ReflectionUtil
+				.getInheritableAnnotation(org.uutuc.descriptor.AnalysisComponent.class,
+						componentClass);
+		if (componentAnno != null) {
 			OperationalProperties op = desc.getAnalysisEngineMetaData().getOperationalProperties();
-			op.setMultipleDeploymentAllowed(anno.multipleDeploymentAllowed());
-			op.setModifiesCas(anno.modifiesCas());
-			op.setOutputsNewCASes(anno.outputsNewCases());
+			op.setMultipleDeploymentAllowed(componentAnno.multipleDeploymentAllowed());
+			op.setModifiesCas(componentAnno.modifiesCas());
+			op.setOutputsNewCASes(componentAnno.outputsNewCases());
+		}
+		else {
+			OperationalProperties op = desc.getAnalysisEngineMetaData().getOperationalProperties();
+			op.setMultipleDeploymentAllowed(org.uutuc.descriptor.AnalysisComponent.MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT);
+			op.setModifiesCas(org.uutuc.descriptor.AnalysisComponent.MODIFIES_CAS_DEFAULT);
+			op.setOutputsNewCASes(org.uutuc.descriptor.AnalysisComponent.OUTPUTS_NEW_CASES_DEFAULT);
 		}
 
 		// Extract external resource dependencies

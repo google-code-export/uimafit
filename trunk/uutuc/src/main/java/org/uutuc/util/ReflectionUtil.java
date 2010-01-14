@@ -17,6 +17,7 @@
 
 package org.uutuc.util;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,4 +43,26 @@ public class ReflectionUtil {
 		return fields;
 	}
 
+	/**
+	 * Search for an annotation of the specified type starting on the given class and tracking
+	 * back the inheritance hierarchy. Only parent classes are tracked back, no implemented 
+	 * interfaces.
+	 * 
+	 * @param <T> the annotation type
+	 * @param aAnnotation the annotation class
+	 * @param aClass the class to start searching on
+	 * @return the annotation or {@code null} if it could not be found
+	 * @author Richard Eckart de Castilho
+	 */
+	public static <T extends Annotation> T getInheritableAnnotation(Class<T> aAnnotation, Class<?> aClass) {
+		if (aClass.isAnnotationPresent(aAnnotation)) {
+			return aClass.getAnnotation(aAnnotation);
+		}
+		
+		if (aClass.getSuperclass() != null) {
+			return getInheritableAnnotation(aAnnotation, aClass.getSuperclass());
+		}
+		
+		return null;
+	}
 }
