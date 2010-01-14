@@ -220,19 +220,26 @@ public class InitializeUtil {
 
 	private InitializeUtil() {
 	}
-
 	
 	private static Converter<?> getConverter(Class<?> cls) {
 		Converter<?> converter = converters.get(cls);
-		if (converter == null) {
-			try {
-				Constructor<?> constructor = cls.getConstructor(String.class);
-				converter = new ConstructorConverter(constructor);
-			} catch (NoSuchMethodException e) {
-				throw new IllegalArgumentException("don't know how to convert type " + cls);
-			}
+		if (converter != null) {
+			return converter;
 		}
-		return converter;
+		
+		// Check if we have an enumeration type
+		if (Enum.class.isAssignableFrom(cls)) {
+			@SuppressWarnings("unchecked")
+			EnumConverter tmp = new EnumConverter(cls);
+			return tmp;
+		}
+		
+		try {
+			Constructor<?> constructor = cls.getConstructor(String.class);
+			return new ConstructorConverter(constructor);
+		} catch (NoSuchMethodException e) {
+			throw new IllegalArgumentException("don't know how to convert type " + cls);
+		}
 	}
 
 	
@@ -281,4 +288,17 @@ public class InitializeUtil {
 		
 	}
 
+	private static class EnumConverter<T extends Enum<T>> implements Converter<Object> {
+		private Class<T> enumClass;
+		public EnumConverter(Class<T> aClass) {
+			this.enumClass = aClass;
+		}
+		public T convert(Object o) {
+			try {
+				return Enum.valueOf(enumClass, o.toString());
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
 }
