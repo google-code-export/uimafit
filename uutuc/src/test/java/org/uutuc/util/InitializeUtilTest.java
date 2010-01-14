@@ -257,11 +257,11 @@ public class InitializeUtilTest {
 	 */
 	@Test
 	public void testParameterSetToNull() throws Exception {
-			String paramColor = DefaultValueAE1.class.getName() + ".color";
-			AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultValueAE1.class, null, paramColor, null);
-			DefaultValueAE1 ae = new DefaultValueAE1();
-			ae.initialize(aed.getUimaContext());
-			assertEquals("green", ae.color);
+		String paramColor = DefaultValueAE1.class.getName() + ".color";
+		AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultValueAE1.class, null, paramColor, null);
+		DefaultValueAE1 ae = new DefaultValueAE1();
+		ae.initialize(aed.getUimaContext());
+		assertEquals("green", ae.color);
 	}
 
 	/**
@@ -270,10 +270,10 @@ public class InitializeUtilTest {
 	 */
 	@Test(expected = ResourceInitializationException.class)
 	public void testMandatoryParameterSetToNull() throws Exception {
-			String paramColor = DefaultValueAE2.class.getName() + ".color";
-			AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultValueAE2.class, null, paramColor, null);
-			DefaultValueAE2 ae = new DefaultValueAE2();
-			ae.initialize(aed.getUimaContext());
+		String paramColor = DefaultValueAE2.class.getName() + ".color";
+		AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultValueAE2.class, null, paramColor, null);
+		DefaultValueAE2 ae = new DefaultValueAE2();
+		ae.initialize(aed.getUimaContext());
 
 	}
 
@@ -334,6 +334,37 @@ public class InitializeUtilTest {
 		public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		}
 
+	}
+
+	@Test
+	public void testEnumDefaultValue() throws Exception {
+		try {
+		AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultEnumValueAE.class, null);
+		DefaultEnumValueAE ae = new DefaultEnumValueAE();
+		ae.initialize(aed.getUimaContext());
+		assertEquals(Color.GREEN, ae.color);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static enum Color {
+		RED, GREEN, BLUE
+	}
+
+	public static class DefaultEnumValueAE extends JCasAnnotator_ImplBase {
+		@ConfigurationParameter(defaultValue = "GREEN")
+		private Color color;
+
+		@Override
+		public void initialize(UimaContext aContext) throws ResourceInitializationException {
+			super.initialize(aContext);
+			InitializeUtil.initialize(this, aContext);
+		}
+
+		@Override
+		public void process(JCas aJCas) throws AnalysisEngineProcessException {
+		}
 	}
 
 	/**
