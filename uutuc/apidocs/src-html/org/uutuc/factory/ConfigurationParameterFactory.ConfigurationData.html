@@ -151,35 +151,35 @@
 <FONT color="green">148</FONT>                    Class&lt;?&gt; parameterClass = field.getType();<a name="line.148"></a>
 <FONT color="green">149</FONT>                    if (parameterClass.isArray()) {<a name="line.149"></a>
 <FONT color="green">150</FONT>                            return true;<a name="line.150"></a>
-<FONT color="green">151</FONT>                    } else if (Collection.class.isAssignableFrom(parameterClass)) {<a name="line.151"></a>
-<FONT color="green">152</FONT>                            return true;<a name="line.152"></a>
-<FONT color="green">153</FONT>                    }<a name="line.153"></a>
-<FONT color="green">154</FONT>                    return false;<a name="line.154"></a>
-<FONT color="green">155</FONT>            }<a name="line.155"></a>
-<FONT color="green">156</FONT>    <a name="line.156"></a>
-<FONT color="green">157</FONT>            public static String getConfigurationParameterName(Field field) {<a name="line.157"></a>
-<FONT color="green">158</FONT>                    if (isConfigurationParameterField(field)) {<a name="line.158"></a>
-<FONT color="green">159</FONT>                            org.uutuc.descriptor.ConfigurationParameter annotation = field<a name="line.159"></a>
-<FONT color="green">160</FONT>                            .getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);<a name="line.160"></a>
-<FONT color="green">161</FONT>                            String name = annotation.name();<a name="line.161"></a>
-<FONT color="green">162</FONT>                            if (name.equals(org.uutuc.descriptor.ConfigurationParameter.USE_FIELD_NAME)) {<a name="line.162"></a>
-<FONT color="green">163</FONT>                                    name = field.getDeclaringClass().getName() + "." + field.getName();<a name="line.163"></a>
-<FONT color="green">164</FONT>                            }<a name="line.164"></a>
-<FONT color="green">165</FONT>                            return name;<a name="line.165"></a>
-<FONT color="green">166</FONT>                    }<a name="line.166"></a>
-<FONT color="green">167</FONT>                    return null;<a name="line.167"></a>
-<FONT color="green">168</FONT>            }<a name="line.168"></a>
-<FONT color="green">169</FONT>            <a name="line.169"></a>
-<FONT color="green">170</FONT>             public static String createConfigurationParameterName(Class&lt;?&gt; clazz, String fieldName) throws RuntimeException {<a name="line.170"></a>
-<FONT color="green">171</FONT>                     try {<a name="line.171"></a>
-<FONT color="green">172</FONT>                             return ConfigurationParameterFactory.getConfigurationParameterName(<a name="line.172"></a>
-<FONT color="green">173</FONT>                                            clazz.getDeclaredField(fieldName));<a name="line.173"></a>
-<FONT color="green">174</FONT>                     } catch(Exception e) {<a name="line.174"></a>
-<FONT color="green">175</FONT>                             throw new RuntimeException(e);<a name="line.175"></a>
-<FONT color="green">176</FONT>                     }<a name="line.176"></a>
-<FONT color="green">177</FONT>             }<a name="line.177"></a>
-<FONT color="green">178</FONT>    <a name="line.178"></a>
-<FONT color="green">179</FONT>            <a name="line.179"></a>
+<FONT color="green">151</FONT>                    }<a name="line.151"></a>
+<FONT color="green">152</FONT>                    else if (Collection.class.isAssignableFrom(parameterClass)) {<a name="line.152"></a>
+<FONT color="green">153</FONT>                            return true;<a name="line.153"></a>
+<FONT color="green">154</FONT>                    }<a name="line.154"></a>
+<FONT color="green">155</FONT>                    return false;<a name="line.155"></a>
+<FONT color="green">156</FONT>            }<a name="line.156"></a>
+<FONT color="green">157</FONT>    <a name="line.157"></a>
+<FONT color="green">158</FONT>            public static String getConfigurationParameterName(Field field) {<a name="line.158"></a>
+<FONT color="green">159</FONT>                    if (isConfigurationParameterField(field)) {<a name="line.159"></a>
+<FONT color="green">160</FONT>                            org.uutuc.descriptor.ConfigurationParameter annotation = field<a name="line.160"></a>
+<FONT color="green">161</FONT>                                            .getAnnotation(org.uutuc.descriptor.ConfigurationParameter.class);<a name="line.161"></a>
+<FONT color="green">162</FONT>                            String name = annotation.name();<a name="line.162"></a>
+<FONT color="green">163</FONT>                            if (name.equals(org.uutuc.descriptor.ConfigurationParameter.USE_FIELD_NAME)) {<a name="line.163"></a>
+<FONT color="green">164</FONT>                                    name = field.getDeclaringClass().getName() + "." + field.getName();<a name="line.164"></a>
+<FONT color="green">165</FONT>                            }<a name="line.165"></a>
+<FONT color="green">166</FONT>                            return name;<a name="line.166"></a>
+<FONT color="green">167</FONT>                    }<a name="line.167"></a>
+<FONT color="green">168</FONT>                    return null;<a name="line.168"></a>
+<FONT color="green">169</FONT>            }<a name="line.169"></a>
+<FONT color="green">170</FONT>    <a name="line.170"></a>
+<FONT color="green">171</FONT>            public static String createConfigurationParameterName(Class&lt;?&gt; clazz, String fieldName) throws RuntimeException {<a name="line.171"></a>
+<FONT color="green">172</FONT>                    try {<a name="line.172"></a>
+<FONT color="green">173</FONT>                            return ConfigurationParameterFactory.getConfigurationParameterName(clazz.getDeclaredField(fieldName));<a name="line.173"></a>
+<FONT color="green">174</FONT>                    }<a name="line.174"></a>
+<FONT color="green">175</FONT>                    catch (Exception e) {<a name="line.175"></a>
+<FONT color="green">176</FONT>                            throw new RuntimeException(e);<a name="line.176"></a>
+<FONT color="green">177</FONT>                    }<a name="line.177"></a>
+<FONT color="green">178</FONT>            }<a name="line.178"></a>
+<FONT color="green">179</FONT>    <a name="line.179"></a>
 <FONT color="green">180</FONT>            public static ConfigurationParameter createPrimitiveParameter(Field field) {<a name="line.180"></a>
 <FONT color="green">181</FONT>                    if (isConfigurationParameterField(field)) {<a name="line.181"></a>
 <FONT color="green">182</FONT>                            org.uutuc.descriptor.ConfigurationParameter annotation = field<a name="line.182"></a>
@@ -237,94 +237,99 @@
 <FONT color="green">234</FONT>                            throw new IllegalArgumentException(message);<a name="line.234"></a>
 <FONT color="green">235</FONT>                    }<a name="line.235"></a>
 <FONT color="green">236</FONT>    <a name="line.236"></a>
-<FONT color="green">237</FONT>                    int numberOfParameters = configurationData.length / 2;<a name="line.237"></a>
-<FONT color="green">238</FONT>                    ConfigurationParameter[] configurationParameters = new ConfigurationParameter[numberOfParameters];<a name="line.238"></a>
-<FONT color="green">239</FONT>                    Object[] configurationValues = new Object[numberOfParameters];<a name="line.239"></a>
-<FONT color="green">240</FONT>    <a name="line.240"></a>
-<FONT color="green">241</FONT>                    for (int i = 0; i &lt; numberOfParameters; i++) {<a name="line.241"></a>
-<FONT color="green">242</FONT>                            String name = (String) configurationData[i * 2];<a name="line.242"></a>
-<FONT color="green">243</FONT>                            Object value = configurationData[i * 2 + 1];<a name="line.243"></a>
-<FONT color="green">244</FONT>    <a name="line.244"></a>
-<FONT color="green">245</FONT>                            if (value.getClass().isArray() &amp;&amp; value.getClass().getComponentType().getName().equals("boolean")) {<a name="line.245"></a>
-<FONT color="green">246</FONT>                                    value = ArrayUtils.toObject((boolean[]) value);<a name="line.246"></a>
-<FONT color="green">247</FONT>                            }<a name="line.247"></a>
-<FONT color="green">248</FONT>                            if (value.getClass().isArray() &amp;&amp; value.getClass().getComponentType().getName().equals("int")) {<a name="line.248"></a>
-<FONT color="green">249</FONT>                                    value = ArrayUtils.toObject((int[]) value);<a name="line.249"></a>
-<FONT color="green">250</FONT>                            }<a name="line.250"></a>
-<FONT color="green">251</FONT>                            if (value.getClass().isArray() &amp;&amp; value.getClass().getComponentType().getName().equals("float")) {<a name="line.251"></a>
-<FONT color="green">252</FONT>                                    value = ArrayUtils.toObject((float[]) value);<a name="line.252"></a>
-<FONT color="green">253</FONT>                            }<a name="line.253"></a>
-<FONT color="green">254</FONT>    <a name="line.254"></a>
-<FONT color="green">255</FONT>                            ConfigurationParameter param = ConfigurationParameterFactory.createPrimitiveParameter(name, value<a name="line.255"></a>
-<FONT color="green">256</FONT>                                            .getClass(), null, false);<a name="line.256"></a>
-<FONT color="green">257</FONT>                            configurationParameters[i] = param;<a name="line.257"></a>
-<FONT color="green">258</FONT>                            configurationValues[i] = value;<a name="line.258"></a>
-<FONT color="green">259</FONT>                    }<a name="line.259"></a>
-<FONT color="green">260</FONT>                    return new ConfigurationData(configurationParameters, configurationValues);<a name="line.260"></a>
-<FONT color="green">261</FONT>            }<a name="line.261"></a>
-<FONT color="green">262</FONT>    <a name="line.262"></a>
-<FONT color="green">263</FONT>            public static ConfigurationData createConfigurationData(Class&lt;?&gt; componentClass) {<a name="line.263"></a>
-<FONT color="green">264</FONT>                    List&lt;ConfigurationParameter&gt; configurationParameters = new ArrayList&lt;ConfigurationParameter&gt;();<a name="line.264"></a>
-<FONT color="green">265</FONT>                    List&lt;Object&gt; configurationValues = new ArrayList&lt;Object&gt;();<a name="line.265"></a>
-<FONT color="green">266</FONT>    <a name="line.266"></a>
-<FONT color="green">267</FONT>                    for (Field field : ReflectionUtil.getFields(componentClass)) {<a name="line.267"></a>
-<FONT color="green">268</FONT>                            if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {<a name="line.268"></a>
-<FONT color="green">269</FONT>                                    configurationParameters.add(ConfigurationParameterFactory.createPrimitiveParameter(field));<a name="line.269"></a>
-<FONT color="green">270</FONT>                                    configurationValues.add(ConfigurationParameterFactory.getDefaultValue(field));<a name="line.270"></a>
-<FONT color="green">271</FONT>                            }<a name="line.271"></a>
-<FONT color="green">272</FONT>                    }<a name="line.272"></a>
-<FONT color="green">273</FONT>    <a name="line.273"></a>
-<FONT color="green">274</FONT>                    return new ConfigurationData(configurationParameters.toArray(new ConfigurationParameter[configurationParameters<a name="line.274"></a>
-<FONT color="green">275</FONT>                                    .size()]), configurationValues.toArray(new Object[configurationValues.size()]));<a name="line.275"></a>
-<FONT color="green">276</FONT>            }<a name="line.276"></a>
-<FONT color="green">277</FONT>    <a name="line.277"></a>
-<FONT color="green">278</FONT>            public static class ConfigurationData {<a name="line.278"></a>
-<FONT color="green">279</FONT>                    public ConfigurationParameter[] configurationParameters;<a name="line.279"></a>
-<FONT color="green">280</FONT>    <a name="line.280"></a>
-<FONT color="green">281</FONT>                    public Object[] configurationValues;<a name="line.281"></a>
+<FONT color="green">237</FONT>                    <a name="line.237"></a>
+<FONT color="green">238</FONT>                    int numberOfParameters = configurationData.length / 2;<a name="line.238"></a>
+<FONT color="green">239</FONT>                    List&lt;ConfigurationParameter&gt; configurationParameters = new ArrayList&lt;ConfigurationParameter&gt;();<a name="line.239"></a>
+<FONT color="green">240</FONT>                    List&lt;Object&gt; configurationValues = new ArrayList&lt;Object&gt;();<a name="line.240"></a>
+<FONT color="green">241</FONT>                    <a name="line.241"></a>
+<FONT color="green">242</FONT>                    for (int i = 0; i &lt; numberOfParameters; i++) {<a name="line.242"></a>
+<FONT color="green">243</FONT>                            String name = (String) configurationData[i * 2];<a name="line.243"></a>
+<FONT color="green">244</FONT>                            Object value = configurationData[i * 2 + 1];<a name="line.244"></a>
+<FONT color="green">245</FONT>    <a name="line.245"></a>
+<FONT color="green">246</FONT>                            if (value == null) {<a name="line.246"></a>
+<FONT color="green">247</FONT>                                    continue;<a name="line.247"></a>
+<FONT color="green">248</FONT>                            }<a name="line.248"></a>
+<FONT color="green">249</FONT>                            <a name="line.249"></a>
+<FONT color="green">250</FONT>                            if (value.getClass().isArray() &amp;&amp; value.getClass().getComponentType().getName().equals("boolean")) {<a name="line.250"></a>
+<FONT color="green">251</FONT>                                    value = ArrayUtils.toObject((boolean[]) value);<a name="line.251"></a>
+<FONT color="green">252</FONT>                            }<a name="line.252"></a>
+<FONT color="green">253</FONT>                            else if (value.getClass().isArray() &amp;&amp; value.getClass().getComponentType().getName().equals("int")) {<a name="line.253"></a>
+<FONT color="green">254</FONT>                                    value = ArrayUtils.toObject((int[]) value);<a name="line.254"></a>
+<FONT color="green">255</FONT>                            }<a name="line.255"></a>
+<FONT color="green">256</FONT>                            else if (value.getClass().isArray() &amp;&amp; value.getClass().getComponentType().getName().equals("float")) {<a name="line.256"></a>
+<FONT color="green">257</FONT>                                    value = ArrayUtils.toObject((float[]) value);<a name="line.257"></a>
+<FONT color="green">258</FONT>                            }<a name="line.258"></a>
+<FONT color="green">259</FONT>    <a name="line.259"></a>
+<FONT color="green">260</FONT>                            ConfigurationParameter param = ConfigurationParameterFactory.createPrimitiveParameter(name, value<a name="line.260"></a>
+<FONT color="green">261</FONT>                                            .getClass(), null, false);<a name="line.261"></a>
+<FONT color="green">262</FONT>                            configurationParameters.add(param);<a name="line.262"></a>
+<FONT color="green">263</FONT>                            configurationValues.add(value);<a name="line.263"></a>
+<FONT color="green">264</FONT>                    }<a name="line.264"></a>
+<FONT color="green">265</FONT>                    return new ConfigurationData(configurationParameters.toArray(new ConfigurationParameter[configurationParameters.size()]), configurationValues.toArray());<a name="line.265"></a>
+<FONT color="green">266</FONT>            }<a name="line.266"></a>
+<FONT color="green">267</FONT>    <a name="line.267"></a>
+<FONT color="green">268</FONT>            public static ConfigurationData createConfigurationData(Class&lt;?&gt; componentClass) {<a name="line.268"></a>
+<FONT color="green">269</FONT>                    List&lt;ConfigurationParameter&gt; configurationParameters = new ArrayList&lt;ConfigurationParameter&gt;();<a name="line.269"></a>
+<FONT color="green">270</FONT>                    List&lt;Object&gt; configurationValues = new ArrayList&lt;Object&gt;();<a name="line.270"></a>
+<FONT color="green">271</FONT>    <a name="line.271"></a>
+<FONT color="green">272</FONT>                    for (Field field : ReflectionUtil.getFields(componentClass)) {<a name="line.272"></a>
+<FONT color="green">273</FONT>                            if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {<a name="line.273"></a>
+<FONT color="green">274</FONT>                                    configurationParameters.add(ConfigurationParameterFactory.createPrimitiveParameter(field));<a name="line.274"></a>
+<FONT color="green">275</FONT>                                    configurationValues.add(ConfigurationParameterFactory.getDefaultValue(field));<a name="line.275"></a>
+<FONT color="green">276</FONT>                            }<a name="line.276"></a>
+<FONT color="green">277</FONT>                    }<a name="line.277"></a>
+<FONT color="green">278</FONT>    <a name="line.278"></a>
+<FONT color="green">279</FONT>                    return new ConfigurationData(configurationParameters.toArray(new ConfigurationParameter[configurationParameters<a name="line.279"></a>
+<FONT color="green">280</FONT>                                    .size()]), configurationValues.toArray(new Object[configurationValues.size()]));<a name="line.280"></a>
+<FONT color="green">281</FONT>            }<a name="line.281"></a>
 <FONT color="green">282</FONT>    <a name="line.282"></a>
-<FONT color="green">283</FONT>                    public ConfigurationData(ConfigurationParameter[] configurationParameters, Object[] configurationValues) {<a name="line.283"></a>
-<FONT color="green">284</FONT>                            this.configurationParameters = configurationParameters;<a name="line.284"></a>
-<FONT color="green">285</FONT>                            this.configurationValues = configurationValues;<a name="line.285"></a>
-<FONT color="green">286</FONT>                    }<a name="line.286"></a>
+<FONT color="green">283</FONT>            public static class ConfigurationData {<a name="line.283"></a>
+<FONT color="green">284</FONT>                    public ConfigurationParameter[] configurationParameters;<a name="line.284"></a>
+<FONT color="green">285</FONT>    <a name="line.285"></a>
+<FONT color="green">286</FONT>                    public Object[] configurationValues;<a name="line.286"></a>
 <FONT color="green">287</FONT>    <a name="line.287"></a>
-<FONT color="green">288</FONT>            }<a name="line.288"></a>
-<FONT color="green">289</FONT>            <a name="line.289"></a>
-<FONT color="green">290</FONT>            public static void addConfigurationParameters(ResourceCreationSpecifier specifier, Object... configurationData) {<a name="line.290"></a>
-<FONT color="green">291</FONT>                    ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);<a name="line.291"></a>
-<FONT color="green">292</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(specifier, cdata.configurationParameters,<a name="line.292"></a>
-<FONT color="green">293</FONT>                                    cdata.configurationValues);<a name="line.293"></a>
-<FONT color="green">294</FONT>            }<a name="line.294"></a>
-<FONT color="green">295</FONT>    <a name="line.295"></a>
-<FONT color="green">296</FONT>            public static void addConfigurationParameters(ResourceCreationSpecifier specifier, List&lt;Class&lt;?&gt;&gt; dynamicallyLoadedClasses) {<a name="line.296"></a>
-<FONT color="green">297</FONT>                    for (Class&lt;?&gt; dynamicallyLoadedClass : dynamicallyLoadedClasses) {<a name="line.297"></a>
-<FONT color="green">298</FONT>                            ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory<a name="line.298"></a>
-<FONT color="green">299</FONT>                                            .createConfigurationData(dynamicallyLoadedClass);<a name="line.299"></a>
-<FONT color="green">300</FONT>                            ResourceCreationSpecifierFactory.setConfigurationParameters(specifier,<a name="line.300"></a>
-<FONT color="green">301</FONT>                                            reflectedConfigurationData.configurationParameters,<a name="line.301"></a>
-<FONT color="green">302</FONT>                                            reflectedConfigurationData.configurationValues);<a name="line.302"></a>
-<FONT color="green">303</FONT>                    }<a name="line.303"></a>
-<FONT color="green">304</FONT>    <a name="line.304"></a>
-<FONT color="green">305</FONT>            }<a name="line.305"></a>
-<FONT color="green">306</FONT>    <a name="line.306"></a>
-<FONT color="green">307</FONT>            public static void addConfigurationParameters(ResourceCreationSpecifier specifier,<a name="line.307"></a>
-<FONT color="green">308</FONT>                            Class&lt;?&gt;... dynamicallyLoadedClasses) {<a name="line.308"></a>
-<FONT color="green">309</FONT>                    for (Class&lt;?&gt; dynamicallyLoadedClass : dynamicallyLoadedClasses) {<a name="line.309"></a>
-<FONT color="green">310</FONT>                            ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory<a name="line.310"></a>
-<FONT color="green">311</FONT>                                            .createConfigurationData(dynamicallyLoadedClass);<a name="line.311"></a>
-<FONT color="green">312</FONT>                            ResourceCreationSpecifierFactory.setConfigurationParameters(specifier,<a name="line.312"></a>
-<FONT color="green">313</FONT>                                            reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);<a name="line.313"></a>
-<FONT color="green">314</FONT>                    }<a name="line.314"></a>
-<FONT color="green">315</FONT>            }<a name="line.315"></a>
-<FONT color="green">316</FONT>    <a name="line.316"></a>
-<FONT color="green">317</FONT>            public static void addConfigurationParameter(ResourceCreationSpecifier specifier, String name, Object value) {<a name="line.317"></a>
-<FONT color="green">318</FONT>                    ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(name, value);<a name="line.318"></a>
-<FONT color="green">319</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(specifier, cdata.configurationParameters,<a name="line.319"></a>
-<FONT color="green">320</FONT>                                    cdata.configurationValues);<a name="line.320"></a>
-<FONT color="green">321</FONT>                    <a name="line.321"></a>
-<FONT color="green">322</FONT>            }<a name="line.322"></a>
-<FONT color="green">323</FONT>    <a name="line.323"></a>
-<FONT color="green">324</FONT>    }<a name="line.324"></a>
+<FONT color="green">288</FONT>                    public ConfigurationData(ConfigurationParameter[] configurationParameters, Object[] configurationValues) {<a name="line.288"></a>
+<FONT color="green">289</FONT>                            this.configurationParameters = configurationParameters;<a name="line.289"></a>
+<FONT color="green">290</FONT>                            this.configurationValues = configurationValues;<a name="line.290"></a>
+<FONT color="green">291</FONT>                    }<a name="line.291"></a>
+<FONT color="green">292</FONT>    <a name="line.292"></a>
+<FONT color="green">293</FONT>            }<a name="line.293"></a>
+<FONT color="green">294</FONT>    <a name="line.294"></a>
+<FONT color="green">295</FONT>            public static void addConfigurationParameters(ResourceCreationSpecifier specifier, Object... configurationData) {<a name="line.295"></a>
+<FONT color="green">296</FONT>                    ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);<a name="line.296"></a>
+<FONT color="green">297</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(specifier, cdata.configurationParameters,<a name="line.297"></a>
+<FONT color="green">298</FONT>                                    cdata.configurationValues);<a name="line.298"></a>
+<FONT color="green">299</FONT>            }<a name="line.299"></a>
+<FONT color="green">300</FONT>    <a name="line.300"></a>
+<FONT color="green">301</FONT>            public static void addConfigurationParameters(ResourceCreationSpecifier specifier,<a name="line.301"></a>
+<FONT color="green">302</FONT>                            List&lt;Class&lt;?&gt;&gt; dynamicallyLoadedClasses) {<a name="line.302"></a>
+<FONT color="green">303</FONT>                    for (Class&lt;?&gt; dynamicallyLoadedClass : dynamicallyLoadedClasses) {<a name="line.303"></a>
+<FONT color="green">304</FONT>                            ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory<a name="line.304"></a>
+<FONT color="green">305</FONT>                                            .createConfigurationData(dynamicallyLoadedClass);<a name="line.305"></a>
+<FONT color="green">306</FONT>                            ResourceCreationSpecifierFactory.setConfigurationParameters(specifier,<a name="line.306"></a>
+<FONT color="green">307</FONT>                                            reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);<a name="line.307"></a>
+<FONT color="green">308</FONT>                    }<a name="line.308"></a>
+<FONT color="green">309</FONT>    <a name="line.309"></a>
+<FONT color="green">310</FONT>            }<a name="line.310"></a>
+<FONT color="green">311</FONT>    <a name="line.311"></a>
+<FONT color="green">312</FONT>            public static void addConfigurationParameters(ResourceCreationSpecifier specifier,<a name="line.312"></a>
+<FONT color="green">313</FONT>                            Class&lt;?&gt;... dynamicallyLoadedClasses) {<a name="line.313"></a>
+<FONT color="green">314</FONT>                    for (Class&lt;?&gt; dynamicallyLoadedClass : dynamicallyLoadedClasses) {<a name="line.314"></a>
+<FONT color="green">315</FONT>                            ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory<a name="line.315"></a>
+<FONT color="green">316</FONT>                                            .createConfigurationData(dynamicallyLoadedClass);<a name="line.316"></a>
+<FONT color="green">317</FONT>                            ResourceCreationSpecifierFactory.setConfigurationParameters(specifier,<a name="line.317"></a>
+<FONT color="green">318</FONT>                                            reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);<a name="line.318"></a>
+<FONT color="green">319</FONT>                    }<a name="line.319"></a>
+<FONT color="green">320</FONT>            }<a name="line.320"></a>
+<FONT color="green">321</FONT>    <a name="line.321"></a>
+<FONT color="green">322</FONT>            public static void addConfigurationParameter(ResourceCreationSpecifier specifier, String name, Object value) {<a name="line.322"></a>
+<FONT color="green">323</FONT>                    ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(name, value);<a name="line.323"></a>
+<FONT color="green">324</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(specifier, cdata.configurationParameters,<a name="line.324"></a>
+<FONT color="green">325</FONT>                                    cdata.configurationValues);<a name="line.325"></a>
+<FONT color="green">326</FONT>    <a name="line.326"></a>
+<FONT color="green">327</FONT>            }<a name="line.327"></a>
+<FONT color="green">328</FONT>    <a name="line.328"></a>
+<FONT color="green">329</FONT>    }<a name="line.329"></a>
 
 
 
