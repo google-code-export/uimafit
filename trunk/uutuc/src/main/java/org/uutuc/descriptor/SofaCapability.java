@@ -50,6 +50,6 @@ public @interface SofaCapability {
 
 	String[] outputSofas() default NO_DEFAULT_VALUE;
 
-	public static final String NO_DEFAULT_VALUE = "org.uutuc.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE";
+	public static final String NO_DEFAULT_VALUE = "org.uutuc.descriptor.SofaCapability.NO_DEFAULT_VALUE";
 
 }
