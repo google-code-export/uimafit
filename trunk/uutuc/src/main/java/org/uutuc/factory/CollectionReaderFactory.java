@@ -223,7 +223,10 @@ public class CollectionReaderFactory {
 			desc.getCollectionReaderMetaData().setTypePriorities(typePriorities);
 
 		if(capabilities == null) {
-			capabilities = CapabilityFactory.createCapability(readerClass);
+			Capability capability = CapabilityFactory.createCapability(readerClass);
+			if(capability != null) {
+				capabilities = new Capability[] {capability};
+			}
 		}
 		if(capabilities != null)
 			desc.getCollectionReaderMetaData().setCapabilities(capabilities);

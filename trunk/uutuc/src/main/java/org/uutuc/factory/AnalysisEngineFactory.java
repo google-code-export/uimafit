@@ -240,7 +240,10 @@ public class AnalysisEngineFactory {
 		}
 
 		if (capabilities == null) {
-			capabilities = CapabilityFactory.createCapability(componentClass);
+			Capability capability = CapabilityFactory.createCapability(componentClass);
+			if (capability != null) {
+				capabilities = new Capability[] {capability};
+			}
 		}
 		if (capabilities != null) {
 			desc.getAnalysisEngineMetaData().setCapabilities(capabilities);

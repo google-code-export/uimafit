@@ -21,6 +21,7 @@ import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.uutuc.descriptor.TypeCapability;
 import org.uutuc.type.Token;
 
 /**
@@ -28,6 +29,7 @@ import org.uutuc.type.Token;
  * @author Philip Ogren
  *
  */
+@TypeCapability(inputs="org.uutuc.type.Token", outputs="org.uutuc.type.Token:pos")
 public class Annotator4 extends JCasAnnotator_ImplBase {
 
 	@Override
