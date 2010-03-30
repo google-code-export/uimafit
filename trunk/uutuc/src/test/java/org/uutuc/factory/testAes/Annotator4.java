@@ -1,5 +1,5 @@
 /* 
-  Copyright 2009 Regents of the University of Colorado.  
+ Copyright 2010 Regents of the University of Colorado.  
  All rights reserved. 
 
  Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -14,44 +14,29 @@
  See the License for the specific language governing permissions and 
  limitations under the License.
 */
+
 package org.uutuc.factory.testAes;
 
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.CAS;
-import org.apache.uima.cas.CASException;
+import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
-import org.uutuc.descriptor.SofaCapability;
+import org.uutuc.type.Token;
 
 /**
+ * 
  * @author Philip Ogren
+ *
  */
-@SofaCapability(inputSofas=CAS.NAME_DEFAULT_SOFA, outputSofas=ViewNames.REVERSE_VIEW)
-public class Annotator3 extends JCasAnnotator_ImplBase {
+public class Annotator4 extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
-		try {
-			jCas = jCas.getView(CAS.NAME_DEFAULT_SOFA);
-			String text = jCas.getDocumentText();
-			String reverseText = reverse(text);
-			JCas reverseView = jCas.createView(ViewNames.REVERSE_VIEW);
-			reverseView.setDocumentText(reverseText);
-		}
-		catch (CASException e) {
-			throw new AnalysisEngineProcessException(e);
+		FSIterator tokens = jCas.getAnnotationIndex(Token.type).iterator();
+		while(tokens.hasNext()) {
+			Token token = (Token) tokens.next();
+			token.setPos("NN");
 		}
 	}
-
-	private String reverse(String string) {
-		int stringLength = string.length();
-		StringBuffer returnValue = new StringBuffer();
-
-		for (int i = stringLength - 1; i >= 0; i--) {
-			returnValue.append(string.charAt(i));
-		}
-		return returnValue.toString();
-	}
-	
 
 }

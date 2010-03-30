@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uutuc.factory;
 
 import org.apache.uima.analysis_component.AnalysisComponent;
@@ -25,18 +25,39 @@ import org.apache.uima.analysis_engine.metadata.impl.SofaMapping_impl;
  */
 public class SofaMappingFactory {
 
-	public static SofaMapping createSofaMapping(String aggregateSofaName, String componentKey, String componentSofaName) {
-		
+	/**
+	 * This method creates a sofa mapping which is useful for mapping view names
+	 * in individual components used in aggregate analysis engines to the view
+	 * names used by the aggregate.
+	 * 
+	 * WARNING: in version 0.9.12 the ordering of the parameters was changed!
+	 * The order used to be aggregateSofaName, componentKey, componentSofaName.
+	 * This was changed because it seemed an unnatural ordering.
+	 * 
+	 * @param componentKey
+	 *            the key/name used by the aggregate analysis engine for the
+	 *            component whose view is being mapped.
+	 * @param componentSofaName
+	 *            the sofa name used by the the component
+	 * @param aggregateSofaName
+	 *            the view name that the component name is mapped to and used by
+	 *            the aggregate analysis engine
+	 * @return a sofa mapping with the componentSofaName mapped to the
+	 *         aggregateSofaName
+	 */
+	public static SofaMapping createSofaMapping(String componentKey, String componentSofaName, String aggregateSofaName) {
+
 		SofaMapping sofaMapping = new SofaMapping_impl();
-		sofaMapping.setAggregateSofaName(aggregateSofaName);
 		sofaMapping.setComponentKey(componentKey);
 		sofaMapping.setComponentSofaName(componentSofaName);
+		sofaMapping.setAggregateSofaName(aggregateSofaName);
 		return sofaMapping;
 	}
-	
-	public static SofaMapping createSofaMapping(String aggregateSofaName, Class<? extends AnalysisComponent> componentClass, String componentSofaName) {
-		
-		return createSofaMapping(aggregateSofaName, componentClass.getName(), componentSofaName);
+
+	public static SofaMapping createSofaMapping(Class<? extends AnalysisComponent> componentClass,
+			String componentSofaName, String aggregateSofaName) {
+
+		return createSofaMapping(componentClass.getName(), componentSofaName, aggregateSofaName);
 	}
 
 }
