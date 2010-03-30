@@ -17,9 +17,15 @@
 
 package org.uutuc.factory;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.uima.analysis_engine.TypeOrFeature;
+import org.apache.uima.analysis_engine.impl.TypeOrFeature_impl;
 import org.apache.uima.resource.metadata.Capability;
 import org.apache.uima.resource.metadata.impl.Capability_impl;
 import org.uutuc.descriptor.SofaCapability;
+import org.uutuc.descriptor.TypeCapability;
 
 /**
  * @author Philip Ogren
@@ -28,27 +34,56 @@ import org.uutuc.descriptor.SofaCapability;
 public class CapabilityFactory {
 	
 	
-	public static Capability[] createCapability(Class<?> componentClass) {
+	public static Capability createCapability(Class<?> componentClass) {
+		if(!componentClass.isAnnotationPresent(SofaCapability.class) &&
+				!componentClass.isAnnotationPresent(TypeCapability.class))
+			return null;
+		
+		Capability capability = new Capability_impl();
+		
 		if(componentClass.isAnnotationPresent(SofaCapability.class)) {
 			SofaCapability annotation = componentClass.getAnnotation(SofaCapability.class);
 			String[] inputSofas = annotation.inputSofas();
 			if(inputSofas.length == 1 && inputSofas[0].equals(SofaCapability.NO_DEFAULT_VALUE)) {
 				inputSofas = new String[0];
 			}
+			capability.setInputSofas(inputSofas);
+
 			String[] outputSofas = annotation.outputSofas();
 			if(outputSofas.length == 1 && outputSofas[0].equals(SofaCapability.NO_DEFAULT_VALUE)) {
 				outputSofas = new String[0];
 			}
-			return new Capability[] { CapabilityFactory.createCapability(inputSofas, outputSofas)};
+			capability.setOutputSofas(outputSofas);
 		}
-		return (Capability[]) null;
-	}
-	
-	public static Capability createCapability(String[] inputSofas, String[] outputSofas) {
-		Capability capability = new Capability_impl();
-		capability.setInputSofas(inputSofas);
-		capability.setOutputSofas(outputSofas);
+		
+		if(componentClass.isAnnotationPresent(TypeCapability.class)) {
+			TypeCapability annotation = componentClass.getAnnotation(TypeCapability.class);
+			String[] inputTypesOrFeatureNames = annotation.inputs();
+			capability.setInputs(createTypesOrFeatures(inputTypesOrFeatureNames));
+			String[] outputTypesOrFeatureNames = annotation.outputs();
+			capability.setOutputs(createTypesOrFeatures(outputTypesOrFeatureNames));
+		}
+
 		return capability;
 	}
 	
+	private static TypeOrFeature[] createTypesOrFeatures(String[] typesOrFeatureNames) {
+		if(typesOrFeatureNames.length == 1 && typesOrFeatureNames[0].equals(TypeCapability.NO_DEFAULT_VALUE)) {
+			return new TypeOrFeature[0];
+		} else {
+			List<TypeOrFeature> typesOrFeatures = new ArrayList<TypeOrFeature>();
+			for(String name : typesOrFeatureNames) {
+				TypeOrFeature tof = new TypeOrFeature_impl();
+				tof.setName(name);
+				if(name.indexOf(":") == -1) {
+					tof.setType(true);
+				} else {
+					tof.setType(false);
+				}
+				typesOrFeatures.add(tof);
+			}
+			return typesOrFeatures.toArray(new TypeOrFeature[typesOrFeatures.size()]);
+		}
+		
+	}
 }
