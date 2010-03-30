@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uutuc.factory;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -54,6 +54,7 @@ import org.junit.Test;
 import org.uutuc.factory.testAes.Annotator1;
 import org.uutuc.factory.testAes.Annotator2;
 import org.uutuc.factory.testAes.Annotator3;
+import org.uutuc.factory.testAes.Annotator4;
 import org.uutuc.factory.testAes.ParameterizedAE;
 import org.uutuc.factory.testAes.ViewNames;
 import org.uutuc.type.Sentence;
@@ -64,6 +65,7 @@ import org.uutuc.util.SimplePipeline;
 import org.uutuc.util.SingleFileXReader;
 import org.uutuc.util.Util;
 import org.xml.sax.SAXException;
+
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -71,8 +73,25 @@ import org.xml.sax.SAXException;
 public class AnalysisEngineFactoryTest {
 
 	@Test
+	public void testViewAE() throws Exception {
+		TypeSystemDescription typeSystem = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class,
+				Token.class);
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(Annotator4.class, typeSystem);
+		AnalysisEngine ae = AnalysisEngineFactory.createAnalysisEngine(aed, "A");
+
+		JCas jCas = Util.JCAS.get();
+		jCas.reset();
+		JCas aView = jCas.createView("A");
+		TokenFactory.createTokens(aView, "'Verb' is a noun!?", Token.class, Sentence.class);
+		ae.process(jCas);
+		assertEquals("'Verb' is a noun!?", jCas.getView("A").getDocumentText());
+		assertEquals("NN", AnnotationRetrieval.get(aView, Token.class, 0).getPos());
+	}
+
+	@Test
 	public void testCreateAnalysisEngineFromPath() throws UIMAException, IOException {
-		AnalysisEngine engine = AnalysisEngineFactory.createAnalysisEngineFromPath("src/main/resources/org/uutuc/util/JCasAnnotatorAdapter.xml");
+		AnalysisEngine engine = AnalysisEngineFactory
+				.createAnalysisEngineFromPath("src/main/resources/org/uutuc/util/JCasAnnotatorAdapter.xml");
 		assertNotNull(engine);
 	}
 
@@ -85,16 +104,19 @@ public class AnalysisEngineFactoryTest {
 
 	@Test
 	public void testProcess2() throws UIMAException, IOException {
-		JCas jCas = AnalysisEngineFactory.process("org.uutuc.util.JCasAnnotatorAdapter", "src/test/resources/data/docs/A.txt");
+		JCas jCas = AnalysisEngineFactory.process("org.uutuc.util.JCasAnnotatorAdapter",
+				"src/test/resources/data/docs/A.txt");
 
 		assertEquals("Aaa Bbbb Cc Dddd eeee ff .", jCas.getDocumentText());
 	}
 
 	@Test
 	public void testCreateAnalysisEngineWithPrioritizedTypes() throws UIMAException, IOException {
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem");
-		String[] prioritizedTypeNames = new String[] { "org.uutuc.type.Token", "org.uutuc.type.Sentence"};
-		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(org.uutuc.util.JCasAnnotatorAdapter.class, typeSystemDescription, prioritizedTypeNames, (Object[])null);
+		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory
+				.createTypeSystemDescription("org.uutuc.type.TypeSystem");
+		String[] prioritizedTypeNames = new String[] { "org.uutuc.type.Token", "org.uutuc.type.Sentence" };
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(org.uutuc.util.JCasAnnotatorAdapter.class,
+				typeSystemDescription, prioritizedTypeNames, (Object[]) null);
 
 		TypePriorities typePriorities = engine.getAnalysisEngineMetaData().getTypePriorities();
 		assertEquals(1, typePriorities.getPriorityLists().length);
@@ -105,19 +127,19 @@ public class AnalysisEngineFactoryTest {
 
 		JCas jCas = engine.newJCas();
 		TokenFactory.createTokens(jCas, "word", Token.class, Sentence.class);
-		FSIterator tokensInSentence = jCas.getAnnotationIndex().subiterator(AnnotationRetrieval.get(jCas, Sentence.class, 0));
+		FSIterator tokensInSentence = jCas.getAnnotationIndex().subiterator(
+				AnnotationRetrieval.get(jCas, Sentence.class, 0));
 		assertFalse(tokensInSentence.hasNext());
 
-
-		prioritizedTypeNames = new String[] { "org.uutuc.type.Sentence", "org.uutuc.type.Token"};
-		engine = AnalysisEngineFactory.createPrimitive(org.uutuc.util.JCasAnnotatorAdapter.class, typeSystemDescription, prioritizedTypeNames, (Object[])null);
+		prioritizedTypeNames = new String[] { "org.uutuc.type.Sentence", "org.uutuc.type.Token" };
+		engine = AnalysisEngineFactory.createPrimitive(org.uutuc.util.JCasAnnotatorAdapter.class,
+				typeSystemDescription, prioritizedTypeNames, (Object[]) null);
 		jCas = engine.newJCas();
 		TokenFactory.createTokens(jCas, "word", Token.class, Sentence.class);
 		tokensInSentence = jCas.getAnnotationIndex().subiterator(AnnotationRetrieval.get(jCas, Sentence.class, 0));
 		assertTrue(tokensInSentence.hasNext());
 
 	}
-
 
 	@Test
 	public void testAggregate() throws UIMAException {
@@ -126,20 +148,21 @@ public class AnalysisEngineFactoryTest {
 		TokenFactory.createTokens(jCas, "Anyone up for a game of Foosball?", Token.class, Sentence.class);
 
 		SofaMapping[] sofaMappings = new SofaMapping[] {
-			SofaMappingFactory.createSofaMapping("A", Annotator1.class, ViewNames.PARENTHESES_VIEW),
-			SofaMappingFactory.createSofaMapping("B", Annotator2.class, ViewNames.SORTED_VIEW),
-			SofaMappingFactory.createSofaMapping("C", Annotator2.class, ViewNames.SORTED_PARENTHESES_VIEW),
-			SofaMappingFactory.createSofaMapping("A", Annotator2.class, ViewNames.PARENTHESES_VIEW),
-			SofaMappingFactory.createSofaMapping("B", Annotator3.class, ViewNames.INITIAL_VIEW)
-		};
+				SofaMappingFactory.createSofaMapping(Annotator1.class, ViewNames.PARENTHESES_VIEW, "A"),
+				SofaMappingFactory.createSofaMapping(Annotator2.class, ViewNames.SORTED_VIEW, "B"),
+				SofaMappingFactory.createSofaMapping(Annotator2.class, ViewNames.SORTED_PARENTHESES_VIEW, "C"),
+				SofaMappingFactory.createSofaMapping(Annotator2.class, ViewNames.PARENTHESES_VIEW, "A"),
+				SofaMappingFactory.createSofaMapping(Annotator3.class, ViewNames.INITIAL_VIEW, "B") };
 
 		List<Class<? extends AnalysisComponent>> primitiveAEClasses = new ArrayList<Class<? extends AnalysisComponent>>();
 		primitiveAEClasses.add(Annotator1.class);
 		primitiveAEClasses.add(Annotator2.class);
 		primitiveAEClasses.add(Annotator3.class);
 
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
-		AnalysisEngine aggregateEngine = AnalysisEngineFactory.createAggregate(primitiveAEClasses, typeSystemDescription, null, sofaMappings);
+		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(
+				Sentence.class, Token.class);
+		AnalysisEngine aggregateEngine = AnalysisEngineFactory.createAggregate(primitiveAEClasses,
+				typeSystemDescription, null, sofaMappings);
 
 		aggregateEngine.process(jCas);
 
@@ -150,7 +173,6 @@ public class AnalysisEngineFactoryTest {
 		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
 
 	}
-
 
 	@Test
 	public void testAggregate2() throws UIMAException, IOException {
@@ -159,23 +181,27 @@ public class AnalysisEngineFactoryTest {
 		TokenFactory.createTokens(jCas, "Anyone up for a game of Foosball?", Token.class, Sentence.class);
 
 		SofaMapping[] sofaMappings = new SofaMapping[] {
-			SofaMappingFactory.createSofaMapping("A", "ann1", ViewNames.PARENTHESES_VIEW),
-			SofaMappingFactory.createSofaMapping("B", "ann2", ViewNames.SORTED_VIEW),
-			SofaMappingFactory.createSofaMapping("C", "ann2", ViewNames.SORTED_PARENTHESES_VIEW),
-			SofaMappingFactory.createSofaMapping("A", "ann2", ViewNames.PARENTHESES_VIEW),
-			SofaMappingFactory.createSofaMapping("B", "ann3", ViewNames.INITIAL_VIEW)
-		};
+				SofaMappingFactory.createSofaMapping("ann1", ViewNames.PARENTHESES_VIEW, "A"),
+				SofaMappingFactory.createSofaMapping("ann2", ViewNames.SORTED_VIEW, "B"),
+				SofaMappingFactory.createSofaMapping("ann2", ViewNames.SORTED_PARENTHESES_VIEW, "C"),
+				SofaMappingFactory.createSofaMapping("ann2", ViewNames.PARENTHESES_VIEW, "A"),
+				SofaMappingFactory.createSofaMapping("ann3", ViewNames.INITIAL_VIEW, "B") };
 
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
+		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(
+				Sentence.class, Token.class);
 
 		List<AnalysisEngineDescription> primitiveDescriptors = new ArrayList<AnalysisEngineDescription>();
-		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription, (TypePriorities)null));
-		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, typeSystemDescription, (TypePriorities)null));
-		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, typeSystemDescription, (TypePriorities)null));
+		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class,
+				typeSystemDescription, (TypePriorities) null));
+		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class,
+				typeSystemDescription, (TypePriorities) null));
+		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class,
+				typeSystemDescription, (TypePriorities) null));
 
 		List<String> componentNames = Arrays.asList("ann1", "ann2", "ann3");
 
-		AnalysisEngine aggregateEngine = AnalysisEngineFactory.createAggregate(primitiveDescriptors, componentNames, typeSystemDescription, null, sofaMappings);
+		AnalysisEngine aggregateEngine = AnalysisEngineFactory.createAggregate(primitiveDescriptors, componentNames,
+				typeSystemDescription, null, sofaMappings);
 
 		aggregateEngine.process(jCas);
 
@@ -185,89 +211,117 @@ public class AnalysisEngineFactoryTest {
 		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C").getDocumentText());
 		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
 
-
 		CollectionReader cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class,
-				Util.TYPE_SYSTEM_DESCRIPTION, SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
-				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
-		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, Util.TYPE_SYSTEM_DESCRIPTION);
+				Util.TYPE_SYSTEM_DESCRIPTION, SingleFileXReader.PARAM_FILE_NAME,
+				"src/test/resources/data/docs/test.xmi", SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
+		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class,
+				Util.TYPE_SYSTEM_DESCRIPTION);
 
 		SimplePipeline.runPipeline(cr, ae1, aggregateEngine);
 
 	}
 
 	@Test
-	public void testReflectPrimitiveDescription() throws ResourceInitializationException, FileNotFoundException, SAXException, IOException {
-		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, Util.TYPE_SYSTEM_DESCRIPTION, Util.TYPE_PRIORITIES);
+	public void testReflectPrimitiveDescription() throws ResourceInitializationException, FileNotFoundException,
+			SAXException, IOException {
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class,
+				Util.TYPE_SYSTEM_DESCRIPTION, Util.TYPE_PRIORITIES);
 		Capability[] capabilities = aed.getAnalysisEngineMetaData().getCapabilities();
 		assertEquals(1, capabilities.length);
 		String[] inputSofas = capabilities[0].getInputSofas();
-		assertArrayEquals(new String[] {CAS.NAME_DEFAULT_SOFA, ViewNames.PARENTHESES_VIEW}, inputSofas);
+		assertArrayEquals(new String[] { CAS.NAME_DEFAULT_SOFA, ViewNames.PARENTHESES_VIEW }, inputSofas);
 		String[] outputSofas = capabilities[0].getOutputSofas();
-		assertArrayEquals(new String[] {ViewNames.SORTED_VIEW, ViewNames.SORTED_PARENTHESES_VIEW}, outputSofas);
+		assertArrayEquals(new String[] { ViewNames.SORTED_VIEW, ViewNames.SORTED_PARENTHESES_VIEW }, outputSofas);
 
-		aed = AnalysisEngineFactory.createPrimitiveDescription(ParameterizedAE.class, Util.TYPE_SYSTEM_DESCRIPTION, Util.TYPE_PRIORITIES);
+		aed = AnalysisEngineFactory.createPrimitiveDescription(ParameterizedAE.class, Util.TYPE_SYSTEM_DESCRIPTION,
+				Util.TYPE_PRIORITIES);
 		capabilities = aed.getAnalysisEngineMetaData().getCapabilities();
 		assertEquals(1, capabilities.length);
 		inputSofas = capabilities[0].getInputSofas();
-		assertArrayEquals(new String[] {CAS.NAME_DEFAULT_SOFA}, inputSofas);
+		assertArrayEquals(new String[] { CAS.NAME_DEFAULT_SOFA }, inputSofas);
 		outputSofas = capabilities[0].getOutputSofas();
 		assertArrayEquals(new String[] {}, outputSofas);
 
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_1, ConfigurationParameter.TYPE_STRING, true, false, "pineapple");
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_2, ConfigurationParameter.TYPE_STRING, false, true, new String[]{ "coconut", "mango" });
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_3, ConfigurationParameter.TYPE_STRING, false, false, null);
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_4, ConfigurationParameter.TYPE_STRING, true, true, new String[] {"apple"});
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_5, ConfigurationParameter.TYPE_STRING, false, true, new String[] {""});
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_1, ConfigurationParameter.TYPE_STRING, true,
+				false, "pineapple");
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_2, ConfigurationParameter.TYPE_STRING, false,
+				true, new String[] { "coconut", "mango" });
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_3, ConfigurationParameter.TYPE_STRING, false,
+				false, null);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_4, ConfigurationParameter.TYPE_STRING, true, true,
+				new String[] { "apple" });
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_STRING_5, ConfigurationParameter.TYPE_STRING, false,
+				true, new String[] { "" });
 
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_1, ConfigurationParameter.TYPE_BOOLEAN, true, false, Boolean.FALSE);
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_2, ConfigurationParameter.TYPE_BOOLEAN, false, false, null);
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_3, ConfigurationParameter.TYPE_BOOLEAN, true, true, new Boolean[] {true, true, false});
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_4, ConfigurationParameter.TYPE_BOOLEAN, true, true, new Boolean[] {true, false, true});
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_5, ConfigurationParameter.TYPE_BOOLEAN, true, true, new Boolean[] {false});
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_1, ConfigurationParameter.TYPE_BOOLEAN, true,
+				false, Boolean.FALSE);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_2, ConfigurationParameter.TYPE_BOOLEAN, false,
+				false, null);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_3, ConfigurationParameter.TYPE_BOOLEAN, true,
+				true, new Boolean[] { true, true, false });
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_4, ConfigurationParameter.TYPE_BOOLEAN, true,
+				true, new Boolean[] { true, false, true });
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_BOOLEAN_5, ConfigurationParameter.TYPE_BOOLEAN, true,
+				true, new Boolean[] { false });
 
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_INT_1, ConfigurationParameter.TYPE_INTEGER, true, false, 0);
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_INT_2, ConfigurationParameter.TYPE_INTEGER, false, false, 42);
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_INT_3, ConfigurationParameter.TYPE_INTEGER, false, true, new Integer[] {42,111});
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_INT_4, ConfigurationParameter.TYPE_INTEGER, true, true, new Integer[] {2});
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_INT_1, ConfigurationParameter.TYPE_INTEGER, true, false,
+				0);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_INT_2, ConfigurationParameter.TYPE_INTEGER, false, false,
+				42);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_INT_3, ConfigurationParameter.TYPE_INTEGER, false, true,
+				new Integer[] { 42, 111 });
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_INT_4, ConfigurationParameter.TYPE_INTEGER, true, true,
+				new Integer[] { 2 });
 
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_1, ConfigurationParameter.TYPE_FLOAT, true, false, 0.0f);
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_2, ConfigurationParameter.TYPE_FLOAT, false, false, 3.1415f);
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_3, ConfigurationParameter.TYPE_FLOAT, true, false, null);
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_4, ConfigurationParameter.TYPE_FLOAT, false, true, null);
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_5, ConfigurationParameter.TYPE_FLOAT, false, true, new Float[]{0.0f, 3.1415f, 2.7182818f});
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_6, ConfigurationParameter.TYPE_FLOAT, true, true, null);
-		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_7, ConfigurationParameter.TYPE_FLOAT, true, true, new Float[] {1.1111f, 2.2222f, 3.333f});
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_1, ConfigurationParameter.TYPE_FLOAT, true, false,
+				0.0f);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_2, ConfigurationParameter.TYPE_FLOAT, false, false,
+				3.1415f);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_3, ConfigurationParameter.TYPE_FLOAT, true, false,
+				null);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_4, ConfigurationParameter.TYPE_FLOAT, false, true,
+				null);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_5, ConfigurationParameter.TYPE_FLOAT, false, true,
+				new Float[] { 0.0f, 3.1415f, 2.7182818f });
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_6, ConfigurationParameter.TYPE_FLOAT, true, true,
+				null);
+		testConfigurationParameter(aed, ParameterizedAE.PARAM_FLOAT_7, ConfigurationParameter.TYPE_FLOAT, true, true,
+				new Float[] { 1.1111f, 2.2222f, 3.333f });
 
-		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(aed, ParameterizedAE.PARAM_FLOAT_3, 3.1415f, ParameterizedAE.PARAM_FLOAT_6, new Float[] {2.71828183f},
-				"file2", "foo/bar");
-		Object paramValue = ae.getAnalysisEngineMetaData().getConfigurationParameterSettings().getParameterValue(ParameterizedAE.PARAM_FLOAT_3);
+		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(aed, ParameterizedAE.PARAM_FLOAT_3, 3.1415f,
+				ParameterizedAE.PARAM_FLOAT_6, new Float[] { 2.71828183f }, "file2", "foo/bar");
+		Object paramValue = ae.getAnalysisEngineMetaData().getConfigurationParameterSettings().getParameterValue(
+				ParameterizedAE.PARAM_FLOAT_3);
 		assertEquals(paramValue, 3.1415f);
-		paramValue = ae.getAnalysisEngineMetaData().getConfigurationParameterSettings().getParameterValue(ParameterizedAE.PARAM_FLOAT_6);
-		assertEquals(((Float[])paramValue)[0].floatValue(), 2.71828183f, 0.00001f);
-
+		paramValue = ae.getAnalysisEngineMetaData().getConfigurationParameterSettings().getParameterValue(
+				ParameterizedAE.PARAM_FLOAT_6);
+		assertEquals(((Float[]) paramValue)[0].floatValue(), 2.71828183f, 0.00001f);
 
 	}
 
-	private void testConfigurationParameter(AnalysisEngineDescription aed, String parameterName, String parameterType, boolean mandatory, boolean multiValued, Object parameterValue) {
+	private void testConfigurationParameter(AnalysisEngineDescription aed, String parameterName, String parameterType,
+			boolean mandatory, boolean multiValued, Object parameterValue) {
 		ConfigurationParameterDeclarations cpd = aed.getMetaData().getConfigurationParameterDeclarations();
 		ConfigurationParameter cp = cpd.getConfigurationParameter(null, parameterName);
-		assertNotNull("Parameter ["+parameterName+"] does not exist!", cp);
-		assertEquals("Parameter ["+parameterName+"] has wrong name", parameterName, cp.getName());
-		assertEquals("Parameter ["+parameterName+"] has wrong type", parameterType, cp.getType());
-		assertEquals("Parameter ["+parameterName+"] has wrong mandatory flag", mandatory, cp.isMandatory());
-		assertEquals("Parameter ["+parameterName+"] has wrong multi-value flag",  multiValued, cp.isMultiValued());
+		assertNotNull("Parameter [" + parameterName + "] does not exist!", cp);
+		assertEquals("Parameter [" + parameterName + "] has wrong name", parameterName, cp.getName());
+		assertEquals("Parameter [" + parameterName + "] has wrong type", parameterType, cp.getType());
+		assertEquals("Parameter [" + parameterName + "] has wrong mandatory flag", mandatory, cp.isMandatory());
+		assertEquals("Parameter [" + parameterName + "] has wrong multi-value flag", multiValued, cp.isMultiValued());
 		ConfigurationParameterSettings cps = aed.getMetaData().getConfigurationParameterSettings();
 		Object actualValue = cps.getParameterValue(parameterName);
 		if (parameterValue == null) {
 			assertNull(actualValue);
-		} else if (!multiValued) {
-			if(parameterType.equals(ConfigurationParameter.TYPE_FLOAT)) {
-				assertEquals(((Float)parameterValue).floatValue(), ((Float) actualValue).floatValue(), .001f);
+		}
+		else if (!multiValued) {
+			if (parameterType.equals(ConfigurationParameter.TYPE_FLOAT)) {
+				assertEquals(((Float) parameterValue).floatValue(), ((Float) actualValue).floatValue(), .001f);
 			}
 			else {
 				assertEquals(parameterValue, actualValue);
 			}
-		} else {
+		}
+		else {
 			assertEquals(Array.getLength(parameterValue), Array.getLength(actualValue));
 			for (int i = 0; i < Array.getLength(parameterValue); ++i) {
 				assertEquals(Array.get(parameterValue, i), Array.get(actualValue, i));
@@ -279,55 +333,52 @@ public class AnalysisEngineFactoryTest {
 	@Test
 	public void testPrimitiveDescription() throws ResourceInitializationException {
 
-		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(JCasAnnotatorAdapter.class, Util.TYPE_SYSTEM_DESCRIPTION);
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(JCasAnnotatorAdapter.class,
+				Util.TYPE_SYSTEM_DESCRIPTION);
 		assertNotNull(aed);
-//		assertEquals("org.uutuc.type.TypeSystem", aed.getAnalysisEngineMetaData().getTypeSystem().getImports()[0].getName());
+		// assertEquals("org.uutuc.type.TypeSystem",
+		// aed.getAnalysisEngineMetaData().getTypeSystem().getImports()[0].getName());
 	}
 
 	/**
-	 * Test that a {@link AnalysisComponent} annotation on an ancestor of a analysis engine class
-	 * is found and taken into account.
+	 * Test that a {@link AnalysisComponent} annotation on an ancestor of a
+	 * analysis engine class is found and taken into account.
 	 */
 	@Test
 	public void testComponentAnnotationOnAncestor() throws Exception {
 		AnalysisEngineDescription desc1 = AnalysisEngineFactory.createPrimitiveDescription(
 				PristineAnnotatorClass.class, null);
-		assertTrue("Multiple deployment should be allowed on "
-				+ desc1.getAnnotatorImplementationName(), desc1.getAnalysisEngineMetaData()
-				.getOperationalProperties().isMultipleDeploymentAllowed());
+		assertTrue("Multiple deployment should be allowed on " + desc1.getAnnotatorImplementationName(), desc1
+				.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 		AnalysisEngineDescription desc2 = AnalysisEngineFactory.createPrimitiveDescription(
 				UnannotatedAnnotatorClass.class, null);
-		assertFalse("Multiple deployment should be prohibited on "
-				+ desc2.getAnnotatorImplementationName(), desc2.getAnalysisEngineMetaData()
-				.getOperationalProperties().isMultipleDeploymentAllowed());
+		assertFalse("Multiple deployment should be prohibited on " + desc2.getAnnotatorImplementationName(), desc2
+				.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 		AnalysisEngineDescription desc3 = AnalysisEngineFactory.createPrimitiveDescription(
 				AnnotatedAnnotatorClass.class, null);
-		assertTrue("Multiple deployment should be allowed  on "
-				+ desc3.getAnnotatorImplementationName(), desc3.getAnalysisEngineMetaData()
-				.getOperationalProperties().isMultipleDeploymentAllowed());
+		assertTrue("Multiple deployment should be allowed  on " + desc3.getAnnotatorImplementationName(), desc3
+				.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 	}
 
 	/*
 	 * This test case illustrates that UIMA throws an exception unless the
-	 * multipleDeploymentAllowed flag is properly set to false when mixing multi-deployment and
-	 * non-multi-deployment AEs.
+	 * multipleDeploymentAllowed flag is properly set to false when mixing
+	 * multi-deployment and non-multi-deployment AEs.
 	 */
-	@Test(expected=ResourceInitializationException.class)
+	@Test(expected = ResourceInitializationException.class)
 	public void testAAEMultipleDeploymentPolicyProblem() throws Exception {
 		{
 			AnalysisEngineDescription desc1 = AnalysisEngineFactory.createPrimitiveDescription(
 					PristineAnnotatorClass.class, null);
-			assertTrue("Multiple deployment should be allowed on "
-					+ desc1.getAnnotatorImplementationName(), desc1.getAnalysisEngineMetaData()
-					.getOperationalProperties().isMultipleDeploymentAllowed());
+			assertTrue("Multiple deployment should be allowed on " + desc1.getAnnotatorImplementationName(), desc1
+					.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 			AnalysisEngineDescription desc2 = AnalysisEngineFactory.createPrimitiveDescription(
 					UnannotatedAnnotatorClass.class, null);
-			assertFalse("Multiple deployment should be prohibited on "
-					+ desc2.getAnnotatorImplementationName(), desc2.getAnalysisEngineMetaData()
-					.getOperationalProperties().isMultipleDeploymentAllowed());
+			assertFalse("Multiple deployment should be prohibited on " + desc2.getAnnotatorImplementationName(), desc2
+					.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 			AnalysisEngineDescription aae = AnalysisEngineFactory.createAggregateDescription(desc1, desc2);
 			aae.getAnalysisEngineMetaData().getOperationalProperties().setMultipleDeploymentAllowed(true);
@@ -340,15 +391,13 @@ public class AnalysisEngineFactoryTest {
 		{
 			AnalysisEngineDescription desc1 = AnalysisEngineFactory.createPrimitiveDescription(
 					PristineAnnotatorClass.class, null);
-			assertTrue("Multiple deployment should be allowed on "
-					+ desc1.getAnnotatorImplementationName(), desc1.getAnalysisEngineMetaData()
-					.getOperationalProperties().isMultipleDeploymentAllowed());
+			assertTrue("Multiple deployment should be allowed on " + desc1.getAnnotatorImplementationName(), desc1
+					.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 			AnalysisEngineDescription desc2 = AnalysisEngineFactory.createPrimitiveDescription(
 					UnannotatedAnnotatorClass.class, null);
-			assertFalse("Multiple deployment should be prohibited on "
-					+ desc2.getAnnotatorImplementationName(), desc2.getAnalysisEngineMetaData()
-					.getOperationalProperties().isMultipleDeploymentAllowed());
+			assertFalse("Multiple deployment should be prohibited on " + desc2.getAnnotatorImplementationName(), desc2
+					.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 			AnalysisEngineDescription aae = AnalysisEngineFactory.createAggregateDescription(desc1, desc2);
 			UIMAFramework.produceAnalysisEngine(aae);
@@ -360,15 +409,13 @@ public class AnalysisEngineFactoryTest {
 		{
 			AnalysisEngineDescription desc1 = AnalysisEngineFactory.createPrimitiveDescription(
 					PristineAnnotatorClass.class, null);
-			assertTrue("Multiple deployment should be allowed on "
-					+ desc1.getAnnotatorImplementationName(), desc1.getAnalysisEngineMetaData()
-					.getOperationalProperties().isMultipleDeploymentAllowed());
+			assertTrue("Multiple deployment should be allowed on " + desc1.getAnnotatorImplementationName(), desc1
+					.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 			AnalysisEngineDescription desc3 = AnalysisEngineFactory.createPrimitiveDescription(
 					AnnotatedAnnotatorClass.class, null);
-			assertTrue("Multiple deployment should be allowed  on "
-					+ desc3.getAnnotatorImplementationName(), desc3.getAnalysisEngineMetaData()
-					.getOperationalProperties().isMultipleDeploymentAllowed());
+			assertTrue("Multiple deployment should be allowed  on " + desc3.getAnnotatorImplementationName(), desc3
+					.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 			AnalysisEngineDescription aae = AnalysisEngineFactory.createAggregateDescription(desc1, desc3);
 			UIMAFramework.produceAnalysisEngine(aae);
@@ -380,19 +427,15 @@ public class AnalysisEngineFactoryTest {
 
 	public static class PristineAnnotatorClass extends JCasAnnotator_ImplBase {
 		@Override
-		public void process(JCas aJCas)
-			throws AnalysisEngineProcessException
-		{
+		public void process(JCas aJCas) throws AnalysisEngineProcessException {
 			// Dummy
 		}
 	}
 
-	@org.uutuc.descriptor.AnalysisComponent(multipleDeploymentAllowed=false)
-	public static class AncestorClass extends JCasAnnotator_ImplBase  {
+	@org.uutuc.descriptor.AnalysisComponent(multipleDeploymentAllowed = false)
+	public static class AncestorClass extends JCasAnnotator_ImplBase {
 		@Override
-		public void process(JCas aJCas)
-			throws AnalysisEngineProcessException
-		{
+		public void process(JCas aJCas) throws AnalysisEngineProcessException {
 			// Dummy
 		}
 	}
@@ -401,7 +444,7 @@ public class AnalysisEngineFactoryTest {
 		// Dummy
 	}
 
-	@org.uutuc.descriptor.AnalysisComponent(multipleDeploymentAllowed=true)
+	@org.uutuc.descriptor.AnalysisComponent(multipleDeploymentAllowed = true)
 	public static class AnnotatedAnnotatorClass extends UnannotatedAnnotatorClass {
 		// Vessel for the annotation
 	}

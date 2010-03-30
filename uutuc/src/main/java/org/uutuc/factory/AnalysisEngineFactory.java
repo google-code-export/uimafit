@@ -41,6 +41,7 @@ import org.apache.uima.analysis_engine.metadata.AnalysisEngineMetaData;
 import org.apache.uima.analysis_engine.metadata.FixedFlow;
 import org.apache.uima.analysis_engine.metadata.SofaMapping;
 import org.apache.uima.analysis_engine.metadata.impl.FixedFlow_impl;
+import org.apache.uima.cas.CAS;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ExternalResourceDependency;
 import org.apache.uima.resource.ResourceInitializationException;
@@ -58,16 +59,16 @@ import org.uutuc.factory.ConfigurationParameterFactory.ConfigurationData;
 import org.uutuc.util.ReflectionUtil;
 
 /**
- *
+ * 
  * @author Steven Bethard, Philip Ogren
- *
+ * 
  */
 public class AnalysisEngineFactory {
 
 	/**
 	 * Get an AnalysisEngine from the name (Java-style, dotted) of an XML
 	 * descriptor file, and a set of configuration parameters.
-	 *
+	 * 
 	 * @param descriptorName
 	 *            The fully qualified, Java-style, dotted name of the XML
 	 *            descriptor file.
@@ -91,9 +92,27 @@ public class AnalysisEngineFactory {
 	}
 
 	/**
+	 * This method provides a convenient way to instantiate an AnalysisEngine
+	 * where the default view is mapped to the view name passed into the method.
+	 * 
+	 * @param analysisEngineDescription
+	 * @param viewName
+	 *            the view name to map the default view to
+	 * @return an aggregate analysis engine consisting of a single component
+	 *         whose default view is mapped to the the view named by viewName.
+	 * @throws ResourceInitializationException
+	 */
+	public static AnalysisEngine createAnalysisEngine(AnalysisEngineDescription analysisEngineDescription,
+			String viewName) throws ResourceInitializationException {
+		AggregateBuilder builder = new AggregateBuilder();
+		builder.add(analysisEngineDescription, CAS.NAME_DEFAULT_SOFA, viewName);
+		return builder.createAggregate();
+	}
+
+	/**
 	 * Get an AnalysisEngine from an XML descriptor file and a set of
 	 * configuration parameters.
-	 *
+	 * 
 	 * @param descriptorPath
 	 *            The path to the XML descriptor file.
 	 * @param configurationData
@@ -115,7 +134,7 @@ public class AnalysisEngineFactory {
 	/**
 	 * Get an AnalysisEngine from an AnalysisComponent class, a type system and
 	 * a set of configuration parameters.
-	 *
+	 * 
 	 * @param componentClass
 	 *            The class of the AnalysisComponent to be created as an
 	 *            AnalysisEngine.
@@ -176,9 +195,8 @@ public class AnalysisEngineFactory {
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setPrimitive(true);
 		desc.setAnnotatorImplementationName(componentClass.getName());
-		org.uutuc.descriptor.AnalysisComponent componentAnno = ReflectionUtil
-				.getInheritableAnnotation(org.uutuc.descriptor.AnalysisComponent.class,
-						componentClass);
+		org.uutuc.descriptor.AnalysisComponent componentAnno = ReflectionUtil.getInheritableAnnotation(
+				org.uutuc.descriptor.AnalysisComponent.class, componentClass);
 		if (componentAnno != null) {
 			OperationalProperties op = desc.getAnalysisEngineMetaData().getOperationalProperties();
 			op.setMultipleDeploymentAllowed(componentAnno.multipleDeploymentAllowed());
@@ -208,8 +226,8 @@ public class AnalysisEngineFactory {
 		ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
 				reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);
 		if (configurationParameters != null) {
-			ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
-					configurationParameters, configurationValues);
+			ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters,
+					configurationValues);
 		}
 
 		// set the type system
@@ -344,15 +362,15 @@ public class AnalysisEngineFactory {
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setPrimitive(false);
 
-		// if any of the aggregated analysis engines does not allow multiple deployment, then the
+		// if any of the aggregated analysis engines does not allow multiple
+		// deployment, then the
 		// aggregate engine may also not be multiply deployed
 		boolean allowMultipleDeploy = true;
 		for (AnalysisEngineDescription d : analysisEngineDescriptions) {
 			allowMultipleDeploy &= d.getAnalysisEngineMetaData().getOperationalProperties()
 					.isMultipleDeploymentAllowed();
 		}
-		desc.getAnalysisEngineMetaData().getOperationalProperties().setMultipleDeploymentAllowed(
-				allowMultipleDeploy);
+		desc.getAnalysisEngineMetaData().getOperationalProperties().setMultipleDeploymentAllowed(allowMultipleDeploy);
 
 		List<String> flowNames = new ArrayList<String>();
 
@@ -381,7 +399,7 @@ public class AnalysisEngineFactory {
 	/**
 	 * Creates an AnalysisEngine from the given descriptor, and uses the engine
 	 * to process the file or text.
-	 *
+	 * 
 	 * @param descriptorFileName
 	 *            The fully qualified, Java-style, dotted name of the XML
 	 *            descriptor file.
@@ -402,7 +420,7 @@ public class AnalysisEngineFactory {
 
 	/**
 	 * Processes the file or text with the given AnalysisEngine.
-	 *
+	 * 
 	 * @param analysisEngine
 	 *            The AnalysisEngine object to process the text.
 	 * @param fileNameOrText
