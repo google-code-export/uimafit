@@ -43,13 +43,11 @@ import org.uutuc.util.InitializeUtil;
  */
 public class ViewCreatorAnnotator extends JCasAnnotator_ImplBase {
 
-	public static final String VIEW_NAME = "viewName";
-
 	public static String PARAM_VIEW_NAME = ConfigurationParameterFactory.createConfigurationParameterName(
 			ViewCreatorAnnotator.class, "viewName");
 
-	@ConfigurationParameter
-	private String viewName = VIEW_NAME;
+	@ConfigurationParameter(mandatory=true)
+	private String viewName;
 
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {
@@ -68,6 +66,7 @@ public class ViewCreatorAnnotator extends JCasAnnotator_ImplBase {
 			}
 		}
 		catch (CASException ce) {
+			throw new AnalysisEngineProcessException(ce);
 		}
 	}
 
