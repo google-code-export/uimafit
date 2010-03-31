@@ -46,13 +46,13 @@ import org.uutuc.util.Util;
 public class ViewCreatorAnnotatorTest {
 
 	@Test
-	public void testSofaInitializerAnnotator() throws ResourceInitializationException, AnalysisEngineProcessException,
+	public void testViewCreatorAnnotator() throws ResourceInitializationException, AnalysisEngineProcessException,
 			CASException {
-		AnalysisEngine sofaInitializer = AnalysisEngineFactory.createPrimitive(ViewCreatorAnnotator.class,
+		AnalysisEngine viewCreator = AnalysisEngineFactory.createPrimitive(ViewCreatorAnnotator.class,
 				Util.TYPE_SYSTEM_DESCRIPTION, ViewCreatorAnnotator.PARAM_VIEW_NAME, "myView");
 		JCas jCas = Util.JCAS.get();
 		jCas.reset();
-		sofaInitializer.process(jCas);
+		viewCreator.process(jCas);
 		JCas myView = jCas.getView("myView");
 		assertNotNull(myView);
 		myView.setDocumentText("my view text");
@@ -106,7 +106,7 @@ public class ViewCreatorAnnotatorTest {
 	}
 
 	/**
-	 * This test demonstrates that running the sofaInitializer is doing the
+	 * This test demonstrates that running the viewCreator is doing the
 	 * right thing (i.e. initializing the view "myView")
 	 * 
 	 * @throws ResourceInitializationException
@@ -119,20 +119,20 @@ public class ViewCreatorAnnotatorTest {
 		AnalysisEngineDescription description = AnalysisEngineFactory.createPrimitiveDescription(
 				SofaAwareAnnotator.class, Util.TYPE_SYSTEM_DESCRIPTION);
 		AnalysisEngine engine = AnalysisEngineFactory.createAnalysisEngine(description, "myView");
-		AnalysisEngine sofaInitializer = AnalysisEngineFactory.createPrimitive(ViewCreatorAnnotator.class,
+		AnalysisEngine viewCreator = AnalysisEngineFactory.createPrimitive(ViewCreatorAnnotator.class,
 				Util.TYPE_SYSTEM_DESCRIPTION, ViewCreatorAnnotator.PARAM_VIEW_NAME, "myView");
 		JCas jCas = Util.JCAS.get();
 		jCas.reset();
-		sofaInitializer.process(jCas);
+		viewCreator.process(jCas);
 		engine.process(jCas);
 		assertEquals("some", AnnotationRetrieval.get(jCas.getView("myView"), Token.class, 0).getCoveredText());
 
-		// here I run again with sofaInitializer running twice to make sure it
+		// here I run again with viewCreator running twice to make sure it
 		// does the right thing when the view
 		// has already been created
 		jCas.reset();
-		sofaInitializer.process(jCas);
-		sofaInitializer.process(jCas);
+		viewCreator.process(jCas);
+		viewCreator.process(jCas);
 		engine.process(jCas);
 		assertEquals("some", AnnotationRetrieval.get(jCas.getView("myView"), Token.class, 0).getCoveredText());
 
@@ -140,13 +140,13 @@ public class ViewCreatorAnnotatorTest {
 				Util.TYPE_SYSTEM_DESCRIPTION);
 		engine = AnalysisEngineFactory.createAnalysisEngine(description, "myView");
 		jCas.reset();
-		sofaInitializer.process(jCas);
+		viewCreator.process(jCas);
 		engine.process(jCas);
 		assertEquals("some", AnnotationRetrieval.get(jCas.getView("myView"), Token.class, 0).getCoveredText());
 
 		jCas.reset();
-		sofaInitializer.process(jCas);
-		sofaInitializer.process(jCas);
+		viewCreator.process(jCas);
+		viewCreator.process(jCas);
 		engine.process(jCas);
 		assertEquals("some", AnnotationRetrieval.get(jCas.getView("myView"), Token.class, 0).getCoveredText());
 	}
