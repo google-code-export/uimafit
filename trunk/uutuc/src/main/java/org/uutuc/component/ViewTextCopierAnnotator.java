@@ -30,7 +30,13 @@ import org.uutuc.util.InitializeUtil;
 /**
  * This annotator will copy the text of one view to another view. It is required
  * that source view already exists. If the destination view does not yet exist,
- * then it will be created.
+ * then it will be created. A use case for this analysis engine is when you have
+ * a "gold view" which is populated with text and gold-standard annotations. Now
+ * you want to run your system/pipeline on a "system view" so that at the end
+ * you can compare the annotations in the system view with those in the gold
+ * view. It is convenient to have an annotator that simply copies the text from
+ * the gold view to the system view before running a pipeline on the system
+ * view.
  * 
  * @author Philip Ogren
  * 
@@ -60,7 +66,7 @@ public class ViewTextCopierAnnotator extends JCasAnnotator_ImplBase {
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		try {
 			JCas sourceView = jCas.getView(sourceViewName);
-			JCas destinationView ;
+			JCas destinationView;
 			try {
 				destinationView = jCas.getView(destinationViewName);
 			}
