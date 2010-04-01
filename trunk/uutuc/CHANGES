@@ -1,31 +1,37 @@
 changes in 0.9.12
  	- fixed issue #32 "Working with sofas should be easier" by introducing AggregateBuilder
  	- added TypeCapability annotation and updated CapabilityFactory.createCapability accordingly
+ 	- added various component base classes which invoke the InitializeUtil and 
+ 	  ExternalResourceConfigurator to configure themselves based on their UIMAContext.
+ 	
 changes in 0.9.11
-	- fixed issue #23 "use default values in InitializeUtil" again.  See final comments in that issue for the mo' better fix.
+	- fixed issue #23 "use default values in InitializeUtil" again.  See final comments in that
+	  issue for the mo' better fix.
 	- fixed issue #27 "Parameters cannot be set to null".
-	- add javadoc for @SofaCapability per wontfix issue #26 "sofa aware components treat "base CAS" differently then "_InitialView""
+	- add javadoc for @SofaCapability per wontfix issue #26 "sofa aware components treat "base CAS"
+	  differently then "_InitialView""
 	- fixed issue #28 "Support for enumeration fields" see org.uutuc.util.InitializeUtilTest.testEnumDefaultValue()
-	- fixed issue #29 "AnalysisComponent annotations on ancestor classes are not taken into account".  See org.uutuc.factory.AnalysisEngineFactoryTest.testComponentAnnotationOnAncestor().
+	- fixed issue #29 "AnalysisComponent annotations on ancestor classes are not taken into account".
+	  See org.uutuc.factory.AnalysisEngineFactoryTest.testComponentAnnotationOnAncestor().
 
 changes in 0.9.10
  	- fixed issue 23 "use default values in InitializeUtil"
  	- added ConfigurationParameterFactory.createConfigurationParameterName 
  	  method which resolves issue 22 "ConfigurationParameter name quandry" 
  	- fixed issue 17 "all test components should use annotations"
- 	- 
+ 	
 changes in 0.9.9
-- added several addConfigurationParameters methods to ConfigurationParameterFactory. 
-  These are useful for a variety of scenarios - esp. when you need configuration parameter
-  information from dynamically loaded classes.
-- added this CHANGES file you are reading
-- Changes to External Resources
-  - Updated external resources code to handle SharedResourceObjects created using 
-    ConfigurableDataResourceSpecifiers. 
-  - Added convenience methods to use Files and URLs as external resources.
-  - Updated JavaDoc
-  - Added external dependencies reflection code used in AnalysisEngineFactory also 
-    to CollectionReaderFactory .
-  - Split ResourceCreationSpecifiedFactory.setConfigurationParameters() into two 
-    methods to reuse the part operating on ResourceMetaData.
+	- added several addConfigurationParameters methods to ConfigurationParameterFactory. 
+	  These are useful for a variety of scenarios - esp. when you need configuration parameter
+	  information from dynamically loaded classes.
+	- added this CHANGES file you are reading
+	- Changes to External Resources
+	- Updated external resources code to handle SharedResourceObjects created using 
+	  ConfigurableDataResourceSpecifiers. 
+	- Added convenience methods to use Files and URLs as external resources.
+	- Updated JavaDoc
+	- Added external dependencies reflection code used in AnalysisEngineFactory also 
+	  to CollectionReaderFactory .
+	- Split ResourceCreationSpecifiedFactory.setConfigurationParameters() into two 
+	  methods to reuse the part operating on ResourceMetaData.
   
