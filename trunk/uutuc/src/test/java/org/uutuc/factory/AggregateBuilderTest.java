@@ -134,14 +134,14 @@ public class AggregateBuilderTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void testOddNumberOfViewNames() throws ResourceInitializationException {
 		TypeSystemDescription typeSystem = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
-		AggregateBuilder builder = new AggregateBuilder(typeSystem);
+		AggregateBuilder builder = new AggregateBuilder();
 		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem), ViewNames.PARENTHESES_VIEW);
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testDuplicateComponentNames() throws ResourceInitializationException {
 		TypeSystemDescription typeSystem = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
-		AggregateBuilder builder = new AggregateBuilder(typeSystem);
+		AggregateBuilder builder = new AggregateBuilder();
 		builder.add("name", AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem));
 		builder.add("name", AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem));
 	}
