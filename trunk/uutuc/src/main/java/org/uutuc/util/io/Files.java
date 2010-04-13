@@ -207,26 +207,4 @@ public class Files {
 		return getFiles(file, createSuffixFilter(suffixes, exclusionSuffixes));
 	}
 
-	/**
-	 * Makes the file name relative to the root directory by stripping the input
-	 * directory prefix from the file name.
-	 * 
-	 * @param file
-	 *            The file whose name is to be relativized.
-	 * @return The relativized path.
-	 */
-	public static String stripRootDir(File rootFile, File file) {
-		// get absolute paths for the root directory and the file
-		String dirPath = rootFile.getAbsolutePath();
-		String filePath = file.getAbsolutePath();
-
-		// strip the directory path from the beginning of the file path
-		if (!filePath.startsWith(dirPath)) {
-			String format = "%s does not start with %s";
-			String message = String.format(format, filePath, dirPath);
-			throw new IllegalArgumentException(message);
-		}
-		return filePath.substring(dirPath.length());
-	}
-
 }
