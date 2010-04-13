@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 
 package org.uutuc.factory;
 
@@ -43,7 +43,7 @@ import org.apache.uima.resource.metadata.TypeSystemDescription;
 public class AggregateBuilder {
 
 	List<String> componentNames = new ArrayList<String>();
-	
+
 	List<SofaMapping> sofaMappings = new ArrayList<SofaMapping>();
 
 	List<AnalysisEngineDescription> analysisEngineDescriptions = new ArrayList<AnalysisEngineDescription>();
@@ -51,13 +51,11 @@ public class AggregateBuilder {
 	TypeSystemDescription typeSystemDescription;
 
 	TypePriorities typePriorities;
-	
-	
 
 	public AggregateBuilder() {
 		this(null, null);
 	}
-	
+
 	public AggregateBuilder(TypeSystemDescription typeSystemDescription) {
 		this(typeSystemDescription, null);
 	}
@@ -78,9 +76,17 @@ public class AggregateBuilder {
 	 * @param viewNames
 	 */
 	public String add(AnalysisEngineDescription aed, String... viewNames) {
-		String componentName = aed.getAnnotatorImplementationName();
-		if(componentNames.contains(componentName)) {
-			componentName = componentName + "."+ (componentNames.size()+1);
+		String componentName = aed.getAnalysisEngineMetaData().getName();
+		if (componentName == null || componentName.equals("")) {
+			if (aed.isPrimitive()) {
+				componentName = aed.getAnnotatorImplementationName();
+			}
+			else {
+				componentName = "aggregate";
+			}
+		}
+		if (componentNames.contains(componentName)) {
+			componentName = componentName + "." + (componentNames.size() + 1);
 		}
 		add(componentName, aed, viewNames);
 		return componentName;
@@ -101,8 +107,9 @@ public class AggregateBuilder {
 	 * 
 	 */
 	public void add(String componentName, AnalysisEngineDescription aed, String... viewNames) {
-		if(componentNames.contains(componentName)) {
-			throw new IllegalArgumentException("the component name '"+componentName+"' has already been used for another added analysis engine description.");
+		if (componentNames.contains(componentName)) {
+			throw new IllegalArgumentException("the component name '" + componentName
+					+ "' has already been used for another added analysis engine description.");
 		}
 		if (viewNames != null && viewNames.length % 2 != 0) {
 			throw new IllegalArgumentException(
@@ -112,7 +119,7 @@ public class AggregateBuilder {
 
 		analysisEngineDescriptions.add(aed);
 		componentNames.add(componentName);
-		
+
 		if (viewNames != null) {
 			for (int i = 0; i < viewNames.length; i += 2) {
 				sofaMappings.add(SofaMappingFactory.createSofaMapping(componentName, viewNames[i], viewNames[i + 1]));
@@ -121,13 +128,17 @@ public class AggregateBuilder {
 	}
 
 	public void addSofaMapping(String componentName, String componentViewName, String aggregateViewName) {
-		if(componentNames.contains(componentName)) {
+		if (componentNames.contains(componentName)) {
 			sofaMappings.add(SofaMappingFactory.createSofaMapping(componentName, componentViewName, aggregateViewName));
-		} else {
-			throw new IllegalArgumentException("No component with the name '"+componentName+"' has been added to this builder.  Sofa mappings may only be added for components that have been added to this builder. ");
+		}
+		else {
+			throw new IllegalArgumentException(
+					"No component with the name '"
+							+ componentName
+							+ "' has been added to this builder.  Sofa mappings may only be added for components that have been added to this builder. ");
 		}
 	}
-	
+
 	/**
 	 * This method simply delegates to
 	 * {@link AnalysisEngineFactory#createAggregate(List, TypeSystemDescription, TypePriorities, SofaMapping[], Object...)}
