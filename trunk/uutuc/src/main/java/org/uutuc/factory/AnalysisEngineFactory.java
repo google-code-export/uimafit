@@ -83,12 +83,18 @@ public class AnalysisEngineFactory {
 	 */
 	public static AnalysisEngine createAnalysisEngine(String descriptorName, Object... configurationData)
 			throws UIMAException, IOException {
+		AnalysisEngineDescription aed = createAnalysisEngineDescription(descriptorName, configurationData);
+		return UIMAFramework.produceAnalysisEngine(aed);
+	}
+
+	public static AnalysisEngineDescription createAnalysisEngineDescription(String descriptorName,
+			Object... configurationData) throws UIMAException, IOException {
 		Import_impl imprt = new Import_impl();
 		imprt.setName(descriptorName);
 		URL url = imprt.findAbsoluteUrl(UIMAFramework.newDefaultResourceManager());
 		ResourceSpecifier specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(url,
 				configurationData);
-		return UIMAFramework.produceAnalysisEngine(specifier);
+		return (AnalysisEngineDescription) specifier;
 	}
 
 	/**
