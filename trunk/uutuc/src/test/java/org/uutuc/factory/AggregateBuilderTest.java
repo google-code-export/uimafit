@@ -76,6 +76,26 @@ public class AggregateBuilderTest {
 
 		SimplePipeline.runPipeline(cr, ae1, aggregateEngine);
 
+		
+		AnalysisEngineDescription aggregateDescription = builder.createAggregateDescription();
+		builder = new AggregateBuilder();
+		builder.add(aggregateDescription);
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem), ViewNames.PARENTHESES_VIEW, "PARENS");
+		aggregateEngine = builder.createAggregate();
+
+		jCas.reset();
+		
+		TokenFactory.createTokens(jCas, "Anyone up for a game of Foosball?", Token.class, Sentence.class);
+
+		aggregateEngine.process(jCas);
+
+		assertEquals("Anyone up for a game of Foosball?", jCas.getDocumentText());
+		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas.getView("A").getDocumentText());
+		assertEquals("?AFaaabeeffgllmnnoooooprsuy", jCas.getView("B").getDocumentText());
+		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C").getDocumentText());
+		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
+		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas.getView("PARENS").getDocumentText());
+
 
 	}
 
