@@ -56,10 +56,6 @@ public class AggregateBuilder {
 		this(null, null);
 	}
 
-	public AggregateBuilder(TypeSystemDescription typeSystemDescription) {
-		this(typeSystemDescription, null);
-	}
-
 	public AggregateBuilder(TypeSystemDescription typeSystemDescription, TypePriorities typePriorities) {
 		this.typeSystemDescription = typeSystemDescription;
 		this.typePriorities = typePriorities;
