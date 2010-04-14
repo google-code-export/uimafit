@@ -226,21 +226,24 @@
 <FONT color="green">223</FONT>                            desc.getCollectionReaderMetaData().setTypePriorities(typePriorities);<a name="line.223"></a>
 <FONT color="green">224</FONT>    <a name="line.224"></a>
 <FONT color="green">225</FONT>                    if(capabilities == null) {<a name="line.225"></a>
-<FONT color="green">226</FONT>                            capabilities = CapabilityFactory.createCapability(readerClass);<a name="line.226"></a>
-<FONT color="green">227</FONT>                    }<a name="line.227"></a>
-<FONT color="green">228</FONT>                    if(capabilities != null)<a name="line.228"></a>
-<FONT color="green">229</FONT>                            desc.getCollectionReaderMetaData().setCapabilities(capabilities);<a name="line.229"></a>
-<FONT color="green">230</FONT>                    <a name="line.230"></a>
-<FONT color="green">231</FONT>                    return desc;<a name="line.231"></a>
-<FONT color="green">232</FONT>            }<a name="line.232"></a>
-<FONT color="green">233</FONT>    <a name="line.233"></a>
-<FONT color="green">234</FONT>            public static void setConfigurationParameters(CollectionReaderDescription collectionReaderDescription, Object... configurationData) throws ResourceInitializationException {<a name="line.234"></a>
-<FONT color="green">235</FONT>                    ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);<a name="line.235"></a>
-<FONT color="green">236</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(collectionReaderDescription, cdata.configurationParameters, cdata.configurationValues);<a name="line.236"></a>
-<FONT color="green">237</FONT>            }<a name="line.237"></a>
-<FONT color="green">238</FONT>    <a name="line.238"></a>
-<FONT color="green">239</FONT>            <a name="line.239"></a>
-<FONT color="green">240</FONT>    }<a name="line.240"></a>
+<FONT color="green">226</FONT>                            Capability capability = CapabilityFactory.createCapability(readerClass);<a name="line.226"></a>
+<FONT color="green">227</FONT>                            if(capability != null) {<a name="line.227"></a>
+<FONT color="green">228</FONT>                                    capabilities = new Capability[] {capability};<a name="line.228"></a>
+<FONT color="green">229</FONT>                            }<a name="line.229"></a>
+<FONT color="green">230</FONT>                    }<a name="line.230"></a>
+<FONT color="green">231</FONT>                    if(capabilities != null)<a name="line.231"></a>
+<FONT color="green">232</FONT>                            desc.getCollectionReaderMetaData().setCapabilities(capabilities);<a name="line.232"></a>
+<FONT color="green">233</FONT>                    <a name="line.233"></a>
+<FONT color="green">234</FONT>                    return desc;<a name="line.234"></a>
+<FONT color="green">235</FONT>            }<a name="line.235"></a>
+<FONT color="green">236</FONT>    <a name="line.236"></a>
+<FONT color="green">237</FONT>            public static void setConfigurationParameters(CollectionReaderDescription collectionReaderDescription, Object... configurationData) throws ResourceInitializationException {<a name="line.237"></a>
+<FONT color="green">238</FONT>                    ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);<a name="line.238"></a>
+<FONT color="green">239</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(collectionReaderDescription, cdata.configurationParameters, cdata.configurationValues);<a name="line.239"></a>
+<FONT color="green">240</FONT>            }<a name="line.240"></a>
+<FONT color="green">241</FONT>    <a name="line.241"></a>
+<FONT color="green">242</FONT>            <a name="line.242"></a>
+<FONT color="green">243</FONT>    }<a name="line.243"></a>
 
 
 

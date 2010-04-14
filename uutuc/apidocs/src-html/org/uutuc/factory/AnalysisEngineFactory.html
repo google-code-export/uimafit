@@ -1,20 +1,20 @@
 <HTML>
 <BODY BGCOLOR="white">
 <PRE>
-<FONT color="green">001</FONT>    /* <a name="line.1"></a>
-<FONT color="green">002</FONT>     Copyright 2009 Regents of the University of Colorado.  <a name="line.2"></a>
-<FONT color="green">003</FONT>     All rights reserved. <a name="line.3"></a>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     Copyright 2009 Regents of the University of Colorado.<a name="line.2"></a>
+<FONT color="green">003</FONT>     All rights reserved.<a name="line.3"></a>
 <FONT color="green">004</FONT>    <a name="line.4"></a>
-<FONT color="green">005</FONT>     Licensed under the Apache License, Version 2.0 (the "License"); <a name="line.5"></a>
-<FONT color="green">006</FONT>     you may not use this file except in compliance with the License. <a name="line.6"></a>
-<FONT color="green">007</FONT>     You may obtain a copy of the License at <a name="line.7"></a>
+<FONT color="green">005</FONT>     Licensed under the Apache License, Version 2.0 (the "License");<a name="line.5"></a>
+<FONT color="green">006</FONT>     you may not use this file except in compliance with the License.<a name="line.6"></a>
+<FONT color="green">007</FONT>     You may obtain a copy of the License at<a name="line.7"></a>
 <FONT color="green">008</FONT>    <a name="line.8"></a>
-<FONT color="green">009</FONT>     http://www.apache.org/licenses/LICENSE-2.0 <a name="line.9"></a>
+<FONT color="green">009</FONT>     http://www.apache.org/licenses/LICENSE-2.0<a name="line.9"></a>
 <FONT color="green">010</FONT>    <a name="line.10"></a>
-<FONT color="green">011</FONT>     Unless required by applicable law or agreed to in writing, software <a name="line.11"></a>
-<FONT color="green">012</FONT>     distributed under the License is distributed on an "AS IS" BASIS, <a name="line.12"></a>
-<FONT color="green">013</FONT>     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. <a name="line.13"></a>
-<FONT color="green">014</FONT>     See the License for the specific language governing permissions and <a name="line.14"></a>
+<FONT color="green">011</FONT>     Unless required by applicable law or agreed to in writing, software<a name="line.11"></a>
+<FONT color="green">012</FONT>     distributed under the License is distributed on an "AS IS" BASIS,<a name="line.12"></a>
+<FONT color="green">013</FONT>     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.13"></a>
+<FONT color="green">014</FONT>     See the License for the specific language governing permissions and<a name="line.14"></a>
 <FONT color="green">015</FONT>     limitations under the License.<a name="line.15"></a>
 <FONT color="green">016</FONT>     */<a name="line.16"></a>
 <FONT color="green">017</FONT>    <a name="line.17"></a>
@@ -40,382 +40,426 @@
 <FONT color="green">037</FONT>    import org.apache.uima.analysis_engine.impl.AggregateAnalysisEngine_impl;<a name="line.37"></a>
 <FONT color="green">038</FONT>    import org.apache.uima.analysis_engine.impl.AnalysisEngineDescription_impl;<a name="line.38"></a>
 <FONT color="green">039</FONT>    import org.apache.uima.analysis_engine.impl.PrimitiveAnalysisEngine_impl;<a name="line.39"></a>
-<FONT color="green">040</FONT>    import org.apache.uima.analysis_engine.metadata.FixedFlow;<a name="line.40"></a>
-<FONT color="green">041</FONT>    import org.apache.uima.analysis_engine.metadata.SofaMapping;<a name="line.41"></a>
-<FONT color="green">042</FONT>    import org.apache.uima.analysis_engine.metadata.impl.FixedFlow_impl;<a name="line.42"></a>
-<FONT color="green">043</FONT>    import org.apache.uima.jcas.JCas;<a name="line.43"></a>
-<FONT color="green">044</FONT>    import org.apache.uima.resource.ExternalResourceDependency;<a name="line.44"></a>
-<FONT color="green">045</FONT>    import org.apache.uima.resource.ResourceInitializationException;<a name="line.45"></a>
-<FONT color="green">046</FONT>    import org.apache.uima.resource.ResourceSpecifier;<a name="line.46"></a>
-<FONT color="green">047</FONT>    import org.apache.uima.resource.metadata.Capability;<a name="line.47"></a>
-<FONT color="green">048</FONT>    import org.apache.uima.resource.metadata.ConfigurationParameter;<a name="line.48"></a>
-<FONT color="green">049</FONT>    import org.apache.uima.resource.metadata.ConfigurationParameterSettings;<a name="line.49"></a>
-<FONT color="green">050</FONT>    import org.apache.uima.resource.metadata.OperationalProperties;<a name="line.50"></a>
-<FONT color="green">051</FONT>    import org.apache.uima.resource.metadata.ResourceMetaData;<a name="line.51"></a>
-<FONT color="green">052</FONT>    import org.apache.uima.resource.metadata.TypePriorities;<a name="line.52"></a>
-<FONT color="green">053</FONT>    import org.apache.uima.resource.metadata.TypeSystemDescription;<a name="line.53"></a>
-<FONT color="green">054</FONT>    import org.apache.uima.resource.metadata.impl.Import_impl;<a name="line.54"></a>
-<FONT color="green">055</FONT>    import org.apache.uima.util.FileUtils;<a name="line.55"></a>
-<FONT color="green">056</FONT>    import org.uutuc.factory.ConfigurationParameterFactory.ConfigurationData;<a name="line.56"></a>
-<FONT color="green">057</FONT>    import org.uutuc.util.ReflectionUtil;<a name="line.57"></a>
-<FONT color="green">058</FONT>    <a name="line.58"></a>
-<FONT color="green">059</FONT>    /**<a name="line.59"></a>
-<FONT color="green">060</FONT>     * <a name="line.60"></a>
-<FONT color="green">061</FONT>     * @author Steven Bethard, Philip Ogren<a name="line.61"></a>
+<FONT color="green">040</FONT>    import org.apache.uima.analysis_engine.metadata.AnalysisEngineMetaData;<a name="line.40"></a>
+<FONT color="green">041</FONT>    import org.apache.uima.analysis_engine.metadata.FixedFlow;<a name="line.41"></a>
+<FONT color="green">042</FONT>    import org.apache.uima.analysis_engine.metadata.SofaMapping;<a name="line.42"></a>
+<FONT color="green">043</FONT>    import org.apache.uima.analysis_engine.metadata.impl.FixedFlow_impl;<a name="line.43"></a>
+<FONT color="green">044</FONT>    import org.apache.uima.cas.CAS;<a name="line.44"></a>
+<FONT color="green">045</FONT>    import org.apache.uima.jcas.JCas;<a name="line.45"></a>
+<FONT color="green">046</FONT>    import org.apache.uima.resource.ExternalResourceDependency;<a name="line.46"></a>
+<FONT color="green">047</FONT>    import org.apache.uima.resource.ResourceInitializationException;<a name="line.47"></a>
+<FONT color="green">048</FONT>    import org.apache.uima.resource.ResourceSpecifier;<a name="line.48"></a>
+<FONT color="green">049</FONT>    import org.apache.uima.resource.metadata.Capability;<a name="line.49"></a>
+<FONT color="green">050</FONT>    import org.apache.uima.resource.metadata.ConfigurationParameter;<a name="line.50"></a>
+<FONT color="green">051</FONT>    import org.apache.uima.resource.metadata.ConfigurationParameterSettings;<a name="line.51"></a>
+<FONT color="green">052</FONT>    import org.apache.uima.resource.metadata.OperationalProperties;<a name="line.52"></a>
+<FONT color="green">053</FONT>    import org.apache.uima.resource.metadata.ResourceMetaData;<a name="line.53"></a>
+<FONT color="green">054</FONT>    import org.apache.uima.resource.metadata.TypePriorities;<a name="line.54"></a>
+<FONT color="green">055</FONT>    import org.apache.uima.resource.metadata.TypeSystemDescription;<a name="line.55"></a>
+<FONT color="green">056</FONT>    import org.apache.uima.resource.metadata.impl.Import_impl;<a name="line.56"></a>
+<FONT color="green">057</FONT>    import org.apache.uima.util.FileUtils;<a name="line.57"></a>
+<FONT color="green">058</FONT>    import org.uutuc.factory.ConfigurationParameterFactory.ConfigurationData;<a name="line.58"></a>
+<FONT color="green">059</FONT>    import org.uutuc.util.ReflectionUtil;<a name="line.59"></a>
+<FONT color="green">060</FONT>    <a name="line.60"></a>
+<FONT color="green">061</FONT>    /**<a name="line.61"></a>
 <FONT color="green">062</FONT>     * <a name="line.62"></a>
-<FONT color="green">063</FONT>     */<a name="line.63"></a>
-<FONT color="green">064</FONT>    public class AnalysisEngineFactory {<a name="line.64"></a>
-<FONT color="green">065</FONT>    <a name="line.65"></a>
-<FONT color="green">066</FONT>            /**<a name="line.66"></a>
-<FONT color="green">067</FONT>             * Get an AnalysisEngine from the name (Java-style, dotted) of an XML<a name="line.67"></a>
-<FONT color="green">068</FONT>             * descriptor file, and a set of configuration parameters.<a name="line.68"></a>
-<FONT color="green">069</FONT>             * <a name="line.69"></a>
-<FONT color="green">070</FONT>             * @param descriptorName<a name="line.70"></a>
-<FONT color="green">071</FONT>             *            The fully qualified, Java-style, dotted name of the XML<a name="line.71"></a>
-<FONT color="green">072</FONT>             *            descriptor file.<a name="line.72"></a>
-<FONT color="green">073</FONT>             * @param configurationData<a name="line.73"></a>
-<FONT color="green">074</FONT>             *            Any additional configuration parameters to be set. These<a name="line.74"></a>
-<FONT color="green">075</FONT>             *            should be supplied as (name, value) pairs, so there should<a name="line.75"></a>
-<FONT color="green">076</FONT>             *            always be an even number of parameters.<a name="line.76"></a>
-<FONT color="green">077</FONT>             * @return The AnalysisEngine created from the XML descriptor and the<a name="line.77"></a>
-<FONT color="green">078</FONT>             *         configuration parameters.<a name="line.78"></a>
-<FONT color="green">079</FONT>             * @throws IOException<a name="line.79"></a>
-<FONT color="green">080</FONT>             * @throws UIMAException<a name="line.80"></a>
-<FONT color="green">081</FONT>             */<a name="line.81"></a>
-<FONT color="green">082</FONT>            public static AnalysisEngine createAnalysisEngine(String descriptorName, Object... configurationData)<a name="line.82"></a>
-<FONT color="green">083</FONT>                            throws UIMAException, IOException {<a name="line.83"></a>
-<FONT color="green">084</FONT>                    Import_impl imprt = new Import_impl();<a name="line.84"></a>
-<FONT color="green">085</FONT>                    imprt.setName(descriptorName);<a name="line.85"></a>
-<FONT color="green">086</FONT>                    URL url = imprt.findAbsoluteUrl(UIMAFramework.newDefaultResourceManager());<a name="line.86"></a>
-<FONT color="green">087</FONT>                    ResourceSpecifier specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(url,<a name="line.87"></a>
-<FONT color="green">088</FONT>                                    configurationData);<a name="line.88"></a>
-<FONT color="green">089</FONT>                    return UIMAFramework.produceAnalysisEngine(specifier);<a name="line.89"></a>
-<FONT color="green">090</FONT>            }<a name="line.90"></a>
-<FONT color="green">091</FONT>    <a name="line.91"></a>
-<FONT color="green">092</FONT>            /**<a name="line.92"></a>
-<FONT color="green">093</FONT>             * Get an AnalysisEngine from an XML descriptor file and a set of<a name="line.93"></a>
-<FONT color="green">094</FONT>             * configuration parameters.<a name="line.94"></a>
-<FONT color="green">095</FONT>             * <a name="line.95"></a>
-<FONT color="green">096</FONT>             * @param descriptorPath<a name="line.96"></a>
-<FONT color="green">097</FONT>             *            The path to the XML descriptor file.<a name="line.97"></a>
-<FONT color="green">098</FONT>             * @param configurationData<a name="line.98"></a>
-<FONT color="green">099</FONT>             *            Any additional configuration parameters to be set. These<a name="line.99"></a>
-<FONT color="green">100</FONT>             *            should be supplied as (name, value) pairs, so there should<a name="line.100"></a>
-<FONT color="green">101</FONT>             *            always be an even number of parameters.<a name="line.101"></a>
-<FONT color="green">102</FONT>             * @return The AnalysisEngine created from the XML descriptor and the<a name="line.102"></a>
-<FONT color="green">103</FONT>             *         configuration parameters.<a name="line.103"></a>
-<FONT color="green">104</FONT>             * @throws UIMAException<a name="line.104"></a>
-<FONT color="green">105</FONT>             * @throws IOException<a name="line.105"></a>
-<FONT color="green">106</FONT>             */<a name="line.106"></a>
-<FONT color="green">107</FONT>            public static AnalysisEngine createAnalysisEngineFromPath(String descriptorPath, Object... configurationData)<a name="line.107"></a>
-<FONT color="green">108</FONT>                            throws UIMAException, IOException {<a name="line.108"></a>
-<FONT color="green">109</FONT>                    ResourceSpecifier specifier;<a name="line.109"></a>
-<FONT color="green">110</FONT>                    specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(descriptorPath, configurationData);<a name="line.110"></a>
-<FONT color="green">111</FONT>                    return UIMAFramework.produceAnalysisEngine(specifier);<a name="line.111"></a>
-<FONT color="green">112</FONT>            }<a name="line.112"></a>
-<FONT color="green">113</FONT>    <a name="line.113"></a>
-<FONT color="green">114</FONT>            /**<a name="line.114"></a>
-<FONT color="green">115</FONT>             * Get an AnalysisEngine from an AnalysisComponent class, a type system and<a name="line.115"></a>
-<FONT color="green">116</FONT>             * a set of configuration parameters.<a name="line.116"></a>
-<FONT color="green">117</FONT>             * <a name="line.117"></a>
-<FONT color="green">118</FONT>             * @param componentClass<a name="line.118"></a>
-<FONT color="green">119</FONT>             *            The class of the AnalysisComponent to be created as an<a name="line.119"></a>
-<FONT color="green">120</FONT>             *            AnalysisEngine.<a name="line.120"></a>
-<FONT color="green">121</FONT>             * @param typeSystem<a name="line.121"></a>
-<FONT color="green">122</FONT>             *            A description of the types used by the AnalysisComponent (may<a name="line.122"></a>
-<FONT color="green">123</FONT>             *            be null).<a name="line.123"></a>
+<FONT color="green">063</FONT>     * @author Steven Bethard, Philip Ogren<a name="line.63"></a>
+<FONT color="green">064</FONT>     * <a name="line.64"></a>
+<FONT color="green">065</FONT>     */<a name="line.65"></a>
+<FONT color="green">066</FONT>    public class AnalysisEngineFactory {<a name="line.66"></a>
+<FONT color="green">067</FONT>    <a name="line.67"></a>
+<FONT color="green">068</FONT>            /**<a name="line.68"></a>
+<FONT color="green">069</FONT>             * Get an AnalysisEngine from the name (Java-style, dotted) of an XML<a name="line.69"></a>
+<FONT color="green">070</FONT>             * descriptor file, and a set of configuration parameters.<a name="line.70"></a>
+<FONT color="green">071</FONT>             * <a name="line.71"></a>
+<FONT color="green">072</FONT>             * @param descriptorName<a name="line.72"></a>
+<FONT color="green">073</FONT>             *            The fully qualified, Java-style, dotted name of the XML<a name="line.73"></a>
+<FONT color="green">074</FONT>             *            descriptor file.<a name="line.74"></a>
+<FONT color="green">075</FONT>             * @param configurationData<a name="line.75"></a>
+<FONT color="green">076</FONT>             *            Any additional configuration parameters to be set. These<a name="line.76"></a>
+<FONT color="green">077</FONT>             *            should be supplied as (name, value) pairs, so there should<a name="line.77"></a>
+<FONT color="green">078</FONT>             *            always be an even number of parameters.<a name="line.78"></a>
+<FONT color="green">079</FONT>             * @return The AnalysisEngine created from the XML descriptor and the<a name="line.79"></a>
+<FONT color="green">080</FONT>             *         configuration parameters.<a name="line.80"></a>
+<FONT color="green">081</FONT>             * @throws IOException<a name="line.81"></a>
+<FONT color="green">082</FONT>             * @throws UIMAException<a name="line.82"></a>
+<FONT color="green">083</FONT>             */<a name="line.83"></a>
+<FONT color="green">084</FONT>            public static AnalysisEngine createAnalysisEngine(String descriptorName, Object... configurationData)<a name="line.84"></a>
+<FONT color="green">085</FONT>                            throws UIMAException, IOException {<a name="line.85"></a>
+<FONT color="green">086</FONT>                    AnalysisEngineDescription aed = createAnalysisEngineDescription(descriptorName, configurationData);<a name="line.86"></a>
+<FONT color="green">087</FONT>                    return UIMAFramework.produceAnalysisEngine(aed);<a name="line.87"></a>
+<FONT color="green">088</FONT>            }<a name="line.88"></a>
+<FONT color="green">089</FONT>    <a name="line.89"></a>
+<FONT color="green">090</FONT>            public static AnalysisEngineDescription createAnalysisEngineDescription(String descriptorName,<a name="line.90"></a>
+<FONT color="green">091</FONT>                            Object... configurationData) throws UIMAException, IOException {<a name="line.91"></a>
+<FONT color="green">092</FONT>                    Import_impl imprt = new Import_impl();<a name="line.92"></a>
+<FONT color="green">093</FONT>                    imprt.setName(descriptorName);<a name="line.93"></a>
+<FONT color="green">094</FONT>                    URL url = imprt.findAbsoluteUrl(UIMAFramework.newDefaultResourceManager());<a name="line.94"></a>
+<FONT color="green">095</FONT>                    ResourceSpecifier specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(url,<a name="line.95"></a>
+<FONT color="green">096</FONT>                                    configurationData);<a name="line.96"></a>
+<FONT color="green">097</FONT>                    return (AnalysisEngineDescription) specifier;<a name="line.97"></a>
+<FONT color="green">098</FONT>            }<a name="line.98"></a>
+<FONT color="green">099</FONT>    <a name="line.99"></a>
+<FONT color="green">100</FONT>            /**<a name="line.100"></a>
+<FONT color="green">101</FONT>             * This method provides a convenient way to instantiate an AnalysisEngine<a name="line.101"></a>
+<FONT color="green">102</FONT>             * where the default view is mapped to the view name passed into the method.<a name="line.102"></a>
+<FONT color="green">103</FONT>             * <a name="line.103"></a>
+<FONT color="green">104</FONT>             * @param analysisEngineDescription<a name="line.104"></a>
+<FONT color="green">105</FONT>             * @param viewName<a name="line.105"></a>
+<FONT color="green">106</FONT>             *            the view name to map the default view to<a name="line.106"></a>
+<FONT color="green">107</FONT>             * @return an aggregate analysis engine consisting of a single component<a name="line.107"></a>
+<FONT color="green">108</FONT>             *         whose default view is mapped to the the view named by viewName.<a name="line.108"></a>
+<FONT color="green">109</FONT>             * @throws ResourceInitializationException<a name="line.109"></a>
+<FONT color="green">110</FONT>             */<a name="line.110"></a>
+<FONT color="green">111</FONT>            public static AnalysisEngine createAnalysisEngine(AnalysisEngineDescription analysisEngineDescription,<a name="line.111"></a>
+<FONT color="green">112</FONT>                            String viewName) throws ResourceInitializationException {<a name="line.112"></a>
+<FONT color="green">113</FONT>                    AggregateBuilder builder = new AggregateBuilder();<a name="line.113"></a>
+<FONT color="green">114</FONT>                    builder.add(analysisEngineDescription, CAS.NAME_DEFAULT_SOFA, viewName);<a name="line.114"></a>
+<FONT color="green">115</FONT>                    return builder.createAggregate();<a name="line.115"></a>
+<FONT color="green">116</FONT>            }<a name="line.116"></a>
+<FONT color="green">117</FONT>    <a name="line.117"></a>
+<FONT color="green">118</FONT>            /**<a name="line.118"></a>
+<FONT color="green">119</FONT>             * Get an AnalysisEngine from an XML descriptor file and a set of<a name="line.119"></a>
+<FONT color="green">120</FONT>             * configuration parameters.<a name="line.120"></a>
+<FONT color="green">121</FONT>             * <a name="line.121"></a>
+<FONT color="green">122</FONT>             * @param descriptorPath<a name="line.122"></a>
+<FONT color="green">123</FONT>             *            The path to the XML descriptor file.<a name="line.123"></a>
 <FONT color="green">124</FONT>             * @param configurationData<a name="line.124"></a>
 <FONT color="green">125</FONT>             *            Any additional configuration parameters to be set. These<a name="line.125"></a>
 <FONT color="green">126</FONT>             *            should be supplied as (name, value) pairs, so there should<a name="line.126"></a>
 <FONT color="green">127</FONT>             *            always be an even number of parameters.<a name="line.127"></a>
-<FONT color="green">128</FONT>             * @return The AnalysisEngine created from the AnalysisComponent class and<a name="line.128"></a>
-<FONT color="green">129</FONT>             *         initialized with the type system and the configuration<a name="line.129"></a>
-<FONT color="green">130</FONT>             *         parameters.<a name="line.130"></a>
-<FONT color="green">131</FONT>             * @throws ResourceInitializationException<a name="line.131"></a>
+<FONT color="green">128</FONT>             * @return The AnalysisEngine created from the XML descriptor and the<a name="line.128"></a>
+<FONT color="green">129</FONT>             *         configuration parameters.<a name="line.129"></a>
+<FONT color="green">130</FONT>             * @throws UIMAException<a name="line.130"></a>
+<FONT color="green">131</FONT>             * @throws IOException<a name="line.131"></a>
 <FONT color="green">132</FONT>             */<a name="line.132"></a>
-<FONT color="green">133</FONT>            public static AnalysisEngine createPrimitive(Class&lt;? extends AnalysisComponent&gt; componentClass,<a name="line.133"></a>
-<FONT color="green">134</FONT>                            TypeSystemDescription typeSystem, Object... configurationData) throws ResourceInitializationException {<a name="line.134"></a>
-<FONT color="green">135</FONT>                    return createPrimitive(componentClass, typeSystem, (TypePriorities) null, configurationData);<a name="line.135"></a>
-<FONT color="green">136</FONT>            }<a name="line.136"></a>
-<FONT color="green">137</FONT>    <a name="line.137"></a>
-<FONT color="green">138</FONT>            public static AnalysisEngine createPrimitive(Class&lt;? extends AnalysisComponent&gt; componentClass,<a name="line.138"></a>
-<FONT color="green">139</FONT>                            TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationData)<a name="line.139"></a>
-<FONT color="green">140</FONT>                            throws ResourceInitializationException {<a name="line.140"></a>
-<FONT color="green">141</FONT>                    TypePriorities typePriorities = TypePrioritiesFactory.createTypePriorities(prioritizedTypeNames);<a name="line.141"></a>
-<FONT color="green">142</FONT>                    return createPrimitive(componentClass, typeSystem, typePriorities, configurationData);<a name="line.142"></a>
-<FONT color="green">143</FONT>    <a name="line.143"></a>
-<FONT color="green">144</FONT>            }<a name="line.144"></a>
-<FONT color="green">145</FONT>    <a name="line.145"></a>
-<FONT color="green">146</FONT>            public static AnalysisEngineDescription createPrimitiveDescription(<a name="line.146"></a>
-<FONT color="green">147</FONT>                            Class&lt;? extends AnalysisComponent&gt; componentClass, TypeSystemDescription typeSystem,<a name="line.147"></a>
-<FONT color="green">148</FONT>                            Object... configurationData) throws ResourceInitializationException {<a name="line.148"></a>
-<FONT color="green">149</FONT>                    return createPrimitiveDescription(componentClass, typeSystem, (TypePriorities) null, configurationData);<a name="line.149"></a>
-<FONT color="green">150</FONT>            }<a name="line.150"></a>
-<FONT color="green">151</FONT>    <a name="line.151"></a>
-<FONT color="green">152</FONT>            public static AnalysisEngineDescription createPrimitiveDescription(<a name="line.152"></a>
-<FONT color="green">153</FONT>                            Class&lt;? extends AnalysisComponent&gt; componentClass, TypeSystemDescription typeSystem,<a name="line.153"></a>
-<FONT color="green">154</FONT>                            TypePriorities typePriorities, Object... configurationData) throws ResourceInitializationException {<a name="line.154"></a>
-<FONT color="green">155</FONT>                    return createPrimitiveDescription(componentClass, typeSystem, typePriorities, (Capability[]) null,<a name="line.155"></a>
-<FONT color="green">156</FONT>                                    configurationData);<a name="line.156"></a>
-<FONT color="green">157</FONT>            }<a name="line.157"></a>
-<FONT color="green">158</FONT>    <a name="line.158"></a>
-<FONT color="green">159</FONT>            public static AnalysisEngineDescription createPrimitiveDescription(<a name="line.159"></a>
-<FONT color="green">160</FONT>                            Class&lt;? extends AnalysisComponent&gt; componentClass, TypeSystemDescription typeSystem,<a name="line.160"></a>
-<FONT color="green">161</FONT>                            TypePriorities typePriorities, Capability[] capabilities, Object... configurationData)<a name="line.161"></a>
-<FONT color="green">162</FONT>                            throws ResourceInitializationException {<a name="line.162"></a>
-<FONT color="green">163</FONT>                    ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);<a name="line.163"></a>
-<FONT color="green">164</FONT>                    return createPrimitiveDescription(componentClass, typeSystem, typePriorities, capabilities,<a name="line.164"></a>
-<FONT color="green">165</FONT>                                    cdata.configurationParameters, cdata.configurationValues);<a name="line.165"></a>
-<FONT color="green">166</FONT>            }<a name="line.166"></a>
-<FONT color="green">167</FONT>    <a name="line.167"></a>
-<FONT color="green">168</FONT>            public static AnalysisEngineDescription createPrimitiveDescription(<a name="line.168"></a>
-<FONT color="green">169</FONT>                            Class&lt;? extends AnalysisComponent&gt; componentClass, TypeSystemDescription typeSystem,<a name="line.169"></a>
-<FONT color="green">170</FONT>                            TypePriorities typePriorities, Capability[] capabilities, ConfigurationParameter[] configurationParameters,<a name="line.170"></a>
-<FONT color="green">171</FONT>                            Object[] configurationValues) throws ResourceInitializationException {<a name="line.171"></a>
-<FONT color="green">172</FONT>    <a name="line.172"></a>
-<FONT color="green">173</FONT>                    // create the descriptor and set configuration parameters<a name="line.173"></a>
-<FONT color="green">174</FONT>                    AnalysisEngineDescription desc = new AnalysisEngineDescription_impl();<a name="line.174"></a>
-<FONT color="green">175</FONT>                    desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);<a name="line.175"></a>
-<FONT color="green">176</FONT>                    desc.setPrimitive(true);<a name="line.176"></a>
-<FONT color="green">177</FONT>                    desc.setAnnotatorImplementationName(componentClass.getName());<a name="line.177"></a>
-<FONT color="green">178</FONT>                    org.uutuc.descriptor.AnalysisComponent componentAnno = ReflectionUtil<a name="line.178"></a>
-<FONT color="green">179</FONT>                                    .getInheritableAnnotation(org.uutuc.descriptor.AnalysisComponent.class,<a name="line.179"></a>
-<FONT color="green">180</FONT>                                                    componentClass);<a name="line.180"></a>
-<FONT color="green">181</FONT>                    if (componentAnno != null) {<a name="line.181"></a>
-<FONT color="green">182</FONT>                            OperationalProperties op = desc.getAnalysisEngineMetaData().getOperationalProperties();<a name="line.182"></a>
-<FONT color="green">183</FONT>                            op.setMultipleDeploymentAllowed(componentAnno.multipleDeploymentAllowed());<a name="line.183"></a>
-<FONT color="green">184</FONT>                            op.setModifiesCas(componentAnno.modifiesCas());<a name="line.184"></a>
-<FONT color="green">185</FONT>                            op.setOutputsNewCASes(componentAnno.outputsNewCases());<a name="line.185"></a>
-<FONT color="green">186</FONT>                    }<a name="line.186"></a>
-<FONT color="green">187</FONT>                    else {<a name="line.187"></a>
-<FONT color="green">188</FONT>                            OperationalProperties op = desc.getAnalysisEngineMetaData().getOperationalProperties();<a name="line.188"></a>
-<FONT color="green">189</FONT>                            op.setMultipleDeploymentAllowed(org.uutuc.descriptor.AnalysisComponent.MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT);<a name="line.189"></a>
-<FONT color="green">190</FONT>                            op.setModifiesCas(org.uutuc.descriptor.AnalysisComponent.MODIFIES_CAS_DEFAULT);<a name="line.190"></a>
-<FONT color="green">191</FONT>                            op.setOutputsNewCASes(org.uutuc.descriptor.AnalysisComponent.OUTPUTS_NEW_CASES_DEFAULT);<a name="line.191"></a>
-<FONT color="green">192</FONT>                    }<a name="line.192"></a>
+<FONT color="green">133</FONT>            public static AnalysisEngine createAnalysisEngineFromPath(String descriptorPath, Object... configurationData)<a name="line.133"></a>
+<FONT color="green">134</FONT>                            throws UIMAException, IOException {<a name="line.134"></a>
+<FONT color="green">135</FONT>                    ResourceSpecifier specifier;<a name="line.135"></a>
+<FONT color="green">136</FONT>                    specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(descriptorPath, configurationData);<a name="line.136"></a>
+<FONT color="green">137</FONT>                    return UIMAFramework.produceAnalysisEngine(specifier);<a name="line.137"></a>
+<FONT color="green">138</FONT>            }<a name="line.138"></a>
+<FONT color="green">139</FONT>    <a name="line.139"></a>
+<FONT color="green">140</FONT>            /**<a name="line.140"></a>
+<FONT color="green">141</FONT>             * Get an AnalysisEngine from an AnalysisComponent class, a type system and<a name="line.141"></a>
+<FONT color="green">142</FONT>             * a set of configuration parameters.<a name="line.142"></a>
+<FONT color="green">143</FONT>             * <a name="line.143"></a>
+<FONT color="green">144</FONT>             * @param componentClass<a name="line.144"></a>
+<FONT color="green">145</FONT>             *            The class of the AnalysisComponent to be created as an<a name="line.145"></a>
+<FONT color="green">146</FONT>             *            AnalysisEngine.<a name="line.146"></a>
+<FONT color="green">147</FONT>             * @param typeSystem<a name="line.147"></a>
+<FONT color="green">148</FONT>             *            A description of the types used by the AnalysisComponent (may<a name="line.148"></a>
+<FONT color="green">149</FONT>             *            be null).<a name="line.149"></a>
+<FONT color="green">150</FONT>             * @param configurationData<a name="line.150"></a>
+<FONT color="green">151</FONT>             *            Any additional configuration parameters to be set. These<a name="line.151"></a>
+<FONT color="green">152</FONT>             *            should be supplied as (name, value) pairs, so there should<a name="line.152"></a>
+<FONT color="green">153</FONT>             *            always be an even number of parameters.<a name="line.153"></a>
+<FONT color="green">154</FONT>             * @return The AnalysisEngine created from the AnalysisComponent class and<a name="line.154"></a>
+<FONT color="green">155</FONT>             *         initialized with the type system and the configuration<a name="line.155"></a>
+<FONT color="green">156</FONT>             *         parameters.<a name="line.156"></a>
+<FONT color="green">157</FONT>             * @throws ResourceInitializationException<a name="line.157"></a>
+<FONT color="green">158</FONT>             */<a name="line.158"></a>
+<FONT color="green">159</FONT>            public static AnalysisEngine createPrimitive(Class&lt;? extends AnalysisComponent&gt; componentClass,<a name="line.159"></a>
+<FONT color="green">160</FONT>                            TypeSystemDescription typeSystem, Object... configurationData) throws ResourceInitializationException {<a name="line.160"></a>
+<FONT color="green">161</FONT>                    return createPrimitive(componentClass, typeSystem, (TypePriorities) null, configurationData);<a name="line.161"></a>
+<FONT color="green">162</FONT>            }<a name="line.162"></a>
+<FONT color="green">163</FONT>    <a name="line.163"></a>
+<FONT color="green">164</FONT>            public static AnalysisEngine createPrimitive(Class&lt;? extends AnalysisComponent&gt; componentClass,<a name="line.164"></a>
+<FONT color="green">165</FONT>                            TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationData)<a name="line.165"></a>
+<FONT color="green">166</FONT>                            throws ResourceInitializationException {<a name="line.166"></a>
+<FONT color="green">167</FONT>                    TypePriorities typePriorities = TypePrioritiesFactory.createTypePriorities(prioritizedTypeNames);<a name="line.167"></a>
+<FONT color="green">168</FONT>                    return createPrimitive(componentClass, typeSystem, typePriorities, configurationData);<a name="line.168"></a>
+<FONT color="green">169</FONT>    <a name="line.169"></a>
+<FONT color="green">170</FONT>            }<a name="line.170"></a>
+<FONT color="green">171</FONT>    <a name="line.171"></a>
+<FONT color="green">172</FONT>            public static AnalysisEngineDescription createPrimitiveDescription(<a name="line.172"></a>
+<FONT color="green">173</FONT>                            Class&lt;? extends AnalysisComponent&gt; componentClass, TypeSystemDescription typeSystem,<a name="line.173"></a>
+<FONT color="green">174</FONT>                            Object... configurationData) throws ResourceInitializationException {<a name="line.174"></a>
+<FONT color="green">175</FONT>                    return createPrimitiveDescription(componentClass, typeSystem, (TypePriorities) null, configurationData);<a name="line.175"></a>
+<FONT color="green">176</FONT>            }<a name="line.176"></a>
+<FONT color="green">177</FONT>    <a name="line.177"></a>
+<FONT color="green">178</FONT>            public static AnalysisEngineDescription createPrimitiveDescription(<a name="line.178"></a>
+<FONT color="green">179</FONT>                            Class&lt;? extends AnalysisComponent&gt; componentClass, TypeSystemDescription typeSystem,<a name="line.179"></a>
+<FONT color="green">180</FONT>                            TypePriorities typePriorities, Object... configurationData) throws ResourceInitializationException {<a name="line.180"></a>
+<FONT color="green">181</FONT>                    return createPrimitiveDescription(componentClass, typeSystem, typePriorities, (Capability[]) null,<a name="line.181"></a>
+<FONT color="green">182</FONT>                                    configurationData);<a name="line.182"></a>
+<FONT color="green">183</FONT>            }<a name="line.183"></a>
+<FONT color="green">184</FONT>    <a name="line.184"></a>
+<FONT color="green">185</FONT>            public static AnalysisEngineDescription createPrimitiveDescription(<a name="line.185"></a>
+<FONT color="green">186</FONT>                            Class&lt;? extends AnalysisComponent&gt; componentClass, TypeSystemDescription typeSystem,<a name="line.186"></a>
+<FONT color="green">187</FONT>                            TypePriorities typePriorities, Capability[] capabilities, Object... configurationData)<a name="line.187"></a>
+<FONT color="green">188</FONT>                            throws ResourceInitializationException {<a name="line.188"></a>
+<FONT color="green">189</FONT>                    ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);<a name="line.189"></a>
+<FONT color="green">190</FONT>                    return createPrimitiveDescription(componentClass, typeSystem, typePriorities, capabilities,<a name="line.190"></a>
+<FONT color="green">191</FONT>                                    cdata.configurationParameters, cdata.configurationValues);<a name="line.191"></a>
+<FONT color="green">192</FONT>            }<a name="line.192"></a>
 <FONT color="green">193</FONT>    <a name="line.193"></a>
-<FONT color="green">194</FONT>                    // Extract external resource dependencies<a name="line.194"></a>
-<FONT color="green">195</FONT>                    Collection&lt;ExternalResourceDependency&gt; deps = ExternalResourceConfigurator.getResourceDeclarations(<a name="line.195"></a>
-<FONT color="green">196</FONT>                                    componentClass).values();<a name="line.196"></a>
-<FONT color="green">197</FONT>                    desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps.size()]));<a name="line.197"></a>
+<FONT color="green">194</FONT>            public static AnalysisEngineDescription createPrimitiveDescription(<a name="line.194"></a>
+<FONT color="green">195</FONT>                            Class&lt;? extends AnalysisComponent&gt; componentClass, TypeSystemDescription typeSystem,<a name="line.195"></a>
+<FONT color="green">196</FONT>                            TypePriorities typePriorities, Capability[] capabilities, ConfigurationParameter[] configurationParameters,<a name="line.196"></a>
+<FONT color="green">197</FONT>                            Object[] configurationValues) throws ResourceInitializationException {<a name="line.197"></a>
 <FONT color="green">198</FONT>    <a name="line.198"></a>
-<FONT color="green">199</FONT>                    ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory<a name="line.199"></a>
-<FONT color="green">200</FONT>                                    .createConfigurationData(componentClass);<a name="line.200"></a>
-<FONT color="green">201</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(desc,<a name="line.201"></a>
-<FONT color="green">202</FONT>                                    reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);<a name="line.202"></a>
-<FONT color="green">203</FONT>                    if (configurationParameters != null) {<a name="line.203"></a>
-<FONT color="green">204</FONT>                            ResourceCreationSpecifierFactory.setConfigurationParameters(desc,<a name="line.204"></a>
-<FONT color="green">205</FONT>                                            configurationParameters, configurationValues);<a name="line.205"></a>
-<FONT color="green">206</FONT>                    }<a name="line.206"></a>
-<FONT color="green">207</FONT>    <a name="line.207"></a>
-<FONT color="green">208</FONT>                    // set the type system<a name="line.208"></a>
-<FONT color="green">209</FONT>                    if (typeSystem != null) {<a name="line.209"></a>
-<FONT color="green">210</FONT>                            desc.getAnalysisEngineMetaData().setTypeSystem(typeSystem);<a name="line.210"></a>
+<FONT color="green">199</FONT>                    // create the descriptor and set configuration parameters<a name="line.199"></a>
+<FONT color="green">200</FONT>                    AnalysisEngineDescription desc = new AnalysisEngineDescription_impl();<a name="line.200"></a>
+<FONT color="green">201</FONT>                    desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);<a name="line.201"></a>
+<FONT color="green">202</FONT>                    desc.setPrimitive(true);<a name="line.202"></a>
+<FONT color="green">203</FONT>                    desc.setAnnotatorImplementationName(componentClass.getName());<a name="line.203"></a>
+<FONT color="green">204</FONT>                    org.uutuc.descriptor.AnalysisComponent componentAnno = ReflectionUtil.getInheritableAnnotation(<a name="line.204"></a>
+<FONT color="green">205</FONT>                                    org.uutuc.descriptor.AnalysisComponent.class, componentClass);<a name="line.205"></a>
+<FONT color="green">206</FONT>                    if (componentAnno != null) {<a name="line.206"></a>
+<FONT color="green">207</FONT>                            OperationalProperties op = desc.getAnalysisEngineMetaData().getOperationalProperties();<a name="line.207"></a>
+<FONT color="green">208</FONT>                            op.setMultipleDeploymentAllowed(componentAnno.multipleDeploymentAllowed());<a name="line.208"></a>
+<FONT color="green">209</FONT>                            op.setModifiesCas(componentAnno.modifiesCas());<a name="line.209"></a>
+<FONT color="green">210</FONT>                            op.setOutputsNewCASes(componentAnno.outputsNewCases());<a name="line.210"></a>
 <FONT color="green">211</FONT>                    }<a name="line.211"></a>
-<FONT color="green">212</FONT>    <a name="line.212"></a>
-<FONT color="green">213</FONT>                    if (typePriorities != null) {<a name="line.213"></a>
-<FONT color="green">214</FONT>                            desc.getAnalysisEngineMetaData().setTypePriorities(typePriorities);<a name="line.214"></a>
-<FONT color="green">215</FONT>                    }<a name="line.215"></a>
-<FONT color="green">216</FONT>    <a name="line.216"></a>
-<FONT color="green">217</FONT>                    if (capabilities == null) {<a name="line.217"></a>
-<FONT color="green">218</FONT>                            capabilities = CapabilityFactory.createCapability(componentClass);<a name="line.218"></a>
-<FONT color="green">219</FONT>                    }<a name="line.219"></a>
-<FONT color="green">220</FONT>                    if (capabilities != null) {<a name="line.220"></a>
-<FONT color="green">221</FONT>                            desc.getAnalysisEngineMetaData().setCapabilities(capabilities);<a name="line.221"></a>
-<FONT color="green">222</FONT>                    }<a name="line.222"></a>
-<FONT color="green">223</FONT>                    return desc;<a name="line.223"></a>
-<FONT color="green">224</FONT>            }<a name="line.224"></a>
-<FONT color="green">225</FONT>    <a name="line.225"></a>
-<FONT color="green">226</FONT>            public static void setConfigurationParameters(AnalysisEngineDescription analysisEngineDescription,<a name="line.226"></a>
-<FONT color="green">227</FONT>                            Object... configurationData) throws ResourceInitializationException {<a name="line.227"></a>
-<FONT color="green">228</FONT>                    ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);<a name="line.228"></a>
-<FONT color="green">229</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(analysisEngineDescription,<a name="line.229"></a>
-<FONT color="green">230</FONT>                                    cdata.configurationParameters, cdata.configurationValues);<a name="line.230"></a>
-<FONT color="green">231</FONT>    <a name="line.231"></a>
-<FONT color="green">232</FONT>            }<a name="line.232"></a>
-<FONT color="green">233</FONT>    <a name="line.233"></a>
-<FONT color="green">234</FONT>            public static AnalysisEngine createPrimitive(Class&lt;? extends AnalysisComponent&gt; componentClass,<a name="line.234"></a>
-<FONT color="green">235</FONT>                            TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationParameters)<a name="line.235"></a>
-<FONT color="green">236</FONT>                            throws ResourceInitializationException {<a name="line.236"></a>
-<FONT color="green">237</FONT>    <a name="line.237"></a>
-<FONT color="green">238</FONT>                    AnalysisEngineDescription desc = createPrimitiveDescription(componentClass, typeSystem, typePriorities,<a name="line.238"></a>
-<FONT color="green">239</FONT>                                    configurationParameters);<a name="line.239"></a>
-<FONT color="green">240</FONT>    <a name="line.240"></a>
-<FONT color="green">241</FONT>                    // create the AnalysisEngine, initialize it and return it<a name="line.241"></a>
-<FONT color="green">242</FONT>                    return createPrimitive(desc);<a name="line.242"></a>
-<FONT color="green">243</FONT>            }<a name="line.243"></a>
-<FONT color="green">244</FONT>    <a name="line.244"></a>
-<FONT color="green">245</FONT>            @SuppressWarnings("unchecked")<a name="line.245"></a>
-<FONT color="green">246</FONT>            public static AnalysisEngine createPrimitive(AnalysisEngineDescription desc, Object... configurationData)<a name="line.246"></a>
-<FONT color="green">247</FONT>                            throws ResourceInitializationException {<a name="line.247"></a>
-<FONT color="green">248</FONT>                    AnalysisEngine engine = new PrimitiveAnalysisEngine_impl();<a name="line.248"></a>
-<FONT color="green">249</FONT>    <a name="line.249"></a>
-<FONT color="green">250</FONT>                    if (configurationData != null) {<a name="line.250"></a>
-<FONT color="green">251</FONT>                            ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);<a name="line.251"></a>
-<FONT color="green">252</FONT>                            ConfigurationParameter[] configurationParameters = cdata.configurationParameters;<a name="line.252"></a>
-<FONT color="green">253</FONT>                            Object[] configurationValues = cdata.configurationValues;<a name="line.253"></a>
-<FONT color="green">254</FONT>                            ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters,<a name="line.254"></a>
-<FONT color="green">255</FONT>                                            configurationValues);<a name="line.255"></a>
-<FONT color="green">256</FONT>                            ResourceMetaData metaData = desc.getMetaData();<a name="line.256"></a>
-<FONT color="green">257</FONT>                            ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();<a name="line.257"></a>
-<FONT color="green">258</FONT>                            Map additionalParameters = new HashMap();<a name="line.258"></a>
-<FONT color="green">259</FONT>                            additionalParameters.put(AnalysisEngine.PARAM_CONFIG_PARAM_SETTINGS, paramSettings);<a name="line.259"></a>
-<FONT color="green">260</FONT>                            engine.initialize(desc, additionalParameters);<a name="line.260"></a>
-<FONT color="green">261</FONT>                    }<a name="line.261"></a>
-<FONT color="green">262</FONT>                    else {<a name="line.262"></a>
-<FONT color="green">263</FONT>                            engine.initialize(desc, null);<a name="line.263"></a>
-<FONT color="green">264</FONT>                    }<a name="line.264"></a>
-<FONT color="green">265</FONT>                    return engine;<a name="line.265"></a>
+<FONT color="green">212</FONT>                    else {<a name="line.212"></a>
+<FONT color="green">213</FONT>                            OperationalProperties op = desc.getAnalysisEngineMetaData().getOperationalProperties();<a name="line.213"></a>
+<FONT color="green">214</FONT>                            op.setMultipleDeploymentAllowed(org.uutuc.descriptor.AnalysisComponent.MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT);<a name="line.214"></a>
+<FONT color="green">215</FONT>                            op.setModifiesCas(org.uutuc.descriptor.AnalysisComponent.MODIFIES_CAS_DEFAULT);<a name="line.215"></a>
+<FONT color="green">216</FONT>                            op.setOutputsNewCASes(org.uutuc.descriptor.AnalysisComponent.OUTPUTS_NEW_CASES_DEFAULT);<a name="line.216"></a>
+<FONT color="green">217</FONT>                    }<a name="line.217"></a>
+<FONT color="green">218</FONT>    <a name="line.218"></a>
+<FONT color="green">219</FONT>                    AnalysisEngineMetaData meta = desc.getAnalysisEngineMetaData();<a name="line.219"></a>
+<FONT color="green">220</FONT>                    meta.setName(componentClass.getName());<a name="line.220"></a>
+<FONT color="green">221</FONT>                    meta.setVendor(componentClass.getPackage().getName());<a name="line.221"></a>
+<FONT color="green">222</FONT>                    meta.setDescription("Descriptor automatically generated by UUTUC");<a name="line.222"></a>
+<FONT color="green">223</FONT>                    meta.setVersion("unknown");<a name="line.223"></a>
+<FONT color="green">224</FONT>    <a name="line.224"></a>
+<FONT color="green">225</FONT>                    // Extract external resource dependencies<a name="line.225"></a>
+<FONT color="green">226</FONT>                    Collection&lt;ExternalResourceDependency&gt; deps = ExternalResourceConfigurator.getResourceDeclarations(<a name="line.226"></a>
+<FONT color="green">227</FONT>                                    componentClass).values();<a name="line.227"></a>
+<FONT color="green">228</FONT>                    desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps.size()]));<a name="line.228"></a>
+<FONT color="green">229</FONT>    <a name="line.229"></a>
+<FONT color="green">230</FONT>                    ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory<a name="line.230"></a>
+<FONT color="green">231</FONT>                                    .createConfigurationData(componentClass);<a name="line.231"></a>
+<FONT color="green">232</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(desc,<a name="line.232"></a>
+<FONT color="green">233</FONT>                                    reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);<a name="line.233"></a>
+<FONT color="green">234</FONT>                    if (configurationParameters != null) {<a name="line.234"></a>
+<FONT color="green">235</FONT>                            ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters,<a name="line.235"></a>
+<FONT color="green">236</FONT>                                            configurationValues);<a name="line.236"></a>
+<FONT color="green">237</FONT>                    }<a name="line.237"></a>
+<FONT color="green">238</FONT>    <a name="line.238"></a>
+<FONT color="green">239</FONT>                    // set the type system<a name="line.239"></a>
+<FONT color="green">240</FONT>                    if (typeSystem != null) {<a name="line.240"></a>
+<FONT color="green">241</FONT>                            desc.getAnalysisEngineMetaData().setTypeSystem(typeSystem);<a name="line.241"></a>
+<FONT color="green">242</FONT>                    }<a name="line.242"></a>
+<FONT color="green">243</FONT>    <a name="line.243"></a>
+<FONT color="green">244</FONT>                    if (typePriorities != null) {<a name="line.244"></a>
+<FONT color="green">245</FONT>                            desc.getAnalysisEngineMetaData().setTypePriorities(typePriorities);<a name="line.245"></a>
+<FONT color="green">246</FONT>                    }<a name="line.246"></a>
+<FONT color="green">247</FONT>    <a name="line.247"></a>
+<FONT color="green">248</FONT>                    if (capabilities == null) {<a name="line.248"></a>
+<FONT color="green">249</FONT>                            Capability capability = CapabilityFactory.createCapability(componentClass);<a name="line.249"></a>
+<FONT color="green">250</FONT>                            if (capability != null) {<a name="line.250"></a>
+<FONT color="green">251</FONT>                                    capabilities = new Capability[] {capability};<a name="line.251"></a>
+<FONT color="green">252</FONT>                            }<a name="line.252"></a>
+<FONT color="green">253</FONT>                    }<a name="line.253"></a>
+<FONT color="green">254</FONT>                    if (capabilities != null) {<a name="line.254"></a>
+<FONT color="green">255</FONT>                            desc.getAnalysisEngineMetaData().setCapabilities(capabilities);<a name="line.255"></a>
+<FONT color="green">256</FONT>                    }<a name="line.256"></a>
+<FONT color="green">257</FONT>                    return desc;<a name="line.257"></a>
+<FONT color="green">258</FONT>            }<a name="line.258"></a>
+<FONT color="green">259</FONT>    <a name="line.259"></a>
+<FONT color="green">260</FONT>            public static void setConfigurationParameters(AnalysisEngineDescription analysisEngineDescription,<a name="line.260"></a>
+<FONT color="green">261</FONT>                            Object... configurationData) throws ResourceInitializationException {<a name="line.261"></a>
+<FONT color="green">262</FONT>                    ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);<a name="line.262"></a>
+<FONT color="green">263</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(analysisEngineDescription,<a name="line.263"></a>
+<FONT color="green">264</FONT>                                    cdata.configurationParameters, cdata.configurationValues);<a name="line.264"></a>
+<FONT color="green">265</FONT>    <a name="line.265"></a>
 <FONT color="green">266</FONT>            }<a name="line.266"></a>
 <FONT color="green">267</FONT>    <a name="line.267"></a>
-<FONT color="green">268</FONT>            public static AnalysisEngine createAggregate(List&lt;Class&lt;? extends AnalysisComponent&gt;&gt; componentClasses,<a name="line.268"></a>
-<FONT color="green">269</FONT>                            TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings,<a name="line.269"></a>
-<FONT color="green">270</FONT>                            Object... configurationParameters) throws ResourceInitializationException {<a name="line.270"></a>
-<FONT color="green">271</FONT>                    AnalysisEngineDescription desc = createAggregateDescription(componentClasses, typeSystem, typePriorities,<a name="line.271"></a>
-<FONT color="green">272</FONT>                                    sofaMappings, configurationParameters);<a name="line.272"></a>
-<FONT color="green">273</FONT>                    // create the AnalysisEngine, initialize it and return it<a name="line.273"></a>
-<FONT color="green">274</FONT>                    AnalysisEngine engine = new AggregateAnalysisEngine_impl();<a name="line.274"></a>
-<FONT color="green">275</FONT>                    engine.initialize(desc, null);<a name="line.275"></a>
-<FONT color="green">276</FONT>                    return engine;<a name="line.276"></a>
+<FONT color="green">268</FONT>            public static AnalysisEngine createPrimitive(Class&lt;? extends AnalysisComponent&gt; componentClass,<a name="line.268"></a>
+<FONT color="green">269</FONT>                            TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationParameters)<a name="line.269"></a>
+<FONT color="green">270</FONT>                            throws ResourceInitializationException {<a name="line.270"></a>
+<FONT color="green">271</FONT>    <a name="line.271"></a>
+<FONT color="green">272</FONT>                    AnalysisEngineDescription desc = createPrimitiveDescription(componentClass, typeSystem, typePriorities,<a name="line.272"></a>
+<FONT color="green">273</FONT>                                    configurationParameters);<a name="line.273"></a>
+<FONT color="green">274</FONT>    <a name="line.274"></a>
+<FONT color="green">275</FONT>                    // create the AnalysisEngine, initialize it and return it<a name="line.275"></a>
+<FONT color="green">276</FONT>                    return createPrimitive(desc);<a name="line.276"></a>
 <FONT color="green">277</FONT>            }<a name="line.277"></a>
 <FONT color="green">278</FONT>    <a name="line.278"></a>
-<FONT color="green">279</FONT>            public static AnalysisEngine createAggregate(AnalysisEngineDescription desc) throws ResourceInitializationException {<a name="line.279"></a>
-<FONT color="green">280</FONT>                    // create the AnalysisEngine, initialize it and return it<a name="line.280"></a>
-<FONT color="green">281</FONT>                    AnalysisEngine engine = new AggregateAnalysisEngine_impl();<a name="line.281"></a>
-<FONT color="green">282</FONT>                    engine.initialize(desc, null);<a name="line.282"></a>
-<FONT color="green">283</FONT>                    return engine;<a name="line.283"></a>
-<FONT color="green">284</FONT>            }<a name="line.284"></a>
-<FONT color="green">285</FONT>    <a name="line.285"></a>
-<FONT color="green">286</FONT>            public static AnalysisEngineDescription createAggregateDescription(<a name="line.286"></a>
-<FONT color="green">287</FONT>                            List&lt;Class&lt;? extends AnalysisComponent&gt;&gt; componentClasses, TypeSystemDescription typeSystem,<a name="line.287"></a>
-<FONT color="green">288</FONT>                            TypePriorities typePriorities, SofaMapping[] sofaMappings, Object... configurationParameters)<a name="line.288"></a>
-<FONT color="green">289</FONT>                            throws ResourceInitializationException {<a name="line.289"></a>
-<FONT color="green">290</FONT>    <a name="line.290"></a>
-<FONT color="green">291</FONT>                    List&lt;AnalysisEngineDescription&gt; primitiveEngineDescriptions = new ArrayList&lt;AnalysisEngineDescription&gt;();<a name="line.291"></a>
-<FONT color="green">292</FONT>                    List&lt;String&gt; componentNames = new ArrayList&lt;String&gt;();<a name="line.292"></a>
-<FONT color="green">293</FONT>    <a name="line.293"></a>
-<FONT color="green">294</FONT>                    for (Class&lt;? extends AnalysisComponent&gt; componentClass : componentClasses) {<a name="line.294"></a>
-<FONT color="green">295</FONT>                            AnalysisEngineDescription primitiveDescription = createPrimitiveDescription(componentClass, typeSystem,<a name="line.295"></a>
-<FONT color="green">296</FONT>                                            typePriorities, configurationParameters);<a name="line.296"></a>
-<FONT color="green">297</FONT>                            primitiveEngineDescriptions.add(primitiveDescription);<a name="line.297"></a>
-<FONT color="green">298</FONT>                            componentNames.add(componentClass.getName());<a name="line.298"></a>
-<FONT color="green">299</FONT>                    }<a name="line.299"></a>
-<FONT color="green">300</FONT>                    return createAggregateDescription(primitiveEngineDescriptions, componentNames, typeSystem, typePriorities,<a name="line.300"></a>
-<FONT color="green">301</FONT>                                    sofaMappings);<a name="line.301"></a>
-<FONT color="green">302</FONT>            }<a name="line.302"></a>
-<FONT color="green">303</FONT>    <a name="line.303"></a>
-<FONT color="green">304</FONT>            public static AnalysisEngine createAggregate(List&lt;AnalysisEngineDescription&gt; analysisEngineDescriptions,<a name="line.304"></a>
-<FONT color="green">305</FONT>                            List&lt;String&gt; componentNames, TypeSystemDescription typeSystem, TypePriorities typePriorities,<a name="line.305"></a>
-<FONT color="green">306</FONT>                            SofaMapping[] sofaMappings) throws ResourceInitializationException {<a name="line.306"></a>
-<FONT color="green">307</FONT>    <a name="line.307"></a>
-<FONT color="green">308</FONT>                    AnalysisEngineDescription desc = createAggregateDescription(analysisEngineDescriptions, componentNames,<a name="line.308"></a>
-<FONT color="green">309</FONT>                                    typeSystem, typePriorities, sofaMappings);<a name="line.309"></a>
-<FONT color="green">310</FONT>                    // create the AnalysisEngine, initialize it and return it<a name="line.310"></a>
-<FONT color="green">311</FONT>                    AnalysisEngine engine = new AggregateAnalysisEngine_impl();<a name="line.311"></a>
-<FONT color="green">312</FONT>                    engine.initialize(desc, null);<a name="line.312"></a>
-<FONT color="green">313</FONT>                    return engine;<a name="line.313"></a>
-<FONT color="green">314</FONT>    <a name="line.314"></a>
-<FONT color="green">315</FONT>            }<a name="line.315"></a>
-<FONT color="green">316</FONT>    <a name="line.316"></a>
-<FONT color="green">317</FONT>            public static AnalysisEngineDescription createAggregateDescription(<a name="line.317"></a>
-<FONT color="green">318</FONT>                            AnalysisEngineDescription... analysisEngineDescriptions) throws ResourceInitializationException {<a name="line.318"></a>
-<FONT color="green">319</FONT>                    String[] names = new String[analysisEngineDescriptions.length];<a name="line.319"></a>
-<FONT color="green">320</FONT>                    int i = 0;<a name="line.320"></a>
-<FONT color="green">321</FONT>                    for (AnalysisEngineDescription aed : analysisEngineDescriptions) {<a name="line.321"></a>
-<FONT color="green">322</FONT>                            names[i] = aed.getImplementationName() + "-" + i;<a name="line.322"></a>
-<FONT color="green">323</FONT>                            i++;<a name="line.323"></a>
-<FONT color="green">324</FONT>                    }<a name="line.324"></a>
-<FONT color="green">325</FONT>    <a name="line.325"></a>
-<FONT color="green">326</FONT>                    return createAggregateDescription(asList(analysisEngineDescriptions), asList(names), null, null, null);<a name="line.326"></a>
-<FONT color="green">327</FONT>            }<a name="line.327"></a>
-<FONT color="green">328</FONT>    <a name="line.328"></a>
-<FONT color="green">329</FONT>            @SuppressWarnings("unchecked")<a name="line.329"></a>
-<FONT color="green">330</FONT>            public static AnalysisEngineDescription createAggregateDescription(<a name="line.330"></a>
-<FONT color="green">331</FONT>                            List&lt;AnalysisEngineDescription&gt; analysisEngineDescriptions, List&lt;String&gt; componentNames,<a name="line.331"></a>
-<FONT color="green">332</FONT>                            TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings)<a name="line.332"></a>
-<FONT color="green">333</FONT>                            throws ResourceInitializationException {<a name="line.333"></a>
-<FONT color="green">334</FONT>    <a name="line.334"></a>
-<FONT color="green">335</FONT>                    // create the descriptor and set configuration parameters<a name="line.335"></a>
-<FONT color="green">336</FONT>                    AnalysisEngineDescription desc = new AnalysisEngineDescription_impl();<a name="line.336"></a>
-<FONT color="green">337</FONT>                    desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);<a name="line.337"></a>
-<FONT color="green">338</FONT>                    desc.setPrimitive(false);<a name="line.338"></a>
-<FONT color="green">339</FONT>    <a name="line.339"></a>
-<FONT color="green">340</FONT>                    List&lt;String&gt; flowNames = new ArrayList&lt;String&gt;();<a name="line.340"></a>
+<FONT color="green">279</FONT>            @SuppressWarnings("unchecked")<a name="line.279"></a>
+<FONT color="green">280</FONT>            public static AnalysisEngine createPrimitive(AnalysisEngineDescription desc, Object... configurationData)<a name="line.280"></a>
+<FONT color="green">281</FONT>                            throws ResourceInitializationException {<a name="line.281"></a>
+<FONT color="green">282</FONT>                    AnalysisEngine engine = new PrimitiveAnalysisEngine_impl();<a name="line.282"></a>
+<FONT color="green">283</FONT>    <a name="line.283"></a>
+<FONT color="green">284</FONT>                    if (configurationData != null) {<a name="line.284"></a>
+<FONT color="green">285</FONT>                            ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);<a name="line.285"></a>
+<FONT color="green">286</FONT>                            ConfigurationParameter[] configurationParameters = cdata.configurationParameters;<a name="line.286"></a>
+<FONT color="green">287</FONT>                            Object[] configurationValues = cdata.configurationValues;<a name="line.287"></a>
+<FONT color="green">288</FONT>                            ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters,<a name="line.288"></a>
+<FONT color="green">289</FONT>                                            configurationValues);<a name="line.289"></a>
+<FONT color="green">290</FONT>                            ResourceMetaData metaData = desc.getMetaData();<a name="line.290"></a>
+<FONT color="green">291</FONT>                            ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();<a name="line.291"></a>
+<FONT color="green">292</FONT>                            Map additionalParameters = new HashMap();<a name="line.292"></a>
+<FONT color="green">293</FONT>                            additionalParameters.put(AnalysisEngine.PARAM_CONFIG_PARAM_SETTINGS, paramSettings);<a name="line.293"></a>
+<FONT color="green">294</FONT>                            engine.initialize(desc, additionalParameters);<a name="line.294"></a>
+<FONT color="green">295</FONT>                    }<a name="line.295"></a>
+<FONT color="green">296</FONT>                    else {<a name="line.296"></a>
+<FONT color="green">297</FONT>                            engine.initialize(desc, null);<a name="line.297"></a>
+<FONT color="green">298</FONT>                    }<a name="line.298"></a>
+<FONT color="green">299</FONT>                    return engine;<a name="line.299"></a>
+<FONT color="green">300</FONT>            }<a name="line.300"></a>
+<FONT color="green">301</FONT>    <a name="line.301"></a>
+<FONT color="green">302</FONT>            public static AnalysisEngine createAggregate(List&lt;Class&lt;? extends AnalysisComponent&gt;&gt; componentClasses,<a name="line.302"></a>
+<FONT color="green">303</FONT>                            TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings,<a name="line.303"></a>
+<FONT color="green">304</FONT>                            Object... configurationParameters) throws ResourceInitializationException {<a name="line.304"></a>
+<FONT color="green">305</FONT>                    AnalysisEngineDescription desc = createAggregateDescription(componentClasses, typeSystem, typePriorities,<a name="line.305"></a>
+<FONT color="green">306</FONT>                                    sofaMappings, configurationParameters);<a name="line.306"></a>
+<FONT color="green">307</FONT>                    // create the AnalysisEngine, initialize it and return it<a name="line.307"></a>
+<FONT color="green">308</FONT>                    AnalysisEngine engine = new AggregateAnalysisEngine_impl();<a name="line.308"></a>
+<FONT color="green">309</FONT>                    engine.initialize(desc, null);<a name="line.309"></a>
+<FONT color="green">310</FONT>                    return engine;<a name="line.310"></a>
+<FONT color="green">311</FONT>            }<a name="line.311"></a>
+<FONT color="green">312</FONT>    <a name="line.312"></a>
+<FONT color="green">313</FONT>            public static AnalysisEngine createAggregate(AnalysisEngineDescription desc) throws ResourceInitializationException {<a name="line.313"></a>
+<FONT color="green">314</FONT>                    // create the AnalysisEngine, initialize it and return it<a name="line.314"></a>
+<FONT color="green">315</FONT>                    AnalysisEngine engine = new AggregateAnalysisEngine_impl();<a name="line.315"></a>
+<FONT color="green">316</FONT>                    engine.initialize(desc, null);<a name="line.316"></a>
+<FONT color="green">317</FONT>                    return engine;<a name="line.317"></a>
+<FONT color="green">318</FONT>            }<a name="line.318"></a>
+<FONT color="green">319</FONT>    <a name="line.319"></a>
+<FONT color="green">320</FONT>            public static AnalysisEngineDescription createAggregateDescription(<a name="line.320"></a>
+<FONT color="green">321</FONT>                            List&lt;Class&lt;? extends AnalysisComponent&gt;&gt; componentClasses, TypeSystemDescription typeSystem,<a name="line.321"></a>
+<FONT color="green">322</FONT>                            TypePriorities typePriorities, SofaMapping[] sofaMappings, Object... configurationParameters)<a name="line.322"></a>
+<FONT color="green">323</FONT>                            throws ResourceInitializationException {<a name="line.323"></a>
+<FONT color="green">324</FONT>    <a name="line.324"></a>
+<FONT color="green">325</FONT>                    List&lt;AnalysisEngineDescription&gt; primitiveEngineDescriptions = new ArrayList&lt;AnalysisEngineDescription&gt;();<a name="line.325"></a>
+<FONT color="green">326</FONT>                    List&lt;String&gt; componentNames = new ArrayList&lt;String&gt;();<a name="line.326"></a>
+<FONT color="green">327</FONT>    <a name="line.327"></a>
+<FONT color="green">328</FONT>                    for (Class&lt;? extends AnalysisComponent&gt; componentClass : componentClasses) {<a name="line.328"></a>
+<FONT color="green">329</FONT>                            AnalysisEngineDescription primitiveDescription = createPrimitiveDescription(componentClass, typeSystem,<a name="line.329"></a>
+<FONT color="green">330</FONT>                                            typePriorities, configurationParameters);<a name="line.330"></a>
+<FONT color="green">331</FONT>                            primitiveEngineDescriptions.add(primitiveDescription);<a name="line.331"></a>
+<FONT color="green">332</FONT>                            componentNames.add(componentClass.getName());<a name="line.332"></a>
+<FONT color="green">333</FONT>                    }<a name="line.333"></a>
+<FONT color="green">334</FONT>                    return createAggregateDescription(primitiveEngineDescriptions, componentNames, typeSystem, typePriorities,<a name="line.334"></a>
+<FONT color="green">335</FONT>                                    sofaMappings);<a name="line.335"></a>
+<FONT color="green">336</FONT>            }<a name="line.336"></a>
+<FONT color="green">337</FONT>    <a name="line.337"></a>
+<FONT color="green">338</FONT>            public static AnalysisEngine createAggregate(List&lt;AnalysisEngineDescription&gt; analysisEngineDescriptions,<a name="line.338"></a>
+<FONT color="green">339</FONT>                            List&lt;String&gt; componentNames, TypeSystemDescription typeSystem, TypePriorities typePriorities,<a name="line.339"></a>
+<FONT color="green">340</FONT>                            SofaMapping[] sofaMappings) throws ResourceInitializationException {<a name="line.340"></a>
 <FONT color="green">341</FONT>    <a name="line.341"></a>
-<FONT color="green">342</FONT>                    for (int i = 0; i &lt; analysisEngineDescriptions.size(); i++) {<a name="line.342"></a>
-<FONT color="green">343</FONT>                            AnalysisEngineDescription aed = analysisEngineDescriptions.get(i);<a name="line.343"></a>
-<FONT color="green">344</FONT>                            String componentName = componentNames.get(i);<a name="line.344"></a>
-<FONT color="green">345</FONT>                            desc.getDelegateAnalysisEngineSpecifiersWithImports().put(componentName, aed);<a name="line.345"></a>
-<FONT color="green">346</FONT>                            flowNames.add(componentName);<a name="line.346"></a>
-<FONT color="green">347</FONT>                    }<a name="line.347"></a>
+<FONT color="green">342</FONT>                    AnalysisEngineDescription desc = createAggregateDescription(analysisEngineDescriptions, componentNames,<a name="line.342"></a>
+<FONT color="green">343</FONT>                                    typeSystem, typePriorities, sofaMappings);<a name="line.343"></a>
+<FONT color="green">344</FONT>                    // create the AnalysisEngine, initialize it and return it<a name="line.344"></a>
+<FONT color="green">345</FONT>                    AnalysisEngine engine = new AggregateAnalysisEngine_impl();<a name="line.345"></a>
+<FONT color="green">346</FONT>                    engine.initialize(desc, null);<a name="line.346"></a>
+<FONT color="green">347</FONT>                    return engine;<a name="line.347"></a>
 <FONT color="green">348</FONT>    <a name="line.348"></a>
-<FONT color="green">349</FONT>                    FixedFlow fixedFlow = new FixedFlow_impl();<a name="line.349"></a>
-<FONT color="green">350</FONT>                    fixedFlow.setFixedFlow(flowNames.toArray(new String[flowNames.size()]));<a name="line.350"></a>
-<FONT color="green">351</FONT>                    desc.getAnalysisEngineMetaData().setFlowConstraints(fixedFlow);<a name="line.351"></a>
-<FONT color="green">352</FONT>    <a name="line.352"></a>
-<FONT color="green">353</FONT>                    if (typePriorities != null) {<a name="line.353"></a>
-<FONT color="green">354</FONT>                            desc.getAnalysisEngineMetaData().setTypePriorities(typePriorities);<a name="line.354"></a>
-<FONT color="green">355</FONT>                    }<a name="line.355"></a>
-<FONT color="green">356</FONT>    <a name="line.356"></a>
-<FONT color="green">357</FONT>                    if (sofaMappings != null) {<a name="line.357"></a>
-<FONT color="green">358</FONT>                            desc.setSofaMappings(sofaMappings);<a name="line.358"></a>
-<FONT color="green">359</FONT>                    }<a name="line.359"></a>
-<FONT color="green">360</FONT>    <a name="line.360"></a>
-<FONT color="green">361</FONT>                    return desc;<a name="line.361"></a>
-<FONT color="green">362</FONT>            }<a name="line.362"></a>
-<FONT color="green">363</FONT>    <a name="line.363"></a>
-<FONT color="green">364</FONT>            /**<a name="line.364"></a>
-<FONT color="green">365</FONT>             * Creates an AnalysisEngine from the given descriptor, and uses the engine<a name="line.365"></a>
-<FONT color="green">366</FONT>             * to process the file or text.<a name="line.366"></a>
-<FONT color="green">367</FONT>             * <a name="line.367"></a>
-<FONT color="green">368</FONT>             * @param descriptorFileName<a name="line.368"></a>
-<FONT color="green">369</FONT>             *            The fully qualified, Java-style, dotted name of the XML<a name="line.369"></a>
-<FONT color="green">370</FONT>             *            descriptor file.<a name="line.370"></a>
-<FONT color="green">371</FONT>             * @param fileNameOrText<a name="line.371"></a>
-<FONT color="green">372</FONT>             *            Either the path of a file to be loaded, or a string to use as<a name="line.372"></a>
-<FONT color="green">373</FONT>             *            the text. If the string given is not a valid path in the file<a name="line.373"></a>
-<FONT color="green">374</FONT>             *            system, it will be assumed to be text.<a name="line.374"></a>
-<FONT color="green">375</FONT>             * @return A JCas object containing the processed document.<a name="line.375"></a>
-<FONT color="green">376</FONT>             * @throws IOException<a name="line.376"></a>
-<FONT color="green">377</FONT>             * @throws UIMAException<a name="line.377"></a>
-<FONT color="green">378</FONT>             */<a name="line.378"></a>
-<FONT color="green">379</FONT>            public static JCas process(String descriptorFileName, String fileNameOrText) throws IOException, UIMAException {<a name="line.379"></a>
-<FONT color="green">380</FONT>                    AnalysisEngine engine = createAnalysisEngine(descriptorFileName);<a name="line.380"></a>
-<FONT color="green">381</FONT>                    JCas jCas = process(engine, fileNameOrText);<a name="line.381"></a>
-<FONT color="green">382</FONT>                    engine.collectionProcessComplete();<a name="line.382"></a>
-<FONT color="green">383</FONT>                    return jCas;<a name="line.383"></a>
-<FONT color="green">384</FONT>            }<a name="line.384"></a>
+<FONT color="green">349</FONT>            }<a name="line.349"></a>
+<FONT color="green">350</FONT>    <a name="line.350"></a>
+<FONT color="green">351</FONT>            public static AnalysisEngineDescription createAggregateDescription(<a name="line.351"></a>
+<FONT color="green">352</FONT>                            AnalysisEngineDescription... analysisEngineDescriptions) throws ResourceInitializationException {<a name="line.352"></a>
+<FONT color="green">353</FONT>                    String[] names = new String[analysisEngineDescriptions.length];<a name="line.353"></a>
+<FONT color="green">354</FONT>                    int i = 0;<a name="line.354"></a>
+<FONT color="green">355</FONT>                    for (AnalysisEngineDescription aed : analysisEngineDescriptions) {<a name="line.355"></a>
+<FONT color="green">356</FONT>                            names[i] = aed.getImplementationName() + "-" + i;<a name="line.356"></a>
+<FONT color="green">357</FONT>                            i++;<a name="line.357"></a>
+<FONT color="green">358</FONT>                    }<a name="line.358"></a>
+<FONT color="green">359</FONT>    <a name="line.359"></a>
+<FONT color="green">360</FONT>                    return createAggregateDescription(asList(analysisEngineDescriptions), asList(names), null, null, null);<a name="line.360"></a>
+<FONT color="green">361</FONT>            }<a name="line.361"></a>
+<FONT color="green">362</FONT>    <a name="line.362"></a>
+<FONT color="green">363</FONT>            @SuppressWarnings("unchecked")<a name="line.363"></a>
+<FONT color="green">364</FONT>            public static AnalysisEngineDescription createAggregateDescription(<a name="line.364"></a>
+<FONT color="green">365</FONT>                            List&lt;AnalysisEngineDescription&gt; analysisEngineDescriptions, List&lt;String&gt; componentNames,<a name="line.365"></a>
+<FONT color="green">366</FONT>                            TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings)<a name="line.366"></a>
+<FONT color="green">367</FONT>                            throws ResourceInitializationException {<a name="line.367"></a>
+<FONT color="green">368</FONT>    <a name="line.368"></a>
+<FONT color="green">369</FONT>                    // create the descriptor and set configuration parameters<a name="line.369"></a>
+<FONT color="green">370</FONT>                    AnalysisEngineDescription desc = new AnalysisEngineDescription_impl();<a name="line.370"></a>
+<FONT color="green">371</FONT>                    desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);<a name="line.371"></a>
+<FONT color="green">372</FONT>                    desc.setPrimitive(false);<a name="line.372"></a>
+<FONT color="green">373</FONT>    <a name="line.373"></a>
+<FONT color="green">374</FONT>                    // if any of the aggregated analysis engines does not allow multiple<a name="line.374"></a>
+<FONT color="green">375</FONT>                    // deployment, then the<a name="line.375"></a>
+<FONT color="green">376</FONT>                    // aggregate engine may also not be multiply deployed<a name="line.376"></a>
+<FONT color="green">377</FONT>                    boolean allowMultipleDeploy = true;<a name="line.377"></a>
+<FONT color="green">378</FONT>                    for (AnalysisEngineDescription d : analysisEngineDescriptions) {<a name="line.378"></a>
+<FONT color="green">379</FONT>                            allowMultipleDeploy &amp;= d.getAnalysisEngineMetaData().getOperationalProperties()<a name="line.379"></a>
+<FONT color="green">380</FONT>                                            .isMultipleDeploymentAllowed();<a name="line.380"></a>
+<FONT color="green">381</FONT>                    }<a name="line.381"></a>
+<FONT color="green">382</FONT>                    desc.getAnalysisEngineMetaData().getOperationalProperties().setMultipleDeploymentAllowed(allowMultipleDeploy);<a name="line.382"></a>
+<FONT color="green">383</FONT>    <a name="line.383"></a>
+<FONT color="green">384</FONT>                    List&lt;String&gt; flowNames = new ArrayList&lt;String&gt;();<a name="line.384"></a>
 <FONT color="green">385</FONT>    <a name="line.385"></a>
-<FONT color="green">386</FONT>            /**<a name="line.386"></a>
-<FONT color="green">387</FONT>             * Processes the file or text with the given AnalysisEngine.<a name="line.387"></a>
-<FONT color="green">388</FONT>             * <a name="line.388"></a>
-<FONT color="green">389</FONT>             * @param analysisEngine<a name="line.389"></a>
-<FONT color="green">390</FONT>             *            The AnalysisEngine object to process the text.<a name="line.390"></a>
-<FONT color="green">391</FONT>             * @param fileNameOrText<a name="line.391"></a>
-<FONT color="green">392</FONT>             *            Either the path of a file to be loaded, or a string to use as<a name="line.392"></a>
-<FONT color="green">393</FONT>             *            the text. If the string given is not a valid path in the file<a name="line.393"></a>
-<FONT color="green">394</FONT>             *            system, it will be assumed to be text.<a name="line.394"></a>
-<FONT color="green">395</FONT>             * @return A JCas object containing the processed document.<a name="line.395"></a>
-<FONT color="green">396</FONT>             * @throws IOException<a name="line.396"></a>
-<FONT color="green">397</FONT>             * @throws UIMAException<a name="line.397"></a>
-<FONT color="green">398</FONT>             */<a name="line.398"></a>
-<FONT color="green">399</FONT>            public static JCas process(AnalysisEngine analysisEngine, String fileNameOrText) throws IOException, UIMAException {<a name="line.399"></a>
-<FONT color="green">400</FONT>                    File textFile = new File(fileNameOrText);<a name="line.400"></a>
-<FONT color="green">401</FONT>                    String text;<a name="line.401"></a>
-<FONT color="green">402</FONT>                    if (textFile.exists()) {<a name="line.402"></a>
-<FONT color="green">403</FONT>                            text = FileUtils.file2String(textFile);<a name="line.403"></a>
-<FONT color="green">404</FONT>                    }<a name="line.404"></a>
-<FONT color="green">405</FONT>                    else {<a name="line.405"></a>
-<FONT color="green">406</FONT>                            text = fileNameOrText;<a name="line.406"></a>
-<FONT color="green">407</FONT>                    }<a name="line.407"></a>
-<FONT color="green">408</FONT>    <a name="line.408"></a>
-<FONT color="green">409</FONT>                    JCas jCas = analysisEngine.newJCas();<a name="line.409"></a>
-<FONT color="green">410</FONT>                    jCas.setDocumentText(text);<a name="line.410"></a>
-<FONT color="green">411</FONT>                    analysisEngine.process(jCas);<a name="line.411"></a>
-<FONT color="green">412</FONT>                    return jCas;<a name="line.412"></a>
-<FONT color="green">413</FONT>            }<a name="line.413"></a>
-<FONT color="green">414</FONT>    <a name="line.414"></a>
-<FONT color="green">415</FONT>    }<a name="line.415"></a>
+<FONT color="green">386</FONT>                    for (int i = 0; i &lt; analysisEngineDescriptions.size(); i++) {<a name="line.386"></a>
+<FONT color="green">387</FONT>                            AnalysisEngineDescription aed = analysisEngineDescriptions.get(i);<a name="line.387"></a>
+<FONT color="green">388</FONT>                            String componentName = componentNames.get(i);<a name="line.388"></a>
+<FONT color="green">389</FONT>                            desc.getDelegateAnalysisEngineSpecifiersWithImports().put(componentName, aed);<a name="line.389"></a>
+<FONT color="green">390</FONT>                            flowNames.add(componentName);<a name="line.390"></a>
+<FONT color="green">391</FONT>                    }<a name="line.391"></a>
+<FONT color="green">392</FONT>    <a name="line.392"></a>
+<FONT color="green">393</FONT>                    FixedFlow fixedFlow = new FixedFlow_impl();<a name="line.393"></a>
+<FONT color="green">394</FONT>                    fixedFlow.setFixedFlow(flowNames.toArray(new String[flowNames.size()]));<a name="line.394"></a>
+<FONT color="green">395</FONT>                    desc.getAnalysisEngineMetaData().setFlowConstraints(fixedFlow);<a name="line.395"></a>
+<FONT color="green">396</FONT>    <a name="line.396"></a>
+<FONT color="green">397</FONT>                    if (typePriorities != null) {<a name="line.397"></a>
+<FONT color="green">398</FONT>                            desc.getAnalysisEngineMetaData().setTypePriorities(typePriorities);<a name="line.398"></a>
+<FONT color="green">399</FONT>                    }<a name="line.399"></a>
+<FONT color="green">400</FONT>    <a name="line.400"></a>
+<FONT color="green">401</FONT>                    if (sofaMappings != null) {<a name="line.401"></a>
+<FONT color="green">402</FONT>                            desc.setSofaMappings(sofaMappings);<a name="line.402"></a>
+<FONT color="green">403</FONT>                    }<a name="line.403"></a>
+<FONT color="green">404</FONT>    <a name="line.404"></a>
+<FONT color="green">405</FONT>                    return desc;<a name="line.405"></a>
+<FONT color="green">406</FONT>            }<a name="line.406"></a>
+<FONT color="green">407</FONT>    <a name="line.407"></a>
+<FONT color="green">408</FONT>            /**<a name="line.408"></a>
+<FONT color="green">409</FONT>             * Creates an AnalysisEngine from the given descriptor, and uses the engine<a name="line.409"></a>
+<FONT color="green">410</FONT>             * to process the file or text.<a name="line.410"></a>
+<FONT color="green">411</FONT>             * <a name="line.411"></a>
+<FONT color="green">412</FONT>             * @param descriptorFileName<a name="line.412"></a>
+<FONT color="green">413</FONT>             *            The fully qualified, Java-style, dotted name of the XML<a name="line.413"></a>
+<FONT color="green">414</FONT>             *            descriptor file.<a name="line.414"></a>
+<FONT color="green">415</FONT>             * @param fileNameOrText<a name="line.415"></a>
+<FONT color="green">416</FONT>             *            Either the path of a file to be loaded, or a string to use as<a name="line.416"></a>
+<FONT color="green">417</FONT>             *            the text. If the string given is not a valid path in the file<a name="line.417"></a>
+<FONT color="green">418</FONT>             *            system, it will be assumed to be text.<a name="line.418"></a>
+<FONT color="green">419</FONT>             * @return A JCas object containing the processed document.<a name="line.419"></a>
+<FONT color="green">420</FONT>             * @throws IOException<a name="line.420"></a>
+<FONT color="green">421</FONT>             * @throws UIMAException<a name="line.421"></a>
+<FONT color="green">422</FONT>             */<a name="line.422"></a>
+<FONT color="green">423</FONT>            public static JCas process(String descriptorFileName, String fileNameOrText) throws IOException, UIMAException {<a name="line.423"></a>
+<FONT color="green">424</FONT>                    AnalysisEngine engine = createAnalysisEngine(descriptorFileName);<a name="line.424"></a>
+<FONT color="green">425</FONT>                    JCas jCas = process(engine, fileNameOrText);<a name="line.425"></a>
+<FONT color="green">426</FONT>                    engine.collectionProcessComplete();<a name="line.426"></a>
+<FONT color="green">427</FONT>                    return jCas;<a name="line.427"></a>
+<FONT color="green">428</FONT>            }<a name="line.428"></a>
+<FONT color="green">429</FONT>    <a name="line.429"></a>
+<FONT color="green">430</FONT>            /**<a name="line.430"></a>
+<FONT color="green">431</FONT>             * Processes the file or text with the given AnalysisEngine.<a name="line.431"></a>
+<FONT color="green">432</FONT>             * <a name="line.432"></a>
+<FONT color="green">433</FONT>             * @param analysisEngine<a name="line.433"></a>
+<FONT color="green">434</FONT>             *            The AnalysisEngine object to process the text.<a name="line.434"></a>
+<FONT color="green">435</FONT>             * @param fileNameOrText<a name="line.435"></a>
+<FONT color="green">436</FONT>             *            Either the path of a file to be loaded, or a string to use as<a name="line.436"></a>
+<FONT color="green">437</FONT>             *            the text. If the string given is not a valid path in the file<a name="line.437"></a>
+<FONT color="green">438</FONT>             *            system, it will be assumed to be text.<a name="line.438"></a>
+<FONT color="green">439</FONT>             * @return A JCas object containing the processed document.<a name="line.439"></a>
+<FONT color="green">440</FONT>             * @throws IOException<a name="line.440"></a>
+<FONT color="green">441</FONT>             * @throws UIMAException<a name="line.441"></a>
+<FONT color="green">442</FONT>             */<a name="line.442"></a>
+<FONT color="green">443</FONT>            public static JCas process(AnalysisEngine analysisEngine, String fileNameOrText) throws IOException, UIMAException {<a name="line.443"></a>
+<FONT color="green">444</FONT>                    File textFile = new File(fileNameOrText);<a name="line.444"></a>
+<FONT color="green">445</FONT>                    String text;<a name="line.445"></a>
+<FONT color="green">446</FONT>                    if (textFile.exists()) {<a name="line.446"></a>
+<FONT color="green">447</FONT>                            text = FileUtils.file2String(textFile);<a name="line.447"></a>
+<FONT color="green">448</FONT>                    }<a name="line.448"></a>
+<FONT color="green">449</FONT>                    else {<a name="line.449"></a>
+<FONT color="green">450</FONT>                            text = fileNameOrText;<a name="line.450"></a>
+<FONT color="green">451</FONT>                    }<a name="line.451"></a>
+<FONT color="green">452</FONT>    <a name="line.452"></a>
+<FONT color="green">453</FONT>                    JCas jCas = analysisEngine.newJCas();<a name="line.453"></a>
+<FONT color="green">454</FONT>                    jCas.setDocumentText(text);<a name="line.454"></a>
+<FONT color="green">455</FONT>                    analysisEngine.process(jCas);<a name="line.455"></a>
+<FONT color="green">456</FONT>                    return jCas;<a name="line.456"></a>
+<FONT color="green">457</FONT>            }<a name="line.457"></a>
+<FONT color="green">458</FONT>    <a name="line.458"></a>
+<FONT color="green">459</FONT>    }<a name="line.459"></a>
 
 
 
