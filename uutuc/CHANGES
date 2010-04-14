@@ -1,8 +1,8 @@
 changes in 0.9.12
 	- added method AnalysisEngineFactory.createAnalysisEngineDescription which is now called by createAnalysisEngine
 	- removed method Files.stripRootDir
-	- fixed issue #34 "fix plugin versions in POM"
-	- fixed issue #?? "Setting AAE multi-deployment property properly when mixing single-deploy AEs and multi-deploy-AEs in the same AAE" 
+	- fixed issue #34 "POM should specify absolute plugin versions"
+	- fixed issue #33 "Setting AAE multi-deployment property properly when mixing single-deploy AEs and multi-deploy-AEs in the same AAE" 
 	- completed issue #40 "SofaInitializerAnnotator and DocumentTextCopierAnnotator"
 	- fixed issue #41 "AggregateBuilder doesn't work correctly if you add an aggregate description"
  	- fixed issue #32 "Working with sofas should be easier" by introducing AggregateBuilder
