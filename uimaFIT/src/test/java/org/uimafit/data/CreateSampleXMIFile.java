@@ -41,7 +41,7 @@ public class CreateSampleXMIFile {
 				"Me and all my friends are non - conformists .",
 				"M A A M F A N - C .",
 				"me and all my friend are non - conformist .",
-				"org.uutuc.type.Token:pos", "org.uutuc.type.Token:stem");
+				"org.uimafit.type.Token:pos", "org.uimafit.type.Token:stem");
 		
 		FileOutputStream out = new FileOutputStream("test/data/docs/test.xmi");
 		XmiCasSerializer ser = new XmiCasSerializer(jCas.getTypeSystem());

@@ -36,21 +36,21 @@ public class JCasFactoryTest {
 
 	@Test
 	public void testXMI() throws UIMAException, IOException {
-		JCas jCas = JCasFactory.createJCas("src/test/resources/data/docs/test.xmi", TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem"));
+		JCas jCas = JCasFactory.createJCas("src/test/resources/data/docs/test.xmi", TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.type.TypeSystem"));
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
 
 	}
 
 	@Test
 	public void testXCAS() throws UIMAException, IOException {
-		JCas jCas = JCasFactory.createJCas("src/test/resources/data/docs/test.xcas", TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem"), false);
+		JCas jCas = JCasFactory.createJCas("src/test/resources/data/docs/test.xcas", TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.type.TypeSystem"), false);
 		assertEquals("... the more knowledge advances the more it becomes possible to condense it into little books.", jCas.getDocumentText());
 
 	}
 
 	@Test
 	public void testFromPath() throws UIMAException {
-		JCas jCas = JCasFactory.createJCasFromPath("src/test/resources/org/uutuc/type/TypeSystem.xml");
+		JCas jCas = JCasFactory.createJCasFromPath("src/test/resources/org/uimafit/type/TypeSystem.xml");
 		jCas.setDocumentText("For great 20 minute talks, check out TED.com.");
 		AnnotationFactory.createAnnotation(jCas, 0, 3, Token.class);
 		assertEquals("For", AnnotationRetrieval.get(jCas, Token.class, 0).getCoveredText());
@@ -58,7 +58,7 @@ public class JCasFactoryTest {
 	
 	@Test
 	public void test() throws UIMAException {
-		JCas jCas = JCasFactory.createJCas("org.uutuc.type.TypeSystem");
+		JCas jCas = JCasFactory.createJCas("org.uimafit.type.TypeSystem");
 		jCas.setDocumentText("For great 20 minute talks, check out TED.com.");
 		AnnotationFactory.createAnnotation(jCas, 0, 3, Token.class);
 		assertEquals("For", AnnotationRetrieval.get(jCas, Token.class, 0).getCoveredText());

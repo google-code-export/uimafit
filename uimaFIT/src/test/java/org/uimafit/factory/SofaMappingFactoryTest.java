@@ -33,7 +33,7 @@ public class SofaMappingFactoryTest {
 	public void test() {
 		SofaMapping sofaMapping = SofaMappingFactory.createSofaMapping(JCasAnnotatorAdapter.class, "B", "A");
 		assertEquals("A", sofaMapping.getAggregateSofaName());
-		assertEquals("org.uutuc.util.JCasAnnotatorAdapter", sofaMapping.getComponentKey());
+		assertEquals("org.uimafit.util.JCasAnnotatorAdapter", sofaMapping.getComponentKey());
 		assertEquals("B", sofaMapping.getComponentSofaName());
 	}
 }

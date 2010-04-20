@@ -40,11 +40,11 @@ import org.uimafit.factory.ConfigurationParameterFactory;
 
 public class ConfigurationParameterFactoryTest {
 
-	public static final String PARAM_DOUBLE_1 = "org.uutuc.factory.ConfigurationParameterFactoryTest.PARAM_STRING_1";
+	public static final String PARAM_DOUBLE_1 = "org.uimafit.factory.ConfigurationParameterFactoryTest.PARAM_STRING_1";
 	@ConfigurationParameter(name = PARAM_DOUBLE_1, mandatory = true, defaultValue="3.1415")
 	private Double double1;
 
-	public static final String PARAM_DOUBLE_2 = "org.uutuc.factory.ConfigurationParameterFactoryTest.PARAM_DOUBLE_2";
+	public static final String PARAM_DOUBLE_2 = "org.uimafit.factory.ConfigurationParameterFactoryTest.PARAM_DOUBLE_2";
 	@ConfigurationParameter(name = PARAM_DOUBLE_2, mandatory = true, defaultValue="3.3333")
 	private Double[] double2;
 	private Double[] double3;
@@ -133,7 +133,7 @@ public class ConfigurationParameterFactoryTest {
 	public void testParam1() throws Exception, NoSuchFieldException {
 		Field field1 =ConfigurationParameterFactoryTest.class.getDeclaredField("param1"); 
 		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field1);
-		assertEquals("org.uutuc.factory.ConfigurationParameterFactoryTest.param1", cp.getName());
+		assertEquals("org.uimafit.factory.ConfigurationParameterFactoryTest.param1", cp.getName());
 		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING, cp.getType());
 		assertEquals("", cp.getDescription());
 		assertFalse(cp.isMandatory());
@@ -173,7 +173,7 @@ public class ConfigurationParameterFactoryTest {
 	public void testParam3() throws Exception, NoSuchFieldException {
 		Field field3 =ConfigurationParameterFactoryTest.class.getDeclaredField("param3"); 
 		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field3);
-		assertEquals("org.uutuc.factory.ConfigurationParameterFactoryTest.param3", cp.getName());
+		assertEquals("org.uimafit.factory.ConfigurationParameterFactoryTest.param3", cp.getName());
 		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_INTEGER, cp.getType());
 		assertEquals("", cp.getDescription());
 		assertFalse(cp.isMandatory());
@@ -192,7 +192,7 @@ public class ConfigurationParameterFactoryTest {
 	public void testParam4() throws Exception, NoSuchFieldException {
 		Field field4 =CPFT.class.getDeclaredField("param4"); 
 		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field4);
-		assertEquals("org.uutuc.factory.ConfigurationParameterFactoryTest$CPFT.param4", cp.getName());
+		assertEquals("org.uimafit.factory.ConfigurationParameterFactoryTest$CPFT.param4", cp.getName());
 		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING, cp.getType());
 		assertEquals("", cp.getDescription());
 		assertFalse(cp.isMandatory());

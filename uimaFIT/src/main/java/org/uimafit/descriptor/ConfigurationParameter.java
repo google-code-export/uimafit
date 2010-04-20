@@ -57,7 +57,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface ConfigurationParameter {
 
-	public static final String USE_FIELD_NAME = "org.uutuc.descriptor.ConfigurationParameter.USE_FIELD_NAME";
+	public static final String USE_FIELD_NAME = "org.uimafit.descriptor.ConfigurationParameter.USE_FIELD_NAME";
 
 	/**
 	 * If you do not specify a name then the default name will be given by {@link #USE_FIELD_NAME} will be the default name.  This 
@@ -92,6 +92,6 @@ public @interface ConfigurationParameter {
 	 */
 	String[] defaultValue() default NO_DEFAULT_VALUE;
 
-	public static final String NO_DEFAULT_VALUE = "org.uutuc.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE";
+	public static final String NO_DEFAULT_VALUE = "org.uimafit.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE";
 
 }

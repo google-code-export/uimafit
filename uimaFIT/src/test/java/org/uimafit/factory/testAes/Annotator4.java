@@ -29,7 +29,7 @@ import org.uimafit.type.Token;
  * @author Philip Ogren
  *
  */
-@TypeCapability(inputs="org.uutuc.type.Token", outputs="org.uutuc.type.Token:pos")
+@TypeCapability(inputs="org.uimafit.type.Token", outputs="org.uimafit.type.Token:pos")
 public class Annotator4 extends JCasAnnotator_ImplBase {
 
 	@Override

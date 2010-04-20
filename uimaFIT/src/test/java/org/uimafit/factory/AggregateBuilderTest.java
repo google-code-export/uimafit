@@ -117,9 +117,9 @@ public class AggregateBuilderTest {
 		String componentName2 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem));
 		String componentName3 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem));
 
-		assertEquals("org.uutuc.factory.testAes.Annotator1", componentName1);
-		assertEquals("org.uutuc.factory.testAes.Annotator1.2", componentName2);
-		assertEquals("org.uutuc.factory.testAes.Annotator1.3", componentName3);
+		assertEquals("org.uimafit.factory.testAes.Annotator1", componentName1);
+		assertEquals("org.uimafit.factory.testAes.Annotator1.2", componentName2);
+		assertEquals("org.uimafit.factory.testAes.Annotator1.3", componentName3);
 		
 		builder.addSofaMapping(componentName1, ViewNames.PARENTHESES_VIEW, "A");
 		builder.addSofaMapping(componentName2, ViewNames.PARENTHESES_VIEW, "B");

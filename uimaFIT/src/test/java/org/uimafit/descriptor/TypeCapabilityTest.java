@@ -44,12 +44,12 @@ public class TypeCapabilityTest {
 		Capability capability = capabilities[0];
 		TypeOrFeature[] inputs = capability.getInputs();
 		assertEquals(1, inputs.length);
-		assertEquals("org.uutuc.type.Token", inputs[0].getName());
+		assertEquals("org.uimafit.type.Token", inputs[0].getName());
 		assertTrue(inputs[0].isType());
 		
 		TypeOrFeature[] outputs = capability.getOutputs();
 		assertEquals(1, outputs.length);
-		assertEquals("org.uutuc.type.Token:pos", outputs[0].getName());
+		assertEquals("org.uimafit.type.Token:pos", outputs[0].getName());
 		assertFalse(outputs[0].isType());
 		
 	}

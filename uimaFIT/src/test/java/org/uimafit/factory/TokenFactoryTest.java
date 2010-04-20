@@ -52,7 +52,7 @@ public class TokenFactoryTest {
 		String text = "What if we built a rocket ship made of cheese?" + "We could fly it to the moon for repairs.";
 		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
 				"What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
-				"A B C D E F G H I J K L M N O P Q R S T U", null, "org.uutuc.type.Token:pos", null);
+				"A B C D E F G H I J K L M N O P Q R S T U", null, "org.uimafit.type.Token:pos", null);
 
 		FSIndex sentenceIndex = jCas.getAnnotationIndex(Sentence.type);
 		assertEquals(2, sentenceIndex.size());
@@ -87,7 +87,7 @@ public class TokenFactoryTest {
 		String text = "What if we built a rocket ship made of cheese? \n" + "We could fly it to the moon for repairs.";
 		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
 				"What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
-				"A B C D E F G H I J K L M N O P Q R S T U", null, "org.uutuc.type.Token:pos", null);
+				"A B C D E F G H I J K L M N O P Q R S T U", null, "org.uimafit.type.Token:pos", null);
 
 		Token token = AnnotationRetrieval.get(jCas, Token.class, 10);
 		testToken(token, "?", 45, 46, "K", null);
@@ -98,7 +98,7 @@ public class TokenFactoryTest {
 		text = "What if we built a rocket ship made of cheese? \n" + "We could fly it to the moon for repairs.";
 		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
 				"What if we built a rocket ship made of cheese ?\nWe could fly it to the moon for repairs .",
-				"A B C D E F G H I J K L M N O P Q R S T U", null, "org.uutuc.type.Token:pos", null);
+				"A B C D E F G H I J K L M N O P Q R S T U", null, "org.uimafit.type.Token:pos", null);
 
 		token = AnnotationRetrieval.get(jCas, Token.class, 10);
 		testToken(token, "?", 45, 46, "K", null);
@@ -157,7 +157,7 @@ public class TokenFactoryTest {
 				"Me and all my friends are non - conformists .",
 				"M A A M F A N - C .",
 				"me and all my friend are non - conformist .",
-				"org.uutuc.type.Token:pos", "org.uutuc.type.Token:stem");
+				"org.uimafit.type.Token:pos", "org.uimafit.type.Token:stem");
 
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
 		Token friendToken = AnnotationRetrieval.get(jCas, Token.class, 4);
