@@ -93,7 +93,7 @@
 					<mainClass>org.apache.uima.tools.jcasgen.Jg</mainClass>
 					<arguments>
 						<argument>-jcasgeninput</argument>
-						<argument>${basedir}/src/test/resources/org/uutuc/type/TypeSystem.xml</argument>
+						<argument>${basedir}/src/test/resources/org/uimafit/type/TypeSystem.xml</argument>
 						<argument>-jcasgenoutput</argument>
 						<argument>${basedir}/src/test/java</argument>
 					</arguments>
