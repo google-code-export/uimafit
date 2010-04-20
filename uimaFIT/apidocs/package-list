@@ -1,0 +1,5 @@
+org.uimafit.component
+org.uimafit.descriptor
+org.uimafit.factory
+org.uimafit.util
+org.uimafit.util.io
