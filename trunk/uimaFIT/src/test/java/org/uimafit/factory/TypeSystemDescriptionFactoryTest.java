@@ -27,7 +27,7 @@ public class TypeSystemDescriptionFactoryTest {
 
 	@Test
 	public void testFromPath() {
-		TypeSystemDescriptionFactory.createTypeSystemDescriptionFromPath("src/test/java/org/uutuc/type/TypeSystem.xml");
+		TypeSystemDescriptionFactory.createTypeSystemDescriptionFromPath("src/test/java/org/uimafit/type/TypeSystem.xml");
 		
 	}
 }

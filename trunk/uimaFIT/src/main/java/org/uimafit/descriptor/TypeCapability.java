@@ -34,13 +34,13 @@ public @interface TypeCapability {
 	/**
 	 * inputs can be type names or feature names. A feature name typically looks
 	 * like a type name followed by a colon (':') followed by the feature name.  A valid feature name from
-	 * the uutuc test type system is "org.uutuc.type.Token:pos"
+	 * the uimaFIT test type system is "org.uimafit.type.Token:pos"
 	 * 
 	 */
 	String[] inputs() default NO_DEFAULT_VALUE;
 
 	String[] outputs() default NO_DEFAULT_VALUE;
 
-	public static final String NO_DEFAULT_VALUE = "org.uutuc.descriptor.TypeCapability.NO_DEFAULT_VALUE";
+	public static final String NO_DEFAULT_VALUE = "org.uimafit.descriptor.TypeCapability.NO_DEFAULT_VALUE";
 
 }

@@ -33,14 +33,14 @@ import org.uimafit.factory.TypeSystemDescriptionFactory;
 public class Util {
 
 	public static TypeSystemDescription TYPE_SYSTEM_DESCRIPTION =
-		TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem");
+		TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.type.TypeSystem");
 	
 	public static TypePriorities TYPE_PRIORITIES = null;
 
 	public static ThreadLocal<JCas> JCAS = new ThreadLocal<JCas>();
 	static {
 		try {
-			JCAS.set(JCasFactory.createJCas("org.uutuc.type.TypeSystem"));
+			JCAS.set(JCasFactory.createJCas("org.uimafit.type.TypeSystem"));
 		}
 		catch (UIMAException e) {
 			e.printStackTrace();

@@ -58,7 +58,7 @@ public class SingleFileXReaderTest {
 		assertNotNull(rie);
 
 
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uutuc.type.TypeSystem");
+		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.type.TypeSystem");
 		CollectionReader cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, typeSystemDescription , SingleFileXReader.PARAM_XML_SCHEME, "XCAS", SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xcas");
 		Progress[] progress = cr.getProgress();
 		assertEquals(1, progress.length);

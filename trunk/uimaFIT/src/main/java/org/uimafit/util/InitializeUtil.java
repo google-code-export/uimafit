@@ -77,7 +77,7 @@ public class InitializeUtil {
 	 * someone wants to use the defaultValue element for the parameters default
 	 * value, then they will use {@link ConfigurationParameterFactory} when
 	 * generating the {@link UimaContext} (i.e. the components description will
-	 * come from an UUTUC factory method such as
+	 * come from an uimaFIT factory method such as
 	 * {@link AnalysisEngineFactory#createPrimitive(Class, org.apache.uima.resource.metadata.TypeSystemDescription, Object...)}
 	 * ).
 	 * 

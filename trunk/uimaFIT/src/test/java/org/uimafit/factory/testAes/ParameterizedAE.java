@@ -39,23 +39,23 @@ import org.uimafit.util.InitializeUtil;
 @SofaCapability(inputSofas= CAS.NAME_DEFAULT_SOFA)
 public class ParameterizedAE extends JCasAnnotator_ImplBase {
 
-	public static final String PARAM_STRING_1 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_STRING_1";
+	public static final String PARAM_STRING_1 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_STRING_1";
 	@ConfigurationParameter(name = PARAM_STRING_1, mandatory = true, defaultValue = "pineapple")
 	private String string1;
 
-	public static final String PARAM_STRING_2 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_STRING_2";
+	public static final String PARAM_STRING_2 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_STRING_2";
 	@ConfigurationParameter(name = PARAM_STRING_2, mandatory = false, defaultValue = { "coconut", "mango" })
 	private String[] string2;
 
-	public static final String PARAM_STRING_3 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_STRING_3";
+	public static final String PARAM_STRING_3 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_STRING_3";
 	@ConfigurationParameter(name = PARAM_STRING_3)
 	private String string3;
 
-	public static final String PARAM_STRING_4 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_STRING_4";
+	public static final String PARAM_STRING_4 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_STRING_4";
 	@ConfigurationParameter(name = PARAM_STRING_4, mandatory = true, defaultValue = "apple")
 	private String[] string4;
 
-	public static final String PARAM_STRING_5 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_STRING_5";
+	public static final String PARAM_STRING_5 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_STRING_5";
 	@ConfigurationParameter(name = PARAM_STRING_5, mandatory = false, defaultValue="")
 	private String[] string5;
 	
@@ -81,11 +81,11 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	private Set<String> strings8;
 	
 	
-	public static final String PARAM_BOOLEAN_1 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_1";
+	public static final String PARAM_BOOLEAN_1 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_1";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_1, mandatory = true, defaultValue = "false")
 	private boolean boolean1;
 
-	public static final String PARAM_BOOLEAN_2 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_2";
+	public static final String PARAM_BOOLEAN_2 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_2";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_2)
 	private Boolean boolean2;
 	@ConfigurationParameter
@@ -95,15 +95,15 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 		return boolean2b;
 	}
 
-	public static final String PARAM_BOOLEAN_3 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_3";
+	public static final String PARAM_BOOLEAN_3 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_3";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_3, mandatory = true, defaultValue = { "true", "true", "false" })
 	private Boolean[] boolean3;
 
-	public static final String PARAM_BOOLEAN_4 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_4";
+	public static final String PARAM_BOOLEAN_4 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_4";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_4, mandatory = true, defaultValue = { "true", "false", "true" })
 	public boolean[] boolean4;
 
-	public static final String PARAM_BOOLEAN_5 = "org.uutuc.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_5";
+	public static final String PARAM_BOOLEAN_5 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_5";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_5, mandatory = true, defaultValue="false")
 	private boolean[] boolean5;
 	
@@ -114,19 +114,19 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 		return booleans6;
 	}
 
-	public static final String PARAM_INT_1= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_INT_1";
+	public static final String PARAM_INT_1= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_1";
 	@ConfigurationParameter(name = PARAM_INT_1, mandatory = true, defaultValue="0")
 	private int int1;
 	
-	public static final String PARAM_INT_2= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_INT_2";
+	public static final String PARAM_INT_2= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_2";
 	@ConfigurationParameter(name = PARAM_INT_2, defaultValue="42")
 	private int int2;
 	
-	public static final String PARAM_INT_3= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_INT_3";
+	public static final String PARAM_INT_3= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_3";
 	@ConfigurationParameter(name = PARAM_INT_3, defaultValue= {"42","111"})
 	private int[] int3;
 
-	public static final String PARAM_INT_4= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_INT_4";
+	public static final String PARAM_INT_4= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_4";
 	@ConfigurationParameter(name = PARAM_INT_4, defaultValue= "2", mandatory = true)
 	private Integer[] int4;
 
@@ -144,31 +144,31 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(name = "ints6", defaultValue= {"1", "2", "3", "4", "5"})
 	private List<Integer> ints6;
 
-	public static final String PARAM_FLOAT_1= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_FLOAT_1";
+	public static final String PARAM_FLOAT_1= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_1";
 	@ConfigurationParameter(name = PARAM_FLOAT_1, mandatory = true, defaultValue="0.0f")
 	private float float1;
 
-	public static final String PARAM_FLOAT_2= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_FLOAT_2";
+	public static final String PARAM_FLOAT_2= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_2";
 	@ConfigurationParameter(name = PARAM_FLOAT_2, mandatory = false, defaultValue="3.1415f")
 	private float float2;
 
-	public static final String PARAM_FLOAT_3= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_FLOAT_3";
+	public static final String PARAM_FLOAT_3= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_3";
 	@ConfigurationParameter(name = PARAM_FLOAT_3, mandatory = true)
 	private float float3;
 
-	public static final String PARAM_FLOAT_4= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_FLOAT_4";
+	public static final String PARAM_FLOAT_4= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_4";
 	@ConfigurationParameter(name = PARAM_FLOAT_4, mandatory = false)
 	private float[] float4;
 
-	public static final String PARAM_FLOAT_5= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_FLOAT_5";
+	public static final String PARAM_FLOAT_5= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_5";
 	@ConfigurationParameter(name = PARAM_FLOAT_5, mandatory = false, defaultValue= {"0.0f", "3.1415f", "2.7182818f"})
 	private float[] float5;
 
-	public static final String PARAM_FLOAT_6= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_FLOAT_6";
+	public static final String PARAM_FLOAT_6= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_6";
 		@ConfigurationParameter(name = PARAM_FLOAT_6, mandatory = true)
 	private Float[] float6;
 
-	public static final String PARAM_FLOAT_7= "org.uutuc.factory.testAes.ParameterizedAE.PARAM_FLOAT_7";
+	public static final String PARAM_FLOAT_7= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_7";
 	@ConfigurationParameter(name = PARAM_FLOAT_7, mandatory = true, defaultValue= {"1.1111f", "2.2222f", "3.333f"})
 	private Float[] float7;
 
