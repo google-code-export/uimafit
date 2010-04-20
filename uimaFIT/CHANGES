@@ -1,3 +1,5 @@
+changes in 0.9.13
+	- changed name from uutuc to uimaFIT
 
 changes in 0.9.12
 	- added method AnalysisEngineFactory.createAnalysisEngineDescription which is now called by createAnalysisEngine

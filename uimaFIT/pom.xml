@@ -1,16 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.uutuc</groupId>
-	<artifactId>uutuc</artifactId>
+	<groupId>org.uimafit</groupId>
+	<artifactId>uimafit</artifactId>
 	<packaging>jar</packaging>
-	<version>0.9.13-SNAPSHOT</version>
-	<name>UUTUC</name>
-	<description>Convenience classes for testing UIMA components</description>
-	<url>http://uutuc.googlecode.com</url>
+	<name>uimaFIT</name>
+	<version>0.9.13</version>
+	<description>Factories, Injection, and Testing library for UIMA</description>
+	<url>http://uimafit.googlecode.com</url>
 	<scm>
-		<connection>scm:svn:http://uutuc.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://uutuc.googlecode.com/svn/trunk/</developerConnection>
-		<url>http://uutuc.googlecode.com/svn/</url>
+		<connection>scm:svn:http://uimafit.googlecode.com/svn/trunk/</connection>
+		<developerConnection>scm:svn:https://uimafit.googlecode.com/svn/trunk/</developerConnection>
+		<url>http://uimafit.googlecode.com/svn/</url>
 	</scm>
 	<repositories>
 		<repository>
@@ -157,7 +157,7 @@
 		<repository>
 			<uniqueVersion>false</uniqueVersion>
 			<id>googlecode</id>
-			<url>svn:https://uutuc.googlecode.com/svn/repo</url>
+			<url>svn:https://uimafit.googlecode.com/svn/repo</url>
 		</repository>
 	</distributionManagement>
 </project>
