@@ -1,5 +1,4 @@
-uimaFIT
- 
+/* 
  Copyright 2009 Regents of the University of Colorado.  
  All rights reserved. 
 
@@ -13,6 +12,33 @@ uimaFIT
  distributed under the License is distributed on an "AS IS" BASIS, 
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
- limitations under the License. 
- 
- The software provided here was originally written by Steven Bethard and Philip Ogren at the University of Colorado at Boulder.
+ limitations under the License.
+*/
+package org.uimafit.util;
+/**
+ * @author Philip Ogren
+ */
+
+import java.util.Iterator;
+
+import org.apache.uima.cas.CASException;
+import org.apache.uima.jcas.JCas;
+import org.junit.Test;
+
+public class JCasIterableTest {
+
+	@Test
+	public void testResetViews() throws CASException {
+		JCas jCas = Util.JCAS.get();
+		jCas.reset();
+		jCas.createView("point");
+		Iterator<?> views = jCas.getViewIterator();
+		while(views.hasNext()) {
+//			JCas view = (JCas) views.next();
+			views.next();
+		}
+		jCas.reset();
+		
+		
+	}
+}

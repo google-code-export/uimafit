@@ -1,5 +1,4 @@
-uimaFIT
- 
+/* 
  Copyright 2009 Regents of the University of Colorado.  
  All rights reserved. 
 
@@ -13,6 +12,22 @@ uimaFIT
  distributed under the License is distributed on an "AS IS" BASIS, 
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
- limitations under the License. 
- 
- The software provided here was originally written by Steven Bethard and Philip Ogren at the University of Colorado at Boulder.
+ limitations under the License.
+*/
+package org.uimafit.factory;
+
+import org.junit.Test;
+import org.uimafit.factory.TypeSystemDescriptionFactory;
+
+/**
+ * @author Steven Bethard, Philip Ogren
+ */
+
+public class TypeSystemDescriptionFactoryTest {
+
+	@Test
+	public void testFromPath() {
+		TypeSystemDescriptionFactory.createTypeSystemDescriptionFromPath("src/test/java/org/uutuc/type/TypeSystem.xml");
+		
+	}
+}
