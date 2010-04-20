@@ -4,13 +4,13 @@
 	<artifactId>uimafit</artifactId>
 	<packaging>jar</packaging>
 	<name>uimaFIT</name>
-	<version>0.9.13-SNAPSHOT</version>
+	<version>0.9.13</version>
 	<description>Factories, Injection, and Testing library for UIMA</description>
 	<url>http://uimafit.googlecode.com</url>
 	<scm>
-		<connection>scm:svn:http://uimafit.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://uimafit.googlecode.com/svn/trunk/</developerConnection>
-		<url>http://uimafit.googlecode.com/svn/</url>
+		<connection>scm:svn:http://uimafit.googlecode.com/svn/tags/uimafit-0.9.13</connection>
+		<developerConnection>scm:svn:https://uimafit.googlecode.com/svn/tags/uimafit-0.9.13</developerConnection>
+		<url>http://uimafit.googlecode.com/svn/tags/uimafit-0.9.13</url>
 	</scm>
 	<repositories>
 		<repository>
