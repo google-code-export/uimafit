@@ -19,7 +19,7 @@
 
 package org.uutuc.tutorial.ex6;
 
-import static org.uutuc.factory.ExternalResourceFactory.bindResource;
+import static org.uimafit.factory.ExternalResourceFactory.bindResource;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,12 +40,12 @@ import org.apache.uima.resource.ExternalResourceDescription;
 import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uutuc.descriptor.ExternalResource;
-import org.uutuc.descriptor.TypeCapability;
-import org.uutuc.factory.AggregateBuilder;
-import org.uutuc.factory.AnalysisEngineFactory;
-import org.uutuc.factory.ExternalResourceFactory;
-import org.uutuc.factory.TypeSystemDescriptionFactory;
+import org.uimafit.descriptor.ExternalResource;
+import org.uimafit.descriptor.TypeCapability;
+import org.uimafit.factory.AggregateBuilder;
+import org.uimafit.factory.AnalysisEngineFactory;
+import org.uimafit.factory.ExternalResourceFactory;
+import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.uutuc.tutorial.type.Meeting;
 import org.uutuc.tutorial.type.UimaMeeting;
 

@@ -28,9 +28,9 @@ import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uutuc.descriptor.TypeCapability;
-import org.uutuc.factory.AnalysisEngineFactory;
-import org.uutuc.factory.TypeSystemDescriptionFactory;
+import org.uimafit.descriptor.TypeCapability;
+import org.uimafit.factory.AnalysisEngineFactory;
+import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.uutuc.tutorial.type.RoomNumber;
 
 /**
