@@ -17,8 +17,11 @@
 
 package org.uimafit.util;
 
+import java.util.Iterator;
+
 import org.apache.uima.cas.FSIndex;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.cas.text.AnnotationIndex;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 /**
@@ -65,4 +68,41 @@ public class AnnotationRetrieval {
 		return cls.cast(returnValue);
 	}
 
+	
+	public static <T> Iterator<T> get(JCas jCas, Class<T> annotationClass) {
+		return new AnnotationIterator<T>(jCas, annotationClass);
+	}
+	
+	public static class AnnotationIterator<T> implements Iterator<T>{
+		
+		FSIterator fsIterator;
+		Class<T> annotationClass;
+		
+		public AnnotationIterator(JCas jCas, Class<T> annotationClass) {
+			int type;
+			try {
+				type = annotationClass.getField("type").getInt(null);
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			AnnotationIndex index = jCas.getAnnotationIndex(type);
+			this.fsIterator = index.iterator();
+			this.annotationClass = annotationClass;
+		}
+		
+		public boolean hasNext() {
+			return fsIterator.hasNext();
+		}
+
+		public T next() {
+			Object next = fsIterator.next();
+			return annotationClass.cast(next);
+		}
+
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+		
+	}
 }
