@@ -17,7 +17,11 @@
 package org.uimafit.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Iterator;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.jcas.JCas;
@@ -26,7 +30,6 @@ import org.uimafit.factory.JCasFactory;
 import org.uimafit.factory.TokenFactory;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
-import org.uimafit.util.AnnotationRetrieval;
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -57,6 +60,23 @@ public class AnnotationRetrievalTest {
 		oobToken = AnnotationRetrieval.get(jCas, Token.class, 4);
 		assertNull(oobToken);
 		
-
+	}
+	
+	@Test
+	public void testIterator() throws Exception {
+		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
+		String text = "Rot wood cheeses dew?";
+		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class);
+		
+		Iterator<Token> tokens = AnnotationRetrieval.get(jCas, Token.class);
+		assertTrue(tokens.hasNext());
+		assertEquals("Rot", tokens.next().getCoveredText());
+		assertTrue(tokens.hasNext());
+		assertEquals("wood", tokens.next().getCoveredText());
+		assertTrue(tokens.hasNext());
+		assertEquals("cheeses", tokens.next().getCoveredText());
+		assertTrue(tokens.hasNext());
+		assertEquals("dew?", tokens.next().getCoveredText());
+		assertFalse(tokens.hasNext());
 	}
 }
