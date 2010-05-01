@@ -4,7 +4,7 @@ First update the javadoc pages:
   * temporarily edit the pom file to specify the release version (rather than the snapshot version)
   * run the following
 {{{ 
->cd uutuc-home-dir
+>cd uimafit-home-dir
 >mvn javadoc:javadoc
 >cp -R target\site\apidocs .
 }}}
@@ -14,7 +14,7 @@ First update the javadoc pages:
 Next run the following:
 
 {{{
->cd uutuc-home-dir
+>cd uimafit-home-dir
 >mvn release:prepare
 >mvn release:perform
 }}}
@@ -22,6 +22,6 @@ This does everything except upload a new downloadable to the project downloads p
 
 One final thing to do is edit the front page to have the correct xml for a project's pom file - i.e. edit the snippet 
 {{{
-<version>0.9.10</version>
+<version>0.9.13</version>
 }}}
 so that it is up-to-date.
