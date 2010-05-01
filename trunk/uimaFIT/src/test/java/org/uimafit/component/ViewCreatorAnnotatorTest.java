@@ -16,7 +16,7 @@
  */
 
 package org.uimafit.component;
-
+ 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -29,7 +29,6 @@ import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.junit.Test;
-import org.uimafit.component.ViewCreatorAnnotator;
 import org.uimafit.descriptor.SofaCapability;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.type.Token;
