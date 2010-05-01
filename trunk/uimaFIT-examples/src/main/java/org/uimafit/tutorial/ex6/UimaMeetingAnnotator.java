@@ -140,7 +140,7 @@ public class UimaMeetingAnnotator extends JCasAnnotator_ImplBase {
 
   public static void main(String[] args) throws Exception {
 		
-		File outputDirectory = new File("src/main/resources/org/uutuc/tutorial/ex6/");
+		File outputDirectory = new File("src/main/resources/org/uimafit/tutorial/ex6/");
 		outputDirectory.mkdirs();
 		
 		TypeSystemDescription tsd = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.tutorial.type.TypeSystem");
@@ -153,7 +153,7 @@ public class UimaMeetingAnnotator extends JCasAnnotator_ImplBase {
 		builder.add(AnalysisEngineFactory.createAnalysisEngineDescription("org.uimafit.tutorial.ex6.UimaMeetingAnnotator"));
 		AnalysisEngineDescription aggregate = builder.createAggregateDescription();
 
-		ExternalResourceDescription erd = ExternalResourceFactory.createExternalResourceDescription("UimaAcronymTableFile", StringMapResource_impl.class, "file:org/uutuc/tutorial/ex6/uimaAcronyms.txt");
+		ExternalResourceDescription erd = ExternalResourceFactory.createExternalResourceDescription("UimaAcronymTableFile", StringMapResource_impl.class, "file:org/uimafit/tutorial/ex6/uimaAcronyms.txt");
 		
 //		bindResource(aggregate, UimaAcronymAnnotator.class.getName()+"/"+UimaAcronymAnnotator.RESOURCE_ACRONYM_TABLE, erd);
 		bindResource(aggregate, RESOURCE_UIMA_TERM_TABLE, erd); //UimaMeetingAnnotator.class.getName()+"/"+

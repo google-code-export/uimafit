@@ -78,13 +78,13 @@ public class UimaAcronymAnnotator extends JCasAnnotator_ImplBase {
   public static AnalysisEngineDescription createDescription() throws InvalidXMLException, ResourceInitializationException {
 		TypeSystemDescription tsd = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.tutorial.type.TypeSystem");
 		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(UimaAcronymAnnotator.class, tsd);
-		ExternalResourceDescription erd = ExternalResourceFactory.createExternalResourceDescription("UimaAcronymTableFile", StringMapResource_impl.class, "file:org/uutuc/tutorial/ex6/uimaAcronyms.txt");
+		ExternalResourceDescription erd = ExternalResourceFactory.createExternalResourceDescription("UimaAcronymTableFile", StringMapResource_impl.class, "file:org/uimafit/tutorial/ex6/uimaAcronyms.txt");
 		bindResource(aed, RESOURCE_ACRONYM_TABLE, erd);
 		return aed;
   }
   
   public static void main(String[] args) throws Exception {
-		File outputDirectory = new File("src/main/resources/org/uutuc/tutorial/ex6/");
+		File outputDirectory = new File("src/main/resources/org/uimafit/tutorial/ex6/");
 		outputDirectory.mkdirs();
 		AnalysisEngineDescription aed = createDescription();
 		aed.toXML(new FileOutputStream(new File(outputDirectory, "UimaAcronymAnnotator.xml")));
