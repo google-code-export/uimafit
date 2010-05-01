@@ -34,7 +34,7 @@ import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.type.Token;
 import org.uimafit.util.AnnotationRetrieval;
 import org.uimafit.util.Util;
-
+ 
 /**
  * I initially thought that the behavior of mapping the default view to another
  * yet-to-be-created view might be different for sofa aware and sofa unaware
