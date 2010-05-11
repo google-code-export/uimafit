@@ -128,10 +128,8 @@ public class AggregateBuilder {
 			sofaMappings.add(SofaMappingFactory.createSofaMapping(componentName, componentViewName, aggregateViewName));
 		}
 		else {
-			throw new IllegalArgumentException(
-					"No component with the name '"
-							+ componentName
-							+ "' has been added to this builder.  Sofa mappings may only be added for components that have been added to this builder. ");
+			throw new IllegalArgumentException("No component with the name '" + componentName
+					+ "' has been added to this builder.  Sofa mappings may only be added for components that have been added to this builder. ");
 		}
 	}
 
@@ -144,8 +142,8 @@ public class AggregateBuilder {
 	 * @throws ResourceInitializationException
 	 */
 	public AnalysisEngine createAggregate() throws ResourceInitializationException {
-		return AnalysisEngineFactory.createAggregate(analysisEngineDescriptions, componentNames, typeSystemDescription,
-				typePriorities, sofaMappings.toArray(new SofaMapping[sofaMappings.size()]));
+		return AnalysisEngineFactory.createAggregate(analysisEngineDescriptions, componentNames, typeSystemDescription, typePriorities, sofaMappings
+				.toArray(new SofaMapping[sofaMappings.size()]));
 	}
 
 	/**
@@ -157,8 +155,8 @@ public class AggregateBuilder {
 	 * @throws ResourceInitializationException
 	 */
 	public AnalysisEngineDescription createAggregateDescription() throws ResourceInitializationException {
-		return AnalysisEngineFactory.createAggregateDescription(analysisEngineDescriptions, componentNames,
-				typeSystemDescription, typePriorities, sofaMappings.toArray(new SofaMapping[sofaMappings.size()]));
+		return AnalysisEngineFactory.createAggregateDescription(analysisEngineDescriptions, componentNames, typeSystemDescription, typePriorities,
+				sofaMappings.toArray(new SofaMapping[sofaMappings.size()]));
 	}
 
 }
