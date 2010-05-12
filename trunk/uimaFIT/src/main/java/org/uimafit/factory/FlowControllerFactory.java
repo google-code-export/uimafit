@@ -27,7 +27,7 @@ import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
 
 /**
- * @author Philip Ogren
+ * @author Fabio Mancinelli, Philip Ogren
  */
 
 public class FlowControllerFactory {

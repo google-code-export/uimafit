@@ -62,7 +62,7 @@ import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
 import org.uimafit.util.ReflectionUtil;
 
 /**
- * @author Steven Bethard, Philip Ogren
+ * @author Steven Bethard, Philip Ogren, Fabio Mancinelli
  */
 public class AnalysisEngineFactory
 {
