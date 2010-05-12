@@ -36,7 +36,7 @@ import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
 /**
- * @author Philip Ogren
+ * @author Philip Ogren, Fabio Mancinelli
  * 
  * NOTE: this class extends org.uimafit.component.JCasFlowController_ImplBase
  */
