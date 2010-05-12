@@ -23,6 +23,7 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
+import org.uimafit.component.ViewCreatorAnnotator;
 import org.uimafit.descriptor.SofaCapability;
 
 /**
@@ -35,7 +36,7 @@ public class Annotator2 extends JCasAnnotator_ImplBase {
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		try {
-			JCas sortedView = jCas.createView(ViewNames.SORTED_VIEW);
+			JCas sortedView = ViewCreatorAnnotator.createViewSafely(jCas, ViewNames.SORTED_VIEW);
 			jCas = jCas.getView(CAS.NAME_DEFAULT_SOFA);
 			String initialText = jCas.getDocumentText();
 			char[] chars = initialText.toCharArray();
@@ -43,7 +44,7 @@ public class Annotator2 extends JCasAnnotator_ImplBase {
 			String sortedText = new String(chars).trim();
 			sortedView.setDocumentText(sortedText);
 
-			sortedView = jCas.createView(ViewNames.SORTED_PARENTHESES_VIEW);
+			sortedView = ViewCreatorAnnotator.createViewSafely(jCas, ViewNames.SORTED_PARENTHESES_VIEW);
 			JCas parenthesesView = jCas.getView(ViewNames.PARENTHESES_VIEW);
 			String parenthesesText = parenthesesView.getDocumentText();
 			chars = parenthesesText.toCharArray();

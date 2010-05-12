@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.metadata.SofaMapping;
+import org.apache.uima.flow.FlowControllerDescription;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
@@ -38,7 +39,6 @@ import org.apache.uima.resource.metadata.TypeSystemDescription;
  * AnalysisEngineDescription is returned.
  * 
  * @author Philip Ogren
- * 
  */
 public class AggregateBuilder {
 
@@ -52,13 +52,17 @@ public class AggregateBuilder {
 
 	TypePriorities typePriorities;
 
+	 FlowControllerDescription flowControllerDescription;
+
 	public AggregateBuilder() {
-		this(null, null);
+		this(null, null, null);
 	}
 
-	public AggregateBuilder(TypeSystemDescription typeSystemDescription, TypePriorities typePriorities) {
+	public AggregateBuilder(TypeSystemDescription typeSystemDescription, TypePriorities typePriorities,
+			 FlowControllerDescription flowControllerDescription) {
 		this.typeSystemDescription = typeSystemDescription;
 		this.typePriorities = typePriorities;
+		this.flowControllerDescription = flowControllerDescription;
 	}
 
 	/**
@@ -100,7 +104,6 @@ public class AggregateBuilder {
 	 *            even number of names must be passed in or else an
 	 *            IllegalArgumentException will be thrown. See
 	 *            {@link SofaMappingFactory#createSofaMapping(String, String, String)}
-	 * 
 	 */
 	public void add(String componentName, AnalysisEngineDescription aed, String... viewNames) {
 		if (componentNames.contains(componentName)) {
@@ -128,11 +131,13 @@ public class AggregateBuilder {
 			sofaMappings.add(SofaMappingFactory.createSofaMapping(componentName, componentViewName, aggregateViewName));
 		}
 		else {
-			throw new IllegalArgumentException(
-					"No component with the name '"
-							+ componentName
-							+ "' has been added to this builder.  Sofa mappings may only be added for components that have been added to this builder. ");
+			throw new IllegalArgumentException("No component with the name '" + componentName
+					+ "' has been added to this builder.  Sofa mappings may only be added for components that have been added to this builder. ");
 		}
+	}
+
+	public void setFlowControllerDescription( FlowControllerDescription flowControllerDescription) {
+		this.flowControllerDescription = flowControllerDescription;
 	}
 
 	/**
@@ -145,7 +150,7 @@ public class AggregateBuilder {
 	 */
 	public AnalysisEngine createAggregate() throws ResourceInitializationException {
 		return AnalysisEngineFactory.createAggregate(analysisEngineDescriptions, componentNames, typeSystemDescription,
-				typePriorities, sofaMappings.toArray(new SofaMapping[sofaMappings.size()]));
+				typePriorities, sofaMappings.toArray(new SofaMapping[sofaMappings.size()]),  flowControllerDescription);
 	}
 
 	/**
@@ -158,7 +163,7 @@ public class AggregateBuilder {
 	 */
 	public AnalysisEngineDescription createAggregateDescription() throws ResourceInitializationException {
 		return AnalysisEngineFactory.createAggregateDescription(analysisEngineDescriptions, componentNames,
-				typeSystemDescription, typePriorities, sofaMappings.toArray(new SofaMapping[sofaMappings.size()]));
+				typeSystemDescription, typePriorities, sofaMappings.toArray(new SofaMapping[sofaMappings.size()]), flowControllerDescription);
 	}
 
 }

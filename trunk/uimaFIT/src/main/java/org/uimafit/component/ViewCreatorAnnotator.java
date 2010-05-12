@@ -57,17 +57,30 @@ public class ViewCreatorAnnotator extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
+		createViewSafely(jCas, viewName);
+	}
+
+	/**
+	 * Provides a simple call that allows you to safely create a view if it has not been created yet.  If the view already
+	 * exists, it is ok to call this method anyways without worrying about checking for this yet.  
+	 * @param jCas
+	 * @param viewName
+	 * @return true if the view was created as a result of calling this method.  false if the view already existed.
+	 * @throws AnalysisEngineProcessException
+	 */
+	public static JCas createViewSafely(JCas jCas, String viewName) throws AnalysisEngineProcessException {
 		try {
 			try {
-				jCas.getView(viewName);
+				return jCas.getView(viewName);
 			}
 			catch (CASRuntimeException ce) {
-				jCas.createView(viewName);
+				return jCas.createView(viewName);
 			}
 		}
 		catch (CASException ce) {
 			throw new AnalysisEngineProcessException(ce);
 		}
+		
 	}
-
+	
 }

@@ -1,5 +1,5 @@
 /* 
-  Copyright 2009 Regents of the University of Colorado.  
+  Copyright 2010 Regents of the University of Colorado.  
  All rights reserved. 
 
  Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -13,38 +13,28 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uimafit.factory.testAes;
 
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.CAS;
-import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
-import org.uimafit.component.ViewCreatorAnnotator;
-import org.uimafit.descriptor.SofaCapability;
+import org.uimafit.type.TypeSystemUtil;
 
 /**
  * @author Philip Ogren
  */
-@SofaCapability(inputSofas=CAS.NAME_DEFAULT_SOFA, outputSofas=ViewNames.REVERSE_VIEW)
-public class Annotator3 extends JCasAnnotator_ImplBase {
+
+public class FlowAE3 extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
-		try {
-			jCas = jCas.getView(CAS.NAME_DEFAULT_SOFA);
-			String text = jCas.getDocumentText();
-			String reverseText = reverse(text);
-			JCas reverseView = ViewCreatorAnnotator.createViewSafely(jCas, ViewNames.REVERSE_VIEW);
-			reverseView.setDocumentText(reverseText);
-		}
-		catch (CASException e) {
-			throw new AnalysisEngineProcessException(e);
-		}
+		String analyzedText = TypeSystemUtil.getAnalyzedText(jCas);
+		String reverseText = reverse(analyzedText);
+		org.uimafit.type.TypeSystemUtil.setAnalyzedText(jCas, reverseText);
 	}
 
-	private String reverse(String string) {
+	public static String reverse(String string) {
 		int stringLength = string.length();
 		StringBuffer returnValue = new StringBuffer();
 
@@ -53,6 +43,5 @@ public class Annotator3 extends JCasAnnotator_ImplBase {
 		}
 		return returnValue.toString();
 	}
-	
 
 }
