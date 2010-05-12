@@ -1,5 +1,5 @@
 /* 
- Copyright 2009 Regents of the University of Colorado.  
+ Copyright 2010 Regents of the University of Colorado.  
  All rights reserved. 
 
  Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -18,33 +18,21 @@ package org.uimafit.factory.testAes;
 
 
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.CAS;
-import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.component.ViewCreatorAnnotator;
-import org.uimafit.descriptor.SofaCapability;
+import org.uimafit.type.TypeSystemUtil;
 
 /**
  * @author Philip Ogren
  */
 
-@SofaCapability(inputSofas = CAS.NAME_DEFAULT_SOFA, outputSofas = ViewNames.PARENTHESES_VIEW)
-public class Annotator1 extends JCasAnnotator_ImplBase {
+public class FlowAE1 extends JCasAnnotator_ImplBase {
 	
-		@Override
+	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
-		try {
-			JCas parentheticalView = ViewCreatorAnnotator.createViewSafely(jCas, ViewNames.PARENTHESES_VIEW);
-			jCas = jCas.getView(CAS.NAME_DEFAULT_SOFA);
-			String initialText = jCas.getDocumentText();
-			String parentheticalText = initialText.replaceAll("[aeiou]+", "($0)");
-			parentheticalView.setDocumentText(parentheticalText);
-		}
-		catch (CASException e) {
-			throw new AnalysisEngineProcessException(e);
-		}
-		
+			String analyzedText = TypeSystemUtil.getAnalyzedText(jCas);
+			String parentheticalText = analyzedText.replaceAll("[aeiou]+", "($0)");
+			TypeSystemUtil.setAnalyzedText(jCas, parentheticalText);
 	}
 
 }
