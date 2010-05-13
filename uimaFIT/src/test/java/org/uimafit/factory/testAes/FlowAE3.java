@@ -19,7 +19,7 @@ package org.uimafit.factory.testAes;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
-import org.uimafit.type.TypeSystemUtil;
+import org.uimafit.util.TypeSystemUtil;
 
 /**
  * @author Philip Ogren
@@ -31,7 +31,7 @@ public class FlowAE3 extends JCasAnnotator_ImplBase {
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		String analyzedText = TypeSystemUtil.getAnalyzedText(jCas);
 		String reverseText = reverse(analyzedText);
-		org.uimafit.type.TypeSystemUtil.setAnalyzedText(jCas, reverseText);
+		org.uimafit.util.TypeSystemUtil.setAnalyzedText(jCas, reverseText);
 	}
 
 	public static String reverse(String string) {
