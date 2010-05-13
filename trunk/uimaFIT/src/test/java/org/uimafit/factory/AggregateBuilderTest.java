@@ -40,10 +40,10 @@ import org.uimafit.factory.testAes.ReversableTestFlowController;
 import org.uimafit.factory.testAes.ViewNames;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
-import org.uimafit.type.TypeSystemUtil;
 import org.uimafit.util.JCasAnnotatorAdapter;
 import org.uimafit.util.SimplePipeline;
 import org.uimafit.util.SingleFileXReader;
+import org.uimafit.util.TypeSystemUtil;
 import org.uimafit.util.Util;
 import org.xml.sax.SAXException;
 
