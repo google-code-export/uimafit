@@ -26,7 +26,6 @@ import java.io.PrintStream;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.uimafit.util.TearDownUtil;
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -59,7 +58,7 @@ public class TearDownUtilTest {
 		assertFalse(subDir.exists());
 		assertFalse(removeDir.exists());
 		
-		TearDownUtil.removeDirectory(new File("test/data"));
+		TearDownUtil.removeDirectory(new File("test"));
 	}
 	
 	@Test
@@ -82,7 +81,7 @@ public class TearDownUtilTest {
 		TearDownUtil.removeDirectory(emptyDir);
 		assertFalse(emptyDir.exists());
 
-		TearDownUtil.removeDirectory(new File("test/data"));
+		TearDownUtil.removeDirectory(new File("test"));
 
 	}
 }
