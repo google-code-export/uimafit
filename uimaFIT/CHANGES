@@ -1,5 +1,7 @@
 changes in 1.0
     - fixed issue #18 "support for different flow controllers in aggregate AEs"
+	- resolved issue #14 "move XWriter into uimaFIT from ClearTK"
+	- resolved issue #15 "move XWriter into uimaFIT from ClearTK"
 
 changes in 0.9.13
 	- changed name from uutuc to uimaFIT - see issue #1 "moving uutuc to UimaFIT" (issue number corresponds to uimafit issues)
