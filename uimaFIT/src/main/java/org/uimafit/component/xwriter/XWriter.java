@@ -111,8 +111,8 @@ public class XWriter extends JCasAnnotator_ImplBase {
 		}
 	}
 
-	private void writeXCas(CAS aCas, String id) throws IOException, SAXException {
-		File outFile = new File(outputDirectory, id + ".xcas");
+	private void writeXCas(CAS aCas, String fileName) throws IOException, SAXException {
+		File outFile = new File(outputDirectory, fileName + ".xcas");
 		FileOutputStream out = null;
 		try {
 			out = new FileOutputStream(outFile);
