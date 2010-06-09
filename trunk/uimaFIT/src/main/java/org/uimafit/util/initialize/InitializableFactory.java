@@ -60,7 +60,7 @@ public class InitializableFactory {
 		return instance;
 	}
 
-	private static void initialize(Object object, UimaContext context) throws ResourceInitializationException {
+	public static void initialize(Object object, UimaContext context) throws ResourceInitializationException {
 		if (object instanceof Initializable) {
 			((Initializable) object).initialize(context);
 		}
