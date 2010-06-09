@@ -38,7 +38,7 @@ public class InitializableFactory {
 		return create(context, cls);
 	}
 
-	private static <T> Class<? extends T> getClass(String className, Class<T> superClass) throws ResourceInitializationException {
+	public static <T> Class<? extends T> getClass(String className, Class<T> superClass) throws ResourceInitializationException {
 		try {
 			Class<? extends T> cls = Class.forName(className).asSubclass(superClass);
 			return cls;
