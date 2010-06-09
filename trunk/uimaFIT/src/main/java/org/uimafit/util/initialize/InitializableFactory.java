@@ -64,9 +64,6 @@ public class InitializableFactory {
 		if (object instanceof Initializable) {
 			((Initializable) object).initialize(context);
 		}
-//		else if(object instanceof AnalysisComponent) {
-//			((AnalysisComponent) object).initialize(context);
-//		}
 	}
 
 }
