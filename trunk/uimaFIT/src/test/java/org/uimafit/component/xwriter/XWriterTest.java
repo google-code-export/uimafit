@@ -28,6 +28,7 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.FileUtils;
 import org.jdom.Document;
@@ -181,5 +182,11 @@ public class XWriterTest {
 		Assert.assertEquals(4, elements.size());
 		
 	}
+
+	@Test (expected=ResourceInitializationException.class)
+	public void testBadXmlSchemeName() throws ResourceInitializationException {
+		AnalysisEngineFactory.createPrimitive(XWriter.class, Util.TYPE_SYSTEM_DESCRIPTION, XWriter.PARAM_XML_SCHEME_NAME, "xcas");
+	}
+
 
 }
