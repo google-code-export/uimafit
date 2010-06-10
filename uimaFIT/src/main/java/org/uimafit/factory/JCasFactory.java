@@ -16,16 +16,19 @@
 */
 package org.uimafit.factory;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
-import org.apache.uima.collection.CollectionReader;
+import org.apache.uima.cas.CAS;
+import org.apache.uima.cas.impl.XCASDeserializer;
+import org.apache.uima.cas.impl.XmiCasDeserializer;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.uimafit.util.JCasAnnotatorAdapter;
-import org.uimafit.util.JCasIterable;
-import org.uimafit.util.SingleFileXReader;
+import org.xml.sax.SAXException;
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -61,18 +64,40 @@ public class JCasFactory {
 
 	public static JCas createJCas(String xmiFileName, TypeSystemDescription typeSystemDescription, boolean isXmi)
 			throws UIMAException, IOException {
-		if (isXmi) {
-			CollectionReader reader = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, typeSystemDescription,
-					SingleFileXReader.PARAM_XML_SCHEME, "XMI", SingleFileXReader.PARAM_FILE_NAME, xmiFileName);
-
-			return new JCasIterable(reader).next();
-		} else {
-			CollectionReader reader = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, typeSystemDescription,
-					SingleFileXReader.PARAM_XML_SCHEME, "XCAS", SingleFileXReader.PARAM_FILE_NAME, xmiFileName);
-
-			return new JCasIterable(reader).next();
-		}
+		JCas jCas = createJCas(typeSystemDescription);
+		loadJCas(jCas, xmiFileName, isXmi);
+		return jCas;
 	}
 
+	public static void loadJCas(JCas jCas, String xmiFileName) throws IOException {
+		loadJCas(jCas, xmiFileName, true);
+	}
+	public static void loadJCas(JCas jCas, String xmlFileName, boolean isXmi) throws IOException {
+		FileInputStream inputStream = new FileInputStream(xmlFileName);
+		loadJCas(jCas, inputStream, isXmi);
+	}
+
+	public static void loadJCas(JCas jCas, InputStream xmiInputStream) throws IOException {
+		loadJCas(jCas, xmiInputStream, true);
+	}
+	
+	public static void loadJCas(JCas jCas, InputStream xmlInputStream, boolean isXmi) throws IOException {
+		jCas.reset();
+		try {
+			CAS cas = jCas.getCas();
+			if (isXmi) {
+				XmiCasDeserializer.deserialize(xmlInputStream, cas);
+			}
+			else {
+				XCASDeserializer.deserialize(xmlInputStream, cas);
+			}
+		}
+		catch (SAXException e) {
+			throw new IOException(e);
+		}
+		finally {
+			xmlInputStream.close();
+		}
+	}
 
 }

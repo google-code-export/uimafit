@@ -21,15 +21,13 @@ import java.io.IOException;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
-import org.apache.uima.collection.CollectionReader;
+import org.apache.uima.jcas.JCas;
 import org.junit.Test;
 import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.CollectionReaderFactory;
+import org.uimafit.factory.JCasFactory;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
 import org.uimafit.factory.testAes.Annotator3;
-import org.uimafit.util.SimplePipeline;
-import org.uimafit.util.SingleFileXReader;
 
 /**
  * @author Philip Ogren
@@ -39,13 +37,12 @@ public class SimplePipelineTest {
 
 	@Test
 	public void test1() throws UIMAException, IOException {
-		CollectionReader cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, 
-				Util.TYPE_SYSTEM_DESCRIPTION, SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
-				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
+		JCas jCas = Util.JCAS.get();
+		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xmi");
 		AnalysisEngineDescription aed1 = AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, Util.TYPE_SYSTEM_DESCRIPTION);
 		AnalysisEngineDescription aed2 = AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, Util.TYPE_SYSTEM_DESCRIPTION);
 		AnalysisEngineDescription aed3 = AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, Util.TYPE_SYSTEM_DESCRIPTION);
-		SimplePipeline.runPipeline(cr, aed1, aed2, aed3);
+		SimplePipeline.runPipeline(jCas, aed1, aed2, aed3);
 		
 	}
 }

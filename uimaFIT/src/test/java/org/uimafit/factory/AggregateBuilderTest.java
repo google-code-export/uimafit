@@ -24,7 +24,6 @@ import java.io.IOException;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
-import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.flow.FlowControllerDescription;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
@@ -42,7 +41,6 @@ import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 import org.uimafit.util.JCasAnnotatorAdapter;
 import org.uimafit.util.SimplePipeline;
-import org.uimafit.util.SingleFileXReader;
 import org.uimafit.util.TypeSystemUtil;
 import org.uimafit.util.Util;
 import org.xml.sax.SAXException;
@@ -75,12 +73,10 @@ public class AggregateBuilderTest {
 		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C").getDocumentText());
 		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
 
-		CollectionReader cr = CollectionReaderFactory
-				.createCollectionReader(SingleFileXReader.class, Util.TYPE_SYSTEM_DESCRIPTION, SingleFileXReader.PARAM_FILE_NAME,
-						"src/test/resources/data/docs/test.xmi", SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
+		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xmi");
 		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, Util.TYPE_SYSTEM_DESCRIPTION);
 
-		SimplePipeline.runPipeline(cr, ae1, aggregateEngine);
+		SimplePipeline.runPipeline(jCas, ae1, aggregateEngine);
 
 		AnalysisEngineDescription aggregateDescription = builder.createAggregateDescription();
 		builder = new AggregateBuilder();

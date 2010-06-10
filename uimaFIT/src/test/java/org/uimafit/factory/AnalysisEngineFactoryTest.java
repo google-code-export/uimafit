@@ -40,7 +40,6 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.analysis_engine.metadata.SofaMapping;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.FSIterator;
-import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.Capability;
@@ -51,11 +50,6 @@ import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypePriorityList;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Test;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.CollectionReaderFactory;
-import org.uimafit.factory.SofaMappingFactory;
-import org.uimafit.factory.TokenFactory;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
 import org.uimafit.factory.testAes.Annotator3;
@@ -67,7 +61,6 @@ import org.uimafit.type.Token;
 import org.uimafit.util.AnnotationRetrieval;
 import org.uimafit.util.JCasAnnotatorAdapter;
 import org.uimafit.util.SimplePipeline;
-import org.uimafit.util.SingleFileXReader;
 import org.uimafit.util.Util;
 import org.xml.sax.SAXException;
 
@@ -216,13 +209,11 @@ public class AnalysisEngineFactoryTest {
 		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C").getDocumentText());
 		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
 
-		CollectionReader cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class,
-				Util.TYPE_SYSTEM_DESCRIPTION, SingleFileXReader.PARAM_FILE_NAME,
-				"src/test/resources/data/docs/test.xmi", SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
+		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xmi");
 		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class,
 				Util.TYPE_SYSTEM_DESCRIPTION);
 
-		SimplePipeline.runPipeline(cr, ae1, aggregateEngine);
+		SimplePipeline.runPipeline(jCas, ae1, aggregateEngine);
 
 	}
 

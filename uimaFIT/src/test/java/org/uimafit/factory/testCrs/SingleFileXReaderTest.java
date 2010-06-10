@@ -14,7 +14,7 @@
  See the License for the specific language governing permissions and 
  limitations under the License.
 */
-package org.uimafit.util;
+package org.uimafit.factory.testCrs;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -32,7 +32,6 @@ import org.uimafit.factory.CollectionReaderFactory;
 import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.uimafit.util.HideOutput;
 import org.uimafit.util.JCasIterable;
-import org.uimafit.util.SingleFileXReader;
 /**
  * @author Steven Bethard, Philip Ogren
  */

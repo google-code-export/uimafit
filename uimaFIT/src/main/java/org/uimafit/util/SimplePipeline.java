@@ -45,6 +45,11 @@ public class SimplePipeline {
 	 */
 	public static void runPipeline(CollectionReader reader, AnalysisEngineDescription... descs) throws UIMAException,
 			IOException {
+		AnalysisEngine[] engines = createEngines(descs);
+		runPipeline(reader, engines);
+	}
+
+	private static AnalysisEngine[] createEngines(AnalysisEngineDescription... descs) throws UIMAException {
 		AnalysisEngine[] engines = new AnalysisEngine[descs.length];
 		for (int i = 0; i < engines.length; ++i) {
 			if (descs[i].isPrimitive()) {
@@ -54,9 +59,10 @@ public class SimplePipeline {
 				engines[i] = AnalysisEngineFactory.createAggregate(descs[i]);
 			}
 		}
-		runPipeline(reader, engines);
+		return engines;
+		
 	}
-
+	
 	public static void runPipeline(CollectionReader reader, AnalysisEngine... engines) throws UIMAException,
 			IOException {
 		for (JCas jCas : new JCasIterable(reader, engines)) {
@@ -66,6 +72,21 @@ public class SimplePipeline {
 			engine.collectionProcessComplete();
 		}
 		reader.close();
+	}
+
+	public static void runPipeline(JCas jCas, AnalysisEngineDescription... descs) throws UIMAException, IOException {
+		AnalysisEngine[] engines = createEngines(descs);
+		runPipeline(jCas, engines);
+	}
+
+	public static void runPipeline(JCas jCas, AnalysisEngine... engines) throws UIMAException, IOException {
+		for (AnalysisEngine engine : engines) {
+			engine.process(jCas);
+		}
+
+		for (AnalysisEngine engine : engines) {
+			engine.collectionProcessComplete();
+		}
 	}
 
 }

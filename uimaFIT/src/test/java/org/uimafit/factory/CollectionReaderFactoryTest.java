@@ -31,12 +31,10 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.Progress;
 import org.junit.Test;
-import org.uimafit.factory.CollectionReaderFactory;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
+import org.uimafit.factory.testCrs.SingleFileXReader;
 import org.uimafit.type.Token;
 import org.uimafit.util.AnnotationRetrieval;
 import org.uimafit.util.JCasIterable;
-import org.uimafit.util.SingleFileXReader;
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -45,7 +43,9 @@ public class CollectionReaderFactoryTest {
 
 	@Test
 	public void testCreateCollectionReader() throws UIMAException, IOException {
+		
 		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.type.TypeSystem");
+		
 		CollectionReader reader = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, 
 				typeSystemDescription, SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
 				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
@@ -60,7 +60,7 @@ public class CollectionReaderFactoryTest {
 		assertEquals("all", token.getStem());
 
 		
-		reader = CollectionReaderFactory.createCollectionReader("org.uimafit.util.SingleFileXReader", 
+		reader = CollectionReaderFactory.createCollectionReader("org.uimafit.factory.testCrs.SingleFileXReader", 
 				SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
 				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
 
@@ -74,7 +74,7 @@ public class CollectionReaderFactoryTest {
 		assertEquals(".", token.getStem());
 
 		
-		reader = CollectionReaderFactory.createCollectionReaderFromPath("src/main/resources/org/uimafit/util/SingleFileXReader.xml", 
+		reader = CollectionReaderFactory.createCollectionReaderFromPath("src/test/resources/org/uimafit/factory/testCrs/SingleFileXReader.xml", 
 				SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
 				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
 

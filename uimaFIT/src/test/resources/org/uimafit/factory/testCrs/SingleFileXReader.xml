@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collectionReaderDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
-  <implementationName>org.uimafit.util.SingleFileXReader</implementationName>
+  <implementationName>org.uimafit.factory.testCrs.SingleFileXReader</implementationName>
   <processingResourceMetaData>
     <name>SingleFileXReader</name>
     <description>/* 
@@ -24,13 +24,13 @@
     <vendor/>
     <configurationParameters>
       <configurationParameter>
-        <name>org.uimafit.util.SingleFileXReader.fileName</name>
+        <name>org.uimafit.factory.testCrs.SingleFileXReader.fileName</name>
         <type>String</type>
         <multiValued>false</multiValued>
         <mandatory>true</mandatory>
       </configurationParameter>
       <configurationParameter>
-        <name>org.uimafit.util.SingleFileXReader.xmlScheme</name>
+        <name>org.uimafit.factory.testCrs.SingleFileXReader.xmlScheme</name>
         <type>String</type>
         <multiValued>false</multiValued>
         <mandatory>false</mandatory>
