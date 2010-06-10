@@ -15,7 +15,7 @@
  limitations under the License.
  */
 
-package org.uimafit.util.initialize;
+package org.uimafit.factory.initializable;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.resource.ResourceInitializationException;

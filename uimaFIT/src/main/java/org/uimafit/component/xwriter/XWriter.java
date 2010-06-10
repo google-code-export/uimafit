@@ -33,8 +33,8 @@ import org.apache.uima.util.XMLSerializer;
 import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
+import org.uimafit.factory.initializable.InitializableFactory;
 import org.uimafit.util.InitializeUtil;
-import org.uimafit.util.initialize.InitializableFactory;
 import org.xml.sax.SAXException;
 
 /**

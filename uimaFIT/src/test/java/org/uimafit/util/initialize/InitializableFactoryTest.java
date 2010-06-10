@@ -30,6 +30,8 @@ import org.uimafit.component.xwriter.FileNamer;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
 import org.uimafit.factory.UimaContextFactory;
+import org.uimafit.factory.initializable.Initializable;
+import org.uimafit.factory.initializable.InitializableFactory;
 import org.uimafit.util.InitializeUtil;
 
 /**
