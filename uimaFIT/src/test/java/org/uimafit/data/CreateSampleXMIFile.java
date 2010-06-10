@@ -24,7 +24,7 @@ import org.apache.uima.cas.impl.XmiCasSerializer;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.util.XMLSerializer;
 import org.uimafit.factory.JCasFactory;
-import org.uimafit.factory.TokenFactory;
+import org.uimafit.testing.factory.TokenFactory;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 import org.xml.sax.SAXException;

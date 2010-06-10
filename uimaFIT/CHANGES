@@ -1,4 +1,5 @@
 changes in 1.0
+	- resolved issue #8 "rearrange util package"
     - resolved issue #19 "Clean up JCasFactory methods that have xmi file names as a parameter"
     - fixed issue #18 "support for different flow controllers in aggregate AEs"
 	- resolved issue #14 "move XWriter into uimaFIT from ClearTK"

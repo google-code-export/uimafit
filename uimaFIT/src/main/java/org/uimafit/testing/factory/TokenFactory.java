@@ -15,7 +15,7 @@
  limitations under the License.
 */
 
-package org.uimafit.factory;
+package org.uimafit.testing.factory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,7 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
+import org.uimafit.factory.AnnotationFactory;
 
 /**
  * This class was written as a simple way to populate a JCas with tokens along

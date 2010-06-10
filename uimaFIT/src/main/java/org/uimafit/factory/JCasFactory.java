@@ -27,7 +27,7 @@ import org.apache.uima.cas.impl.XCASDeserializer;
 import org.apache.uima.cas.impl.XmiCasDeserializer;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.uimafit.util.JCasAnnotatorAdapter;
+import org.uimafit.component.JCasAnnotatorAdapter;
 import org.xml.sax.SAXException;
 /**
  * @author Steven Bethard, Philip Ogren

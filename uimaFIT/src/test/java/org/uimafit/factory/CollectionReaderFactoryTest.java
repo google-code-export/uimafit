@@ -32,9 +32,9 @@ import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.Progress;
 import org.junit.Test;
 import org.uimafit.factory.testCrs.SingleFileXReader;
+import org.uimafit.pipeline.JCasIterable;
 import org.uimafit.type.Token;
 import org.uimafit.util.AnnotationRetrieval;
-import org.uimafit.util.JCasIterable;
 /**
  * @author Steven Bethard, Philip Ogren
  */

@@ -25,8 +25,6 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.UIMA_IllegalArgumentException;
 import org.apache.uima.resource.ResourceCreationSpecifier;
 import org.junit.Test;
-import org.uimafit.factory.ResourceCreationSpecifierFactory;
-import org.uimafit.factory.UimaContextFactory;
 import org.uimafit.factory.testAes.ParameterizedAE;
 /**
  * @author Steven Bethard, Philip Ogren
@@ -39,7 +37,7 @@ public class ResourceCreationSpecifierFactoryTest {
 	public void test2() throws UIMAException, IOException {
 		IllegalArgumentException iae = null;
 		try {
-			ResourceCreationSpecifierFactory.createResourceCreationSpecifier("src/main/resources/org/uimafit/util/JCasAnnotatorAdapter.xml", new String[] {"test"});
+			ResourceCreationSpecifierFactory.createResourceCreationSpecifier("src/main/resources/org/uimafit/component/JCasAnnotatorAdapter.xml", new String[] {"test"});
 		} catch(IllegalArgumentException e) {
 			iae = e;
 		}
@@ -55,7 +53,7 @@ public class ResourceCreationSpecifierFactoryTest {
 		
 		UIMA_IllegalArgumentException uiae = null;
 		try {
-			ResourceCreationSpecifierFactory.createResourceCreationSpecifier("src/main/resources/org/uimafit/util/JCasAnnotatorAdapter.xml", new Object[] { "test", new Point(0,5)});
+			ResourceCreationSpecifierFactory.createResourceCreationSpecifier("src/main/resources/org/uimafit/component/JCasAnnotatorAdapter.xml", new Object[] { "test", new Point(0,5)});
 		}catch(UIMA_IllegalArgumentException e) {
 			uiae = e;
 		}

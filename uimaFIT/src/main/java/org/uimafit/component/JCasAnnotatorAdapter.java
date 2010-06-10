@@ -15,9 +15,8 @@
  limitations under the License.
 */
 
-package org.uimafit.util;
+package org.uimafit.component;
 
-import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
 /**

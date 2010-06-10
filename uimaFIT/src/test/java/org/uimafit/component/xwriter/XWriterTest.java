@@ -42,15 +42,15 @@ import org.junit.Test;
 import org.uimafit.factory.AggregateBuilder;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.JCasFactory;
-import org.uimafit.factory.TokenFactory;
 import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
 import org.uimafit.factory.testAes.Annotator3;
 import org.uimafit.factory.testAes.ViewNames;
+import org.uimafit.testing.factory.TokenFactory;
+import org.uimafit.testing.util.TearDownUtil;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
-import org.uimafit.util.TearDownUtil;
 import org.uimafit.util.Util;
 
 /**

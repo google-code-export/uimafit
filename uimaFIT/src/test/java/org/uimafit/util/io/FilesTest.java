@@ -30,7 +30,7 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.uimafit.util.TearDownUtil;
+import org.uimafit.testing.util.TearDownUtil;
 import org.uimafit.util.io.Files;
 
 /**

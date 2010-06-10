@@ -20,8 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.apache.uima.analysis_engine.metadata.SofaMapping;
 import org.junit.Test;
-import org.uimafit.factory.SofaMappingFactory;
-import org.uimafit.util.JCasAnnotatorAdapter;
+import org.uimafit.component.JCasAnnotatorAdapter;
 
 /**
  * @author Philip Ogren
@@ -33,7 +32,7 @@ public class SofaMappingFactoryTest {
 	public void test() {
 		SofaMapping sofaMapping = SofaMappingFactory.createSofaMapping(JCasAnnotatorAdapter.class, "B", "A");
 		assertEquals("A", sofaMapping.getAggregateSofaName());
-		assertEquals("org.uimafit.util.JCasAnnotatorAdapter", sofaMapping.getComponentKey());
+		assertEquals("org.uimafit.component.JCasAnnotatorAdapter", sofaMapping.getComponentKey());
 		assertEquals("B", sofaMapping.getComponentSofaName());
 	}
 }
