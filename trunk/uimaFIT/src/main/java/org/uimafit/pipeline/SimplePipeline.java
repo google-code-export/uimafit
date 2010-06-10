@@ -15,7 +15,7 @@
  limitations under the License.
 */
 
-package org.uimafit.util;
+package org.uimafit.pipeline;
 
 import java.io.IOException;
 

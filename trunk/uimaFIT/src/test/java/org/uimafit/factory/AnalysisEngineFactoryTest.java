@@ -50,17 +50,18 @@ import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypePriorityList;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Test;
+import org.uimafit.component.JCasAnnotatorAdapter;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
 import org.uimafit.factory.testAes.Annotator3;
 import org.uimafit.factory.testAes.Annotator4;
 import org.uimafit.factory.testAes.ParameterizedAE;
 import org.uimafit.factory.testAes.ViewNames;
+import org.uimafit.pipeline.SimplePipeline;
+import org.uimafit.testing.factory.TokenFactory;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 import org.uimafit.util.AnnotationRetrieval;
-import org.uimafit.util.JCasAnnotatorAdapter;
-import org.uimafit.util.SimplePipeline;
 import org.uimafit.util.Util;
 import org.xml.sax.SAXException;
 
@@ -89,7 +90,7 @@ public class AnalysisEngineFactoryTest {
 	@Test
 	public void testCreateAnalysisEngineFromPath() throws UIMAException, IOException {
 		AnalysisEngine engine = AnalysisEngineFactory
-				.createAnalysisEngineFromPath("src/main/resources/org/uimafit/util/JCasAnnotatorAdapter.xml");
+				.createAnalysisEngineFromPath("src/main/resources/org/uimafit/component/JCasAnnotatorAdapter.xml");
 		assertNotNull(engine);
 	}
 
@@ -113,7 +114,7 @@ public class AnalysisEngineFactoryTest {
 		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory
 				.createTypeSystemDescription("org.uimafit.type.TypeSystem");
 		String[] prioritizedTypeNames = new String[] { "org.uimafit.type.Token", "org.uimafit.type.Sentence" };
-		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(org.uimafit.util.JCasAnnotatorAdapter.class,
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(org.uimafit.component.JCasAnnotatorAdapter.class,
 				typeSystemDescription, prioritizedTypeNames, (Object[]) null);
 
 		TypePriorities typePriorities = engine.getAnalysisEngineMetaData().getTypePriorities();
@@ -130,7 +131,7 @@ public class AnalysisEngineFactoryTest {
 		assertFalse(tokensInSentence.hasNext());
 
 		prioritizedTypeNames = new String[] { "org.uimafit.type.Sentence", "org.uimafit.type.Token" };
-		engine = AnalysisEngineFactory.createPrimitive(org.uimafit.util.JCasAnnotatorAdapter.class,
+		engine = AnalysisEngineFactory.createPrimitive(org.uimafit.component.JCasAnnotatorAdapter.class,
 				typeSystemDescription, prioritizedTypeNames, (Object[]) null);
 		jCas = engine.newJCas();
 		TokenFactory.createTokens(jCas, "word", Token.class, Sentence.class);

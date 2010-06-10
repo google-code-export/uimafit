@@ -25,14 +25,14 @@ import org.uimafit.factory.ConfigurationParameterFactory;
 import org.uimafit.factory.JCasFactory;
 import org.uimafit.factory.ResourceCreationSpecifierFactory;
 import org.uimafit.factory.SofaMappingFactory;
-import org.uimafit.factory.TokenFactory;
 import org.uimafit.factory.TypePrioritiesFactory;
 import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.uimafit.factory.UimaContextFactory;
+import org.uimafit.pipeline.SimplePipeline;
+import org.uimafit.testing.factory.TokenFactory;
+import org.uimafit.testing.util.DisableLogging;
+import org.uimafit.testing.util.TearDownUtil;
 import org.uimafit.util.AnnotationRetrieval;
-import org.uimafit.util.DisableLogging;
-import org.uimafit.util.SimplePipeline;
-import org.uimafit.util.TearDownUtil;
 import org.uimafit.util.Util;
 /**
  * @author Steven Bethard, Philip Ogren

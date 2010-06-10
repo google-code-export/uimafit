@@ -15,7 +15,7 @@
  limitations under the License.
  */
 
-package org.uimafit.util;
+package org.uimafit.testing.util;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

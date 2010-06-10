@@ -17,7 +17,7 @@
 package org.uimafit.util;
 
 import org.junit.Test;
-import org.uimafit.util.HideOutput;
+import org.uimafit.testing.util.HideOutput;
 /**
  * @author Steven Bethard, Philip Ogren
  */

@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.uimafit.util.DisableLogging;
+import org.uimafit.testing.util.DisableLogging;
 
 
 /**

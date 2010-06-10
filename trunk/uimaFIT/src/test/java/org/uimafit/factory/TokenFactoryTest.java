@@ -27,7 +27,7 @@ import org.apache.uima.jcas.JCas;
 import org.junit.Before;
 import org.junit.Test;
 import org.uimafit.factory.JCasFactory;
-import org.uimafit.factory.TokenFactory;
+import org.uimafit.testing.factory.TokenFactory;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 import org.uimafit.util.AnnotationRetrieval;

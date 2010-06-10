@@ -28,6 +28,7 @@ import org.uimafit.factory.JCasFactory;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
 import org.uimafit.factory.testAes.Annotator3;
+import org.uimafit.pipeline.SimplePipeline;
 
 /**
  * @author Philip Ogren

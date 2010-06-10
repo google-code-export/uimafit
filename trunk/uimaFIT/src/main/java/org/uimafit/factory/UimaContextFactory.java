@@ -20,7 +20,7 @@ package org.uimafit.factory;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.uimafit.util.JCasAnnotatorAdapter;
+import org.uimafit.component.JCasAnnotatorAdapter;
 /**
  * @author Steven Bethard, Philip Ogren
  */
