@@ -15,7 +15,7 @@
  limitations under the License.
 */
 
-package org.uimafit.util;
+package org.uimafit.factory.testCrs;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +31,7 @@ import org.apache.uima.util.Progress;
 import org.apache.uima.util.ProgressImpl;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
+import org.uimafit.util.InitializeUtil;
 import org.xml.sax.SAXException;
 
 /**

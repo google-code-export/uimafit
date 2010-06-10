@@ -32,7 +32,6 @@ import org.uimafit.factory.UimaContextFactory;
 import org.uimafit.util.AnnotationRetrieval;
 import org.uimafit.util.DisableLogging;
 import org.uimafit.util.SimplePipeline;
-import org.uimafit.util.SingleFileXReader;
 import org.uimafit.util.TearDownUtil;
 import org.uimafit.util.Util;
 /**
@@ -64,7 +63,6 @@ public class ConstructorTest {
 		new TearDownUtil();
 		new Util();
 		new SimplePipeline();
-		new SingleFileXReader();
 		new SofaMappingFactory();
 	}
 }
