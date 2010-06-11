@@ -40,6 +40,7 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.impl.ConfigurationParameterSettings_impl;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
+import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.testAes.Annotator1;
@@ -311,7 +312,7 @@ public class InitializeUtilTest extends ComponentTestBase{
 		@Override
 		public void initialize(UimaContext aContext) throws ResourceInitializationException {
 			super.initialize(aContext);
-			InitializeUtil.initialize(this, aContext);
+			ConfigurationParameterInitializer.initializeConfigurationParameters(this, aContext);
 		}
 
 		@Override
@@ -328,7 +329,7 @@ public class InitializeUtilTest extends ComponentTestBase{
 		@Override
 		public void initialize(UimaContext aContext) throws ResourceInitializationException {
 			super.initialize(aContext);
-			InitializeUtil.initialize(this, aContext);
+			ConfigurationParameterInitializer.initializeConfigurationParameters(this, aContext);
 		}
 
 		@Override
@@ -360,7 +361,7 @@ public class InitializeUtilTest extends ComponentTestBase{
 		@Override
 		public void initialize(UimaContext aContext) throws ResourceInitializationException {
 			super.initialize(aContext);
-			InitializeUtil.initialize(this, aContext);
+			ConfigurationParameterInitializer.initializeConfigurationParameters(this, aContext);
 		}
 
 		@Override

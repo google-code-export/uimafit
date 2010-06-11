@@ -29,9 +29,9 @@ import org.apache.uima.collection.CollectionReader_ImplBase;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
 import org.apache.uima.util.ProgressImpl;
+import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
-import org.uimafit.util.InitializeUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -73,7 +73,7 @@ public class SingleFileXReader extends CollectionReader_ImplBase {
 	public void initialize() throws ResourceInitializationException {
 		super.initialize();
 
-		InitializeUtil.initialize(this, getUimaContext());
+		ConfigurationParameterInitializer.initializeConfigurationParameters(this, getUimaContext());
 		
 		file = new File(fileName);
 

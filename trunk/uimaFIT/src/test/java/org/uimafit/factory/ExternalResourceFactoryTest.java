@@ -42,6 +42,7 @@ import org.apache.uima.resource.SharedResourceObject;
 import org.apache.uima.resource.metadata.ResourceManagerConfiguration;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
+import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.descriptor.ExternalResource;
 
 /**
@@ -97,7 +98,7 @@ public class ExternalResourceFactoryTest extends ComponentTestBase
 			throws ResourceInitializationException
 		{
 			super.initialize(aContext);
-			ExternalResourceConfigurator.configure(aContext, this);
+			ExternalResourceInitializer.initializeExternalResources(aContext, this);
 		}
 		
 		@Override

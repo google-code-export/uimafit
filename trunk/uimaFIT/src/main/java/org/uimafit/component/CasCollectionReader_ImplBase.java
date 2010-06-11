@@ -23,8 +23,8 @@ import java.io.IOException;
 import org.apache.uima.UimaContext;
 import org.apache.uima.collection.CollectionReader_ImplBase;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.uimafit.factory.ExternalResourceConfigurator;
-import org.uimafit.util.InitializeUtil;
+import org.uimafit.component.initialize.ExternalResourceInitializer;
+import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 
 /**
  * Base class for CAS collection readers which initializes itself based on annotations.
@@ -39,8 +39,8 @@ public abstract class CasCollectionReader_ImplBase
 	public final void initialize()
 		throws ResourceInitializationException
 	{
-		InitializeUtil.initialize(this, getUimaContext());
-		ExternalResourceConfigurator.configure(getUimaContext(), this);
+		ConfigurationParameterInitializer.initializeConfigurationParameters(this, getUimaContext());
+		ExternalResourceInitializer.initializeExternalResources(getUimaContext(), this);
 		initialize(getUimaContext());
 	}
 

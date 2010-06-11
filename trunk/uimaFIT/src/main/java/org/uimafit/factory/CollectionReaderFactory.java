@@ -41,6 +41,7 @@ import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.resource.metadata.impl.Import_impl;
+import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
 
 /**
@@ -201,7 +202,7 @@ public class CollectionReaderFactory {
 		desc.setImplementationName(readerClass.getName());
 		
 		// Extract external resource dependencies
-		Collection<ExternalResourceDependency> deps = ExternalResourceConfigurator.getResourceDeclarations(
+		Collection<ExternalResourceDependency> deps = ExternalResourceInitializer.getResourceDeclarations(
 				readerClass).values();
 		desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps.size()]));
 		

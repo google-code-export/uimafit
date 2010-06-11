@@ -16,7 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-package org.uimafit.factory;
+package org.uimafit.component.initialize;
 
 import static org.uimafit.factory.ExternalResourceFactory.createExternalResourceDependency;
 
@@ -36,7 +36,7 @@ import org.uimafit.descriptor.ExternalResourceLocator;
  *
  * @author Richard Eckart de Castilho
  */
-public class ExternalResourceConfigurator
+public class ExternalResourceInitializer
 {
 	/**
 	 * Configure a component from the given context.
@@ -47,7 +47,7 @@ public class ExternalResourceConfigurator
 	 * @throws ResourceInitializationException if the external resource cannot
 	 * 		be configured.
 	 */
-	public static <T> void configure(UimaContext aContext, T object)
+	public static <T> void initializeExternalResources(UimaContext aContext, T object)
 		throws ResourceInitializationException
 	{
 		try {
