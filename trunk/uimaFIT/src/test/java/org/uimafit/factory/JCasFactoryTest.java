@@ -23,14 +23,14 @@ import java.io.IOException;
 import org.apache.uima.UIMAException;
 import org.apache.uima.jcas.JCas;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.type.Token;
 import org.uimafit.util.AnnotationRetrieval;
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
-public class JCasFactoryTest extends Test_ImplBase{
+public class JCasFactoryTest extends ComponentTestBase{
 
 	@Test
 	public void testXMI() throws UIMAException, IOException {

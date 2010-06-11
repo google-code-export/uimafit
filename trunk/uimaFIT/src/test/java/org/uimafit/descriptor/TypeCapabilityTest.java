@@ -26,7 +26,7 @@ import org.apache.uima.analysis_engine.TypeOrFeature;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.Capability;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.testAes.Annotator4;
 
@@ -34,7 +34,7 @@ import org.uimafit.factory.testAes.Annotator4;
  * @author Philip Ogren
  */
 
-public class TypeCapabilityTest extends Test_ImplBase {
+public class TypeCapabilityTest extends ComponentTestBase {
 
 	@Test
 	public void testTC() throws ResourceInitializationException {

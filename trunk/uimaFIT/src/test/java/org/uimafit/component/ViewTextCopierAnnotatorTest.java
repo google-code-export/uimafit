@@ -28,14 +28,14 @@ import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.factory.AnalysisEngineFactory;
 
 /**
  * @author Philip Ogren
  * 
  */
-public class ViewTextCopierAnnotatorTest extends Test_ImplBase {
+public class ViewTextCopierAnnotatorTest extends ComponentTestBase {
 
 	@Test
 	public void testViewTextCopier() throws ResourceInitializationException, AnalysisEngineProcessException,

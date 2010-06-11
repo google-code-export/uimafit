@@ -29,7 +29,7 @@ import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.descriptor.SofaCapability;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.type.Token;
@@ -43,7 +43,7 @@ import org.uimafit.util.AnnotationRetrieval;
  * @author Philip Ogren
  * 
  */
-public class ViewCreatorAnnotatorTest extends Test_ImplBase{
+public class ViewCreatorAnnotatorTest extends ComponentTestBase{
 
 	@Test
 	public void testViewCreatorAnnotator() throws ResourceInitializationException, AnalysisEngineProcessException,

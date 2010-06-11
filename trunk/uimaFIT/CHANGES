@@ -1,4 +1,5 @@
 changes in 1.0
+    - resolved issue #21 "ComponentTestBase - base class for tests"
 	- resolved issue #10 "consider removing TearDownUtil"
 	- resolved issue #11 "consider removing Files.java"
     - resolved issue #4 "Simplify TokenFactory methods" - renamed to TokenBuilder and refactored interface so it is much easier to use.

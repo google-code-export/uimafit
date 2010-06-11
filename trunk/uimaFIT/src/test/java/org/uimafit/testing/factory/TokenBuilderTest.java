@@ -25,7 +25,7 @@ import org.apache.uima.cas.FSIndex;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 import org.uimafit.util.AnnotationRetrieval;
@@ -33,7 +33,7 @@ import org.uimafit.util.AnnotationRetrieval;
  * @author Steven Bethard, Philip Ogren
  */
 
-public class TokenBuilderTest extends Test_ImplBase{
+public class TokenBuilderTest extends ComponentTestBase{
 
 	@Test
 	public void test1() throws UIMAException {

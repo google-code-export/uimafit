@@ -25,13 +25,13 @@ import java.util.Iterator;
 
 import org.apache.uima.UIMAException;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.type.Token;
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
-public class AnnotationRetrievalTest extends Test_ImplBase {
+public class AnnotationRetrievalTest extends ComponentTestBase {
 
 	@Test
 	public void testGet() throws UIMAException {

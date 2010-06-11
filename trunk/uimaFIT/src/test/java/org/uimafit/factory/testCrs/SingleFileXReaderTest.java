@@ -27,7 +27,7 @@ import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.factory.CollectionReaderFactory;
 import org.uimafit.pipeline.JCasIterable;
 import org.uimafit.testing.util.HideOutput;
@@ -35,7 +35,7 @@ import org.uimafit.testing.util.HideOutput;
  * @author Steven Bethard, Philip Ogren
  */
 
-public class SingleFileXReaderTest extends Test_ImplBase{
+public class SingleFileXReaderTest extends ComponentTestBase{
 
 	@Test
 	public void testXReader() throws UIMAException, IOException {

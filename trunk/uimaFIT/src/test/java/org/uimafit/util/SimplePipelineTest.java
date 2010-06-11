@@ -22,7 +22,7 @@ import java.io.IOException;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.JCasFactory;
 import org.uimafit.factory.testAes.Annotator1;
@@ -34,7 +34,7 @@ import org.uimafit.pipeline.SimplePipeline;
  * @author Philip Ogren
  */
 
-public class SimplePipelineTest extends Test_ImplBase {
+public class SimplePipelineTest extends ComponentTestBase {
 
 	@Test
 	public void test1() throws UIMAException, IOException {
