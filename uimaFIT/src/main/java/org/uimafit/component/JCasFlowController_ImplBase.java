@@ -18,7 +18,7 @@ package org.uimafit.component;
 
 import org.apache.uima.flow.FlowControllerContext;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.uimafit.util.InitializeUtil;
+import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
@@ -34,7 +34,7 @@ public abstract class JCasFlowController_ImplBase extends org.apache.uima.flow.J
 	public void initialize(FlowControllerContext context) throws ResourceInitializationException
 	{
 		super.initialize(context);
-		InitializeUtil.initialize(this, context);
+		ConfigurationParameterInitializer.initializeConfigurationParameters(this, context);
 	}
 
 }

@@ -20,8 +20,8 @@ package org.uimafit.component;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.uimafit.factory.ExternalResourceConfigurator;
-import org.uimafit.util.InitializeUtil;
+import org.uimafit.component.initialize.ExternalResourceInitializer;
+import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
@@ -39,7 +39,7 @@ public abstract class JCasAnnotator_ImplBase
 		throws ResourceInitializationException
 	{
 		super.initialize(aContext);
-		InitializeUtil.initialize(this, aContext);
-		ExternalResourceConfigurator.configure(aContext, this);
+		ConfigurationParameterInitializer.initializeConfigurationParameters(this, aContext);
+		ExternalResourceInitializer.initializeExternalResources(aContext, this);
 	}
 }

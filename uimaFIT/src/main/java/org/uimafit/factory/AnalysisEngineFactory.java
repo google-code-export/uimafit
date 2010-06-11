@@ -58,6 +58,7 @@ import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.resource.metadata.impl.Import_impl;
 import org.apache.uima.util.FileUtils;
+import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
 import org.uimafit.util.ReflectionUtil;
 
@@ -217,7 +218,7 @@ public class AnalysisEngineFactory
 
         // Extract external resource dependencies
         Collection<ExternalResourceDependency> deps =
-            ExternalResourceConfigurator.getResourceDeclarations(componentClass).values();
+            ExternalResourceInitializer.getResourceDeclarations(componentClass).values();
         desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps.size()]));
 
         ConfigurationData reflectedConfigurationData =

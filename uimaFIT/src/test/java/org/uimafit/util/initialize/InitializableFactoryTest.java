@@ -26,13 +26,13 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.junit.Test;
+import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.component.xwriter.XWriterFileNamer;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
 import org.uimafit.factory.UimaContextFactory;
 import org.uimafit.factory.initializable.Initializable;
 import org.uimafit.factory.initializable.InitializableFactory;
-import org.uimafit.util.InitializeUtil;
 
 /**
  * @author Philip Ogren
@@ -78,7 +78,7 @@ public class InitializableFactoryTest {
 		public boolean booleanParameter = false;
 		
 		public void initialize(UimaContext context) throws ResourceInitializationException {
-			InitializeUtil.initialize(this, context);
+			ConfigurationParameterInitializer.initializeConfigurationParameters(this, context);
 		}
 	}
 
@@ -89,7 +89,7 @@ public class InitializableFactoryTest {
 		public boolean booleanParameter = false;
 		
 		public void initialize(UimaContext context) throws ResourceInitializationException {
-			InitializeUtil.initialize(this, context);
+			ConfigurationParameterInitializer.initializeConfigurationParameters(this, context);
 		}
 	}
 
@@ -101,7 +101,7 @@ public class InitializableFactoryTest {
 		public String stringParameter = "hello";
 		
 		public void initialize(UimaContext context) throws ResourceInitializationException {
-			InitializeUtil.initialize(this, context);
+			ConfigurationParameterInitializer.initializeConfigurationParameters(this, context);
 		}
 
 		public String nameFile(JCas jCas) {
@@ -116,7 +116,7 @@ public class InitializableFactoryTest {
 		public String stringParameter = "hello";
 		
 		public void initialize(UimaContext context) throws ResourceInitializationException {
-			InitializeUtil.initialize(this, context);
+			ConfigurationParameterInitializer.initializeConfigurationParameters(this, context);
 		}
 
 		public String nameFile(JCas jCas) {
