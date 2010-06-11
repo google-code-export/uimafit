@@ -26,7 +26,7 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.junit.Test;
-import org.uimafit.component.xwriter.FileNamer;
+import org.uimafit.component.xwriter.XWriterFileNamer;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
 import org.uimafit.factory.UimaContextFactory;
@@ -50,11 +50,11 @@ public class InitializableFactoryTest {
 
 		context = UimaContextFactory.createUimaContext(InitializableFileNamer.PARAM_STRING_PARAMETER, "goodbye");	
 		String className = InitializableFileNamer.class.getName();
-		FileNamer fn = InitializableFactory.create(context, className, FileNamer.class);
+		XWriterFileNamer fn = InitializableFactory.create(context, className, XWriterFileNamer.class);
 		assertEquals("goodbye", ((InitializableFileNamer)fn).stringParameter);
 
 		className = NotInitializableFileNamer.class.getName();
-		fn = InitializableFactory.create(context, className, FileNamer.class);
+		fn = InitializableFactory.create(context, className, XWriterFileNamer.class);
 		assertEquals("hello", ((NotInitializableFileNamer)fn).stringParameter);
 
 	}
@@ -62,7 +62,7 @@ public class InitializableFactoryTest {
 	@Test (expected=ResourceInitializationException.class)
 	public void testBadClass() throws ResourceInitializationException {
 		UimaContext context = UimaContextFactory.createUimaContext(InitializableClass.PARAM_BOOLEAN_PARAMETER, true);	
-		InitializableFactory.create(context, NotInitializableClass.class.getName(), FileNamer.class);
+		InitializableFactory.create(context, NotInitializableClass.class.getName(), XWriterFileNamer.class);
 	}
 
 	@Test (expected=ResourceInitializationException.class)
@@ -94,7 +94,7 @@ public class InitializableFactoryTest {
 	}
 
 	
-	public static class InitializableFileNamer implements Initializable, FileNamer {
+	public static class InitializableFileNamer implements Initializable, XWriterFileNamer {
 
 		public static final String PARAM_STRING_PARAMETER = ConfigurationParameterFactory.createConfigurationParameterName(InitializableFileNamer.class, "stringParameter");
 		@ConfigurationParameter
@@ -109,7 +109,7 @@ public class InitializableFactoryTest {
 		}
 	}
 
-	public static class NotInitializableFileNamer implements FileNamer {
+	public static class NotInitializableFileNamer implements XWriterFileNamer {
 
 		public static final String PARAM_STRING_PARAMETER = ConfigurationParameterFactory.createConfigurationParameterName(InitializableFileNamer.class, "stringParameter");
 		@ConfigurationParameter

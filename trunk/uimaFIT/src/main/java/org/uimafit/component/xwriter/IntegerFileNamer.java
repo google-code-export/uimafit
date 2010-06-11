@@ -17,18 +17,34 @@
 
 package org.uimafit.component.xwriter;
 
+import org.apache.uima.UimaContext;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ResourceInitializationException;
+import org.uimafit.descriptor.ConfigurationParameter;
+import org.uimafit.factory.ConfigurationParameterFactory;
+import org.uimafit.factory.initializable.Initializable;
+import org.uimafit.util.InitializeUtil;
 
 /**
  * @author Philip Ogren
+ * 
+ * This is a very simple implementation of XWriterFileNamer that generates file names based on a prefix string and a incrementing counter.  
  */
 
-public class IntegerFileNamer implements FileNamer{
+public class IntegerFileNamer implements XWriterFileNamer, Initializable {
 
+	public static final String PARAM_PREFIX = ConfigurationParameterFactory.createConfigurationParameterName(IntegerFileNamer.class, "prefix");
+	@ConfigurationParameter
+	private String prefix = "";
+	
 	int i=1;
 	
 	public String nameFile(JCas jCas) {
-		return ""+i++;
+		return prefix+i++;
+	}
+
+	public void initialize(UimaContext context) throws ResourceInitializationException {
+		InitializeUtil.initialize(this, context);
 	}
 	
 }

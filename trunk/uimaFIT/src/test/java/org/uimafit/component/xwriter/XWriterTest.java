@@ -87,6 +87,19 @@ public class XWriterTest extends Test_ImplBase{
 		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C").getDocumentText());
 		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
 
+		jCas.reset();
+		addDataToCas(jCas);
+
+		xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription,
+				XWriter.PARAM_OUTPUT_DIRECTORY_NAME, outputDirectory.getPath(),
+				IntegerFileNamer.PARAM_PREFIX, "myprefix-"
+				);
+		
+		xWriter.process(jCas);
+		
+		xmiFile = new File(outputDirectory, "myprefix-1.xmi"); 
+		assertTrue(xmiFile.exists());
+
 	}
 	
 	private void addDataToCas(JCas jCas) throws UIMAException {
