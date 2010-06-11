@@ -429,4 +429,15 @@ public class AnalysisEngineFactoryTest extends Test_ImplBase {
 	public static class AnnotatedAnnotatorClass extends UnannotatedAnnotatorClass {
 		// Vessel for the annotation
 	}
+	
+	@Test
+	public void testIssue5a() throws ResourceInitializationException {
+		AnalysisEngineFactory.createPrimitiveDescription(ParameterizedAE.class, typeSystemDescription);
+	}
+	
+	@Test (expected = ResourceInitializationException.class)
+	public void testIssue5b() throws ResourceInitializationException  {
+		AnalysisEngineFactory.createPrimitive(ParameterizedAE.class, typeSystemDescription);
+	}
+
 }
