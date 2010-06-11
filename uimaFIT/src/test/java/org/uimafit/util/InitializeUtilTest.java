@@ -39,7 +39,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.impl.ConfigurationParameterSettings_impl;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.testAes.Annotator1;
@@ -50,7 +50,7 @@ import org.xml.sax.SAXException;
  * @author Philip Ogren
  */
 
-public class InitializeUtilTest extends Test_ImplBase{
+public class InitializeUtilTest extends ComponentTestBase{
 
 	@Test
 	public void testInitialize() throws ResourceInitializationException, SecurityException, NoSuchFieldException {

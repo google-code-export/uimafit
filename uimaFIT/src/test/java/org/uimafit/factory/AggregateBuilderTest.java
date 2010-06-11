@@ -27,7 +27,7 @@ import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.flow.FlowControllerDescription;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.component.JCasAnnotatorAdapter;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
@@ -44,7 +44,7 @@ import org.xml.sax.SAXException;
 /**
  * @author Philip Ogren
  */
-public class AggregateBuilderTest extends Test_ImplBase {
+public class AggregateBuilderTest extends ComponentTestBase {
 
 	@Test
 	public void testAggregateBuilder() throws UIMAException, IOException {

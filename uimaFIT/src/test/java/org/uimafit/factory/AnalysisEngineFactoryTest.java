@@ -49,7 +49,7 @@ import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypePriorityList;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.component.JCasAnnotatorAdapter;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
@@ -67,7 +67,7 @@ import org.xml.sax.SAXException;
  * @author Steven Bethard, Philip Ogren
  */
 
-public class AnalysisEngineFactoryTest extends Test_ImplBase {
+public class AnalysisEngineFactoryTest extends ComponentTestBase {
 
 	@Test
 	public void testViewAE() throws Exception {

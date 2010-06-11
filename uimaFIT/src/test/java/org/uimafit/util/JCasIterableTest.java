@@ -23,9 +23,9 @@ import java.util.Iterator;
 
 import org.apache.uima.cas.CASException;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 
-public class JCasIterableTest extends Test_ImplBase{
+public class JCasIterableTest extends ComponentTestBase{
 
 	@Test
 	public void testResetViews() throws CASException {

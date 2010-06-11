@@ -29,7 +29,7 @@ import java.util.Map;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.resource.ExternalResourceDependency;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.factory.testAes.ParameterizedAE2;
 
 /**
@@ -37,7 +37,7 @@ import org.uimafit.factory.testAes.ParameterizedAE2;
  *
  * @author Richard Eckart de Castilho
  */
-public class ExternalResourceConfiguratorTest extends Test_ImplBase
+public class ExternalResourceConfiguratorTest extends ComponentTestBase
 {
 	@Test
 	public void testAnalyze() throws Exception

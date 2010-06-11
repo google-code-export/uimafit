@@ -17,13 +17,10 @@
 
 package org.uimafit;
 
-import static org.junit.Assert.assertTrue;
-
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Before;
-import org.junit.Test;
 import org.uimafit.factory.JCasFactory;
 import org.uimafit.factory.TypePrioritiesFactory;
 import org.uimafit.factory.TypeSystemDescriptionFactory;
@@ -36,7 +33,7 @@ import org.uimafit.type.Token;
  * @author Philip Ogren
  *
  */
-public class Test_ImplBase {
+public class ComponentTestBase {
 
 	private static ThreadLocal<JCas> JCAS = new ThreadLocal<JCas>();
 	private static ThreadLocal<TypeSystemDescription> TYPE_SYSTEM_DESCRIPTION = new ThreadLocal<TypeSystemDescription>();
@@ -84,8 +81,4 @@ public class Test_ImplBase {
 		tokenBuilder = TOKEN_BUILDER.get();
 	}
 
-	@Test
-	public void test() {
-		assertTrue("meaningless test so that maven won't complain about this class not having any tests", true);
-	}
 }

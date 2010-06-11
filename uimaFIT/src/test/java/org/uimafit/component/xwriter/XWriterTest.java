@@ -39,7 +39,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.factory.AggregateBuilder;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.JCasFactory;
@@ -51,7 +51,7 @@ import org.uimafit.factory.testAes.ViewNames;
 /**
  * @author Philip Ogren
  */
-public class XWriterTest extends Test_ImplBase {
+public class XWriterTest extends ComponentTestBase {
 
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();

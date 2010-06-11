@@ -21,14 +21,14 @@ import static org.junit.Assert.assertNotNull;
 
 import org.apache.uima.UIMAException;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
-public class AnnotationFactoryTest extends Test_ImplBase{
+public class AnnotationFactoryTest extends ComponentTestBase{
 
 	@Test
 	public void testCreateAnnotation() throws UIMAException {

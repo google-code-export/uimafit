@@ -30,7 +30,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.factory.testCrs.SingleFileXReader;
 import org.uimafit.pipeline.JCasIterable;
 import org.uimafit.type.Token;
@@ -39,7 +39,7 @@ import org.uimafit.util.AnnotationRetrieval;
  * @author Steven Bethard, Philip Ogren
  */
 
-public class CollectionReaderFactoryTest extends Test_ImplBase {
+public class CollectionReaderFactoryTest extends ComponentTestBase {
 
 	@Test
 	public void testCreateCollectionReader() throws UIMAException, IOException {

@@ -41,7 +41,7 @@ import org.apache.uima.resource.Resource_ImplBase;
 import org.apache.uima.resource.SharedResourceObject;
 import org.apache.uima.resource.metadata.ResourceManagerConfiguration;
 import org.junit.Test;
-import org.uimafit.Test_ImplBase;
+import org.uimafit.ComponentTestBase;
 import org.uimafit.descriptor.ExternalResource;
 
 /**
@@ -49,7 +49,7 @@ import org.uimafit.descriptor.ExternalResource;
  * 
  * @author Richard Eckart de Castilho
  */
-public class ExternalResourceFactoryTest extends Test_ImplBase
+public class ExternalResourceFactoryTest extends ComponentTestBase
 {
 	private static final String EX_URL = "http://dum.my";
 	private static final String EX_FILE = "src/test/resources/data/html/1.html";
