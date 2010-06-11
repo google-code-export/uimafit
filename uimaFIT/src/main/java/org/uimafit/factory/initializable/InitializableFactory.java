@@ -29,7 +29,7 @@ import org.apache.uima.resource.ResourceInitializationException;
  * @author Philip Ogren
  * @author Philipp Wetzler
  * @author Steven Bethard
- * 
+ * @see Initializable 
  */
 public class InitializableFactory {
 

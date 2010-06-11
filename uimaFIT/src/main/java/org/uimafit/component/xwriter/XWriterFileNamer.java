@@ -19,15 +19,19 @@ package org.uimafit.component.xwriter;
 
 import org.apache.uima.jcas.JCas;
 
-public interface FileNamer {
+public interface XWriterFileNamer {
 
 	/**
 	 * @author Philip Ogren
-     *
-	 * Implementation of this interface should come up with a file name to be
-	 * used for the file that it is written by XWriter. Do not specify the full
-	 * path and do not specify the suffix (.xmi or .xcas will be automatically
-	 * appended as appropriate)
+	 * 
+	 *         This interface provides XWriter with a way of getting a file name
+	 *         for a given jCas. If there is information in jCas that you can
+	 *         use to name the resulting ".xmi" or ".xcas" files, then this
+	 *         interface will allow you to use it. Implementation of this
+	 *         interface should come up with a file name to be used for the file
+	 *         that it is written by XWriter. Do not specify the full path and
+	 *         do not specify the suffix (.xmi or .xcas will be automatically
+	 *         appended as appropriate)
 	 * 
 	 * @param jCas
 	 * @return

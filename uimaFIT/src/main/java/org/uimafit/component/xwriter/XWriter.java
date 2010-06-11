@@ -63,7 +63,7 @@ public class XWriter extends JCasAnnotator_ImplBase {
 	public static final String PARAM_FILE_NAMER_CLASS_NAME =  ConfigurationParameterFactory.createConfigurationParameterName(XWriter.class, "fileNamerClassName");
 	@ConfigurationParameter(
 			mandatory = true,
-			description = "the class name of the FileNamer implementation to use",
+			description = "the class name of the XWriterFileNamer implementation to use",
 			defaultValue = "org.uimafit.component.xwriter.IntegerFileNamer")
 	 protected String fileNamerClassName;
 
@@ -75,7 +75,7 @@ public class XWriter extends JCasAnnotator_ImplBase {
 
 	private boolean useXMI = true;
 
-	private FileNamer fileNamer;
+	private XWriterFileNamer fileNamer;
 	
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {
@@ -92,7 +92,7 @@ public class XWriter extends JCasAnnotator_ImplBase {
 		else throw new ResourceInitializationException(String.format(
 				"parameter '%1$s' must be either '%2$s' or '%3$s'.", PARAM_XML_SCHEME_NAME, XMI, XCAS), null);
 
-		fileNamer = 	InitializableFactory.create(context, fileNamerClassName, FileNamer.class);
+		fileNamer = 	InitializableFactory.create(context, fileNamerClassName, XWriterFileNamer.class);
 
 	}
 
