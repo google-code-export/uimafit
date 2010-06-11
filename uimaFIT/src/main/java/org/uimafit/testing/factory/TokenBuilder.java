@@ -41,10 +41,16 @@ public class TokenBuilder <TOKEN_TYPE  extends Annotation, SENTENCE_TYPE extends
 	private String stemFeatureName;
 	
 	public TokenBuilder(Class<TOKEN_TYPE> tokenClass, Class<SENTENCE_TYPE> sentenceClass) {
-		this.tokenClass = tokenClass;
-		this.sentenceClass = sentenceClass;
+		this(tokenClass, sentenceClass, null, null);
 	}
 
+	/**
+	 * 
+	 * @param tokenClass the class of your token type from your type system (e.g. org.uimafit.type.Token.class)
+	 * @param sentenceClass the class of your sentence type from your type system (e.g. org.uimafit.type.Sentence.class)
+	 * @param posFeatureName the feature name for the part-of-speech tag for your token type.  This assumes that there is a single string feature for which to put your pos tag.  null is an ok value.
+	 * @param stemFeatureName the feature name for the stem for your token type.  This assumes that there is a single string feature for which to put your stem. null is an ok value.
+	 */
 	public TokenBuilder(Class<TOKEN_TYPE> tokenClass, Class<SENTENCE_TYPE> sentenceClass, String posFeatureName, String stemFeatureName) {
 		this.tokenClass = tokenClass;
 		this.sentenceClass = sentenceClass;
