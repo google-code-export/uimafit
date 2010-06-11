@@ -20,12 +20,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.uima.util.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.uimafit.util.io.Files;
 
 /**
  * @author Steven Bethard, Philip Ogren
@@ -47,9 +49,10 @@ public class LicenseTest {
 	private void test(File directory) throws IOException {
 		List<String> filesMissingLicense = new ArrayList<String>();
 
-		Iterable<File> files = Files.getFiles(directory, new String[] { ".java" });
-
-		for (File file : files) {
+		Iterator<?> files = org.apache.commons.io.FileUtils.iterateFiles(directory, new SuffixFileFilter(".java"), TrueFileFilter.INSTANCE);
+		
+		while (files.hasNext()) {
+			File file = (File) files.next();
 			if (file.getParentFile().getName().equals("type") || file.getName().equals("Files.java")) continue;
 
 			String fileText = FileUtils.file2String(file);
@@ -61,7 +64,6 @@ public class LicenseTest {
 			}
 		}
 
-		
 		if (filesMissingLicense.size() > 0) {
 			String message = String.format("%d source file missing license or author attribution: ",
 					filesMissingLicense.size());
