@@ -28,9 +28,9 @@ import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.collection.CollectionReader_ImplBase;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.Progress;
 import org.junit.Test;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.factory.testCrs.SingleFileXReader;
 import org.uimafit.pipeline.JCasIterable;
 import org.uimafit.type.Token;
@@ -39,12 +39,10 @@ import org.uimafit.util.AnnotationRetrieval;
  * @author Steven Bethard, Philip Ogren
  */
 
-public class CollectionReaderFactoryTest {
+public class CollectionReaderFactoryTest extends Test_ImplBase {
 
 	@Test
 	public void testCreateCollectionReader() throws UIMAException, IOException {
-		
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.type.TypeSystem");
 		
 		CollectionReader reader = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, 
 				typeSystemDescription, SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",

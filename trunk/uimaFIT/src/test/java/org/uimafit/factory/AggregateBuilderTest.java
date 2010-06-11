@@ -25,10 +25,9 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.flow.FlowControllerDescription;
-import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Test;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.component.JCasAnnotatorAdapter;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
@@ -39,31 +38,23 @@ import org.uimafit.factory.testAes.FlowAE3;
 import org.uimafit.factory.testAes.ReversableTestFlowController;
 import org.uimafit.factory.testAes.ViewNames;
 import org.uimafit.pipeline.SimplePipeline;
-import org.uimafit.testing.factory.TokenFactory;
-import org.uimafit.type.Sentence;
-import org.uimafit.type.Token;
 import org.uimafit.util.TypeSystemUtil;
-import org.uimafit.util.Util;
 import org.xml.sax.SAXException;
 
 /**
  * @author Philip Ogren
  */
-public class AggregateBuilderTest {
+public class AggregateBuilderTest extends Test_ImplBase {
 
 	@Test
 	public void testAggregateBuilder() throws UIMAException, IOException {
-		JCas jCas = Util.JCAS.get();
-		jCas.reset();
+		tokenBuilder.buildTokens(jCas, "Anyone up for a game of Foosball?");
 
-		TokenFactory.createTokens(jCas, "Anyone up for a game of Foosball?", Token.class, Sentence.class);
-
-		TypeSystemDescription typeSystem = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
 		AggregateBuilder builder = new AggregateBuilder();
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem), ViewNames.PARENTHESES_VIEW, "A");
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, typeSystem), ViewNames.SORTED_VIEW, "B",
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription), ViewNames.PARENTHESES_VIEW, "A");
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, typeSystemDescription), ViewNames.SORTED_VIEW, "B",
 				ViewNames.SORTED_PARENTHESES_VIEW, "C", ViewNames.PARENTHESES_VIEW, "A");
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, typeSystem), ViewNames.INITIAL_VIEW, "B");
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, typeSystemDescription), ViewNames.INITIAL_VIEW, "B");
 		AnalysisEngine aggregateEngine = builder.createAggregate();
 
 		aggregateEngine.process(jCas);
@@ -75,19 +66,19 @@ public class AggregateBuilderTest {
 		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
 
 		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xmi");
-		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, Util.TYPE_SYSTEM_DESCRIPTION);
+		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, typeSystemDescription);
 
 		SimplePipeline.runPipeline(jCas, ae1, aggregateEngine);
 
 		AnalysisEngineDescription aggregateDescription = builder.createAggregateDescription();
 		builder = new AggregateBuilder();
 		builder.add(aggregateDescription);
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem), ViewNames.PARENTHESES_VIEW, "PARENS");
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription), ViewNames.PARENTHESES_VIEW, "PARENS");
 		aggregateEngine = builder.createAggregate();
 
 		jCas.reset();
 
-		TokenFactory.createTokens(jCas, "Anyone up for a game of Foosball?", Token.class, Sentence.class);
+		tokenBuilder.buildTokens(jCas, "Anyone up for a game of Foosball?");
 
 		aggregateEngine.process(jCas);
 
@@ -102,16 +93,12 @@ public class AggregateBuilderTest {
 
 	@Test
 	public void testAggregateBuilder2() throws UIMAException, IOException, SAXException {
-		JCas jCas = Util.JCAS.get();
-		jCas.reset();
+		tokenBuilder.buildTokens(jCas, "'Verb' is a noun!?");
 
-		TokenFactory.createTokens(jCas, "'Verb' is a noun!?", Token.class, Sentence.class);
-
-		TypeSystemDescription typeSystem = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
 		AggregateBuilder builder = new AggregateBuilder();
-		String componentName1 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem));
-		String componentName2 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem));
-		String componentName3 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem));
+		String componentName1 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription));
+		String componentName2 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription));
+		String componentName3 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription));
 
 		assertEquals("org.uimafit.factory.testAes.Annotator1", componentName1);
 		assertEquals("org.uimafit.factory.testAes.Annotator1.2", componentName2);
@@ -135,17 +122,15 @@ public class AggregateBuilderTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testOddNumberOfViewNames() throws ResourceInitializationException {
-		TypeSystemDescription typeSystem = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
 		AggregateBuilder builder = new AggregateBuilder();
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem), ViewNames.PARENTHESES_VIEW);
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription), ViewNames.PARENTHESES_VIEW);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testDuplicateComponentNames() throws ResourceInitializationException {
-		TypeSystemDescription typeSystem = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
 		AggregateBuilder builder = new AggregateBuilder();
-		builder.add("name", AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem));
-		builder.add("name", AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem));
+		builder.add("name", AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription));
+		builder.add("name", AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -156,16 +141,12 @@ public class AggregateBuilderTest {
 
 	@Test
 	public void testAggregateBuilderWithFlowController() throws UIMAException, IOException, SAXException {
-		JCas jCas = Util.JCAS.get();
-		jCas.reset();
+		tokenBuilder.buildTokens(jCas, "An honest man can never surrender an honest doubt.");
 
-		TokenFactory.createTokens(jCas, "An honest man can never surrender an honest doubt.", Token.class, Sentence.class);
-
-		TypeSystemDescription typeSystem = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
 		AggregateBuilder builder = new AggregateBuilder();
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(FlowAE1.class, typeSystem));
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(FlowAE2.class, typeSystem));
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(FlowAE3.class, typeSystem));
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(FlowAE1.class, typeSystemDescription));
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(FlowAE2.class, typeSystemDescription));
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(FlowAE3.class, typeSystemDescription));
 
 		FlowControllerDescription fcd = FlowControllerFactory.createFlowControllerDescription(ReversableTestFlowController.class);
 		builder.setFlowControllerDescription(fcd);
@@ -186,7 +167,7 @@ public class AggregateBuilderTest {
 		aggregateEngine = builder.createAggregate();
 
 		jCas.reset();
-		TokenFactory.createTokens(jCas, "An honest man can never surrender an honest doubt.", Token.class, Sentence.class);
+		tokenBuilder.buildTokens(jCas, "An honest man can never surrender an honest doubt.");
 		aggregateEngine.process(jCas);
 
 		text = "An honest man can never surrender an honest doubt.";

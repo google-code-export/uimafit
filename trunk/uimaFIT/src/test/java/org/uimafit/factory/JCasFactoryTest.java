@@ -23,29 +23,25 @@ import java.io.IOException;
 import org.apache.uima.UIMAException;
 import org.apache.uima.jcas.JCas;
 import org.junit.Test;
-import org.uimafit.factory.AnnotationFactory;
-import org.uimafit.factory.JCasFactory;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.type.Token;
 import org.uimafit.util.AnnotationRetrieval;
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
-public class JCasFactoryTest {
+public class JCasFactoryTest extends Test_ImplBase{
 
 	@Test
 	public void testXMI() throws UIMAException, IOException {
-		JCas jCas = JCasFactory.createJCas("src/test/resources/data/docs/test.xmi", TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.type.TypeSystem"));
+		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xmi");
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
-
 	}
 
 	@Test
 	public void testXCAS() throws UIMAException, IOException {
-		JCas jCas = JCasFactory.createJCas("src/test/resources/data/docs/test.xcas", TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.type.TypeSystem"), false);
+		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xcas", false);
 		assertEquals("... the more knowledge advances the more it becomes possible to condense it into little books.", jCas.getDocumentText());
-
 	}
 
 	@Test
@@ -57,7 +53,7 @@ public class JCasFactoryTest {
 	}
 	
 	@Test
-	public void test() throws UIMAException {
+	public void testCreate() throws UIMAException {
 		JCas jCas = JCasFactory.createJCas("org.uimafit.type.TypeSystem");
 		jCas.setDocumentText("For great 20 minute talks, check out TED.com.");
 		AnnotationFactory.createAnnotation(jCas, 0, 3, Token.class);

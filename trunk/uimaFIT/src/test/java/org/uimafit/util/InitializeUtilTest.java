@@ -39,33 +39,33 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.impl.ConfigurationParameterSettings_impl;
 import org.junit.Test;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.ParameterizedAE;
-import org.uimafit.util.InitializeUtil;
 import org.xml.sax.SAXException;
 
 /**
  * @author Philip Ogren
  */
 
-public class InitializeUtilTest {
+public class InitializeUtilTest extends Test_ImplBase{
 
 	@Test
 	public void testInitialize() throws ResourceInitializationException, SecurityException, NoSuchFieldException {
 
 		ResourceInitializationException rie = null;
 		try {
-			AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class));
+			AnalysisEngineFactory.createPrimitive(ParameterizedAE.class, typeSystemDescription);
 		}
 		catch (ResourceInitializationException e) {
 			rie = e;
 		}
 		assertNotNull(rie);
-		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(
-				ParameterizedAE.class, ParameterizedAE.PARAM_FLOAT_3, 1.234f, ParameterizedAE.PARAM_FLOAT_6,
-				new Float[] { 1.234f, 0.001f }, "file2", "foo/bar"));
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(
+				ParameterizedAE.class, typeSystemDescription, ParameterizedAE.PARAM_FLOAT_3, 1.234f, ParameterizedAE.PARAM_FLOAT_6,
+				new Float[] { 1.234f, 0.001f }, "file2", "foo/bar");
 
 		ParameterizedAE component = new ParameterizedAE();
 		component.initialize(engine.getUimaContext());
@@ -148,7 +148,7 @@ public class InitializeUtilTest {
 		assertEquals(new File("test/data/file"), component.getFiles8().get(0));
 		assertEquals(new File("test/data/file2"), component.getFiles8().get(1));
 
-		engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class,
+		engine = AnalysisEngineFactory.createPrimitive(ParameterizedAE.class, typeSystemDescription,
 				ParameterizedAE.PARAM_FLOAT_3, 1.234f, ParameterizedAE.PARAM_FLOAT_6, new Float[] { 1.234f, 0.001f },
 				ParameterizedAE.PARAM_STRING_1, "lime", ParameterizedAE.PARAM_STRING_2, new String[] { "banana",
 						"strawberry" }, ParameterizedAE.PARAM_STRING_3, "cherry", ParameterizedAE.PARAM_STRING_4,
@@ -161,7 +161,7 @@ public class InitializeUtilTest {
 				new String[] { "C:\\Documents and Settings\\Philip\\My Documents\\", "/usr/local/bin" }, "files4",
 				new String[0], "files5", new String[] { "foos/bars" }, "files6", new String[] {
 						"C:\\Documents and Settings\\Philip\\My Documents\\", "/usr/local/bin" }, "files7",
-				new String[0], "files8", new String[] { "foos/bars" }));
+				new String[0], "files8", new String[] { "foos/bars" });
 		component = new ParameterizedAE();
 		component.initialize(engine.getUimaContext());
 		assertEquals("lime", component.getString1());
@@ -196,10 +196,10 @@ public class InitializeUtilTest {
 		assertEquals(1, component.getFiles8().size());
 		assertEquals(new File("foos/bars"), component.getFiles8().get(0));
 
-		engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class,
+		engine = AnalysisEngineFactory.createPrimitive(ParameterizedAE.class, typeSystemDescription,
 				ParameterizedAE.PARAM_FLOAT_3, 1.234f, ParameterizedAE.PARAM_FLOAT_6, new Float[] { 1.234f, 0.001f },
 				ParameterizedAE.PARAM_BOOLEAN_1, true, ParameterizedAE.PARAM_BOOLEAN_3, new boolean[3],
-				ParameterizedAE.PARAM_FLOAT_5, new float[] { 1.2f, 3.4f }, "file2", "foo2/bar2"));
+				ParameterizedAE.PARAM_FLOAT_5, new float[] { 1.2f, 3.4f }, "file2", "foo2/bar2");
 		component = new ParameterizedAE();
 		component.initialize(engine.getUimaContext());
 		assertFalse(component.getBoolean3()[0]);
@@ -210,9 +210,9 @@ public class InitializeUtilTest {
 
 		rie = null;
 		try {
-			engine = AnalysisEngineFactory.createPrimitive(Util.createPrimitiveDescription(ParameterizedAE.class,
+			engine = AnalysisEngineFactory.createPrimitive(ParameterizedAE.class, typeSystemDescription, 
 					ParameterizedAE.PARAM_FLOAT_3, 1.234f, ParameterizedAE.PARAM_FLOAT_6,
-					new Float[] { 1.234f, 0.001f }, ParameterizedAE.PARAM_STRING_1, true));
+					new Float[] { 1.234f, 0.001f }, ParameterizedAE.PARAM_STRING_1, true);
 		}
 		catch (ResourceInitializationException e) {
 			rie = e;
@@ -224,7 +224,7 @@ public class InitializeUtilTest {
 	@Test
 	public void testInitialize2() throws ResourceInitializationException {
 		AnalysisEngine engine = AnalysisEngineFactory
-				.createPrimitive(Util.createPrimitiveDescription(Annotator1.class));
+				.createPrimitive(Annotator1.class, typeSystemDescription);
 		assertEquals(1, engine.getAnalysisEngineMetaData().getCapabilities().length);
 	}
 

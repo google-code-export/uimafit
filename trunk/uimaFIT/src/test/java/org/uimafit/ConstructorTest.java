@@ -29,11 +29,9 @@ import org.uimafit.factory.TypePrioritiesFactory;
 import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.uimafit.factory.UimaContextFactory;
 import org.uimafit.pipeline.SimplePipeline;
-import org.uimafit.testing.factory.TokenFactory;
 import org.uimafit.testing.util.DisableLogging;
 import org.uimafit.testing.util.TearDownUtil;
 import org.uimafit.util.AnnotationRetrieval;
-import org.uimafit.util.Util;
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -57,11 +55,9 @@ public class ConstructorTest {
 		new UimaContextFactory();
 		new TearDownUtil();
 		new TypePrioritiesFactory();
-		new TokenFactory();
 		new AnnotationRetrieval();
 		new DisableLogging();
 		new TearDownUtil();
-		new Util();
 		new SimplePipeline();
 		new SofaMappingFactory();
 	}

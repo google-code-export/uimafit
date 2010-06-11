@@ -29,7 +29,6 @@ import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.FileUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -39,24 +38,20 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.factory.AggregateBuilder;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.JCasFactory;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
 import org.uimafit.factory.testAes.Annotator3;
 import org.uimafit.factory.testAes.ViewNames;
-import org.uimafit.testing.factory.TokenFactory;
 import org.uimafit.testing.util.TearDownUtil;
-import org.uimafit.type.Sentence;
-import org.uimafit.type.Token;
-import org.uimafit.util.Util;
 
 /**
  * @author Philip Ogren
  */
-public class XWriterTest {
+public class XWriterTest extends Test_ImplBase{
 
 	File outputDirectory;
 	
@@ -73,14 +68,9 @@ public class XWriterTest {
 
 	@Test
 	public void testXWriter() throws Exception {
-		JCas jCas = Util.JCAS.get();
-		jCas.reset();
-		
 		addDataToCas(jCas);
 
-		TypeSystemDescription typeSystem = Util.TYPE_SYSTEM_DESCRIPTION;
-		
-		AnalysisEngine xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystem,
+		AnalysisEngine xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription,
 				XWriter.PARAM_OUTPUT_DIRECTORY_NAME, outputDirectory.getPath()
 				);
 		
@@ -89,7 +79,8 @@ public class XWriterTest {
 		File xmiFile = new File(outputDirectory, "1.xmi"); 
 		assertTrue(xmiFile.exists());
 		
-		jCas = JCasFactory.createJCas(xmiFile.getPath(), typeSystem);
+		jCas.reset();
+		JCasFactory.loadJCas(jCas, xmiFile.getPath());
 		assertEquals("Anyone up for a game of Foosball?", jCas.getDocumentText());
 		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas.getView("A").getDocumentText());
 		assertEquals("?AFaaabeeffgllmnnoooooprsuy", jCas.getView("B").getDocumentText());
@@ -99,14 +90,13 @@ public class XWriterTest {
 	}
 	
 	private void addDataToCas(JCas jCas) throws UIMAException {
-		TokenFactory.createTokens(jCas, "Anyone up for a game of Foosball?", Token.class, Sentence.class);
+		tokenBuilder. buildTokens(jCas, "Anyone up for a game of Foosball?");
 
-		TypeSystemDescription typeSystem = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);
 		AggregateBuilder builder = new AggregateBuilder();
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystem), ViewNames.PARENTHESES_VIEW, "A");
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, typeSystem), ViewNames.SORTED_VIEW, "B",
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription), ViewNames.PARENTHESES_VIEW, "A");
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, typeSystemDescription), ViewNames.SORTED_VIEW, "B",
 				ViewNames.SORTED_PARENTHESES_VIEW, "C", ViewNames.PARENTHESES_VIEW, "A");
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, typeSystem), ViewNames.INITIAL_VIEW, "B");
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, typeSystemDescription), ViewNames.INITIAL_VIEW, "B");
 		AnalysisEngine aggregateEngine = builder.createAggregate();
 
 		aggregateEngine.process(jCas);
@@ -115,14 +105,12 @@ public class XWriterTest {
 	@Test
 	public void testXmi() throws Exception {
 		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(
-				XWriter.class, Util.TYPE_SYSTEM_DESCRIPTION,
+				XWriter.class, typeSystemDescription,
 				XWriter.PARAM_OUTPUT_DIRECTORY_NAME, this.outputDirectory.getPath());
-		JCas jCas = engine.newJCas();
-		TokenFactory.createTokens(jCas,
+		tokenBuilder.buildTokens(jCas,
 				"I like\nspam!",
-				Token.class, Sentence.class, 
 				"I like spam !",
-				"PRP VB NN .", null, "org.uimafit.type.Token:pos", null);
+				"PRP VB NN .");
 		engine.process(jCas);
 		engine.collectionProcessComplete();
 		
@@ -150,15 +138,13 @@ public class XWriterTest {
 	@Test
 	public void testXcas() throws Exception {
 		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(
-				XWriter.class, Util.TYPE_SYSTEM_DESCRIPTION,
+				XWriter.class, typeSystemDescription,
 				XWriter.PARAM_OUTPUT_DIRECTORY_NAME, this.outputDirectory.getPath(),
 				XWriter.PARAM_XML_SCHEME_NAME, XWriter.XCAS);
-		JCas jCas = engine.newJCas();
-		TokenFactory.createTokens(jCas,
+		tokenBuilder.buildTokens(jCas,
 				"I like\nspam!",
-				Token.class, Sentence.class, 
 				"I like spam !",
-				"PRP VB NN .", null, "org.uimafit.type.Token:pos", null);
+				"PRP VB NN .");
 		engine.process(jCas);
 		engine.collectionProcessComplete();
 		
@@ -185,7 +171,7 @@ public class XWriterTest {
 
 	@Test (expected=ResourceInitializationException.class)
 	public void testBadXmlSchemeName() throws ResourceInitializationException {
-		AnalysisEngineFactory.createPrimitive(XWriter.class, Util.TYPE_SYSTEM_DESCRIPTION, XWriter.PARAM_XML_SCHEME_NAME, "xcas");
+		AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_XML_SCHEME_NAME, "xcas");
 	}
 
 

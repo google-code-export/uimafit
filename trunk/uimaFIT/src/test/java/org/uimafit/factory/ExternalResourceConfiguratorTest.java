@@ -20,27 +20,24 @@
 package org.uimafit.factory;
 
 import static org.junit.Assert.assertEquals;
+import static org.uimafit.factory.AnalysisEngineFactory.createPrimitiveDescription;
+import static org.uimafit.factory.ExternalResourceConfigurator.getResourceDeclarations;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.resource.ExternalResourceDependency;
-import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Test;
-import org.uimafit.factory.ExternalResourceConfigurator;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.factory.testAes.ParameterizedAE2;
-
-import static org.uimafit.factory.AnalysisEngineFactory.*;
-import static org.uimafit.factory.ExternalResourceConfigurator.*;
-import static org.uimafit.factory.TypeSystemDescriptionFactory.*;
 
 /**
  * Test the {@link ExternalResourceConfigurator}.
  *
  * @author Richard Eckart de Castilho
  */
-public class ExternalResourceConfiguratorTest
+public class ExternalResourceConfiguratorTest extends Test_ImplBase
 {
 	@Test
 	public void testAnalyze() throws Exception
@@ -53,8 +50,7 @@ public class ExternalResourceConfiguratorTest
 	@Test
 	public void testDescriptor() throws Exception
 	{
-		TypeSystemDescription tsd = createTypeSystemDescription(new Class<?>[0]);
-		AnalysisEngineDescription desc = createPrimitiveDescription(ParameterizedAE2.class, tsd);
+		AnalysisEngineDescription desc = createPrimitiveDescription(ParameterizedAE2.class, typeSystemDescription);
 
 		Map<String, ExternalResourceDependency> deps = new HashMap<String, ExternalResourceDependency>();
 		for (ExternalResourceDependency dep : desc.getExternalResourceDependencies()) {

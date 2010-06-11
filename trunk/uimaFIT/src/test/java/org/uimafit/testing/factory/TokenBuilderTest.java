@@ -15,7 +15,7 @@
  limitations under the License.
 */
 
-package org.uimafit.factory;
+package org.uimafit.testing.factory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -24,35 +24,22 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.cas.FSIndex;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
-import org.junit.Before;
 import org.junit.Test;
-import org.uimafit.factory.JCasFactory;
-import org.uimafit.testing.factory.TokenFactory;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 import org.uimafit.util.AnnotationRetrieval;
-import org.uimafit.util.Util;
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
-public class TokenFactoryTest {
+public class TokenBuilderTest extends Test_ImplBase{
 
-	JCas jCas;
-	
-	@Before
-	public void setUp() throws Exception {
-		jCas = Util.JCAS.get();
-		jCas.reset();
-	}
-
-	
 	@Test
 	public void test1() throws UIMAException {
 		String text = "What if we built a rocket ship made of cheese?" + "We could fly it to the moon for repairs.";
-		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
-				"What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
-				"A B C D E F G H I J K L M N O P Q R S T U", null, "org.uimafit.type.Token:pos", null);
+		tokenBuilder.buildTokens(jCas, text, "What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
+				"A B C D E F G H I J K L M N O P Q R S T U");
 
 		FSIndex sentenceIndex = jCas.getAnnotationIndex(Sentence.type);
 		assertEquals(2, sentenceIndex.size());
@@ -85,9 +72,8 @@ public class TokenFactoryTest {
 	@Test
 	public void test2() throws UIMAException {
 		String text = "What if we built a rocket ship made of cheese? \n" + "We could fly it to the moon for repairs.";
-		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
-				"What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
-				"A B C D E F G H I J K L M N O P Q R S T U", null, "org.uimafit.type.Token:pos", null);
+		tokenBuilder.buildTokens(jCas, text, "What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
+				"A B C D E F G H I J K L M N O P Q R S T U");
 
 		Token token = AnnotationRetrieval.get(jCas, Token.class, 10);
 		testToken(token, "?", 45, 46, "K", null);
@@ -96,9 +82,8 @@ public class TokenFactoryTest {
 
 		jCas.reset();
 		text = "What if we built a rocket ship made of cheese? \n" + "We could fly it to the moon for repairs.";
-		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
-				"What if we built a rocket ship made of cheese ?\nWe could fly it to the moon for repairs .",
-				"A B C D E F G H I J K L M N O P Q R S T U", null, "org.uimafit.type.Token:pos", null);
+		tokenBuilder.buildTokens(jCas, text, "What if we built a rocket ship made of cheese ?\nWe could fly it to the moon for repairs .",
+				"A B C D E F G H I J K L M N O P Q R S T U");
 
 		token = AnnotationRetrieval.get(jCas, Token.class, 10);
 		testToken(token, "?", 45, 46, "K", null);
@@ -109,7 +94,7 @@ public class TokenFactoryTest {
 	@Test
 	public void test3() throws UIMAException {
 		String text = "If you like line writer, then you should really check out line rider.";
-		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class);
+		tokenBuilder.buildTokens(jCas, text);
 
 		FSIndex tokenIndex = jCas.getAnnotationIndex(Token.type);
 		assertEquals(13, tokenIndex.size());
@@ -142,7 +127,7 @@ public class TokenFactoryTest {
 		String text = "If you like line writer, then you should really check out line rider.";
 		IllegalArgumentException iae = null;
 		try {
-			TokenFactory.createTokens(jCas, text, Token.class, Sentence.class, "If you like line rider, then you really don't need line writer");
+			tokenBuilder.buildTokens(jCas, text, "If you like line rider, then you really don't need line writer");
 		}catch (IllegalArgumentException e) {
 			iae = e;
 		}
@@ -151,13 +136,10 @@ public class TokenFactoryTest {
 	
 	@Test
 	public void testStems() throws UIMAException {
-		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
 		String text = "Me and all my friends are non-conformists.";
-		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
-				"Me and all my friends are non - conformists .",
+		tokenBuilder.buildTokens(jCas, text, "Me and all my friends are non - conformists .",
 				"M A A M F A N - C .",
-				"me and all my friend are non - conformist .",
-				"org.uimafit.type.Token:pos", "org.uimafit.type.Token:stem");
+				"me and all my friend are non - conformist .");
 
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
 		Token friendToken = AnnotationRetrieval.get(jCas, Token.class, 4);
@@ -169,10 +151,8 @@ public class TokenFactoryTest {
 	
 	@Test
 	public void test4() throws UIMAException {
-		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
 		String text = "a b-c de--fg h,i,j,k";
-		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
-				"a b - c d e - - f g h , i , j , k");
+		tokenBuilder.buildTokens(jCas, text, "a b - c d e - - f g h , i , j , k");
 
 		FSIterator tokens = jCas.getAnnotationIndex(Token.type).iterator();
 		int tokenCount = 0;
@@ -185,11 +165,9 @@ public class TokenFactoryTest {
 
 	@Test
 	public void test5() throws Exception {
-		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
-		
 		JCas myView = jCas.createView("MyView");
 		
-		TokenFactory.createTokens(myView, "red and blue cars and tipsy motorcycles", Token.class, Sentence.class);
+		tokenBuilder.buildTokens(myView, "red and blue cars and tipsy motorcycles");
 		
 		Token token = AnnotationRetrieval.get(myView, Token.class, 6);
 		assertEquals("motorcycles", token.getCoveredText());

@@ -28,15 +28,14 @@ import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.junit.Test;
-import org.uimafit.component.ViewTextCopierAnnotator;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.util.Util;
 
 /**
  * @author Philip Ogren
  * 
  */
-public class ViewTextCopierAnnotatorTest {
+public class ViewTextCopierAnnotatorTest extends Test_ImplBase {
 
 	@Test
 	public void testViewTextCopier() throws ResourceInitializationException, AnalysisEngineProcessException,
@@ -46,11 +45,9 @@ public class ViewTextCopierAnnotatorTest {
 		String sourceViewName = "SourceView";
 		String destinationViewName = "DestinationView";
 
-		JCas jCas = Util.JCAS.get();
-		jCas.reset();
 		jCas.setDocumentText(text);
 		AnalysisEngine viewCreator = AnalysisEngineFactory.createPrimitive(ViewTextCopierAnnotator.class,
-				Util.TYPE_SYSTEM_DESCRIPTION, ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, CAS.NAME_DEFAULT_SOFA,
+				typeSystemDescription, ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, CAS.NAME_DEFAULT_SOFA,
 				ViewTextCopierAnnotator.PARAM_DESTINATION_VIEW_NAME,destinationViewName);
 		viewCreator.process(jCas);
 		JCas destinationView = jCas.getView(destinationViewName);
@@ -66,7 +63,7 @@ public class ViewTextCopierAnnotatorTest {
 		assertEquals(text, destinationView.getDocumentText());
 
 		viewCreator = AnalysisEngineFactory.createPrimitive(ViewTextCopierAnnotator.class,
-				Util.TYPE_SYSTEM_DESCRIPTION, ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, sourceViewName,
+				typeSystemDescription, ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, sourceViewName,
 				ViewTextCopierAnnotator.PARAM_DESTINATION_VIEW_NAME,destinationViewName);
 		jCas.reset();
 		JCas sourceView = jCas.createView(sourceViewName);
@@ -85,11 +82,8 @@ public class ViewTextCopierAnnotatorTest {
 		String sourceViewName = "SourceView";
 		String destinationViewName = "DestinationView";
 
-		JCas jCas = Util.JCAS.get();
-		jCas.reset();
-		
 		AnalysisEngine viewCreator = AnalysisEngineFactory.createPrimitive(ViewTextCopierAnnotator.class,
-				Util.TYPE_SYSTEM_DESCRIPTION, ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, sourceViewName,
+				typeSystemDescription, ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, sourceViewName,
 				ViewTextCopierAnnotator.PARAM_DESTINATION_VIEW_NAME,destinationViewName);
 		viewCreator.process(jCas);
 	}

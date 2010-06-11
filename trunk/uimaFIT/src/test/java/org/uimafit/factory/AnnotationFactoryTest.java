@@ -20,21 +20,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.jcas.JCas;
 import org.junit.Test;
-import org.uimafit.factory.AnnotationFactory;
-import org.uimafit.factory.JCasFactory;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
-public class AnnotationFactoryTest {
+public class AnnotationFactoryTest extends Test_ImplBase{
 
 	@Test
 	public void testCreateAnnotation() throws UIMAException {
-		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
 		Token token = AnnotationFactory.createAnnotation(jCas, 0, 10, Token.class);
 		assertEquals(0, token.getBegin());
 		assertEquals(10, token.getEnd());
