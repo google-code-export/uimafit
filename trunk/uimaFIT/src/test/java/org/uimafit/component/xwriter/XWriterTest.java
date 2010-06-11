@@ -34,10 +34,11 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.uimafit.Test_ImplBase;
 import org.uimafit.factory.AggregateBuilder;
 import org.uimafit.factory.AnalysisEngineFactory;
@@ -46,39 +47,34 @@ import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
 import org.uimafit.factory.testAes.Annotator3;
 import org.uimafit.factory.testAes.ViewNames;
-import org.uimafit.testing.util.TearDownUtil;
 
 /**
  * @author Philip Ogren
  */
-public class XWriterTest extends Test_ImplBase{
+public class XWriterTest extends Test_ImplBase {
 
-	File outputDirectory;
-	
+	@Rule
+	public TemporaryFolder folder = new TemporaryFolder();
+
+	private File outputDirectory;
+
 	@Before
-	public void setup() {
-		outputDirectory = new File("test/xmi-output");
-		outputDirectory.mkdirs();
-	}
-
-	@After
-	public void teardown() {
-		TearDownUtil.removeDirectory(new File("test"));
+	public void setup() throws IOException {
+		outputDirectory = folder.newFolder("test/xmi-output");
 	}
 
 	@Test
 	public void testXWriter() throws Exception {
 		addDataToCas(jCas);
 
-		AnalysisEngine xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription,
-				XWriter.PARAM_OUTPUT_DIRECTORY_NAME, outputDirectory.getPath()
-				);
-		
+		AnalysisEngine xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME,
+				outputDirectory.getPath());
+
 		xWriter.process(jCas);
-		
-		File xmiFile = new File(outputDirectory, "1.xmi"); 
+
+		File xmiFile = new File(outputDirectory, "1.xmi");
 		assertTrue(xmiFile.exists());
-		
+
 		jCas.reset();
 		JCasFactory.loadJCas(jCas, xmiFile.getPath());
 		assertEquals("Anyone up for a game of Foosball?", jCas.getDocumentText());
@@ -90,20 +86,18 @@ public class XWriterTest extends Test_ImplBase{
 		jCas.reset();
 		addDataToCas(jCas);
 
-		xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription,
-				XWriter.PARAM_OUTPUT_DIRECTORY_NAME, outputDirectory.getPath(),
-				IntegerFileNamer.PARAM_PREFIX, "myprefix-"
-				);
-		
+		xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME, outputDirectory
+				.getPath(), IntegerFileNamer.PARAM_PREFIX, "myprefix-");
+
 		xWriter.process(jCas);
-		
-		xmiFile = new File(outputDirectory, "myprefix-1.xmi"); 
+
+		xmiFile = new File(outputDirectory, "myprefix-1.xmi");
 		assertTrue(xmiFile.exists());
 
 	}
-	
+
 	private void addDataToCas(JCas jCas) throws UIMAException {
-		tokenBuilder. buildTokens(jCas, "Anyone up for a game of Foosball?");
+		tokenBuilder.buildTokens(jCas, "Anyone up for a game of Foosball?");
 
 		AggregateBuilder builder = new AggregateBuilder();
 		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription), ViewNames.PARENTHESES_VIEW, "A");
@@ -114,19 +108,15 @@ public class XWriterTest extends Test_ImplBase{
 
 		aggregateEngine.process(jCas);
 	}
-	
+
 	@Test
 	public void testXmi() throws Exception {
-		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(
-				XWriter.class, typeSystemDescription,
-				XWriter.PARAM_OUTPUT_DIRECTORY_NAME, this.outputDirectory.getPath());
-		tokenBuilder.buildTokens(jCas,
-				"I like\nspam!",
-				"I like spam !",
-				"PRP VB NN .");
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME,
+				this.outputDirectory.getPath());
+		tokenBuilder.buildTokens(jCas, "I like\nspam!", "I like spam !", "PRP VB NN .");
 		engine.process(jCas);
 		engine.collectionProcessComplete();
-		
+
 		File outputFile = new File(this.outputDirectory, "1.xmi");
 
 		SAXBuilder builder = new SAXBuilder();
@@ -135,9 +125,11 @@ public class XWriterTest extends Test_ImplBase{
 		try {
 			Document doc = builder.build(new StringReader(FileUtils.file2String(outputFile)));
 			root = doc.getRootElement();
-		} catch (JDOMException e) {
+		}
+		catch (JDOMException e) {
 			throw new AnalysisEngineProcessException(e);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			throw new AnalysisEngineProcessException(e);
 		}
 
@@ -145,22 +137,17 @@ public class XWriterTest extends Test_ImplBase{
 		Assert.assertEquals(1, elements.size());
 		elements = root.getChildren("Token", root.getNamespace("type"));
 		Assert.assertEquals(4, elements.size());
-		
+
 	}
 
 	@Test
 	public void testXcas() throws Exception {
-		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(
-				XWriter.class, typeSystemDescription,
-				XWriter.PARAM_OUTPUT_DIRECTORY_NAME, this.outputDirectory.getPath(),
-				XWriter.PARAM_XML_SCHEME_NAME, XWriter.XCAS);
-		tokenBuilder.buildTokens(jCas,
-				"I like\nspam!",
-				"I like spam !",
-				"PRP VB NN .");
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME,
+				this.outputDirectory.getPath(), XWriter.PARAM_XML_SCHEME_NAME, XWriter.XCAS);
+		tokenBuilder.buildTokens(jCas, "I like\nspam!", "I like spam !", "PRP VB NN .");
 		engine.process(jCas);
 		engine.collectionProcessComplete();
-		
+
 		File outputFile = new File(this.outputDirectory, "1.xcas");
 
 		SAXBuilder builder = new SAXBuilder();
@@ -169,9 +156,11 @@ public class XWriterTest extends Test_ImplBase{
 		try {
 			Document doc = builder.build(new StringReader(FileUtils.file2String(outputFile)));
 			root = doc.getRootElement();
-		} catch (JDOMException e) {
+		}
+		catch (JDOMException e) {
 			throw new AnalysisEngineProcessException(e);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			throw new AnalysisEngineProcessException(e);
 		}
 
@@ -179,13 +168,12 @@ public class XWriterTest extends Test_ImplBase{
 		Assert.assertEquals(1, elements.size());
 		elements = root.getChildren("org.uimafit.type.Token");
 		Assert.assertEquals(4, elements.size());
-		
+
 	}
 
-	@Test (expected=ResourceInitializationException.class)
+	@Test(expected = ResourceInitializationException.class)
 	public void testBadXmlSchemeName() throws ResourceInitializationException {
 		AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_XML_SCHEME_NAME, "xcas");
 	}
-
 
 }

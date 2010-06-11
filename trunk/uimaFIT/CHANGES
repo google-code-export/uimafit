@@ -1,4 +1,6 @@
 changes in 1.0
+	- resolved issue #10 "consider removing TearDownUtil"
+	- resolved issue #11 "consider removing Files.java"
     - resolved issue #4 "Simplify TokenFactory methods" - renamed to TokenBuilder and refactored interface so it is much easier to use.
 	- resolved issue #8 "rearrange util package"
     - resolved issue #19 "Clean up JCasFactory methods that have xmi file names as a parameter"
