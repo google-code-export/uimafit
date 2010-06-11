@@ -26,19 +26,19 @@ import org.apache.uima.analysis_engine.TypeOrFeature;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.Capability;
 import org.junit.Test;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.testAes.Annotator4;
-import org.uimafit.util.Util;
 
 /**
  * @author Philip Ogren
  */
 
-public class TypeCapabilityTest {
+public class TypeCapabilityTest extends Test_ImplBase {
 
 	@Test
 	public void testTC() throws ResourceInitializationException {
-		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(Annotator4.class, Util.TYPE_SYSTEM_DESCRIPTION);
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(Annotator4.class, typeSystemDescription);
 		Capability[] capabilities = aed.getAnalysisEngineMetaData().getCapabilities();
 		assertEquals(1, capabilities.length);
 		Capability capability = capabilities[0];

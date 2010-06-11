@@ -22,15 +22,13 @@ package org.uimafit.util;
 import java.util.Iterator;
 
 import org.apache.uima.cas.CASException;
-import org.apache.uima.jcas.JCas;
 import org.junit.Test;
+import org.uimafit.Test_ImplBase;
 
-public class JCasIterableTest {
+public class JCasIterableTest extends Test_ImplBase{
 
 	@Test
 	public void testResetViews() throws CASException {
-		JCas jCas = Util.JCAS.get();
-		jCas.reset();
 		jCas.createView("point");
 		Iterator<?> views = jCas.getViewIterator();
 		while(views.hasNext()) {

@@ -24,7 +24,7 @@ import org.apache.uima.cas.impl.XmiCasSerializer;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.util.XMLSerializer;
 import org.uimafit.factory.JCasFactory;
-import org.uimafit.testing.factory.TokenFactory;
+import org.uimafit.testing.factory.TokenBuilder;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 import org.xml.sax.SAXException;
@@ -35,13 +35,13 @@ import org.xml.sax.SAXException;
 public class CreateSampleXMIFile {
 
 	public static void main(String[] args) throws UIMAException, SAXException, IOException {
+		TokenBuilder<Token, Sentence> tokenBuilder = new TokenBuilder<Token, Sentence>(Token.class, Sentence.class, "pos", "stem");
 		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
 		String text = "Me and all my friends are non-conformists.";
-		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
+		tokenBuilder.buildTokens(jCas, text, 
 				"Me and all my friends are non - conformists .",
 				"M A A M F A N - C .",
-				"me and all my friend are non - conformist .",
-				"org.uimafit.type.Token:pos", "org.uimafit.type.Token:stem");
+				"me and all my friend are non - conformist .");
 		
 		FileOutputStream out = new FileOutputStream("test/data/docs/test.xmi");
 		XmiCasSerializer ser = new XmiCasSerializer(jCas.getTypeSystem());

@@ -24,7 +24,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.uimafit.factory.AnalysisEngineFactory.createPrimitiveDescription;
 import static org.uimafit.factory.ExternalResourceFactory.bindResource;
-import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
 
 import java.io.File;
 import java.net.URL;
@@ -41,17 +40,16 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.Resource_ImplBase;
 import org.apache.uima.resource.SharedResourceObject;
 import org.apache.uima.resource.metadata.ResourceManagerConfiguration;
-import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Test;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.descriptor.ExternalResource;
-import org.uimafit.factory.ExternalResourceConfigurator;
 
 /**
  * Test case for {@link ExternalResource} annotations.
  * 
  * @author Richard Eckart de Castilho
  */
-public class ExternalResourceFactoryTest
+public class ExternalResourceFactoryTest extends Test_ImplBase
 {
 	private static final String EX_URL = "http://dum.my";
 	private static final String EX_FILE = "src/test/resources/data/html/1.html";
@@ -60,9 +58,8 @@ public class ExternalResourceFactoryTest
 	public void testScanBind()
 		throws Exception
 	{
-		TypeSystemDescription tsd = createTypeSystemDescription(new Class<?>[0]);
 		AnalysisEngineDescription desc = createPrimitiveDescription(
-				DummyAE.class, tsd);
+				DummyAE.class, typeSystemDescription);
 		
 		bindResource(desc, DummyResource.class);
 		bindResource(desc, DummySharedResourceObject.class, EX_URL);

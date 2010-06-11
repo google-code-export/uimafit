@@ -48,8 +48,8 @@ import org.apache.uima.resource.metadata.ConfigurationParameterDeclarations;
 import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypePriorityList;
-import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Test;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.component.JCasAnnotatorAdapter;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
@@ -58,30 +58,24 @@ import org.uimafit.factory.testAes.Annotator4;
 import org.uimafit.factory.testAes.ParameterizedAE;
 import org.uimafit.factory.testAes.ViewNames;
 import org.uimafit.pipeline.SimplePipeline;
-import org.uimafit.testing.factory.TokenFactory;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 import org.uimafit.util.AnnotationRetrieval;
-import org.uimafit.util.Util;
 import org.xml.sax.SAXException;
 
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
-public class AnalysisEngineFactoryTest {
+public class AnalysisEngineFactoryTest extends Test_ImplBase {
 
 	@Test
 	public void testViewAE() throws Exception {
-		TypeSystemDescription typeSystem = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class,
-				Token.class);
-		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(Annotator4.class, typeSystem);
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(Annotator4.class, typeSystemDescription);
 		AnalysisEngine ae = AnalysisEngineFactory.createAnalysisEngine(aed, "A");
 
-		JCas jCas = Util.JCAS.get();
-		jCas.reset();
 		JCas aView = jCas.createView("A");
-		TokenFactory.createTokens(aView, "'Verb' is a noun!?", Token.class, Sentence.class);
+		tokenBuilder.buildTokens(aView, "'Verb' is a noun!?");
 		ae.process(jCas);
 		assertEquals("'Verb' is a noun!?", jCas.getView("A").getDocumentText());
 		assertEquals("NN", AnnotationRetrieval.get(aView, Token.class, 0).getPos());
@@ -96,14 +90,14 @@ public class AnalysisEngineFactoryTest {
 
 	@Test
 	public void testProcess1() throws UIMAException, IOException {
-		JCas jCas = AnalysisEngineFactory.process("org.uimafit.util.JCasAnnotatorAdapter", "There is no excuse!");
+		JCas jCas = AnalysisEngineFactory.process("org.uimafit.component.JCasAnnotatorAdapter", "There is no excuse!");
 
 		assertEquals("There is no excuse!", jCas.getDocumentText());
 	}
 
 	@Test
 	public void testProcess2() throws UIMAException, IOException {
-		JCas jCas = AnalysisEngineFactory.process("org.uimafit.util.JCasAnnotatorAdapter",
+		JCas jCas = AnalysisEngineFactory.process("org.uimafit.component.JCasAnnotatorAdapter",
 				"src/test/resources/data/docs/A.txt");
 
 		assertEquals("Aaa Bbbb Cc Dddd eeee ff .", jCas.getDocumentText());
@@ -111,8 +105,6 @@ public class AnalysisEngineFactoryTest {
 
 	@Test
 	public void testCreateAnalysisEngineWithPrioritizedTypes() throws UIMAException, IOException {
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory
-				.createTypeSystemDescription("org.uimafit.type.TypeSystem");
 		String[] prioritizedTypeNames = new String[] { "org.uimafit.type.Token", "org.uimafit.type.Sentence" };
 		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(org.uimafit.component.JCasAnnotatorAdapter.class,
 				typeSystemDescription, prioritizedTypeNames, (Object[]) null);
@@ -125,7 +117,7 @@ public class AnalysisEngineFactoryTest {
 		assertEquals("org.uimafit.type.Sentence", typePriorityList.getTypes()[1]);
 
 		JCas jCas = engine.newJCas();
-		TokenFactory.createTokens(jCas, "word", Token.class, Sentence.class);
+		tokenBuilder.buildTokens(jCas, "word");
 		FSIterator tokensInSentence = jCas.getAnnotationIndex().subiterator(
 				AnnotationRetrieval.get(jCas, Sentence.class, 0));
 		assertFalse(tokensInSentence.hasNext());
@@ -134,7 +126,7 @@ public class AnalysisEngineFactoryTest {
 		engine = AnalysisEngineFactory.createPrimitive(org.uimafit.component.JCasAnnotatorAdapter.class,
 				typeSystemDescription, prioritizedTypeNames, (Object[]) null);
 		jCas = engine.newJCas();
-		TokenFactory.createTokens(jCas, "word", Token.class, Sentence.class);
+		tokenBuilder.buildTokens(jCas, "word");
 		tokensInSentence = jCas.getAnnotationIndex().subiterator(AnnotationRetrieval.get(jCas, Sentence.class, 0));
 		assertTrue(tokensInSentence.hasNext());
 
@@ -142,9 +134,7 @@ public class AnalysisEngineFactoryTest {
 
 	@Test
 	public void testAggregate() throws UIMAException {
-		JCas jCas = Util.JCAS.get();
-		jCas.reset();
-		TokenFactory.createTokens(jCas, "Anyone up for a game of Foosball?", Token.class, Sentence.class);
+		tokenBuilder.buildTokens(jCas, "Anyone up for a game of Foosball?");
 
 		SofaMapping[] sofaMappings = new SofaMapping[] {
 				SofaMappingFactory.createSofaMapping(Annotator1.class, ViewNames.PARENTHESES_VIEW, "A"),
@@ -158,8 +148,6 @@ public class AnalysisEngineFactoryTest {
 		primitiveAEClasses.add(Annotator2.class);
 		primitiveAEClasses.add(Annotator3.class);
 
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(
-				Sentence.class, Token.class);
 		AnalysisEngine aggregateEngine = AnalysisEngineFactory.createAggregate(primitiveAEClasses,
 				typeSystemDescription, null, sofaMappings);
 
@@ -175,9 +163,7 @@ public class AnalysisEngineFactoryTest {
 
 	@Test
 	public void testAggregate2() throws UIMAException, IOException {
-		JCas jCas = Util.JCAS.get();
-		jCas.reset();
-		TokenFactory.createTokens(jCas, "Anyone up for a game of Foosball?", Token.class, Sentence.class);
+		tokenBuilder.buildTokens(jCas, "Anyone up for a game of Foosball?");
 
 		SofaMapping[] sofaMappings = new SofaMapping[] {
 				SofaMappingFactory.createSofaMapping("ann1", ViewNames.PARENTHESES_VIEW, "A"),
@@ -186,8 +172,6 @@ public class AnalysisEngineFactoryTest {
 				SofaMappingFactory.createSofaMapping("ann2", ViewNames.PARENTHESES_VIEW, "A"),
 				SofaMappingFactory.createSofaMapping("ann3", ViewNames.INITIAL_VIEW, "B") };
 
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(
-				Sentence.class, Token.class);
 
 		List<AnalysisEngineDescription> primitiveDescriptors = new ArrayList<AnalysisEngineDescription>();
 		primitiveDescriptors.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class,
@@ -212,7 +196,7 @@ public class AnalysisEngineFactoryTest {
 
 		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xmi");
 		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class,
-				Util.TYPE_SYSTEM_DESCRIPTION);
+				typeSystemDescription);
 
 		SimplePipeline.runPipeline(jCas, ae1, aggregateEngine);
 
@@ -222,7 +206,7 @@ public class AnalysisEngineFactoryTest {
 	public void testReflectPrimitiveDescription() throws ResourceInitializationException, FileNotFoundException,
 			SAXException, IOException {
 		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class,
-				Util.TYPE_SYSTEM_DESCRIPTION, Util.TYPE_PRIORITIES);
+				typeSystemDescription, typePriorities);
 		Capability[] capabilities = aed.getAnalysisEngineMetaData().getCapabilities();
 		assertEquals(1, capabilities.length);
 		String[] inputSofas = capabilities[0].getInputSofas();
@@ -230,8 +214,8 @@ public class AnalysisEngineFactoryTest {
 		String[] outputSofas = capabilities[0].getOutputSofas();
 		assertArrayEquals(new String[] { ViewNames.SORTED_VIEW, ViewNames.SORTED_PARENTHESES_VIEW }, outputSofas);
 
-		aed = AnalysisEngineFactory.createPrimitiveDescription(ParameterizedAE.class, Util.TYPE_SYSTEM_DESCRIPTION,
-				Util.TYPE_PRIORITIES);
+		aed = AnalysisEngineFactory.createPrimitiveDescription(ParameterizedAE.class, typeSystemDescription, 
+				typePriorities);
 		capabilities = aed.getAnalysisEngineMetaData().getCapabilities();
 		assertEquals(1, capabilities.length);
 		inputSofas = capabilities[0].getInputSofas();
@@ -331,7 +315,7 @@ public class AnalysisEngineFactoryTest {
 	public void testPrimitiveDescription() throws ResourceInitializationException {
 
 		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(JCasAnnotatorAdapter.class,
-				Util.TYPE_SYSTEM_DESCRIPTION);
+				typeSystemDescription);
 		assertNotNull(aed);
 		// assertEquals("org.uimafit.type.TypeSystem",
 		// aed.getAnalysisEngineMetaData().getTypeSystem().getImports()[0].getName());

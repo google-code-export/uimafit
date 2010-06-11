@@ -21,8 +21,8 @@ import java.io.IOException;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
-import org.apache.uima.jcas.JCas;
 import org.junit.Test;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.JCasFactory;
 import org.uimafit.factory.testAes.Annotator1;
@@ -34,15 +34,14 @@ import org.uimafit.pipeline.SimplePipeline;
  * @author Philip Ogren
  */
 
-public class SimplePipelineTest {
+public class SimplePipelineTest extends Test_ImplBase {
 
 	@Test
 	public void test1() throws UIMAException, IOException {
-		JCas jCas = Util.JCAS.get();
 		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xmi");
-		AnalysisEngineDescription aed1 = AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, Util.TYPE_SYSTEM_DESCRIPTION);
-		AnalysisEngineDescription aed2 = AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, Util.TYPE_SYSTEM_DESCRIPTION);
-		AnalysisEngineDescription aed3 = AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, Util.TYPE_SYSTEM_DESCRIPTION);
+		AnalysisEngineDescription aed1 = AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription);
+		AnalysisEngineDescription aed2 = AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, typeSystemDescription);
+		AnalysisEngineDescription aed3 = AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, typeSystemDescription);
 		SimplePipeline.runPipeline(jCas, aed1, aed2, aed3);
 		
 	}

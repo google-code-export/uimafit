@@ -24,23 +24,19 @@ import static org.junit.Assert.assertTrue;
 import java.util.Iterator;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.jcas.JCas;
 import org.junit.Test;
-import org.uimafit.factory.JCasFactory;
-import org.uimafit.testing.factory.TokenFactory;
-import org.uimafit.type.Sentence;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.type.Token;
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
-public class AnnotationRetrievalTest {
+public class AnnotationRetrievalTest extends Test_ImplBase {
 
 	@Test
 	public void testGet() throws UIMAException {
-		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
 		String text = "Rot wood cheeses dew?";
-		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class);
+		tokenBuilder.buildTokens(jCas, text);
 		
 		Token lastToken = AnnotationRetrieval.get(jCas, Token.class, -1);
 		assertEquals("dew?", lastToken.getCoveredText());
@@ -64,9 +60,8 @@ public class AnnotationRetrievalTest {
 	
 	@Test
 	public void testIterator() throws Exception {
-		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
 		String text = "Rot wood cheeses dew?";
-		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class);
+		tokenBuilder.buildTokens(jCas, text);
 		
 		Iterator<Token> tokens = AnnotationRetrieval.get(jCas, Token.class);
 		assertTrue(tokens.hasNext());

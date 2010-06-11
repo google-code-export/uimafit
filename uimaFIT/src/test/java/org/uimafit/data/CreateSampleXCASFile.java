@@ -24,7 +24,7 @@ import org.apache.uima.cas.impl.XCASSerializer;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.util.XMLSerializer;
 import org.uimafit.factory.JCasFactory;
-import org.uimafit.testing.factory.TokenFactory;
+import org.uimafit.testing.factory.TokenBuilder;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 import org.xml.sax.SAXException;
@@ -33,17 +33,17 @@ import org.xml.sax.SAXException;
  * @author Steven Bethard, Philip Ogren
  */
 
-public class CreateSampleXCASFile {
+public class CreateSampleXCASFile  {
 
 	public static void main(String[] args) throws UIMAException, SAXException, IOException {
+		TokenBuilder<Token, Sentence> tokenBuilder = new TokenBuilder<Token, Sentence>(Token.class, Sentence.class, "pos", "stem");
 		JCas jCas = JCasFactory.createJCas(Token.class, Sentence.class);
 		//quote from http://www.gutenberg.org/files/20417/20417-h/20417-h.htm
 		String text = "... the more knowledge advances the more it becomes possible to condense it into little books.";
-		TokenFactory.createTokens(jCas, text, Token.class, Sentence.class,
+		tokenBuilder.buildTokens(jCas, text,
 				"... the more knowledge advances the more it becomes possible to condense it into little books . ",
 				". T M K A T M I B P T C I I L B .",
-				"... the more knowledge advance the more it become possible to condense it into little book . ",
-				"org.uimafit.type.Token:pos", "org.uimafit.type.Token:stem");
+				"... the more knowledge advance the more it become possible to condense it into little book . ");
 		
 		FileOutputStream out = new FileOutputStream("test/data/docs/test.xcas");
 		XCASSerializer ser = new XCASSerializer(jCas.getTypeSystem());

@@ -25,18 +25,17 @@ import java.io.IOException;
 import org.apache.uima.UIMAException;
 import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.Progress;
 import org.junit.Test;
+import org.uimafit.Test_ImplBase;
 import org.uimafit.factory.CollectionReaderFactory;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.uimafit.pipeline.JCasIterable;
 import org.uimafit.testing.util.HideOutput;
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
-public class SingleFileXReaderTest {
+public class SingleFileXReaderTest extends Test_ImplBase{
 
 	@Test
 	public void testXReader() throws UIMAException, IOException {
@@ -57,7 +56,6 @@ public class SingleFileXReaderTest {
 		assertNotNull(rie);
 
 
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.type.TypeSystem");
 		CollectionReader cr = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, typeSystemDescription , SingleFileXReader.PARAM_XML_SCHEME, "XCAS", SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xcas");
 		Progress[] progress = cr.getProgress();
 		assertEquals(1, progress.length);
