@@ -34,9 +34,11 @@ which populates the configuration parameters with the appropriate contents of th
 The following lines of code demonstrate how to instantiate and run the analysis engine from a main method:
 
 {{{
-TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(new Class[0]);
+TypeSystemDescription typeSystemDescription = 
+    TypeSystemDescriptionFactory.createTypeSystemDescription(new Class[0]);
 JCas jCas = JCasFactory.createJCas(typeSystemDescription);
-AnalysisEngine analysisEngine = AnalysisEngineFactory.createPrimitive(GetStartedQuickAE.class, typeSystemDescription, "stringParamName", "uimaFIT");
+AnalysisEngine analysisEngine = 
+    AnalysisEngineFactory.createPrimitive(GetStartedQuickAE.class, typeSystemDescription, "stringParamName", "uimaFIT");
 analysisEngine.process(jCas);
 }}}
 
