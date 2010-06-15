@@ -27,7 +27,15 @@ import org.apache.uima.resource.metadata.impl.TypePriorities_impl;
 
 public class TypePrioritiesFactory {
 
-	public static TypePriorities createTypePriorities(String[] prioritizedTypeNames) {
+	public static TypePriorities createTypePriorities(Class<?>... prioritizedTypes) {
+		String[] typeNames = new String[prioritizedTypes.length];
+		for(int i=0; i<prioritizedTypes.length; i++) {
+			typeNames[i] = prioritizedTypes[i].getName();
+		}
+		return createTypePriorities(typeNames);
+	}
+	
+	public static TypePriorities createTypePriorities(String... prioritizedTypeNames) {
 		TypePriorities typePriorities = new TypePriorities_impl();
 		TypePriorityList typePriorityList = typePriorities.addPriorityList();
 		for (String  typeName : prioritizedTypeNames) {
