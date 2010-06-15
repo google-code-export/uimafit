@@ -512,6 +512,12 @@ public class AnalysisEngineFactory
      */
     public static JCas process(AnalysisEngine analysisEngine, String fileNameOrText) throws IOException, UIMAException
     {
+    	JCas jCas = analysisEngine.newJCas();
+        process(jCas, analysisEngine, fileNameOrText);
+        return jCas;
+    }
+
+    public static void process(JCas jCas, AnalysisEngine analysisEngine, String fileNameOrText) throws IOException, UIMAException {
         File textFile = new File(fileNameOrText);
         String text;
         if (textFile.exists()) {
@@ -520,10 +526,8 @@ public class AnalysisEngineFactory
             text = fileNameOrText;
         }
 
-        JCas jCas = analysisEngine.newJCas();
         jCas.setDocumentText(text);
         analysisEngine.process(jCas);
-        return jCas;
-    }
+     }
 
 }
