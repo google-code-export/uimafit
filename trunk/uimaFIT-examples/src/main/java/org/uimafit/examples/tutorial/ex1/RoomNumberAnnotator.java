@@ -19,19 +19,13 @@
 
 package org.uimafit.examples.tutorial.ex1;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.TypeCapability;
 import org.uimafit.examples.tutorial.type.RoomNumber;
-import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
 
 /**
  * This class was copied from the uimaj-examples project and modified in following ways:
@@ -82,15 +76,4 @@ public class RoomNumberAnnotator extends JCasAnnotator_ImplBase {
 		}
 	}
 
-	public static void main(String[] args) throws Exception {
-	
-		File outputDirectory = new File("src/main/resources/org/uimafit/examples/tutorial/ex1/");
-		outputDirectory.mkdirs();
-		
-		TypeSystemDescription tsd = TypeSystemDescriptionFactory.createTypeSystemDescription(RoomNumber.class);
-		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(RoomNumberAnnotator.class, tsd);
-		
-		aed.toXML(new FileOutputStream(new File(outputDirectory, "RoomNumberAnnotator.xml")));
-
-	}
 }
