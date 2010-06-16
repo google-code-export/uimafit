@@ -35,7 +35,7 @@ import org.apache.uima.resource.SharedResourceObject;
  * 
  */
 public class StringMapResource_impl implements StringMapResource, SharedResourceObject {
-  private Map mMap = new HashMap();
+  private Map<String, String> mMap = new HashMap<String, String>();
 
   /**
    * @see org.apache.uima.resource.SharedResourceObject#load(DataResource)
