@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
 
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.cas.CAS;
-import org.apache.uima.resource.metadata.OperationalProperties;
+
 
 /**
  * Control aspects of the UIMA analysis component.<br/>
@@ -40,7 +40,7 @@ import org.apache.uima.resource.metadata.OperationalProperties;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface AnalysisComponent
+public @interface OperationalProperties
 {
 	public static final boolean MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT = true;
 	public static final boolean MODIFIES_CAS_DEFAULT = true;	
@@ -51,7 +51,7 @@ public @interface AnalysisComponent
 	 * each receiving a subset of the documents from a collection.
 	 * 
 	 * @return true if multiple instances can be run in parallel, false if not
-	 * @see OperationalProperties#isMultipleDeploymentAllowed()
+	 * @see org.apache.uima.resource.metadata.OperationalProperties#isMultipleDeploymentAllowed()
 	 */
 	boolean multipleDeploymentAllowed() default MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT;
 
@@ -59,7 +59,7 @@ public @interface AnalysisComponent
 	 * Gets whether this component will modify the CAS.
 	 * 
 	 * @return true if this component modifies the CAS, false if it does not.
-	 * @see OperationalProperties#getModifiesCas()
+	 * @see org.apache.uima.resource.metadata.OperationalProperties#getModifiesCas()
 	 */
 	boolean modifiesCas() default MODIFIES_CAS_DEFAULT;
 
@@ -72,7 +72,7 @@ public @interface AnalysisComponent
 	 * into smaller pieces, emitting each as a separate CAS.
 	 * 
 	 * @return true if this component may output new CASes, false if it does not
-	 * @see OperationalProperties#getOutputsNewCASes()
+	 * @see org.apache.uima.resource.metadata.OperationalProperties#getOutputsNewCASes()
 	 */
 	boolean outputsNewCases() default OUTPUTS_NEW_CASES_DEFAULT;
 }

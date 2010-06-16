@@ -22,7 +22,7 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.component.initialize.ConfigurationParameterInitializer;
-import org.uimafit.descriptor.AnalysisComponent;
+import org.uimafit.descriptor.OperationalProperties;
 
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
@@ -32,7 +32,7 @@ import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
  *
  * @author Richard Eckart de Castilho
  */
-@AnalysisComponent(multipleDeploymentAllowed=false)
+@OperationalProperties(multipleDeploymentAllowed=false)
 public abstract class JCasConsumer_ImplBase
 	extends org.apache.uima.analysis_component.JCasAnnotator_ImplBase
 {

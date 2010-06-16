@@ -322,7 +322,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 	}
 
 	/**
-	 * Test that a {@link AnalysisComponent} annotation on an ancestor of a
+	 * Test that a {@link OperationalProperties} annotation on an ancestor of a
 	 * analysis engine class is found and taken into account.
 	 */
 	@Test
@@ -413,7 +413,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 		}
 	}
 
-	@org.uimafit.descriptor.AnalysisComponent(multipleDeploymentAllowed = false)
+	@org.uimafit.descriptor.OperationalProperties(multipleDeploymentAllowed = false)
 	public static class AncestorClass extends JCasAnnotator_ImplBase {
 		@Override
 		public void process(JCas aJCas) throws AnalysisEngineProcessException {
@@ -425,7 +425,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 		// Dummy
 	}
 
-	@org.uimafit.descriptor.AnalysisComponent(multipleDeploymentAllowed = true)
+	@org.uimafit.descriptor.OperationalProperties(multipleDeploymentAllowed = true)
 	public static class AnnotatedAnnotatorClass extends UnannotatedAnnotatorClass {
 		// Vessel for the annotation
 	}
