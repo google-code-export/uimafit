@@ -1,4 +1,4 @@
-= Getting Started _Quick_ =
+= Getting Started =
 
 This quick start tutorial demonstrates how to use uimaFIT to define and set a configuration parameter in an analysis engine, run it, and generate a descriptor file for it.  The complete code for this example can be found *[http://code.google.com/p/uimafit/source/browse/trunk/uimaFIT-examples/src/main/java/org/uimafit/examples/getstarted here]*.  
 
