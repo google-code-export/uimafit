@@ -134,13 +134,13 @@ public class AnalysisEngineFactory
     }
 
     /**
-     * Get an AnalysisEngine from an AnalysisComponent class, a type system and a set of configuration parameters.
+     * Get an AnalysisEngine from an OperationalProperties class, a type system and a set of configuration parameters.
      * 
-     * @param componentClass The class of the AnalysisComponent to be created as an AnalysisEngine.
-     * @param typeSystem A description of the types used by the AnalysisComponent (may be null).
+     * @param componentClass The class of the OperationalProperties to be created as an AnalysisEngine.
+     * @param typeSystem A description of the types used by the OperationalProperties (may be null).
      * @param configurationData Any additional configuration parameters to be set. These should be supplied as (name,
      *            value) pairs, so there should always be an even number of parameters.
-     * @return The AnalysisEngine created from the AnalysisComponent class and initialized with the type system and the
+     * @return The AnalysisEngine created from the OperationalProperties class and initialized with the type system and the
      *         configuration parameters.
      * @throws ResourceInitializationException
      */
@@ -195,8 +195,8 @@ public class AnalysisEngineFactory
         desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
         desc.setPrimitive(true);
         desc.setAnnotatorImplementationName(componentClass.getName());
-        org.uimafit.descriptor.AnalysisComponent componentAnno =
-            ReflectionUtil.getInheritableAnnotation(org.uimafit.descriptor.AnalysisComponent.class, componentClass);
+        org.uimafit.descriptor.OperationalProperties componentAnno =
+            ReflectionUtil.getInheritableAnnotation(org.uimafit.descriptor.OperationalProperties.class, componentClass);
         if (componentAnno != null) {
             OperationalProperties op = desc.getAnalysisEngineMetaData().getOperationalProperties();
             op.setMultipleDeploymentAllowed(componentAnno.multipleDeploymentAllowed());
@@ -205,9 +205,9 @@ public class AnalysisEngineFactory
         } else {
             OperationalProperties op = desc.getAnalysisEngineMetaData().getOperationalProperties();
             op
-                .setMultipleDeploymentAllowed(org.uimafit.descriptor.AnalysisComponent.MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT);
-            op.setModifiesCas(org.uimafit.descriptor.AnalysisComponent.MODIFIES_CAS_DEFAULT);
-            op.setOutputsNewCASes(org.uimafit.descriptor.AnalysisComponent.OUTPUTS_NEW_CASES_DEFAULT);
+                .setMultipleDeploymentAllowed(org.uimafit.descriptor.OperationalProperties.MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT);
+            op.setModifiesCas(org.uimafit.descriptor.OperationalProperties.MODIFIES_CAS_DEFAULT);
+            op.setOutputsNewCASes(org.uimafit.descriptor.OperationalProperties.OUTPUTS_NEW_CASES_DEFAULT);
         }
 
         AnalysisEngineMetaData meta = desc.getAnalysisEngineMetaData();
