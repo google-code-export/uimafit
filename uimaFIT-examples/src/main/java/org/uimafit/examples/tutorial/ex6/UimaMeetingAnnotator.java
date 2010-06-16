@@ -90,7 +90,7 @@ public class UimaMeetingAnnotator extends JCasAnnotator_ImplBase {
     // later go back and add these to the CAS indexes. We need to do this
     // because it's not allowed to add to an index that you're currently
     // iterating over.
-    List uimaMeetings = new ArrayList();
+    List<UimaMeeting> uimaMeetings = new ArrayList<UimaMeeting>();
 
     FSIndex meetingIndex = aJCas.getAnnotationIndex(Meeting.type);
     FSIterator iter = meetingIndex.iterator();
@@ -131,9 +131,9 @@ public class UimaMeetingAnnotator extends JCasAnnotator_ImplBase {
       iter.moveToNext();
     }
 
-    Iterator uimaMeetingIter = uimaMeetings.iterator();
+    Iterator<UimaMeeting> uimaMeetingIter = uimaMeetings.iterator();
     while (uimaMeetingIter.hasNext()) {
-      UimaMeeting annot = (UimaMeeting) uimaMeetingIter.next();
+      UimaMeeting annot = uimaMeetingIter.next();
       annot.addToIndexes();
     }
   }
