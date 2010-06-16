@@ -67,3 +67,5 @@ AnalysisEngineFactory.createAnalysisEngine("GetStartedQuickAE");
 }}}
 
 But, of course, we really wouldn't want to do that now that we can instantiate analysis engines using the class definition as was done above!  
+
+This page, of course, did not demonstrate every feature of uimaFIT which provides support for annotating external resources, creating aggregate engines, running pipelines, testing components, among others.
