@@ -1,5 +1,5 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
+  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
  * regarding copyright ownership.  The ASF licenses this file
@@ -32,13 +32,10 @@ import org.uimafit.examples.tutorial.type.RoomNumber;
  * <ul><li>The package name was changed to org.uimafit.tutorial.ex1</li>
  * 	<li>The super class was changed to org.uimafit.component.JCasAnnotator_ImplBase</li>
  * 	<li>The class is annotated with org.uimafit.descriptor.TypeCapability</li>
- *  	<li>a main method that generates a descriptor file was added.</li>
  *  </ul>
  *  
- *  This class has two key differences related to uimaFIT.  First, the type capabilities are annotated using the @TypeCapability annotation which are used by the 
- *  AnalysisEngineFactory to specify this information in the descriptors returned by, e.g. AnalysisEngineFactory.createPrimitive().  Second, there is a main method
- *  which shows how to generate an xml descriptor file using this class definition.  The resulting XML descriptor file is the same as the one provided in the 
- *  uimaj-examples except that instead of building the file in parallel with the class definition, it is now built completely by using the class definition.  
+ *  Here, the type capabilities are annotated using the @TypeCapability annotation which are used by the 
+ *  AnalysisEngineFactory to specify this information in the descriptors returned by, e.g. AnalysisEngineFactory.createPrimitive().    
 
  * 
  */
