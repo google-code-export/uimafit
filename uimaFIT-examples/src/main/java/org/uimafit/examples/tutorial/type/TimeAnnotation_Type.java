@@ -2,14 +2,13 @@
 /* First created by JCasGen Fri Apr 02 09:47:21 MDT 2010 */
 package org.uimafit.examples.tutorial.type;
 
-import org.apache.uima.jcas.JCas;
-import org.apache.uima.jcas.JCasRegistry;
+import org.apache.uima.cas.FeatureStructure;
+import org.apache.uima.cas.Type;
 import org.apache.uima.cas.impl.CASImpl;
 import org.apache.uima.cas.impl.FSGenerator;
-import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.impl.TypeImpl;
-import org.apache.uima.cas.Type;
-import org.apache.uima.jcas.tcas.Annotation_Type;
+import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.JCasRegistry;
 
 /** 
  * Updated by JCasGen Fri Jun 11 20:10:52 MDT 2010
