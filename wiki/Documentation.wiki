@@ -1,0 +1,9 @@
+
+= Documentation =
+
+ * [GettingStarted Getting started tutorial]
+ * [http://uimafit.googlecode.com/svn/trunk/uimaFIT/apidocs/index.html Javadocs]
+ * Questions? Please send email to [mailto:uimafit-users@googlegroups.com uimafit-users@googlegroups.com]
+ * [http://code.google.com/p/uimafit/source/browse/#svn/trunk/uimaFIT-examples/src/main/java/org/uimafit/examples Examples project] provides a number of examples.
+ 
+We are currently developing a more comprehensive tutorial for using uimaFIT.  However, there are a number of resources that should be helpful for using the various features.  There is an [http://code.google.com/p/uimafit/source/browse/#svn/trunk/uimaFIT-examples/src/main/java/org/uimafit/examples examples project] which has several nice examples.  Also, the [http://code.google.com/p/uimafit/source/browse/#svn/trunk/uimaFIT/src/test/java/org/uimafit%3Fstate%3Dclosed unit tests] are fairly complete and provide a lot of code examples that should be helpful.  If you have questions please [mailto:uimafit-users@googlegroups.com email us].
