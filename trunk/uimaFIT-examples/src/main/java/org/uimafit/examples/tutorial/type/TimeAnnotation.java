@@ -3,11 +3,9 @@
 /* First created by JCasGen Fri Apr 02 09:47:21 MDT 2010 */
 package org.uimafit.examples.tutorial.type;
 
-import org.apache.uima.jcas.JCas; 
+import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
-
-import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
