@@ -35,6 +35,7 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIndex;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ExternalResourceDescription;
 import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
@@ -92,8 +93,8 @@ public class UimaMeetingAnnotator extends JCasAnnotator_ImplBase {
     // iterating over.
     List<UimaMeeting> uimaMeetings = new ArrayList<UimaMeeting>();
 
-    FSIndex meetingIndex = aJCas.getAnnotationIndex(Meeting.type);
-    FSIterator iter = meetingIndex.iterator();
+    FSIndex<Annotation> meetingIndex = aJCas.getAnnotationIndex(Meeting.type);
+    FSIterator<Annotation> iter = meetingIndex.iterator();
     while (iter.isValid()) {
       Meeting meeting = (Meeting) iter.get();
       // get span of text within 50 chars on either side of meeting
