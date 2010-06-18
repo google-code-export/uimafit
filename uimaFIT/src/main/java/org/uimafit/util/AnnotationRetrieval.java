@@ -56,11 +56,11 @@ public class AnnotationRetrieval {
 
 		// TODO we should probably iterate from the end rather than
 		// iterating forward from the beginning.
-		FSIndex fsIndex = jCas.getAnnotationIndex(type);
+		FSIndex<Annotation> fsIndex = jCas.getAnnotationIndex(type);
 		if (index < 0) index = fsIndex.size() + index;
 
 		if (index < 0 || index >= fsIndex.size()) return null;
-		FSIterator iterator = fsIndex.iterator();
+		FSIterator<Annotation> iterator = fsIndex.iterator();
 		Object returnValue = iterator.next();
 		for (int i = 0; i < index; i++) {
 			returnValue = iterator.next();
@@ -75,7 +75,7 @@ public class AnnotationRetrieval {
 	
 	public static class AnnotationIterator<T> implements Iterator<T>{
 		
-		FSIterator fsIterator;
+		FSIterator<Annotation> fsIterator;
 		Class<T> annotationClass;
 		
 		public AnnotationIterator(JCas jCas, Class<T> annotationClass) {
@@ -86,7 +86,7 @@ public class AnnotationRetrieval {
 			catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-			AnnotationIndex index = jCas.getAnnotationIndex(type);
+			AnnotationIndex<Annotation> index = jCas.getAnnotationIndex(type);
 			this.fsIterator = index.iterator();
 			this.annotationClass = annotationClass;
 		}

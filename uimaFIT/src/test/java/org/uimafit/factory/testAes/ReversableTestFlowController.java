@@ -57,7 +57,6 @@ public class ReversableTestFlowController extends org.uimafit.component.JCasFlow
 
 		private int i = 0;
 
-		@SuppressWarnings("unchecked")
 		public ReversableFlow(FlowControllerContext context, boolean reverseOrder) {
 			Iterator<Map.Entry<String, AnalysisEngineMetaData>> iterator = context.getAnalysisEngineMetaDataMap().entrySet().iterator();
 			while (iterator.hasNext()) {
