@@ -41,6 +41,7 @@ import org.apache.uima.analysis_engine.metadata.SofaMapping;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.Capability;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
@@ -118,7 +119,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 
 		JCas jCas = engine.newJCas();
 		tokenBuilder.buildTokens(jCas, "word");
-		FSIterator tokensInSentence = jCas.getAnnotationIndex().subiterator(
+		FSIterator<Annotation> tokensInSentence = jCas.getAnnotationIndex().subiterator(
 				AnnotationRetrieval.get(jCas, Sentence.class, 0));
 		assertFalse(tokensInSentence.hasNext());
 

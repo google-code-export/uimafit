@@ -21,6 +21,7 @@ import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 import org.uimafit.descriptor.TypeCapability;
 import org.uimafit.type.Token;
 
@@ -34,7 +35,7 @@ public class Annotator4 extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
-		FSIterator tokens = jCas.getAnnotationIndex(Token.type).iterator();
+		FSIterator<Annotation> tokens = jCas.getAnnotationIndex(Token.type).iterator();
 		while(tokens.hasNext()) {
 			Token token = (Token) tokens.next();
 			token.setPos("NN");

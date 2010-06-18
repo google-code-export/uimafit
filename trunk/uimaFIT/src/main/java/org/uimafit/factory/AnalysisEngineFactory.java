@@ -428,7 +428,6 @@ public class AnalysisEngineFactory
             null, null,  flowControllerDescription);
     }
 
-    @SuppressWarnings("unchecked")
     public static AnalysisEngineDescription createAggregateDescription(
         List<AnalysisEngineDescription> analysisEngineDescriptions, List<String> componentNames,
         TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings,

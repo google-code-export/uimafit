@@ -24,6 +24,7 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.cas.FSIndex;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
 import org.uimafit.type.Sentence;
@@ -41,15 +42,15 @@ public class TokenBuilderTest extends ComponentTestBase{
 		tokenBuilder.buildTokens(jCas, text, "What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
 				"A B C D E F G H I J K L M N O P Q R S T U");
 
-		FSIndex sentenceIndex = jCas.getAnnotationIndex(Sentence.type);
+		FSIndex<Annotation> sentenceIndex = jCas.getAnnotationIndex(Sentence.type);
 		assertEquals(2, sentenceIndex.size());
-		FSIterator sentences = sentenceIndex.iterator();
+		FSIterator<Annotation> sentences = sentenceIndex.iterator();
 		Sentence sentence = (Sentence) sentences.next();
 		assertEquals("What if we built a rocket ship made of cheese?", sentence.getCoveredText());
 		sentence = (Sentence) sentences.next();
 		assertEquals("We could fly it to the moon for repairs.", sentence.getCoveredText());
 
-		FSIndex tokenIndex = jCas.getAnnotationIndex(Token.type);
+		FSIndex<Annotation> tokenIndex = jCas.getAnnotationIndex(Token.type);
 		assertEquals(21, tokenIndex.size());
 		Token token = AnnotationRetrieval.get(jCas, Token.class, 0);
 		testToken(token, "What", 0, 4, "A", null);
@@ -96,13 +97,13 @@ public class TokenBuilderTest extends ComponentTestBase{
 		String text = "If you like line writer, then you should really check out line rider.";
 		tokenBuilder.buildTokens(jCas, text);
 
-		FSIndex tokenIndex = jCas.getAnnotationIndex(Token.type);
+		FSIndex<Annotation> tokenIndex = jCas.getAnnotationIndex(Token.type);
 		assertEquals(13, tokenIndex.size());
 		Token token = AnnotationRetrieval.get(jCas, Token.class, 0);
 		testToken(token, "If", 0, 2, null, null);
 		token = AnnotationRetrieval.get(jCas, Token.class, 12);
 		testToken(token, "rider.", 63, 69, null, null);
-		FSIndex sentenceIndex = jCas.getAnnotationIndex(Sentence.type);
+		FSIndex<Annotation> sentenceIndex = jCas.getAnnotationIndex(Sentence.type);
 		assertEquals(1, sentenceIndex.size());
 		Sentence sentence = AnnotationRetrieval.get(jCas, Sentence.class, 0);
 		assertEquals(text, sentence.getCoveredText());
@@ -154,7 +155,7 @@ public class TokenBuilderTest extends ComponentTestBase{
 		String text = "a b-c de--fg h,i,j,k";
 		tokenBuilder.buildTokens(jCas, text, "a b - c d e - - f g h , i , j , k");
 
-		FSIterator tokens = jCas.getAnnotationIndex(Token.type).iterator();
+		FSIterator<Annotation> tokens = jCas.getAnnotationIndex(Token.type).iterator();
 		int tokenCount = 0;
 		while(tokens.hasNext()) {
 			tokenCount++;
