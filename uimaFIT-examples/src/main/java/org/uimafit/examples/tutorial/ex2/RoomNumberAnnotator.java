@@ -32,49 +32,55 @@ import org.uimafit.examples.tutorial.type.RoomNumber;
 
 /**
  * This class was copied from the uimaj-examples project and modified in following ways:
- * <ul><li>The package name was changed to org.uimafit.tutorial.ex2</li>
- * 	<li>The super class was changed to org.uimafit.component.JCasAnnotator_ImplBase</li>
- * 	<li>The class is annotated with org.uimafit.descriptor.TypeCapability</li>
- *     <li>mPatterns and mLocations is annotated with @ConfigurationParameters</li>
- *     <li>the initialize method was removed</li>
- *  </ul>
- *  
- *  This class demonstrates annotating member variables with the @ConfigurationParameter annotation.  Defining configuration parameters in this way in combination with using the
- *  org.uimafit.component.JCasAnnotator_ImplBase class obviates the need for an initialize method at all because the super class initialize method calls 
- *  ConfigurationParameterInitializer.initializeConfigurationParameters.  This method initializes member variables annotated as configuration parameters using the configuration
- *  parameter information provided in the UimaContext.
-  
+ * <ul>
+ * <li>The package name was changed to org.uimafit.tutorial.ex2</li>
+ * <li>The super class was changed to org.uimafit.component.JCasAnnotator_ImplBase</li>
+ * <li>The class is annotated with org.uimafit.descriptor.TypeCapability</li>
+ * <li>mPatterns and mLocations is annotated with @ConfigurationParameters</li>
+ * <li>the initialize method was removed</li>
+ * </ul>
+ * 
+ * This class demonstrates annotating member variables with the @ConfigurationParameter annotation.
+ * Defining configuration parameters in this way in combination with using the
+ * org.uimafit.component.JCasAnnotator_ImplBase class obviates the need for an initialize method at
+ * all because the super class initialize method calls
+ * ConfigurationParameterInitializer.initializeConfigurationParameters. This method initializes
+ * member variables annotated as configuration parameters using the configuration parameter
+ * information provided in the UimaContext.
  */
 
-@TypeCapability(outputs= {"org.apache.uima.tutorial.RoomNumber", "org.apache.uima.tutorial.RoomNumber:building"})
-public class RoomNumberAnnotator extends JCasAnnotator_ImplBase {
-  
-	@ConfigurationParameter(name="Patterns")
+@TypeCapability(outputs = { "org.apache.uima.tutorial.RoomNumber",
+		"org.apache.uima.tutorial.RoomNumber:building" })
+public class RoomNumberAnnotator
+	extends JCasAnnotator_ImplBase
+{
+
+	@ConfigurationParameter(name = "Patterns")
 	private Pattern[] mPatterns;
 
-  @ConfigurationParameter(name="Locations")
-  private String[] mLocations;
+	@ConfigurationParameter(name = "Locations")
+	private String[] mLocations;
 
-  /**
-   * @see JCasAnnotator_ImplBase#process(JCas)
-   */
-  public void process(JCas aJCas) throws AnalysisEngineProcessException {
-    // get document text
-    String docText = aJCas.getDocumentText();
+	/**
+	 * @see JCasAnnotator_ImplBase#process(JCas)
+	 */
+	@Override
+	public void process(JCas aJCas)
+		throws AnalysisEngineProcessException
+	{
+		// get document text
+		String docText = aJCas.getDocumentText();
 
-    // loop over patterns
-    for (int i = 0; i < mPatterns.length; i++) {
-      Matcher matcher = mPatterns[i].matcher(docText);
-      while (matcher.find()) {
-        // found one - create annotation
-        RoomNumber annotation = new RoomNumber(aJCas);
-        annotation.setBegin(matcher.start());
-        annotation.setEnd(matcher.end());
-        annotation.addToIndexes();
-        annotation.setBuilding(mLocations[i]);
-        getContext().getLogger().log(Level.FINEST, "Found: " + annotation);
-      }
-    }
-  }
-
+		// loop over patterns
+		for (int i = 0; i < mPatterns.length; i++) {
+			Matcher matcher = mPatterns[i].matcher(docText);
+			while (matcher.find()) {
+				// found one - create annotation
+				RoomNumber annotation = new RoomNumber(aJCas, matcher.start(), matcher.end());
+				annotation.setBuilding(mLocations[i]);
+				annotation.addToIndexes();
+				getContext().getLogger().log(Level.FINEST, "Found: " + annotation);
+			}
+		}
+	}
 }
