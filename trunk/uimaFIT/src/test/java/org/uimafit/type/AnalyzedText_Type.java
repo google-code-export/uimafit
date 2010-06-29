@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Jun 18 13:27:02 MDT 2010 */
+/* First created by JCasGen Mon Jun 28 20:43:09 MDT 2010 */
 package org.uimafit.type;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Fri Jun 18 13:27:02 MDT 2010
+ * Updated by JCasGen Mon Jun 28 20:43:09 MDT 2010
  * @generated */
 public class AnalyzedText_Type extends Annotation_Type {
   /** @generated */
