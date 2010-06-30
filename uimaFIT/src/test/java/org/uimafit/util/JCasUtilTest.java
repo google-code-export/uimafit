@@ -21,12 +21,17 @@
 package org.uimafit.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.uima.UIMAException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.cas.Type;
@@ -292,5 +297,48 @@ extends ComponentTestBase
 		}
 		return list;
 	}
+
+	@Test
+	public void testIterator() throws Exception {
+		String text = "Rot wood cheeses dew?";
+		tokenBuilder.buildTokens(jCas, text);
+		
+		Iterator<Token> tokens = JCasUtil.getAnnotationIterator(jCas, Token.class);
+		assertTrue(tokens.hasNext());
+		assertEquals("Rot", tokens.next().getCoveredText());
+		assertTrue(tokens.hasNext());
+		assertEquals("wood", tokens.next().getCoveredText());
+		assertTrue(tokens.hasNext());
+		assertEquals("cheeses", tokens.next().getCoveredText());
+		assertTrue(tokens.hasNext());
+		assertEquals("dew?", tokens.next().getCoveredText());
+		assertFalse(tokens.hasNext());
+	}
+
+	@Test
+	public void testGet() throws UIMAException {
+		String text = "Rot wood cheeses dew?";
+		tokenBuilder.buildTokens(jCas, text);
+		
+		Token lastToken = JCasUtil.get(jCas, Token.class, -1);
+		assertEquals("dew?", lastToken.getCoveredText());
+		
+		Token firstToken = JCasUtil.get(jCas, Token.class, 0);
+		assertEquals("Rot", firstToken.getCoveredText());
+
+		lastToken = JCasUtil.get(jCas, Token.class, 3);
+		assertEquals("dew?", lastToken.getCoveredText());
+
+		firstToken = JCasUtil.get(jCas, Token.class, -4);
+		assertEquals("Rot", firstToken.getCoveredText());
+
+		Token oobToken = JCasUtil.get(jCas, Token.class, -5);
+		assertNull(oobToken);
+		
+		oobToken = JCasUtil.get(jCas, Token.class, 4);
+		assertNull(oobToken);
+		
+	}
+	
 
 }

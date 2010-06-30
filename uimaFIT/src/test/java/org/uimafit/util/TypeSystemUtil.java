@@ -35,7 +35,7 @@ public class TypeSystemUtil {
 	}
 
 	private static AnalyzedText _getAnalyzedText(JCas jCas) {
-		AnalyzedText analyzedText = AnnotationRetrieval.get(jCas, AnalyzedText.class, 0);
+		AnalyzedText analyzedText = JCasUtil.get(jCas, AnalyzedText.class, 0);
 		if(analyzedText == null){
 			analyzedText = new AnalyzedText(jCas);
 			analyzedText.setText(jCas.getDocumentText());

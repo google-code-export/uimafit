@@ -61,7 +61,7 @@ import org.uimafit.factory.testAes.ViewNames;
 import org.uimafit.pipeline.SimplePipeline;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
-import org.uimafit.util.AnnotationRetrieval;
+import org.uimafit.util.JCasUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -79,7 +79,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 		tokenBuilder.buildTokens(aView, "'Verb' is a noun!?");
 		ae.process(jCas);
 		assertEquals("'Verb' is a noun!?", jCas.getView("A").getDocumentText());
-		assertEquals("NN", AnnotationRetrieval.get(aView, Token.class, 0).getPos());
+		assertEquals("NN", JCasUtil.get(aView, Token.class, 0).getPos());
 	}
 
 	@Test
@@ -120,7 +120,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 		JCas jCas = engine.newJCas();
 		tokenBuilder.buildTokens(jCas, "word");
 		FSIterator<Annotation> tokensInSentence = jCas.getAnnotationIndex().subiterator(
-				AnnotationRetrieval.get(jCas, Sentence.class, 0));
+				JCasUtil.get(jCas, Sentence.class, 0));
 		assertFalse(tokensInSentence.hasNext());
 
 		prioritizedTypeNames = new String[] { "org.uimafit.type.Sentence", "org.uimafit.type.Token" };
@@ -128,7 +128,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 				typeSystemDescription, prioritizedTypeNames, (Object[]) null);
 		jCas = engine.newJCas();
 		tokenBuilder.buildTokens(jCas, "word");
-		tokensInSentence = jCas.getAnnotationIndex().subiterator(AnnotationRetrieval.get(jCas, Sentence.class, 0));
+		tokensInSentence = jCas.getAnnotationIndex().subiterator(JCasUtil.get(jCas, Sentence.class, 0));
 		assertTrue(tokensInSentence.hasNext());
 
 	}
