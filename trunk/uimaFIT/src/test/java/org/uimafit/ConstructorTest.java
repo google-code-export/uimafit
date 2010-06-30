@@ -30,7 +30,6 @@ import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.uimafit.factory.UimaContextFactory;
 import org.uimafit.pipeline.SimplePipeline;
 import org.uimafit.testing.util.DisableLogging;
-import org.uimafit.util.AnnotationRetrieval;
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -53,7 +52,6 @@ public class ConstructorTest {
 		new TypeSystemDescriptionFactory();
 		new UimaContextFactory();
 		new TypePrioritiesFactory();
-		new AnnotationRetrieval();
 		new DisableLogging();
 		new SimplePipeline();
 		new SofaMappingFactory();

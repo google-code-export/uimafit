@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.uima.cas.CAS;
+import org.apache.uima.cas.FSIterator;
 import org.apache.uima.cas.Type;
 import org.apache.uima.cas.impl.Subiterator;
 import org.apache.uima.cas.text.AnnotationFS;
@@ -187,5 +188,39 @@ public class JCasUtil
 			JCas aJCas, final Class<T> aType, Annotation aContainer)
 	{
 		return CasUtil.getCoveredAnnotations(aJCas.getCas(), getType(aJCas, aType), aContainer);
+	}
+
+	/**
+	 * This method exists simply as a convenience method for unit testing. It is
+	 * not very efficient and should not, in general be used outside the context
+	 * of unit testing.
+	 *
+	 * @param jCas
+	 * @param cls
+	 * @param index
+	 *            this can be either positive (0 corresponds to the first
+	 *            annotation of a type) or negative (-1 corresponds to the last
+	 *            annotation of a type.)
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends Annotation> T get(JCas jCas, Class<T> cls, int index) {
+		FSIterator i = jCas.getAnnotationIndex(getType(jCas, cls)).iterator();
+		int n = index;
+		i.moveToFirst();
+		if (n > 0) {
+			while (n > 0 && i.isValid()) {
+				i.moveToNext();
+				n--;
+			}
+		}
+		if (n < 0) {
+			i.moveToLast();
+			while (n < -1 && i.isValid()) {
+				i.moveToPrevious();
+				n++;
+			}
+		}
+	
+		return i.isValid() ? (T) i.get() : null;
 	}
 }

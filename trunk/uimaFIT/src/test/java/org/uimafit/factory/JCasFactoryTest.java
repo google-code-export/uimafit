@@ -25,7 +25,7 @@ import org.apache.uima.jcas.JCas;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
 import org.uimafit.type.Token;
-import org.uimafit.util.AnnotationRetrieval;
+import org.uimafit.util.JCasUtil;
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -49,7 +49,7 @@ public class JCasFactoryTest extends ComponentTestBase{
 		JCas jCas = JCasFactory.createJCasFromPath("src/test/resources/org/uimafit/type/TypeSystem.xml");
 		jCas.setDocumentText("For great 20 minute talks, check out TED.com.");
 		AnnotationFactory.createAnnotation(jCas, 0, 3, Token.class);
-		assertEquals("For", AnnotationRetrieval.get(jCas, Token.class, 0).getCoveredText());
+		assertEquals("For", JCasUtil.get(jCas, Token.class, 0).getCoveredText());
 	}
 	
 	@Test
@@ -57,7 +57,7 @@ public class JCasFactoryTest extends ComponentTestBase{
 		JCas jCas = JCasFactory.createJCas("org.uimafit.type.TypeSystem");
 		jCas.setDocumentText("For great 20 minute talks, check out TED.com.");
 		AnnotationFactory.createAnnotation(jCas, 0, 3, Token.class);
-		assertEquals("For", AnnotationRetrieval.get(jCas, Token.class, 0).getCoveredText());
+		assertEquals("For", JCasUtil.get(jCas, Token.class, 0).getCoveredText());
 	}
 
 }

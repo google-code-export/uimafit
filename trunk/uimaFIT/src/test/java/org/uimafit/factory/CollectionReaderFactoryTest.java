@@ -34,7 +34,7 @@ import org.uimafit.ComponentTestBase;
 import org.uimafit.factory.testCrs.SingleFileXReader;
 import org.uimafit.pipeline.JCasIterable;
 import org.uimafit.type.Token;
-import org.uimafit.util.AnnotationRetrieval;
+import org.uimafit.util.JCasUtil;
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -52,7 +52,7 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 		JCas jCas = jCasIterable.next();
 		assertNotNull(jCas);
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
-		Token token = AnnotationRetrieval.get(jCas, Token.class, 2);
+		Token token = JCasUtil.get(jCas, Token.class, 2);
 		assertEquals("all", token.getCoveredText());
 		assertEquals("A", token.getPos());
 		assertEquals("all", token.getStem());
@@ -66,7 +66,7 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 		jCas = jCasIterable.next();
 		assertNotNull(jCas);
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
-		token = AnnotationRetrieval.get(jCas, Token.class, 9);
+		token = JCasUtil.get(jCas, Token.class, 9);
 		assertEquals(".", token.getCoveredText());
 		assertEquals(".", token.getPos());
 		assertEquals(".", token.getStem());
@@ -80,7 +80,7 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 		jCas = jCasIterable.next();
 		assertNotNull(jCas);
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
-		token = AnnotationRetrieval.get(jCas, Token.class, 4);
+		token = JCasUtil.get(jCas, Token.class, 4);
 		assertEquals("friends", token.getCoveredText());
 		assertEquals("F", token.getPos());
 		assertEquals("friend", token.getStem());
