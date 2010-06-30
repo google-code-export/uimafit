@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.uimafit.examples.tutorial.ExamplesTestBase;
 import org.uimafit.examples.tutorial.type.RoomNumber;
 import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.util.AnnotationRetrieval;
+import org.uimafit.util.JCasUtil;
 
 /**
  * This class demonstrates some simple tests using uimaFIT using the ExamplesTestBase. 
@@ -29,7 +29,7 @@ public class RoomNumberAnnotator2Test extends ExamplesTestBase{
 		jCas.setDocumentText("The meeting is over at Yorktown 01-144");
 		roomNumberAnnotatorAE.process(jCas);
 
-		RoomNumber roomNumber = AnnotationRetrieval.get(jCas, RoomNumber.class, 0);
+		RoomNumber roomNumber = JCasUtil.get(jCas, RoomNumber.class, 0);
 		assertNotNull(roomNumber);
 		assertEquals("01-144", roomNumber.getCoveredText());
 		assertEquals("Yorktown", roomNumber.getBuilding());

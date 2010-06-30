@@ -10,7 +10,7 @@ import org.uimafit.examples.tutorial.type.RoomNumber;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.JCasFactory;
 import org.uimafit.factory.TypeSystemDescriptionFactory;
-import org.uimafit.util.AnnotationRetrieval;
+import org.uimafit.util.JCasUtil;
 
 public class RoomNumberAnnotatorPipeline {
 
@@ -24,7 +24,7 @@ public class RoomNumberAnnotatorPipeline {
 				"Locations", new String[] {"Downtown", "Uptown"});
 		analysisEngine.process(jCas);
 		
-		Iterator<RoomNumber> roomNumbers = AnnotationRetrieval.get(jCas, RoomNumber.class);
+		Iterator<RoomNumber> roomNumbers = JCasUtil.getAnnotationIterator(jCas, RoomNumber.class);
 		while(roomNumbers.hasNext()) {
 			RoomNumber roomNumber = roomNumbers.next();
 			System.out.println(roomNumber.getCoveredText() + "\tbuilding = "+roomNumber.getBuilding());
