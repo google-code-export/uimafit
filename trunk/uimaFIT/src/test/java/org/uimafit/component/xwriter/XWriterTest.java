@@ -27,7 +27,6 @@ import java.util.List;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.FileUtils;
 import org.jdom.Document;
@@ -65,7 +64,7 @@ public class XWriterTest extends ComponentTestBase {
 
 	@Test
 	public void testXWriter() throws Exception {
-		addDataToCas(jCas);
+		addDataToCas();
 
 		AnalysisEngine xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME,
 				outputDirectory.getPath());
@@ -84,7 +83,7 @@ public class XWriterTest extends ComponentTestBase {
 		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
 
 		jCas.reset();
-		addDataToCas(jCas);
+		addDataToCas();
 
 		xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME, outputDirectory
 				.getPath(), IntegerFileNamer.PARAM_PREFIX, "myprefix-");
@@ -96,7 +95,7 @@ public class XWriterTest extends ComponentTestBase {
 
 	}
 
-	private void addDataToCas(JCas jCas) throws UIMAException {
+	private void addDataToCas() throws UIMAException {
 		tokenBuilder.buildTokens(jCas, "Anyone up for a game of Foosball?");
 
 		AggregateBuilder builder = new AggregateBuilder();
