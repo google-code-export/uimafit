@@ -21,7 +21,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.jcas.JCas;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
 import org.uimafit.type.Token;
@@ -46,7 +45,7 @@ public class JCasFactoryTest extends ComponentTestBase{
 
 	@Test
 	public void testFromPath() throws UIMAException {
-		JCas jCas = JCasFactory.createJCasFromPath("src/test/resources/org/uimafit/type/TypeSystem.xml");
+		jCas = JCasFactory.createJCasFromPath("src/test/resources/org/uimafit/type/TypeSystem.xml");
 		jCas.setDocumentText("For great 20 minute talks, check out TED.com.");
 		AnnotationFactory.createAnnotation(jCas, 0, 3, Token.class);
 		assertEquals("For", JCasUtil.get(jCas, Token.class, 0).getCoveredText());
@@ -54,7 +53,7 @@ public class JCasFactoryTest extends ComponentTestBase{
 	
 	@Test
 	public void testCreate() throws UIMAException {
-		JCas jCas = JCasFactory.createJCas("org.uimafit.type.TypeSystem");
+		jCas = JCasFactory.createJCas("org.uimafit.type.TypeSystem");
 		jCas.setDocumentText("For great 20 minute talks, check out TED.com.");
 		AnnotationFactory.createAnnotation(jCas, 0, 3, Token.class);
 		assertEquals("For", JCasUtil.get(jCas, Token.class, 0).getCoveredText());

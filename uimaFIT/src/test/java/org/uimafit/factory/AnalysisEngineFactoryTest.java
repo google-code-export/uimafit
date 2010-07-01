@@ -91,14 +91,14 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 
 	@Test
 	public void testProcess1() throws UIMAException, IOException {
-		JCas jCas = AnalysisEngineFactory.process("org.uimafit.component.JCasAnnotatorAdapter", "There is no excuse!");
+		jCas = AnalysisEngineFactory.process("org.uimafit.component.JCasAnnotatorAdapter", "There is no excuse!");
 
 		assertEquals("There is no excuse!", jCas.getDocumentText());
 	}
 
 	@Test
 	public void testProcess2() throws UIMAException, IOException {
-		JCas jCas = AnalysisEngineFactory.process("org.uimafit.component.JCasAnnotatorAdapter",
+		jCas = AnalysisEngineFactory.process("org.uimafit.component.JCasAnnotatorAdapter",
 				"src/test/resources/data/docs/A.txt");
 
 		assertEquals("Aaa Bbbb Cc Dddd eeee ff .", jCas.getDocumentText());
@@ -110,14 +110,14 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(org.uimafit.component.JCasAnnotatorAdapter.class,
 				typeSystemDescription, prioritizedTypeNames, (Object[]) null);
 
-		TypePriorities typePriorities = engine.getAnalysisEngineMetaData().getTypePriorities();
+		typePriorities = engine.getAnalysisEngineMetaData().getTypePriorities();
 		assertEquals(1, typePriorities.getPriorityLists().length);
 		TypePriorityList typePriorityList = typePriorities.getPriorityLists()[0];
 		assertEquals(2, typePriorityList.getTypes().length);
 		assertEquals("org.uimafit.type.Token", typePriorityList.getTypes()[0]);
 		assertEquals("org.uimafit.type.Sentence", typePriorityList.getTypes()[1]);
 
-		JCas jCas = engine.newJCas();
+		jCas = engine.newJCas();
 		tokenBuilder.buildTokens(jCas, "word");
 		FSIterator<Annotation> tokensInSentence = jCas.getAnnotationIndex().subiterator(
 				JCasUtil.get(jCas, Sentence.class, 0));
