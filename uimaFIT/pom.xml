@@ -4,7 +4,7 @@
 	<artifactId>uimafit</artifactId>
 	<packaging>jar</packaging>
 	<name>uimaFIT</name>
-	<version>0.9.17-SNAPSHOT</version>
+	<version>0.9.14-SNAPSHOT</version>
 	<description>Factories, Injection, and Testing library for UIMA</description>
 	<url>http://uimafit.googlecode.com</url>
 	<parent>
