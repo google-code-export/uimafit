@@ -2,6 +2,7 @@ Here is the current (but not perfect) procedure for creating a release:
 
 First update the javadoc pages:
   * temporarily edit the pom file to specify the release version (rather than the snapshot version)
+  * to avoid subversion complaints about being out of synch, I find it helpful to perform svn update and svn cleanup before the next step.
   * run the following
 {{{ 
 >cd uimafit-home-dir
