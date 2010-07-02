@@ -42,16 +42,16 @@ public class ExternalResourceInitializer
 	 * Configure a component from the given context.
 	 *
 	 * @param <T> the component type.
-	 * @param aContext the UIMA context.
+	 * @param context the UIMA context.
 	 * @param object the component.
 	 * @throws ResourceInitializationException if the external resource cannot
 	 * 		be configured.
 	 */
-	public static <T> void initializeExternalResources(UimaContext aContext, T object)
+	public static <T> void initializeExternalResources(UimaContext context, T object)
 		throws ResourceInitializationException
 	{
 		try {
-			configure(aContext, object.getClass(), object.getClass(),
+			configure(context, object.getClass(), object.getClass(),
 					object, getResourceDeclarations(object.getClass()));
 		}
 		catch (Exception e) {
@@ -63,31 +63,31 @@ public class ExternalResourceInitializer
 	 * Helper method for recursively configuring super-classes.
 	 *
 	 * @param <T> the component type.
-	 * @param aContext the context containing the resource bindings.
-	 * @param aBaseClazz the class on which configuration started.
-	 * @param aClazz the class currently being configured.
+	 * @param context the context containing the resource bindings.
+	 * @param baseCls the class on which configuration started.
+	 * @param cls the class currently being configured.
 	 * @param object the object being configured.
-	 * @param aDeps the dependencies.
+	 * @param dependencies the dependencies.
 	 * @throws ResourceInitializationException if required resources could not
 	 * 		be bound.
 	 */
 	private static <T> void configure(
-			UimaContext aContext, Class<?> aBaseClazz, Class<?> aClazz, T object,
-			Map<String, ExternalResourceDependency> aDeps)
+			UimaContext context, Class<?> baseCls, Class<?> cls, T object,
+			Map<String, ExternalResourceDependency> dependencies)
 		throws ResourceInitializationException
 	{
 		try {
-			if (aClazz.getSuperclass() != null) {
-				configure(aContext, aBaseClazz, aClazz.getSuperclass(), object, aDeps);
+			if (cls.getSuperclass() != null) {
+				configure(context, baseCls, cls.getSuperclass(), object, dependencies);
 			}
 
-			for (Field field : aClazz.getDeclaredFields()) {
+			for (Field field : cls.getDeclaredFields()) {
 				if (!field.isAnnotationPresent(ExternalResource.class)) {
 					continue;
 				}
 
 				// Obtain the resource
-				Object value = aContext.getResourceObject(getKey(field));
+				Object value = context.getResourceObject(getKey(field));
 				if (value instanceof ExternalResourceLocator) {
 					value = ((ExternalResourceLocator) value).getResource();
 				}
@@ -96,7 +96,7 @@ public class ExternalResourceInitializer
 				if (value == null && isMandatory(field)) {
 					throw new ResourceInitializationException(
 							new IllegalStateException("Mandatory resource ["
-									+ getKey(field) + "] is not set on ["+aBaseClazz+"]"));
+									+ getKey(field) + "] is not set on ["+baseCls+"]"));
 				}
 
 				// Now record the setting and optionally apply it to the given
@@ -117,13 +117,13 @@ public class ExternalResourceInitializer
 	}
 
 	public static <T> Map<String, ExternalResourceDependency> getResourceDeclarations(
-			Class<?> aClazz)
+			Class<?> cls)
 		throws ResourceInitializationException
 	{
 		try {
 			Map<String, ExternalResourceDependency> deps =
 				new HashMap<String, ExternalResourceDependency>();
-			getResourceDeclarations(aClazz, aClazz, deps);
+			getResourceDeclarations(cls, cls, deps);
 			return deps;
 		}
 		catch (ResourceInitializationException e) {
@@ -135,25 +135,25 @@ public class ExternalResourceInitializer
 	}
 
 	private static <T> void getResourceDeclarations(
-			Class<?> aBaseClazz, Class<?> aClazz,
-			Map<String, ExternalResourceDependency> aDeps)
+			Class<?> baseCls, Class<?> cls,
+			Map<String, ExternalResourceDependency> dependencies)
 		throws ResourceInitializationException
 	{
-		if (aClazz.getSuperclass() != null) {
-			getResourceDeclarations(aBaseClazz, aClazz.getSuperclass(), aDeps);
+		if (cls.getSuperclass() != null) {
+			getResourceDeclarations(baseCls, cls.getSuperclass(), dependencies);
 		}
 
-		for (Field field : aClazz.getDeclaredFields()) {
+		for (Field field : cls.getDeclaredFields()) {
 			if (!field.isAnnotationPresent(ExternalResource.class)) {
 				continue;
 			}
 
-			if (aDeps.containsKey(getKey(field))) {
+			if (dependencies.containsKey(getKey(field))) {
 				throw new ResourceInitializationException(new IllegalStateException(
 						"Key ["+getKey(field)+"] may only be used on a single field."));
 			}
 
-			aDeps.put(getKey(field), createExternalResourceDependency(getKey(field),
+			dependencies.put(getKey(field), createExternalResourceDependency(getKey(field),
 					getApi(field), !isMandatory(field)));
 		}
 	}

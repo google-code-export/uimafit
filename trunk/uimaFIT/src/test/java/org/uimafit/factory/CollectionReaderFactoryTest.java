@@ -51,7 +51,7 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 		jCas = jCasIterable.next();
 		assertNotNull(jCas);
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
-		Token token = JCasUtil.get(jCas, Token.class, 2);
+		Token token = JCasUtil.selectByIndex(jCas, Token.class, 2);
 		assertEquals("all", token.getCoveredText());
 		assertEquals("A", token.getPos());
 		assertEquals("all", token.getStem());
@@ -65,7 +65,7 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 		jCas = jCasIterable.next();
 		assertNotNull(jCas);
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
-		token = JCasUtil.get(jCas, Token.class, 9);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 9);
 		assertEquals(".", token.getCoveredText());
 		assertEquals(".", token.getPos());
 		assertEquals(".", token.getStem());
@@ -79,7 +79,7 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 		jCas = jCasIterable.next();
 		assertNotNull(jCas);
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
-		token = JCasUtil.get(jCas, Token.class, 4);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 4);
 		assertEquals("friends", token.getCoveredText());
 		assertEquals("F", token.getPos());
 		assertEquals("friend", token.getStem());

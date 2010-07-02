@@ -39,7 +39,7 @@ public class RoomNumberAnnotator1Test {
 		jCas.setDocumentText("The meeting is over at Yorktown 01-144");
 		roomNumberAnnotatorAE.process(jCas);
 
-		RoomNumber roomNumber = JCasUtil.get(jCas, RoomNumber.class, 0);
+		RoomNumber roomNumber = JCasUtil.selectByIndex(jCas, RoomNumber.class, 0);
 		assertNotNull(roomNumber);
 		assertEquals("01-144", roomNumber.getCoveredText());
 		assertEquals("Yorktown", roomNumber.getBuilding());
@@ -63,7 +63,7 @@ public class RoomNumberAnnotator1Test {
 		jCas.setDocumentText("The meeting is over at Yorktown 01-144");
 		roomNumberAnnotatorAE.process(jCas);
 
-		RoomNumber roomNumber = JCasUtil.get(jCas, RoomNumber.class, 0);
+		RoomNumber roomNumber = JCasUtil.selectByIndex(jCas, RoomNumber.class, 0);
 		assertNotNull(roomNumber);
 		assertEquals("01-144", roomNumber.getCoveredText());
 		assertEquals("Yorktown", roomNumber.getBuilding());
@@ -83,7 +83,7 @@ public class RoomNumberAnnotator1Test {
 		jCas.setDocumentText("The meeting is over at Yorktown 01-144");
 		roomNumberAnnotatorAE.process(jCas);
 
-		RoomNumber roomNumber = JCasUtil.get(jCas, RoomNumber.class, 0);
+		RoomNumber roomNumber = JCasUtil.selectByIndex(jCas, RoomNumber.class, 0);
 		assertNotNull(roomNumber);
 		assertEquals("01-144", roomNumber.getCoveredText());
 		assertEquals("Yorktown", roomNumber.getBuilding());
