@@ -5,15 +5,20 @@
 	<artifactId>uimafit</artifactId>
 	<packaging>jar</packaging>
 	<name>uimaFIT</name>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>0.9.14-SNAPSHOT</version>
 	<description>Factories, Injection, and Testing library for UIMA</description>
 	<url>http://uimafit.googlecode.com</url>
+	<parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>3</version>
+  </parent>
 	<scm>
 		<connection>scm:svn:http://uimafit.googlecode.com/svn/trunk/</connection>
 		<developerConnection>scm:svn:https://uimafit.googlecode.com/svn/trunk/</developerConnection>
 		<url>http://uimafit.googlecode.com/svn/</url>
 	</scm>
-		<properties>
+	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<repositories>
@@ -104,7 +109,7 @@
 					</execution>
 				</executions>
 			</plugin>
-							<plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
@@ -126,8 +131,6 @@
 					</arguments>
 				</configuration>
 			</plugin>
-				
-
 		</plugins>
 		<extensions>
 			<extension>
@@ -156,6 +159,34 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<reporting>
 		<plugins>
 			<plugin>
