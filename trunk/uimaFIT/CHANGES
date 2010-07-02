@@ -1,4 +1,11 @@
 changes in 1.0
+	- introduced CasUtil & JCasUtil
+	- resolved issue #29 "CasUtil & JCasUtil - method names"
+	- resolved issue #30 "naming convention for method arguments  "
+	- resolved issue #24 "move AnnotationRetrieval.get(JCas, Class<T>, int) method to testing.util package  "
+	- resolved issue #26 "Stick to three-level versioning scheme"
+	- introduced JCasGenPomFriendly for calling Jg from maven without calling System.exit()
+	- resolved issue #12 "upgrade UIMA to version 2.3.0"
     - resolved issue #20 "create initialize package" which moves InitializeUtil and ExternalResourceConfigurator into a common "initialize" package and gives them consistent names (org.uimafit.component.initialize.ConfigurationParameterInitializer and org.uimafit.component.initialize.ExternalResourceInitializer)
     - resolved issue #21 "ComponentTestBase - base class for tests"
 	- resolved issue #10 "consider removing TearDownUtil"
