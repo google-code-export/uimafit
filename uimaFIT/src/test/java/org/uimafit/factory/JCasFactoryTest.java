@@ -48,7 +48,7 @@ public class JCasFactoryTest extends ComponentTestBase{
 		jCas = JCasFactory.createJCasFromPath("src/test/resources/org/uimafit/type/TypeSystem.xml");
 		jCas.setDocumentText("For great 20 minute talks, check out TED.com.");
 		AnnotationFactory.createAnnotation(jCas, 0, 3, Token.class);
-		assertEquals("For", JCasUtil.get(jCas, Token.class, 0).getCoveredText());
+		assertEquals("For", JCasUtil.selectByIndex(jCas, Token.class, 0).getCoveredText());
 	}
 	
 	@Test
@@ -56,7 +56,7 @@ public class JCasFactoryTest extends ComponentTestBase{
 		jCas = JCasFactory.createJCas("org.uimafit.type.TypeSystem");
 		jCas.setDocumentText("For great 20 minute talks, check out TED.com.");
 		AnnotationFactory.createAnnotation(jCas, 0, 3, Token.class);
-		assertEquals("For", JCasUtil.get(jCas, Token.class, 0).getCoveredText());
+		assertEquals("For", JCasUtil.selectByIndex(jCas, Token.class, 0).getCoveredText());
 	}
 
 }

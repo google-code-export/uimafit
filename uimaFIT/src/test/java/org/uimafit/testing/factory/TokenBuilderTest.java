@@ -52,21 +52,21 @@ public class TokenBuilderTest extends ComponentTestBase{
 
 		FSIndex<Annotation> tokenIndex = jCas.getAnnotationIndex(Token.type);
 		assertEquals(21, tokenIndex.size());
-		Token token = JCasUtil.get(jCas, Token.class, 0);
+		Token token = JCasUtil.selectByIndex(jCas, Token.class, 0);
 		testToken(token, "What", 0, 4, "A", null);
-		token = JCasUtil.get(jCas, Token.class, 1);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 1);
 		testToken(token, "if", 5, 7, "B", null);
-		token = JCasUtil.get(jCas, Token.class, 9);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 9);
 		testToken(token, "cheese", 39, 45, "J", null);
-		token = JCasUtil.get(jCas, Token.class, 10);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 10);
 		testToken(token, "?", 45, 46, "K", null);
-		token = JCasUtil.get(jCas, Token.class, 11);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 11);
 		testToken(token, "We", 46, 48, "L", null);
-		token = JCasUtil.get(jCas, Token.class, 12);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 12);
 		testToken(token, "could", 49, 54, "M", null);
-		token = JCasUtil.get(jCas, Token.class, 19);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 19);
 		testToken(token, "repairs", 78, 85, "T", null);
-		token = JCasUtil.get(jCas, Token.class, 20);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 20);
 		testToken(token, ".", 85, 86, "U", null);
 	}
 	
@@ -76,9 +76,9 @@ public class TokenBuilderTest extends ComponentTestBase{
 		tokenBuilder.buildTokens(jCas, text, "What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
 				"A B C D E F G H I J K L M N O P Q R S T U");
 
-		Token token = JCasUtil.get(jCas, Token.class, 10);
+		Token token = JCasUtil.selectByIndex(jCas, Token.class, 10);
 		testToken(token, "?", 45, 46, "K", null);
-		token = JCasUtil.get(jCas, Token.class, 11);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 11);
 		testToken(token, "We", 48, 50, "L", null);
 
 		jCas.reset();
@@ -86,9 +86,9 @@ public class TokenBuilderTest extends ComponentTestBase{
 		tokenBuilder.buildTokens(jCas, text, "What if we built a rocket ship made of cheese ?\nWe could fly it to the moon for repairs .",
 				"A B C D E F G H I J K L M N O P Q R S T U");
 
-		token = JCasUtil.get(jCas, Token.class, 10);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 10);
 		testToken(token, "?", 45, 46, "K", null);
-		token = JCasUtil.get(jCas, Token.class, 11);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 11);
 		testToken(token, "We", 48, 50, "L", null);
 	}
 	
@@ -99,13 +99,13 @@ public class TokenBuilderTest extends ComponentTestBase{
 
 		FSIndex<Annotation> tokenIndex = jCas.getAnnotationIndex(Token.type);
 		assertEquals(13, tokenIndex.size());
-		Token token = JCasUtil.get(jCas, Token.class, 0);
+		Token token = JCasUtil.selectByIndex(jCas, Token.class, 0);
 		testToken(token, "If", 0, 2, null, null);
-		token = JCasUtil.get(jCas, Token.class, 12);
+		token = JCasUtil.selectByIndex(jCas, Token.class, 12);
 		testToken(token, "rider.", 63, 69, null, null);
 		FSIndex<Annotation> sentenceIndex = jCas.getAnnotationIndex(Sentence.type);
 		assertEquals(1, sentenceIndex.size());
-		Sentence sentence = JCasUtil.get(jCas, Sentence.class, 0);
+		Sentence sentence = JCasUtil.selectByIndex(jCas, Sentence.class, 0);
 		assertEquals(text, sentence.getCoveredText());
 	}
 
@@ -143,7 +143,7 @@ public class TokenBuilderTest extends ComponentTestBase{
 				"me and all my friend are non - conformist .");
 
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
-		Token friendToken = JCasUtil.get(jCas, Token.class, 4);
+		Token friendToken = JCasUtil.selectByIndex(jCas, Token.class, 4);
 		assertEquals("friends", friendToken.getCoveredText());
 		assertEquals("F", friendToken.getPos());
 		assertEquals("friend", friendToken.getStem());
@@ -170,7 +170,7 @@ public class TokenBuilderTest extends ComponentTestBase{
 		
 		tokenBuilder.buildTokens(myView, "red and blue cars and tipsy motorcycles");
 		
-		Token token = JCasUtil.get(myView, Token.class, 6);
+		Token token = JCasUtil.selectByIndex(myView, Token.class, 6);
 		assertEquals("motorcycles", token.getCoveredText());
 
 	}

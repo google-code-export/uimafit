@@ -68,7 +68,7 @@ extends ComponentTestBase
 
 		for (Token t : JCasUtil.iterate(jCas, Token.class)) {
 			List<Sentence> stem1 = getCoveredAnnotationsNaive(jCas, Sentence.class, t);
-			List<Sentence> stem2 = JCasUtil.getCoveredAnnotations(jCas, Sentence.class, t);
+			List<Sentence> stem2 = JCasUtil.selectCovered(jCas, Sentence.class, t);
 			check(jCas, t, stem1, stem2);
 		}
 
@@ -95,7 +95,7 @@ extends ComponentTestBase
 
 		for (Token t : JCasUtil.iterate(jCas, Token.class)) {
 			List<Sentence> stem1 = getCoveredAnnotationsNaive(jCas, Sentence.class, t);
-			List<Sentence> stem2 = JCasUtil.getCoveredAnnotations(jCas, Sentence.class, t);
+			List<Sentence> stem2 = JCasUtil.selectCovered(jCas, Sentence.class, t);
 			check(jCas, t, stem1, stem2);
 		}
 
@@ -187,7 +187,7 @@ extends ComponentTestBase
 	/**
 	 * The optimized version by Richard using the {@link Subiterator} code but ignoring types. This
 	 * is basically the same version as
-	 * {@link CasUtil#getCoveredAnnotations(CAS, Type, AnnotationFS)} but here it contains
+	 * {@link CasUtil#selectCovered(CAS, Type, AnnotationFS)} but here it contains
 	 * additional checks. Possibly these additional checks should be asserts and be put into CasUtil
 	 * - then this method here could be removed.
 	 *
@@ -303,7 +303,7 @@ extends ComponentTestBase
 		String text = "Rot wood cheeses dew?";
 		tokenBuilder.buildTokens(jCas, text);
 		
-		Iterator<Token> tokens = JCasUtil.getAnnotationIterator(jCas, Token.class);
+		Iterator<Token> tokens = JCasUtil.iterator(jCas, Token.class);
 		assertTrue(tokens.hasNext());
 		assertEquals("Rot", tokens.next().getCoveredText());
 		assertTrue(tokens.hasNext());
@@ -320,22 +320,22 @@ extends ComponentTestBase
 		String text = "Rot wood cheeses dew?";
 		tokenBuilder.buildTokens(jCas, text);
 		
-		Token lastToken = JCasUtil.get(jCas, Token.class, -1);
+		Token lastToken = JCasUtil.selectByIndex(jCas, Token.class, -1);
 		assertEquals("dew?", lastToken.getCoveredText());
 		
-		Token firstToken = JCasUtil.get(jCas, Token.class, 0);
+		Token firstToken = JCasUtil.selectByIndex(jCas, Token.class, 0);
 		assertEquals("Rot", firstToken.getCoveredText());
 
-		lastToken = JCasUtil.get(jCas, Token.class, 3);
+		lastToken = JCasUtil.selectByIndex(jCas, Token.class, 3);
 		assertEquals("dew?", lastToken.getCoveredText());
 
-		firstToken = JCasUtil.get(jCas, Token.class, -4);
+		firstToken = JCasUtil.selectByIndex(jCas, Token.class, -4);
 		assertEquals("Rot", firstToken.getCoveredText());
 
-		Token oobToken = JCasUtil.get(jCas, Token.class, -5);
+		Token oobToken = JCasUtil.selectByIndex(jCas, Token.class, -5);
 		assertNull(oobToken);
 		
-		oobToken = JCasUtil.get(jCas, Token.class, 4);
+		oobToken = JCasUtil.selectByIndex(jCas, Token.class, 4);
 		assertNull(oobToken);
 		
 	}

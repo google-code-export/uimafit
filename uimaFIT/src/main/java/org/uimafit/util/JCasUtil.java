@@ -41,20 +41,20 @@ public class JCasUtil
 	 * Convenience method to iterator over all annotations of a given type.
 	 *
 	 * @param <T> the iteration type.
-	 * @param aJCas a JCas.
-	 * @param aContainer the containing annotation.
-	 * @param aType the type.
+	 * @param jCas a JCas.
+	 * @param container the containing annotation.
+	 * @param type the type.
 	 * @return An iterable.
 	 * @see AnnotationIndex#iterator()
 	 */
-	public static <T extends AnnotationFS> Iterable<T> iterate(final JCas aJCas,
-			final Class<T> aType)
+	public static <T extends AnnotationFS> Iterable<T> iterate(final JCas jCas,
+			final Class<T> type)
 	{
 		return new Iterable<T>()
 		{
 			public Iterator<T> iterator()
 			{
-				return getAnnotationIterator(aJCas, aType);
+				return JCasUtil.iterator(jCas, type);
 			}
 		};
 	}
@@ -64,15 +64,15 @@ public class JCasUtil
 	 * occurring within the scope of a provided annotation.
 	 *
 	 * @param <T> the iteration type.
-	 * @param aJCas a JCas.
-	 * @param aContainer the containing annotation.
-	 * @param aType the type.
+	 * @param jCas a JCas.
+	 * @param container the containing annotation.
+	 * @param type the type.
 	 * @return A iterable.
-	 * @see {@link #getCoveredAnnotations(Class, AnnotationFS)}
+	 * @see {@link #selectCovered(Class, AnnotationFS)}
 	 */
-	public static <T extends Annotation> Iterable<T> iterate(final Class<T> aType, final Annotation aContainer)
+	public static <T extends Annotation> Iterable<T> iterate(final Class<T> type, final Annotation container)
 	{
-		return getCoveredAnnotations(aType, aContainer);
+		return selectCovered(type, container);
 	}
 
 	/**
@@ -80,15 +80,15 @@ public class JCasUtil
 	 * occurring within the scope of a provided annotation.
 	 *
 	 * @param <T> the iteration type.
-	 * @param aJCas a JCas.
-	 * @param aContainer the containing annotation.
-	 * @param aType the type.
+	 * @param jCas a JCas.
+	 * @param container the containing annotation.
+	 * @param type the type.
 	 * @return A iterable.
 	 */
-	public static <T extends Annotation> Iterable<T> iterate(final JCas aJCas,
-			final Class<T> aType, final Annotation aContainer)
+	public static <T extends Annotation> Iterable<T> iterate(final JCas jCas,
+			final Class<T> type, final Annotation container)
 	{
-		return getCoveredAnnotations(aJCas, aType, aContainer);
+		return selectCovered(jCas, type, container);
 	}
 
 	/**
@@ -96,23 +96,23 @@ public class JCasUtil
 	 * occurring within the scope of a provided annotation (sub-iteration).
 	 *
 	 * @param <T> the iteration type.
-	 * @param aJCas a JCas.
-	 * @param aContainer the containing annotation.
-	 * @param aType the type.
-     * @param aAmbiguous If set to <code>false</code>, resulting iterator will be unambiguous.
-     * @param aStrict Controls if annotations that overlap to the right are considered in or out.
+	 * @param jCas a JCas.
+	 * @param container the containing annotation.
+	 * @param type the type.
+     * @param ambiguous If set to <code>false</code>, resulting iterator will be unambiguous.
+     * @param strict Controls if annotations that overlap to the right are considered in or out.
 	 * @return A sub-iterator iterable.
 	 * @see AnnotationIndex#subiterator(AnnotationFS, boolean, boolean)
 	 */
-	public static <T extends Annotation> Iterable<T> subiterate(final JCas aJCas,
-			final Class<T> aType, final Annotation aContainer, final boolean aAmbiguous,
-			final boolean aStrict)
+	public static <T extends Annotation> Iterable<T> subiterate(final JCas jCas,
+			final Class<T> type, final Annotation container, final boolean ambiguous,
+			final boolean strict)
 	{
 		return new Iterable<T>()
 		{
 			public Iterator<T> iterator()
 			{
-				return getAnnotationIterator(aContainer, aType, aAmbiguous, aStrict);
+				return JCasUtil.iterator(container, type, ambiguous, strict);
 			}
 		};
 	}
@@ -121,73 +121,73 @@ public class JCasUtil
 	 * Get an iterator over the given annotation type.
 	 *
 	 * @param <T> the JCas type.
-	 * @param aJCas a JCas.
-	 * @param aType a type.
+	 * @param jCas a JCas.
+	 * @param type a type.
 	 * @return a return value.
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T extends AnnotationFS> Iterator<T> getAnnotationIterator(JCas aJCas,
-			Class<T> aType)
+	public static <T extends AnnotationFS> Iterator<T> iterator(JCas jCas,
+			Class<T> type)
 	{
-		return ((AnnotationIndex<T>) aJCas.getAnnotationIndex(getType(aJCas, aType))).iterator();
+		return ((AnnotationIndex<T>) jCas.getAnnotationIndex(getType(jCas, type))).iterator();
 	}
 
 	/**
 	 * Convenience method to get a sub-iterator for the specified type.
 	 *
 	 * @param <T> the iteration type.
-	 * @param aContainer the containing annotation.
-	 * @param aType the type.
-     * @param aAmbiguous If set to <code>false</code>, resulting iterator will be unambiguous.
-     * @param aStrict Controls if annotations that overlap to the right are considered in or out.
+	 * @param container the containing annotation.
+	 * @param type the type.
+     * @param ambiguous If set to <code>false</code>, resulting iterator will be unambiguous.
+     * @param strict Controls if annotations that overlap to the right are considered in or out.
 	 * @return A sub-iterator.
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T extends AnnotationFS> Iterator<T> getAnnotationIterator(
-			Annotation aContainer, Class<T> aType, boolean aAmbigous, boolean aStrict)
+	public static <T extends AnnotationFS> Iterator<T> iterator(
+			Annotation container, Class<T> type, boolean ambiguous, boolean strict)
 	{
-		CAS cas = aContainer.getCAS();
-		return ((AnnotationIndex<T>) cas.getAnnotationIndex(CasUtil.getType(cas, aType))).subiterator(
-				aContainer, aAmbigous, aStrict);
+		CAS cas = container.getCAS();
+		return ((AnnotationIndex<T>) cas.getAnnotationIndex(CasUtil.getType(cas, type))).subiterator(
+				container, ambiguous, strict);
 	}
 
-	public static Type getType(JCas aJCas, Class<?> aType)
+	public static Type getType(JCas jCas, Class<?> type)
 	{
-		return CasUtil.getType(aJCas.getCas(), aType);
+		return CasUtil.getType(jCas.getCas(), type);
 	}
 
 	/**
-	 * Get a list of annotations of the given annotation type constraint by a
-	 * certain annotation. Iterates over all annotations of the given type to
+	 * Get a list of annotations of the given annotation type constrained by a
+	 * 'covering' annotation. Iterates over all annotations of the given type to
 	 * find the covered annotations. Does not use subiterators.
 	 *
 	 * @param <T> the JCas type.
-	 * @param aType a UIMA type.
+	 * @param type a UIMA type.
 	 * @return a return value.
 	 * @see {@link Subiterator}
 	 */
-	public static <T extends AnnotationFS> List<T> getCoveredAnnotations(
-			Class<T> aType, AnnotationFS annotation)
+	public static <T extends AnnotationFS> List<T> selectCovered(
+			Class<T> type, AnnotationFS coveringAnnotation)
 	{
-		CAS cas = annotation.getCAS();
-		return CasUtil.getCoveredAnnotations(cas, CasUtil.getType(cas, aType), annotation);
+		CAS cas = coveringAnnotation.getCAS();
+		return CasUtil.selectCovered(cas, CasUtil.getType(cas, type), coveringAnnotation);
 	}
 
 	/**
-	 * Get a list of annotations of the given annotation type constraint by a
-	 * certain annotation. Iterates over all annotations of the given type to
+	 * Get a list of annotations of the given annotation type constrained by a
+	 * 'covering' annotation. Iterates over all annotations of the given type to
 	 * find the covered annotations. Does not use subiterators.
 	 *
 	 * @param <T> the JCas type.
 	 * @param aCas a JCas containing the annotation.
-	 * @param aType a UIMA type.
+	 * @param type a UIMA type.
 	 * @return a return value.
 	 * @see {@link Subiterator}
 	 */
-	public static <T extends Annotation> List<T> getCoveredAnnotations(
-			JCas aJCas, final Class<T> aType, Annotation aContainer)
+	public static <T extends Annotation> List<T> selectCovered(
+			JCas jCas, final Class<T> type, Annotation container)
 	{
-		return CasUtil.getCoveredAnnotations(aJCas.getCas(), getType(aJCas, aType), aContainer);
+		return CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), container);
 	}
 
 	/**
@@ -203,7 +203,7 @@ public class JCasUtil
 	 *            annotation of a type.)
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T extends Annotation> T get(JCas jCas, Class<T> cls, int index) {
+	public static <T extends Annotation> T selectByIndex(JCas jCas, Class<T> cls, int index) {
 		FSIterator i = jCas.getAnnotationIndex(getType(jCas, cls)).iterator();
 		int n = index;
 		i.moveToFirst();

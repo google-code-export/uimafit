@@ -41,17 +41,17 @@ public class CasUtil
 	/**
 	 * Get the CAS type for the given JCas wrapper class.
 	 *
-	 * @param aCas the CAS hosting the type system.
-	 * @param aType the JCas wrapper class.
+	 * @param cas the CAS hosting the type system.
+	 * @param type the JCas wrapper class.
 	 * @return the CAS type.
 	 */
-	public static Type getType(CAS aCas, Class<?> aType)
+	public static Type getType(CAS cas, Class<?> type)
 	{
-		String typeName = aType.getName();
+		String typeName = type.getName();
 		if (typeName.startsWith(UIMA_BUILTIN_JCAS_PREFIX)) {
 			typeName = "uima."+typeName.substring(UIMA_BUILTIN_JCAS_PREFIX.length());
 		}
-		Type t = aCas.getTypeSystem().getType(typeName);
+		Type t = cas.getTypeSystem().getType(typeName);
 		if (t == null) {
 			throw new IllegalArgumentException("Undeclared type ["+typeName+"]");
 		}
@@ -64,23 +64,23 @@ public class CasUtil
 	 * subiterators and does not respect type prioritites.
 	 *
 	 * @param <T> the JCas type.
-	 * @param aCas a JCas.
-	 * @param aType a UIMA type.
+	 * @param cas a JCas.
+	 * @param type a UIMA type.
 	 * @return a return value.
 	 * @see was adapted from {@link Subiterator}. Uses the same approach except that type priorities
 	 *      are ignored.
 	 */
-	public static <T extends AnnotationFS> List<T> getCoveredAnnotations(
-			CAS aCas, Type aType, AnnotationFS aContainer)
+	public static <T extends AnnotationFS> List<T> selectCovered(
+			CAS cas, Type type, AnnotationFS container)
 	{
-		int begin = aContainer.getBegin();
-		int end = aContainer.getEnd();
+		int begin = container.getBegin();
+		int end = container.getEnd();
 
 		List<T> list = new ArrayList<T>();
-		FSIterator<AnnotationFS> it = aCas.getAnnotationIndex(aType).iterator();
+		FSIterator<AnnotationFS> it = cas.getAnnotationIndex(type).iterator();
 
 		// Try to seek the insertion point.
-		it.moveTo(aContainer);
+		it.moveTo(container);
 
 		// If the insertion point is beyond the index, move back to the last.
 		if (!it.isValid()) {
@@ -126,7 +126,7 @@ public class CasUtil
 				continue;
 			}
 
-			if (!a.equals(aContainer)) {
+			if (!a.equals(container)) {
 				list.add(a);
 			}
 		}

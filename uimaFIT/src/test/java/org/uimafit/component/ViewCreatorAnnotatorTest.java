@@ -65,12 +65,12 @@ public class ViewCreatorAnnotatorTest extends ComponentTestBase{
 		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(SofaAwareAnnotator.class,
 				typeSystemDescription);
 		engine.process(jCas);
-		assertEquals("some", JCasUtil.get(jCas, Token.class, 0).getCoveredText());
+		assertEquals("some", JCasUtil.selectByIndex(jCas, Token.class, 0).getCoveredText());
 
 		engine = AnalysisEngineFactory.createPrimitive(SofaUnawareAnnotator.class, typeSystemDescription);
 		jCas.reset();
 		engine.process(jCas);
-		assertEquals("some", JCasUtil.get(jCas, Token.class, 0).getCoveredText());
+		assertEquals("some", JCasUtil.selectByIndex(jCas, Token.class, 0).getCoveredText());
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class ViewCreatorAnnotatorTest extends ComponentTestBase{
 				typeSystemDescription, ViewCreatorAnnotator.PARAM_VIEW_NAME, "myView");
 		viewCreator.process(jCas);
 		engine.process(jCas);
-		assertEquals("some", JCasUtil.get(jCas.getView("myView"), Token.class, 0).getCoveredText());
+		assertEquals("some", JCasUtil.selectByIndex(jCas.getView("myView"), Token.class, 0).getCoveredText());
 
 		// here I run again with viewCreator running twice to make sure it
 		// does the right thing when the view
@@ -124,7 +124,7 @@ public class ViewCreatorAnnotatorTest extends ComponentTestBase{
 		viewCreator.process(jCas);
 		viewCreator.process(jCas);
 		engine.process(jCas);
-		assertEquals("some", JCasUtil.get(jCas.getView("myView"), Token.class, 0).getCoveredText());
+		assertEquals("some", JCasUtil.selectByIndex(jCas.getView("myView"), Token.class, 0).getCoveredText());
 
 		description = AnalysisEngineFactory.createPrimitiveDescription(SofaUnawareAnnotator.class,
 				typeSystemDescription);
@@ -132,13 +132,13 @@ public class ViewCreatorAnnotatorTest extends ComponentTestBase{
 		jCas.reset();
 		viewCreator.process(jCas);
 		engine.process(jCas);
-		assertEquals("some", JCasUtil.get(jCas.getView("myView"), Token.class, 0).getCoveredText());
+		assertEquals("some", JCasUtil.selectByIndex(jCas.getView("myView"), Token.class, 0).getCoveredText());
 
 		jCas.reset();
 		viewCreator.process(jCas);
 		viewCreator.process(jCas);
 		engine.process(jCas);
-		assertEquals("some", JCasUtil.get(jCas.getView("myView"), Token.class, 0).getCoveredText());
+		assertEquals("some", JCasUtil.selectByIndex(jCas.getView("myView"), Token.class, 0).getCoveredText());
 	}
 
 	@SofaCapability(inputSofas = CAS.NAME_DEFAULT_SOFA)

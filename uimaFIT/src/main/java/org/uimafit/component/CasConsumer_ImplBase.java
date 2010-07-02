@@ -21,8 +21,8 @@ package org.uimafit.component;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.CasAnnotator_ImplBase;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.component.initialize.ConfigurationParameterInitializer;
+import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.descriptor.OperationalProperties;
 
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
@@ -39,11 +39,11 @@ public abstract class CasConsumer_ImplBase
 {
 	@Override
 	@OverrideMustInvoke
-	public void initialize(UimaContext aContext)
+	public void initialize(UimaContext context)
 		throws ResourceInitializationException
 	{
-		super.initialize(aContext);
-		ConfigurationParameterInitializer.initializeConfigurationParameters(this, aContext);
-		ExternalResourceInitializer.initializeExternalResources(aContext, this);
+		super.initialize(context);
+		ConfigurationParameterInitializer.initializeConfigurationParameters(this, context);
+		ExternalResourceInitializer.initializeExternalResources(context, this);
 	}
 }
