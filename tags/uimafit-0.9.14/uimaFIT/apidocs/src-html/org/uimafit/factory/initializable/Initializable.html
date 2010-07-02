@@ -1,0 +1,125 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /* <a name="line.1"></a>
+<FONT color="green">002</FONT>      Copyright 2010 Regents of the University of Colorado.  <a name="line.2"></a>
+<FONT color="green">003</FONT>     All rights reserved. <a name="line.3"></a>
+<FONT color="green">004</FONT>    <a name="line.4"></a>
+<FONT color="green">005</FONT>     Licensed under the Apache License, Version 2.0 (the "License"); <a name="line.5"></a>
+<FONT color="green">006</FONT>     you may not use this file except in compliance with the License. <a name="line.6"></a>
+<FONT color="green">007</FONT>     You may obtain a copy of the License at <a name="line.7"></a>
+<FONT color="green">008</FONT>    <a name="line.8"></a>
+<FONT color="green">009</FONT>     http://www.apache.org/licenses/LICENSE-2.0 <a name="line.9"></a>
+<FONT color="green">010</FONT>    <a name="line.10"></a>
+<FONT color="green">011</FONT>     Unless required by applicable law or agreed to in writing, software <a name="line.11"></a>
+<FONT color="green">012</FONT>     distributed under the License is distributed on an "AS IS" BASIS, <a name="line.12"></a>
+<FONT color="green">013</FONT>     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. <a name="line.13"></a>
+<FONT color="green">014</FONT>     See the License for the specific language governing permissions and <a name="line.14"></a>
+<FONT color="green">015</FONT>     limitations under the License.<a name="line.15"></a>
+<FONT color="green">016</FONT>     */<a name="line.16"></a>
+<FONT color="green">017</FONT>    <a name="line.17"></a>
+<FONT color="green">018</FONT>    package org.uimafit.factory.initializable;<a name="line.18"></a>
+<FONT color="green">019</FONT>    <a name="line.19"></a>
+<FONT color="green">020</FONT>    import org.apache.uima.UimaContext;<a name="line.20"></a>
+<FONT color="green">021</FONT>    import org.apache.uima.resource.ResourceInitializationException;<a name="line.21"></a>
+<FONT color="green">022</FONT>    <a name="line.22"></a>
+<FONT color="green">023</FONT>    /**<a name="line.23"></a>
+<FONT color="green">024</FONT>     * &lt;br&gt;<a name="line.24"></a>
+<FONT color="green">025</FONT>     * Copyright (c) 2010, Regents of the University of Colorado &lt;br&gt;<a name="line.25"></a>
+<FONT color="green">026</FONT>     * All rights reserved.<a name="line.26"></a>
+<FONT color="green">027</FONT>     * <a name="line.27"></a>
+<FONT color="green">028</FONT>     * @author Philip Ogren<a name="line.28"></a>
+<FONT color="green">029</FONT>     * <a name="line.29"></a>
+<FONT color="green">030</FONT>     *         This interface provides a way of initializing a class with a<a name="line.30"></a>
+<FONT color="green">031</FONT>     *         UimaContext. The standard use case of this interface involves<a name="line.31"></a>
+<FONT color="green">032</FONT>     *         situations in which a member variable is declared with an interface<a name="line.32"></a>
+<FONT color="green">033</FONT>     *         type and the actual class that is used is decided at runtime. When<a name="line.33"></a>
+<FONT color="green">034</FONT>     *         the member variable is instantiated, it is useful to provide it a<a name="line.34"></a>
+<FONT color="green">035</FONT>     *         UimaContext so that it can initialize itself based on configuration<a name="line.35"></a>
+<FONT color="green">036</FONT>     *         parameters.<a name="line.36"></a>
+<FONT color="green">037</FONT>     *         &lt;p&gt;<a name="line.37"></a>
+<FONT color="green">038</FONT>     *         As an example, consider the component<a name="line.38"></a>
+<FONT color="green">039</FONT>     *         org.uimafit.component.xwriter.XWriter which has a member variable of<a name="line.39"></a>
+<FONT color="green">040</FONT>     *         type XWriterFileNamer which is an interface that provides a way for<a name="line.40"></a>
+<FONT color="green">041</FONT>     *         XWriter to come up with a name each file that is generated given a<a name="line.41"></a>
+<FONT color="green">042</FONT>     *         JCas. The default XWriterFileNamer that is provided,<a name="line.42"></a>
+<FONT color="green">043</FONT>     *         IntegerFileNamer, provides a single configuration parameter for<a name="line.43"></a>
+<FONT color="green">044</FONT>     *         specifying a prefix to each file name that is generated. This<a name="line.44"></a>
+<FONT color="green">045</FONT>     *         parameter is initialized in the IntegerFileNamer.initialize() method.<a name="line.45"></a>
+<FONT color="green">046</FONT>     *         This initialize method is called because XWriter instantiates its<a name="line.46"></a>
+<FONT color="green">047</FONT>     *         XWriterFileNamer member variable using a InitializableFactory.create<a name="line.47"></a>
+<FONT color="green">048</FONT>     *         method. Therefore, when XWriter is instantiated it should be given a<a name="line.48"></a>
+<FONT color="green">049</FONT>     *         value for the configuration parameter IntegerFileNamer.PARAM_PREFIX.<a name="line.49"></a>
+<FONT color="green">050</FONT>     *         See the unit tests for XWriter for a complete code example. Note that<a name="line.50"></a>
+<FONT color="green">051</FONT>     *         the implementation of XWriterFileNamer does not have to implement<a name="line.51"></a>
+<FONT color="green">052</FONT>     *         Initializable if it has no need for the initialize method.<a name="line.52"></a>
+<FONT color="green">053</FONT>     */<a name="line.53"></a>
+<FONT color="green">054</FONT>    <a name="line.54"></a>
+<FONT color="green">055</FONT>    public interface Initializable {<a name="line.55"></a>
+<FONT color="green">056</FONT>    <a name="line.56"></a>
+<FONT color="green">057</FONT>            public void initialize(UimaContext context) throws ResourceInitializationException;<a name="line.57"></a>
+<FONT color="green">058</FONT>    <a name="line.58"></a>
+<FONT color="green">059</FONT>    }<a name="line.59"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>
