@@ -1,5 +1,10 @@
 org.uimafit.component
+org.uimafit.component.initialize
+org.uimafit.component.xwriter
 org.uimafit.descriptor
 org.uimafit.factory
+org.uimafit.factory.initializable
+org.uimafit.pipeline
+org.uimafit.testing.factory
+org.uimafit.testing.util
 org.uimafit.util
-org.uimafit.util.io

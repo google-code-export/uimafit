@@ -30,15 +30,23 @@
 <FONT color="green">027</FONT>    <a name="line.27"></a>
 <FONT color="green">028</FONT>    public class TypePrioritiesFactory {<a name="line.28"></a>
 <FONT color="green">029</FONT>    <a name="line.29"></a>
-<FONT color="green">030</FONT>            public static TypePriorities createTypePriorities(String[] prioritizedTypeNames) {<a name="line.30"></a>
-<FONT color="green">031</FONT>                    TypePriorities typePriorities = new TypePriorities_impl();<a name="line.31"></a>
-<FONT color="green">032</FONT>                    TypePriorityList typePriorityList = typePriorities.addPriorityList();<a name="line.32"></a>
-<FONT color="green">033</FONT>                    for (String  typeName : prioritizedTypeNames) {<a name="line.33"></a>
-<FONT color="green">034</FONT>                            typePriorityList.addType(typeName);     <a name="line.34"></a>
-<FONT color="green">035</FONT>                    }<a name="line.35"></a>
-<FONT color="green">036</FONT>                    return typePriorities;<a name="line.36"></a>
-<FONT color="green">037</FONT>            }<a name="line.37"></a>
-<FONT color="green">038</FONT>    }<a name="line.38"></a>
+<FONT color="green">030</FONT>            public static TypePriorities createTypePriorities(Class&lt;?&gt;... prioritizedTypes) {<a name="line.30"></a>
+<FONT color="green">031</FONT>                    String[] typeNames = new String[prioritizedTypes.length];<a name="line.31"></a>
+<FONT color="green">032</FONT>                    for(int i=0; i&lt;prioritizedTypes.length; i++) {<a name="line.32"></a>
+<FONT color="green">033</FONT>                            typeNames[i] = prioritizedTypes[i].getName();<a name="line.33"></a>
+<FONT color="green">034</FONT>                    }<a name="line.34"></a>
+<FONT color="green">035</FONT>                    return createTypePriorities(typeNames);<a name="line.35"></a>
+<FONT color="green">036</FONT>            }<a name="line.36"></a>
+<FONT color="green">037</FONT>            <a name="line.37"></a>
+<FONT color="green">038</FONT>            public static TypePriorities createTypePriorities(String... prioritizedTypeNames) {<a name="line.38"></a>
+<FONT color="green">039</FONT>                    TypePriorities typePriorities = new TypePriorities_impl();<a name="line.39"></a>
+<FONT color="green">040</FONT>                    TypePriorityList typePriorityList = typePriorities.addPriorityList();<a name="line.40"></a>
+<FONT color="green">041</FONT>                    for (String  typeName : prioritizedTypeNames) {<a name="line.41"></a>
+<FONT color="green">042</FONT>                            typePriorityList.addType(typeName);     <a name="line.42"></a>
+<FONT color="green">043</FONT>                    }<a name="line.43"></a>
+<FONT color="green">044</FONT>                    return typePriorities;<a name="line.44"></a>
+<FONT color="green">045</FONT>            }<a name="line.45"></a>
+<FONT color="green">046</FONT>    }<a name="line.46"></a>
 
 
 
