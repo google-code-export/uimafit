@@ -42,7 +42,6 @@ public class JCasUtil
 	 *
 	 * @param <T> the iteration type.
 	 * @param jCas a JCas.
-	 * @param container the containing annotation.
 	 * @param type the type.
 	 * @return An iterable.
 	 * @see AnnotationIndex#iterator()
@@ -64,11 +63,10 @@ public class JCasUtil
 	 * occurring within the scope of a provided annotation.
 	 *
 	 * @param <T> the iteration type.
-	 * @param jCas a JCas.
 	 * @param container the containing annotation.
 	 * @param type the type.
 	 * @return A iterable.
-	 * @see {@link #selectCovered(Class, AnnotationFS)}
+	 * @see #selectCovered(Class, AnnotationFS)
 	 */
 	public static <T extends Annotation> Iterable<T> iterate(final Class<T> type, final Annotation container)
 	{
@@ -151,6 +149,13 @@ public class JCasUtil
 				container, ambiguous, strict);
 	}
 
+	/**
+	 * Get the CAS type for the given JCas wrapper class type.
+	 *
+	 * @param jCas the JCas containing the type system.
+	 * @param type the JCas wrapper class type.
+	 * @return the CAS type.
+	 */
 	public static Type getType(JCas jCas, Class<?> type)
 	{
 		return CasUtil.getType(jCas.getCas(), type);
@@ -163,8 +168,9 @@ public class JCasUtil
 	 *
 	 * @param <T> the JCas type.
 	 * @param type a UIMA type.
+	 * @param coveringAnnotation the covering annotation.
 	 * @return a return value.
-	 * @see {@link Subiterator}
+	 * @see Subiterator
 	 */
 	public static <T extends AnnotationFS> List<T> selectCovered(
 			Class<T> type, AnnotationFS coveringAnnotation)
@@ -179,15 +185,16 @@ public class JCasUtil
 	 * find the covered annotations. Does not use subiterators.
 	 *
 	 * @param <T> the JCas type.
-	 * @param aCas a JCas containing the annotation.
+	 * @param jCas a JCas containing the annotation.
 	 * @param type a UIMA type.
+	 * @param coveringAnnotation the covering annotation.
 	 * @return a return value.
-	 * @see {@link Subiterator}
+	 * @see Subiterator
 	 */
 	public static <T extends Annotation> List<T> selectCovered(
-			JCas jCas, final Class<T> type, Annotation container)
+			JCas jCas, final Class<T> type, Annotation coveringAnnotation)
 	{
-		return CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), container);
+		return CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), coveringAnnotation);
 	}
 
 	/**
@@ -195,6 +202,7 @@ public class JCasUtil
 	 * not very efficient and should not, in general be used outside the context
 	 * of unit testing.
 	 *
+	 * @param <T> JCas wrapper type.
 	 * @param jCas
 	 * @param cls
 	 * @param index
@@ -220,7 +228,7 @@ public class JCasUtil
 				n++;
 			}
 		}
-	
+
 		return i.isValid() ? (T) i.get() : null;
 	}
 }

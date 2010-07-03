@@ -36,6 +36,9 @@ import org.apache.uima.cas.text.AnnotationFS;
  */
 public class CasUtil
 {
+	/**
+	 * Package name of JCas wrapper classes built into UIMA.
+	 */
 	public static final String UIMA_BUILTIN_JCAS_PREFIX = "org.apache.uima.jcas.";
 
 	/**
@@ -61,26 +64,27 @@ public class CasUtil
 	/**
 	 * Get a list of annotations of the given annotation type constraint by a certain annotation.
 	 * Iterates over all annotations of the given type to find the covered annotations. Does not use
-	 * subiterators and does not respect type prioritites.
+	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
+	 * Uses the same approach except that type priorities are ignored.
 	 *
 	 * @param <T> the JCas type.
 	 * @param cas a JCas.
 	 * @param type a UIMA type.
+	 * @param coveringAnnotation the covering annotation.
 	 * @return a return value.
-	 * @see was adapted from {@link Subiterator}. Uses the same approach except that type priorities
-	 *      are ignored.
+	 * @see Subiterator
 	 */
 	public static <T extends AnnotationFS> List<T> selectCovered(
-			CAS cas, Type type, AnnotationFS container)
+			CAS cas, Type type, AnnotationFS coveringAnnotation)
 	{
-		int begin = container.getBegin();
-		int end = container.getEnd();
+		int begin = coveringAnnotation.getBegin();
+		int end = coveringAnnotation.getEnd();
 
 		List<T> list = new ArrayList<T>();
 		FSIterator<AnnotationFS> it = cas.getAnnotationIndex(type).iterator();
 
 		// Try to seek the insertion point.
-		it.moveTo(container);
+		it.moveTo(coveringAnnotation);
 
 		// If the insertion point is beyond the index, move back to the last.
 		if (!it.isValid()) {
@@ -126,7 +130,7 @@ public class CasUtil
 				continue;
 			}
 
-			if (!a.equals(container)) {
+			if (!a.equals(coveringAnnotation)) {
 				list.add(a);
 			}
 		}

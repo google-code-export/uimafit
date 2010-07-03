@@ -191,7 +191,7 @@ extends ComponentTestBase
 	 * additional checks. Possibly these additional checks should be asserts and be put into CasUtil
 	 * - then this method here could be removed.
 	 *
-	 * @see {@link Subiterator}
+	 * @see Subiterator
 	 */
 	@SuppressWarnings("unchecked")
 	private static <T extends Annotation> List<T> getCoveredAnnotationsOptimized(
@@ -302,7 +302,7 @@ extends ComponentTestBase
 	public void testIterator() throws Exception {
 		String text = "Rot wood cheeses dew?";
 		tokenBuilder.buildTokens(jCas, text);
-		
+
 		Iterator<Token> tokens = JCasUtil.iterator(jCas, Token.class);
 		assertTrue(tokens.hasNext());
 		assertEquals("Rot", tokens.next().getCoveredText());
@@ -319,10 +319,10 @@ extends ComponentTestBase
 	public void testGet() throws UIMAException {
 		String text = "Rot wood cheeses dew?";
 		tokenBuilder.buildTokens(jCas, text);
-		
+
 		Token lastToken = JCasUtil.selectByIndex(jCas, Token.class, -1);
 		assertEquals("dew?", lastToken.getCoveredText());
-		
+
 		Token firstToken = JCasUtil.selectByIndex(jCas, Token.class, 0);
 		assertEquals("Rot", firstToken.getCoveredText());
 
@@ -334,11 +334,11 @@ extends ComponentTestBase
 
 		Token oobToken = JCasUtil.selectByIndex(jCas, Token.class, -5);
 		assertNull(oobToken);
-		
+
 		oobToken = JCasUtil.selectByIndex(jCas, Token.class, 4);
 		assertNull(oobToken);
-		
+
 	}
-	
+
 
 }
