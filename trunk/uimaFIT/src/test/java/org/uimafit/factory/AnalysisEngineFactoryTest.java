@@ -52,6 +52,7 @@ import org.apache.uima.resource.metadata.TypePriorityList;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
 import org.uimafit.component.JCasAnnotatorAdapter;
+import org.uimafit.descriptor.OperationalProperties;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
 import org.uimafit.factory.testAes.Annotator3;
@@ -215,7 +216,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 		String[] outputSofas = capabilities[0].getOutputSofas();
 		assertArrayEquals(new String[] { ViewNames.SORTED_VIEW, ViewNames.SORTED_PARENTHESES_VIEW }, outputSofas);
 
-		aed = AnalysisEngineFactory.createPrimitiveDescription(ParameterizedAE.class, typeSystemDescription, 
+		aed = AnalysisEngineFactory.createPrimitiveDescription(ParameterizedAE.class, typeSystemDescription,
 				typePriorities);
 		capabilities = aed.getAnalysisEngineMetaData().getCapabilities();
 		assertEquals(1, capabilities.length);
@@ -430,12 +431,12 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 	public static class AnnotatedAnnotatorClass extends UnannotatedAnnotatorClass {
 		// Vessel for the annotation
 	}
-	
+
 	@Test
 	public void testIssue5a() throws ResourceInitializationException {
 		AnalysisEngineFactory.createPrimitiveDescription(ParameterizedAE.class, typeSystemDescription);
 	}
-	
+
 	@Test (expected = ResourceInitializationException.class)
 	public void testIssue5b() throws ResourceInitializationException  {
 		AnalysisEngineFactory.createPrimitive(ParameterizedAE.class, typeSystemDescription);
