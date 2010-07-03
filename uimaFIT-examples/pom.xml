@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<artifactId>uimafit-parent</artifactId>
 		<groupId>org.uimafit</groupId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>0.9.14</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uimafit</groupId>
@@ -11,12 +10,12 @@
 	<name>uimaFIT Examples</name>
 	<description>Factories, Injection, and Testing library for UIMA</description>
 	<url>http://uimafit.googlecode.com</url>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>0.9.14</version>
 	<dependencies>
 		<dependency>
 			<groupId>org.uimafit</groupId>
 			<artifactId>uimafit</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>0.9.14</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.uima</groupId>
