@@ -151,28 +151,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>process-test-resources</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<classpathScope>test</classpathScope>
-					<mainClass>org.uimafit.util.JCasGenPomFriendly</mainClass>
-					<arguments>
-						<argument>-jcasgeninput</argument>
-						<argument>${basedir}/src/test/resources/org/uimafit/type/TypeSystem.xml</argument>
-						<argument>-jcasgenoutput</argument>
-						<argument>${basedir}/src/test/java</argument>
-					</arguments>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 			</plugin>
