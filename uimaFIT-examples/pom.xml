@@ -8,6 +8,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uimafit</groupId>
 	<artifactId>uimafit-examples</artifactId>
+	<name>uimaFIT Examples</name>
+	<description>Factories, Injection, and Testing library for UIMA</description>
+	<url>http://uimafit.googlecode.com</url>
 	<version>1.0.0-SNAPSHOT</version>
 	<dependencies>
 		<dependency>
