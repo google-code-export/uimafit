@@ -6,6 +6,20 @@ Here is the current (but not perfect) procedure for creating a release:
    * Maven 2.2.1+
    * `settings.xml` file set up as explained in the [https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide Sonatype OSS Maven Repository Usage Guide]
 
+= Update Javadoc =
+
+First update the javadoc pages:
+  * temporarily edit the `pom.xml` file to specify the release version (rather than the snapshot version)
+  * to avoid subversion complaints about being out of synch, I find it helpful to perform `svn update` and `svn cleanup` before the next step.
+  * run the following
+{{{ 
+>cd uimafit-parent/uimaFIT
+>mvn javadoc:javadoc
+>cp -R target\site\apidocs .
+}}}
+  * revert the `pom.xml`file using `svn revert pom.xml`
+  * commit files to the repository before performing the release so that they get tagged correctly.
+
 = Maven release =
 
 {{{
