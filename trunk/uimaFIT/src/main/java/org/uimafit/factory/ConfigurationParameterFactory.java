@@ -1,17 +1,17 @@
-/* 
- Copyright 2009 Regents of the University of Colorado.  
- All rights reserved. 
+/*
+ Copyright 2009 Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
  */
 package org.uimafit.factory;
@@ -35,7 +35,11 @@ import org.uimafit.util.ReflectionUtil;
  * @author Philip Ogren
  */
 
-public class ConfigurationParameterFactory {
+public final class ConfigurationParameterFactory {
+	private ConfigurationParameterFactory()
+	{
+		// This class is not meant to be instantiated
+	}
 
 	/**
 	 * A mapping from Java class names to UIMA configuration parameter type
@@ -66,7 +70,9 @@ public class ConfigurationParameterFactory {
 
 			String[] stringValue = annotation.defaultValue();
 			if (stringValue.length == 1
-					&& stringValue[0].equals(org.uimafit.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE)) return null;
+					&& stringValue[0].equals(org.uimafit.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE)) {
+				return null;
+			}
 
 			String valueType = getConfigurationParameterType(field);
 			boolean isMultiValued = isMultiValued(field);
@@ -201,8 +207,12 @@ public class ConfigurationParameterFactory {
 	public static ConfigurationParameter createPrimitiveParameter(String name, Class<?> parameterClass,
 			String parameterDescription, boolean isMandatory) {
 		String parameterClassName;
-		if (parameterClass.isArray()) parameterClassName = parameterClass.getComponentType().getName();
-		else parameterClassName = parameterClass.getName();
+		if (parameterClass.isArray()) {
+			parameterClassName = parameterClass.getComponentType().getName();
+		}
+		else {
+			parameterClassName = parameterClass.getName();
+		}
 
 		String parameterType = javaUimaTypeMap.get(parameterClassName);
 		if (parameterType == null) {
@@ -234,11 +244,11 @@ public class ConfigurationParameterFactory {
 			throw new IllegalArgumentException(message);
 		}
 
-		
+
 		int numberOfParameters = configurationData.length / 2;
 		List<ConfigurationParameter> configurationParameters = new ArrayList<ConfigurationParameter>();
 		List<Object> configurationValues = new ArrayList<Object>();
-		
+
 		for (int i = 0; i < numberOfParameters; i++) {
 			String name = (String) configurationData[i * 2];
 			Object value = configurationData[i * 2 + 1];
@@ -246,7 +256,7 @@ public class ConfigurationParameterFactory {
 			if (value == null) {
 				continue;
 			}
-			
+
 			if (value.getClass().isArray() && value.getClass().getComponentType().getName().equals("boolean")) {
 				value = ArrayUtils.toObject((boolean[]) value);
 			}

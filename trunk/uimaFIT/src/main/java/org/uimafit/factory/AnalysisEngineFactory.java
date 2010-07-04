@@ -65,13 +65,17 @@ import org.uimafit.util.ReflectionUtil;
 /**
  * @author Steven Bethard, Philip Ogren, Fabio Mancinelli
  */
-public class AnalysisEngineFactory
+public final class AnalysisEngineFactory
 {
+	private AnalysisEngineFactory()
+	{
+		// This class is not meant to be instantiated
+	}
 
     /**
      * Get an AnalysisEngine from the name (Java-style, dotted) of an XML descriptor file, and a set of configuration
      * parameters.
-     * 
+     *
      * @param descriptorName The fully qualified, Java-style, dotted name of the XML descriptor file.
      * @param configurationData Any additional configuration parameters to be set. These should be supplied as (name,
      *            value) pairs, so there should always be an even number of parameters.
@@ -100,7 +104,7 @@ public class AnalysisEngineFactory
     /**
      * This method provides a convenient way to instantiate an AnalysisEngine where the default view is mapped to the
      * view name passed into the method.
-     * 
+     *
      * @param analysisEngineDescription
      * @param viewName the view name to map the default view to
      * @return an aggregate analysis engine consisting of a single component whose default view is mapped to the the
@@ -117,7 +121,7 @@ public class AnalysisEngineFactory
 
     /**
      * Get an AnalysisEngine from an XML descriptor file and a set of configuration parameters.
-     * 
+     *
      * @param descriptorPath The path to the XML descriptor file.
      * @param configurationData Any additional configuration parameters to be set. These should be supplied as (name,
      *            value) pairs, so there should always be an even number of parameters.
@@ -135,7 +139,7 @@ public class AnalysisEngineFactory
 
     /**
      * Get an AnalysisEngine from an OperationalProperties class, a type system and a set of configuration parameters.
-     * 
+     *
      * @param componentClass The class of the OperationalProperties to be created as an AnalysisEngine.
      * @param typeSystem A description of the types used by the OperationalProperties (may be null).
      * @param configurationData Any additional configuration parameters to be set. These should be supplied as (name,
@@ -483,7 +487,7 @@ public class AnalysisEngineFactory
 
     /**
      * Creates an AnalysisEngine from the given descriptor, and uses the engine to process the file or text.
-     * 
+     *
      * @param descriptorFileName The fully qualified, Java-style, dotted name of the XML descriptor file.
      * @param fileNameOrText Either the path of a file to be loaded, or a string to use as the text. If the string given
      *            is not a valid path in the file system, it will be assumed to be text.
@@ -501,7 +505,7 @@ public class AnalysisEngineFactory
 
     /**
      * Processes the file or text with the given AnalysisEngine.
-     * 
+     *
      * @param analysisEngine The AnalysisEngine object to process the text.
      * @param fileNameOrText Either the path of a file to be loaded, or a string to use as the text. If the string given
      *            is not a valid path in the file system, it will be assumed to be text.

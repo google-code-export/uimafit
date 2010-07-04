@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uimafit</groupId>
 	<artifactId>uimafit</artifactId>
@@ -33,6 +34,10 @@
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
 	</dependencies>
 	<licenses>
 		<license>
@@ -58,9 +63,7 @@
 					<classpathScope>test</classpathScope>
 					<mainClass>org.uimafit.util.JCasGenPomFriendly</mainClass>
 					<arguments>
-						<argument>-jcasgeninput</argument>
-						<argument>${basedir}/src/test/resources/org/uimafit/type/TypeSystem.xml</argument>
-						<argument>-jcasgenoutput</argument>
+						<argument>file:src/test/resources/META-INF/org.uimafit/type/**/*.xml</argument>
 						<argument>${basedir}/src/test/java</argument>
 					</arguments>
 				</configuration>
@@ -76,7 +79,8 @@
 				<configuration>
 					<linksource>true</linksource>
 					<links>
-						<link>http://uima.apache.org/downloads/releaseDocs/2.3.0-incubating/docs/api/</link>
+						<link>http://uima.apache.org/downloads/releaseDocs/2.3.0-incubating/docs/api/
+						</link>
 					</links>
 				</configuration>
 			</plugin>

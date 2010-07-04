@@ -1,17 +1,17 @@
-/* 
- Copyright 2009 Regents of the University of Colorado.  
- All rights reserved. 
+/*
+ Copyright 2009 Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
 */
 
@@ -31,16 +31,20 @@ import org.uimafit.descriptor.TypeCapability;
  * @author Philip Ogren
  */
 
-public class CapabilityFactory {
-	
-	
+public final class CapabilityFactory {
+	private CapabilityFactory()
+	{
+		// This class is not meant to be instantiated
+	}
+
 	public static Capability createCapability(Class<?> componentClass) {
 		if(!componentClass.isAnnotationPresent(SofaCapability.class) &&
-				!componentClass.isAnnotationPresent(TypeCapability.class))
+				!componentClass.isAnnotationPresent(TypeCapability.class)) {
 			return null;
-		
+		}
+
 		Capability capability = new Capability_impl();
-		
+
 		if(componentClass.isAnnotationPresent(SofaCapability.class)) {
 			SofaCapability annotation = componentClass.getAnnotation(SofaCapability.class);
 			String[] inputSofas = annotation.inputSofas();
@@ -55,7 +59,7 @@ public class CapabilityFactory {
 			}
 			capability.setOutputSofas(outputSofas);
 		}
-		
+
 		if(componentClass.isAnnotationPresent(TypeCapability.class)) {
 			TypeCapability annotation = componentClass.getAnnotation(TypeCapability.class);
 			String[] inputTypesOrFeatureNames = annotation.inputs();
@@ -66,7 +70,7 @@ public class CapabilityFactory {
 
 		return capability;
 	}
-	
+
 	private static TypeOrFeature[] createTypesOrFeatures(String[] typesOrFeatureNames) {
 		if(typesOrFeatureNames.length == 1 && typesOrFeatureNames[0].equals(TypeCapability.NO_DEFAULT_VALUE)) {
 			return new TypeOrFeature[0];
@@ -84,6 +88,6 @@ public class CapabilityFactory {
 			}
 			return typesOrFeatures.toArray(new TypeOrFeature[typesOrFeatures.size()]);
 		}
-		
+
 	}
 }

@@ -1,17 +1,17 @@
-/* 
- Copyright 2009 Regents of the University of Colorado.  
- All rights reserved. 
+/*
+ Copyright 2009 Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
 */
 package org.uimafit.factory;
@@ -27,6 +27,7 @@ import org.uimafit.type.Token;
 import org.uimafit.util.JCasUtil;
 /**
  * @author Steven Bethard, Philip Ogren
+ * @author Richard Eckart de Castilho
  */
 
 public class JCasFactoryTest extends ComponentTestBase{
@@ -45,15 +46,18 @@ public class JCasFactoryTest extends ComponentTestBase{
 
 	@Test
 	public void testFromPath() throws UIMAException {
-		jCas = JCasFactory.createJCasFromPath("src/test/resources/org/uimafit/type/TypeSystem.xml");
+		jCas = JCasFactory.createJCasFromPath(
+				"src/test/resources/org/uimafit/type/AnalyzedText.xml",
+				"src/test/resources/org/uimafit/type/Sentence.xml",
+				"src/test/resources/org/uimafit/type/Token.xml");
 		jCas.setDocumentText("For great 20 minute talks, check out TED.com.");
 		AnnotationFactory.createAnnotation(jCas, 0, 3, Token.class);
 		assertEquals("For", JCasUtil.selectByIndex(jCas, Token.class, 0).getCoveredText());
 	}
-	
+
 	@Test
 	public void testCreate() throws UIMAException {
-		jCas = JCasFactory.createJCas("org.uimafit.type.TypeSystem");
+		jCas = JCasFactory.createJCas();
 		jCas.setDocumentText("For great 20 minute talks, check out TED.com.");
 		AnnotationFactory.createAnnotation(jCas, 0, 3, Token.class);
 		assertEquals("For", JCasUtil.selectByIndex(jCas, Token.class, 0).getCoveredText());

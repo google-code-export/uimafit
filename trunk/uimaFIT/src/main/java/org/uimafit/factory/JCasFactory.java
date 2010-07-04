@@ -38,9 +38,21 @@ import org.xml.sax.SAXException;
  * @author Steven Bethard, Philip Ogren
  * @author Richard Eckart de Castilho
  */
-public class JCasFactory
+public final class JCasFactory
 {
-	public static JCas createJCas(String typeSystemDescriptorName)
+	private JCasFactory()
+	{
+		// This class is not meant to be instantiated
+	}
+
+	public static JCas createJCas()
+		throws UIMAException
+	{
+		return CasCreationUtils.createCas(createTypeSystemDescription(), null, null).getJCas();
+
+	}
+
+	public static JCas createJCas(String... typeSystemDescriptorName)
 		throws UIMAException
 	{
 		AnalysisEngine engine = createPrimitive(JCasAnnotatorAdapter.class,
@@ -49,7 +61,7 @@ public class JCasFactory
 
 	}
 
-	public static JCas createJCasFromPath(String typeSystemDescriptorPath)
+	public static JCas createJCasFromPath(String... typeSystemDescriptorPath)
 		throws UIMAException
 	{
 		return createJCas(createTypeSystemDescriptionFromPath(typeSystemDescriptorPath));

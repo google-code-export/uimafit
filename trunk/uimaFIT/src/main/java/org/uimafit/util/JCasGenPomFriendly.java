@@ -17,22 +17,80 @@
 
 package org.uimafit.util;
 
+import static org.apache.uima.UIMAFramework.getXMLParser;
+
+import java.io.IOException;
+
+import org.apache.uima.cas.CAS;
+import org.apache.uima.cas.impl.CASImpl;
+import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.tools.jcasgen.Jg;
 import org.apache.uima.tools.jcasgen.LogThrowErrorImpl;
+import org.apache.uima.tools.jcasgen.UimaLoggerProgressMonitor;
+import org.apache.uima.util.CasCreationUtils;
+import org.apache.uima.util.InvalidXMLException;
+import org.apache.uima.util.XMLInputSource;
+import org.uimafit.factory.TypeSystemDescriptionFactory;
 
 /**
- * This class provides a main method that is identical to the main method in
- * org.apache.uima.tools.jcasgen.Jg except that it does not call System.exit.
- * This makes it much more friendly to use with a pom.xml file. See, for
- * example, the pom.xml file in this project for an example usage.
- * 
+ * This class provides an advanced version of the UIMA JCas wrapper generator. It's main method
+ * takes two arguments. The first is a list of ANT-like URL patterns (';'-separated )which indicate
+ * where to look for type descriptors. The second is the output directory. Being able to process
+ * multiple type system descriptors at the same time removes the need of having a single
+ * master type system file importing all others.
+ * Example section for a pom.xml:
+ *
+ * <pre>
+ * &lt;plugin>
+ *   &lt;groupId>org.codehaus.mojo&lt;/groupId>
+ *   &lt;artifactId>exec-maven-plugin&lt;/artifactId>
+ *   &lt;executions>
+ *     &lt;execution>
+ *       &lt;phase>process-test-resources&lt;/phase>
+ *       &lt;goals>
+ *         &lt;goal>java&lt;/goal>
+ *       &lt;/goals>
+ *     &lt;/execution>
+ *   &lt;/executions>
+ *   &lt;configuration>
+ *     &lt;classpathScope>test&lt;/classpathScope>
+ *     &lt;mainClass>org.uimafit.util.JCasGenPomFriendly&lt;/mainClass>
+ *     &lt;arguments>
+ *       &lt;argument>file:src/test/resources/META-INF/org.uimafit/type/**&#47;*.xml&lt;/argument>
+ *       &lt;argument>${basedir}/src/test/java&lt;/argument>
+ *     &lt;/arguments>
+ *   &lt;/configuration>
+ * &lt;/plugin>
+ * </pre>
+ *
  * @author Philip Ogren
+ * @author Richard Eckart de Castilho
  */
-
-public class JCasGenPomFriendly {
-
-	public static void main(String[] args) {
-		(new Jg()).main0(args, null, null, new LogThrowErrorImpl());
+public class JCasGenPomFriendly
+{
+	public static void main(String[] args)
+		throws Exception
+	{
+		Jg jg = new Jg();
+		for (String file : TypeSystemDescriptionFactory.resolve(args[0].split(";"))) {
+			generate(jg, file, args[1], load(file));
+		}
 	}
 
+	private static TypeSystemDescription load(String location)
+		throws IOException, InvalidXMLException
+	{
+		XMLInputSource xmlInputType1 = new XMLInputSource(location);
+		return getXMLParser().parseTypeSystemDescription(xmlInputType1);
+	}
+
+	private static void generate(Jg jg, String inputFile, String outputDirectory,
+			TypeSystemDescription tsd)
+		throws IOException, ResourceInitializationException
+	{
+		CAS cas = CasCreationUtils.createCas(tsd, null, null);
+		jg.mainForCde(null, new UimaLoggerProgressMonitor(), new LogThrowErrorImpl(), inputFile,
+				outputDirectory, tsd.getTypes(), (CASImpl) cas);
+	}
 }
