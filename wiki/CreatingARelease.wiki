@@ -1,28 +1,41 @@
 Here is the current (but not perfect) procedure for creating a release:
 
-First update the javadoc pages:
-  * temporarily edit the pom file to specify the release version (rather than the snapshot version)
-  * to avoid subversion complaints about being out of synch, I find it helpful to perform svn update and svn cleanup before the next step.
-  * run the following
-{{{ 
->cd uimafit-home-dir
->mvn javadoc:javadoc
->cp -R target\site\apidocs .
-}}}
-  * be sure to change the pom file back so that the version is the snapshot version
-  * commit files to the repository before performing the release so that they get tagged correctly.
+= Prerequisites =
 
-Next run the following:
+   * GnuPG installed and configured and your public key uploaded to one of the key servers. uimaFIT is deployed to Maven Central, which requires that digitial signatures are in place.
+   * Maven 2.2.1+
+   * `settings.xml` file set up as explained in the [https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide Sonatype OSS Maven Repository Usage Guide]
+
+= Maven release =
 
 {{{
->cd uimafit-home-dir
+>cd uimafit-parent
 >mvn release:prepare
 >mvn release:perform
 }}}
-This does everything except upload a new downloadable to the project downloads page.  This task (as well as the javadoc generation) can probably be accomplished using the antrun plugin (see [http://maven.riedelcastro.org/gcupload-maven-plugin/usage.html this].)  Uploading the new downloadable files can be done by clicking on the Downloads tab above and following the instructions.  The files should be located in the target directory.  
 
-One final thing to do is edit the front page to have the correct xml for a project's pom file - i.e. edit the snippet 
+If you run into login or signing problems, try specificing your username, password and keyname like this. Mind that if you do that on a machine with other users, it may leak your password via the process list and shell history. So better do this on a private machine.
+
 {{{
-<version>0.9.13</version>
+ mvn -Dusername=GOOGLECODE_USERNAME -Dpassword=GOOGLECODE_PASSWORD -Darguments="-Dkeyname=GOOGLECODE_USERNAME" release:perform
+}}}
+
+= Deploy to Maven Central via Sonatype OSS =
+
+Next, go to the [https://oss.sonatype.org Nexus OSS repository] and log in with your Sonatype JIRA account. Open the *Staging* page, select *uimaFIT* from the list, select the release you have just performed from the lower part, right click on it and select *close*. Enter a meaningful comment, e.g. "uimaFIT 0.9.14 release".
+
+=Update googlecode project=
+
+*Javadoc*: After that update the Javadoc link on the main page via the [http://code.google.com/p/uimafit/admin admin interface] to point to the new release, e.g. to
+
+{{{
+http://uimafit.googlecode.com/svn/tags/uimafit-parent-0.9.14/uimaFIT/apidocs/index.html
+}}}
+
+*Project artifacts*: The new artifacts have not yet been uploaded to googlecode via the release steps.  This task (as well as the javadoc generation) can probably be accomplished using the antrun plugin (see [http://maven.riedelcastro.org/gcupload-maven-plugin/usage.html this].)  Uploading the new downloadable files can be done by clicking on the Downloads tab above and following the instructions.  The files should be located in the target directory.  
+
+*Update current version*: One final thing to do is edit the front page to have the correct xml for a project's pom file - i.e. edit the snippet 
+{{{
+<version>0.9.14</version>
 }}}
 so that it is up-to-date.
