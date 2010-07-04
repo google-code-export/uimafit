@@ -22,7 +22,10 @@ If you run into login or signing problems, try specificing your username, passwo
 
 = Deploy to Maven Central via Sonatype OSS =
 
-Next, go to the [https://oss.sonatype.org Nexus OSS repository] and log in with your Sonatype JIRA account. Open the *Staging* page, select *uimaFIT* from the list, select the release you have just performed from the lower part, right click on it and select *close*. Enter a meaningful comment, e.g. "uimaFIT 0.9.14 release".
+   * Go to the [https://oss.sonatype.org Nexus OSS repository] and log in with your Sonatype JIRA account. 
+   * Open the *Staging* page, select *uimaFIT* from the list, select the release you have just performed from the lower part
+   * Right click on it and select *close*. Enter a meaningful comment, e.g. "uimaFIT 0.9.14 release". 
+   * Right click on it again and select *promote*. Again enter e meaningful comment, e.g. "uimaFIT 0.9.14 release".
 
 =Update googlecode project=
 
