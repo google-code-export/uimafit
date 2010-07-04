@@ -32,4 +32,4 @@ TypeSystemDescription tsd = TypeSystemDescriptionFactory.createTypeSystemDescrip
 
 === Performance note and caching ===
 
-uimaFIT scans for TSDs only once, but it caches only the locations, not the actual merged type system description. A rescan can be forced using `TypeSystemDescriptionFactory.forceTypeDescriptorsScan()`.
+Currently uimaFIT evaluates the patterns for TSDs once and caches the locations, but not the actual merged type system description. A rescan can be forced using `TypeSystemDescriptionFactory.forceTypeDescriptorsScan()`. This may change in future.
