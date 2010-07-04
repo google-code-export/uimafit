@@ -17,8 +17,14 @@ First update the javadoc pages:
 >mvn javadoc:javadoc
 >cp -R target\site\apidocs .
 }}}
-  * revert the `pom.xml`file using `svn revert pom.xml`
+  * revert the `pom.xml`file using
+{{{ 
+>svn revert pom.xml
+}}}
   * commit files to the repository before performing the release so that they get tagged correctly.
+{{{ 
+>svn commit -m "Javadoc update" apidocs
+}}}
 
 = Maven release =
 
