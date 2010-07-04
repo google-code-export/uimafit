@@ -1,0 +1,17 @@
+# Automatic type descriptor detection
+
+UIMA requires that types that are used in the CAS are defined in XML files - so-called type system descriptions (TSD). uimaFIT supports the automatic detection of such files in the classpath. Thus is becomes possible for a UIMA component provider to have component's type automatically detected and thus the components becomes immediately usable by adding it to the classpath.
+
+The provider of a type system should create a file `META-INF/org.uimafit/types.txt` in the classpath. This file should define the locations of the type system descriptions. Assume that a type `org.uimafit.type.Token` is specified  in the TSD `org/uimafit/type/Token.xml`, then the file should have the following contents:
+
+{{{
+classpath*:org/uimafit/type/Token.xml
+}}}
+
+To specify multiple TSDs, add additonal lines to the file. If you have a large number of TSDs, you may prefer to add a pattern. Assume that we have a large number of TSDs under `org/uimafit/type`, we can use the following pattern which recursively scans the package `org.uimafit.type` and all sub-packages for XML files and tries to load them as TSDs.
+
+{{{
+classpath*:org/uimafit/type/**/*.xml
+}}}
+
+Try to design your packages structure in a way that TSDs and JCas wrapper classes generated from them are separate from the rest of your code. 
