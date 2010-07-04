@@ -29,3 +29,7 @@ The auto-detected type system can be obtained from the `TypeSystemDescriptionFac
 {{{
 TypeSystemDescription tsd = TypeSystemDescriptionFactory.createTypeSystemDescription()
 }}}
+
+=== Performance note and caching ===
+
+uimaFIT scans for TSDs only once, but it caches only the locations, not the actual merged type system description. A rescan can be forced using `TypeSystemDescriptionFactory.forceTypeDescriptorsScan()`.
