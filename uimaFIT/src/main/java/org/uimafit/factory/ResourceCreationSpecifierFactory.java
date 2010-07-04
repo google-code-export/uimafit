@@ -1,17 +1,17 @@
-/* 
- Copyright 2009 Regents of the University of Colorado.  
- All rights reserved. 
+/*
+ Copyright 2009 Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
  */
 
@@ -33,12 +33,16 @@ import org.apache.uima.util.XMLParser;
 /**
  * @author Steven Bethard, Philip Ogren
  */
-public class ResourceCreationSpecifierFactory {
+public final class ResourceCreationSpecifierFactory {
+	private ResourceCreationSpecifierFactory()
+	{
+		// This class is not meant to be instantiated
+	}
 
 	/**
 	 * Parse a ResourceCreationSpecifier from the URL of an XML descriptor file,
 	 * setting additional configuration parameters as necessary.
-	 * 
+	 *
 	 * @param descriptorURL
 	 *            The URL of the XML descriptor file.
 	 * @param parameters
@@ -58,7 +62,7 @@ public class ResourceCreationSpecifierFactory {
 	/**
 	 * Parse a ResourceCreationSpecifier from XML descriptor file input, setting
 	 * additional configuration parameters as necessary.
-	 * 
+	 *
 	 * @param xmlInput
 	 *            The descriptor file as an XMLInputSource.
 	 * @param parameters
@@ -83,7 +87,7 @@ public class ResourceCreationSpecifierFactory {
 		specifier = (ResourceCreationSpecifier) parser.parseResourceSpecifier(xmlInput);
 		setConfigurationParameters(specifier, parameters);
 
-		
+
 		return specifier;
 
 	}
@@ -91,7 +95,7 @@ public class ResourceCreationSpecifierFactory {
 	/**
 	 * Parse a ResourceCreationSpecifier from an XML descriptor file, setting
 	 * additional configuration parameters as necessary.
-	 * 
+	 *
 	 * @param descriptorPath
 	 *            The path to the XML descriptor file.
 	 * @param parameters
@@ -111,7 +115,7 @@ public class ResourceCreationSpecifierFactory {
 	/**
 	 * Create configuration parameter declarations and settings from a list of
 	 * (name, value) pairs.
-	 * 
+	 *
 	 * @param specifier
 	 *            The ResourceCreationSpecifier whose parameters are to be set.
 	 * @param configurationData
@@ -151,8 +155,9 @@ public class ResourceCreationSpecifierFactory {
 		ConfigurationParameterDeclarations paramDecls = metaData.getConfigurationParameterDeclarations();
 		ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();
 		for (int i = 0; i < configurationParameters.length; i++) {
-			if (paramDecls != null &&  paramDecls.getConfigurationParameter(null, configurationParameters[i].getName()) == null)
-					paramDecls.addConfigurationParameter(configurationParameters[i]);
+			if (paramDecls != null &&  paramDecls.getConfigurationParameter(null, configurationParameters[i].getName()) == null) {
+				paramDecls.addConfigurationParameter(configurationParameters[i]);
+			}
 			paramSettings.setParameterValue(configurationParameters[i].getName(), configurationValues[i]);
 		}
 	}

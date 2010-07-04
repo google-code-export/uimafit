@@ -1,17 +1,17 @@
-/* 
- Copyright 2009 Regents of the University of Colorado.  
- All rights reserved. 
+/*
+ Copyright 2009 Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
  */
 
@@ -47,12 +47,17 @@ import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
 /**
  * @author Steven Bethard, Philip Ogren
  */
-public class CollectionReaderFactory {
+public final class CollectionReaderFactory {
+
+	private CollectionReaderFactory()
+	{
+		// This class is not meant to be instantiated
+	}
 
 	/**
 	 * Create a CollectionReader from an XML descriptor file and a set of
 	 * configuration parameters.
-	 * 
+	 *
 	 * @param descriptorPath
 	 *            The path to the XML descriptor file.
 	 * @param configurationData
@@ -74,7 +79,7 @@ public class CollectionReaderFactory {
 	/**
 	 * Get a CollectionReader from the name (Java-style, dotted) of an XML
 	 * descriptor file, and a set of configuration parameters.
-	 * 
+	 *
 	 * @param descriptorName
 	 *            The fully qualified, Java-style, dotted name of the XML
 	 *            descriptor file.
@@ -97,11 +102,11 @@ public class CollectionReaderFactory {
 		return UIMAFramework.produceCollectionReader(specifier);
 	}
 
-	
+
 	/**
 	 * Get a CollectionReader from a CollectionReader class, a type system, and
 	 * a set of configuration parameters.
-	 * 
+	 *
 	 * @param readerClass
 	 *            The class of the CollectionReader to be created.
 	 * @param typeSystem
@@ -133,7 +138,7 @@ public class CollectionReaderFactory {
 		return createCollectionReader(desc);
 	}
 
-	
+
 	@SuppressWarnings("unchecked")
 	public static CollectionReader createCollectionReader(CollectionReaderDescription desc, Object... configurationData) throws ResourceInitializationException {
 		// create the CollectionReader
@@ -144,7 +149,7 @@ public class CollectionReaderFactory {
 		catch (Exception e) {
 			throw new ResourceInitializationException(e);
 		}
-		
+
 		if (configurationData != null) {
 			ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
 			ConfigurationParameter[] configurationParameters = cdata.configurationParameters;
@@ -160,13 +165,13 @@ public class CollectionReaderFactory {
 			reader.initialize(desc, null);
 		}
 		return reader;
-		
-		
-		
+
+
+
 
 	}
 
-	
+
 
 	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
 			TypeSystemDescription typeSystem, Object... configurationData) throws ResourceInitializationException {
@@ -180,32 +185,32 @@ public class CollectionReaderFactory {
 
 	}
 
-	
+
 	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationData) throws ResourceInitializationException {
 		return createDescription(readerClass, typeSystem, typePriorities, (Capability[])null, configurationData);
 	}
 
-	
+
 	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, Capability[] capabilities, Object... configurationData) throws ResourceInitializationException {
 		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
 		return createDescription(readerClass, typeSystem, typePriorities, capabilities, cdata.configurationParameters, cdata.configurationValues);
 	}
 
-	
+
 	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, Capability[] capabilities, ConfigurationParameter[] configurationParameters, Object[] configurationValues) throws ResourceInitializationException {
 		// create the descriptor and set configuration parameters
 		CollectionReaderDescription desc = new CollectionReaderDescription_impl();
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setImplementationName(readerClass.getName());
-		
+
 		// Extract external resource dependencies
 		Collection<ExternalResourceDependency> deps = ExternalResourceInitializer.getResourceDeclarations(
 				readerClass).values();
 		desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps.size()]));
-		
+
 		ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
 				.createConfigurationData(readerClass);
 		ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
@@ -219,9 +224,10 @@ public class CollectionReaderFactory {
 		if (typeSystem != null) {
 			desc.getCollectionReaderMetaData().setTypeSystem(typeSystem);
 		}
-		
-		if(typePriorities != null)
+
+		if(typePriorities != null) {
 			desc.getCollectionReaderMetaData().setTypePriorities(typePriorities);
+		}
 
 		if(capabilities == null) {
 			Capability capability = CapabilityFactory.createCapability(readerClass);
@@ -229,9 +235,10 @@ public class CollectionReaderFactory {
 				capabilities = new Capability[] {capability};
 			}
 		}
-		if(capabilities != null)
+		if(capabilities != null) {
 			desc.getCollectionReaderMetaData().setCapabilities(capabilities);
-		
+		}
+
 		return desc;
 	}
 
@@ -240,5 +247,5 @@ public class CollectionReaderFactory {
 		ResourceCreationSpecifierFactory.setConfigurationParameters(collectionReaderDescription, cdata.configurationParameters, cdata.configurationValues);
 	}
 
-	
+
 }

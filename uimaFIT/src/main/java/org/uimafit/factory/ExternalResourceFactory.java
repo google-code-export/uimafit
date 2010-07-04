@@ -49,14 +49,19 @@ import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
 
 /**
  * Helper methods for external resources.
- * 
+ *
  * @author Richard Eckart de Castilho
  */
-public class ExternalResourceFactory
+public final class ExternalResourceFactory
 {
+	private ExternalResourceFactory()
+	{
+		// This class is not meant to be instantiated
+	}
+
 	/**
 	 * Create an external resource description for a custom resource.
-	 * 
+	 *
 	 * @param aName the name of the resource (the key).
 	 * @param aInterface the interface the resource should implement.
 	 * @param aParams parameters passed to the resource when it is created.
@@ -93,7 +98,7 @@ public class ExternalResourceFactory
 
 	/**
 	 * Create an external resource description for a {@link SharedResourceObject}.
-	 * 
+	 *
 	 * @param aName the name of the resource (the key).
 	 * @param aInterface the interface the resource should implement.
 	 * @param aUrl the URL from which the resource is initialized.
@@ -111,7 +116,7 @@ public class ExternalResourceFactory
 		ResourceMetaData_impl meta = new ResourceMetaData_impl();
 		ResourceCreationSpecifierFactory.setConfigurationParameters(meta,
 				cfg.configurationParameters, cfg.configurationValues);
-		
+
 		ConfigurableDataResourceSpecifier_impl spec = new ConfigurableDataResourceSpecifier_impl();
 		spec.setUrl(aUrl);
 		spec.setMetaData(meta);
@@ -126,7 +131,7 @@ public class ExternalResourceFactory
 	/**
 	 * Create an external resource description for a file addressable via an
 	 * URL.
-	 * 
+	 *
 	 * @param aName the name of the resource (the key).
 	 * @param aUrl a URL.
 	 * @return the description.
@@ -145,7 +150,7 @@ public class ExternalResourceFactory
 
 	/**
 	 * Create an external resource binding.
-	 * 
+	 *
 	 * @param aKey the key to bind to.
 	 * @param aResource the resource to bind.
 	 * @return the description.
@@ -158,7 +163,7 @@ public class ExternalResourceFactory
 		extResBind.setKey(aKey);
 		return extResBind;
 	}
-	
+
 	public static ExternalResourceDependency createExternalResourceDependency(
 			final String aKey, final Class<? extends Resource> aInterface,
 			final boolean aOptional)
@@ -172,9 +177,9 @@ public class ExternalResourceFactory
 
 	/**
 	 * Scan the given resource specifier for external resource dependencies
-	 * and whenever a dependency is encounter that has the specified key, 
+	 * and whenever a dependency is encounter that has the specified key,
 	 * the resource will be bound.
-	 * 
+	 *
 	 * @param aDesc a description.
 	 * @param aKey the key to bind to.
 	 * @param aUrl a URL.
@@ -190,9 +195,9 @@ public class ExternalResourceFactory
 
 	/**
 	 * Scan the given resource specifier for external resource dependencies
-	 * and whenever a dependency is encounter that has the specified key, 
+	 * and whenever a dependency is encounter that has the specified key,
 	 * the resource will be bound.
-	 * 
+	 *
 	 * @param aDesc a description.
 	 * @param aKey the key to bind to.
 	 * @param aFile a file.
@@ -215,12 +220,12 @@ public class ExternalResourceFactory
 		}
 	}
 
-	
+
 	/**
 	 * Scan the given resource specifier for external resource dependencies
-	 * and whenever a dependency is encounter that has the specified key, 
+	 * and whenever a dependency is encounter that has the specified key,
 	 * the resource will be bound.
-	 * 
+	 *
 	 * @param aDesc a description.
 	 * @param aKey the key to bind to.
 	 * @param aUrl a URL.
@@ -232,7 +237,7 @@ public class ExternalResourceFactory
 		throws InvalidXMLException
 	{
 		ExternalResourceDescription extRes = createExternalResourceDescription(
-				aKey, aUrl);		
+				aKey, aUrl);
 		bindResource(aDesc, aKey, extRes);
 	}
 
@@ -240,7 +245,7 @@ public class ExternalResourceFactory
 	 * Scan the given resource specifier for external resource dependencies
 	 * and whenever a dependency is encounter that has a key equal to the
 	 * resource class name, the resource will be bound.
-	 * 
+	 *
 	 * @param aDesc a description.
 	 * @param aRes the resource to bind.
 	 * @param aParams parameters passed to the resource when it is created.
@@ -258,7 +263,7 @@ public class ExternalResourceFactory
 	 * Scan the given resource specifier for external resource dependencies
 	 * and whenever a dependency is encounter that has a key equal to the
 	 * API class name, the resource will be bound.
-	 * 
+	 *
 	 * @param aDesc a description.
 	 * @param aApi the resource interface.
 	 * @param aRes the resource to bind.
@@ -272,7 +277,7 @@ public class ExternalResourceFactory
 		throws InvalidXMLException
 	{
 		ExternalResourceDescription extRes = createExternalResourceDescription(
-				aApi.getName(), aRes, aParams);		
+				aApi.getName(), aRes, aParams);
 		bindResource(aDesc, aApi.getName(), extRes);
 	}
 
@@ -280,7 +285,7 @@ public class ExternalResourceFactory
 	 * Scan the given resource specifier for external resource dependencies
 	 * and whenever a dependency is encountered that has a key equal to the
 	 * resource class name, the resource will be bound.
-	 * 
+	 *
 	 * @param aDesc a description.
 	 * @param aRes the resource to bind.
 	 * @param aUrl the URL from which the resource is initialized.
@@ -300,7 +305,7 @@ public class ExternalResourceFactory
 	 * Scan the given resource specifier for external resource dependencies
 	 * and whenever a dependency is encountered that has a key equal to the
 	 * API class name, the resource will be bound.
-	 * 
+	 *
 	 * @param aDesc a description.
 	 * @param aApi the resource interface.
 	 * @param aRes the resource to bind.
@@ -321,7 +326,7 @@ public class ExternalResourceFactory
 	 * Scan the given resource specifier for external resource dependencies
 	 * and whenever a dependency with the given key is encountered the
 	 * resource will be bound.
-	 * 
+	 *
 	 * @param aDesc a description.
 	 * @param aKey the key to bind to.
 	 * @param aRes the resource to bind.
@@ -336,7 +341,7 @@ public class ExternalResourceFactory
 		throws InvalidXMLException
 	{
 			ExternalResourceDescription extRes = createExternalResourceDescription(
-					aKey, aRes, aUrl, aParams);		
+					aKey, aRes, aUrl, aParams);
 			bind((AnalysisEngineDescription) aDesc, aKey, extRes);
 	}
 
@@ -344,7 +349,7 @@ public class ExternalResourceFactory
 	 * Scan the given resource specifier for external resource dependencies
 	 * and whenever a dependency with the given key is encountered, the given
 	 * resource is bound to it.
-	 * 
+	 *
 	 * @param aDesc a description.
 	 * @param aKey the key to bind to.
 	 * @param aRes the resource to bind.
@@ -357,14 +362,14 @@ public class ExternalResourceFactory
 		throws InvalidXMLException
 	{
 		ExternalResourceDescription extRes = createExternalResourceDescription(
-				aRes.getName(), aRes, aParams);		
+				aRes.getName(), aRes, aParams);
 		bindResource(aDesc, aKey, extRes);
 	}
 	/**
 	 * Scan the given resource specifier for external resource dependencies
 	 * and whenever a dependency with the given key is encountered, the given
 	 * resource is bound to it.
-	 * 
+	 *
 	 * @param aDesc a description.
 	 * @param aKey the key to bind to.
 	 * @param aResDesc the resource description.
@@ -384,7 +389,7 @@ public class ExternalResourceFactory
 	 * Scan the given resource specifier for external resource dependencies
 	 * and whenever a dependency with the given key is encountered, the given
 	 * resource is bound to it.
-	 * 
+	 *
 	 * @param aDesc a description.
 	 * @param aKey the key to bind to.
 	 * @param aResDesc the resource description.
@@ -417,7 +422,7 @@ public class ExternalResourceFactory
 
 	/**
 	 * Create a new external resource binding.
-	 * 
+	 *
 	 * @param aResMgrCfg the resource manager to create the binding in.
 	 * @param aBindTo what key to bind to.
 	 * @param aRes the resource that should be bound.
@@ -428,7 +433,7 @@ public class ExternalResourceFactory
 	{
 		ExternalResourceBinding extResBind = createExternalResourceBinding(
 				aBindTo, aRes);
-	
+
 		aResMgrCfg.addExternalResource(aRes);
 		aResMgrCfg.addExternalResourceBinding(extResBind);
 	}
