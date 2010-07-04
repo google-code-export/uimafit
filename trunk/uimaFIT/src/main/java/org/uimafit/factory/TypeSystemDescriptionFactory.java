@@ -220,6 +220,10 @@ public final class TypeSystemDescriptionFactory {
 		try {
 			// Scan auto-import locations. Using a set to avoid scanning a pattern twice.
 			for (String pattern : new TreeSet<String>(Arrays.asList(patterns))) {
+				String p = pattern.trim();
+				if (p.length() == 0) {
+					continue;
+				}
 				for (Resource r : resolver.getResources(pattern)) {
 					locations.add(r.getURL().toString());
 				}
