@@ -1,7 +1,7 @@
-
 = Documentation =
 
  * [GettingStarted Getting started tutorial]
+ * [TypeDescriptorDetection Automatic type descriptor detection]
  * [http://uimafit.googlecode.com/svn/trunk/uimaFIT/apidocs/index.html Javadocs]
  * Questions? Please send email to [mailto:uimafit-users@googlegroups.com uimafit-users@googlegroups.com]
  * [http://code.google.com/p/uimafit/source/browse/#svn/trunk/uimaFIT-examples/src/main/java/org/uimafit/examples Examples project] provides a number of examples.
