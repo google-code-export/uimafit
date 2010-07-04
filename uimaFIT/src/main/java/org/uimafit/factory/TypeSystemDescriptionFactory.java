@@ -129,7 +129,8 @@ public final class TypeSystemDescriptionFactory {
 
 	/**
 	 * Creates a {@link TypeSystemDescription} from all type descriptions that can be found via
-	 * the {@link #TYPE_IMPORT_PATTERN}.
+	 * the {@link #TYPE_IMPORT_PATTERN} or via the {@code META-INF/org.uimafit/types.txt} files
+	 * in the classpath.
 	 *
 	 * @return the auto-scanned type system.
 	 * @throws ResourceInitializationException
