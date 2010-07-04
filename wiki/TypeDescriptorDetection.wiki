@@ -1,5 +1,7 @@
 UIMA requires that types that are used in the CAS are defined in XML files - so-called type system descriptions (TSD). uimaFIT supports the automatic detection of such files in the classpath. Thus is becomes possible for a UIMA component provider to have component's type automatically detected and thus the components becomes immediately usable by adding it to the classpath.
 
+=== Making types auto-detectable ===
+
 The provider of a type system should create a file `META-INF/org.uimafit/types.txt` in the classpath. This file should define the locations of the type system descriptions. Assume that a type `org.uimafit.type.Token` is specified  in the TSD `org/uimafit/type/Token.xml`, then the file should have the following contents:
 
 {{{
@@ -13,3 +15,17 @@ classpath*:org/uimafit/type/**/*.xml
 }}}
 
 Try to design your packages structure in a way that TSDs and JCas wrapper classes generated from them are separate from the rest of your code. 
+
+If it is not possible or inconvenient to add the `types.txt` file, patterns can also be specified using a system property. Multiple patterns may be specified separated by semicolon:
+
+{{{
+org.uimafit.type.import_pattern=classpath*:org/uimafit/type/**/*.xml
+}}}
+
+=== Using type auto-detection ===
+
+The auto-detected type system can be obtained from the `TypeSystemDescriptionFactory`:
+
+{{{
+TypeSystemDescription tsd = TypeSystemDescriptionFactory.createTypeSystemDescription()
+}}}
