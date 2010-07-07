@@ -98,7 +98,7 @@ public class ExternalResourceFactoryTest extends ComponentTestBase
 			throws ResourceInitializationException
 		{
 			super.initialize(aContext);
-			ExternalResourceInitializer.initializeExternalResources(aContext, this);
+			ExternalResourceInitializer.initialize(aContext, this);
 		}
 		
 		@Override

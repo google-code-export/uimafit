@@ -43,8 +43,8 @@ public abstract class JCasCollectionReader_ImplBase
 	public final void initialize()
 		throws ResourceInitializationException
 	{
-		ConfigurationParameterInitializer.initializeConfigurationParameters(this, getUimaContext());
-		ExternalResourceInitializer.initializeExternalResources(getUimaContext(), this);
+		ConfigurationParameterInitializer.initialize(this, getUimaContext());
+		ExternalResourceInitializer.initialize(getUimaContext(), this);
 		initialize(getUimaContext());
 	}
 

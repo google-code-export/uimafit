@@ -19,7 +19,6 @@ package org.uimafit.component.initialize;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -78,7 +77,7 @@ public class ConfigurationParameterInitializer {
 	 * @throws ResourceInitializationException
 	 */
 
-	public static void initializeConfigurationParameters(Object component, UimaContext context) throws ResourceInitializationException {
+	public static void initialize(Object component, UimaContext context) throws ResourceInitializationException {
 		try {
 			for (Field field : ReflectionUtil.getFields(component)) { // component.getClass().getDeclaredFields())
 				// {
@@ -132,6 +131,7 @@ public class ConfigurationParameterInitializer {
 
 	}
 
+	
 	public static Object convertValue(Field field, Object uimaValue) {
 		if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
 
@@ -205,7 +205,7 @@ public class ConfigurationParameterInitializer {
 	}
 
 	private static void setParameterValue(Object component, Field field, Object value) throws IllegalArgumentException, IllegalAccessException,
-			SecurityException, NoSuchMethodException, InvocationTargetException {
+			SecurityException{
 
 		boolean accessible = field.isAccessible();
 		field.setAccessible(true);

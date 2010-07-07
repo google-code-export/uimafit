@@ -44,7 +44,7 @@ public class IntegerFileNamer implements XWriterFileNamer, Initializable {
 	}
 
 	public void initialize(UimaContext context) throws ResourceInitializationException {
-		ConfigurationParameterInitializer.initializeConfigurationParameters(this, context);
+		ConfigurationParameterInitializer.initialize(this, context);
 	}
 	
 }

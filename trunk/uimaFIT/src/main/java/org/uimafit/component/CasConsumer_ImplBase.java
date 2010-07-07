@@ -43,7 +43,7 @@ public abstract class CasConsumer_ImplBase
 		throws ResourceInitializationException
 	{
 		super.initialize(context);
-		ConfigurationParameterInitializer.initializeConfigurationParameters(this, context);
-		ExternalResourceInitializer.initializeExternalResources(context, this);
+		ConfigurationParameterInitializer.initialize(this, context);
+		ExternalResourceInitializer.initialize(context, this);
 	}
 }

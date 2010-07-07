@@ -312,7 +312,7 @@ public class InitializeUtilTest extends ComponentTestBase{
 		@Override
 		public void initialize(UimaContext aContext) throws ResourceInitializationException {
 			super.initialize(aContext);
-			ConfigurationParameterInitializer.initializeConfigurationParameters(this, aContext);
+			ConfigurationParameterInitializer.initialize(this, aContext);
 		}
 
 		@Override
@@ -329,7 +329,7 @@ public class InitializeUtilTest extends ComponentTestBase{
 		@Override
 		public void initialize(UimaContext aContext) throws ResourceInitializationException {
 			super.initialize(aContext);
-			ConfigurationParameterInitializer.initializeConfigurationParameters(this, aContext);
+			ConfigurationParameterInitializer.initialize(this, aContext);
 		}
 
 		@Override
@@ -361,7 +361,7 @@ public class InitializeUtilTest extends ComponentTestBase{
 		@Override
 		public void initialize(UimaContext aContext) throws ResourceInitializationException {
 			super.initialize(aContext);
-			ConfigurationParameterInitializer.initializeConfigurationParameters(this, aContext);
+			ConfigurationParameterInitializer.initialize(this, aContext);
 		}
 
 		@Override
