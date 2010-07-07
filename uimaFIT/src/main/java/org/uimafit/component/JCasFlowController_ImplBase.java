@@ -34,7 +34,7 @@ public abstract class JCasFlowController_ImplBase extends org.apache.uima.flow.J
 	public void initialize(FlowControllerContext context) throws ResourceInitializationException
 	{
 		super.initialize(context);
-		ConfigurationParameterInitializer.initializeConfigurationParameters(this, context);
+		ConfigurationParameterInitializer.initialize(this, context);
 	}
 
 }

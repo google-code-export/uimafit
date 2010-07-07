@@ -73,7 +73,7 @@ public class SingleFileXReader extends CollectionReader_ImplBase {
 	public void initialize() throws ResourceInitializationException {
 		super.initialize();
 
-		ConfigurationParameterInitializer.initializeConfigurationParameters(this, getUimaContext());
+		ConfigurationParameterInitializer.initialize(this, getUimaContext());
 		
 		file = new File(fileName);
 

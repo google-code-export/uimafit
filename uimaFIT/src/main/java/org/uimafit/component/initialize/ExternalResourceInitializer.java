@@ -47,7 +47,7 @@ public class ExternalResourceInitializer
 	 * @throws ResourceInitializationException if the external resource cannot
 	 * 		be configured.
 	 */
-	public static <T> void initializeExternalResources(UimaContext context, T object)
+	public static <T> void initialize(UimaContext context, T object)
 		throws ResourceInitializationException
 	{
 		try {
