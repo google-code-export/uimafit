@@ -1,5 +1,5 @@
 /*
- Copyright 2009
+ Copyright 2009-2010
  Ubiquitous Knowledge Processing (UKP) Lab
  Technische Universitaet Darmstadt
  All rights reserved.
