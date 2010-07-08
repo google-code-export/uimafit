@@ -1,0 +1,20 @@
+= How to check out uimaFIT =
+
+== Requirements ==
+
+The requirements given here necessary to follow the given steps. You can check out uimaFIT using Tortoise or any command line tools as well, but they will not configure Eclipse projects properly.
+
+    * Eclipse 3.5 or higher
+    * Subclipse 1.6.x
+        * Subclipse update site URL: http://subclipse.tigris.org/update_1.6.x
+    * m2eclipse 0.10.0 or higher. Make sure to install all the SCM features from the m2e-extras site as well.
+        * m2eclipse Core Update Site: http://m2eclipse.sonatype.org/sites/m2e
+        * m2eclipse Extras Update Site: http://m2eclipse.sonatype.org/sites/m2e-extras
+
+== Checking out ==
+
+   * Open the SVN Repositories perspective in Eclipse
+   * Add a SVN repository with the URL http://uimafit.googlecode.com/svn
+   * Expand the repository node in the SVN Repositories view
+   * Right-click on *trunk* and select *Check out as Maven project* and select *Finish*. Eclipse will set up three projects: uimafit-parent, uimafit and uimafit-examples. Mind that the latter two are actually physically nested folders within the former that Eclipse just displays as additional projects.
+   
