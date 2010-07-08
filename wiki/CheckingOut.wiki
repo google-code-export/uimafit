@@ -18,3 +18,6 @@ The requirements given here necessary to follow the given steps. You can check o
    * Expand the repository node in the SVN Repositories view
    * Right-click on *trunk* and select *Check out as Maven project* and select *Finish*. Eclipse will set up three projects: uimafit-parent, uimafit and uimafit-examples. Mind that the latter two are actually physically nested folders within the former that Eclipse just displays as additional projects.
    
+== Finalizing the check out ==
+
+   * Right-click on the *uimafit* project and select *Run as -> Maven install*. This will generate the JCas wrappers and install uimafit into your local Maven repository.
