@@ -20,4 +20,4 @@ The requirements given here necessary to follow the given steps. You can check o
    
 == Finalizing the check out ==
 
-   * Right-click on the *uimafit* project and select *Run as -> Maven install*. This will generate the JCas wrappers and install uimafit into your local Maven repository.
+   * Right-click on the *uimafit* project and select *Run as -> Maven install*. This will generate the JCas wrappers and install uimafit into your local Maven repository.  If compile errors still persist, then perform a clean compile on the project containing errors.  
