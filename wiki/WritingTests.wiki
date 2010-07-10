@@ -1,0 +1,24 @@
+#helpful suggestions for writing tests
+
+*under construction*
+
+= Introduction =
+
+Writing tests without uimaFIT can be a laborious process that results in fragile tests that are very verbose and break easily when code is refactored.  This page provides some demonstrates how you can write tests that are both concise and robust.  Here's an outline of how you might create a test for a UIMA component without uimaFIT:
+
+ # write a descriptor file that configures your component appropriately for the test.  This requires a minimum of 30-50 lines of XML.
+ # begin a test with 5-10 lines of code that instantiate the e.g. analysis engine.
+ # run the analysis engine against some text and test the contents of the CAS.
+ # repeat steps 1-3 for your next test usually by copying the descriptor file, renaming it, and changing e.g. configuration parameters.
+
+If you have gone through the pain of creating tests like these and then decided you should refactor your code, then you know how tedious it is to maintain them.  
+
+Instead of pasting variants of the setup code (see step 2) into other tests we began to create a library of utility methods that we could call which helped shorten our code.  We extended these methods so that we could instantiate our components directly without a descriptor file.  These utility methods became the initial core of uimaFIT.  
+
+== Examples ==
+
+outline of what's coming here
+ * pointer to example tests in [http://code.google.com/p/uimafit/source/browse/#svn/trunk/uimaFIT-examples/src/test/java/org/uimafit/examples/tutorial/ex1 uima-examples]
+ * improving tests with a [http://code.google.com/p/uimafit/source/browse/trunk/uimaFIT-examples/src/test/java/org/uimafit/examples/tutorial/ExamplesTestBase.java MyTestBase] class
+ * How to generate XMI files for testing components that generally sit downstream of many other components so that you can test a component in isolation without worrying about how the refactoring of upstream components might break your test.  
+ * tips & tricks
