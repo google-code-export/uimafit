@@ -12,4 +12,4 @@ We are currently developing a more comprehensive tutorial for using uimaFIT.  Ho
 == Developers ==
 
  * The [DeveloperSetup developer setup] page provides instructions for checking out the uimaFIT code and building it within eclipse.
- * The [CreateARelease release instructions] page provides instructions for creating a new release of uimaFIT.
+ * The [CreatingARelease release instructions] page provides instructions for creating a new release of uimaFIT.
