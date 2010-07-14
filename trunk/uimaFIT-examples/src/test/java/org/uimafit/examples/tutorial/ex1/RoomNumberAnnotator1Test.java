@@ -26,8 +26,8 @@ public class RoomNumberAnnotator1Test {
 	 * 
 	 * This test isn't so bad but requires an xml descriptor file for the
 	 * analysis engine. While the descriptor was automatically generated, you
-	 * might not want you tests to rely on descriptor files. This test also
-	 * creates a new JCas object. Creating a new JCas is a bit expensive (100ms
+	 * might not want your tests to rely on descriptor files. This test also
+	 * creates a new JCas object. Creating a new JCas is a bit expensive (>40 ms
 	 * on my laptop) - so this can really add up over a large test suite.
 	 * 
 	 * @throws Exception
@@ -49,7 +49,7 @@ public class RoomNumberAnnotator1Test {
 	 * This test is a bit better because we don't need a descriptor file for the
 	 * analysis engine. We still need a descriptor file for the type system but
 	 * this isn't so bad as we expect there to be a descriptor file for the type
-	 * system as it is used to generate the Java jCas type. We are still,
+	 * system as it is used to generate the Java jCas types. We are still,
 	 * unfortunately, creating a new JCas which is not so great.
 	 * 
 	 * @throws Exception
