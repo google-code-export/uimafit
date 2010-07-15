@@ -43,6 +43,8 @@ import org.uimafit.examples.tutorial.type.UimaAcronym;
  * Annotates UIMA acronyms and provides their expanded forms. When combined in an aggregate TAE with
  * the UimaMeetingAnnotator, demonstrates the use of the ResourceManager to share data between
  * annotators.
+ *  
+ *  @author unknown
  */
 @TypeCapability(outputs = { "org.apache.uima.examples.tutorial.UimaAcronym",
 		"org.apache.uima.examples.tutorial.UimaAcronym:expandedForm" })
