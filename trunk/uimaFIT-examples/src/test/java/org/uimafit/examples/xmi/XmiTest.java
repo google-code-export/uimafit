@@ -31,6 +31,7 @@ import org.uimafit.examples.type.Sentence;
 import org.uimafit.examples.type.Token;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.JCasFactory;
+import org.uimafit.pipeline.SimplePipeline;
 import org.uimafit.util.JCasUtil;
 
 /**
@@ -55,9 +56,7 @@ public class XmiTest extends ExamplesTestBase {
 		AnalysisEngine a2 = AnalysisEngineFactory.createPrimitive(Annotator2.class, typeSystemDescription);
 		AnalysisEngine a3 = AnalysisEngineFactory.createPrimitive(Annotator3.class, typeSystemDescription);
 		jCas.setDocumentText("betgetjetletmetnetpetsetvetwetyet");
-		a1.process(jCas);
-		a2.process(jCas);
-		a3.process(jCas);
+		SimplePipeline.runPipeline(jCas, a1, a2, a3);
 
 		Sentence sentence = JCasUtil.selectByIndex(jCas, Sentence.class, 0);
 		assertEquals("metnetpetsetvetwetyet", sentence.getCoveredText());
