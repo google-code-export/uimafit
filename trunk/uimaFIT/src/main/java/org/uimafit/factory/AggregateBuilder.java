@@ -54,10 +54,21 @@ public class AggregateBuilder {
 
 	 FlowControllerDescription flowControllerDescription;
 
+	/**
+	 * The default no-args constructor calls {@link AggregateBuilder#AggregateBuilder(TypeSystemDescription, TypePriorities, FlowControllerDescription)} 
+	 * with null-valued args.
+	 */
 	public AggregateBuilder() {
 		this(null, null, null);
 	}
 
+	/**
+	 * Instantiate an AggregateBuilder with a given type system, type priorities, and flow controller.  Generally, speaking 
+	 * it suffices to use the no arguments constructor
+	 * @param typeSystemDescription this can be instantiated using {@link TypeSystemDescriptionFactory}
+	 * @param typePriorities this can be instantiated using {@link TypePrioritiesFactory}
+	 * @param flowControllerDescription this can be instantiated using {@link FlowControllerFactory}
+	 */
 	public AggregateBuilder(TypeSystemDescription typeSystemDescription, TypePriorities typePriorities,
 			 FlowControllerDescription flowControllerDescription) {
 		this.typeSystemDescription = typeSystemDescription;
@@ -74,6 +85,7 @@ public class AggregateBuilder {
 	 * 
 	 * @param aed
 	 * @param viewNames
+	 * @return the name of the component generated for the {@link AnalysisEngineDescription}
 	 */
 	public String add(AnalysisEngineDescription aed, String... viewNames) {
 		String componentName = aed.getAnalysisEngineMetaData().getName();
@@ -126,6 +138,12 @@ public class AggregateBuilder {
 		}
 	}
 
+	/**
+	 * Provide a sofa mapping for a component from the component's view to the aggregate view.
+	 * @param componentName the name of the component
+	 * @param componentViewName the name of the component view
+	 * @param aggregateViewName the name of the aggregate view to map the component view to.
+	 */
 	public void addSofaMapping(String componentName, String componentViewName, String aggregateViewName) {
 		if (componentNames.contains(componentName)) {
 			sofaMappings.add(SofaMappingFactory.createSofaMapping(componentName, componentViewName, aggregateViewName));
@@ -136,6 +154,10 @@ public class AggregateBuilder {
 		}
 	}
 
+	/**
+	 * Set the flow controller description of the aggregate engine created by this builder.
+	 * @param flowControllerDescription see {@link FlowControllerFactory}
+	 */
 	public void setFlowControllerDescription( FlowControllerDescription flowControllerDescription) {
 		this.flowControllerDescription = flowControllerDescription;
 	}
