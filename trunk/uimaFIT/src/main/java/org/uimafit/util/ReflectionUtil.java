@@ -29,11 +29,21 @@ import java.util.List;
  */
 public class ReflectionUtil {
 
+	/**
+	 * Get all the fields for the class (and superclasses) of the passed in object 
+	 * @param object any object will do
+	 * @return the fields for the class of the object
+	 */
 	public static List<Field> getFields(Object object) {
 		Class<?> cls = object.getClass();
 		return getFields(cls);
 	}
 
+	/**
+	 * Get all the fields for this class and all of its superclasses
+	 * @param cls any class will do
+	 * @return the fields for the class and all of its superclasses
+	 */
 	public static List<Field> getFields(Class<?> cls) {
 		List<Field> fields = new ArrayList<Field>();
 		while(!cls.equals(Object.class)) {
