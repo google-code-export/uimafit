@@ -47,6 +47,8 @@ import org.uimafit.examples.tutorial.type.RoomNumber;
  * ConfigurationParameterInitializer.initializeConfigurationParameters. This method initializes
  * member variables annotated as configuration parameters using the configuration parameter
  * information provided in the UimaContext.
+ * 
+ * @author unknown
  */
 
 @TypeCapability(outputs = { "org.apache.uima.tutorial.RoomNumber",

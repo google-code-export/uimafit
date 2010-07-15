@@ -19,6 +19,12 @@
 
 package org.uimafit.examples.tutorial.ex6;
 
+/**
+ * 
+ * @author unknown
+ *
+ */
+
 public interface StringMapResource
 {
 	String get(String aKey);

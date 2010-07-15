@@ -37,6 +37,8 @@ import org.uimafit.examples.tutorial.type.RoomNumber;
  *  Here, the type capabilities are annotated using the @TypeCapability annotation which are used
  *  by the AnalysisEngineFactory to specify this information in the descriptors returned by, e.g.
  *  AnalysisEngineFactory.createPrimitive().
+ *  
+ *  @author unknown
  *
  */
 @TypeCapability(outputs = { "org.apache.uima.tutorial.RoomNumber",
