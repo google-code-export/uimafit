@@ -56,6 +56,7 @@ public class JCasIterable implements Iterator<JCas>, Iterable<JCas> {
 	 * 
 	 * @param reader
 	 *            The CollectionReader for loading documents.
+	 * @param typeSystemDescription a type system description
 	 * @throws UIMAException
 	 * @throws IOException
 	 */

@@ -31,6 +31,11 @@ public final class TypePrioritiesFactory {
 		// This class is not meant to be instantiated
 	}
 
+	/**
+	 * Create a TypePriorities given a sequence of ordered type classes
+	 * @param prioritizedTypes a sequence of ordered type classes
+	 * @return
+	 */
 	public static TypePriorities createTypePriorities(Class<?>... prioritizedTypes) {
 		String[] typeNames = new String[prioritizedTypes.length];
 		for(int i=0; i<prioritizedTypes.length; i++) {
@@ -39,6 +44,11 @@ public final class TypePrioritiesFactory {
 		return createTypePriorities(typeNames);
 	}
 
+	/**
+	 * Create a TypePriorities given a sequence of ordered type names
+	 * @param prioritizedTypeNames a sequence of ordered type names
+	 * @return
+	 */
 	public static TypePriorities createTypePriorities(String... prioritizedTypeNames) {
 		TypePriorities typePriorities = new TypePriorities_impl();
 		TypePriorityList typePriorityList = typePriorities.addPriorityList();

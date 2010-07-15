@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 
 package org.uimafit.pipeline;
 
@@ -28,9 +28,10 @@ import org.uimafit.factory.AnalysisEngineFactory;
 
 /**
  * @author Steven Bethard, Philip Ogren
- *
+ * 
  */
-public final class SimplePipeline {
+public final class SimplePipeline
+{
 	private SimplePipeline()
 	{
 		// This class is not meant to be instantiated
@@ -38,22 +39,26 @@ public final class SimplePipeline {
 
 	/**
 	 * Run the CollectionReader and AnalysisEngines as a pipeline.
-	 *
+	 * 
 	 * @param reader
 	 *            The CollectionReader that loads the documents into the CAS.
 	 * @param descs
-	 *            Primitive AnalysisEngineDescriptions that process the CAS, in
-	 *            order. If you have a mix of primitive and aggregate engines,
-	 *            then please create the AnalysisEngines yourself and call the
-	 *            other runPipeline method.
+	 *            Primitive AnalysisEngineDescriptions that process the CAS, in order. If you have a
+	 *            mix of primitive and aggregate engines, then please create the AnalysisEngines
+	 *            yourself and call the other runPipeline method.
+	 * @throws UIMAException 
+	 * @throws IOException 
 	 */
-	public static void runPipeline(CollectionReader reader, AnalysisEngineDescription... descs) throws UIMAException,
-			IOException {
+	public static void runPipeline(CollectionReader reader, AnalysisEngineDescription... descs)
+		throws UIMAException, IOException
+	{
 		AnalysisEngine[] engines = createEngines(descs);
 		runPipeline(reader, engines);
 	}
 
-	private static AnalysisEngine[] createEngines(AnalysisEngineDescription... descs) throws UIMAException {
+	private static AnalysisEngine[] createEngines(AnalysisEngineDescription... descs)
+		throws UIMAException
+	{
 		AnalysisEngine[] engines = new AnalysisEngine[descs.length];
 		for (int i = 0; i < engines.length; ++i) {
 			if (descs[i].isPrimitive()) {
@@ -67,8 +72,16 @@ public final class SimplePipeline {
 
 	}
 
-	public static void runPipeline(CollectionReader reader, AnalysisEngine... engines) throws UIMAException,
-			IOException {
+	/**
+	 * Provides a simple way to run a pipeline for a given collection reader and sequence of analysis engines
+	 * @param reader a collection reader 
+	 * @param engines a sequence of analysis engines
+	 * @throws UIMAException
+	 * @throws IOException
+	 */
+	public static void runPipeline(CollectionReader reader, AnalysisEngine... engines)
+		throws UIMAException, IOException
+	{
 		for (JCas jCas : new JCasIterable(reader, engines)) {
 			assert jCas != null;
 		}
@@ -78,12 +91,36 @@ public final class SimplePipeline {
 		reader.close();
 	}
 
-	public static void runPipeline(JCas jCas, AnalysisEngineDescription... descs) throws UIMAException, IOException {
+	/**
+	 * This method allows you to run a sequence of analysis engines over a jCas
+	 * 
+	 * @param jCas
+	 *            the jCas to process
+	 * @param descs
+	 *            a sequence of analysis engines to run on the jCas
+	 * @throws UIMAException
+	 * @throws IOException
+	 */
+	public static void runPipeline(JCas jCas, AnalysisEngineDescription... descs)
+		throws UIMAException, IOException
+	{
 		AnalysisEngine[] engines = createEngines(descs);
 		runPipeline(jCas, engines);
 	}
 
-	public static void runPipeline(JCas jCas, AnalysisEngine... engines) throws UIMAException, IOException {
+	/**
+	 * This method allows you to run a sequence of analysis engines over a jCas
+	 * 
+	 * @param jCas
+	 *            the jCas to process
+	 * @param engines
+	 *            a sequence of analysis engines to run on the jCas
+	 * @throws UIMAException
+	 * @throws IOException
+	 */
+	public static void runPipeline(JCas jCas, AnalysisEngine... engines)
+		throws UIMAException, IOException
+	{
 		for (AnalysisEngine engine : engines) {
 			engine.process(jCas);
 		}
