@@ -35,6 +35,9 @@ public class HideOutput extends OutputStream {
 
 	protected PrintStream err;
 
+	/**
+	 *  calling this constructor will silence System.out and System.err until {@link #restoreOutput()} is called by setting them to this OutputStream
+	 */
 	public HideOutput() {
 		this.out = System.out;
 		this.err = System.err;
@@ -42,6 +45,9 @@ public class HideOutput extends OutputStream {
 		System.setErr(new PrintStream(this));
 	}
 
+	/**
+	 * this method restores System.out and System.err
+	 */
 	public void restoreOutput() {
 		System.setOut(this.out);
 		System.setErr(this.err);
@@ -49,6 +55,7 @@ public class HideOutput extends OutputStream {
 
 	@Override
 	public void write(int b) throws IOException {
+		//do nothing
 	}
 	
 }
