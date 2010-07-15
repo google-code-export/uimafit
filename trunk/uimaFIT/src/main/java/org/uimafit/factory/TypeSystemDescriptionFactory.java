@@ -180,7 +180,9 @@ public final class TypeSystemDescriptionFactory {
 				InputStream is = null;
 				try {
 					is = new URL(mfUrl).openStream();
-					patterns.addAll(IOUtils.readLines(is));
+					@SuppressWarnings("unchecked")
+					List<? extends String> lines = IOUtils.readLines(is);
+					patterns.addAll(lines);
 				}
 				catch (IOException e) {
 					throw new ResourceInitializationException(e);

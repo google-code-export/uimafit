@@ -58,6 +58,13 @@ public final class SofaMappingFactory {
 		return sofaMapping;
 	}
 
+	/**
+	 * create a sofa mapping using the component class rather than the component name
+	 * @param componentClass
+	 * @param componentSofaName
+	 * @param aggregateSofaName
+	 * @return
+	 */
 	public static SofaMapping createSofaMapping(Class<? extends AnalysisComponent> componentClass,
 			String componentSofaName, String aggregateSofaName) {
 
