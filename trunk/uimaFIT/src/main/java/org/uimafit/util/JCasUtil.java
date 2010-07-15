@@ -209,10 +209,11 @@ public class JCasUtil
 	 *            this can be either positive (0 corresponds to the first
 	 *            annotation of a type) or negative (-1 corresponds to the last
 	 *            annotation of a type.)
+	 * @return an annotation of the given type
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends Annotation> T selectByIndex(JCas jCas, Class<T> cls, int index) {
-		FSIterator i = jCas.getAnnotationIndex(getType(jCas, cls)).iterator();
+		FSIterator<Annotation> i = jCas.getAnnotationIndex(getType(jCas, cls)).iterator();
 		int n = index;
 		i.moveToFirst();
 		if (n > 0) {
