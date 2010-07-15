@@ -26,11 +26,13 @@ import java.net.URL;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.resource.ConfigurableDataResourceSpecifier;
 import org.apache.uima.resource.CustomResourceSpecifier;
+import org.apache.uima.resource.DataResource;
 import org.apache.uima.resource.ExternalResourceDependency;
 import org.apache.uima.resource.ExternalResourceDescription;
 import org.apache.uima.resource.FileResourceSpecifier;
 import org.apache.uima.resource.Parameter;
 import org.apache.uima.resource.Resource;
+import org.apache.uima.resource.ResourceManager;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.SharedResourceObject;
 import org.apache.uima.resource.impl.ConfigurableDataResourceSpecifier_impl;
@@ -176,9 +178,15 @@ public final class ExternalResourceFactory
 	}
 
 	/**
-	 * Scan the given resource specifier for external resource dependencies
-	 * and whenever a dependency is encounter that has the specified key,
-	 * the resource will be bound.
+	 * Scan the given resource specifier for external resource dependencies and whenever a
+	 * dependency is encounter that has the specified key, the resource will be bound.
+	 * <p>
+	 * <b>Caveat</b>: If you use this method, you may expect that {@link DataResource#getUrl()} or
+	 * {@link DataResource#getUri()} will return the same URL that you have specified here. This
+	 * may <b>NOT</b> be the case. UIMA will internally try to resolve the URL via a
+     * {@link ResourceManager}. If it cannot resolve a remove URL, this mechanism will think it
+     * may be a local file and will return some local path - or it may redirect it to some location
+     * as though fit by the {@link ResourceManager}.
 	 *
 	 * @param aDesc a description.
 	 * @param aKey the key to bind to.
@@ -197,6 +205,13 @@ public final class ExternalResourceFactory
 	 * Scan the given resource specifier for external resource dependencies
 	 * and whenever a dependency is encounter that has the specified key,
 	 * the resource will be bound.
+	 * <p>
+	 * <b>Caveat</b>: If you use this method, you may expect that {@link DataResource#getUrl()} or
+	 * {@link DataResource#getUri()} will return the URL of the file that you have specified here.
+     * This may <b>NOT</b> be the case. UIMA will internally try to resolve the URL via a
+     * {@link ResourceManager}. If it cannot resolve a remove URL, this mechanism will think it
+     * may be a local file and will return some local path - or it may redirect it to some location
+     * as though fit by the {@link ResourceManager}.
 	 *
 	 * @param aDesc a description.
 	 * @param aKey the key to bind to.
@@ -222,9 +237,15 @@ public final class ExternalResourceFactory
 
 
 	/**
-	 * Scan the given resource specifier for external resource dependencies
-	 * and whenever a dependency is encounter that has the specified key,
-	 * the resource will be bound.
+	 * Scan the given resource specifier for external resource dependencies and whenever a
+	 * dependency is encounter that has the specified key, the resource will be bound.
+	 * <p>
+	 * <b>Caveat</b>: If you use this method, you may expect that {@link DataResource#getUrl()} or
+	 * {@link DataResource#getUri()} will return the same URL that you have specified here. This
+	 * is may <b>NOT</b> be the case. UIMA will internally try to resolve the URL via a
+     * {@link ResourceManager}. If it cannot resolve a remove URL, this mechanism will think it
+     * may be a local file and will return some local path - or it may redirect it to some location
+     * as though fit by the {@link ResourceManager}.
 	 *
 	 * @param aDesc a description.
 	 * @param aKey the key to bind to.

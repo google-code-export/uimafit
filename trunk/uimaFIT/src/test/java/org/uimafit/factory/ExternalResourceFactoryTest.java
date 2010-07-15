@@ -26,8 +26,7 @@ import static org.uimafit.factory.AnalysisEngineFactory.createPrimitiveDescripti
 import static org.uimafit.factory.ExternalResourceFactory.bindResource;
 
 import java.io.File;
-import java.net.URL;
-
+import java.net.URI;
 import org.apache.uima.UIMAFramework;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
@@ -47,32 +46,34 @@ import org.uimafit.descriptor.ExternalResource;
 
 /**
  * Test case for {@link ExternalResource} annotations.
- * 
+ *
  * @author Richard Eckart de Castilho
  */
 public class ExternalResourceFactoryTest extends ComponentTestBase
 {
-	private static final String EX_URL = "http://dum.my";
+	private static final String EX_URI = "http://dum.my";
 	private static final String EX_FILE = "src/test/resources/data/html/1.html";
-	
+
 	@Test
 	public void testScanBind()
 		throws Exception
 	{
 		AnalysisEngineDescription desc = createPrimitiveDescription(
 				DummyAE.class, typeSystemDescription);
-		
+
 		bindResource(desc, DummyResource.class);
-		bindResource(desc, DummySharedResourceObject.class, EX_URL);
-		bindResource(desc, DummyAE.RES_SOME_URL, new URL(EX_URL));
+		bindResource(desc, DummySharedResourceObject.class, EX_URI);
+		// An undefined URL may be used if the specified file/remote URL does not exist or if
+		// the network is down.
+		bindResource(desc, DummyAE.RES_SOME_URI, new File(EX_FILE).toURI().toURL());
 		bindResource(desc, DummyAE.RES_SOME_FILE, new File(EX_FILE));
 
 		ResourceManagerConfiguration resCfg = desc.getResourceManagerConfiguration();
 		assertEquals(4, resCfg.getExternalResourceBindings().length);
-		
+
 		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(desc);
 		assertNotNull(ae);
-		
+
 		ae.process(ae.newJCas());
 	}
 
@@ -81,12 +82,12 @@ public class ExternalResourceFactoryTest extends ComponentTestBase
 	{
 		@ExternalResource
 		DummyResource r;
-		
+
 		@ExternalResource
 		DummySharedResourceObject sharedObject;
-		
-		static final String RES_SOME_URL = "SomeUrl";
-		@ExternalResource(key=RES_SOME_URL)
+
+		static final String RES_SOME_URI = "SomeUrl";
+		@ExternalResource(key=RES_SOME_URI)
 		DataResource someUrl;
 
 		static final String RES_SOME_FILE = "SomeFile";
@@ -100,16 +101,16 @@ public class ExternalResourceFactoryTest extends ComponentTestBase
 			super.initialize(aContext);
 			ExternalResourceInitializer.initialize(aContext, this);
 		}
-		
+
 		@Override
 		public void process(JCas aJCas)
 			throws AnalysisEngineProcessException
 		{
 			assertNotNull(r);
 			assertNotNull(sharedObject);
-			assertEquals(EX_URL, sharedObject.getUrl().toString());
+			assertEquals(EX_URI, sharedObject.getUrl().toString());
 			assertNotNull(someUrl);
-			assertEquals(EX_URL, someUrl.getUrl().toString());
+			assertEquals(new File(EX_FILE).toURI().toString(), someUrl.getUri().toString());
 			assertTrue(someFile.getUrl().toString().startsWith("file:"));
 			assertTrue("URL [" + someFile.getUrl() + "] should end in ["
 					+ EX_FILE + "]", someFile.getUrl().toString().endsWith(
@@ -122,22 +123,22 @@ public class ExternalResourceFactoryTest extends ComponentTestBase
 	{
 		// Nothing
 	}
-	
+
 	public static final class DummySharedResourceObject
 	implements SharedResourceObject
 	{
-		private URL url;
-		
+		private URI uri;
+
 		public void load(DataResource aData)
 			throws ResourceInitializationException
 		{
-			assertEquals(EX_URL, aData.getUrl().toString());
-			url = aData.getUrl();
+			assertEquals(EX_URI, aData.getUri().toString());
+			uri = aData.getUri();
 		}
-		
-		public URL getUrl()
+
+		public URI getUrl()
 		{
-			return url;
+			return uri;
 		}
 	}
 }
