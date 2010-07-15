@@ -1,10 +1,12 @@
 package org.uimafit.examples.xmi;
 
 import static org.junit.Assert.assertEquals;
+import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
 
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Test;
 import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.component.xwriter.XWriter;
@@ -15,10 +17,20 @@ import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.JCasFactory;
 import org.uimafit.util.JCasUtil;
 
-public class XmiTest extends ExamplesTestBase{
+/**
+ * This test demonstrates testing a "downstream" AnalysisEngine by means of an
+ * XMI-serialized CAS. Here we have two "upstream" analysis engines, Annotator1
+ * and Annotator2, which add annotations used by Annotator3.
+ * 
+ * @author Philip
+ * 
+ */
+public class XmiTest extends ExamplesTestBase {
 
 	/**
-	 * Here we are testing Annotator3 by setting up the pipeline and running it before testing the final annotator
+	 * Here we are testing Annotator3 by setting up the "pipeline" and running
+	 * it before testing the final annotator.
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -30,14 +42,26 @@ public class XmiTest extends ExamplesTestBase{
 		a1.process(jCas);
 		a2.process(jCas);
 		a3.process(jCas);
-		
+
 		Sentence sentence = JCasUtil.selectByIndex(jCas, Sentence.class, 0);
 		assertEquals("metnetpetsetvetwetyet", sentence.getCoveredText());
 	}
 
 	/**
-	 * In this test we have removed the dependency on running Annotator1 and Annotator2 before running Annotator3 by introducing an 
-	 * XMI file that contains the information
+	 * In this test we have removed the dependency on running Annotator1 and
+	 * Annotator2 before running Annotator3 by introducing an XMI file that
+	 * contains the token annnotations created by Annotator1 and the pos tags
+	 * added by Annotator2. This is nice because both Annotator1 and Annotator2
+	 * do a pretty poor job at their tasks and you can imagine that in future
+	 * versions their behavior might change. However, Annotator3 does a
+	 * perfectly fine job doing what it does and tests for this analysis engine
+	 * should not have to change just because the behavior of Annotator1 and
+	 * Annotator2 will. Another option is to set up all the annotations required
+	 * by Annotator3 manually, but this approach can be tedious, time consuming,
+	 * error prone, and results in a lot of code.
+	 *<p>
+	 * The xmi file is generated once by running {@link #main(String[])}.  Hopefully, 
+	 * it will not be necessary to regenerate the xmi file often.    
 	 * @throws Exception
 	 */
 	@Test
@@ -48,20 +72,26 @@ public class XmiTest extends ExamplesTestBase{
 		Sentence sentence = JCasUtil.selectByIndex(jCas, Sentence.class, 0);
 		assertEquals("metnetpetsetvetwetyet", sentence.getCoveredText());
 	}
-	
+
+	/**
+	 * Here we generate an xmi file that will be used by {@link #testWithXmi()}.  
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String[] args) throws Exception {
-		XmiTest xmiTest = new XmiTest();
-		xmiTest.setUp();
-		
-		AnalysisEngine a1 = AnalysisEngineFactory.createPrimitive(Annotator1.class, xmiTest.typeSystemDescription);
-		AnalysisEngine a2 = AnalysisEngineFactory.createPrimitive(Annotator2.class, xmiTest.typeSystemDescription);
-		AnalysisEngine xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, xmiTest.typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME, "src/main/resources/org/uimafit/examples/xmi");
-		xmiTest.jCas.setDocumentText("betgetjetletmetnetpetsetvetwetyet");
-		a1.process(xmiTest.jCas);
-		a2.process(xmiTest.jCas);
-		xWriter.process(xmiTest.jCas);
+		TypeSystemDescription tsd = createTypeSystemDescription("org.uimafit.examples.TypeSystem");
+		AnalysisEngine a1 = AnalysisEngineFactory.createPrimitive(Annotator1.class, tsd);
+		AnalysisEngine a2 = AnalysisEngineFactory.createPrimitive(Annotator2.class, tsd);
+		AnalysisEngine xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, tsd,
+				XWriter.PARAM_OUTPUT_DIRECTORY_NAME, "src/main/resources/org/uimafit/examples/xmi");
+		JCas jCas = JCasFactory.createJCas(tsd);
+		jCas.setDocumentText("betgetjetletmetnetpetsetvetwetyet");
+		a1.process(jCas);
+		a2.process(jCas);
+		xWriter.process(jCas);
 		xWriter.collectionProcessComplete();
 	}
+
 	/**
 	 * Creates a token for every three characters
 	 */
@@ -69,8 +99,8 @@ public class XmiTest extends ExamplesTestBase{
 		@Override
 		public void process(JCas jCas) throws AnalysisEngineProcessException {
 			String text = jCas.getDocumentText();
-			for(int i=0; i<text.length()-3; i+=3) {
-				new Token(jCas, i, i+3).addToIndexes();
+			for (int i = 0; i < text.length() - 3; i += 3) {
+				new Token(jCas, i, i + 3).addToIndexes();
 			}
 		}
 	}
@@ -81,20 +111,21 @@ public class XmiTest extends ExamplesTestBase{
 	public static class Annotator2 extends JCasAnnotator_ImplBase {
 		@Override
 		public void process(JCas jCas) throws AnalysisEngineProcessException {
-			for(Token token : JCasUtil.iterate(jCas, Token.class)) {
-				token.setPos(token.getCoveredText().substring(0,1));
+			for (Token token : JCasUtil.iterate(jCas, Token.class)) {
+				token.setPos(token.getCoveredText().substring(0, 1));
 			}
 		}
 	}
 
 	/**
-	 * creates a sentence from the begining of each token whose pos tag is "m" to the end of the text.
+	 * creates a sentence from the begining of each token whose pos tag is "m"
+	 * to the end of the text.
 	 */
 	public static class Annotator3 extends JCasAnnotator_ImplBase {
 		@Override
 		public void process(JCas jCas) throws AnalysisEngineProcessException {
-			for(Token token : JCasUtil.iterate(jCas, Token.class)) {
-				if(token.getPos().equals("m")) {
+			for (Token token : JCasUtil.iterate(jCas, Token.class)) {
+				if (token.getPos().equals("m")) {
 					new Sentence(jCas, token.getBegin(), jCas.getDocumentText().length()).addToIndexes();
 				}
 			}
