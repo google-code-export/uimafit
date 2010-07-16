@@ -39,104 +39,108 @@
 <FONT color="green">036</FONT>     */<a name="line.36"></a>
 <FONT color="green">037</FONT>    public class CasUtil<a name="line.37"></a>
 <FONT color="green">038</FONT>    {<a name="line.38"></a>
-<FONT color="green">039</FONT>            public static final String UIMA_BUILTIN_JCAS_PREFIX = "org.apache.uima.jcas.";<a name="line.39"></a>
-<FONT color="green">040</FONT>    <a name="line.40"></a>
-<FONT color="green">041</FONT>            /**<a name="line.41"></a>
-<FONT color="green">042</FONT>             * Get the CAS type for the given JCas wrapper class.<a name="line.42"></a>
-<FONT color="green">043</FONT>             *<a name="line.43"></a>
-<FONT color="green">044</FONT>             * @param cas the CAS hosting the type system.<a name="line.44"></a>
-<FONT color="green">045</FONT>             * @param type the JCas wrapper class.<a name="line.45"></a>
-<FONT color="green">046</FONT>             * @return the CAS type.<a name="line.46"></a>
-<FONT color="green">047</FONT>             */<a name="line.47"></a>
-<FONT color="green">048</FONT>            public static Type getType(CAS cas, Class&lt;?&gt; type)<a name="line.48"></a>
-<FONT color="green">049</FONT>            {<a name="line.49"></a>
-<FONT color="green">050</FONT>                    String typeName = type.getName();<a name="line.50"></a>
-<FONT color="green">051</FONT>                    if (typeName.startsWith(UIMA_BUILTIN_JCAS_PREFIX)) {<a name="line.51"></a>
-<FONT color="green">052</FONT>                            typeName = "uima."+typeName.substring(UIMA_BUILTIN_JCAS_PREFIX.length());<a name="line.52"></a>
-<FONT color="green">053</FONT>                    }<a name="line.53"></a>
-<FONT color="green">054</FONT>                    Type t = cas.getTypeSystem().getType(typeName);<a name="line.54"></a>
-<FONT color="green">055</FONT>                    if (t == null) {<a name="line.55"></a>
-<FONT color="green">056</FONT>                            throw new IllegalArgumentException("Undeclared type ["+typeName+"]");<a name="line.56"></a>
-<FONT color="green">057</FONT>                    }<a name="line.57"></a>
-<FONT color="green">058</FONT>                    return t;<a name="line.58"></a>
-<FONT color="green">059</FONT>            }<a name="line.59"></a>
-<FONT color="green">060</FONT>    <a name="line.60"></a>
-<FONT color="green">061</FONT>            /**<a name="line.61"></a>
-<FONT color="green">062</FONT>             * Get a list of annotations of the given annotation type constraint by a certain annotation.<a name="line.62"></a>
-<FONT color="green">063</FONT>             * Iterates over all annotations of the given type to find the covered annotations. Does not use<a name="line.63"></a>
-<FONT color="green">064</FONT>             * subiterators and does not respect type prioritites.<a name="line.64"></a>
-<FONT color="green">065</FONT>             *<a name="line.65"></a>
-<FONT color="green">066</FONT>             * @param &lt;T&gt; the JCas type.<a name="line.66"></a>
-<FONT color="green">067</FONT>             * @param cas a JCas.<a name="line.67"></a>
-<FONT color="green">068</FONT>             * @param type a UIMA type.<a name="line.68"></a>
-<FONT color="green">069</FONT>             * @return a return value.<a name="line.69"></a>
-<FONT color="green">070</FONT>             * @see was adapted from {@link Subiterator}. Uses the same approach except that type priorities<a name="line.70"></a>
-<FONT color="green">071</FONT>             *      are ignored.<a name="line.71"></a>
-<FONT color="green">072</FONT>             */<a name="line.72"></a>
-<FONT color="green">073</FONT>            public static &lt;T extends AnnotationFS&gt; List&lt;T&gt; selectCovered(<a name="line.73"></a>
-<FONT color="green">074</FONT>                            CAS cas, Type type, AnnotationFS container)<a name="line.74"></a>
-<FONT color="green">075</FONT>            {<a name="line.75"></a>
-<FONT color="green">076</FONT>                    int begin = container.getBegin();<a name="line.76"></a>
-<FONT color="green">077</FONT>                    int end = container.getEnd();<a name="line.77"></a>
-<FONT color="green">078</FONT>    <a name="line.78"></a>
-<FONT color="green">079</FONT>                    List&lt;T&gt; list = new ArrayList&lt;T&gt;();<a name="line.79"></a>
-<FONT color="green">080</FONT>                    FSIterator&lt;AnnotationFS&gt; it = cas.getAnnotationIndex(type).iterator();<a name="line.80"></a>
-<FONT color="green">081</FONT>    <a name="line.81"></a>
-<FONT color="green">082</FONT>                    // Try to seek the insertion point.<a name="line.82"></a>
-<FONT color="green">083</FONT>                    it.moveTo(container);<a name="line.83"></a>
-<FONT color="green">084</FONT>    <a name="line.84"></a>
-<FONT color="green">085</FONT>                    // If the insertion point is beyond the index, move back to the last.<a name="line.85"></a>
-<FONT color="green">086</FONT>                    if (!it.isValid()) {<a name="line.86"></a>
-<FONT color="green">087</FONT>                            it.moveToLast();<a name="line.87"></a>
-<FONT color="green">088</FONT>                            if (!it.isValid()) {<a name="line.88"></a>
-<FONT color="green">089</FONT>                                    return list;<a name="line.89"></a>
-<FONT color="green">090</FONT>                            }<a name="line.90"></a>
-<FONT color="green">091</FONT>                    }<a name="line.91"></a>
-<FONT color="green">092</FONT>    <a name="line.92"></a>
-<FONT color="green">093</FONT>                    // Ignore type priorities by seeking to the first that has the same begin<a name="line.93"></a>
-<FONT color="green">094</FONT>                    boolean moved = false;<a name="line.94"></a>
-<FONT color="green">095</FONT>                    while (it.isValid() &amp;&amp; (it.get()).getBegin() &gt;= begin) {<a name="line.95"></a>
-<FONT color="green">096</FONT>                            it.moveToPrevious();<a name="line.96"></a>
-<FONT color="green">097</FONT>                            moved = true;<a name="line.97"></a>
-<FONT color="green">098</FONT>                    }<a name="line.98"></a>
-<FONT color="green">099</FONT>    <a name="line.99"></a>
-<FONT color="green">100</FONT>                    // If we moved, then we are now on one starting before the requested begin, so we have to<a name="line.100"></a>
-<FONT color="green">101</FONT>                    // move one ahead.<a name="line.101"></a>
-<FONT color="green">102</FONT>                    if (moved) {<a name="line.102"></a>
-<FONT color="green">103</FONT>                            it.moveToNext();<a name="line.103"></a>
-<FONT color="green">104</FONT>                    }<a name="line.104"></a>
-<FONT color="green">105</FONT>    <a name="line.105"></a>
-<FONT color="green">106</FONT>                    // If we managed to move outside the index, start at first.<a name="line.106"></a>
-<FONT color="green">107</FONT>                    if (!it.isValid()) {<a name="line.107"></a>
-<FONT color="green">108</FONT>                            it.moveToFirst();<a name="line.108"></a>
-<FONT color="green">109</FONT>                    }<a name="line.109"></a>
-<FONT color="green">110</FONT>    <a name="line.110"></a>
-<FONT color="green">111</FONT>                    // Skip annotations whose start is before the start parameter.<a name="line.111"></a>
-<FONT color="green">112</FONT>                    while (it.isValid() &amp;&amp; (it.get()).getBegin() &lt; begin) {<a name="line.112"></a>
-<FONT color="green">113</FONT>                            it.moveToNext();<a name="line.113"></a>
-<FONT color="green">114</FONT>                    }<a name="line.114"></a>
-<FONT color="green">115</FONT>    <a name="line.115"></a>
-<FONT color="green">116</FONT>                    boolean strict = true;<a name="line.116"></a>
-<FONT color="green">117</FONT>                    while (it.isValid()) {<a name="line.117"></a>
-<FONT color="green">118</FONT>                            @SuppressWarnings("unchecked")<a name="line.118"></a>
-<FONT color="green">119</FONT>                            T a = (T) it.get();<a name="line.119"></a>
-<FONT color="green">120</FONT>                            // If the start of the current annotation is past the end parameter, we're done.<a name="line.120"></a>
-<FONT color="green">121</FONT>                            if (a.getBegin() &gt; end) {<a name="line.121"></a>
-<FONT color="green">122</FONT>                                    break;<a name="line.122"></a>
-<FONT color="green">123</FONT>                            }<a name="line.123"></a>
-<FONT color="green">124</FONT>                            it.moveToNext();<a name="line.124"></a>
-<FONT color="green">125</FONT>                            if (strict &amp;&amp; a.getEnd() &gt; end) {<a name="line.125"></a>
-<FONT color="green">126</FONT>                                    continue;<a name="line.126"></a>
+<FONT color="green">039</FONT>            /**<a name="line.39"></a>
+<FONT color="green">040</FONT>             * Package name of JCas wrapper classes built into UIMA.<a name="line.40"></a>
+<FONT color="green">041</FONT>             */<a name="line.41"></a>
+<FONT color="green">042</FONT>            public static final String UIMA_BUILTIN_JCAS_PREFIX = "org.apache.uima.jcas.";<a name="line.42"></a>
+<FONT color="green">043</FONT>    <a name="line.43"></a>
+<FONT color="green">044</FONT>            /**<a name="line.44"></a>
+<FONT color="green">045</FONT>             * Get the CAS type for the given JCas wrapper class.<a name="line.45"></a>
+<FONT color="green">046</FONT>             *<a name="line.46"></a>
+<FONT color="green">047</FONT>             * @param cas the CAS hosting the type system.<a name="line.47"></a>
+<FONT color="green">048</FONT>             * @param type the JCas wrapper class.<a name="line.48"></a>
+<FONT color="green">049</FONT>             * @return the CAS type.<a name="line.49"></a>
+<FONT color="green">050</FONT>             */<a name="line.50"></a>
+<FONT color="green">051</FONT>            public static Type getType(CAS cas, Class&lt;?&gt; type)<a name="line.51"></a>
+<FONT color="green">052</FONT>            {<a name="line.52"></a>
+<FONT color="green">053</FONT>                    String typeName = type.getName();<a name="line.53"></a>
+<FONT color="green">054</FONT>                    if (typeName.startsWith(UIMA_BUILTIN_JCAS_PREFIX)) {<a name="line.54"></a>
+<FONT color="green">055</FONT>                            typeName = "uima."+typeName.substring(UIMA_BUILTIN_JCAS_PREFIX.length());<a name="line.55"></a>
+<FONT color="green">056</FONT>                    }<a name="line.56"></a>
+<FONT color="green">057</FONT>                    Type t = cas.getTypeSystem().getType(typeName);<a name="line.57"></a>
+<FONT color="green">058</FONT>                    if (t == null) {<a name="line.58"></a>
+<FONT color="green">059</FONT>                            throw new IllegalArgumentException("Undeclared type ["+typeName+"]");<a name="line.59"></a>
+<FONT color="green">060</FONT>                    }<a name="line.60"></a>
+<FONT color="green">061</FONT>                    return t;<a name="line.61"></a>
+<FONT color="green">062</FONT>            }<a name="line.62"></a>
+<FONT color="green">063</FONT>    <a name="line.63"></a>
+<FONT color="green">064</FONT>            /**<a name="line.64"></a>
+<FONT color="green">065</FONT>             * Get a list of annotations of the given annotation type constraint by a certain annotation.<a name="line.65"></a>
+<FONT color="green">066</FONT>             * Iterates over all annotations of the given type to find the covered annotations. Does not use<a name="line.66"></a>
+<FONT color="green">067</FONT>             * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.<a name="line.67"></a>
+<FONT color="green">068</FONT>             * Uses the same approach except that type priorities are ignored.<a name="line.68"></a>
+<FONT color="green">069</FONT>             *<a name="line.69"></a>
+<FONT color="green">070</FONT>             * @param &lt;T&gt; the JCas type.<a name="line.70"></a>
+<FONT color="green">071</FONT>             * @param cas a JCas.<a name="line.71"></a>
+<FONT color="green">072</FONT>             * @param type a UIMA type.<a name="line.72"></a>
+<FONT color="green">073</FONT>             * @param coveringAnnotation the covering annotation.<a name="line.73"></a>
+<FONT color="green">074</FONT>             * @return a return value.<a name="line.74"></a>
+<FONT color="green">075</FONT>             * @see Subiterator<a name="line.75"></a>
+<FONT color="green">076</FONT>             */<a name="line.76"></a>
+<FONT color="green">077</FONT>            public static &lt;T extends AnnotationFS&gt; List&lt;T&gt; selectCovered(<a name="line.77"></a>
+<FONT color="green">078</FONT>                            CAS cas, Type type, AnnotationFS coveringAnnotation)<a name="line.78"></a>
+<FONT color="green">079</FONT>            {<a name="line.79"></a>
+<FONT color="green">080</FONT>                    int begin = coveringAnnotation.getBegin();<a name="line.80"></a>
+<FONT color="green">081</FONT>                    int end = coveringAnnotation.getEnd();<a name="line.81"></a>
+<FONT color="green">082</FONT>    <a name="line.82"></a>
+<FONT color="green">083</FONT>                    List&lt;T&gt; list = new ArrayList&lt;T&gt;();<a name="line.83"></a>
+<FONT color="green">084</FONT>                    FSIterator&lt;AnnotationFS&gt; it = cas.getAnnotationIndex(type).iterator();<a name="line.84"></a>
+<FONT color="green">085</FONT>    <a name="line.85"></a>
+<FONT color="green">086</FONT>                    // Try to seek the insertion point.<a name="line.86"></a>
+<FONT color="green">087</FONT>                    it.moveTo(coveringAnnotation);<a name="line.87"></a>
+<FONT color="green">088</FONT>    <a name="line.88"></a>
+<FONT color="green">089</FONT>                    // If the insertion point is beyond the index, move back to the last.<a name="line.89"></a>
+<FONT color="green">090</FONT>                    if (!it.isValid()) {<a name="line.90"></a>
+<FONT color="green">091</FONT>                            it.moveToLast();<a name="line.91"></a>
+<FONT color="green">092</FONT>                            if (!it.isValid()) {<a name="line.92"></a>
+<FONT color="green">093</FONT>                                    return list;<a name="line.93"></a>
+<FONT color="green">094</FONT>                            }<a name="line.94"></a>
+<FONT color="green">095</FONT>                    }<a name="line.95"></a>
+<FONT color="green">096</FONT>    <a name="line.96"></a>
+<FONT color="green">097</FONT>                    // Ignore type priorities by seeking to the first that has the same begin<a name="line.97"></a>
+<FONT color="green">098</FONT>                    boolean moved = false;<a name="line.98"></a>
+<FONT color="green">099</FONT>                    while (it.isValid() &amp;&amp; (it.get()).getBegin() &gt;= begin) {<a name="line.99"></a>
+<FONT color="green">100</FONT>                            it.moveToPrevious();<a name="line.100"></a>
+<FONT color="green">101</FONT>                            moved = true;<a name="line.101"></a>
+<FONT color="green">102</FONT>                    }<a name="line.102"></a>
+<FONT color="green">103</FONT>    <a name="line.103"></a>
+<FONT color="green">104</FONT>                    // If we moved, then we are now on one starting before the requested begin, so we have to<a name="line.104"></a>
+<FONT color="green">105</FONT>                    // move one ahead.<a name="line.105"></a>
+<FONT color="green">106</FONT>                    if (moved) {<a name="line.106"></a>
+<FONT color="green">107</FONT>                            it.moveToNext();<a name="line.107"></a>
+<FONT color="green">108</FONT>                    }<a name="line.108"></a>
+<FONT color="green">109</FONT>    <a name="line.109"></a>
+<FONT color="green">110</FONT>                    // If we managed to move outside the index, start at first.<a name="line.110"></a>
+<FONT color="green">111</FONT>                    if (!it.isValid()) {<a name="line.111"></a>
+<FONT color="green">112</FONT>                            it.moveToFirst();<a name="line.112"></a>
+<FONT color="green">113</FONT>                    }<a name="line.113"></a>
+<FONT color="green">114</FONT>    <a name="line.114"></a>
+<FONT color="green">115</FONT>                    // Skip annotations whose start is before the start parameter.<a name="line.115"></a>
+<FONT color="green">116</FONT>                    while (it.isValid() &amp;&amp; (it.get()).getBegin() &lt; begin) {<a name="line.116"></a>
+<FONT color="green">117</FONT>                            it.moveToNext();<a name="line.117"></a>
+<FONT color="green">118</FONT>                    }<a name="line.118"></a>
+<FONT color="green">119</FONT>    <a name="line.119"></a>
+<FONT color="green">120</FONT>                    boolean strict = true;<a name="line.120"></a>
+<FONT color="green">121</FONT>                    while (it.isValid()) {<a name="line.121"></a>
+<FONT color="green">122</FONT>                            @SuppressWarnings("unchecked")<a name="line.122"></a>
+<FONT color="green">123</FONT>                            T a = (T) it.get();<a name="line.123"></a>
+<FONT color="green">124</FONT>                            // If the start of the current annotation is past the end parameter, we're done.<a name="line.124"></a>
+<FONT color="green">125</FONT>                            if (a.getBegin() &gt; end) {<a name="line.125"></a>
+<FONT color="green">126</FONT>                                    break;<a name="line.126"></a>
 <FONT color="green">127</FONT>                            }<a name="line.127"></a>
-<FONT color="green">128</FONT>    <a name="line.128"></a>
-<FONT color="green">129</FONT>                            if (!a.equals(container)) {<a name="line.129"></a>
-<FONT color="green">130</FONT>                                    list.add(a);<a name="line.130"></a>
+<FONT color="green">128</FONT>                            it.moveToNext();<a name="line.128"></a>
+<FONT color="green">129</FONT>                            if (strict &amp;&amp; a.getEnd() &gt; end) {<a name="line.129"></a>
+<FONT color="green">130</FONT>                                    continue;<a name="line.130"></a>
 <FONT color="green">131</FONT>                            }<a name="line.131"></a>
-<FONT color="green">132</FONT>                    }<a name="line.132"></a>
-<FONT color="green">133</FONT>    <a name="line.133"></a>
-<FONT color="green">134</FONT>                    return list;<a name="line.134"></a>
-<FONT color="green">135</FONT>            }<a name="line.135"></a>
-<FONT color="green">136</FONT>    }<a name="line.136"></a>
+<FONT color="green">132</FONT>    <a name="line.132"></a>
+<FONT color="green">133</FONT>                            if (!a.equals(coveringAnnotation)) {<a name="line.133"></a>
+<FONT color="green">134</FONT>                                    list.add(a);<a name="line.134"></a>
+<FONT color="green">135</FONT>                            }<a name="line.135"></a>
+<FONT color="green">136</FONT>                    }<a name="line.136"></a>
+<FONT color="green">137</FONT>    <a name="line.137"></a>
+<FONT color="green">138</FONT>                    return list;<a name="line.138"></a>
+<FONT color="green">139</FONT>            }<a name="line.139"></a>
+<FONT color="green">140</FONT>    }<a name="line.140"></a>
 
 
 
