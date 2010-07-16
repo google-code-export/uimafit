@@ -39,7 +39,6 @@ import org.uimafit.factory.testAes.ReversableTestFlowController;
 import org.uimafit.factory.testAes.ViewNames;
 import org.uimafit.pipeline.SimplePipeline;
 import org.uimafit.util.TypeSystemUtil;
-import org.xml.sax.SAXException;
 
 /**
  * @author Philip Ogren
@@ -92,7 +91,7 @@ public class AggregateBuilderTest extends ComponentTestBase {
 	}
 
 	@Test
-	public void testAggregateBuilder2() throws UIMAException, IOException, SAXException {
+	public void testAggregateBuilder2() throws UIMAException {
 		tokenBuilder.buildTokens(jCas, "'Verb' is a noun!?");
 
 		AggregateBuilder builder = new AggregateBuilder();
@@ -134,13 +133,13 @@ public class AggregateBuilderTest extends ComponentTestBase {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testBadSofaMapping() throws ResourceInitializationException {
+	public void testBadSofaMapping()  {
 		AggregateBuilder builder = new AggregateBuilder();
 		builder.addSofaMapping("name", ViewNames.PARENTHESES_VIEW, "A");
 	}
 
 	@Test
-	public void testAggregateBuilderWithFlowController() throws UIMAException, IOException, SAXException {
+	public void testAggregateBuilderWithFlowController() throws UIMAException {
 		tokenBuilder.buildTokens(jCas, "An honest man can never surrender an honest doubt.");
 
 		AggregateBuilder builder = new AggregateBuilder();

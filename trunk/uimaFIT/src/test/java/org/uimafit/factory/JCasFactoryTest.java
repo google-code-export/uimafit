@@ -33,13 +33,13 @@ import org.uimafit.util.JCasUtil;
 public class JCasFactoryTest extends ComponentTestBase{
 
 	@Test
-	public void testXMI() throws UIMAException, IOException {
+	public void testXMI() throws IOException {
 		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xmi");
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
 	}
 
 	@Test
-	public void testXCAS() throws UIMAException, IOException {
+	public void testXCAS() throws IOException {
 		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xcas", false);
 		assertEquals("... the more knowledge advances the more it becomes possible to condense it into little books.", jCas.getDocumentText());
 	}

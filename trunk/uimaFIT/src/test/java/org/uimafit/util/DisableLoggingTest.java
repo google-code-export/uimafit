@@ -48,9 +48,9 @@ public class DisableLoggingTest {
 		final StringBuffer buffer = new StringBuffer();
 		Handler bufferhandler = new Handler() {
 			@Override
-			public void close() throws SecurityException {}
+			public void close() throws SecurityException {/*do nothing*/}
 			@Override
-			public void flush() {}
+			public void flush() {/*do nothing*/}
 			@Override
 			public void publish(LogRecord record) {
 				buffer.append(record.getMessage());
@@ -78,9 +78,9 @@ public class DisableLoggingTest {
 		Logger logger = Logger.getLogger("foo.bar.baz");
 		logger.addHandler(new Handler() {
 			@Override
-			public void close() throws SecurityException {}
+			public void close() throws SecurityException {/*do nothing*/}
 			@Override
-			public void flush() {}
+			public void flush() { /*do nothing*/}
 			@Override
 			public void publish(LogRecord record) {
 				buffer.append("Not disabled!");

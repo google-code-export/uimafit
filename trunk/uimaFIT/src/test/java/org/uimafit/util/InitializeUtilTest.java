@@ -54,7 +54,7 @@ import org.xml.sax.SAXException;
 public class InitializeUtilTest extends ComponentTestBase{
 
 	@Test
-	public void testInitialize() throws ResourceInitializationException, SecurityException, NoSuchFieldException {
+	public void testInitialize() throws ResourceInitializationException, SecurityException {
 
 		ResourceInitializationException rie = null;
 		try {
@@ -230,7 +230,7 @@ public class InitializeUtilTest extends ComponentTestBase{
 	}
 
 	@Test
-	public void testInitialize3() throws FileNotFoundException, SAXException, IOException, UIMAException {
+	public void testInitialize3() throws FileNotFoundException, IOException, UIMAException {
 		// here we test an optional parameter that is missing from the
 		// configuration to ensure that it is filled in with the default value
 		AnalysisEngine aed = AnalysisEngineFactory
@@ -317,6 +317,7 @@ public class InitializeUtilTest extends ComponentTestBase{
 
 		@Override
 		public void process(JCas aJCas) throws AnalysisEngineProcessException {
+			/*do nothing*/
 		}
 
 	}
@@ -334,6 +335,7 @@ public class InitializeUtilTest extends ComponentTestBase{
 
 		@Override
 		public void process(JCas aJCas) throws AnalysisEngineProcessException {
+			/*do nothing*/
 		}
 
 	}
@@ -366,6 +368,7 @@ public class InitializeUtilTest extends ComponentTestBase{
 
 		@Override
 		public void process(JCas aJCas) throws AnalysisEngineProcessException {
+			/*do nothing*/
 		}
 	}
 

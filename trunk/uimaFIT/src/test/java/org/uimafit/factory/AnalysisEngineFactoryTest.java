@@ -23,7 +23,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -63,7 +62,6 @@ import org.uimafit.pipeline.SimplePipeline;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 import org.uimafit.util.JCasUtil;
-import org.xml.sax.SAXException;
 
 /**
  * @author Steven Bethard, Philip Ogren
@@ -106,7 +104,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 	}
 
 	@Test
-	public void testCreateAnalysisEngineWithPrioritizedTypes() throws UIMAException, IOException {
+	public void testCreateAnalysisEngineWithPrioritizedTypes() throws UIMAException {
 		String[] prioritizedTypeNames = new String[] { "org.uimafit.type.Token", "org.uimafit.type.Sentence" };
 		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(org.uimafit.component.JCasAnnotatorAdapter.class,
 				typeSystemDescription, prioritizedTypeNames, (Object[]) null);
@@ -205,8 +203,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 	}
 
 	@Test
-	public void testReflectPrimitiveDescription() throws ResourceInitializationException, FileNotFoundException,
-			SAXException, IOException {
+	public void testReflectPrimitiveDescription() throws ResourceInitializationException {
 		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class,
 				typeSystemDescription, typePriorities);
 		Capability[] capabilities = aed.getAnalysisEngineMetaData().getCapabilities();

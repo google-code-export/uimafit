@@ -87,7 +87,7 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 	}
 	
 	@Test
-	public void testExceptions() throws ResourceInitializationException {
+	public void testExceptions()  {
 		ResourceInitializationException rie = null;
 		try {
 			CollectionReaderFactory.createCollectionReader(TestCR.class, null);
@@ -101,7 +101,7 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 	private class TestCR extends CollectionReader_ImplBase {
 
 		private TestCR() {
-			
+			//do not instantiate
 		}
 		public void getNext(CAS acas) throws IOException, CollectionException {
 			// TODO Auto-generated method stub

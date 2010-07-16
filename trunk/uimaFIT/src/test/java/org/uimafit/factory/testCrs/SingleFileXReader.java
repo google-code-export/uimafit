@@ -104,14 +104,14 @@ public class SingleFileXReader extends CollectionReader_ImplBase {
 	}
 
 	public void close() throws IOException {
-
+		//do nothing
 	}
 
 	public Progress[] getProgress() {
 		if (hasNext) {
-			return new Progress[] { new ProgressImpl(0, 1, ProgressImpl.ENTITIES) };
+			return new Progress[] { new ProgressImpl(0, 1, Progress.ENTITIES) };
 		}
-		return new Progress[] { new ProgressImpl(1, 1, ProgressImpl.ENTITIES) };
+		return new Progress[] { new ProgressImpl(1, 1, Progress.ENTITIES) };
 	}
 
 	public boolean hasNext() throws IOException, CollectionException {

@@ -297,7 +297,9 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	}
 
 	@Override
-	public void process(JCas cas) throws AnalysisEngineProcessException {	}
+	public void process(JCas cas) throws AnalysisEngineProcessException {
+		//do nothing
+	}
 
 	public String getString1() {
 		return string1;
