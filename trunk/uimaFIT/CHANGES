@@ -1,4 +1,15 @@
-changes in 1.0
+changes in 1.0.0
+ 	- resolved issue #36 "remove compiler warnings"
+ 	- resolved issue #2 "tutorial"
+ 	- resolved issue #22 "org.uimafit.factory.ExternalResourceFactoryTest fails with an error if not connected to Internet  "
+ 	- resolved issue #34 "developers setup instructions"
+ 	- resolved issue #35 "jcasgen not running in process-test-resources phase"
+ 	- resolved issue #25 "Update copyright statements to include 2010 "
+ 	- resolved issue #27 "Synchronize initializer method names and signature"
+ 	- resolved issue #23 "Auto-discovery of type system descriptors"
+
+changes in 0.9.14
+	- resolved issue #13 "Consider getting a proper Maven repository and publishing to Maven Central"  
 	- introduced CasUtil & JCasUtil
 	- resolved issue #29 "CasUtil & JCasUtil - method names"
 	- resolved issue #30 "naming convention for method arguments  "
