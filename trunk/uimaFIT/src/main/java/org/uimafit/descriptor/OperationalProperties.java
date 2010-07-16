@@ -42,8 +42,17 @@ import org.apache.uima.cas.CAS;
 @Target(ElementType.TYPE)
 public @interface OperationalProperties
 {
+	/**
+	 * the default value for multipleDeploymentAllowed if none is given.
+	 */
 	public static final boolean MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT = true;
-	public static final boolean MODIFIES_CAS_DEFAULT = true;	
+	/**
+	 * the default value for modifiesCas if none is given
+	 */
+	public static final boolean MODIFIES_CAS_DEFAULT = true;
+	/**
+	 * the default value for outputsNewCases if none is given
+	 */
 	public static final boolean OUTPUTS_NEW_CASES_DEFAULT = false;
 	
 	/**

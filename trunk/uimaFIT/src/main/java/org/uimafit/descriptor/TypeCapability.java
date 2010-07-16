@@ -24,7 +24,14 @@ import java.lang.annotation.Target;
 
 /**
  * @author Philip Ogren
- * 
+ * A typical use of this annotation might look something like:
+ * <pre>
+ 	@TypeCapability(inputs="org.uimafit.type.Token", outputs="org.uimafit.type.Token:pos")
+ 	</pre>
+ * or
+ * <pre>
+ 	@TypeCapability(inputs={"org.uimafit.type.Token","org.uimafit.type.Sentence"}, outputs={"org.uimafit.type.Token:pos", "org.apache.uima.tutorial.RoomNumber"})
+ 	</pre>	
  */
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -39,8 +46,17 @@ public @interface TypeCapability {
 	 */
 	String[] inputs() default NO_DEFAULT_VALUE;
 
+	/**
+	 * outputs can be type names or feature names. A feature name typically looks
+	 * like a type name followed by a colon (':') followed by the feature name.  A valid feature name from
+	 * the uimaFIT test type system is "org.uimafit.type.Token:pos"
+	 * @return
+	 */
 	String[] outputs() default NO_DEFAULT_VALUE;
 
+	/**
+	 * Provides the default value for the inputs and the outputs that tells the CapabilityFactory that no value has been given to the inputs or outputs elements.  
+	 */
 	public static final String NO_DEFAULT_VALUE = "org.uimafit.descriptor.TypeCapability.NO_DEFAULT_VALUE";
 
 }

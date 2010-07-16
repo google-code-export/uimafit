@@ -53,5 +53,9 @@ public @interface ExternalResource
 	 */
 	Class<? extends Resource> api() default Resource.class;
 	
+	/**
+	 * determines if this external resource is mandatory
+	 * @return
+	 */
 	boolean mandatory() default true;
 }

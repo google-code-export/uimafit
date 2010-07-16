@@ -36,5 +36,8 @@ import org.apache.uima.resource.Resource;
  */
 public interface ExternalResourceLocator extends Resource
 {
+	/**
+	 * @return the resource
+	 */
 	public Object getResource();
 }
