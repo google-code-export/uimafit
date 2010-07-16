@@ -116,6 +116,12 @@ public class ExternalResourceInitializer
 		}
 	}
 
+	/**
+	 * @param <T>
+	 * @param cls
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
 	public static <T> Map<String, ExternalResourceDependency> getResourceDeclarations(
 			Class<?> cls)
 		throws ResourceInitializationException

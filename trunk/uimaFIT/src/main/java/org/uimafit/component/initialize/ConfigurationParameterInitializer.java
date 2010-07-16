@@ -39,9 +39,10 @@ import org.uimafit.util.ReflectionUtil;
  * @author Philip Ogren
  */
 
-public class ConfigurationParameterInitializer {
+public class ConfigurationParameterInitializer
+{
 
-	public static final Map<Class<?>, Converter<?>> converters = new HashMap<Class<?>, Converter<?>>();
+	private static final Map<Class<?>, Converter<?>> converters = new HashMap<Class<?>, Converter<?>>();
 	static {
 		converters.put(Boolean.class, new BooleanConverter());
 		converters.put(Float.class, new FloatConverter());
@@ -54,30 +55,28 @@ public class ConfigurationParameterInitializer {
 	}
 
 	/**
-	 * This code can be a little confusing because the configuration parameter
-	 * annotations are used in two contexts: in describing the component and to
-	 * initialize member variables from a {@link UimaContext}. Here we are
-	 * performing the latter task. It is important to remember that the
-	 * {@link UimaContext} passed in to this method may or may not have been
-	 * derived using reflection of the annotations (i.e. using
-	 * {@link ConfigurationParameterFactory} via e.g. a call to a 
-	 * AnalysisEngineFactory.create method). It is just as possible for the
-	 * description of the component to come directly from an XML descriptor
-	 * file. So, for example, just because a configuration parameter specifies a
-	 * default value, this does not mean that the passed in context will have a
-	 * value for that configuration parameter. It should be possible for a
-	 * descriptor file to specify its own value or to not provide one at all. If
-	 * the context does not have a configuration parameter, then the default
-	 * value provided by the developer as specified by the defaultValue element
-	 * of the {@link ConfigurationParameter} will be used. See comments in the
-	 * code for additional details.
+	 * This code can be a little confusing because the configuration parameter annotations are used
+	 * in two contexts: in describing the component and to initialize member variables from a
+	 * {@link UimaContext}. Here we are performing the latter task. It is important to remember that
+	 * the {@link UimaContext} passed in to this method may or may not have been derived using
+	 * reflection of the annotations (i.e. using {@link ConfigurationParameterFactory} via e.g. a
+	 * call to a AnalysisEngineFactory.create method). It is just as possible for the description of
+	 * the component to come directly from an XML descriptor file. So, for example, just because a
+	 * configuration parameter specifies a default value, this does not mean that the passed in
+	 * context will have a value for that configuration parameter. It should be possible for a
+	 * descriptor file to specify its own value or to not provide one at all. If the context does
+	 * not have a configuration parameter, then the default value provided by the developer as
+	 * specified by the defaultValue element of the {@link ConfigurationParameter} will be used. See
+	 * comments in the code for additional details.
 	 * 
 	 * @param component
 	 * @param context
 	 * @throws ResourceInitializationException
 	 */
 
-	public static void initialize(Object component, UimaContext context) throws ResourceInitializationException {
+	public static void initialize(Object component, UimaContext context)
+		throws ResourceInitializationException
+	{
 		try {
 			for (Field field : ReflectionUtil.getFields(component)) { // component.getClass().getDeclaredFields())
 				// {
@@ -86,7 +85,8 @@ public class ConfigurationParameterInitializer {
 							.getAnnotation(org.uimafit.descriptor.ConfigurationParameter.class);
 
 					Object parameterValue;
-					String configurationParameterName = ConfigurationParameterFactory.getConfigurationParameterName(field);
+					String configurationParameterName = ConfigurationParameterFactory
+							.getConfigurationParameterName(field);
 
 					// Obtain either from the context - or - if the context does
 					// not provide the parameter, check if there is a default
@@ -112,7 +112,8 @@ public class ConfigurationParameterInitializer {
 					if (annotation.mandatory()) {
 						if (parameterValue == null) {
 							String key = ResourceInitializationException.CONFIG_SETTING_ABSENT;
-							throw new ResourceInitializationException(key, new Object[] { configurationParameterName });
+							throw new ResourceInitializationException(key,
+									new Object[] { configurationParameterName });
 						}
 					}
 					else {
@@ -131,8 +132,16 @@ public class ConfigurationParameterInitializer {
 
 	}
 
-	
-	public static Object convertValue(Field field, Object uimaValue) {
+	/**
+	 * This method converts UIMA values to values that are appropriate for instantiating the
+	 * annotated member variable.
+	 * For example, if the "uima" value is a string array and the member variable is of type List<String>, then this method will return a list
+	 * @param field
+	 * @param uimaValue
+	 * @return
+	 */
+	public static Object convertValue(Field field, Object uimaValue)
+	{
 		if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
 
 			Object result;
@@ -181,7 +190,8 @@ public class ConfigurationParameterInitializer {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Collection<Object> newCollection(Class<?> cls) {
+	private static Collection<Object> newCollection(Class<?> cls)
+	{
 		try {
 			return cls.asSubclass(Collection.class).newInstance();
 		}
@@ -190,7 +200,8 @@ public class ConfigurationParameterInitializer {
 		}
 	}
 
-	private static Class<?> getComponentType(Field field) {
+	private static Class<?> getComponentType(Field field)
+	{
 		Class<?> fieldType = field.getType();
 		if (fieldType.isArray()) {
 			return fieldType.getComponentType();
@@ -204,8 +215,9 @@ public class ConfigurationParameterInitializer {
 		}
 	}
 
-	private static void setParameterValue(Object component, Field field, Object value) throws IllegalArgumentException, IllegalAccessException,
-			SecurityException{
+	private static void setParameterValue(Object component, Field field, Object value)
+		throws IllegalArgumentException, IllegalAccessException, SecurityException
+	{
 
 		boolean accessible = field.isAccessible();
 		field.setAccessible(true);
@@ -217,10 +229,13 @@ public class ConfigurationParameterInitializer {
 		}
 	}
 
-	private ConfigurationParameterInitializer() {
+	private ConfigurationParameterInitializer()
+	{
+		// should not be instantiated
 	}
 
-	private static Converter<?> getConverter(Class<?> cls) {
+	private static Converter<?> getConverter(Class<?> cls)
+	{
 		Converter<?> converter = converters.get(cls);
 		if (converter != null) {
 			return converter;
@@ -228,7 +243,7 @@ public class ConfigurationParameterInitializer {
 
 		// Check if we have an enumeration type
 		if (Enum.class.isAssignableFrom(cls)) {
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			EnumConverter tmp = new EnumConverter(cls);
 			return tmp;
 		}
@@ -242,48 +257,68 @@ public class ConfigurationParameterInitializer {
 		}
 	}
 
-	private static interface Converter<T> {
+	private static interface Converter<T>
+	{
 		public T convert(Object o);
 	}
 
-	private static class BooleanConverter implements Converter<Boolean> {
-		public Boolean convert(Object o) {
+	private static class BooleanConverter
+		implements Converter<Boolean>
+	{
+		public Boolean convert(Object o)
+		{
 			return (Boolean) o;
 		}
 	}
 
-	private static class FloatConverter implements Converter<Float> {
-		public Float convert(Object o) {
+	private static class FloatConverter
+		implements Converter<Float>
+	{
+		public Float convert(Object o)
+		{
 			return (Float) o;
 		}
 	}
 
-	private static class IntegerConverter implements Converter<Integer> {
-		public Integer convert(Object o) {
+	private static class IntegerConverter
+		implements Converter<Integer>
+	{
+		public Integer convert(Object o)
+		{
 			return (Integer) o;
 		}
 	}
 
-	private static class StringConverter implements Converter<String> {
-		public String convert(Object o) {
+	private static class StringConverter
+		implements Converter<String>
+	{
+		public String convert(Object o)
+		{
 			return o.toString();
 		}
 	}
 
-	private static class PatternConverter implements Converter<Pattern> {
-		public Pattern convert(Object o) {
+	private static class PatternConverter
+		implements Converter<Pattern>
+	{
+		public Pattern convert(Object o)
+		{
 			return Pattern.compile(o.toString());
 		}
 	}
 
-	private static class ConstructorConverter implements Converter<Object> {
+	private static class ConstructorConverter
+		implements Converter<Object>
+	{
 		private Constructor<?> constructor;
 
-		public ConstructorConverter(Constructor<?> constructor) {
+		public ConstructorConverter(Constructor<?> constructor)
+		{
 			this.constructor = constructor;
 		}
 
-		public Object convert(Object o) {
+		public Object convert(Object o)
+		{
 			try {
 				return this.constructor.newInstance(o);
 			}
@@ -294,14 +329,18 @@ public class ConfigurationParameterInitializer {
 
 	}
 
-	private static class EnumConverter<T extends Enum<T>> implements Converter<Object> {
+	private static class EnumConverter<T extends Enum<T>>
+		implements Converter<Object>
+	{
 		private Class<T> enumClass;
 
-		public EnumConverter(Class<T> aClass) {
+		public EnumConverter(Class<T> aClass)
+		{
 			this.enumClass = aClass;
 		}
 
-		public T convert(Object o) {
+		public T convert(Object o)
+		{
 			try {
 				return Enum.valueOf(enumClass, o.toString());
 			}

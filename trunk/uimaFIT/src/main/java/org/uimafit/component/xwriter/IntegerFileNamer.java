@@ -33,8 +33,11 @@ import org.uimafit.factory.initializable.Initializable;
 
 public class IntegerFileNamer implements XWriterFileNamer, Initializable {
 
+	/**
+	 * The parameter name for the configuration parameter that specifies a fixed prefix for all returned file names.
+	 */
 	public static final String PARAM_PREFIX = ConfigurationParameterFactory.createConfigurationParameterName(IntegerFileNamer.class, "prefix");
-	@ConfigurationParameter
+	@ConfigurationParameter(description="specify a prefix that is prepended to all returned file names")
 	private String prefix = "";
 	
 	int i=1;

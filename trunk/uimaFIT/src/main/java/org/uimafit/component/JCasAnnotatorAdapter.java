@@ -25,6 +25,7 @@ import org.apache.uima.jcas.JCas;
 
 public class JCasAnnotatorAdapter extends JCasAnnotator_ImplBase {
 	
+	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		// this annotator does nothing!
 	}
