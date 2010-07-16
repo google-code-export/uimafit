@@ -1,6 +1,7 @@
 = User Docs =
  * [GettingStarted Getting started tutorial]
  * [WritingTests Writing tests]
+ * [RunningExperiments Running experiments]
  * [TypeDescriptorDetection Automatic type descriptor detection]
  * [http://uimafit.googlecode.com/svn/trunk/uimaFIT/apidocs/index.html Javadocs]
  * Questions? Please send email to [mailto:uimafit-users@googlegroups.com uimafit-users@googlegroups.com]
