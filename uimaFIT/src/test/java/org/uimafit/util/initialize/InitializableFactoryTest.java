@@ -125,7 +125,9 @@ public class InitializableFactoryTest {
 	}
 
 	public static class NoDefaultConstructor {
-		public NoDefaultConstructor(String s) {}
+		public NoDefaultConstructor(String s) {
+			//do nothing
+		}
 	}
 
 }

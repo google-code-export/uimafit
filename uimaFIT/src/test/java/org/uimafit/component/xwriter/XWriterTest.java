@@ -58,7 +58,7 @@ public class XWriterTest extends ComponentTestBase {
 	private File outputDirectory;
 
 	@Before
-	public void setup() throws IOException {
+	public void setup() {
 		outputDirectory = folder.newFolder("test/xmi-output");
 	}
 

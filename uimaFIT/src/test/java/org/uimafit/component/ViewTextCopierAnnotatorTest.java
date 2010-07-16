@@ -76,8 +76,7 @@ public class ViewTextCopierAnnotatorTest extends ComponentTestBase {
 	}
 
 	@Test(expected=AnalysisEngineProcessException.class)
-	public void testExceptions() throws ResourceInitializationException, AnalysisEngineProcessException,
-			CASException {
+	public void testExceptions() throws ResourceInitializationException, AnalysisEngineProcessException {
 
 		String sourceViewName = "SourceView";
 		String destinationViewName = "DestinationView";

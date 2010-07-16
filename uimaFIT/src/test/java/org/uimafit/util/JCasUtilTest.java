@@ -203,7 +203,7 @@ extends ComponentTestBase
 		int end = aContainer.getEnd();
 
 		List<T> list = new ArrayList<T>();
-		FSIterator it = aJCas.getAnnotationIndex(aType).iterator();
+		FSIterator<Annotation> it = aJCas.getAnnotationIndex(aType).iterator();
 
 		// Try to seek the insertion point.
 	    it.moveTo(aContainer);
@@ -283,7 +283,7 @@ extends ComponentTestBase
 		Type t = aJCas.getTypeSystem().getType(aType.getName());
 
 		List<T> list = new ArrayList<T>();
-		FSIterator iter = aJCas.getAnnotationIndex(t).iterator();
+		FSIterator<Annotation> iter = aJCas.getAnnotationIndex(t).iterator();
 		while (iter.hasNext()) {
 			T a = (T) iter.next();
 			if (a.getBegin() >= begin && a.getEnd() <= end) {
