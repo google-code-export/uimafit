@@ -36,21 +36,24 @@
 <FONT color="green">033</FONT>    <a name="line.33"></a>
 <FONT color="green">034</FONT>    public class IntegerFileNamer implements XWriterFileNamer, Initializable {<a name="line.34"></a>
 <FONT color="green">035</FONT>    <a name="line.35"></a>
-<FONT color="green">036</FONT>            public static final String PARAM_PREFIX = ConfigurationParameterFactory.createConfigurationParameterName(IntegerFileNamer.class, "prefix");<a name="line.36"></a>
-<FONT color="green">037</FONT>            @ConfigurationParameter<a name="line.37"></a>
-<FONT color="green">038</FONT>            private String prefix = "";<a name="line.38"></a>
-<FONT color="green">039</FONT>            <a name="line.39"></a>
-<FONT color="green">040</FONT>            int i=1;<a name="line.40"></a>
-<FONT color="green">041</FONT>            <a name="line.41"></a>
-<FONT color="green">042</FONT>            public String nameFile(JCas jCas) {<a name="line.42"></a>
-<FONT color="green">043</FONT>                    return prefix+i++;<a name="line.43"></a>
-<FONT color="green">044</FONT>            }<a name="line.44"></a>
-<FONT color="green">045</FONT>    <a name="line.45"></a>
-<FONT color="green">046</FONT>            public void initialize(UimaContext context) throws ResourceInitializationException {<a name="line.46"></a>
-<FONT color="green">047</FONT>                    ConfigurationParameterInitializer.initializeConfigurationParameters(this, context);<a name="line.47"></a>
-<FONT color="green">048</FONT>            }<a name="line.48"></a>
-<FONT color="green">049</FONT>            <a name="line.49"></a>
-<FONT color="green">050</FONT>    }<a name="line.50"></a>
+<FONT color="green">036</FONT>            /**<a name="line.36"></a>
+<FONT color="green">037</FONT>             * The parameter name for the configuration parameter that specifies a fixed prefix for all returned file names.<a name="line.37"></a>
+<FONT color="green">038</FONT>             */<a name="line.38"></a>
+<FONT color="green">039</FONT>            public static final String PARAM_PREFIX = ConfigurationParameterFactory.createConfigurationParameterName(IntegerFileNamer.class, "prefix");<a name="line.39"></a>
+<FONT color="green">040</FONT>            @ConfigurationParameter(description="specify a prefix that is prepended to all returned file names")<a name="line.40"></a>
+<FONT color="green">041</FONT>            private String prefix = "";<a name="line.41"></a>
+<FONT color="green">042</FONT>            <a name="line.42"></a>
+<FONT color="green">043</FONT>            int i=1;<a name="line.43"></a>
+<FONT color="green">044</FONT>            <a name="line.44"></a>
+<FONT color="green">045</FONT>            public String nameFile(JCas jCas) {<a name="line.45"></a>
+<FONT color="green">046</FONT>                    return prefix+i++;<a name="line.46"></a>
+<FONT color="green">047</FONT>            }<a name="line.47"></a>
+<FONT color="green">048</FONT>    <a name="line.48"></a>
+<FONT color="green">049</FONT>            public void initialize(UimaContext context) throws ResourceInitializationException {<a name="line.49"></a>
+<FONT color="green">050</FONT>                    ConfigurationParameterInitializer.initialize(this, context);<a name="line.50"></a>
+<FONT color="green">051</FONT>            }<a name="line.51"></a>
+<FONT color="green">052</FONT>            <a name="line.52"></a>
+<FONT color="green">053</FONT>    }<a name="line.53"></a>
 
 
 
