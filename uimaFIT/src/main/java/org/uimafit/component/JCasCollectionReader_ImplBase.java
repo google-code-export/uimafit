@@ -72,6 +72,12 @@ public abstract class JCasCollectionReader_ImplBase
 		}
 	}
 
+	/**
+	 * Subclasses should implement this method rather than {@link #getNext(CAS)}
+	 * @param jCas
+	 * @throws IOException
+	 * @throws CollectionException
+	 */
 	public abstract void getNext(JCas jCas)
 		throws IOException, CollectionException;
 

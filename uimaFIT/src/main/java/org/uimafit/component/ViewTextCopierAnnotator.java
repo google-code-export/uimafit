@@ -44,12 +44,18 @@ import org.uimafit.factory.ConfigurationParameterFactory;
 
 public class ViewTextCopierAnnotator extends JCasAnnotator_ImplBase {
 
+	/**
+	 * The parameter name for the name of the source view
+	 */
 	public static String PARAM_SOURCE_VIEW_NAME = ConfigurationParameterFactory.createConfigurationParameterName(
 			ViewTextCopierAnnotator.class, "sourceViewName");
 
 	@ConfigurationParameter(mandatory = true)
 	private String sourceViewName;
 
+	/**
+	 * The parameter name for the name of the destination view
+	 */
 	public static String PARAM_DESTINATION_VIEW_NAME = ConfigurationParameterFactory.createConfigurationParameterName(
 			ViewTextCopierAnnotator.class, "destinationViewName");
 

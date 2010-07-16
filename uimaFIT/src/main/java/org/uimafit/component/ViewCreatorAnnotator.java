@@ -43,6 +43,9 @@ import org.uimafit.factory.ConfigurationParameterFactory;
  */
 public class ViewCreatorAnnotator extends JCasAnnotator_ImplBase {
 
+	/**
+	 * The parameter name for the name of the viewed to be created by this annotator
+	 */
 	public static String PARAM_VIEW_NAME = ConfigurationParameterFactory.createConfigurationParameterName(
 			ViewCreatorAnnotator.class, "viewName");
 

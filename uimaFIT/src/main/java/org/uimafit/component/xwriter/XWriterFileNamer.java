@@ -33,6 +33,10 @@ public interface XWriterFileNamer
 {
 	/**
 	 * Get file name to be used for the file that it is written by {@link XWriter}.
+	 * @param jCas a file namer should be able to generate a name from a given JCas to be used for creating a file name 
+	 * @return a name for the file to be used for creating a file name Do not specify
+ * the full path and do not specify the suffix (.xmi or .xcas will be automatically appended as
+ * appropriate)
 	 */
 	public String nameFile(JCas jCas);
 }
