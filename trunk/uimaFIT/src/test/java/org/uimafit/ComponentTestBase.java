@@ -42,7 +42,6 @@ public class ComponentTestBase {
 
 	static {
 		try {
-//			TypeSystemDescription tsd = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.type.TypeSystem");
 			TYPE_SYSTEM_DESCRIPTION.set(TypeSystemDescriptionFactory.createTypeSystemDescription());
 
 			TypePriorities tp = TypePrioritiesFactory.createTypePriorities(new String[] {

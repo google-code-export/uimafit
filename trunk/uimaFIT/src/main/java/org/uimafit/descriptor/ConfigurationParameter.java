@@ -20,6 +20,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import org.uimafit.factory.ConfigurationParameterFactory;
  
 /**
  * This annotation marks an analysis component member variable as a
@@ -61,7 +63,7 @@ public @interface ConfigurationParameter {
 
 	/**
 	 * If you do not specify a name then the default name will be given by {@link #USE_FIELD_NAME} will be the default name.  This 
-	 * tells ConfigurationParameterFactory to use the name of the annotated field as the name of the configuration parameter.
+	 * tells ConfigurationParameterFactory to use the name of the annotated field as the name of the configuration parameter.  The exact name that is used is determined by the method {@link ConfigurationParameterFactory#getConfigurationParameterName(java.lang.reflect.Field)}
 	 */
 	String name() default USE_FIELD_NAME;
 

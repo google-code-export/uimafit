@@ -145,11 +145,23 @@ public final class ResourceCreationSpecifierFactory {
 		setConfigurationParameters(specifier, configurationParameters, configurationValues);
 	}
 
+	/**
+	 * This method passes through to {@link #setConfigurationParameters(ResourceMetaData, ConfigurationParameter[], Object[])}
+	 * @param specifier
+	 * @param configurationParameters
+	 * @param configurationValues
+	 */
 	public static void setConfigurationParameters(ResourceCreationSpecifier specifier,
 			ConfigurationParameter[] configurationParameters, Object[] configurationValues) {
 		setConfigurationParameters(specifier.getMetaData(), configurationParameters, configurationValues);
 	}
 
+	/**
+	 * This method sets the configuration parameters of a resource.  The length of configurationParameters and configurationValues should be equal
+	 * @param metaData
+	 * @param configurationParameters an array of configuration parameters
+	 * @param configurationValues an array of configuration parameter values
+	 */
 	public static void setConfigurationParameters(ResourceMetaData metaData,
 			ConfigurationParameter[] configurationParameters, Object[] configurationValues) {
 		ConfigurationParameterDeclarations paramDecls = metaData.getConfigurationParameterDeclarations();

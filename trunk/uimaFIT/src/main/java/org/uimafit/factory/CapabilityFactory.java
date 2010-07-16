@@ -37,6 +37,11 @@ public final class CapabilityFactory {
 		// This class is not meant to be instantiated
 	}
 
+	/**
+	 * Creates a single capability consisting of the information in the {@link SofaCapability} and {@link TypeCapability} annotations for the class.
+	 * @param componentClass
+	 * @return
+	 */
 	public static Capability createCapability(Class<?> componentClass) {
 		if(!componentClass.isAnnotationPresent(SofaCapability.class) &&
 				!componentClass.isAnnotationPresent(TypeCapability.class)) {
