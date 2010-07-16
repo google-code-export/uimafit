@@ -90,6 +90,14 @@ public final class AnalysisEngineFactory
         return UIMAFramework.produceAnalysisEngine(aed);
     }
 
+    /**
+     * Provides a way to create an AnalysisEngineDescription using a descriptor file referenced by name
+     * @param descriptorName
+     * @param configurationData should consist of name value pairs. Will override configuration parameter settings in the descriptor file
+     * @return
+     * @throws UIMAException
+     * @throws IOException
+     */
     public static AnalysisEngineDescription createAnalysisEngineDescription(String descriptorName,
         Object... configurationData) throws UIMAException, IOException
     {
@@ -154,6 +162,14 @@ public final class AnalysisEngineFactory
         return createPrimitive(componentClass, typeSystem, (TypePriorities) null, configurationData);
     }
 
+    /**
+     * @param componentClass
+     * @param typeSystem
+     * @param prioritizedTypeNames
+     * @param configurationData
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngine createPrimitive(Class< ? extends AnalysisComponent> componentClass,
         TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationData)
         throws ResourceInitializationException
@@ -163,6 +179,14 @@ public final class AnalysisEngineFactory
 
     }
 
+    /**
+     * A simple factory method for creating a primitive AnalysisEngineDescription for a given class, type system, and configuration parameter data
+     * @param componentClass a class that extends AnalysisComponent e.g. org.uimafit.component.JCasAnnotator_ImplBase
+     * @param typeSystem
+     * @param configurationData
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngineDescription createPrimitiveDescription(
         Class< ? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
         Object... configurationData) throws ResourceInitializationException
@@ -170,6 +194,14 @@ public final class AnalysisEngineFactory
         return createPrimitiveDescription(componentClass, typeSystem, (TypePriorities) null, configurationData);
     }
 
+    /**
+     * @param componentClass
+     * @param typeSystem
+     * @param typePriorities
+     * @param configurationData
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngineDescription createPrimitiveDescription(
         Class< ? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
         TypePriorities typePriorities, Object... configurationData) throws ResourceInitializationException
@@ -178,6 +210,16 @@ public final class AnalysisEngineFactory
             configurationData);
     }
 
+    /**
+     * The factory methods for creating an AnalysisEngineDescription 
+     * @param componentClass
+     * @param typeSystem
+     * @param typePriorities
+     * @param capabilities
+     * @param configurationData
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngineDescription createPrimitiveDescription(
         Class< ? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
         TypePriorities typePriorities, Capability[] capabilities, Object... configurationData)
@@ -188,6 +230,16 @@ public final class AnalysisEngineFactory
             cdata.configurationParameters, cdata.configurationValues);
     }
 
+    /**
+     * @param componentClass
+     * @param typeSystem
+     * @param typePriorities
+     * @param capabilities
+     * @param configurationParameters
+     * @param configurationValues
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngineDescription createPrimitiveDescription(
         Class< ? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
         TypePriorities typePriorities, Capability[] capabilities, ConfigurationParameter[] configurationParameters,
@@ -255,6 +307,12 @@ public final class AnalysisEngineFactory
         return desc;
     }
 
+    /**
+     * Provides a way to override configuration parameter settings with new values in an AnalysisEngineDescription
+     * @param analysisEngineDescription
+     * @param configurationData
+     * @throws ResourceInitializationException
+     */
     public static void setConfigurationParameters(AnalysisEngineDescription analysisEngineDescription,
         Object... configurationData) throws ResourceInitializationException
     {
@@ -264,6 +322,14 @@ public final class AnalysisEngineFactory
 
     }
 
+    /**
+     * @param componentClass
+     * @param typeSystem
+     * @param typePriorities
+     * @param configurationParameters
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngine createPrimitive(Class< ? extends AnalysisComponent> componentClass,
         TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationParameters)
         throws ResourceInitializationException
@@ -276,7 +342,12 @@ public final class AnalysisEngineFactory
         return createPrimitive(desc);
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * @param desc
+     * @param configurationData
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngine createPrimitive(AnalysisEngineDescription desc, Object... configurationData)
         throws ResourceInitializationException
     {
@@ -290,7 +361,7 @@ public final class AnalysisEngineFactory
                 configurationValues);
             ResourceMetaData metaData = desc.getMetaData();
             ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();
-            Map additionalParameters = new HashMap();
+            Map<String, Object> additionalParameters = new HashMap<String, Object>();
             additionalParameters.put(AnalysisEngine.PARAM_CONFIG_PARAM_SETTINGS, paramSettings);
             engine.initialize(desc, additionalParameters);
         } else {
@@ -299,6 +370,15 @@ public final class AnalysisEngineFactory
         return engine;
     }
 
+    /**
+     * @param componentClasses
+     * @param typeSystem
+     * @param typePriorities
+     * @param sofaMappings
+     * @param configurationParameters
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngine createAggregate(List<Class< ? extends AnalysisComponent>> componentClasses,
         TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings,
         Object... configurationParameters) throws ResourceInitializationException
@@ -312,6 +392,16 @@ public final class AnalysisEngineFactory
         return engine;
     }
 
+    /**
+     * @param componentClasses
+     * @param typeSystem
+     * @param typePriorities
+     * @param sofaMappings
+     * @param flowControllerDescription
+     * @param configurationParameters
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngine createAggregate(
         List<Class< ? extends AnalysisComponent>> componentClasses, TypeSystemDescription typeSystem,
         TypePriorities typePriorities, SofaMapping[] sofaMappings,  FlowControllerDescription flowControllerDescription, Object... configurationParameters)
@@ -326,6 +416,11 @@ public final class AnalysisEngineFactory
         return engine;
     }
 
+    /**
+     * @param desc
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngine createAggregate(AnalysisEngineDescription desc) throws ResourceInitializationException
     {
         // create the AnalysisEngine, initialize it and return it
@@ -334,6 +429,15 @@ public final class AnalysisEngineFactory
         return engine;
     }
 
+    /**
+     * @param componentClasses
+     * @param typeSystem
+     * @param typePriorities
+     * @param sofaMappings
+     * @param configurationParameters
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngineDescription createAggregateDescription(
         List<Class< ? extends AnalysisComponent>> componentClasses, TypeSystemDescription typeSystem,
         TypePriorities typePriorities, SofaMapping[] sofaMappings, Object... configurationParameters)
@@ -353,6 +457,15 @@ public final class AnalysisEngineFactory
             typePriorities, sofaMappings, null);
     }
 
+    /**
+     * @param analysisEngineDescriptions
+     * @param componentNames
+     * @param typeSystem
+     * @param typePriorities
+     * @param sofaMappings
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngine createAggregate(List<AnalysisEngineDescription> analysisEngineDescriptions,
         List<String> componentNames, TypeSystemDescription typeSystem, TypePriorities typePriorities,
         SofaMapping[] sofaMappings) throws ResourceInitializationException
@@ -368,6 +481,11 @@ public final class AnalysisEngineFactory
 
     }
 
+    /**
+     * @param analysisEngineDescriptions
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngineDescription createAggregateDescription(
         AnalysisEngineDescription... analysisEngineDescriptions) throws ResourceInitializationException
     {
@@ -381,6 +499,16 @@ public final class AnalysisEngineFactory
         return createAggregateDescription(asList(analysisEngineDescriptions), asList(names), null, null, null, null);
     }
 
+    /**
+     * @param componentClasses
+     * @param typeSystem
+     * @param typePriorities
+     * @param sofaMappings
+     * @param flowControllerDescription
+     * @param configurationParameters
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngineDescription createAggregateDescription(
         List<Class< ? extends AnalysisComponent>> componentClasses, TypeSystemDescription typeSystem,
         TypePriorities typePriorities, SofaMapping[] sofaMappings,  FlowControllerDescription flowControllerDescription, Object... configurationParameters)
@@ -400,6 +528,16 @@ public final class AnalysisEngineFactory
             typePriorities, sofaMappings, flowControllerDescription);
     }
 
+    /**
+     * @param analysisEngineDescriptions
+     * @param componentNames
+     * @param typeSystem
+     * @param typePriorities
+     * @param sofaMappings
+     * @param flowControllerDescription
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngine createAggregate(
         List<AnalysisEngineDescription> analysisEngineDescriptions, List<String> componentNames,
         TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings,
@@ -417,6 +555,13 @@ public final class AnalysisEngineFactory
 
     }
 
+    /**
+     * A simplified factory method for creating an aggregate description for a given flow controller and a sequence of analysis engine descriptions
+     * @param flowControllerDescription
+     * @param analysisEngineDescriptions
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngineDescription createAggregateDescription(
     		 FlowControllerDescription flowControllerDescription, AnalysisEngineDescription... analysisEngineDescriptions)
         throws ResourceInitializationException
@@ -432,6 +577,17 @@ public final class AnalysisEngineFactory
             null, null,  flowControllerDescription);
     }
 
+    /**
+     * A factory method for creating an aggregate description.
+     * @param analysisEngineDescriptions
+     * @param componentNames
+     * @param typeSystem
+     * @param typePriorities
+     * @param sofaMappings
+     * @param flowControllerDescription
+     * @return
+     * @throws ResourceInitializationException
+     */
     public static AnalysisEngineDescription createAggregateDescription(
         List<AnalysisEngineDescription> analysisEngineDescriptions, List<String> componentNames,
         TypeSystemDescription typeSystem, TypePriorities typePriorities, SofaMapping[] sofaMappings,
@@ -520,6 +676,14 @@ public final class AnalysisEngineFactory
         return jCas;
     }
 
+    /**
+     * Provides a convenience method for running  an AnalysisEngine over some text with a given JCas.
+     * @param jCas
+     * @param analysisEngine
+     * @param fileNameOrText
+     * @throws IOException
+     * @throws UIMAException
+     */
     public static void process(JCas jCas, AnalysisEngine analysisEngine, String fileNameOrText) throws IOException, UIMAException {
         File textFile = new File(fileNameOrText);
         String text;

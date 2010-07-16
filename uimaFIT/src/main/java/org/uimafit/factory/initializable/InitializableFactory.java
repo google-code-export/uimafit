@@ -30,6 +30,8 @@ import org.apache.uima.resource.ResourceInitializationException;
  * @author Philipp Wetzler
  * @author Steven Bethard
  * @see Initializable
+ * 
+ * Please see {@link Initializable} for a description of how this class is intended to be used
  */
 public final class InitializableFactory {
 	private InitializableFactory()
@@ -37,11 +39,27 @@ public final class InitializableFactory {
 		// This class is not meant to be instantiated
 	}
 
+	/**
+	 * Provides a way to create an instance of T.  If the class specified by className implements Initializable, then the UimaContext provided here will be passed to its initialize method.
+	 * @param <T>
+	 * @param context
+	 * @param className
+	 * @param superClass
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
 	public static <T> T create(UimaContext context, String className, Class<T> superClass) throws ResourceInitializationException {
 		Class<? extends T> cls = getClass(className, superClass);
 		return create(context, cls);
 	}
 
+	/**
+	 * @param <T>
+	 * @param className
+	 * @param superClass
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
 	public static <T> Class<? extends T> getClass(String className, Class<T> superClass) throws ResourceInitializationException {
 		try {
 			Class<? extends T> cls = Class.forName(className).asSubclass(superClass);
@@ -52,6 +70,13 @@ public final class InitializableFactory {
 		}
 	}
 
+	/**
+	 * @param <T>
+	 * @param context
+	 * @param cls
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
 	public static <T> T create(UimaContext context, Class<? extends T> cls) throws ResourceInitializationException{
 		T instance;
 		try {
@@ -64,6 +89,11 @@ public final class InitializableFactory {
 		return instance;
 	}
 
+	/**
+	 * @param object
+	 * @param context
+	 * @throws ResourceInitializationException
+	 */
 	public static void initialize(Object object, UimaContext context) throws ResourceInitializationException {
 		if (object instanceof Initializable) {
 			((Initializable) object).initialize(context);

@@ -32,7 +32,16 @@ public final class AnnotationFactory {
 		// This class is not meant to be instantiated
 	}
 
-	// Provides a way to create an annotation and addToIndexes in a single line.
+	/**
+	 *  Provides a convenient way to create an annotation and addToIndexes in a single line.
+	 * @param <T>
+	 * @param jCas
+	 * @param begin
+	 * @param end
+	 * @param cls
+	 * @return
+	 * @throws UIMAException
+	 */
 	public static <T extends Annotation> T createAnnotation(JCas jCas, int begin, int end, Class<T> cls)
 			throws UIMAException {
 		try {

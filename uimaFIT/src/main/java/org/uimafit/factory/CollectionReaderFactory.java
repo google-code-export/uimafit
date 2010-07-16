@@ -125,6 +125,14 @@ public final class CollectionReaderFactory {
 		return createCollectionReader(readerClass, typeSystem, (TypePriorities) null, configurationData);
 	}
 
+	/**
+	 * @param readerClass
+	 * @param typeSystem
+	 * @param prioritizedTypeNames
+	 * @param configurationData
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
 	public static CollectionReader createCollectionReader(Class<? extends CollectionReader> readerClass,
 			TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationData) throws ResourceInitializationException {
 		TypePriorities typePriorities = TypePrioritiesFactory.createTypePriorities(prioritizedTypeNames);
@@ -132,6 +140,14 @@ public final class CollectionReaderFactory {
 
 	}
 
+	/**
+	 * @param readerClass
+	 * @param typeSystem
+	 * @param typePriorities
+	 * @param configurationData
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
 	public static CollectionReader createCollectionReader(Class<? extends CollectionReader> readerClass,
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationData) throws ResourceInitializationException {
 		CollectionReaderDescription desc = createDescription(readerClass, typeSystem, typePriorities, configurationData);
@@ -139,7 +155,13 @@ public final class CollectionReaderFactory {
 	}
 
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * This method creates a CollectionReader from a CollectionReaderDescription adding additional configuration parameter data as desired
+	 * @param desc
+	 * @param configurationData configuration parameter data as name value pairs. Will override values already set in the description.
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
 	public static CollectionReader createCollectionReader(CollectionReaderDescription desc, Object... configurationData) throws ResourceInitializationException {
 		// create the CollectionReader
 		CollectionReader reader;
@@ -157,7 +179,7 @@ public final class CollectionReaderFactory {
 			ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters, configurationValues);
 			ResourceMetaData metaData = desc.getMetaData();
 			ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();
-			Map additionalParameters = new HashMap();
+			Map<String, Object> additionalParameters = new HashMap<String, Object>();
 			additionalParameters.put(AnalysisEngine.PARAM_CONFIG_PARAM_SETTINGS, paramSettings);
 			reader.initialize(desc, additionalParameters);
 		}
@@ -173,11 +195,27 @@ public final class CollectionReaderFactory {
 
 
 
+	/**
+	 * A simple factory method  for creating a CollectionReaderDescription with a given class, type system description, and configuration data
+	 * @param readerClass
+	 * @param typeSystem
+	 * @param configurationData
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
 	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
 			TypeSystemDescription typeSystem, Object... configurationData) throws ResourceInitializationException {
 		 return createDescription(readerClass, typeSystem, (TypePriorities)null, configurationData);
 	}
 
+	/**
+	 * @param readerClass
+	 * @param typeSystem
+	 * @param prioritizedTypeNames
+	 * @param configurationData
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
 	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
 			TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationData) throws ResourceInitializationException {
 		TypePriorities typePriorities = TypePrioritiesFactory.createTypePriorities(prioritizedTypeNames);
@@ -186,12 +224,29 @@ public final class CollectionReaderFactory {
 	}
 
 
+	/**
+	 * @param readerClass
+	 * @param typeSystem
+	 * @param typePriorities
+	 * @param configurationData
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
 	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationData) throws ResourceInitializationException {
 		return createDescription(readerClass, typeSystem, typePriorities, (Capability[])null, configurationData);
 	}
 
 
+	/**
+	 * @param readerClass
+	 * @param typeSystem
+	 * @param typePriorities
+	 * @param capabilities
+	 * @param configurationData
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
 	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, Capability[] capabilities, Object... configurationData) throws ResourceInitializationException {
 		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
@@ -199,6 +254,17 @@ public final class CollectionReaderFactory {
 	}
 
 
+	/**
+	 * The factory method for creating CollectionReaderDescription objects for a given class, TypeSystemDescription, TypePriorities, capabilities, and configuration data
+	 * @param readerClass
+	 * @param typeSystem
+	 * @param typePriorities
+	 * @param capabilities
+	 * @param configurationParameters
+	 * @param configurationValues
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
 	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
 			TypeSystemDescription typeSystem, TypePriorities typePriorities, Capability[] capabilities, ConfigurationParameter[] configurationParameters, Object[] configurationValues) throws ResourceInitializationException {
 		// create the descriptor and set configuration parameters
@@ -242,6 +308,12 @@ public final class CollectionReaderFactory {
 		return desc;
 	}
 
+	/**
+	 * Since the configuration parameters of a CollectionReader with the given configuration parameter data
+	 * @param collectionReaderDescription
+	 * @param configurationData
+	 * @throws ResourceInitializationException
+	 */
 	public static void setConfigurationParameters(CollectionReaderDescription collectionReaderDescription, Object... configurationData) throws ResourceInitializationException {
 		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
 		ResourceCreationSpecifierFactory.setConfigurationParameters(collectionReaderDescription, cdata.configurationParameters, cdata.configurationValues);

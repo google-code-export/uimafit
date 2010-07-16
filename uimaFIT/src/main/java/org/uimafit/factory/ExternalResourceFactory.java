@@ -166,6 +166,13 @@ public final class ExternalResourceFactory
 		return extResBind;
 	}
 
+	/**
+	 * Creates an ExternalResourceDependency for a given key and interface 
+	 * @param aKey
+	 * @param aInterface
+	 * @param aOptional determines whether the dependency is optional
+	 * @return
+	 */
 	public static ExternalResourceDependency createExternalResourceDependency(
 			final String aKey, final Class<? extends Resource> aInterface,
 			final boolean aOptional)

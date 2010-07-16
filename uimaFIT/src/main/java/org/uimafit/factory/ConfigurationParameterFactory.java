@@ -35,15 +35,16 @@ import org.uimafit.util.ReflectionUtil;
  * @author Philip Ogren
  */
 
-public final class ConfigurationParameterFactory {
+public final class ConfigurationParameterFactory
+{
 	private ConfigurationParameterFactory()
 	{
 		// This class is not meant to be instantiated
 	}
 
 	/**
-	 * A mapping from Java class names to UIMA configuration parameter type
-	 * names. Used by setConfigurationParameters().
+	 * A mapping from Java class names to UIMA configuration parameter type names. Used by
+	 * setConfigurationParameters().
 	 */
 	public static final Map<String, String> javaUimaTypeMap = new HashMap<String, String>();
 	static {
@@ -57,20 +58,37 @@ public final class ConfigurationParameterFactory {
 		javaUimaTypeMap.put("double", ConfigurationParameter.TYPE_FLOAT);
 		javaUimaTypeMap.put("int", ConfigurationParameter.TYPE_INTEGER);
 
-	};
+	}
 
-	public static boolean isConfigurationParameterField(Field field) {
+	/**
+	 * This method determines if the field is annotated with {@link org.uimafit.descriptor.ConfigurationParameter}.
+	 * @param field
+	 * @return
+	 */
+	public static boolean isConfigurationParameterField(Field field)
+	{
 		return field.isAnnotationPresent(org.uimafit.descriptor.ConfigurationParameter.class);
 	}
 
-	public static Object getDefaultValue(Field field) {
+	/**
+	 * Determines the default value of an annotated configuration parameter. The returned value is
+	 * not necessarily the value that the annotated member variable will be instantiated with in
+	 * ConfigurationParameterInitializer which does extra work to convert the UIMA configuration
+	 * parameter value to comply with the type of the member variable.
+	 * 
+	 * @param field
+	 * @return
+	 */
+	public static Object getDefaultValue(Field field)
+	{
 		if (isConfigurationParameterField(field)) {
 			org.uimafit.descriptor.ConfigurationParameter annotation = field
 					.getAnnotation(org.uimafit.descriptor.ConfigurationParameter.class);
 
 			String[] stringValue = annotation.defaultValue();
 			if (stringValue.length == 1
-					&& stringValue[0].equals(org.uimafit.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE)) {
+					&& stringValue[0]
+							.equals(org.uimafit.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE)) {
 				return null;
 			}
 
@@ -90,7 +108,8 @@ public final class ConfigurationParameterFactory {
 				else if (ConfigurationParameter.TYPE_STRING.equals(valueType)) {
 					return stringValue[0];
 				}
-				throw new UIMA_IllegalArgumentException(UIMA_IllegalArgumentException.METADATA_ATTRIBUTE_TYPE_MISMATCH,
+				throw new UIMA_IllegalArgumentException(
+						UIMA_IllegalArgumentException.METADATA_ATTRIBUTE_TYPE_MISMATCH,
 						new Object[] { valueType, "type" });
 			}
 			else {
@@ -118,7 +137,8 @@ public final class ConfigurationParameterFactory {
 				else if (ConfigurationParameter.TYPE_STRING.equals(valueType)) {
 					return stringValue;
 				}
-				throw new UIMA_IllegalArgumentException(UIMA_IllegalArgumentException.METADATA_ATTRIBUTE_TYPE_MISMATCH,
+				throw new UIMA_IllegalArgumentException(
+						UIMA_IllegalArgumentException.METADATA_ATTRIBUTE_TYPE_MISMATCH,
 						new Object[] { valueType, "type" });
 
 			}
@@ -130,7 +150,8 @@ public final class ConfigurationParameterFactory {
 		}
 	}
 
-	private static String getConfigurationParameterType(Field field) {
+	private static String getConfigurationParameterType(Field field)
+	{
 		Class<?> parameterClass = field.getType();
 		String parameterClassName;
 		if (parameterClass.isArray()) {
@@ -138,7 +159,8 @@ public final class ConfigurationParameterFactory {
 		}
 		else if (Collection.class.isAssignableFrom(parameterClass)) {
 			ParameterizedType collectionType = (ParameterizedType) field.getGenericType();
-			parameterClassName = ((Class<?>) (collectionType.getActualTypeArguments()[0])).getName();
+			parameterClassName = ((Class<?>) (collectionType.getActualTypeArguments()[0]))
+					.getName();
 		}
 		else {
 			parameterClassName = parameterClass.getName();
@@ -150,7 +172,8 @@ public final class ConfigurationParameterFactory {
 		return parameterType;
 	}
 
-	private static boolean isMultiValued(Field field) {
+	private static boolean isMultiValued(Field field)
+	{
 		Class<?> parameterClass = field.getType();
 		if (parameterClass.isArray()) {
 			return true;
@@ -161,7 +184,15 @@ public final class ConfigurationParameterFactory {
 		return false;
 	}
 
-	public static String getConfigurationParameterName(Field field) {
+	/**
+	 * This method generates the default name of a configuration parameter that is defined by an
+	 * {@link org.uimafit.descriptor.ConfigurationParameter} annotation when no name is given
+	 * 
+	 * @param field
+	 * @return
+	 */
+	public static String getConfigurationParameterName(Field field)
+	{
 		if (isConfigurationParameterField(field)) {
 			org.uimafit.descriptor.ConfigurationParameter annotation = field
 					.getAnnotation(org.uimafit.descriptor.ConfigurationParameter.class);
@@ -174,24 +205,44 @@ public final class ConfigurationParameterFactory {
 		return null;
 	}
 
-	public static String createConfigurationParameterName(Class<?> clazz, String fieldName) throws RuntimeException {
+	/**
+	 * This method provides a convenient way to generate a configuration parameter name for a member
+	 * variable that is annotated with {@link org.uimafit.descriptor.ConfigurationParameter} and no
+	 * name is provided in the annotation.
+	 * 
+	 * @param clazz
+	 * @param fieldName
+	 * @return
+	 * @throws RuntimeException
+	 */
+	public static String createConfigurationParameterName(Class<?> clazz, String fieldName)
+		throws RuntimeException
+	{
 		try {
-			return ConfigurationParameterFactory.getConfigurationParameterName(clazz.getDeclaredField(fieldName));
+			return ConfigurationParameterFactory.getConfigurationParameterName(clazz
+					.getDeclaredField(fieldName));
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public static ConfigurationParameter createPrimitiveParameter(Field field) {
+	/**
+	 * A factory method for creating a ConfigurationParameter from a given field definition
+	 * 
+	 * @param field
+	 * @return
+	 */
+	public static ConfigurationParameter createPrimitiveParameter(Field field)
+	{
 		if (isConfigurationParameterField(field)) {
 			org.uimafit.descriptor.ConfigurationParameter annotation = field
 					.getAnnotation(org.uimafit.descriptor.ConfigurationParameter.class);
 			String name = getConfigurationParameterName(field);
 			boolean multiValued = isMultiValued(field);
 			String parameterType = getConfigurationParameterType(field);
-			return createPrimitiveParameter(name, parameterType, annotation.description(), multiValued, annotation
-					.mandatory());
+			return createPrimitiveParameter(name, parameterType, annotation.description(),
+					multiValued, annotation.mandatory());
 		}
 		else {
 			throw new IllegalArgumentException("field is not annotated with annotation of type "
@@ -200,12 +251,21 @@ public final class ConfigurationParameterFactory {
 	}
 
 	/*
-	 * The UIMA_IllegalArgumentException statement was copied from
-	 * org.apache.uima
+	 * The UIMA_IllegalArgumentException statement was copied from org.apache.uima
 	 * .resource.metadata.impl.ConfigurationParameter_impl.setType
 	 */
-	public static ConfigurationParameter createPrimitiveParameter(String name, Class<?> parameterClass,
-			String parameterDescription, boolean isMandatory) {
+	/**
+	 * A factory method for creating a ConfigurationParameter object.
+	 * 
+	 * @param name
+	 * @param parameterClass
+	 * @param parameterDescription
+	 * @param isMandatory
+	 * @return
+	 */
+	public static ConfigurationParameter createPrimitiveParameter(String name,
+			Class<?> parameterClass, String parameterDescription, boolean isMandatory)
+	{
 		String parameterClassName;
 		if (parameterClass.isArray()) {
 			parameterClassName = parameterClass.getComponentType().getName();
@@ -216,15 +276,28 @@ public final class ConfigurationParameterFactory {
 
 		String parameterType = javaUimaTypeMap.get(parameterClassName);
 		if (parameterType == null) {
-			throw new UIMA_IllegalArgumentException(UIMA_IllegalArgumentException.METADATA_ATTRIBUTE_TYPE_MISMATCH,
-					new Object[] { parameterClassName, "type" });
+			throw new UIMA_IllegalArgumentException(
+					UIMA_IllegalArgumentException.METADATA_ATTRIBUTE_TYPE_MISMATCH, new Object[] {
+							parameterClassName, "type" });
 		}
-		return createPrimitiveParameter(name, parameterType, parameterDescription, parameterClass.isArray(),
-				isMandatory);
+		return createPrimitiveParameter(name, parameterType, parameterDescription,
+				parameterClass.isArray(), isMandatory);
 	}
 
-	public static ConfigurationParameter createPrimitiveParameter(String name, String parameterType,
-			String parameterDescription, boolean isMultiValued, boolean isMandatory) {
+	/**
+	 * A factory method for creating a ConfigurationParameter object.
+	 * 
+	 * @param name
+	 * @param parameterType
+	 * @param parameterDescription
+	 * @param isMultiValued
+	 * @param isMandatory
+	 * @return
+	 */
+	public static ConfigurationParameter createPrimitiveParameter(String name,
+			String parameterType, String parameterDescription, boolean isMultiValued,
+			boolean isMandatory)
+	{
 		ConfigurationParameter param = new ConfigurationParameter_impl();
 		param.setName(name);
 		param.setType(parameterType);
@@ -234,7 +307,15 @@ public final class ConfigurationParameterFactory {
 		return param;
 	}
 
-	public static ConfigurationData createConfigurationData(Object... configurationData) {
+	/**
+	 * This method converts configuration data provided as an array of objects and returns a
+	 * {@link ConfigurationData} object
+	 * 
+	 * @param configurationData
+	 * @return
+	 */
+	public static ConfigurationData createConfigurationData(Object... configurationData)
+	{
 		if (configurationData == null) {
 			return new ConfigurationData(new ConfigurationParameter[0], new Object[0]);
 		}
@@ -243,7 +324,6 @@ public final class ConfigurationParameterFactory {
 					+ configurationData.length + ")";
 			throw new IllegalArgumentException(message);
 		}
-
 
 		int numberOfParameters = configurationData.length / 2;
 		List<ConfigurationParameter> configurationParameters = new ArrayList<ConfigurationParameter>();
@@ -257,82 +337,157 @@ public final class ConfigurationParameterFactory {
 				continue;
 			}
 
-			if (value.getClass().isArray() && value.getClass().getComponentType().getName().equals("boolean")) {
+			if (value.getClass().isArray()
+					&& value.getClass().getComponentType().getName().equals("boolean")) {
 				value = ArrayUtils.toObject((boolean[]) value);
 			}
-			else if (value.getClass().isArray() && value.getClass().getComponentType().getName().equals("int")) {
+			else if (value.getClass().isArray()
+					&& value.getClass().getComponentType().getName().equals("int")) {
 				value = ArrayUtils.toObject((int[]) value);
 			}
-			else if (value.getClass().isArray() && value.getClass().getComponentType().getName().equals("float")) {
+			else if (value.getClass().isArray()
+					&& value.getClass().getComponentType().getName().equals("float")) {
 				value = ArrayUtils.toObject((float[]) value);
 			}
 
-			ConfigurationParameter param = ConfigurationParameterFactory.createPrimitiveParameter(name, value
-					.getClass(), null, false);
+			ConfigurationParameter param = ConfigurationParameterFactory.createPrimitiveParameter(
+					name, value.getClass(), null, false);
 			configurationParameters.add(param);
 			configurationValues.add(value);
 		}
-		return new ConfigurationData(configurationParameters.toArray(new ConfigurationParameter[configurationParameters.size()]), configurationValues.toArray());
+		return new ConfigurationData(
+				configurationParameters.toArray(new ConfigurationParameter[configurationParameters
+						.size()]), configurationValues.toArray());
 	}
 
-	public static ConfigurationData createConfigurationData(Class<?> componentClass) {
+	/**
+	 * This method creates configuration data for a given class definition using reflection and the
+	 * configuration parameter annotation
+	 * 
+	 * @param componentClass
+	 * @return
+	 */
+	public static ConfigurationData createConfigurationData(Class<?> componentClass)
+	{
 		List<ConfigurationParameter> configurationParameters = new ArrayList<ConfigurationParameter>();
 		List<Object> configurationValues = new ArrayList<Object>();
 
 		for (Field field : ReflectionUtil.getFields(componentClass)) {
 			if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
-				configurationParameters.add(ConfigurationParameterFactory.createPrimitiveParameter(field));
+				configurationParameters.add(ConfigurationParameterFactory
+						.createPrimitiveParameter(field));
 				configurationValues.add(ConfigurationParameterFactory.getDefaultValue(field));
 			}
 		}
 
-		return new ConfigurationData(configurationParameters.toArray(new ConfigurationParameter[configurationParameters
-				.size()]), configurationValues.toArray(new Object[configurationValues.size()]));
+		return new ConfigurationData(
+				configurationParameters.toArray(new ConfigurationParameter[configurationParameters
+						.size()]), configurationValues.toArray(new Object[configurationValues
+						.size()]));
 	}
 
-	public static class ConfigurationData {
+	/**
+	 * A simple class for storing an array of configuration parameters along with an array of the
+	 * values that will fill in those configuration parameters
+	 * 
+	 */
+	public static class ConfigurationData
+	{
+		/**
+		 * 
+		 */
 		public ConfigurationParameter[] configurationParameters;
 
+		/**
+		 * 
+		 */
 		public Object[] configurationValues;
 
-		public ConfigurationData(ConfigurationParameter[] configurationParameters, Object[] configurationValues) {
+		/**
+		 * @param configurationParameters
+		 * @param configurationValues
+		 */
+		public ConfigurationData(ConfigurationParameter[] configurationParameters,
+				Object[] configurationValues)
+		{
 			this.configurationParameters = configurationParameters;
 			this.configurationValues = configurationValues;
 		}
 
 	}
 
-	public static void addConfigurationParameters(ResourceCreationSpecifier specifier, Object... configurationData) {
-		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
-		ResourceCreationSpecifierFactory.setConfigurationParameters(specifier, cdata.configurationParameters,
-				cdata.configurationValues);
+	/**
+	 * This method adds configuration parameter information to the specifier given the provided
+	 * configuration data
+	 * 
+	 * @param specifier
+	 * @param configurationData
+	 *            should consist of name value pairs.
+	 */
+	public static void addConfigurationParameters(ResourceCreationSpecifier specifier,
+			Object... configurationData)
+	{
+		ConfigurationData cdata = ConfigurationParameterFactory
+				.createConfigurationData(configurationData);
+		ResourceCreationSpecifierFactory.setConfigurationParameters(specifier,
+				cdata.configurationParameters, cdata.configurationValues);
 	}
 
+	/**
+	 * Provides a mechanism to add configuration parameter information to a specifier for the given
+	 * classes. this method may be useful in situations where a class definition has annotated
+	 * configuration parameters that you want to include in the given specifier
+	 * 
+	 * @param specifier
+	 * @param dynamicallyLoadedClasses
+	 */
 	public static void addConfigurationParameters(ResourceCreationSpecifier specifier,
-			List<Class<?>> dynamicallyLoadedClasses) {
+			List<Class<?>> dynamicallyLoadedClasses)
+	{
 		for (Class<?> dynamicallyLoadedClass : dynamicallyLoadedClasses) {
 			ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
 					.createConfigurationData(dynamicallyLoadedClass);
 			ResourceCreationSpecifierFactory.setConfigurationParameters(specifier,
-					reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);
+					reflectedConfigurationData.configurationParameters,
+					reflectedConfigurationData.configurationValues);
 		}
 
 	}
 
+	/**
+	 * Provides a mechanism to add configuration parameter information to a specifier for the given
+	 * classes. this method may be useful in situations where a class definition has annotated
+	 * configuration parameters that you want to include in the given specifier
+	 * 
+	 * @param specifier
+	 * @param dynamicallyLoadedClasses
+	 */
 	public static void addConfigurationParameters(ResourceCreationSpecifier specifier,
-			Class<?>... dynamicallyLoadedClasses) {
+			Class<?>... dynamicallyLoadedClasses)
+	{
 		for (Class<?> dynamicallyLoadedClass : dynamicallyLoadedClasses) {
 			ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
 					.createConfigurationData(dynamicallyLoadedClass);
 			ResourceCreationSpecifierFactory.setConfigurationParameters(specifier,
-					reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);
+					reflectedConfigurationData.configurationParameters,
+					reflectedConfigurationData.configurationValues);
 		}
 	}
 
-	public static void addConfigurationParameter(ResourceCreationSpecifier specifier, String name, Object value) {
-		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(name, value);
-		ResourceCreationSpecifierFactory.setConfigurationParameters(specifier, cdata.configurationParameters,
-				cdata.configurationValues);
+	/**
+	 * Adds a single configuration parameter name value pair to a specifier
+	 * 
+	 * @param specifier
+	 * @param name
+	 * @param value
+	 */
+	public static void addConfigurationParameter(ResourceCreationSpecifier specifier, String name,
+			Object value)
+	{
+		ConfigurationData cdata = ConfigurationParameterFactory
+				.createConfigurationData(name, value);
+		ResourceCreationSpecifierFactory.setConfigurationParameters(specifier,
+				cdata.configurationParameters, cdata.configurationValues);
 
 	}
 
