@@ -24,6 +24,14 @@ import java.lang.annotation.Target;
 
 /**
  * @author Philip Ogren
+ *  A typical use of this annotation might look something like:
+ *  <pre>
+  		@SofaCapability(inputSofas = { GOLD_VIEW, SYSTEM_VIEW })
+  		or
+  		@SofaCapability(inputSofas = CAS.NAME_DEFAULT_SOFA, outputSofas = GOLD_VIEW)
+  	</pre>
+
+ * 
  * 
  *         Adding this annotation to your analysis engine description makes your
  *         component "sofa aware." The base CAS delivered to "sofa aware"
@@ -46,9 +54,20 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface SofaCapability {
+	/**
+	 * the values should be string vales corresponding to view names such as e.g. CAS.NAME_DEFAULT_SOFA
+	 * that this analysis component expects to be present in the CAS.
+	 */
 	String[] inputSofas() default NO_DEFAULT_VALUE;
-
+	/**
+	 * the values should be string vales corresponding to view names 
+	 * that this analysis component will create.  
+	 */
 	String[] outputSofas() default NO_DEFAULT_VALUE;
+
+	/**
+	 * Provides the default value for the inputs and the outputs that tells the CapabilityFactory that no value has been given to the inputs or outputs elements.  
+	 */
 
 	public static final String NO_DEFAULT_VALUE = "org.uimafit.descriptor.SofaCapability.NO_DEFAULT_VALUE";
 

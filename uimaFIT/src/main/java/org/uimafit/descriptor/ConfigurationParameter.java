@@ -59,6 +59,9 @@ import org.uimafit.factory.ConfigurationParameterFactory;
 @Target(ElementType.FIELD)
 public @interface ConfigurationParameter {
 
+	/**
+	 * the default value for name if none is given.  
+	 */
 	public static final String USE_FIELD_NAME = "org.uimafit.descriptor.ConfigurationParameter.USE_FIELD_NAME";
 
 	/**
@@ -67,8 +70,14 @@ public @interface ConfigurationParameter {
 	 */
 	String name() default USE_FIELD_NAME;
 
+	/**
+	 * A description for the configuration parameter
+	 */
 	String description() default "";
 
+	/**
+	 * specifies whether this configuration parameter is mandatory - i.e. the value must be provided
+	 */
 	boolean mandatory() default false;
 
 	/**
@@ -94,6 +103,9 @@ public @interface ConfigurationParameter {
 	 */
 	String[] defaultValue() default NO_DEFAULT_VALUE;
 
+	/**
+	 * Tells the ConfigurationParameterFactory that no default value has been provided
+	 */
 	public static final String NO_DEFAULT_VALUE = "org.uimafit.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE";
 
 }
