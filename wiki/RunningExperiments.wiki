@@ -10,5 +10,5 @@ The basic strategy is as follows:
  * post the data "as is" into the default view
  * parse the gold-standard tokens and part-of-speech tags and put the results into another view we will call GOLD_VIEW
  * create another view called SYSTEM_VIEW and copy the text and Token annotations from the GOLD_VIEW into this view
- * Run the BaselineTagger on the SYSTEM_VIEW over the copied Token annoations
+ * Run the !BaselineTagger on the SYSTEM_VIEW over the copied Token annoations
  * Evaluate the part-of-speech tags found in the SYSTEM_VIEW with those in the GOLD_VIEW
