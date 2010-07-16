@@ -5,6 +5,7 @@
  
  * [GettingStarted Getting started tutorial]
  * [http://uimafit.googlecode.com/svn/trunk/uimaFIT/apidocs/index.html Javadocs]
+ * [http://code.google.com/p/uimafit/source/browse/trunk/uimaFIT/CHANGES CHANGES]
  * [WritingTests Writing tests]
  * [RunningExperiments Running experiments]
  * [TypeDescriptorDetection Automatic type descriptor detection]
