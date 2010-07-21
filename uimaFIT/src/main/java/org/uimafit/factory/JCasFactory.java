@@ -206,7 +206,7 @@ public final class JCasFactory
 			}
 		}
 		catch (SAXException e) {
-			throw new IOException(e);
+			throw new IOException(e.getMessage());
 		}
 		finally {
 			IOUtils.closeQuietly(xmlInputStream);
