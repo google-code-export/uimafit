@@ -31,7 +31,6 @@ import java.io.IOException;
 import org.apache.uima.UIMAException;
 import org.apache.uima.UIMAFramework;
 import org.apache.uima.UimaContext;
-import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -40,7 +39,7 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.impl.ConfigurationParameterSettings_impl;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
-import org.uimafit.component.initialize.ConfigurationParameterInitializer;
+import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.testAes.Annotator1;
@@ -312,7 +311,6 @@ public class InitializeUtilTest extends ComponentTestBase{
 		@Override
 		public void initialize(UimaContext aContext) throws ResourceInitializationException {
 			super.initialize(aContext);
-			ConfigurationParameterInitializer.initialize(this, aContext);
 		}
 
 		@Override
@@ -330,7 +328,6 @@ public class InitializeUtilTest extends ComponentTestBase{
 		@Override
 		public void initialize(UimaContext aContext) throws ResourceInitializationException {
 			super.initialize(aContext);
-			ConfigurationParameterInitializer.initialize(this, aContext);
 		}
 
 		@Override
@@ -363,7 +360,6 @@ public class InitializeUtilTest extends ComponentTestBase{
 		@Override
 		public void initialize(UimaContext aContext) throws ResourceInitializationException {
 			super.initialize(aContext);
-			ConfigurationParameterInitializer.initialize(this, aContext);
 		}
 
 		@Override

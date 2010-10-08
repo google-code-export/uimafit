@@ -27,9 +27,9 @@ import static org.uimafit.factory.ExternalResourceFactory.bindResource;
 
 import java.io.File;
 import java.net.URI;
+
 import org.apache.uima.UIMAFramework;
 import org.apache.uima.UimaContext;
-import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -41,7 +41,7 @@ import org.apache.uima.resource.SharedResourceObject;
 import org.apache.uima.resource.metadata.ResourceManagerConfiguration;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
-import org.uimafit.component.initialize.ExternalResourceInitializer;
+import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.ExternalResource;
 
 /**
@@ -99,7 +99,6 @@ public class ExternalResourceFactoryTest extends ComponentTestBase
 			throws ResourceInitializationException
 		{
 			super.initialize(aContext);
-			ExternalResourceInitializer.initialize(aContext, this);
 		}
 
 		@Override
