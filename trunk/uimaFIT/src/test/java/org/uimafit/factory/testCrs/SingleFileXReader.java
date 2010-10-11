@@ -1,17 +1,17 @@
-/* 
- Copyright 2009-2010	Regents of the University of Colorado.  
- All rights reserved. 
+/*
+ Copyright 2009-2010	Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
 */
 
@@ -36,11 +36,11 @@ import org.xml.sax.SAXException;
 
 /**
  * <br>
- * 
+ *
  * This collection reader allows one to read in a single XMI or XCAS file. It's
  * primary purpose is to help out a couple JCasFactory create methods.  However,
- * it is also used for this project unit tests as an example collection reader.  
- * 
+ * it is also used for this project unit tests as an example collection reader.
+ *
  * @author Steven Bethard, Philip Ogren
  */
 
@@ -62,7 +62,7 @@ public class SingleFileXReader extends CasCollectionReader_ImplBase {
 			description = "specifies the UIMA XML serialization scheme that should be usedValid values for this parameter are 'XMI' and 'XCAS'. See XmiCasSerializer or XCASSerializer",
 			defaultValue = XMI)
 	private String xmlScheme;
-	
+
 	private boolean useXMI = true;
 
 	private boolean hasNext = true;
@@ -71,24 +71,34 @@ public class SingleFileXReader extends CasCollectionReader_ImplBase {
 
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {
-		super.initialize();
-		
+		super.initialize(context);
+
 		file = new File(fileName);
 
-		if (xmlScheme.equals(XMI)) useXMI = true;
-		else if (xmlScheme.equals(XCAS)) useXMI = false;
-		else throw new ResourceInitializationException(String.format(
-				"parameter '%1$s' must be either '%2$s' or '%3$s' or left empty.", PARAM_XML_SCHEME, XMI, XCAS), null);
+		if (xmlScheme.equals(XMI)) {
+			useXMI = true;
+		}
+		else if (xmlScheme.equals(XCAS)) {
+			useXMI = false;
+		}
+		else {
+			throw new ResourceInitializationException(String.format(
+					"parameter '%1$s' must be either '%2$s' or '%3$s' or left empty.", PARAM_XML_SCHEME, XMI, XCAS), null);
+		}
 
 	}
 
 	public void getNext(CAS cas) throws IOException, CollectionException {
-		
+
 		FileInputStream inputStream = new FileInputStream(file);
 
 		try {
-			if (useXMI) XmiCasDeserializer.deserialize(inputStream, cas);
-			else XCASDeserializer.deserialize(inputStream, cas);
+			if (useXMI) {
+				XmiCasDeserializer.deserialize(inputStream, cas);
+			}
+			else {
+				XCASDeserializer.deserialize(inputStream, cas);
+			}
 		}
 		catch (SAXException e) {
 			throw new CollectionException(e);
