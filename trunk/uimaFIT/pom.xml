@@ -74,6 +74,23 @@
 					</arguments>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>rat-maven-plugin</artifactId>
+				<version>1.0-alpha-3</version>
+				<configuration>
+					<excludes>
+						<exclude>release.properties</exclude> <!-- release generated artifact -->
+						<exclude>CHANGES</exclude> 
+						<exclude>NOTICE</exclude> 
+						<exclude>README</exclude> 
+						<exclude>src/main/resources/**/*</exclude>
+						<exclude>src/test/resources/**/*</exclude>
+						<exclude>src/test/java/org/uimafit/type/**/*</exclude> <!-- JCasGen -->
+						<exclude>apidocs/package-list</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<reporting>

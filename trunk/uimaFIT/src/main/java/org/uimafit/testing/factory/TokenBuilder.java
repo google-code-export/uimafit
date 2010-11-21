@@ -1,17 +1,17 @@
-/* 
- Copyright 2009-2010	Regents of the University of Colorado.  
- All rights reserved. 
+/*
+ Copyright 2009-2010	Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
  */
 
@@ -27,12 +27,13 @@ import org.apache.uima.jcas.tcas.Annotation;
 import org.uimafit.factory.AnnotationFactory;
 
 /**
- * 
+ *
  * This class provides convenience methods for creating tokens and sentences and add them to a
  * {@link JCas}.
- * 
+ *
  * @author Steven Bethard, Philip Ogren
- * 
+ * @author Richard Eckart de Castilho
+ *
  * @param <TOKEN_TYPE>
  *            the type system token type (e.g. org.uimafit.examples.type.Token)
  * @param <SENTENCE_TYPE>
@@ -50,7 +51,7 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 	/**
 	 * Calls {@link TokenBuilder#TokenBuilder(Class, Class, String, String)} with the last two
 	 * arguments as null
-	 * 
+	 *
 	 * @param tokenClass
 	 * @param sentenceClass
 	 */
@@ -62,7 +63,7 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 	/**
 	 * Instantiates a TokenBuilder with the type system information that the builder needs to build
 	 * tokens.
-	 * 
+	 *
 	 * @param tokenClass
 	 *            the class of your token type from your type system (e.g.
 	 *            org.uimafit.type.Token.class)
@@ -87,8 +88,52 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 	}
 
 	/**
+	 * Instantiates a TokenBuilder with the type system information that the builder needs to build
+	 * tokens.
+	 *
+	 * @param <T>
+	 *            the type system token type (e.g. org.uimafit.examples.type.Token)
+	 * @param <S>
+	 *            the type system sentence type (e.g. org.uimafit.examples.type.Sentence)
+	 * @param tokenClass
+	 *            the class of your token type from your type system (e.g.
+	 *            org.uimafit.type.Token.class)
+	 * @param sentenceClass
+	 *            the class of your sentence type from your type system (e.g.
+	 *            org.uimafit.type.Sentence.class)
+	 * @return the builder.
+	 */
+	public static <T extends Annotation, S extends Annotation> TokenBuilder<T, S> create(
+			Class<T> tokenClass, Class<S> sentenceClass)
+	{
+		return new TokenBuilder<T, S>(tokenClass, sentenceClass);
+	}
+
+	/**
+	 * Set the feature name for the part-of-speech tag for your token type. This assumes that there
+	 * is a single string feature for which to put your pos tag. null is an ok value.
+	 *
+	 * @param posFeatureName the part-of-speech feature name.
+	 */
+	public void setPosFeatureName(String posFeatureName)
+	{
+		this.posFeatureName = posFeatureName;
+	}
+
+	/**
+	 * Set the feature name for the stem for your token type. This assumes that there is a single
+	 * string feature for which to put your stem. null is an ok value.
+	 *
+	 * @param stemFeatureName the stem feature name.
+	 */
+	public void setStemFeatureName(String stemFeatureName)
+	{
+		this.stemFeatureName = stemFeatureName;
+	}
+
+	/**
 	 * Builds white-space delimited tokens from the input text.
-	 * 
+	 *
 	 * @param jCas
 	 *            the JCas to add the tokens to
 	 * @param text
@@ -106,7 +151,7 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 
 	/**
 	 * see {@link #buildTokens(JCas, String, String, String, String)}
-	 * 
+	 *
 	 * @param jCas
 	 * @param text
 	 * @param tokensString
@@ -123,7 +168,7 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 
 	/**
 	 * see {@link #buildTokens(JCas, String, String, String, String)}
-	 * 
+	 *
 	 * @param jCas
 	 * @param text
 	 * @param tokensString
@@ -138,7 +183,7 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 
 	/**
 	 * Build tokens for the given text, tokens, part-of-speech tags, and word stems.
-	 * 
+	 *
 	 * @param jCas
 	 *            the JCas to add the Token annotations to
 	 * @param text
@@ -154,7 +199,7 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 	 * @param posTagsString
 	 * 		   the posTagsString should be a space delimited string of part-of-speech tags - one for each token
 	 * @param stemsString
-	 * 		 the stemsString should be a space delimitied string of stems - one for each token 
+	 * 		 the stemsString should be a space delimitied string of stems - one for each token
 	 * @throws UIMAException
 	 */
 	public void buildTokens(JCas jCas, String text, String tokensString, String posTagsString,
