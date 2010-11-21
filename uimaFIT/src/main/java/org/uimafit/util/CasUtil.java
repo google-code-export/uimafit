@@ -1,5 +1,5 @@
 /*
- Copyright 2009
+ Copyright 2009-2010
  Ubiquitous Knowledge Processing (UKP) Lab
  Technische Universitaet Darmstadt
  All rights reserved.
@@ -21,6 +21,7 @@
 package org.uimafit.util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.uima.cas.CAS;
@@ -28,6 +29,7 @@ import org.apache.uima.cas.FSIterator;
 import org.apache.uima.cas.Type;
 import org.apache.uima.cas.impl.Subiterator;
 import org.apache.uima.cas.text.AnnotationFS;
+import org.apache.uima.cas.text.AnnotationIndex;
 
 /**
  * Utility methods for convenient access to the {@link CAS}.
@@ -36,6 +38,40 @@ import org.apache.uima.cas.text.AnnotationFS;
  */
 public class CasUtil
 {
+	/**
+	 * Convenience method to iterator over all annotations of a given type.
+	 *
+	 * @param <T> the iteration type.
+	 * @param cas a CAS.
+	 * @param type the type.
+	 * @return An iterable.
+	 * @see AnnotationIndex#iterator()
+	 */
+	public static <T extends AnnotationFS> Iterable<T> iterate(final CAS cas, final Type type)
+	{
+		return new Iterable<T>()
+		{
+			public Iterator<T> iterator()
+			{
+				return CasUtil.iterator(cas, type);
+			}
+		};
+	}
+
+	/**
+	 * Get an iterator over the given annotation type.
+	 *
+	 * @param <T> the JCas type.
+	 * @param cas a CAS.
+	 * @param type a type.
+	 * @return a return value.
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends AnnotationFS> Iterator<T> iterator(CAS cas, Type type)
+	{
+		return ((AnnotationIndex<T>) cas.getAnnotationIndex(type)).iterator();
+	}
+
 	/**
 	 * Package name of JCas wrapper classes built into UIMA.
 	 */

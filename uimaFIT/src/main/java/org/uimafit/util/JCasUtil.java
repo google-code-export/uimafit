@@ -21,8 +21,12 @@ package org.uimafit.util;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
+import org.apache.uima.cas.CASException;
+import org.apache.uima.cas.CASRuntimeException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.Type;
 import org.apache.uima.cas.impl.Subiterator;
 import org.apache.uima.cas.text.AnnotationFS;
@@ -199,13 +203,27 @@ public class JCasUtil
 	}
 
 	/**
+	 * Check if the given annotation contains any annotation of the given type.
+	 *
+	 * @param jCas a JCas containing the annotation.
+	 * @param coveringAnnotation the covering annotation.
+	 * @param type a UIMA type.
+	 * @return if an annotation of the given type is present.
+	 */
+	public static boolean isCovered(JCas jCas, Annotation coveringAnnotation,
+			Class<? extends Annotation> type)
+	{
+		return selectCovered(jCas, type, coveringAnnotation).size() > 0;
+	}
+
+	/**
 	 * This method exists simply as a convenience method for unit testing. It is
 	 * not very efficient and should not, in general be used outside the context
 	 * of unit testing.
 	 *
 	 * @param <T> JCas wrapper type.
-	 * @param jCas
-	 * @param cls
+	 * @param jCas a JCas containing the annotation.
+	 * @param cls a UIMA type.
 	 * @param index
 	 *            this can be either positive (0 corresponds to the first
 	 *            annotation of a type) or negative (-1 corresponds to the last
@@ -233,6 +251,116 @@ public class JCasUtil
 
 		return i.isValid() ? (T) i.get() : null;
 	}
-	
+
+	/**
+	 * Get the single instance of the specified type from the JCas.
+	 *
+	 * @param <T> JCas wrapper type.
+	 * @param jCas a JCas containing the annotation.
+	 * @param type a UIMA type.
+	 * @return the single instance of the given type.
+	 * throws IllegalArgumentException if not exactly one instance if the given type is present.
+	 */
+	public static <T extends FeatureStructure> T selectSingle(JCas jCas, Class<T> type) {
+		FSIterator<FeatureStructure> iterator = jCas.getIndexRepository().getAllIndexedFS(
+				getType(jCas, type));
+
+		if (!iterator.hasNext()) {
+			throw new IllegalArgumentException("CAS does not contain any " + type.getName());
+		}
+
+		@SuppressWarnings("unchecked")
+		T result = (T) iterator.next();
+
+		if (iterator.hasNext()) {
+			throw new IllegalArgumentException("CAS contains more than one " + type.getName());
+		}
+
+		return result;
+	}
+
+	/**
+	 * Test if a JCas contains an annotation of the given type.
+	 *
+	 * @param <T> the annotation type.
+	 * @param aJCas a JCas.
+	 * @param aType a annotation class.
+	 * @return {@code true} if there is at least one annotation of the given type
+	 *  in the JCas.
+	 */
+	public static <T extends AnnotationFS> boolean exists(JCas aJCas, Class<T> aType)
+	{
+		return JCasUtil.iterator(aJCas, aType).hasNext();
+	}
+
+	/**
+	 * Convenience method to get the specified view or a default view if the
+	 * requested view does not exist. The default can also be {@code null}.
+	 *
+	 * @param aJCas a JCas
+	 * @param viewName the requested view.
+	 * @param fallback the default view if the requested view does not exist.
+	 * @return the requested view or the default if the requested view does not
+	 *         exist.
+	 */
+	public static JCas getView(JCas aJCas, String viewName, JCas fallback)
+	{
+		JCas view;
+		try {
+			view = aJCas.getView(viewName);
+		}
+		catch (CASException e) {
+			// use fall-back view instead
+			view = fallback;
+		}
+		catch (CASRuntimeException e) {
+			// use fall-back view instead
+			view = fallback;
+		}
+		return view;
+	}
+
+	/**
+	 * Convenience method to get the specified view or create a new view if the
+	 * requested view does not exist.
+	 *
+	 * @param aJCas a JCas
+	 * @param viewName the requested view.
+	 * @param aCreate the view is created if it does not exist.
+	 * @return the requested view
+	 * @throws AnalysisEngineProcessException if the view does not exist and
+	 *         is not to be created.
+	 */
+	public static JCas getView(JCas aJCas, String viewName, boolean aCreate)
+		throws AnalysisEngineProcessException
+	{
+		JCas view = null;
+		try {
+			view = aJCas.getView(viewName);
+		}
+		catch (CASException e) {
+			// View does not exist
+		}
+		catch (CASRuntimeException e) {
+			// View does not exist
+		}
+
+		if (view == null && aCreate) {
+			try {
+				view = aJCas.createView(viewName);
+			}
+			catch (CASException e) {
+				new AnalysisEngineProcessException(e);
+			}
+		}
+
+		if (view == null) {
+			throw new AnalysisEngineProcessException(
+					new IllegalStateException("No view with name ["
+							+ viewName + "]"));
+		}
+
+		return view;
+	}
 
 }

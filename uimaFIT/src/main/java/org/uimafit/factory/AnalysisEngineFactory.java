@@ -18,6 +18,7 @@
 package org.uimafit.factory;
 
 import static java.util.Arrays.asList;
+import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
 
 import java.io.File;
 import java.io.IOException;
@@ -147,6 +148,24 @@ public final class AnalysisEngineFactory
 
     /**
      * Get an AnalysisEngine from an OperationalProperties class, a type system and a set of configuration parameters.
+     * The type system is detected automatically using {@link TypeSystemDescriptionFactory#createTypeSystemDescription()}.
+     *
+     * @param componentClass The class of the OperationalProperties to be created as an AnalysisEngine.
+     * @param configurationData Any additional configuration parameters to be set. These should be supplied as (name,
+     *            value) pairs, so there should always be an even number of parameters.
+     * @return The AnalysisEngine created from the OperationalProperties class and initialized with the type system and the
+     *         configuration parameters.
+     * @throws ResourceInitializationException
+     */
+	public static AnalysisEngine createPrimitive(Class<? extends AnalysisComponent> componentClass,
+		Object... configurationData) throws ResourceInitializationException
+    {
+    	TypeSystemDescription tsd = createTypeSystemDescription();
+        return createPrimitive(componentClass, tsd, (TypePriorities) null, configurationData);
+    }
+
+    /**
+     * Get an AnalysisEngine from an OperationalProperties class, a type system and a set of configuration parameters.
      *
      * @param componentClass The class of the OperationalProperties to be created as an AnalysisEngine.
      * @param typeSystem A description of the types used by the OperationalProperties (may be null).
@@ -195,6 +214,24 @@ public final class AnalysisEngineFactory
     }
 
     /**
+     * A simple factory method for creating a primitive AnalysisEngineDescription for a given class, type system, and configuration parameter data
+     * The type system is detected automatically using {@link TypeSystemDescriptionFactory#createTypeSystemDescription()}.
+     *
+     * @param componentClass a class that extends AnalysisComponent e.g. org.uimafit.component.JCasAnnotator_ImplBase
+     * @param configurationData
+     * @return
+     * @throws ResourceInitializationException
+     */
+	public static AnalysisEngineDescription createPrimitiveDescription(
+			Class<? extends AnalysisComponent> componentClass, Object... configurationData)
+		throws ResourceInitializationException
+	{
+    	TypeSystemDescription tsd = createTypeSystemDescription();
+		return createPrimitiveDescription(componentClass, tsd, (TypePriorities) null,
+				configurationData);
+	}
+
+    /**
      * @param componentClass
      * @param typeSystem
      * @param typePriorities
@@ -211,7 +248,7 @@ public final class AnalysisEngineFactory
     }
 
     /**
-     * The factory methods for creating an AnalysisEngineDescription 
+     * The factory methods for creating an AnalysisEngineDescription
      * @param componentClass
      * @param typeSystem
      * @param typePriorities
