@@ -21,7 +21,9 @@
 package org.uimafit.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.uima.cas.CAS;
@@ -30,11 +32,13 @@ import org.apache.uima.cas.Type;
 import org.apache.uima.cas.impl.Subiterator;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.cas.text.AnnotationIndex;
+import org.apache.uima.jcas.tcas.Annotation;
 
 /**
  * Utility methods for convenient access to the {@link CAS}.
  *
  * @author Richard Eckart de Castilho
+ * @author Niklas Jakob
  */
 public class CasUtil
 {
@@ -104,7 +108,7 @@ public class CasUtil
 	 * Uses the same approach except that type priorities are ignored.
 	 *
 	 * @param <T> the JCas type.
-	 * @param cas a JCas.
+	 * @param cas a CAS.
 	 * @param type a UIMA type.
 	 * @param coveringAnnotation the covering annotation.
 	 * @return a return value.
@@ -172,5 +176,76 @@ public class CasUtil
 		}
 
 		return list;
+	}
+
+	/**
+	 * Returns the n annotations preceding the given annotation
+	 *
+	 * @param <T> the JCas type.
+	 * @param cas a CAS.
+	 * @param type a UIMA type.
+	 * @param annotation anchor annotation
+	 * @param count number of annotations to collect
+	 * @return List of aType annotations preceding anchor annotation
+	 */
+	public static <T extends AnnotationFS> List<T> selectPreceding(
+			CAS cas, Type type, Annotation annotation, int count) {
+		List<T> precedingAnnotations = new LinkedList<T>();
+
+		// move to first previous annotation
+		FSIterator<AnnotationFS> itr = cas.getAnnotationIndex(type).iterator();
+		itr.moveTo(annotation);
+
+		int currentAnnotation = 0;
+
+		itr.moveToPrevious();
+
+		while (currentAnnotation < count && itr.isValid()) {
+			@SuppressWarnings("unchecked")
+			T buf= (T) itr.get();
+			precedingAnnotations.add(buf);
+
+			currentAnnotation++;
+			itr.moveToPrevious();
+		}
+
+		// return in correct order
+		Collections.reverse(precedingAnnotations);
+
+		return precedingAnnotations;
+	}
+
+	/**
+	 * Returns the n annotations following the given annotation
+	 *
+	 * @param <T> the JCas type.
+	 * @param cas a CAS.
+	 * @param type a UIMA type.
+	 * @param annotation anchor annotation
+	 * @param count number of annotations to collect
+	 * @return List of aType annotations following anchor annotation
+	 */
+	public static <T extends AnnotationFS> List<T> selectFollowing(
+			CAS cas, Type type, Annotation annotation, int count) {
+		List<T> followingAnnotations = new LinkedList<T>();
+
+		// move to first previous annotation
+		FSIterator<AnnotationFS> itr = cas.getAnnotationIndex(type).iterator();
+		itr.moveTo(annotation);
+
+		int currentAnnotation = 0;
+
+		itr.moveToNext();
+
+		while (currentAnnotation < count && itr.isValid()) {
+			@SuppressWarnings("unchecked")
+			T buf = (T) itr.get();
+			followingAnnotations.add(buf);
+
+			currentAnnotation++;
+			itr.moveToNext();
+		}
+
+		return followingAnnotations;
 	}
 }

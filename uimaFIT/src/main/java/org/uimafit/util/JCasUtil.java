@@ -18,6 +18,9 @@
 */
 package org.uimafit.util;
 
+import java.util.AbstractCollection;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,6 +42,7 @@ import org.apache.uima.jcas.tcas.Annotation;
  *
  * @author Richard Eckart de Castilho
  * @author Philip Ogren
+ * @author Niklas Jakob
  */
 public class JCasUtil
 {
@@ -167,6 +171,36 @@ public class JCasUtil
 	}
 
 	/**
+	 * Convenience method to iterator over all annotations of a given type.
+	 *
+	 * @param <T> the iteration type.
+	 * @param jCas the JCas containing the type system.
+	 * @param type the type.
+	 * @return A collection of the selected type.
+	 * @see #selectCovered(Class, AnnotationFS)
+	 */
+	public static <T extends AnnotationFS> Collection<T> select(final JCas jCas, final Class<T> type)
+	{
+		return new AbstractCollection<T>()
+		{
+			@SuppressWarnings("unchecked")
+			AnnotationIndex<T> index =  (AnnotationIndex<T>) jCas.getAnnotationIndex(getType(jCas, type));
+
+			@Override
+			public Iterator<T> iterator()
+			{
+				return index.iterator();
+			}
+
+			@Override
+			public int size()
+			{
+				return index.size();
+			}
+		};
+	}
+
+	/**
 	 * Get a list of annotations of the given annotation type constrained by a
 	 * 'covering' annotation. Iterates over all annotations of the given type to
 	 * find the covered annotations. Does not use subiterators.
@@ -280,6 +314,40 @@ public class JCasUtil
 	}
 
 	/**
+	 * Returns the n annotations preceding the given annotation
+	 *
+	 * @param <T> the JCas type.
+	 * @param aJCas a JCas.
+	 * @param aType a type.
+	 * @param annotation anchor annotation
+	 * @param count number of annotations to collect
+	 * @return List of aType annotations preceding anchor annotation
+	 */
+	public static <T extends Annotation> List<T> selectPreceding(
+			JCas aJCas, Class<T> aType, Annotation annotation, int count)
+	{
+		Type t = aJCas.getTypeSystem().getType(aType.getName());
+		return CasUtil.selectPreceding(aJCas.getCas(), t, annotation, count);
+	}
+
+	/**
+	 * Returns the n annotations following the given annotation
+	 *
+	 * @param <T> the JCas type.
+	 * @param aJCas a JCas.
+	 * @param aType a type.
+	 * @param annotation anchor annotation
+	 * @param count number of annotations to collect
+	 * @return List of aType annotations following anchor annotation
+	 */
+	public static <T extends Annotation> List<T> selectFollowing(
+			JCas aJCas, Class<T> aType, Annotation annotation, int count)
+	{
+		Type t = aJCas.getTypeSystem().getType(aType.getName());
+		return CasUtil.selectFollowing(aJCas.getCas(), t, annotation, count);
+	}
+
+	/**
 	 * Test if a JCas contains an annotation of the given type.
 	 *
 	 * @param <T> the annotation type.
@@ -363,4 +431,19 @@ public class JCasUtil
 		return view;
 	}
 
+	/**
+	 * Fetch the text covered by the specified annotations and return it as a list of strings.
+	 * 
+	 * @param <T> UIMA JCas type.
+	 * @param iterable annotation container.
+	 * @return list of covered strings.
+	 */
+	public static <T extends AnnotationFS> List<String> toText(Iterable<T> iterable)
+	{
+		List<String> text = new ArrayList<String>();
+		for (AnnotationFS a : iterable) {
+			text.add(a.getCoveredText());
+		}
+		return text;
+	}
 }

@@ -1,17 +1,17 @@
-/* 
- Copyright 2009-2010	Regents of the University of Colorado.  
- All rights reserved. 
+/*
+ Copyright 2009-2010	Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
  */
 package org.uimafit;
@@ -50,10 +50,12 @@ public class LicenseTest {
 		List<String> filesMissingLicense = new ArrayList<String>();
 
 		Iterator<?> files = org.apache.commons.io.FileUtils.iterateFiles(directory, new SuffixFileFilter(".java"), TrueFileFilter.INSTANCE);
-		
+
 		while (files.hasNext()) {
 			File file = (File) files.next();
-			if (file.getParentFile().getName().equals("type") || file.getName().equals("Files.java")) continue;
+			if (file.getParentFile().getName().equals("type") || file.getName().equals("Files.java")) {
+				continue;
+			}
 
 			String fileText = FileUtils.file2String(file);
 
@@ -65,14 +67,14 @@ public class LicenseTest {
 		}
 
 		if (filesMissingLicense.size() > 0) {
-			String message = String.format("%d source file missing license or author attribution: ",
-					filesMissingLicense.size());
-			System.err.println(message);
+			StringBuilder sb = new StringBuilder();
+			sb.append(filesMissingLicense.size());
+			sb.append(" source file missing license or author attribution: ");
 			Collections.sort(filesMissingLicense);
 			for (String path : filesMissingLicense) {
-				System.err.println(path);
+				sb.append(path).append("\n");
 			}
-			Assert.fail(message);
+			Assert.fail(sb.toString());
 		}
 	}
 
