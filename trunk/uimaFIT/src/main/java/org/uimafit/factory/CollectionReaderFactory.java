@@ -17,6 +17,8 @@
 
 package org.uimafit.factory;
 
+import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
@@ -102,6 +104,26 @@ public final class CollectionReaderFactory {
 		return UIMAFramework.produceCollectionReader(specifier);
 	}
 
+	/**
+	 * Get a CollectionReader from a CollectionReader class, a type system, and
+	 * a set of configuration parameters.
+     * The type system is detected automatically using {@link TypeSystemDescriptionFactory#createTypeSystemDescription()}.
+     *
+	 * @param readerClass
+	 *            The class of the CollectionReader to be created.
+	 * @param configurationData
+	 *            Any additional configuration parameters to be set. These
+	 *            should be supplied as (name, value) pairs, so there should
+	 *            always be an even number of parameters.
+	 * @return The CollectionReader created and initialized with the type system
+	 *         and configuration parameters.
+	 * @throws ResourceInitializationException
+	 */
+	public static CollectionReader createCollectionReader(Class<? extends CollectionReader> readerClass,
+			Object... configurationData) throws ResourceInitializationException {
+		TypeSystemDescription tsd = createTypeSystemDescription();
+		return createCollectionReader(readerClass, tsd, (TypePriorities) null, configurationData);
+	}
 
 	/**
 	 * Get a CollectionReader from a CollectionReader class, a type system, and
@@ -193,7 +215,20 @@ public final class CollectionReaderFactory {
 
 	}
 
-
+	/**
+	 * A simple factory method  for creating a CollectionReaderDescription with a given class, type system description, and configuration data
+     * The type system is detected automatically using {@link TypeSystemDescriptionFactory#createTypeSystemDescription()}.
+     *
+	 * @param readerClass
+	 * @param configurationData
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
+	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
+			Object... configurationData) throws ResourceInitializationException {
+		TypeSystemDescription tsd = createTypeSystemDescription();
+		return createDescription(readerClass, tsd, (TypePriorities)null, configurationData);
+	}
 
 	/**
 	 * A simple factory method  for creating a CollectionReaderDescription with a given class, type system description, and configuration data
