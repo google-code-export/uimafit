@@ -90,7 +90,7 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 	public void testExceptions()  {
 		ResourceInitializationException rie = null;
 		try {
-			CollectionReaderFactory.createCollectionReader(TestCR.class, null);
+			CollectionReaderFactory.createCollectionReader(TestCR.class, (Object[]) null);
 		} catch(ResourceInitializationException e) {
 			rie = e;
 		}
