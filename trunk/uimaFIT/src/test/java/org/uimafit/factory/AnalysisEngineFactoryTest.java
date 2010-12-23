@@ -327,17 +327,17 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 	@Test
 	public void testComponentAnnotationOnAncestor() throws Exception {
 		AnalysisEngineDescription desc1 = AnalysisEngineFactory.createPrimitiveDescription(
-				PristineAnnotatorClass.class, null);
+				PristineAnnotatorClass.class, (Object[]) null);
 		assertTrue("Multiple deployment should be allowed on " + desc1.getAnnotatorImplementationName(), desc1
 				.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 		AnalysisEngineDescription desc2 = AnalysisEngineFactory.createPrimitiveDescription(
-				UnannotatedAnnotatorClass.class, null);
+				UnannotatedAnnotatorClass.class, (Object[]) null);
 		assertFalse("Multiple deployment should be prohibited on " + desc2.getAnnotatorImplementationName(), desc2
 				.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 		AnalysisEngineDescription desc3 = AnalysisEngineFactory.createPrimitiveDescription(
-				AnnotatedAnnotatorClass.class, null);
+				AnnotatedAnnotatorClass.class, (Object[]) null);
 		assertTrue("Multiple deployment should be allowed  on " + desc3.getAnnotatorImplementationName(), desc3
 				.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 	}
@@ -351,12 +351,12 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 	public void testAAEMultipleDeploymentPolicyProblem() throws Exception {
 		{
 			AnalysisEngineDescription desc1 = AnalysisEngineFactory.createPrimitiveDescription(
-					PristineAnnotatorClass.class, null);
+					PristineAnnotatorClass.class, (Object[]) null);
 			assertTrue("Multiple deployment should be allowed on " + desc1.getAnnotatorImplementationName(), desc1
 					.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 			AnalysisEngineDescription desc2 = AnalysisEngineFactory.createPrimitiveDescription(
-					UnannotatedAnnotatorClass.class, null);
+					UnannotatedAnnotatorClass.class, (Object[]) null);
 			assertFalse("Multiple deployment should be prohibited on " + desc2.getAnnotatorImplementationName(), desc2
 					.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
@@ -370,12 +370,12 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 	public void testAAEMultipleDeploymentPolicy() throws Exception {
 		{
 			AnalysisEngineDescription desc1 = AnalysisEngineFactory.createPrimitiveDescription(
-					PristineAnnotatorClass.class, null);
+					PristineAnnotatorClass.class, (Object[]) null);
 			assertTrue("Multiple deployment should be allowed on " + desc1.getAnnotatorImplementationName(), desc1
 					.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 			AnalysisEngineDescription desc2 = AnalysisEngineFactory.createPrimitiveDescription(
-					UnannotatedAnnotatorClass.class, null);
+					UnannotatedAnnotatorClass.class, (Object[]) null);
 			assertFalse("Multiple deployment should be prohibited on " + desc2.getAnnotatorImplementationName(), desc2
 					.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
@@ -388,12 +388,12 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 
 		{
 			AnalysisEngineDescription desc1 = AnalysisEngineFactory.createPrimitiveDescription(
-					PristineAnnotatorClass.class, null);
+					PristineAnnotatorClass.class, (Object[]) null);
 			assertTrue("Multiple deployment should be allowed on " + desc1.getAnnotatorImplementationName(), desc1
 					.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
 			AnalysisEngineDescription desc3 = AnalysisEngineFactory.createPrimitiveDescription(
-					AnnotatedAnnotatorClass.class, null);
+					AnnotatedAnnotatorClass.class, (Object[]) null);
 			assertTrue("Multiple deployment should be allowed  on " + desc3.getAnnotatorImplementationName(), desc3
 					.getAnalysisEngineMetaData().getOperationalProperties().isMultipleDeploymentAllowed());
 
