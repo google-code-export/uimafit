@@ -14,7 +14,7 @@
  See the License for the specific language governing permissions and 
  limitations under the License.
  */
-package org.uimafit.util;
+package org.uimafit.component.initialize;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.UIMAFramework;
@@ -50,7 +51,7 @@ import org.xml.sax.SAXException;
  * @author Philip Ogren
  */
 
-public class InitializeUtilTest extends ComponentTestBase{
+public class ConfigurationParameterInitializerTest extends ComponentTestBase{
 
 	@Test
 	public void testInitialize() throws ResourceInitializationException, SecurityException {
@@ -285,7 +286,7 @@ public class InitializeUtilTest extends ComponentTestBase{
 	 */
 	@Test
 	public void testUnsetOptionalParameter() throws Exception {
-		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(DefaultValueAE1.class, null);
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(DefaultValueAE1.class, (Object[])null);
 		// Remove the settings from the descriptor, but leave the declarations.
 		// The settings
 		// are already filled with default values by createPrimitiveDescription,
@@ -340,7 +341,7 @@ public class InitializeUtilTest extends ComponentTestBase{
 	@Test
 	public void testEnumDefaultValue() throws Exception {
 		try {
-		AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultEnumValueAE.class, null);
+		AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultEnumValueAE.class, (Object[])null);
 		DefaultEnumValueAE ae = new DefaultEnumValueAE();
 		ae.initialize(aed.getUimaContext());
 		assertEquals(Color.GREEN, ae.color);
@@ -368,6 +369,47 @@ public class InitializeUtilTest extends ComponentTestBase{
 		}
 	}
 
+	public static class DefaultLocaleValueAE extends JCasAnnotator_ImplBase {
+		@ConfigurationParameter(name="L1", defaultValue = "US")
+		public Locale locale1;
+
+		@ConfigurationParameter(name="L2")
+		public Locale locale2;
+
+		@ConfigurationParameter(name="L3")
+		public Locale locale3;
+
+		@ConfigurationParameter(name="L4")
+		public Locale locale4;
+
+		@Override
+		public void process(JCas aJCas) throws AnalysisEngineProcessException {
+			/*do nothing*/
+		}
+	}
+	
+	@Test
+	public void testLocaleDefaultValue() throws Exception {
+		AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultLocaleValueAE.class, "L2", "en-CA", "L3", "CANADA_FRENCH", "L4", "zh");
+		DefaultLocaleValueAE ae = new DefaultLocaleValueAE();
+		ae.initialize(aed.getUimaContext());
+		assertEquals(Locale.US, ae.locale1);
+		assertEquals(new Locale("en", "CA"), ae.locale2);
+		assertEquals(Locale.CANADA_FRENCH, ae.locale3);
+		assertEquals(new Locale("zh"), ae.locale4);
+
+		aed = AnalysisEngineFactory.createPrimitive(DefaultLocaleValueAE.class, "L1", "es-ES-Traditional_WIN", "L2", "CHINA", "L3", "es", "L4", "en-CA");
+		ae = new DefaultLocaleValueAE();
+		ae.initialize(aed.getUimaContext());
+		assertEquals(new Locale("es", "ES", "Traditional_WIN"), ae.locale1);
+		assertEquals(Locale.CHINA, ae.locale2);
+		assertEquals(new Locale("es"), ae.locale3);
+		assertEquals(new Locale("en", "CA"), ae.locale4);
+
+	}
+
+
+	
 	/**
 	 * This main method creates the descriptor files used in testInitialize3. If
 	 * I weren't lazy I would figure out how to programmatically remove the
@@ -379,9 +421,10 @@ public class InitializeUtilTest extends ComponentTestBase{
 	 */
 	public static void main(String[] args) throws ResourceInitializationException, FileNotFoundException, SAXException,
 			IOException {
-		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(DefaultValueAE1.class, null);
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(DefaultValueAE1.class, (Object[])null);
 		aed.toXML(new FileOutputStream("src/test/resources/data/descriptor/DefaultValueAE1.xml"));
-		aed = AnalysisEngineFactory.createPrimitiveDescription(DefaultValueAE2.class, null);
+		aed = AnalysisEngineFactory.createPrimitiveDescription(DefaultValueAE2.class, (Object[])null);
 		aed.toXML(new FileOutputStream("src/test/resources/data/descriptor/DefaultValueAE2.xml"));
 	}
+	
 }
