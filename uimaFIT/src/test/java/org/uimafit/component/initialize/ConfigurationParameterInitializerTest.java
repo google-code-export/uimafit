@@ -389,7 +389,7 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase{
 	}
 	
 	@Test
-	public void testLocaleDefaultValue() throws Exception {
+	public void testLocaleParams() throws Exception {
 		AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultLocaleValueAE.class, "L2", "en-CA", "L3", "CANADA_FRENCH", "L4", "zh");
 		DefaultLocaleValueAE ae = new DefaultLocaleValueAE();
 		ae.initialize(aed.getUimaContext());
@@ -405,6 +405,14 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase{
 		assertEquals(Locale.CHINA, ae.locale2);
 		assertEquals(new Locale("es"), ae.locale3);
 		assertEquals(new Locale("en", "CA"), ae.locale4);
+
+		aed = AnalysisEngineFactory.createPrimitive(DefaultLocaleValueAE.class, "L1", "", "L2", "", "L3", null);
+		ae = new DefaultLocaleValueAE();
+		ae.initialize(aed.getUimaContext());
+		assertEquals(Locale.getDefault(), ae.locale1);
+		assertEquals(Locale.getDefault(), ae.locale2);
+		assertEquals(null, ae.locale3);
+		assertEquals(null, ae.locale4);
 
 	}
 
