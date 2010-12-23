@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -33,6 +34,7 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
+import org.uimafit.util.LocaleUtil;
 import org.uimafit.util.ReflectionUtil;
 
 /**
@@ -52,6 +54,7 @@ public class ConfigurationParameterInitializer
 		converters.put(float.class, new FloatConverter());
 		converters.put(int.class, new IntegerConverter());
 		converters.put(Pattern.class, new PatternConverter());
+		converters.put(Locale.class, new LocaleConverter());
 	}
 
 	/**
@@ -349,4 +352,20 @@ public class ConfigurationParameterInitializer
 			}
 		}
 	}
+	
+	private static class LocaleConverter implements Converter<Locale> {
+		public Locale convert(Object o) {
+			if (o == null) {
+				return Locale.getDefault();
+			}
+			else if (o.equals("")) {
+				return Locale.getDefault();
+			}
+			if (o instanceof String) {
+				return LocaleUtil.getLocale((String) o);
+			}
+			throw new RuntimeException("the value for a locale should be either null or an empty string to get the default locale.  Otherwise, the locale should be specified by a single string that names a locale constant (e.g. 'US') or that contains hyphen delimited locale information (e.g. 'en-US').");
+		}
+	}
+	
 }
