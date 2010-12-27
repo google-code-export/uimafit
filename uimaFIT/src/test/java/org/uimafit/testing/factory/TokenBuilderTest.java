@@ -20,11 +20,16 @@ package org.uimafit.testing.factory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.apache.uima.UIMAException;
 import org.apache.uima.cas.FSIndex;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
+import org.apache.uima.pear.util.FileUtil;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
 import org.uimafit.type.Sentence;
@@ -39,7 +44,7 @@ public class TokenBuilderTest extends ComponentTestBase{
 	@Test
 	public void test1() throws UIMAException {
 		String text = "What if we built a rocket ship made of cheese?" + "We could fly it to the moon for repairs.";
-		tokenBuilder.buildTokens(jCas, text, "What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
+		tokenBuilder.buildTokens(jCas, text, "What if we built a rocket ship made of cheese ? \r\n We could fly it to the moon for repairs .",
 				"A B C D E F G H I J K L M N O P Q R S T U");
 
 		FSIndex<Annotation> sentenceIndex = jCas.getAnnotationIndex(Sentence.type);
@@ -174,4 +179,34 @@ public class TokenBuilderTest extends ComponentTestBase{
 		assertEquals("motorcycles", token.getCoveredText());
 
 	}
+	
+	@Test
+	public void testNewlinesFromFile() throws Exception {
+		String text = FileUtil.loadTextFile(new File("src/test/resources/data/docs/unix-newlines.txt"), "UTF-8");
+		text = text.substring(1); //remove "\uFEFF" character from begining of text
+		tokenBuilder.buildTokens(jCas, text);
+		
+		Collection<Sentence> sentences = JCasUtil.select(jCas, Sentence.class);
+		assertEquals(4, sentences.size());
+		Iterator<Sentence> iterator = sentences.iterator();
+		assertEquals("sentence 1.", iterator.next().getCoveredText());
+		assertEquals("sentence 2.", iterator.next().getCoveredText());
+		assertEquals("sentence 3.", iterator.next().getCoveredText());
+		assertEquals("sentence 4.", iterator.next().getCoveredText());
+		
+		jCas.reset();
+		text = FileUtil.loadTextFile(new File("src/test/resources/data/docs/windows-newlines.txt"), "UTF-8");
+		text = text.substring(1); //remove "\uFEFF" character from begining of text
+		tokenBuilder.buildTokens(jCas, text);
+		
+		sentences = JCasUtil.select(jCas, Sentence.class);
+		assertEquals(4, sentences.size());
+		iterator = sentences.iterator();
+		assertEquals("sentence 1.", iterator.next().getCoveredText());
+		assertEquals("sentence 2.", iterator.next().getCoveredText());
+		assertEquals("sentence 3.", iterator.next().getCoveredText());
+		assertEquals("sentence 4.", iterator.next().getCoveredText());
+		
+	}
+	
 }
