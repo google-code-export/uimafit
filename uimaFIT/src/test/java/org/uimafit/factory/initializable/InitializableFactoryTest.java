@@ -16,7 +16,7 @@
  */
 
 
-package org.uimafit.util.initialize;
+package org.uimafit.factory.initializable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
