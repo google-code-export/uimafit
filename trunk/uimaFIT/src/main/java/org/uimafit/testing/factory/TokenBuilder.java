@@ -231,7 +231,7 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 					.getFeatureByBaseName(stemFeatureName);
 		}
 
-		tokensString = tokensString.replaceAll("\r\n", "\\n");
+		tokensString = tokensString.replaceAll("\\s*\n\\s*", "\n");
 		String[] sentenceStrings = tokensString.split("\n");
 		String[] posTags = posTagsString != null ? posTagsString.split("\\s+") : null;
 		String[] stems = stemsString != null ? stemsString.split("\\s+") : null;
