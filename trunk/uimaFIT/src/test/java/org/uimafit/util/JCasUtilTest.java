@@ -24,6 +24,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
+import static org.uimafit.util.JCasUtil.exists;
+import static org.uimafit.util.JCasUtil.isCovered;
+import static org.uimafit.util.JCasUtil.select;
+import static org.uimafit.util.JCasUtil.selectCovered;
+import static org.uimafit.util.JCasUtil.selectFollowing;
+import static org.uimafit.util.JCasUtil.selectPreceding;
+import static org.uimafit.util.JCasUtil.selectSingle;
+import static org.uimafit.util.JCasUtil.toText;
+import static java.util.Arrays.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +50,7 @@ import org.apache.uima.cas.impl.Subiterator;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
+import org.apache.uima.util.CasCreationUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
@@ -340,5 +352,92 @@ extends ComponentTestBase
 
 	}
 
+	@Test
+	public void testToText()
+		throws UIMAException
+	{
+		String text = "Rot wood cheeses dew?";
+		tokenBuilder.buildTokens(jCas, text);
+		assertEquals(asList(text.split(" ")), toText(select(jCas, Token.class)));
+	}
 
+	@Test
+	public void testSelectFollowingPreceding()
+		throws UIMAException
+	{
+		String text = "one two three";
+		tokenBuilder.buildTokens(jCas, text);
+		List<Token> token = new ArrayList<Token>(select(jCas, Token.class));
+
+		assertEquals(token.get(0).getCoveredText(),
+				selectPreceding(jCas, Token.class, token.get(1), 1).get(0).getCoveredText());
+		assertEquals(token.get(2).getCoveredText(),
+				selectFollowing(jCas, Token.class, token.get(1), 1).get(0).getCoveredText());
+	}
+
+	@Test
+	public void testExists()
+		throws UIMAException
+	{
+		JCas jcas = CasCreationUtils.createCas(createTypeSystemDescription(), null, null).getJCas();
+
+		assertFalse(exists(jcas, Token.class));
+
+		new Token(jcas, 0, 1).addToIndexes();
+
+		assertTrue(exists(jcas, Token.class));
+	}
+
+	@Test
+	public void testSelectSingle()
+		throws UIMAException
+	{
+		JCas jcas = CasCreationUtils.createCas(createTypeSystemDescription(), null, null).getJCas();
+
+		try {
+			selectSingle(jcas, Token.class);
+			fail("Found annotation that has not yet been created");
+		}
+		catch (IllegalArgumentException e) {
+			// OK
+		}
+
+		new Token(jcas, 0, 1).addToIndexes();
+
+		selectSingle(jcas, Token.class);
+
+		new Token(jcas, 1, 2).addToIndexes();
+
+		try {
+			selectSingle(jcas, Token.class);
+			fail("selectSingle must fail if there is more than one annotation of the type");
+		}
+		catch (IllegalArgumentException e) {
+			// OK
+		}
+	}
+
+	@Test
+	public void testSelectIsCovered()
+		throws UIMAException
+	{
+		String text = "Will you come home today ? \n No , tomorrow !";
+		tokenBuilder.buildTokens(jCas, text);
+
+		List<Sentence> sentences = new ArrayList<Sentence>(select(jCas, Sentence.class));
+		List<Token> tokens = new ArrayList<Token>(select(jCas, Token.class));
+
+		assertEquals(6, selectCovered(Token.class, sentences.get(0)).size());
+		assertEquals(4, selectCovered(Token.class, sentences.get(1)).size());
+
+
+		assertTrue(isCovered(jCas, sentences.get(0), Token.class));
+		tokens.get(0).removeFromIndexes();
+		tokens.get(1).removeFromIndexes();
+		tokens.get(2).removeFromIndexes();
+		tokens.get(3).removeFromIndexes();
+		tokens.get(4).removeFromIndexes();
+		tokens.get(5).removeFromIndexes();
+		assertFalse(isCovered(jCas, sentences.get(0),  Token.class));
+	}
 }

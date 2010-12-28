@@ -1,27 +1,25 @@
-/* 
-  Copyright 2010 Regents of the University of Colorado.  
- All rights reserved. 
+/*
+  Copyright 2010 Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
  */
 package org.uimafit.component;
 
-import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.CASRuntimeException;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
@@ -35,9 +33,9 @@ import org.uimafit.factory.ConfigurationParameterFactory;
  * automatically - but if you have mapped the default view to some other view,
  * then the view provided to your annotator (when it asks for the default view)
  * will not be created unless you have explicitly created it.
- * 
+ *
  * @author Philip Ogren
- * 
+ *
  */
 public class ViewCreatorAnnotator extends JCasAnnotator_ImplBase {
 
@@ -51,18 +49,13 @@ public class ViewCreatorAnnotator extends JCasAnnotator_ImplBase {
 	private String viewName;
 
 	@Override
-	public void initialize(UimaContext context) throws ResourceInitializationException {
-		super.initialize(context);
-	}
-
-	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		createViewSafely(jCas, viewName);
 	}
 
 	/**
 	 * Provides a simple call that allows you to safely create a view if it has not been created yet.  If the view already
-	 * exists, it is ok to call this method anyways without worrying about checking for this yet.  
+	 * exists, it is ok to call this method anyways without worrying about checking for this yet.
 	 * @param jCas
 	 * @param viewName
 	 * @return true if the view was created as a result of calling this method.  false if the view already existed.
@@ -80,7 +73,7 @@ public class ViewCreatorAnnotator extends JCasAnnotator_ImplBase {
 		catch (CASException ce) {
 			throw new AnalysisEngineProcessException(ce);
 		}
-		
+
 	}
-	
+
 }

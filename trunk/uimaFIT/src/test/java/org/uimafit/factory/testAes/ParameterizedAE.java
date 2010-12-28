@@ -1,17 +1,17 @@
-/* 
- Copyright 2009-2010	Regents of the University of Colorado.  
- All rights reserved. 
+/*
+ Copyright 2009-2010	Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
 */
 package org.uimafit.factory.testAes;
@@ -22,11 +22,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.descriptor.SofaCapability;
@@ -57,7 +55,7 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	public static final String PARAM_STRING_5 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_STRING_5";
 	@ConfigurationParameter(name = PARAM_STRING_5, mandatory = false, defaultValue="")
 	private String[] string5;
-	
+
 	@ConfigurationParameter(name="strings6", defaultValue = {"kiwi fruit", "grape", "pear"})
 	private Set<String> strings6;
 
@@ -78,8 +76,8 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 
 	@ConfigurationParameter(name="strings8", defaultValue="cherry")
 	private Set<String> strings8;
-	
-	
+
+
 	public static final String PARAM_BOOLEAN_1 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_1";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_1, mandatory = true, defaultValue = "false")
 	private boolean boolean1;
@@ -105,7 +103,7 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	public static final String PARAM_BOOLEAN_5 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_5";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_5, mandatory = true, defaultValue="false")
 	private boolean[] boolean5;
-	
+
 	@ConfigurationParameter(name = "booleans6", defaultValue = {"true", "true", "true", "false"})
 	private LinkedList<Boolean> booleans6;
 
@@ -116,11 +114,11 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	public static final String PARAM_INT_1= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_1";
 	@ConfigurationParameter(name = PARAM_INT_1, mandatory = true, defaultValue="0")
 	private int int1;
-	
+
 	public static final String PARAM_INT_2= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_2";
 	@ConfigurationParameter(name = PARAM_INT_2, defaultValue="42")
 	private int int2;
-	
+
 	public static final String PARAM_INT_3= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_3";
 	@ConfigurationParameter(name = PARAM_INT_3, defaultValue= {"42","111"})
 	private int[] int3;
@@ -186,13 +184,13 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	private File[] files5;
 
 	@ConfigurationParameter(name = "files6")
-	private List <File> files6; 
+	private List <File> files6;
 	@ConfigurationParameter(name = "files7", defaultValue = "test/data/file")
 	private List<File> files7;
 	@ConfigurationParameter(name = "files8", defaultValue = {"test/data/file", "test/data/file2"})
 	private List<File> files8;
-	
-	
+
+
 	public File getFile1() {
 		return file1;
 	}
@@ -290,11 +288,6 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	}
 
 	@Override
-	public void initialize(UimaContext context) throws ResourceInitializationException {
-		super.initialize(context);
-	}
-
-	@Override
 	public void process(JCas cas) throws AnalysisEngineProcessException {
 		//do nothing
 	}
@@ -319,13 +312,13 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 		return string5;
 	}
 
-	
+
 	@SuppressWarnings("unused")
 	@ConfigurationParameter(name = "regex1")
 	private Pattern regex1;
-	
+
 	@SuppressWarnings("unused")
 	@ConfigurationParameter(name = "regex2")
 	private Pattern regex2;
-	
+
 }

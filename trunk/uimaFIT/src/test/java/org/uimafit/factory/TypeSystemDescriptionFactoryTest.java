@@ -17,7 +17,6 @@
 package org.uimafit.factory;
 
 import org.junit.Test;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
 
 /**
  * @author Steven Bethard, Philip Ogren

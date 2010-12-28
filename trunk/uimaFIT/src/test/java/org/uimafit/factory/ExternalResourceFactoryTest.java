@@ -29,7 +29,6 @@ import java.io.File;
 import java.net.URI;
 
 import org.apache.uima.UIMAFramework;
-import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -93,13 +92,6 @@ public class ExternalResourceFactoryTest extends ComponentTestBase
 		static final String RES_SOME_FILE = "SomeFile";
 		@ExternalResource(key=RES_SOME_FILE)
 		DataResource someFile;
-
-		@Override
-		public void initialize(UimaContext aContext)
-			throws ResourceInitializationException
-		{
-			super.initialize(aContext);
-		}
 
 		@Override
 		public void process(JCas aJCas)
