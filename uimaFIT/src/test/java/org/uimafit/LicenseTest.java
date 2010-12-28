@@ -72,7 +72,7 @@ public class LicenseTest {
 			sb.append(" source file missing license or author attribution: ");
 			Collections.sort(filesMissingLicense);
 			for (String path : filesMissingLicense) {
-				sb.append(path).append("\n");
+				sb.append(path).append('\n');
 			}
 			Assert.fail(sb.toString());
 		}

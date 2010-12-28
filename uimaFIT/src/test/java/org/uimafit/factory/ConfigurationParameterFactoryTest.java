@@ -1,17 +1,17 @@
-/* 
- Copyright 2009-2010	Regents of the University of Colorado.  
- All rights reserved. 
+/*
+ Copyright 2009-2010	Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
 */
 package org.uimafit.factory;
@@ -32,7 +32,6 @@ import java.util.Set;
 import org.apache.uima.UIMA_IllegalArgumentException;
 import org.junit.Test;
 import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.ConfigurationParameterFactory;
 
 /**
  * @author Philip Ogren
@@ -48,9 +47,9 @@ public class ConfigurationParameterFactoryTest {
 	@ConfigurationParameter(name = PARAM_DOUBLE_2, mandatory = true, defaultValue="3.3333")
 	private Double[] double2;
 	private Double[] double3;
-	
-	
-	
+
+
+
 	public Double[] getDouble2() {
 		return double2;
 	}
@@ -105,7 +104,7 @@ public class ConfigurationParameterFactoryTest {
 		assertNotNull(iae);
 
 	}
-	
+
 	@Test
 	public void test2() throws SecurityException, NoSuchFieldException {
 		IllegalArgumentException iae = null;
@@ -115,7 +114,7 @@ public class ConfigurationParameterFactoryTest {
 			iae = e;
 		}
 		assertNotNull(iae);
-		
+
 		UIMA_IllegalArgumentException uiae = null;
 		try {
 		ConfigurationParameterFactory.createPrimitiveParameter("point", Point.class, "", true);
@@ -123,15 +122,15 @@ public class ConfigurationParameterFactoryTest {
 			uiae = e;
 		}
 		assertNotNull(uiae);
-		
+
 	}
-	
+
 	@ConfigurationParameter
 	public String param1;
 
 	@Test
 	public void testParam1() throws Exception, NoSuchFieldException {
-		Field field1 =ConfigurationParameterFactoryTest.class.getDeclaredField("param1"); 
+		Field field1 =ConfigurationParameterFactoryTest.class.getDeclaredField("param1");
 		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field1);
 		assertEquals("org.uimafit.factory.ConfigurationParameterFactoryTest.param1", cp.getName());
 		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING, cp.getType());
@@ -140,7 +139,7 @@ public class ConfigurationParameterFactoryTest {
 		assertFalse(cp.isMultiValued());
 		assertNull(ConfigurationParameterFactory.getDefaultValue(field1));
 	}
-	
+
 	@SuppressWarnings("unused")
 	@ConfigurationParameter(
 			name = "my-boolean-param",
@@ -151,7 +150,7 @@ public class ConfigurationParameterFactoryTest {
 
 	@Test
 	public void testParam2() throws Exception, NoSuchFieldException {
-		Field field2 =ConfigurationParameterFactoryTest.class.getDeclaredField("param2"); 
+		Field field2 =ConfigurationParameterFactoryTest.class.getDeclaredField("param2");
 		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field2);
 		assertEquals("my-boolean-param", cp.getName());
 		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_BOOLEAN, cp.getType());
@@ -171,7 +170,7 @@ public class ConfigurationParameterFactoryTest {
 
 	@Test
 	public void testParam3() throws Exception, NoSuchFieldException {
-		Field field3 =ConfigurationParameterFactoryTest.class.getDeclaredField("param3"); 
+		Field field3 =ConfigurationParameterFactoryTest.class.getDeclaredField("param3");
 		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field3);
 		assertEquals("org.uimafit.factory.ConfigurationParameterFactoryTest.param3", cp.getName());
 		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_INTEGER, cp.getType());
@@ -187,10 +186,10 @@ public class ConfigurationParameterFactoryTest {
 				defaultValue= {"a","b","c"})
 		private String[] param4;
 	}
-	
+
 	@Test
 	public void testParam4() throws Exception, NoSuchFieldException {
-		Field field4 =CPFT.class.getDeclaredField("param4"); 
+		Field field4 =CPFT.class.getDeclaredField("param4");
 		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field4);
 		assertEquals("org.uimafit.factory.ConfigurationParameterFactoryTest$CPFT.param4", cp.getName());
 		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING, cp.getType());
@@ -199,7 +198,7 @@ public class ConfigurationParameterFactoryTest {
 		assertTrue(cp.isMultiValued());
 		assertArrayEquals(new String[] {"a","b","c"}, (String[])ConfigurationParameterFactory.getDefaultValue(field4) );
 	}
-	
+
 	@SuppressWarnings("unused")
 	@ConfigurationParameter(defaultValue={"data/foo", "bar"})
 	private List<File> fileList;
@@ -217,7 +216,7 @@ public class ConfigurationParameterFactoryTest {
 		String[] actual = (String[]) ConfigurationParameterFactory.getDefaultValue(field);
 		assertArrayEquals(expected, actual);
 	}
-	
+
 	@SuppressWarnings("unused")
 	@ConfigurationParameter(defaultValue={"5", "5", "4", "3"})
 	private Set<String> stringSet;
