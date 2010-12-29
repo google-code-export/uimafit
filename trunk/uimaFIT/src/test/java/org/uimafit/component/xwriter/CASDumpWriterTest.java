@@ -1,5 +1,7 @@
 /*
-   Copyright 2010 Regents of the University of Colorado.
+ Copyright 2010
+ Ubiquitous Knowledge Processing (UKP) Lab
+ Technische Universitaet Darmstadt
  All rights reserved.
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
- */
+*/
 package org.uimafit.component.xwriter;
 
 import static org.apache.commons.io.FileUtils.readFileToString;
@@ -31,7 +33,7 @@ import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.JCasFactory;
 
 /**
- * @author Philip Ogren
+ * @author Richard Eckart de Castilho
  */
 public class CASDumpWriterTest {
 
