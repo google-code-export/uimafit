@@ -63,26 +63,39 @@ public class LocaleUtil
 	 */
 	public static Locale createLocale(String localeString)
 	{
-		if (localeString.indexOf('-') != -1) {
-			String[] localeData = localeString.split("-");
-			int length = localeData.length;
-			if (length == 2) {
-				return new Locale(localeData[0], localeData[1]);
-			}
-			else if (length == 3) {
-				return new Locale(localeData[0], localeData[1], localeData[2]);
-			}
-			else {
-				throw new RuntimeException(
-						"locale string must consist of 2 or 3 hyphen separated values or must not contain a hyphen.");
-			}
-
-		}
-		else {
-			return new Locale(localeString);
-		}
+	  String language = localeString;
+	  String country = "";
+	  String variant = "";
+	  
+	  int countrySeparator = getSeparatorLocation(localeString, 0);
+	  if(countrySeparator != -1) {
+	    language = localeString.substring(0, countrySeparator);
+	    int variantSeparator = getSeparatorLocation(localeString, countrySeparator+1);
+	    if(variantSeparator != -1) {
+	      country = localeString.substring(countrySeparator+1, variantSeparator);
+	      variant = localeString.substring(variantSeparator+1);
+	    } else {
+        country = localeString.substring(countrySeparator+1);
+	    }
+	  }
+	  return new Locale(language, country, variant);
 	}
 
+	private static int getSeparatorLocation(String localeString, int fromIndex) {
+    boolean containsHyphen = localeString.indexOf('-', fromIndex) != -1;
+    boolean containsUnderscore = localeString.indexOf('_', fromIndex) != -1;
+    
+	  int returnValue = -1;
+	  if(containsHyphen && !containsUnderscore) {
+      returnValue = localeString.indexOf('-', fromIndex);
+    } 
+	  else if(!containsHyphen && containsUnderscore) {
+      returnValue = localeString.indexOf('_', fromIndex);
+    } else if(containsHyphen && containsUnderscore) {
+      returnValue = Math.min(localeString.indexOf('-', fromIndex), localeString.indexOf('_', fromIndex));
+    }
+	  return returnValue;
+	}
 	/**
 	 * passes through to getLocaleConstant. If this returns null, then this method passes through to
 	 * createLocale.
@@ -98,4 +111,6 @@ public class LocaleUtil
 		}
 		return createLocale(localeString);
 	}
+	
+	
 }

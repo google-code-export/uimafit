@@ -45,20 +45,22 @@ public class LocaleUtilTest
 	}
 	
 	@Test
-	public void testCreateLocaleConstant() throws Exception
+	public void testCreateLocale() throws Exception
 	{
 		assertEquals(new Locale("en", "US"), createLocale("en-US"));
 		assertEquals(new Locale("es"), createLocale("es"));
 		assertEquals(new Locale("ko", "KR"), createLocale("ko-KR"));
 		assertEquals(new Locale("es", "ES", "Traditional_WIN"), createLocale("es-ES-Traditional_WIN"));
 		assertEquals(new Locale("en", "US", "Colorado"), createLocale("en-US-Colorado"));
-		assertEquals(new Locale("en", "US", "Colorado"), createLocale("en-US-Colorado"));
-	}
-
-	@Test(expected=RuntimeException.class)
-	public void testBad() throws Exception
-	{
-		createLocale("en-US-Colorado-Boulder");
+		assertEquals(new Locale("en", "US", "Colorado-Boulder"), createLocale("en-US-Colorado-Boulder"));
+		assertEquals(new Locale("de", "", "POSIX"), createLocale("de--POSIX"));
+    //The following examples were taken from the javadoc for java.util.Locale.toString()
+		assertEquals(new Locale("en"), createLocale("en"));
+		assertEquals(new Locale("de","DE"), createLocale("de_DE"));
+    assertEquals(new Locale("", "GB"), createLocale("_GB"));
+    assertEquals(new Locale("en", "US", "WIN"), createLocale("en_US_WIN"));
+    assertEquals(new Locale("de","", "POSIX"), createLocale("de__POSIX"));
+    assertEquals(new Locale("fr","", "MAC"), createLocale("fr__MAC"));
 	}
 
 }
