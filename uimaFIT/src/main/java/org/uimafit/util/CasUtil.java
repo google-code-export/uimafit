@@ -170,6 +170,14 @@ public class CasUtil
 				continue;
 			}
 
+			assert a.getBegin() < coveringAnnotation.getBegin() : "Illegal begin " + a.getBegin()
+					+ " in [" + coveringAnnotation.getBegin() + ".." + coveringAnnotation.getEnd()
+					+ "]";
+
+			assert a.getEnd() < coveringAnnotation.getBegin() : "Illegal end " + a.getEnd()
+					+ " in [" + coveringAnnotation.getBegin() + ".." + coveringAnnotation.getEnd()
+					+ "]";
+
 			if (!a.equals(coveringAnnotation)) {
 				list.add(a);
 			}

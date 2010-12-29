@@ -20,13 +20,10 @@
 */
 package org.uimafit.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
 import static org.uimafit.util.JCasUtil.exists;
+import static org.uimafit.util.JCasUtil.getType;
 import static org.uimafit.util.JCasUtil.isCovered;
 import static org.uimafit.util.JCasUtil.select;
 import static org.uimafit.util.JCasUtil.selectCovered;
@@ -46,12 +43,9 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.cas.Type;
-import org.apache.uima.cas.impl.Subiterator;
-import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.util.CasCreationUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
 import org.uimafit.type.Sentence;
@@ -64,14 +58,13 @@ import org.uimafit.type.Token;
  * @author Torsten Zesch
  */
 public class JCasUtilTest
-extends ComponentTestBase
+	extends ComponentTestBase
 {
 	/**
 	 * Test Tokens (Stems + Lemmas) overlapping with each other.
 	 */
 	@Test
-	public void test1() throws Exception
-	{
+	public void test1() throws Exception {
 		add(jCas, 3, 16);
 		add(jCas, 37, 61);
 		add(jCas, 49, 75);
@@ -83,15 +76,13 @@ extends ComponentTestBase
 			List<Sentence> stem2 = JCasUtil.selectCovered(jCas, Sentence.class, t);
 			check(jCas, t, stem1, stem2);
 		}
-
 	}
 
 	/**
 	 * Test what happens if there is actually nothing overlapping with the Token.
 	 */
 	@Test
-	public void test2() throws Exception
-	{
+	public void test2() throws Exception {
 		new Sentence(jCas, 3, 31).addToIndexes();
 		new Sentence(jCas, 21, 21).addToIndexes();
 		new Sentence(jCas, 24, 44).addToIndexes();
@@ -110,18 +101,15 @@ extends ComponentTestBase
 			List<Sentence> stem2 = JCasUtil.selectCovered(jCas, Sentence.class, t);
 			check(jCas, t, stem1, stem2);
 		}
-
 	}
 
 	@Test
-	@Ignore("This test takes quite a while. Use it only to verify the equivalence of the two " +
-			"approaches when you try to track down a bug.")
-	public void testIteration()
-		throws Exception
-	{
+	public void testIteration() throws Exception {
 		Random rnd = new Random();
 
-		for (int i = 0; i < 500; i++) {
+		final int ITERATIONS = 10;
+
+		for (int i = 0; i < ITERATIONS; i++) {
 			CAS cas = jCas.getCas();
 			List<Type> types = new ArrayList<Type>();
 			types.add(cas.getTypeSystem().getType(Token.class.getName()));
@@ -151,7 +139,7 @@ extends ComponentTestBase
 				t1 += System.currentTimeMillis() - ti;
 
 				ti = System.currentTimeMillis();
-				List<Sentence> stem2 = getCoveredAnnotationsOptimized(jcas, Sentence.class, t);
+				List<Sentence> stem2 = selectCovered(jcas, Sentence.class, t);
 				t2 += System.currentTimeMillis() - ti;
 
 				check(jcas, t, stem1, stem2);
@@ -161,15 +149,13 @@ extends ComponentTestBase
 	}
 
 	@SuppressWarnings("unused")
-	private void print(Collection<? extends Annotation> annos)
-	{
+	private void print(Collection<? extends Annotation> annos) {
 		for (Annotation a : annos) {
 			System.out.println(a.getClass().getSimpleName()+" "+a.getBegin()+" "+a.getEnd());
 		}
 	}
 
-	private Token add(JCas jcas, int begin, int end)
-	{
+	private Token add(JCas jcas, int begin, int end) {
 		Token t = new Token(jcas, begin, end);
 		t.addToIndexes();
 		new Sentence(jcas, begin, end).addToIndexes();
@@ -177,8 +163,7 @@ extends ComponentTestBase
 	}
 
 	private void check(JCas jcas, Token t, Collection<? extends Annotation> a1,
-			Collection<? extends Annotation> a2)
-	{
+			Collection<? extends Annotation> a2) {
 //		List<Annotation> annos = new ArrayList<Annotation>();
 //		FSIterator fs = jcas.getAnnotationIndex().iterator();
 //		while (fs.hasNext()) {
@@ -194,92 +179,6 @@ extends ComponentTestBase
 //		System.out.println("--- Optimized");
 //		print(a2);
 		assertEquals("Container: ["+t.getBegin()+".."+t.getEnd()+"]", a1, a2);
-	}
-
-	/**
-	 * The optimized version by Richard using the {@link Subiterator} code but ignoring types. This
-	 * is basically the same version as
-	 * {@link CasUtil#selectCovered(CAS, Type, AnnotationFS)} but here it contains
-	 * additional checks. Possibly these additional checks should be asserts and be put into CasUtil
-	 * - then this method here could be removed.
-	 *
-	 * @see Subiterator
-	 */
-	@SuppressWarnings("unchecked")
-	private static <T extends Annotation> List<T> getCoveredAnnotationsOptimized(
-			JCas aJCas, Class<? extends Annotation> aTypeClass, Annotation aContainer)
-	{
-		Type aType = aJCas.getTypeSystem().getType(aTypeClass.getName());
-
-		int begin = aContainer.getBegin();
-		int end = aContainer.getEnd();
-
-		List<T> list = new ArrayList<T>();
-		FSIterator<Annotation> it = aJCas.getAnnotationIndex(aType).iterator();
-
-		// Try to seek the insertion point.
-	    it.moveTo(aContainer);
-
-	    // If the insertion point is beyond the index, move back to the last.
-	    if (!it.isValid()) {
-	    	it.moveToLast();
-	    	if (!it.isValid()) {
-	    		return list;
-	    	}
-	    }
-
-	    // Ignore type priorities by seeking to the first that has the same begin
-	    boolean moved = false;
-	    while (it.isValid() && ((AnnotationFS) it.get()).getBegin() >= begin) {
-	    	it.moveToPrevious();
-	    	moved = true;
-	    }
-
-	    // If we moved, then we are now on one starting before the requested
-	    // begin, so we have to move one ahead.
-	    if (moved) {
-	    	it.moveToNext();
-	    }
-
-	    // If we managed to move outside the index, start at first.
-	    if (!it.isValid()) {
-	    	it.moveToFirst();
-	    }
-
-	    // Skip annotations whose start is before the start parameter.
-	    while (it.isValid() && ((AnnotationFS) it.get()).getBegin() < begin) {
-	      it.moveToNext();
-	    }
-
-	    boolean strict = true;
-	    while (it.isValid()) {
-	    	T a = (T) it.get();
-	        // If the start of the current annotation is past the end parameter,
-	        // we're done.
-	        if (a.getBegin() > end) {
-	          break;
-	        }
-	        it.moveToNext();
-	        if (strict && a.getEnd() > end) {
-	          continue;
-	        }
-
-	        if (a.getBegin() < aContainer.getBegin()) {
-				throw new RuntimeException("Illegal begin " + a.getBegin() + " in ["
-						+ aContainer.getBegin() + ".." + aContainer.getEnd() + "]");
-	        }
-
-	        if (a.getEnd() < aContainer.getBegin()) {
-				throw new RuntimeException("Illegal end " + a.getEnd() + " in ["
-						+ aContainer.getBegin() + ".." + aContainer.getEnd() + "]");
-	        }
-
-	        if (!a.equals(aContainer)) {
-	        	list.add(a);
-	        }
-	      }
-
-		return list;
 	}
 
 	/**
@@ -353,18 +252,14 @@ extends ComponentTestBase
 	}
 
 	@Test
-	public void testToText()
-		throws UIMAException
-	{
+	public void testToText() throws UIMAException {
 		String text = "Rot wood cheeses dew?";
 		tokenBuilder.buildTokens(jCas, text);
 		assertEquals(asList(text.split(" ")), toText(select(jCas, Token.class)));
 	}
 
 	@Test
-	public void testSelectFollowingPreceding()
-		throws UIMAException
-	{
+	public void testSelectFollowingPreceding() throws UIMAException {
 		String text = "one two three";
 		tokenBuilder.buildTokens(jCas, text);
 		List<Token> token = new ArrayList<Token>(select(jCas, Token.class));
@@ -376,9 +271,7 @@ extends ComponentTestBase
 	}
 
 	@Test
-	public void testExists()
-		throws UIMAException
-	{
+	public void testExists() throws UIMAException {
 		JCas jcas = CasCreationUtils.createCas(createTypeSystemDescription(), null, null).getJCas();
 
 		assertFalse(exists(jcas, Token.class));
@@ -389,9 +282,7 @@ extends ComponentTestBase
 	}
 
 	@Test
-	public void testSelectSingle()
-		throws UIMAException
-	{
+	public void testSelectSingle() throws UIMAException {
 		JCas jcas = CasCreationUtils.createCas(createTypeSystemDescription(), null, null).getJCas();
 
 		try {
@@ -418,9 +309,7 @@ extends ComponentTestBase
 	}
 
 	@Test
-	public void testSelectIsCovered()
-		throws UIMAException
-	{
+	public void testSelectIsCovered() throws UIMAException {
 		String text = "Will you come home today ? \n No , tomorrow !";
 		tokenBuilder.buildTokens(jCas, text);
 
@@ -430,7 +319,6 @@ extends ComponentTestBase
 		assertEquals(6, selectCovered(Token.class, sentences.get(0)).size());
 		assertEquals(4, selectCovered(Token.class, sentences.get(1)).size());
 
-
 		assertTrue(isCovered(jCas, sentences.get(0), Token.class));
 		tokens.get(0).removeFromIndexes();
 		tokens.get(1).removeFromIndexes();
@@ -438,6 +326,12 @@ extends ComponentTestBase
 		tokens.get(3).removeFromIndexes();
 		tokens.get(4).removeFromIndexes();
 		tokens.get(5).removeFromIndexes();
-		assertFalse(isCovered(jCas, sentences.get(0),  Token.class));
+		assertFalse(isCovered(jCas, sentences.get(0), Token.class));
+	}
+
+	@Test
+	public void testGetInternalUimaType() {
+		Type t = getType(jCas, Annotation.class);
+		assertNotNull(t);
 	}
 }
