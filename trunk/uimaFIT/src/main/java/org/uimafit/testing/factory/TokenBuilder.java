@@ -42,7 +42,6 @@ import org.uimafit.factory.AnnotationFactory;
 
 public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends Annotation>
 {
-
 	private Class<TOKEN_TYPE> tokenClass;
 	private Class<SENTENCE_TYPE> sentenceClass;
 	private String posFeatureName;
@@ -83,8 +82,8 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 	{
 		this.tokenClass = tokenClass;
 		this.sentenceClass = sentenceClass;
-		this.posFeatureName = posFeatureName;
-		this.stemFeatureName = stemFeatureName;
+		setPosFeatureName(posFeatureName);
+		setStemFeatureName(stemFeatureName);
 	}
 
 	/**
@@ -209,13 +208,15 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 		jCas.setDocumentText(text);
 
 		if (posTagsString != null && posFeatureName == null) {
-			throw new IllegalArgumentException(
-					"posTagsString must be null if TokenBuilder is not initialized with a feature name corresponding to the part-of-speech feature of the token type (assuming your token type has such a feature).");
+			throw new IllegalArgumentException("posTagsString must be null if TokenBuilder is " +
+					"not initialized with a feature name corresponding to the part-of-speech " +
+					"feature of the token type (assuming your token type has such a feature).");
 		}
 
 		if (stemsString != null && stemFeatureName == null) {
-			throw new IllegalArgumentException(
-					"stemsString must be null if TokenBuilder is not initialized with a feature name corresponding to the part-of-speech feature of the token type (assuming your token type has such a feature).");
+			throw new IllegalArgumentException("stemsString must be null if TokenBuilder is not " +
+					"initialized with a feature name corresponding to the part-of-speech feature " +
+					"of the token type (assuming your token type has such a feature).");
 		}
 
 		Feature posFeature = null;
