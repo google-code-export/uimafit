@@ -1,3 +1,18 @@
+changes in 1.1.0
+	- resolved issue #44 "bug in TokenBuilder related to windows newlines"
+	- resolved issue #43 "support for Locale configuration parameters"
+	- introduced CASDumpWriter component
+	- introduced JCasBuilder for cases in which TokenBuilder does not provide enough flexibility
+	- introduced ContainmentIndex useful when repeated containment checks need to be made
+	- CollectionReaderFactory/AnalysisEngineDescription: added create* methods which employ type system auto detection
+	- TokenBuilder: added factory methods which allow using Java's type inference and result in less verbose code
+	- CasUtil: added iterator() methods
+	- JCasUtil: added getView(), exists() and selectSingle() methods
+	- JCasUtil: added select() method which works like iterate() but returns a collection which allows it to be used in extended for loops as well as to initialize collections (e.g. new ArrayList(select(...)))
+	- JCasUtil/CasUtil: added selectPreceding/selectFollowing methods (thanks Niklas Jakob).
+	- introduced Apache Maven RAT plugin which can be used to check presence of license headers during build
+	- fixed enless loop in SingleFileXReader
+
 changes in 1.0.0
  	- resolved issue #36 "remove compiler warnings"
  	- resolved issue #2 "tutorial"
