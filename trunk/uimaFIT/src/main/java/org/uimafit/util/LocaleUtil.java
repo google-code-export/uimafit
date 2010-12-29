@@ -61,41 +61,20 @@ public class LocaleUtil
 	 * @param localeString
 	 * @return
 	 */
-	public static Locale createLocale(String localeString)
-	{
-	  String language = localeString;
-	  String country = "";
-	  String variant = "";
-	  
-	  int countrySeparator = getSeparatorLocation(localeString, 0);
-	  if(countrySeparator != -1) {
-	    language = localeString.substring(0, countrySeparator);
-	    int variantSeparator = getSeparatorLocation(localeString, countrySeparator+1);
-	    if(variantSeparator != -1) {
-	      country = localeString.substring(countrySeparator+1, variantSeparator);
-	      variant = localeString.substring(variantSeparator+1);
-	    } else {
-        country = localeString.substring(countrySeparator+1);
-	    }
-	  }
-	  return new Locale(language, country, variant);
-	}
-
-	private static int getSeparatorLocation(String localeString, int fromIndex) {
-    boolean containsHyphen = localeString.indexOf('-', fromIndex) != -1;
-    boolean containsUnderscore = localeString.indexOf('_', fromIndex) != -1;
-    
-	  int returnValue = -1;
-	  if(containsHyphen && !containsUnderscore) {
-      returnValue = localeString.indexOf('-', fromIndex);
-    } 
-	  else if(!containsHyphen && containsUnderscore) {
-      returnValue = localeString.indexOf('_', fromIndex);
-    } else if(containsHyphen && containsUnderscore) {
-      returnValue = Math.min(localeString.indexOf('-', fromIndex), localeString.indexOf('_', fromIndex));
+  public static Locale createLocale(String localeString) {
+    String[] parts = localeString.split("[_-]", 3);
+    switch (parts.length) {
+      case 3:
+        return new Locale(parts[0], parts[1], parts[2]);
+      case 2:
+        return new Locale(parts[0], parts[1]);
+      case 1:
+        return new Locale(parts[0]);
+      default:
+        throw new IllegalArgumentException("Invalid locale: " + localeString);
     }
-	  return returnValue;
-	}
+  }
+	  
 	/**
 	 * passes through to getLocaleConstant. If this returns null, then this method passes through to
 	 * createLocale.
