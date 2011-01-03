@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.factory;
 
 import static org.uimafit.util.JCasUtil.getType;
@@ -29,49 +29,50 @@ import org.apache.uima.jcas.JCas;
  *
  * @author Richard Eckart de Castilho
  */
-public class JCasBuilder
-{
+public class JCasBuilder {
 	private StringBuilder sb = new StringBuilder();
 	private final JCas jcas;
 
 	/**
 	 * Create a new JCas builder working on the specified JCas. The JCas must not have any content
 	 * yet.
-	 * 
-	 * @param aJCas the working JCas.
+	 *
+	 * @param aJCas
+	 *            the working JCas.
 	 */
-	public JCasBuilder(JCas aJCas)
-	{
+	public JCasBuilder(JCas aJCas) {
 		jcas = aJCas;
 	}
 
 	/**
 	 * Append a text.
-	 * 
-	 * @param aText the text to append.
+	 *
+	 * @param aText
+	 *            the text to append.
 	 */
-	public void add(String aText)
-	{
+	public void add(String aText) {
 		sb.append(aText);
 	}
 
 	/**
-	 * Append a text annotated with the specified annotation. The created annotation is returned
-	 * and further properties can be set on it. The annotation is already added to the indexes.
+	 * Append a text annotated with the specified annotation. The created annotation is returned and
+	 * further properties can be set on it. The annotation is already added to the indexes.
 	 *
-	 * @param aText covered text
-	 * @param aClass annotation type
-	 * @param <T> annotation type
+	 * @param aText
+	 *            covered text
+	 * @param aClass
+	 *            annotation type
+	 * @param <T>
+	 *            annotation type
 	 * @return annotation instance - can be used to set features or determine offsets
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T add(String aText, Class<T> aClass)
-	{
+	public <T> T add(String aText, Class<T> aClass) {
 		Type type = getType(jcas, aClass);
 		int begin = sb.length();
 		add(aText);
 		int end = sb.length();
-		AnnotationFS fs =jcas.getCas().createAnnotation(type, begin, end);
+		AnnotationFS fs = jcas.getCas().createAnnotation(type, begin, end);
 		jcas.addFsToIndexes(fs);
 		return (T) fs;
 	}
@@ -81,23 +82,29 @@ public class JCasBuilder
 	 * text. The created annotation is returned and further properties can be set on it. The
 	 * annotation is already added to the indexes.
 	 *
-	 * @param <T> annotation type
-	 * @param aBegin begin offset.
-	 * @param aClass annotation type
+	 * @param <T>
+	 *            annotation type
+	 * @param aBegin
+	 *            begin offset.
+	 * @param aClass
+	 *            annotation type
 	 * @return annotation instance - can be used to set features or determine offsets
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T add(int aBegin, Class<T> aClass)
-	{
+	public <T> T add(int aBegin, Class<T> aClass) {
 		Type type = getType(jcas, aClass);
 		int end = sb.length();
-		AnnotationFS fs =jcas.getCas().createAnnotation(type, aBegin, end);
+		AnnotationFS fs = jcas.getCas().createAnnotation(type, aBegin, end);
 		jcas.addFsToIndexes(fs);
 		return (T) fs;
 	}
 
-	public int getPosition()
-	{
+	/**
+	 * Get the current "cursor" position (current text length).
+	 *
+	 * @return current text length.
+	 */
+	public int getPosition() {
 		return sb.length();
 	}
 
@@ -106,16 +113,14 @@ public class JCasBuilder
 	 *
 	 * @return the JCas.
 	 */
-	public JCas getJCas()
-	{
+	public JCas getJCas() {
 		return jcas;
 	}
 
 	/**
 	 * Complete the building process by writing the text into the CAS. This can only be called once.
 	 */
-	public void close()
-	{
+	public void close() {
 		jcas.setDocumentText(sb.toString());
 	}
 }

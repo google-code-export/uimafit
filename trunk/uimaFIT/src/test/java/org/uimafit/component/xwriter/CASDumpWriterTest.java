@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.component.xwriter;
 
 import static org.apache.commons.io.FileUtils.readFileToString;
@@ -51,7 +51,8 @@ public class CASDumpWriterTest {
 		writer.process(jcas);
 		assertTrue(outputFile.exists());
 
-		String reference = readFileToString(new File("src/test/resources/data/reference/test.xmi.dump"), "UTF-8").trim();
+		String reference = readFileToString(
+				new File("src/test/resources/data/reference/test.xmi.dump"), "UTF-8").trim();
 		String actual = readFileToString(outputFile, "UTF-8").trim();
 
 		assertEquals(reference, actual);

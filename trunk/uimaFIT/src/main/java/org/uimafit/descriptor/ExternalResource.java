@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 
 package org.uimafit.descriptor;
 
@@ -28,33 +28,32 @@ import org.apache.uima.resource.Resource;
 
 /**
  * Mark a field as external resource.
- * 
+ *
  * @author Richard Eckart de Castilho
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ExternalResource
-{
+public @interface ExternalResource {
 	/**
-	 * The key to which external resources bind to. If no key is set, the class
-	 * name of the annotated field will be used.
-	 * 
+	 * The key to which external resources bind to. If no key is set, the class name of the
+	 * annotated field will be used.
+	 *
 	 * @return the key;
 	 */
 	String key() default "";
-	
+
 	/**
-	 * The interface that external resources need to implement. Normally this
-	 * has to be the type of the field, but if {@link ExternalResourceLocator}s
-	 * are used, this should be set to {@link ExternalResourceLocator}
-	 * or to a derived interface.
-	 * 
+	 * The interface that external resources need to implement. Normally this has to be the type of
+	 * the field, but if {@link ExternalResourceLocator}s are used, this should be set to
+	 * {@link ExternalResourceLocator} or to a derived interface.
+	 *
 	 * @return the required interface.
 	 */
 	Class<? extends Resource> api() default Resource.class;
-	
+
 	/**
 	 * determines if this external resource is mandatory
+	 *
 	 * @return
 	 */
 	boolean mandatory() default true;

@@ -15,27 +15,25 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 
 package org.uimafit.descriptor;
 
 import org.apache.uima.resource.Resource;
 
 /**
- * Get instance of external resource. This resource implements the 
- * {@link Resource} interface and can thus be used as an external resource.
- * However, it serves only as a proxy to get the actual shared resource.
- * Parameters that help locating the shared resource can be passed using the
- * regular UIMA external resources mechanism. 
+ * Get instance of external resource. This resource implements the {@link Resource} interface and
+ * can thus be used as an external resource. However, it serves only as a proxy to get the actual
+ * shared resource. Parameters that help locating the shared resource can be passed using the
+ * regular UIMA external resources mechanism.
  * <p>
- * A {@link ExternalResourceLocator} can be bound to a component field of the
- * type of resource it produces.
+ * A {@link ExternalResourceLocator} can be bound to a component field of the type of resource it
+ * produces.
  *
  * @see ExternalResource#api()
  * @author Richard Eckart de Castilho
  */
-public interface ExternalResourceLocator extends Resource
-{
+public interface ExternalResourceLocator extends Resource {
 	/**
 	 * @return the resource
 	 */

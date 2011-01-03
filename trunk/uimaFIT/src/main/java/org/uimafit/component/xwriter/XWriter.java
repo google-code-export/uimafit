@@ -49,26 +49,32 @@ public class XWriter extends JCasConsumer_ImplBase {
 	/**
 	 * The parameter name for the configuration parameter that specifies  the output directory
 	 */
-	public static final String PARAM_OUTPUT_DIRECTORY_NAME = ConfigurationParameterFactory.createConfigurationParameterName(XWriter.class, "outputDirectoryName");
+	public static final String PARAM_OUTPUT_DIRECTORY_NAME = ConfigurationParameterFactory
+			.createConfigurationParameterName(XWriter.class, "outputDirectoryName");
 	@ConfigurationParameter(
 			mandatory = true,
 			description = "takes a path to directory into which output files will be written.")
 	private String outputDirectoryName;
 
 	/**
-	 * The parameter name for the configuration parameter that provides the name of the XML scheme to use.
+	 * The parameter name for the configuration parameter that provides the name of the XML scheme
+	 * to use.
 	 */
-	public static final String PARAM_XML_SCHEME_NAME = ConfigurationParameterFactory.createConfigurationParameterName(XWriter.class, "xmlSchemeName");
+	public static final String PARAM_XML_SCHEME_NAME = ConfigurationParameterFactory
+			.createConfigurationParameterName(XWriter.class, "xmlSchemeName");
 	@ConfigurationParameter(
 			mandatory = true,
 			defaultValue = "XMI",
-			description = "specifies the UIMA XML serialization scheme that should be used. Valid values for this parameter are 'XMI' (default) and 'XCAS'.")
+			description = "specifies the UIMA XML serialization scheme that should be used. " +
+					"Valid values for this parameter are 'XMI' (default) and 'XCAS'.")
 	private String xmlSchemeName;
 
 	/**
-	 * The parameter name  for the configuration parameter that specifies the name of the class that implements the file namer
+	 * The parameter name for the configuration parameter that specifies the name of the class that
+	 * implements the file namer
 	 */
-	public static final String PARAM_FILE_NAMER_CLASS_NAME =  ConfigurationParameterFactory.createConfigurationParameterName(XWriter.class, "fileNamerClassName");
+	public static final String PARAM_FILE_NAMER_CLASS_NAME = ConfigurationParameterFactory
+			.createConfigurationParameterName(XWriter.class, "fileNamerClassName");
 	@ConfigurationParameter(
 			mandatory = true,
 			description = "the class name of the XWriterFileNamer implementation to use",
@@ -76,12 +82,14 @@ public class XWriter extends JCasConsumer_ImplBase {
 	 protected String fileNamerClassName;
 
 	/**
-	 * The name of the XMI XML scheme.  This is a valid value for the parameter {@value #PARAM_XML_SCHEME_NAME}
+	 * The name of the XMI XML scheme. This is a valid value for the parameter
+	 * {@value #PARAM_XML_SCHEME_NAME}
 	 */
 	public static final String XMI = "XMI";
 
 	/**
-	 * The name of the XCAS XML scheme.  This is a valid value for the parameter {@value #PARAM_XML_SCHEME_NAME}
+	 * The name of the XCAS XML scheme. This is a valid value for the parameter
+	 * {@value #PARAM_XML_SCHEME_NAME}
 	 */
 	public static final String XCAS = "XCAS";
 
@@ -108,11 +116,12 @@ public class XWriter extends JCasConsumer_ImplBase {
 		}
 		else {
 			throw new ResourceInitializationException(String.format(
-					"parameter '%1$s' must be either '%2$s' or '%3$s'.", PARAM_XML_SCHEME_NAME, XMI, XCAS), null);
+					"parameter '%1$s' must be either '%2$s' or '%3$s'.", PARAM_XML_SCHEME_NAME,
+					XMI, XCAS), null);
 		}
 
-		fileNamer = 	InitializableFactory.create(context, fileNamerClassName, XWriterFileNamer.class);
-
+		fileNamer = InitializableFactory
+				.create(context, fileNamerClassName, XWriterFileNamer.class);
 	}
 
 	@Override

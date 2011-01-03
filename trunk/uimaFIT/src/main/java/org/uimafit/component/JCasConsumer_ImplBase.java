@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.component;
 
 import org.apache.uima.UimaContext;
@@ -27,20 +27,18 @@ import org.uimafit.descriptor.OperationalProperties;
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
 /**
- * Base class for JCas consumers (actually a {@link org.apache.uima.analysis_component.JCasAnnotator_ImplBase})
- * which initializes itself based on annotations.
+ * Base class for JCas consumers (actually a
+ * {@link org.apache.uima.analysis_component.JCasAnnotator_ImplBase}) which initializes itself based
+ * on annotations.
  *
  * @author Richard Eckart de Castilho
  */
-@OperationalProperties(multipleDeploymentAllowed=false)
-public abstract class JCasConsumer_ImplBase
-	extends org.apache.uima.analysis_component.JCasAnnotator_ImplBase
-{
+@OperationalProperties(multipleDeploymentAllowed = false)
+public abstract class JCasConsumer_ImplBase extends
+		org.apache.uima.analysis_component.JCasAnnotator_ImplBase {
 	@Override
 	@OverrideMustInvoke
-	public void initialize(UimaContext context)
-		throws ResourceInitializationException
-	{
+	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		ConfigurationParameterInitializer.initialize(this, context);
 		ExternalResourceInitializer.initialize(context, this);
