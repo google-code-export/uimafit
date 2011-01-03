@@ -1,4 +1,6 @@
 changes subsequent to 1.1.0
+	- resolved issue #28 "Eclipse code-style file"
+	- resolved issue #45 "set svn:eol-style for .java files	"	
 	- resolved issue #42 "add a "distribution" module to uimaFIT which generates a zip containing uimaFIT plus all dependencies."
 
 changes in 1.1.0
