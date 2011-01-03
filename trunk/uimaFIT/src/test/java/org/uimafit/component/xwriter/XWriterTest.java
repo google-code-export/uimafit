@@ -66,7 +66,8 @@ public class XWriterTest extends ComponentTestBase {
 	public void testXWriter() throws Exception {
 		addDataToCas();
 
-		AnalysisEngine xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME,
+		AnalysisEngine xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class,
+				typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME,
 				outputDirectory.getPath());
 
 		xWriter.process(jCas);
@@ -77,16 +78,20 @@ public class XWriterTest extends ComponentTestBase {
 		jCas.reset();
 		JCasFactory.loadJCas(jCas, xmiFile.getPath());
 		assertEquals("Anyone up for a game of Foosball?", jCas.getDocumentText());
-		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas.getView("A").getDocumentText());
+		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas.getView("A")
+				.getDocumentText());
 		assertEquals("?AFaaabeeffgllmnnoooooprsuy", jCas.getView("B").getDocumentText());
-		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C").getDocumentText());
-		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
+		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C")
+				.getDocumentText());
+		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW)
+				.getDocumentText());
 
 		jCas.reset();
 		addDataToCas();
 
-		xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME, outputDirectory
-				.getPath(), IntegerFileNamer.PARAM_PREFIX, "myprefix-");
+		xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription,
+				XWriter.PARAM_OUTPUT_DIRECTORY_NAME, outputDirectory.getPath(),
+				IntegerFileNamer.PARAM_PREFIX, "myprefix-");
 
 		xWriter.process(jCas);
 
@@ -99,10 +104,13 @@ public class XWriterTest extends ComponentTestBase {
 		tokenBuilder.buildTokens(jCas, "Anyone up for a game of Foosball?");
 
 		AggregateBuilder builder = new AggregateBuilder();
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription), ViewNames.PARENTHESES_VIEW, "A");
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, typeSystemDescription), ViewNames.SORTED_VIEW, "B",
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class,
+				typeSystemDescription), ViewNames.PARENTHESES_VIEW, "A");
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class,
+				typeSystemDescription), ViewNames.SORTED_VIEW, "B",
 				ViewNames.SORTED_PARENTHESES_VIEW, "C", ViewNames.PARENTHESES_VIEW, "A");
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, typeSystemDescription), ViewNames.INITIAL_VIEW, "B");
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class,
+				typeSystemDescription), ViewNames.INITIAL_VIEW, "B");
 		AnalysisEngine aggregateEngine = builder.createAggregate();
 
 		aggregateEngine.process(jCas);
@@ -110,7 +118,8 @@ public class XWriterTest extends ComponentTestBase {
 
 	@Test
 	public void testXmi() throws Exception {
-		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME,
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(XWriter.class,
+				typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME,
 				this.outputDirectory.getPath());
 		tokenBuilder.buildTokens(jCas, "I like\nspam!", "I like spam !", "PRP VB NN .");
 		engine.process(jCas);
@@ -141,7 +150,8 @@ public class XWriterTest extends ComponentTestBase {
 
 	@Test
 	public void testXcas() throws Exception {
-		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME,
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(XWriter.class,
+				typeSystemDescription, XWriter.PARAM_OUTPUT_DIRECTORY_NAME,
 				this.outputDirectory.getPath(), XWriter.PARAM_XML_SCHEME_NAME, XWriter.XCAS);
 		tokenBuilder.buildTokens(jCas, "I like\nspam!", "I like spam !", "PRP VB NN .");
 		engine.process(jCas);
@@ -172,7 +182,8 @@ public class XWriterTest extends ComponentTestBase {
 
 	@Test(expected = ResourceInitializationException.class)
 	public void testBadXmlSchemeName() throws ResourceInitializationException {
-		AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription, XWriter.PARAM_XML_SCHEME_NAME, "xcas");
+		AnalysisEngineFactory.createPrimitive(XWriter.class, typeSystemDescription,
+				XWriter.PARAM_XML_SCHEME_NAME, "xcas");
 	}
 
 }

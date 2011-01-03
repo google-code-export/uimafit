@@ -34,9 +34,9 @@ import org.apache.uima.jcas.JCas;
 /**
  * Create a fast way of repeatedly checking whether instances of one type are contained within the
  * boundaries on another type.
- *
+ * 
  * @author Richard Eckart de Castilho
- *
+ * 
  * @param <S>
  *            covering type.
  * @param <U>
@@ -53,7 +53,7 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 	/**
 	 * Create a new index on the given JCas using the specified two types. The last argument
 	 * indicates in which directions lookups to the index will be made.
-	 *
+	 * 
 	 * @param aJcas
 	 *            the working JCas.
 	 * @param aSuper
@@ -96,7 +96,7 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 	/**
 	 * Get all instances of the covered type contained within the boundaries of the specified
 	 * instance of the covering type.
-	 *
+	 * 
 	 * @param aSuper
 	 *            a covering type instance.
 	 * @return a collection of covered type instances.
@@ -112,7 +112,7 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 	/**
 	 * Get all instances of the covering type containing the the specified instance of the covered
 	 * type.
-	 *
+	 * 
 	 * @param aUnder
 	 *            a covered type instance.
 	 * @return a collection of covering type instances.
@@ -127,7 +127,7 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 
 	/**
 	 * Checks if the given covered type is contained in the specified covering type.
-	 *
+	 * 
 	 * @param aSuper
 	 *            the covering type instance.
 	 * @param aUnder
@@ -140,7 +140,7 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 
 	/**
 	 * Checks if the given covered type is contained in any instance of the covering type.
-	 *
+	 * 
 	 * @param aUnder
 	 *            the covered type instance.
 	 * @return whether the covered instance is contained in any instance of the covering type.
@@ -153,7 +153,7 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 	/**
 	 * Factory method to create an index instead of using the constructor. This makes used of Java's
 	 * type inference capabilities and results in less verbose code.
-	 *
+	 * 
 	 * @param <A>
 	 *            covering type.
 	 * @param <B>

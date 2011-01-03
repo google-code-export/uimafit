@@ -30,7 +30,7 @@ import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
  * Base class for JCas consumers (actually a
  * {@link org.apache.uima.analysis_component.JCasAnnotator_ImplBase}) which initializes itself based
  * on annotations.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
 @OperationalProperties(multipleDeploymentAllowed = false)

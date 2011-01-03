@@ -29,9 +29,9 @@ import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 
 /**
- *
+ * 
  * @author Philip Ogren
- *
+ * 
  */
 public class ComponentTestBase {
 
@@ -45,21 +45,22 @@ public class ComponentTestBase {
 			TYPE_SYSTEM_DESCRIPTION.set(TypeSystemDescriptionFactory.createTypeSystemDescription());
 
 			TypePriorities tp = TypePrioritiesFactory.createTypePriorities(new String[] {
-					"org.uimafit.type.Sentence",
-					"org.uimafit.type.AnalyzedText",
-					"org.uimafit.type.Token"});
+					"org.uimafit.type.Sentence", "org.uimafit.type.AnalyzedText",
+					"org.uimafit.type.Token" });
 			TYPE_PRIORITIES.set(tp);
 
-			JCas jCas = CasCreationUtils.createCas(TYPE_SYSTEM_DESCRIPTION.get(), tp, null).getJCas();
+			JCas jCas = CasCreationUtils.createCas(TYPE_SYSTEM_DESCRIPTION.get(), tp, null)
+					.getJCas();
 			JCAS.set(jCas);
 
-			TokenBuilder<Token, Sentence> tb = new TokenBuilder<Token, Sentence>(Token.class, Sentence.class, "pos", "stem");
+			TokenBuilder<Token, Sentence> tb = new TokenBuilder<Token, Sentence>(Token.class,
+					Sentence.class, "pos", "stem");
 			TOKEN_BUILDER.set(tb);
 		}
-	 catch(Exception e) {
-		e.printStackTrace();
-		System.exit(1);
-	}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 
 	protected JCas jCas;
@@ -68,8 +69,9 @@ public class ComponentTestBase {
 	protected TokenBuilder<Token, Sentence> tokenBuilder;
 
 	/**
-	 *  we do not want to create a new JCas object every time we run a test because it is expensive (~100ms on my laptop).  Instead,
-	 *  we will have one JCas per thread sitting around that we will reset everytime a new test is called.
+	 * we do not want to create a new JCas object every time we run a test because it is expensive
+	 * (~100ms on my laptop). Instead, we will have one JCas per thread sitting around that we will
+	 * reset everytime a new test is called.
 	 */
 	@Before
 	public void setUp() {

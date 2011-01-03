@@ -13,9 +13,8 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uimafit.factory.testAes;
-
 
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
@@ -27,12 +26,12 @@ import org.uimafit.util.TypeSystemUtil;
  */
 
 public class FlowAE1 extends JCasAnnotator_ImplBase {
-	
+
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
-			String analyzedText = TypeSystemUtil.getAnalyzedText(jCas);
-			String parentheticalText = analyzedText.replaceAll("[aeiou]+", "($0)");
-			TypeSystemUtil.setAnalyzedText(jCas, parentheticalText);
+		String analyzedText = TypeSystemUtil.getAnalyzedText(jCas);
+		String parentheticalText = analyzedText.replaceAll("[aeiou]+", "($0)");
+		TypeSystemUtil.setAnalyzedText(jCas, parentheticalText);
 	}
 
 }

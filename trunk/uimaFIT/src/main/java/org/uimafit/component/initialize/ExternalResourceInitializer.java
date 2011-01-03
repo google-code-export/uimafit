@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.component.initialize;
 
 import static org.uimafit.factory.ExternalResourceFactory.createExternalResourceDependency;
@@ -33,25 +33,27 @@ import org.uimafit.descriptor.ExternalResourceLocator;
 
 /**
  * Configurator class for {@link ExternalResource} annotations.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
-public class ExternalResourceInitializer
-{
+public class ExternalResourceInitializer {
 	/**
 	 * Configure a component from the given context.
-	 *
-	 * @param <T> the component type.
-	 * @param context the UIMA context.
-	 * @param object the component.
-	 * @throws ResourceInitializationException if the external resource cannot
-	 * 		be configured.
+	 * 
+	 * @param <T>
+	 *            the component type.
+	 * @param context
+	 *            the UIMA context.
+	 * @param object
+	 *            the component.
+	 * @throws ResourceInitializationException
+	 *             if the external resource cannot be configured.
 	 */
 	public static <T> void initialize(UimaContext context, T object)
 			throws ResourceInitializationException {
 		try {
-			configure(context, object.getClass(), object.getClass(),
-					object, getResourceDeclarations(object.getClass()));
+			configure(context, object.getClass(), object.getClass(), object,
+					getResourceDeclarations(object.getClass()));
 		}
 		catch (Exception e) {
 			throw new ResourceInitializationException(e);
@@ -60,15 +62,21 @@ public class ExternalResourceInitializer
 
 	/**
 	 * Helper method for recursively configuring super-classes.
-	 *
-	 * @param <T> the component type.
-	 * @param context the context containing the resource bindings.
-	 * @param baseCls the class on which configuration started.
-	 * @param cls the class currently being configured.
-	 * @param object the object being configured.
-	 * @param dependencies the dependencies.
-	 * @throws ResourceInitializationException if required resources could not
-	 * 		be bound.
+	 * 
+	 * @param <T>
+	 *            the component type.
+	 * @param context
+	 *            the context containing the resource bindings.
+	 * @param baseCls
+	 *            the class on which configuration started.
+	 * @param cls
+	 *            the class currently being configured.
+	 * @param object
+	 *            the object being configured.
+	 * @param dependencies
+	 *            the dependencies.
+	 * @throws ResourceInitializationException
+	 *             if required resources could not be bound.
 	 */
 	private static <T> void configure(UimaContext context, Class<?> baseCls, Class<?> cls,
 			T object, Map<String, ExternalResourceDependency> dependencies)
@@ -91,9 +99,9 @@ public class ExternalResourceInitializer
 
 				// Sanity checks
 				if (value == null && isMandatory(field)) {
-					throw new ResourceInitializationException(
-							new IllegalStateException("Mandatory resource ["
-									+ getKey(field) + "] is not set on ["+baseCls+"]"));
+					throw new ResourceInitializationException(new IllegalStateException(
+							"Mandatory resource [" + getKey(field) + "] is not set on [" + baseCls
+									+ "]"));
 				}
 
 				// Now record the setting and optionally apply it to the given
@@ -122,8 +130,7 @@ public class ExternalResourceInitializer
 	public static <T> Map<String, ExternalResourceDependency> getResourceDeclarations(Class<?> cls)
 			throws ResourceInitializationException {
 		try {
-			Map<String, ExternalResourceDependency> deps =
-				new HashMap<String, ExternalResourceDependency>();
+			Map<String, ExternalResourceDependency> deps = new HashMap<String, ExternalResourceDependency>();
 			getResourceDeclarations(cls, cls, deps);
 			return deps;
 		}
@@ -148,19 +155,22 @@ public class ExternalResourceInitializer
 			}
 
 			if (dependencies.containsKey(getKey(field))) {
-				throw new ResourceInitializationException(new IllegalStateException(
-						"Key ["+getKey(field)+"] may only be used on a single field."));
+				throw new ResourceInitializationException(new IllegalStateException("Key ["
+						+ getKey(field) + "] may only be used on a single field."));
 			}
 
-			dependencies.put(getKey(field), createExternalResourceDependency(getKey(field),
-					getApi(field), !isMandatory(field)));
+			dependencies.put(
+					getKey(field),
+					createExternalResourceDependency(getKey(field), getApi(field),
+							!isMandatory(field)));
 		}
 	}
 
 	/**
 	 * Determine if the field is mandatory.
-	 *
-	 * @param field the field to bind.
+	 * 
+	 * @param field
+	 *            the field to bind.
 	 * @return whether the field is mandatory.
 	 */
 	private static boolean isMandatory(Field field) {
@@ -170,8 +180,9 @@ public class ExternalResourceInitializer
 	/**
 	 * Get the binding key for the specified field. If no key is set, use the field class name as
 	 * key.
-	 *
-	 * @param field the field to bind.
+	 * 
+	 * @param field
+	 *            the field to bind.
 	 * @return the binding key.
 	 */
 	private static String getKey(Field field) {
@@ -186,8 +197,9 @@ public class ExternalResourceInitializer
 	/**
 	 * Get the type of class/interface a resource has to implement to bind to the annotated field.
 	 * If no API is set, get it from the annotated field type.
-	 *
-	 * @param field the field to bind.
+	 * 
+	 * @param field
+	 *            the field to bind.
 	 * @return the API type.
 	 */
 	@SuppressWarnings("unchecked")

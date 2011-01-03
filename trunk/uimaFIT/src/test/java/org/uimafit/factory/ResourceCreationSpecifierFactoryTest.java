@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uimafit.factory;
 
 import static org.junit.Assert.assertNotNull;
@@ -26,47 +26,56 @@ import org.apache.uima.UIMA_IllegalArgumentException;
 import org.apache.uima.resource.ResourceCreationSpecifier;
 import org.junit.Test;
 import org.uimafit.factory.testAes.ParameterizedAE;
+
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
 public class ResourceCreationSpecifierFactoryTest {
 
-
 	@Test
 	public void test2() throws UIMAException, IOException {
 		IllegalArgumentException iae = null;
 		try {
-			ResourceCreationSpecifierFactory.createResourceCreationSpecifier("src/main/resources/org/uimafit/component/JCasAnnotatorAdapter.xml", new String[] {"test"});
-		} catch(IllegalArgumentException e) {
+			ResourceCreationSpecifierFactory.createResourceCreationSpecifier(
+					"src/main/resources/org/uimafit/component/JCasAnnotatorAdapter.xml",
+					new String[] { "test" });
+		}
+		catch (IllegalArgumentException e) {
 			iae = e;
 		}
 		assertNotNull(iae);
-		
+
 		iae = null;
 		try {
 			UimaContextFactory.createUimaContext("test");
-		}catch(IllegalArgumentException e) {
+		}
+		catch (IllegalArgumentException e) {
 			iae = e;
 		}
 		assertNotNull(iae);
-		
+
 		UIMA_IllegalArgumentException uiae = null;
 		try {
-			ResourceCreationSpecifierFactory.createResourceCreationSpecifier("src/main/resources/org/uimafit/component/JCasAnnotatorAdapter.xml", new Object[] { "test", new Point(0,5)});
-		}catch(UIMA_IllegalArgumentException e) {
+			ResourceCreationSpecifierFactory.createResourceCreationSpecifier(
+					"src/main/resources/org/uimafit/component/JCasAnnotatorAdapter.xml",
+					new Object[] { "test", new Point(0, 5) });
+		}
+		catch (UIMA_IllegalArgumentException e) {
 			uiae = e;
 		}
 		assertNotNull(uiae);
-		
+
 	}
-	
+
 	@Test
 	public void test1() {
 		IllegalArgumentException iae = null;
 		try {
-			ResourceCreationSpecifierFactory.setConfigurationParameters((ResourceCreationSpecifier) null, ParameterizedAE.PARAM_BOOLEAN_1);
-		} catch(IllegalArgumentException e) {
+			ResourceCreationSpecifierFactory.setConfigurationParameters(
+					(ResourceCreationSpecifier) null, ParameterizedAE.PARAM_BOOLEAN_1);
+		}
+		catch (IllegalArgumentException e) {
 			iae = e;
 		}
 		assertNotNull(iae);

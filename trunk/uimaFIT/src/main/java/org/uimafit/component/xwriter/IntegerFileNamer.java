@@ -28,7 +28,7 @@ import org.uimafit.factory.initializable.Initializable;
 /**
  * This is a very simple implementation of XWriterFileNamer that generates file names based on a
  * prefix string and a incrementing counter.
- *
+ * 
  * @author Philip Ogren
  */
 
@@ -40,13 +40,13 @@ public class IntegerFileNamer implements XWriterFileNamer, Initializable {
 	 */
 	public static final String PARAM_PREFIX = ConfigurationParameterFactory
 			.createConfigurationParameterName(IntegerFileNamer.class, "prefix");
-	@ConfigurationParameter(description="specify a prefix that is prepended to all returned file names")
+	@ConfigurationParameter(description = "specify a prefix that is prepended to all returned file names")
 	private String prefix = "";
 
-	int i=1;
+	int i = 1;
 
 	public String nameFile(JCas jCas) {
-		return prefix+i++;
+		return prefix + i++;
 	}
 
 	public void initialize(UimaContext context) throws ResourceInitializationException {

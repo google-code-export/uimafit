@@ -30,10 +30,8 @@ import org.uimafit.factory.AnalysisEngineFactory;
  * @author Steven Bethard, Philip Ogren
  * 
  */
-public final class SimplePipeline
-{
-	private SimplePipeline()
-	{
+public final class SimplePipeline {
+	private SimplePipeline() {
 		// This class is not meant to be instantiated
 	}
 
@@ -46,19 +44,17 @@ public final class SimplePipeline
 	 *            Primitive AnalysisEngineDescriptions that process the CAS, in order. If you have a
 	 *            mix of primitive and aggregate engines, then please create the AnalysisEngines
 	 *            yourself and call the other runPipeline method.
-	 * @throws UIMAException 
-	 * @throws IOException 
+	 * @throws UIMAException
+	 * @throws IOException
 	 */
 	public static void runPipeline(CollectionReader reader, AnalysisEngineDescription... descs)
-		throws UIMAException, IOException
-	{
+			throws UIMAException, IOException {
 		AnalysisEngine[] engines = createEngines(descs);
 		runPipeline(reader, engines);
 	}
 
 	private static AnalysisEngine[] createEngines(AnalysisEngineDescription... descs)
-		throws UIMAException
-	{
+			throws UIMAException {
 		AnalysisEngine[] engines = new AnalysisEngine[descs.length];
 		for (int i = 0; i < engines.length; ++i) {
 			if (descs[i].isPrimitive()) {
@@ -73,15 +69,18 @@ public final class SimplePipeline
 	}
 
 	/**
-	 * Provides a simple way to run a pipeline for a given collection reader and sequence of analysis engines
-	 * @param reader a collection reader 
-	 * @param engines a sequence of analysis engines
+	 * Provides a simple way to run a pipeline for a given collection reader and sequence of
+	 * analysis engines
+	 * 
+	 * @param reader
+	 *            a collection reader
+	 * @param engines
+	 *            a sequence of analysis engines
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
 	public static void runPipeline(CollectionReader reader, AnalysisEngine... engines)
-		throws UIMAException, IOException
-	{
+			throws UIMAException, IOException {
 		for (JCas jCas : new JCasIterable(reader, engines)) {
 			assert jCas != null;
 		}
@@ -102,8 +101,7 @@ public final class SimplePipeline
 	 * @throws IOException
 	 */
 	public static void runPipeline(JCas jCas, AnalysisEngineDescription... descs)
-		throws UIMAException, IOException
-	{
+			throws UIMAException, IOException {
 		AnalysisEngine[] engines = createEngines(descs);
 		runPipeline(jCas, engines);
 	}
@@ -118,9 +116,8 @@ public final class SimplePipeline
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public static void runPipeline(JCas jCas, AnalysisEngine... engines)
-		throws UIMAException, IOException
-	{
+	public static void runPipeline(JCas jCas, AnalysisEngine... engines) throws UIMAException,
+			IOException {
 		for (AnalysisEngine engine : engines) {
 			engine.process(jCas);
 		}

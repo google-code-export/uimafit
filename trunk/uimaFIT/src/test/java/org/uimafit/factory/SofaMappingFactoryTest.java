@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uimafit.factory;
 
 import static org.junit.Assert.assertEquals;
@@ -30,7 +30,8 @@ public class SofaMappingFactoryTest {
 
 	@Test
 	public void test() {
-		SofaMapping sofaMapping = SofaMappingFactory.createSofaMapping(JCasAnnotatorAdapter.class, "B", "A");
+		SofaMapping sofaMapping = SofaMappingFactory.createSofaMapping(JCasAnnotatorAdapter.class,
+				"B", "A");
 		assertEquals("A", sofaMapping.getAggregateSofaName());
 		assertEquals("org.uimafit.component.JCasAnnotatorAdapter", sofaMapping.getComponentKey());
 		assertEquals("B", sofaMapping.getComponentSofaName());

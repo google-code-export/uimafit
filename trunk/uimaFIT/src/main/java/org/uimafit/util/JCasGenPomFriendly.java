@@ -37,10 +37,9 @@ import org.uimafit.factory.TypeSystemDescriptionFactory;
  * This class provides an advanced version of the UIMA JCas wrapper generator. It's main method
  * takes two arguments. The first is a list of ANT-like URL patterns (';'-separated )which indicate
  * where to look for type descriptors. The second is the output directory. Being able to process
- * multiple type system descriptors at the same time removes the need of having a single
- * master type system file importing all others.
- * Example section for a pom.xml:
- *
+ * multiple type system descriptors at the same time removes the need of having a single master type
+ * system file importing all others. Example section for a pom.xml:
+ * 
  * <pre>
  * &lt;plugin>
  *   &lt;groupId>org.codehaus.mojo&lt;/groupId>
@@ -63,37 +62,32 @@ import org.uimafit.factory.TypeSystemDescriptionFactory;
  *   &lt;/configuration>
  * &lt;/plugin>
  * </pre>
- *
+ * 
  * @author Philip Ogren
  * @author Richard Eckart de Castilho
  */
-public class JCasGenPomFriendly
-{
+public class JCasGenPomFriendly {
 	/**
 	 * See class-level javadoc for instructions on running this program.
+	 * 
 	 * @param args
 	 * @throws Exception
 	 */
-	public static void main(String[] args)
-		throws Exception
-	{
+	public static void main(String[] args) throws Exception {
 		Jg jg = new Jg();
 		for (String file : TypeSystemDescriptionFactory.resolve(args[0].split(";"))) {
 			generate(jg, file, args[1], load(file));
 		}
 	}
 
-	private static TypeSystemDescription load(String location)
-		throws IOException, InvalidXMLException
-	{
+	private static TypeSystemDescription load(String location) throws IOException,
+			InvalidXMLException {
 		XMLInputSource xmlInputType1 = new XMLInputSource(location);
 		return getXMLParser().parseTypeSystemDescription(xmlInputType1);
 	}
 
 	private static void generate(Jg jg, String inputFile, String outputDirectory,
-			TypeSystemDescription tsd)
-		throws IOException, ResourceInitializationException
-	{
+			TypeSystemDescription tsd) throws IOException, ResourceInitializationException {
 		CAS cas = CasCreationUtils.createCas(tsd, null, null);
 		jg.mainForCde(null, new UimaLoggerProgressMonitor(), new LogThrowErrorImpl(), inputFile,
 				outputDirectory, tsd.getTypes(), (CASImpl) cas);

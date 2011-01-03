@@ -39,6 +39,6 @@ public class FlowAE2 extends JCasAnnotator_ImplBase {
 	public static String sort(String text) {
 		char[] chars = text.toCharArray();
 		Arrays.sort(chars);
-		return  new String(chars).trim();
+		return new String(chars).trim();
 	}
 }

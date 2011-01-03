@@ -53,7 +53,7 @@ import org.uimafit.type.Token;
 
 /**
  * Test cases for {@link JCasUtil}.
- *
+ * 
  * @author Richard Eckart de Castilho
  * @author Torsten Zesch
  */

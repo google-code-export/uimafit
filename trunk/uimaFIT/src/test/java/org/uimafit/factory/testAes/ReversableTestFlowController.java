@@ -38,12 +38,13 @@ import org.uimafit.factory.ConfigurationParameterFactory;
 /**
  * @author Philip Ogren, Fabio Mancinelli
  * 
- * NOTE: this class extends org.uimafit.component.JCasFlowController_ImplBase
+ *         NOTE: this class extends org.uimafit.component.JCasFlowController_ImplBase
  */
 
 public class ReversableTestFlowController extends org.uimafit.component.JCasFlowController_ImplBase {
-	
-	public static final String PARAM_REVERSE_ORDER = ConfigurationParameterFactory.createConfigurationParameterName(ReversableTestFlowController.class, "reverseOrder");
+
+	public static final String PARAM_REVERSE_ORDER = ConfigurationParameterFactory
+			.createConfigurationParameterName(ReversableTestFlowController.class, "reverseOrder");
 	@ConfigurationParameter
 	private boolean reverseOrder = false;
 
@@ -58,20 +59,21 @@ public class ReversableTestFlowController extends org.uimafit.component.JCasFlow
 		private int i = 0;
 
 		public ReversableFlow(FlowControllerContext context, boolean reverseOrder) {
-			Iterator<Map.Entry<String, AnalysisEngineMetaData>> iterator = context.getAnalysisEngineMetaDataMap().entrySet().iterator();
+			Iterator<Map.Entry<String, AnalysisEngineMetaData>> iterator = context
+					.getAnalysisEngineMetaDataMap().entrySet().iterator();
 			while (iterator.hasNext()) {
 				Map.Entry<String, AnalysisEngineMetaData> entry = iterator.next();
 				String key = entry.getKey();
 				keys.add(key);
 			}
 			Collections.sort(keys);
-			if(reverseOrder) {
+			if (reverseOrder) {
 				Collections.reverse(keys);
 			}
 		}
 
 		public Step next() throws AnalysisEngineProcessException {
-			if(i < keys.size()) {
+			if (i < keys.size()) {
 				return new SimpleStep(keys.get(i++));
 			}
 

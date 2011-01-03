@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uimafit.util;
 
 import org.apache.uima.jcas.JCas;
@@ -25,18 +25,17 @@ import org.uimafit.type.AnalyzedText;
 
 public class TypeSystemUtil {
 
-	
 	public static String getAnalyzedText(JCas jCas) {
 		return _getAnalyzedText(jCas).getText();
 	}
 
 	public static void setAnalyzedText(JCas jCas, String text) {
-		 _getAnalyzedText(jCas).setText(text);
+		_getAnalyzedText(jCas).setText(text);
 	}
 
 	private static AnalyzedText _getAnalyzedText(JCas jCas) {
 		AnalyzedText analyzedText = JCasUtil.selectByIndex(jCas, AnalyzedText.class, 0);
-		if(analyzedText == null){
+		if (analyzedText == null) {
 			analyzedText = new AnalyzedText(jCas);
 			analyzedText.setText(jCas.getDocumentText());
 			analyzedText.addToIndexes();

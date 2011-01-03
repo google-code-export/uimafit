@@ -36,14 +36,14 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 /**
  * Utility methods for convenient access to the {@link CAS}.
- *
+ * 
  * @author Richard Eckart de Castilho
  * @author Niklas Jakob
  */
 public class CasUtil {
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
-	 *
+	 * 
 	 * @param <T>
 	 *            the iteration type.
 	 * @param cas
@@ -63,7 +63,7 @@ public class CasUtil {
 
 	/**
 	 * Get an iterator over the given annotation type.
-	 *
+	 * 
 	 * @param <T>
 	 *            the JCas type.
 	 * @param cas
@@ -84,7 +84,7 @@ public class CasUtil {
 
 	/**
 	 * Get the CAS type for the given JCas wrapper class.
-	 *
+	 * 
 	 * @param cas
 	 *            the CAS hosting the type system.
 	 * @param type
@@ -108,7 +108,7 @@ public class CasUtil {
 	 * Iterates over all annotations of the given type to find the covered annotations. Does not use
 	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
 	 * Uses the same approach except that type priorities are ignored.
-	 *
+	 * 
 	 * @param <T>
 	 *            the JCas type.
 	 * @param cas
@@ -193,7 +193,7 @@ public class CasUtil {
 
 	/**
 	 * Returns the n annotations preceding the given annotation
-	 *
+	 * 
 	 * @param <T>
 	 *            the JCas type.
 	 * @param cas
@@ -235,7 +235,7 @@ public class CasUtil {
 
 	/**
 	 * Returns the n annotations following the given annotation
-	 *
+	 * 
 	 * @param <T>
 	 *            the JCas type.
 	 * @param cas

@@ -22,18 +22,18 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
 /**
- *
+ * 
  * @author Steven Bethard, Philip Ogren
- *
+ * 
  */
 public final class AnnotationFactory {
-	private AnnotationFactory()
-	{
+	private AnnotationFactory() {
 		// This class is not meant to be instantiated
 	}
 
 	/**
-	 *  Provides a convenient way to create an annotation and addToIndexes in a single line.
+	 * Provides a convenient way to create an annotation and addToIndexes in a single line.
+	 * 
 	 * @param <T>
 	 * @param jCas
 	 * @param begin
@@ -42,10 +42,11 @@ public final class AnnotationFactory {
 	 * @return
 	 * @throws UIMAException
 	 */
-	public static <T extends Annotation> T createAnnotation(JCas jCas, int begin, int end, Class<T> cls)
-			throws UIMAException {
+	public static <T extends Annotation> T createAnnotation(JCas jCas, int begin, int end,
+			Class<T> cls) throws UIMAException {
 		try {
-			T annotation = cls.getConstructor(JCas.class, Integer.TYPE, Integer.TYPE).newInstance(jCas, begin, end);
+			T annotation = cls.getConstructor(JCas.class, Integer.TYPE, Integer.TYPE).newInstance(
+					jCas, begin, end);
 			annotation.addToIndexes();
 			return annotation;
 		}

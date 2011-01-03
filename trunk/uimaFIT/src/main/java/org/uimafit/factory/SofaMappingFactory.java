@@ -24,32 +24,30 @@ import org.apache.uima.analysis_engine.metadata.impl.SofaMapping_impl;
  * @author Philip Ogren
  */
 public final class SofaMappingFactory {
-	private SofaMappingFactory()
-	{
+	private SofaMappingFactory() {
 		// This class is not meant to be instantiated
 	}
 
 	/**
-	 * This method creates a sofa mapping which is useful for mapping view names
-	 * in individual components used in aggregate analysis engines to the view
-	 * names used by the aggregate.
-	 *
-	 * WARNING: in version 0.9.12 the ordering of the parameters was changed!
-	 * The order used to be aggregateSofaName, componentKey, componentSofaName.
-	 * This was changed because it seemed an unnatural ordering.
-	 *
+	 * This method creates a sofa mapping which is useful for mapping view names in individual
+	 * components used in aggregate analysis engines to the view names used by the aggregate.
+	 * 
+	 * WARNING: in version 0.9.12 the ordering of the parameters was changed! The order used to be
+	 * aggregateSofaName, componentKey, componentSofaName. This was changed because it seemed an
+	 * unnatural ordering.
+	 * 
 	 * @param componentKey
-	 *            the key/name used by the aggregate analysis engine for the
-	 *            component whose view is being mapped.
+	 *            the key/name used by the aggregate analysis engine for the component whose view is
+	 *            being mapped.
 	 * @param componentSofaName
 	 *            the sofa name used by the the component
 	 * @param aggregateSofaName
-	 *            the view name that the component name is mapped to and used by
-	 *            the aggregate analysis engine
-	 * @return a sofa mapping with the componentSofaName mapped to the
-	 *         aggregateSofaName
+	 *            the view name that the component name is mapped to and used by the aggregate
+	 *            analysis engine
+	 * @return a sofa mapping with the componentSofaName mapped to the aggregateSofaName
 	 */
-	public static SofaMapping createSofaMapping(String componentKey, String componentSofaName, String aggregateSofaName) {
+	public static SofaMapping createSofaMapping(String componentKey, String componentSofaName,
+			String aggregateSofaName) {
 
 		SofaMapping sofaMapping = new SofaMapping_impl();
 		sofaMapping.setComponentKey(componentKey);
@@ -60,6 +58,7 @@ public final class SofaMappingFactory {
 
 	/**
 	 * create a sofa mapping using the component class rather than the component name
+	 * 
 	 * @param componentClass
 	 * @param componentSofaName
 	 * @param aggregateSofaName

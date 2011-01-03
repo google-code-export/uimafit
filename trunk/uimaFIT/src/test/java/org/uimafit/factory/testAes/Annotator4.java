@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 
 package org.uimafit.factory.testAes;
 
@@ -28,15 +28,15 @@ import org.uimafit.type.Token;
 /**
  * 
  * @author Philip Ogren
- *
+ * 
  */
-@TypeCapability(inputs="org.uimafit.type.Token", outputs="org.uimafit.type.Token:pos")
+@TypeCapability(inputs = "org.uimafit.type.Token", outputs = "org.uimafit.type.Token:pos")
 public class Annotator4 extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		FSIterator<Annotation> tokens = jCas.getAnnotationIndex(Token.type).iterator();
-		while(tokens.hasNext()) {
+		while (tokens.hasNext()) {
 			Token token = (Token) tokens.next();
 			token.setPos("NN");
 		}

@@ -15,7 +15,6 @@
  limitations under the License.
  */
 
-
 package org.uimafit.factory.initializable;
 
 import static org.junit.Assert.assertEquals;
@@ -41,65 +40,74 @@ public class InitializableFactoryTest {
 
 	@Test
 	public void testInitializableFactory() throws Exception {
-		UimaContext context = UimaContextFactory.createUimaContext(InitializableClass.PARAM_BOOLEAN_PARAMETER, true);	
+		UimaContext context = UimaContextFactory.createUimaContext(
+				InitializableClass.PARAM_BOOLEAN_PARAMETER, true);
 		InitializableClass ic = InitializableFactory.create(context, InitializableClass.class);
 		assertTrue(ic.booleanParameter);
 
-		NotInitializableClass nic = InitializableFactory.create(context, NotInitializableClass.class);
+		NotInitializableClass nic = InitializableFactory.create(context,
+				NotInitializableClass.class);
 		assertFalse(nic.booleanParameter);
 
-		context = UimaContextFactory.createUimaContext(InitializableFileNamer.PARAM_STRING_PARAMETER, "goodbye");	
+		context = UimaContextFactory.createUimaContext(
+				InitializableFileNamer.PARAM_STRING_PARAMETER, "goodbye");
 		String className = InitializableFileNamer.class.getName();
-		XWriterFileNamer fn = InitializableFactory.create(context, className, XWriterFileNamer.class);
-		assertEquals("goodbye", ((InitializableFileNamer)fn).stringParameter);
+		XWriterFileNamer fn = InitializableFactory.create(context, className,
+				XWriterFileNamer.class);
+		assertEquals("goodbye", ((InitializableFileNamer) fn).stringParameter);
 
 		className = NotInitializableFileNamer.class.getName();
 		fn = InitializableFactory.create(context, className, XWriterFileNamer.class);
-		assertEquals("hello", ((NotInitializableFileNamer)fn).stringParameter);
+		assertEquals("hello", ((NotInitializableFileNamer) fn).stringParameter);
 
 	}
-	
-	@Test (expected=ResourceInitializationException.class)
+
+	@Test(expected = ResourceInitializationException.class)
 	public void testBadClass() throws ResourceInitializationException {
-		UimaContext context = UimaContextFactory.createUimaContext(InitializableClass.PARAM_BOOLEAN_PARAMETER, true);	
-		InitializableFactory.create(context, NotInitializableClass.class.getName(), XWriterFileNamer.class);
+		UimaContext context = UimaContextFactory.createUimaContext(
+				InitializableClass.PARAM_BOOLEAN_PARAMETER, true);
+		InitializableFactory.create(context, NotInitializableClass.class.getName(),
+				XWriterFileNamer.class);
 	}
 
-	@Test (expected=ResourceInitializationException.class)
+	@Test(expected = ResourceInitializationException.class)
 	public void testBadConstructor() throws ResourceInitializationException {
-		UimaContext context = UimaContextFactory.createUimaContext(InitializableClass.PARAM_BOOLEAN_PARAMETER, true);	
+		UimaContext context = UimaContextFactory.createUimaContext(
+				InitializableClass.PARAM_BOOLEAN_PARAMETER, true);
 		InitializableFactory.create(context, NoDefaultConstructor.class);
 	}
 
 	public static class InitializableClass implements Initializable {
 
-		public static final String PARAM_BOOLEAN_PARAMETER = ConfigurationParameterFactory.createConfigurationParameterName(InitializableClass.class, "booleanParameter");
+		public static final String PARAM_BOOLEAN_PARAMETER = ConfigurationParameterFactory
+				.createConfigurationParameterName(InitializableClass.class, "booleanParameter");
 		@ConfigurationParameter
 		public boolean booleanParameter = false;
-		
+
 		public void initialize(UimaContext context) throws ResourceInitializationException {
 			ConfigurationParameterInitializer.initialize(this, context);
 		}
 	}
 
-	public static class NotInitializableClass  {
+	public static class NotInitializableClass {
 
-		public static final String PARAM_BOOLEAN_PARAMETER = ConfigurationParameterFactory.createConfigurationParameterName(InitializableClass.class, "booleanParameter");
+		public static final String PARAM_BOOLEAN_PARAMETER = ConfigurationParameterFactory
+				.createConfigurationParameterName(InitializableClass.class, "booleanParameter");
 		@ConfigurationParameter
 		public boolean booleanParameter = false;
-		
+
 		public void initialize(UimaContext context) throws ResourceInitializationException {
 			ConfigurationParameterInitializer.initialize(this, context);
 		}
 	}
 
-	
 	public static class InitializableFileNamer implements Initializable, XWriterFileNamer {
 
-		public static final String PARAM_STRING_PARAMETER = ConfigurationParameterFactory.createConfigurationParameterName(InitializableFileNamer.class, "stringParameter");
+		public static final String PARAM_STRING_PARAMETER = ConfigurationParameterFactory
+				.createConfigurationParameterName(InitializableFileNamer.class, "stringParameter");
 		@ConfigurationParameter
 		public String stringParameter = "hello";
-		
+
 		public void initialize(UimaContext context) throws ResourceInitializationException {
 			ConfigurationParameterInitializer.initialize(this, context);
 		}
@@ -111,10 +119,11 @@ public class InitializableFactoryTest {
 
 	public static class NotInitializableFileNamer implements XWriterFileNamer {
 
-		public static final String PARAM_STRING_PARAMETER = ConfigurationParameterFactory.createConfigurationParameterName(InitializableFileNamer.class, "stringParameter");
+		public static final String PARAM_STRING_PARAMETER = ConfigurationParameterFactory
+				.createConfigurationParameterName(InitializableFileNamer.class, "stringParameter");
 		@ConfigurationParameter
 		public String stringParameter = "hello";
-		
+
 		public void initialize(UimaContext context) throws ResourceInitializationException {
 			ConfigurationParameterInitializer.initialize(this, context);
 		}
@@ -126,7 +135,7 @@ public class InitializableFactoryTest {
 
 	public static class NoDefaultConstructor {
 		public NoDefaultConstructor(String s) {
-			//do nothing
+			// do nothing
 		}
 	}
 

@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 
 package org.uimafit.factory;
 
@@ -21,26 +21,28 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.component.JCasAnnotatorAdapter;
+
 /**
  * @author Steven Bethard, Philip Ogren
  */
 public final class UimaContextFactory {
-	private UimaContextFactory()
-	{
+	private UimaContextFactory() {
 		// This class is not meant to be instantiated
 	}
 
 	/**
 	 * Create a new UimaContext with the given configuration parameters set.
-	 *
+	 * 
 	 * @param configurationParameters
 	 *            The parameters to be set.
 	 * @return The new UimaContext.
 	 * @throws ResourceInitializationException
 	 *             If the context could not be created.
 	 */
-	public static UimaContext createUimaContext(Object... configurationParameters) throws ResourceInitializationException {
-		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, null, configurationParameters);
+	public static UimaContext createUimaContext(Object... configurationParameters)
+			throws ResourceInitializationException {
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class,
+				null, configurationParameters);
 		return engine.getUimaContext();
 	}
 

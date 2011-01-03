@@ -26,7 +26,7 @@ import org.apache.uima.jcas.JCas;
 
 /**
  * Allows to add types and text to a CAS easily piece by piece.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
 public class JCasBuilder {
@@ -36,7 +36,7 @@ public class JCasBuilder {
 	/**
 	 * Create a new JCas builder working on the specified JCas. The JCas must not have any content
 	 * yet.
-	 *
+	 * 
 	 * @param aJCas
 	 *            the working JCas.
 	 */
@@ -46,7 +46,7 @@ public class JCasBuilder {
 
 	/**
 	 * Append a text.
-	 *
+	 * 
 	 * @param aText
 	 *            the text to append.
 	 */
@@ -57,7 +57,7 @@ public class JCasBuilder {
 	/**
 	 * Append a text annotated with the specified annotation. The created annotation is returned and
 	 * further properties can be set on it. The annotation is already added to the indexes.
-	 *
+	 * 
 	 * @param aText
 	 *            covered text
 	 * @param aClass
@@ -81,7 +81,7 @@ public class JCasBuilder {
 	 * Add an annotation starting at the specified position and ending at the current end of the
 	 * text. The created annotation is returned and further properties can be set on it. The
 	 * annotation is already added to the indexes.
-	 *
+	 * 
 	 * @param <T>
 	 *            annotation type
 	 * @param aBegin
@@ -101,7 +101,7 @@ public class JCasBuilder {
 
 	/**
 	 * Get the current "cursor" position (current text length).
-	 *
+	 * 
 	 * @return current text length.
 	 */
 	public int getPosition() {
@@ -110,7 +110,7 @@ public class JCasBuilder {
 
 	/**
 	 * Get the JCas.
-	 *
+	 * 
 	 * @return the JCas.
 	 */
 	public JCas getJCas() {

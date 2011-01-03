@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 
 package org.uimafit.factory.testCrs;
 
@@ -36,31 +36,28 @@ import org.xml.sax.SAXException;
 
 /**
  * <br>
- *
- * This collection reader allows one to read in a single XMI or XCAS file. It's
- * primary purpose is to help out a couple JCasFactory create methods.  However,
- * it is also used for this project unit tests as an example collection reader.
- *
+ * 
+ * This collection reader allows one to read in a single XMI or XCAS file. It's primary purpose is
+ * to help out a couple JCasFactory create methods. However, it is also used for this project unit
+ * tests as an example collection reader.
+ * 
  * @author Steven Bethard, Philip Ogren
  */
 
 public class SingleFileXReader extends CasCollectionReader_ImplBase {
 
-	public static final String PARAM_FILE_NAME = ConfigurationParameterFactory.createConfigurationParameterName(SingleFileXReader.class, "fileName");
+	public static final String PARAM_FILE_NAME = ConfigurationParameterFactory
+			.createConfigurationParameterName(SingleFileXReader.class, "fileName");
 
-	@ConfigurationParameter(
-			mandatory = true,
-			description = "takes the name of a single xmi or xcas file to be processed.")
+	@ConfigurationParameter(mandatory = true, description = "takes the name of a single xmi or xcas file to be processed.")
 	private String fileName;
 
 	public static final String XMI = "XMI";
 	public static final String XCAS = "XCAS";
 
-	public static final String PARAM_XML_SCHEME  = ConfigurationParameterFactory.createConfigurationParameterName(SingleFileXReader.class, "xmlScheme");
-	@ConfigurationParameter(
-			mandatory = true,
-			description = "specifies the UIMA XML serialization scheme that should be usedValid values for this parameter are 'XMI' and 'XCAS'. See XmiCasSerializer or XCASSerializer",
-			defaultValue = XMI)
+	public static final String PARAM_XML_SCHEME = ConfigurationParameterFactory
+			.createConfigurationParameterName(SingleFileXReader.class, "xmlScheme");
+	@ConfigurationParameter(mandatory = true, description = "specifies the UIMA XML serialization scheme that should be usedValid values for this parameter are 'XMI' and 'XCAS'. See XmiCasSerializer or XCASSerializer", defaultValue = XMI)
 	private String xmlScheme;
 
 	private boolean useXMI = true;
@@ -83,7 +80,8 @@ public class SingleFileXReader extends CasCollectionReader_ImplBase {
 		}
 		else {
 			throw new ResourceInitializationException(String.format(
-					"parameter '%1$s' must be either '%2$s' or '%3$s' or left empty.", PARAM_XML_SCHEME, XMI, XCAS), null);
+					"parameter '%1$s' must be either '%2$s' or '%3$s' or left empty.",
+					PARAM_XML_SCHEME, XMI, XCAS), null);
 		}
 
 	}
@@ -113,7 +111,7 @@ public class SingleFileXReader extends CasCollectionReader_ImplBase {
 
 	@Override
 	public void close() throws IOException {
-		//do nothing
+		// do nothing
 	}
 
 	public Progress[] getProgress() {

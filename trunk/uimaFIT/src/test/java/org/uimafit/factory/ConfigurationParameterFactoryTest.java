@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.factory;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -40,65 +40,57 @@ import org.uimafit.descriptor.ConfigurationParameter;
 public class ConfigurationParameterFactoryTest {
 
 	public static final String PARAM_DOUBLE_1 = "org.uimafit.factory.ConfigurationParameterFactoryTest.PARAM_STRING_1";
-	@ConfigurationParameter(name = PARAM_DOUBLE_1, mandatory = true, defaultValue="3.1415")
+	@ConfigurationParameter(name = PARAM_DOUBLE_1, mandatory = true, defaultValue = "3.1415")
 	private Double double1;
 
 	public static final String PARAM_DOUBLE_2 = "org.uimafit.factory.ConfigurationParameterFactoryTest.PARAM_DOUBLE_2";
-	@ConfigurationParameter(name = PARAM_DOUBLE_2, mandatory = true, defaultValue="3.3333")
+	@ConfigurationParameter(name = PARAM_DOUBLE_2, mandatory = true, defaultValue = "3.3333")
 	private Double[] double2;
 	private Double[] double3;
-
-
 
 	public Double[] getDouble2() {
 		return double2;
 	}
 
-
-
 	public void setDouble2(Double[] double2) {
 		this.double2 = double2;
 	}
-
-
 
 	public Double[] getDouble3() {
 		return double3;
 	}
 
-
-
 	public void setDouble3(Double[] double3) {
 		this.double3 = double3;
 	}
-
-
 
 	public Double getDouble1() {
 		return double1;
 	}
 
-
-
 	public void setDouble1(Double double1) {
 		this.double1 = double1;
 	}
 
-
-
 	@Test
 	public void test1() throws SecurityException, NoSuchFieldException {
-		Float value = (Float)ConfigurationParameterFactory.getDefaultValue(ConfigurationParameterFactoryTest.class.getDeclaredField("double1"));
+		Float value = (Float) ConfigurationParameterFactory
+				.getDefaultValue(ConfigurationParameterFactoryTest.class
+						.getDeclaredField("double1"));
 		assertEquals(3.1415, value, 1e-4);
 
-		Float[] values = (Float[])ConfigurationParameterFactory.getDefaultValue(ConfigurationParameterFactoryTest.class.getDeclaredField("double2"));
+		Float[] values = (Float[]) ConfigurationParameterFactory
+				.getDefaultValue(ConfigurationParameterFactoryTest.class
+						.getDeclaredField("double2"));
 		assertEquals(1, values.length);
 		assertEquals(3.3333, values[0], 1e-4);
 
 		IllegalArgumentException iae = null;
 		try {
-		ConfigurationParameterFactory.getDefaultValue(ConfigurationParameterFactoryTest.class.getDeclaredField("double3"));
-		}catch(IllegalArgumentException e) {
+			ConfigurationParameterFactory.getDefaultValue(ConfigurationParameterFactoryTest.class
+					.getDeclaredField("double3"));
+		}
+		catch (IllegalArgumentException e) {
 			iae = e;
 		}
 		assertNotNull(iae);
@@ -109,16 +101,20 @@ public class ConfigurationParameterFactoryTest {
 	public void test2() throws SecurityException, NoSuchFieldException {
 		IllegalArgumentException iae = null;
 		try {
-			ConfigurationParameterFactory.createPrimitiveParameter(ConfigurationParameterFactoryTest.class.getDeclaredField("double3"));
-		} catch(IllegalArgumentException e) {
+			ConfigurationParameterFactory
+					.createPrimitiveParameter(ConfigurationParameterFactoryTest.class
+							.getDeclaredField("double3"));
+		}
+		catch (IllegalArgumentException e) {
 			iae = e;
 		}
 		assertNotNull(iae);
 
 		UIMA_IllegalArgumentException uiae = null;
 		try {
-		ConfigurationParameterFactory.createPrimitiveParameter("point", Point.class, "", true);
-		} catch(UIMA_IllegalArgumentException e) {
+			ConfigurationParameterFactory.createPrimitiveParameter("point", Point.class, "", true);
+		}
+		catch (UIMA_IllegalArgumentException e) {
 			uiae = e;
 		}
 		assertNotNull(uiae);
@@ -130,10 +126,12 @@ public class ConfigurationParameterFactoryTest {
 
 	@Test
 	public void testParam1() throws Exception, NoSuchFieldException {
-		Field field1 =ConfigurationParameterFactoryTest.class.getDeclaredField("param1");
-		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field1);
+		Field field1 = ConfigurationParameterFactoryTest.class.getDeclaredField("param1");
+		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory
+				.createPrimitiveParameter(field1);
 		assertEquals("org.uimafit.factory.ConfigurationParameterFactoryTest.param1", cp.getName());
-		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING, cp.getType());
+		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING,
+				cp.getType());
 		assertEquals("", cp.getDescription());
 		assertFalse(cp.isMandatory());
 		assertFalse(cp.isMultiValued());
@@ -141,28 +139,26 @@ public class ConfigurationParameterFactoryTest {
 	}
 
 	@SuppressWarnings("unused")
-	@ConfigurationParameter(
-			name = "my-boolean-param",
-			mandatory = true,
-			description = "my description",
-			defaultValue = {"false", "false", "true"})
+	@ConfigurationParameter(name = "my-boolean-param", mandatory = true, description = "my description", defaultValue = {
+			"false", "false", "true" })
 	private boolean[] param2;
 
 	@Test
 	public void testParam2() throws Exception, NoSuchFieldException {
-		Field field2 =ConfigurationParameterFactoryTest.class.getDeclaredField("param2");
-		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field2);
+		Field field2 = ConfigurationParameterFactoryTest.class.getDeclaredField("param2");
+		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory
+				.createPrimitiveParameter(field2);
 		assertEquals("my-boolean-param", cp.getName());
-		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_BOOLEAN, cp.getType());
+		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_BOOLEAN,
+				cp.getType());
 		assertEquals("my description", cp.getDescription());
 		assertTrue(cp.isMandatory());
 		assertTrue(cp.isMultiValued());
-		Boolean[] defaultValue =  (Boolean[])ConfigurationParameterFactory.getDefaultValue(field2);
+		Boolean[] defaultValue = (Boolean[]) ConfigurationParameterFactory.getDefaultValue(field2);
 		assertFalse(defaultValue[0]);
 		assertFalse(defaultValue[1]);
 		assertTrue(defaultValue[2]);
 	}
-
 
 	@SuppressWarnings("unused")
 	@ConfigurationParameter
@@ -170,10 +166,12 @@ public class ConfigurationParameterFactoryTest {
 
 	@Test
 	public void testParam3() throws Exception, NoSuchFieldException {
-		Field field3 =ConfigurationParameterFactoryTest.class.getDeclaredField("param3");
-		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field3);
+		Field field3 = ConfigurationParameterFactoryTest.class.getDeclaredField("param3");
+		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory
+				.createPrimitiveParameter(field3);
 		assertEquals("org.uimafit.factory.ConfigurationParameterFactoryTest.param3", cp.getName());
-		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_INTEGER, cp.getType());
+		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_INTEGER,
+				cp.getType());
 		assertEquals("", cp.getDescription());
 		assertFalse(cp.isMandatory());
 		assertFalse(cp.isMultiValued());
@@ -182,25 +180,28 @@ public class ConfigurationParameterFactoryTest {
 
 	private static class CPFT {
 		@SuppressWarnings("unused")
-		@ConfigurationParameter(
-				defaultValue= {"a","b","c"})
+		@ConfigurationParameter(defaultValue = { "a", "b", "c" })
 		private String[] param4;
 	}
 
 	@Test
 	public void testParam4() throws Exception, NoSuchFieldException {
-		Field field4 =CPFT.class.getDeclaredField("param4");
-		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory.createPrimitiveParameter(field4);
-		assertEquals("org.uimafit.factory.ConfigurationParameterFactoryTest$CPFT.param4", cp.getName());
-		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING, cp.getType());
+		Field field4 = CPFT.class.getDeclaredField("param4");
+		org.apache.uima.resource.metadata.ConfigurationParameter cp = ConfigurationParameterFactory
+				.createPrimitiveParameter(field4);
+		assertEquals("org.uimafit.factory.ConfigurationParameterFactoryTest$CPFT.param4",
+				cp.getName());
+		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING,
+				cp.getType());
 		assertEquals("", cp.getDescription());
 		assertFalse(cp.isMandatory());
 		assertTrue(cp.isMultiValued());
-		assertArrayEquals(new String[] {"a","b","c"}, (String[])ConfigurationParameterFactory.getDefaultValue(field4) );
+		assertArrayEquals(new String[] { "a", "b", "c" },
+				(String[]) ConfigurationParameterFactory.getDefaultValue(field4));
 	}
 
 	@SuppressWarnings("unused")
-	@ConfigurationParameter(defaultValue={"data/foo", "bar"})
+	@ConfigurationParameter(defaultValue = { "data/foo", "bar" })
 	private List<File> fileList;
 
 	@Test
@@ -209,16 +210,17 @@ public class ConfigurationParameterFactoryTest {
 		org.apache.uima.resource.metadata.ConfigurationParameter param;
 		param = ConfigurationParameterFactory.createPrimitiveParameter(field);
 		assertEquals(this.getClass().getName() + ".fileList", param.getName());
-		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING, param.getType());
+		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING,
+				param.getType());
 		assertEquals("", param.getDescription());
 		assertFalse(param.isMandatory());
-		String[] expected = new String[] {"data/foo","bar"};
+		String[] expected = new String[] { "data/foo", "bar" };
 		String[] actual = (String[]) ConfigurationParameterFactory.getDefaultValue(field);
 		assertArrayEquals(expected, actual);
 	}
 
 	@SuppressWarnings("unused")
-	@ConfigurationParameter(defaultValue={"5", "5", "4", "3"})
+	@ConfigurationParameter(defaultValue = { "5", "5", "4", "3" })
 	private Set<String> stringSet;
 
 	@Test
@@ -227,9 +229,10 @@ public class ConfigurationParameterFactoryTest {
 		org.apache.uima.resource.metadata.ConfigurationParameter param;
 		param = ConfigurationParameterFactory.createPrimitiveParameter(field);
 		assertEquals(this.getClass().getName() + ".stringSet", param.getName());
-		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING, param.getType());
+		assertEquals(org.apache.uima.resource.metadata.ConfigurationParameter.TYPE_STRING,
+				param.getType());
 		assertFalse(param.isMandatory());
-		String[] expected = new String[] {"5", "5", "4", "3"};
+		String[] expected = new String[] { "5", "5", "4", "3" };
 		String[] actual = (String[]) ConfigurationParameterFactory.getDefaultValue(field);
 		assertArrayEquals(expected, actual);
 	}

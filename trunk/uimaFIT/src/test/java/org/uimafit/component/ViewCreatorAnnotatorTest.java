@@ -16,7 +16,7 @@
  */
 
 package org.uimafit.component;
- 
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -33,22 +33,23 @@ import org.uimafit.descriptor.SofaCapability;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.type.Token;
 import org.uimafit.util.JCasUtil;
- 
+
 /**
- * I initially thought that the behavior of mapping the default view to another
- * yet-to-be-created view might be different for sofa aware and sofa unaware
- * components. So the tests are run on using an analysis engine of both kinds.
+ * I initially thought that the behavior of mapping the default view to another yet-to-be-created
+ * view might be different for sofa aware and sofa unaware components. So the tests are run on using
+ * an analysis engine of both kinds.
  * 
  * @author Philip Ogren
  * 
  */
-public class ViewCreatorAnnotatorTest extends ComponentTestBase{
+public class ViewCreatorAnnotatorTest extends ComponentTestBase {
 
 	@Test
-	public void testViewCreatorAnnotator() throws ResourceInitializationException, AnalysisEngineProcessException,
-			CASException {
-		AnalysisEngine viewCreator = AnalysisEngineFactory.createPrimitive(ViewCreatorAnnotator.class,
-				typeSystemDescription, ViewCreatorAnnotator.PARAM_VIEW_NAME, "myView");
+	public void testViewCreatorAnnotator() throws ResourceInitializationException,
+			AnalysisEngineProcessException, CASException {
+		AnalysisEngine viewCreator = AnalysisEngineFactory.createPrimitive(
+				ViewCreatorAnnotator.class, typeSystemDescription,
+				ViewCreatorAnnotator.PARAM_VIEW_NAME, "myView");
 		viewCreator.process(jCas);
 		JCas myView = jCas.getView("myView");
 		assertNotNull(myView);
@@ -56,32 +57,35 @@ public class ViewCreatorAnnotatorTest extends ComponentTestBase{
 	}
 
 	/**
-	 * This test basically demonstrates that the default view does not need to
-	 * be initialized because it is done automatically.
+	 * This test basically demonstrates that the default view does not need to be initialized
+	 * because it is done automatically.
 	 */
 	@Test
-	public void testDefaultView() throws ResourceInitializationException, AnalysisEngineProcessException {
+	public void testDefaultView() throws ResourceInitializationException,
+			AnalysisEngineProcessException {
 		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(SofaAwareAnnotator.class,
 				typeSystemDescription);
 		engine.process(jCas);
 		assertEquals("some", JCasUtil.selectByIndex(jCas, Token.class, 0).getCoveredText());
 
-		engine = AnalysisEngineFactory.createPrimitive(SofaUnawareAnnotator.class, typeSystemDescription);
+		engine = AnalysisEngineFactory.createPrimitive(SofaUnawareAnnotator.class,
+				typeSystemDescription);
 		jCas.reset();
 		engine.process(jCas);
 		assertEquals("some", JCasUtil.selectByIndex(jCas, Token.class, 0).getCoveredText());
 	}
 
 	/**
-	 * This test demonstrates the bad behavior that occurs when you try to map
-	 * the default view to some other view without initializing that other view
-	 * first. This is the behavior that SofaInitializerAnnotator addresses.
+	 * This test demonstrates the bad behavior that occurs when you try to map the default view to
+	 * some other view without initializing that other view first. This is the behavior that
+	 * SofaInitializerAnnotator addresses.
 	 * 
 	 * @throws ResourceInitializationException
 	 * @throws AnalysisEngineProcessException
 	 */
 	@Test(expected = AnalysisEngineProcessException.class)
-	public void testOtherViewAware() throws ResourceInitializationException, AnalysisEngineProcessException {
+	public void testOtherViewAware() throws ResourceInitializationException,
+			AnalysisEngineProcessException {
 		AnalysisEngineDescription description = AnalysisEngineFactory.createPrimitiveDescription(
 				SofaAwareAnnotator.class, typeSystemDescription);
 		AnalysisEngine engine = AnalysisEngineFactory.createAnalysisEngine(description, "myView");
@@ -89,7 +93,8 @@ public class ViewCreatorAnnotatorTest extends ComponentTestBase{
 	}
 
 	@Test(expected = AnalysisEngineProcessException.class)
-	public void testOtherViewUnaware() throws ResourceInitializationException, AnalysisEngineProcessException {
+	public void testOtherViewUnaware() throws ResourceInitializationException,
+			AnalysisEngineProcessException {
 		AnalysisEngineDescription description = AnalysisEngineFactory.createPrimitiveDescription(
 				SofaUnawareAnnotator.class, typeSystemDescription);
 		AnalysisEngine engine = AnalysisEngineFactory.createAnalysisEngine(description, "myView");
@@ -97,24 +102,26 @@ public class ViewCreatorAnnotatorTest extends ComponentTestBase{
 	}
 
 	/**
-	 * This test demonstrates that running the viewCreator is doing the
-	 * right thing (i.e. initializing the view "myView")
+	 * This test demonstrates that running the viewCreator is doing the right thing (i.e.
+	 * initializing the view "myView")
 	 * 
 	 * @throws ResourceInitializationException
 	 * @throws AnalysisEngineProcessException
 	 * @throws CASException
 	 */
 	@Test
-	public void testSofaInitializer() throws ResourceInitializationException, AnalysisEngineProcessException,
-			CASException {
+	public void testSofaInitializer() throws ResourceInitializationException,
+			AnalysisEngineProcessException, CASException {
 		AnalysisEngineDescription description = AnalysisEngineFactory.createPrimitiveDescription(
 				SofaAwareAnnotator.class, typeSystemDescription);
 		AnalysisEngine engine = AnalysisEngineFactory.createAnalysisEngine(description, "myView");
-		AnalysisEngine viewCreator = AnalysisEngineFactory.createPrimitive(ViewCreatorAnnotator.class,
-				typeSystemDescription, ViewCreatorAnnotator.PARAM_VIEW_NAME, "myView");
+		AnalysisEngine viewCreator = AnalysisEngineFactory.createPrimitive(
+				ViewCreatorAnnotator.class, typeSystemDescription,
+				ViewCreatorAnnotator.PARAM_VIEW_NAME, "myView");
 		viewCreator.process(jCas);
 		engine.process(jCas);
-		assertEquals("some", JCasUtil.selectByIndex(jCas.getView("myView"), Token.class, 0).getCoveredText());
+		assertEquals("some", JCasUtil.selectByIndex(jCas.getView("myView"), Token.class, 0)
+				.getCoveredText());
 
 		// here I run again with viewCreator running twice to make sure it
 		// does the right thing when the view
@@ -123,7 +130,8 @@ public class ViewCreatorAnnotatorTest extends ComponentTestBase{
 		viewCreator.process(jCas);
 		viewCreator.process(jCas);
 		engine.process(jCas);
-		assertEquals("some", JCasUtil.selectByIndex(jCas.getView("myView"), Token.class, 0).getCoveredText());
+		assertEquals("some", JCasUtil.selectByIndex(jCas.getView("myView"), Token.class, 0)
+				.getCoveredText());
 
 		description = AnalysisEngineFactory.createPrimitiveDescription(SofaUnawareAnnotator.class,
 				typeSystemDescription);
@@ -131,13 +139,15 @@ public class ViewCreatorAnnotatorTest extends ComponentTestBase{
 		jCas.reset();
 		viewCreator.process(jCas);
 		engine.process(jCas);
-		assertEquals("some", JCasUtil.selectByIndex(jCas.getView("myView"), Token.class, 0).getCoveredText());
+		assertEquals("some", JCasUtil.selectByIndex(jCas.getView("myView"), Token.class, 0)
+				.getCoveredText());
 
 		jCas.reset();
 		viewCreator.process(jCas);
 		viewCreator.process(jCas);
 		engine.process(jCas);
-		assertEquals("some", JCasUtil.selectByIndex(jCas.getView("myView"), Token.class, 0).getCoveredText());
+		assertEquals("some", JCasUtil.selectByIndex(jCas.getView("myView"), Token.class, 0)
+				.getCoveredText());
 	}
 
 	@SofaCapability(inputSofas = CAS.NAME_DEFAULT_SOFA)

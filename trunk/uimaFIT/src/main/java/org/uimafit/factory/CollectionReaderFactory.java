@@ -51,100 +51,95 @@ import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
  */
 public final class CollectionReaderFactory {
 
-	private CollectionReaderFactory()
-	{
+	private CollectionReaderFactory() {
 		// This class is not meant to be instantiated
 	}
 
 	/**
-	 * Create a CollectionReader from an XML descriptor file and a set of
-	 * configuration parameters.
-	 *
+	 * Create a CollectionReader from an XML descriptor file and a set of configuration parameters.
+	 * 
 	 * @param descriptorPath
 	 *            The path to the XML descriptor file.
 	 * @param configurationData
-	 *            Any additional configuration parameters to be set. These
-	 *            should be supplied as (name, value) pairs, so there should
-	 *            always be an even number of parameters.
-	 * @return The CollectionReader created from the XML descriptor and the
-	 *         configuration parameters.
+	 *            Any additional configuration parameters to be set. These should be supplied as
+	 *            (name, value) pairs, so there should always be an even number of parameters.
+	 * @return The CollectionReader created from the XML descriptor and the configuration
+	 *         parameters.
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public static CollectionReader createCollectionReaderFromPath(String descriptorPath, Object... configurationData)
-			throws UIMAException, IOException {
-		ResourceCreationSpecifier specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(
-				descriptorPath, configurationData);
+	public static CollectionReader createCollectionReaderFromPath(String descriptorPath,
+			Object... configurationData) throws UIMAException, IOException {
+		ResourceCreationSpecifier specifier = ResourceCreationSpecifierFactory
+				.createResourceCreationSpecifier(descriptorPath, configurationData);
 		return UIMAFramework.produceCollectionReader(specifier);
 	}
 
 	/**
-	 * Get a CollectionReader from the name (Java-style, dotted) of an XML
-	 * descriptor file, and a set of configuration parameters.
-	 *
+	 * Get a CollectionReader from the name (Java-style, dotted) of an XML descriptor file, and a
+	 * set of configuration parameters.
+	 * 
 	 * @param descriptorName
-	 *            The fully qualified, Java-style, dotted name of the XML
-	 *            descriptor file.
+	 *            The fully qualified, Java-style, dotted name of the XML descriptor file.
 	 * @param configurationData
-	 *            Any additional configuration parameters to be set. These
-	 *            should be supplied as (name, value) pairs, so there should
-	 *            always be an even number of parameters.
-	 * @return The AnalysisEngine created from the XML descriptor and the
-	 *         configuration parameters.
+	 *            Any additional configuration parameters to be set. These should be supplied as
+	 *            (name, value) pairs, so there should always be an even number of parameters.
+	 * @return The AnalysisEngine created from the XML descriptor and the configuration parameters.
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
 
-	public static CollectionReader createCollectionReader(String descriptorName, Object... configurationData)
-			throws UIMAException, IOException {
+	public static CollectionReader createCollectionReader(String descriptorName,
+			Object... configurationData) throws UIMAException, IOException {
 		Import_impl imp = new Import_impl();
 		imp.setName(descriptorName);
 		URL url = imp.findAbsoluteUrl(UIMAFramework.newDefaultResourceManager());
-		ResourceSpecifier specifier = ResourceCreationSpecifierFactory.createResourceCreationSpecifier(url, configurationData);
+		ResourceSpecifier specifier = ResourceCreationSpecifierFactory
+				.createResourceCreationSpecifier(url, configurationData);
 		return UIMAFramework.produceCollectionReader(specifier);
 	}
 
 	/**
-	 * Get a CollectionReader from a CollectionReader class, a type system, and
-	 * a set of configuration parameters.
-     * The type system is detected automatically using {@link TypeSystemDescriptionFactory#createTypeSystemDescription()}.
-     *
+	 * Get a CollectionReader from a CollectionReader class, a type system, and a set of
+	 * configuration parameters. The type system is detected automatically using
+	 * {@link TypeSystemDescriptionFactory#createTypeSystemDescription()}.
+	 * 
 	 * @param readerClass
 	 *            The class of the CollectionReader to be created.
 	 * @param configurationData
-	 *            Any additional configuration parameters to be set. These
-	 *            should be supplied as (name, value) pairs, so there should
-	 *            always be an even number of parameters.
-	 * @return The CollectionReader created and initialized with the type system
-	 *         and configuration parameters.
+	 *            Any additional configuration parameters to be set. These should be supplied as
+	 *            (name, value) pairs, so there should always be an even number of parameters.
+	 * @return The CollectionReader created and initialized with the type system and configuration
+	 *         parameters.
 	 * @throws ResourceInitializationException
 	 */
-	public static CollectionReader createCollectionReader(Class<? extends CollectionReader> readerClass,
-			Object... configurationData) throws ResourceInitializationException {
+	public static CollectionReader createCollectionReader(
+			Class<? extends CollectionReader> readerClass, Object... configurationData)
+			throws ResourceInitializationException {
 		TypeSystemDescription tsd = createTypeSystemDescription();
 		return createCollectionReader(readerClass, tsd, (TypePriorities) null, configurationData);
 	}
 
 	/**
-	 * Get a CollectionReader from a CollectionReader class, a type system, and
-	 * a set of configuration parameters.
-	 *
+	 * Get a CollectionReader from a CollectionReader class, a type system, and a set of
+	 * configuration parameters.
+	 * 
 	 * @param readerClass
 	 *            The class of the CollectionReader to be created.
 	 * @param typeSystem
-	 *            A description of the types used by the CollectionReader (may
-	 *            be null).
+	 *            A description of the types used by the CollectionReader (may be null).
 	 * @param configurationData
-	 *            Any additional configuration parameters to be set. These
-	 *            should be supplied as (name, value) pairs, so there should
-	 *            always be an even number of parameters.
-	 * @return The CollectionReader created and initialized with the type system
-	 *         and configuration parameters.
+	 *            Any additional configuration parameters to be set. These should be supplied as
+	 *            (name, value) pairs, so there should always be an even number of parameters.
+	 * @return The CollectionReader created and initialized with the type system and configuration
+	 *         parameters.
 	 * @throws ResourceInitializationException
 	 */
-	public static CollectionReader createCollectionReader(Class<? extends CollectionReader> readerClass,
-			TypeSystemDescription typeSystem, Object... configurationData) throws ResourceInitializationException {
-		return createCollectionReader(readerClass, typeSystem, (TypePriorities) null, configurationData);
+	public static CollectionReader createCollectionReader(
+			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
+			Object... configurationData) throws ResourceInitializationException {
+		return createCollectionReader(readerClass, typeSystem, (TypePriorities) null,
+				configurationData);
 	}
 
 	/**
@@ -155,9 +150,12 @@ public final class CollectionReaderFactory {
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static CollectionReader createCollectionReader(Class<? extends CollectionReader> readerClass,
-			TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationData) throws ResourceInitializationException {
-		TypePriorities typePriorities = TypePrioritiesFactory.createTypePriorities(prioritizedTypeNames);
+	public static CollectionReader createCollectionReader(
+			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
+			String[] prioritizedTypeNames, Object... configurationData)
+			throws ResourceInitializationException {
+		TypePriorities typePriorities = TypePrioritiesFactory
+				.createTypePriorities(prioritizedTypeNames);
 		return createCollectionReader(readerClass, typeSystem, typePriorities, configurationData);
 
 	}
@@ -170,37 +168,47 @@ public final class CollectionReaderFactory {
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static CollectionReader createCollectionReader(Class<? extends CollectionReader> readerClass,
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationData) throws ResourceInitializationException {
-		CollectionReaderDescription desc = createDescription(readerClass, typeSystem, typePriorities, configurationData);
+	public static CollectionReader createCollectionReader(
+			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
+			TypePriorities typePriorities, Object... configurationData)
+			throws ResourceInitializationException {
+		CollectionReaderDescription desc = createDescription(readerClass, typeSystem,
+				typePriorities, configurationData);
 		return createCollectionReader(desc);
 	}
 
-
 	/**
-	 * This method creates a CollectionReader from a CollectionReaderDescription adding additional configuration parameter data as desired
+	 * This method creates a CollectionReader from a CollectionReaderDescription adding additional
+	 * configuration parameter data as desired
+	 * 
 	 * @param desc
-	 * @param configurationData configuration parameter data as name value pairs. Will override values already set in the description.
+	 * @param configurationData
+	 *            configuration parameter data as name value pairs. Will override values already set
+	 *            in the description.
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static CollectionReader createCollectionReader(CollectionReaderDescription desc, Object... configurationData) throws ResourceInitializationException {
+	public static CollectionReader createCollectionReader(CollectionReaderDescription desc,
+			Object... configurationData) throws ResourceInitializationException {
 		// create the CollectionReader
 		CollectionReader reader;
 		try {
-			reader = (CollectionReader)  (Class.forName(desc.getImplementationName()).newInstance());
+			reader = (CollectionReader) (Class.forName(desc.getImplementationName()).newInstance());
 		}
 		catch (Exception e) {
 			throw new ResourceInitializationException(e);
 		}
 
 		if (configurationData != null) {
-			ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
+			ConfigurationData cdata = ConfigurationParameterFactory
+					.createConfigurationData(configurationData);
 			ConfigurationParameter[] configurationParameters = cdata.configurationParameters;
 			Object[] configurationValues = cdata.configurationValues;
-			ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters, configurationValues);
+			ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
+					configurationParameters, configurationValues);
 			ResourceMetaData metaData = desc.getMetaData();
-			ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();
+			ConfigurationParameterSettings paramSettings = metaData
+					.getConfigurationParameterSettings();
 			Map<String, Object> additionalParameters = new HashMap<String, Object>();
 			additionalParameters.put(AnalysisEngine.PARAM_CONFIG_PARAM_SETTINGS, paramSettings);
 			reader.initialize(desc, additionalParameters);
@@ -210,37 +218,39 @@ public final class CollectionReaderFactory {
 		}
 		return reader;
 
-
-
-
 	}
 
 	/**
-	 * A simple factory method  for creating a CollectionReaderDescription with a given class, type system description, and configuration data
-     * The type system is detected automatically using {@link TypeSystemDescriptionFactory#createTypeSystemDescription()}.
-     *
+	 * A simple factory method for creating a CollectionReaderDescription with a given class, type
+	 * system description, and configuration data The type system is detected automatically using
+	 * {@link TypeSystemDescriptionFactory#createTypeSystemDescription()}.
+	 * 
 	 * @param readerClass
 	 * @param configurationData
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
-			Object... configurationData) throws ResourceInitializationException {
+	public static CollectionReaderDescription createDescription(
+			Class<? extends CollectionReader> readerClass, Object... configurationData)
+			throws ResourceInitializationException {
 		TypeSystemDescription tsd = createTypeSystemDescription();
-		return createDescription(readerClass, tsd, (TypePriorities)null, configurationData);
+		return createDescription(readerClass, tsd, (TypePriorities) null, configurationData);
 	}
 
 	/**
-	 * A simple factory method  for creating a CollectionReaderDescription with a given class, type system description, and configuration data
+	 * A simple factory method for creating a CollectionReaderDescription with a given class, type
+	 * system description, and configuration data
+	 * 
 	 * @param readerClass
 	 * @param typeSystem
 	 * @param configurationData
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
-			TypeSystemDescription typeSystem, Object... configurationData) throws ResourceInitializationException {
-		 return createDescription(readerClass, typeSystem, (TypePriorities)null, configurationData);
+	public static CollectionReaderDescription createDescription(
+			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
+			Object... configurationData) throws ResourceInitializationException {
+		return createDescription(readerClass, typeSystem, (TypePriorities) null, configurationData);
 	}
 
 	/**
@@ -251,13 +261,15 @@ public final class CollectionReaderFactory {
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
-			TypeSystemDescription typeSystem, String[] prioritizedTypeNames, Object... configurationData) throws ResourceInitializationException {
-		TypePriorities typePriorities = TypePrioritiesFactory.createTypePriorities(prioritizedTypeNames);
+	public static CollectionReaderDescription createDescription(
+			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
+			String[] prioritizedTypeNames, Object... configurationData)
+			throws ResourceInitializationException {
+		TypePriorities typePriorities = TypePrioritiesFactory
+				.createTypePriorities(prioritizedTypeNames);
 		return createDescription(readerClass, typeSystem, typePriorities, configurationData);
 
 	}
-
 
 	/**
 	 * @param readerClass
@@ -267,11 +279,13 @@ public final class CollectionReaderFactory {
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, Object... configurationData) throws ResourceInitializationException {
-		return createDescription(readerClass, typeSystem, typePriorities, (Capability[])null, configurationData);
+	public static CollectionReaderDescription createDescription(
+			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
+			TypePriorities typePriorities, Object... configurationData)
+			throws ResourceInitializationException {
+		return createDescription(readerClass, typeSystem, typePriorities, (Capability[]) null,
+				configurationData);
 	}
-
 
 	/**
 	 * @param readerClass
@@ -282,15 +296,20 @@ public final class CollectionReaderFactory {
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, Capability[] capabilities, Object... configurationData) throws ResourceInitializationException {
-		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
-		return createDescription(readerClass, typeSystem, typePriorities, capabilities, cdata.configurationParameters, cdata.configurationValues);
+	public static CollectionReaderDescription createDescription(
+			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
+			TypePriorities typePriorities, Capability[] capabilities, Object... configurationData)
+			throws ResourceInitializationException {
+		ConfigurationData cdata = ConfigurationParameterFactory
+				.createConfigurationData(configurationData);
+		return createDescription(readerClass, typeSystem, typePriorities, capabilities,
+				cdata.configurationParameters, cdata.configurationValues);
 	}
 
-
 	/**
-	 * The factory method for creating CollectionReaderDescription objects for a given class, TypeSystemDescription, TypePriorities, capabilities, and configuration data
+	 * The factory method for creating CollectionReaderDescription objects for a given class,
+	 * TypeSystemDescription, TypePriorities, capabilities, and configuration data
+	 * 
 	 * @param readerClass
 	 * @param typeSystem
 	 * @param typePriorities
@@ -300,22 +319,27 @@ public final class CollectionReaderFactory {
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static CollectionReaderDescription createDescription(Class<? extends CollectionReader> readerClass,
-			TypeSystemDescription typeSystem, TypePriorities typePriorities, Capability[] capabilities, ConfigurationParameter[] configurationParameters, Object[] configurationValues) throws ResourceInitializationException {
+	public static CollectionReaderDescription createDescription(
+			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
+			TypePriorities typePriorities, Capability[] capabilities,
+			ConfigurationParameter[] configurationParameters, Object[] configurationValues)
+			throws ResourceInitializationException {
 		// create the descriptor and set configuration parameters
 		CollectionReaderDescription desc = new CollectionReaderDescription_impl();
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setImplementationName(readerClass.getName());
 
 		// Extract external resource dependencies
-		Collection<ExternalResourceDependency> deps = ExternalResourceInitializer.getResourceDeclarations(
-				readerClass).values();
-		desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps.size()]));
+		Collection<ExternalResourceDependency> deps = ExternalResourceInitializer
+				.getResourceDeclarations(readerClass).values();
+		desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps
+				.size()]));
 
 		ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
 				.createConfigurationData(readerClass);
 		ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
-				reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);
+				reflectedConfigurationData.configurationParameters,
+				reflectedConfigurationData.configurationValues);
 		if (configurationParameters != null) {
 			ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
 					configurationParameters, configurationValues);
@@ -326,17 +350,17 @@ public final class CollectionReaderFactory {
 			desc.getCollectionReaderMetaData().setTypeSystem(typeSystem);
 		}
 
-		if(typePriorities != null) {
+		if (typePriorities != null) {
 			desc.getCollectionReaderMetaData().setTypePriorities(typePriorities);
 		}
 
-		if(capabilities == null) {
+		if (capabilities == null) {
 			Capability capability = CapabilityFactory.createCapability(readerClass);
-			if(capability != null) {
-				capabilities = new Capability[] {capability};
+			if (capability != null) {
+				capabilities = new Capability[] { capability };
 			}
 		}
-		if(capabilities != null) {
+		if (capabilities != null) {
 			desc.getCollectionReaderMetaData().setCapabilities(capabilities);
 		}
 
@@ -344,15 +368,20 @@ public final class CollectionReaderFactory {
 	}
 
 	/**
-	 * Since the configuration parameters of a CollectionReader with the given configuration parameter data
+	 * Since the configuration parameters of a CollectionReader with the given configuration
+	 * parameter data
+	 * 
 	 * @param collectionReaderDescription
 	 * @param configurationData
 	 * @throws ResourceInitializationException
 	 */
-	public static void setConfigurationParameters(CollectionReaderDescription collectionReaderDescription, Object... configurationData) throws ResourceInitializationException {
-		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configurationData);
-		ResourceCreationSpecifierFactory.setConfigurationParameters(collectionReaderDescription, cdata.configurationParameters, cdata.configurationValues);
+	public static void setConfigurationParameters(
+			CollectionReaderDescription collectionReaderDescription, Object... configurationData)
+			throws ResourceInitializationException {
+		ConfigurationData cdata = ConfigurationParameterFactory
+				.createConfigurationData(configurationData);
+		ResourceCreationSpecifierFactory.setConfigurationParameters(collectionReaderDescription,
+				cdata.configurationParameters, cdata.configurationValues);
 	}
-
 
 }

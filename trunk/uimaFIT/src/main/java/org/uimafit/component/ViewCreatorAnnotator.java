@@ -24,28 +24,27 @@ import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
 /**
- * This annotator can be placed at/near the beginning of a pipeline to ensure
- * that a particular view is created before it is used further downstream. It
- * will create a view for the view name specified by the configuration parameter
- * PARAM_VIEW_NAME if it doesn't exist. One place this is useful is if you are
- * using an annotator that uses the default view and you have mapped the default
- * view into a different view via a sofa mapping. The default view is created
- * automatically - but if you have mapped the default view to some other view,
- * then the view provided to your annotator (when it asks for the default view)
- * will not be created unless you have explicitly created it.
- *
+ * This annotator can be placed at/near the beginning of a pipeline to ensure that a particular view
+ * is created before it is used further downstream. It will create a view for the view name
+ * specified by the configuration parameter PARAM_VIEW_NAME if it doesn't exist. One place this is
+ * useful is if you are using an annotator that uses the default view and you have mapped the
+ * default view into a different view via a sofa mapping. The default view is created automatically
+ * - but if you have mapped the default view to some other view, then the view provided to your
+ * annotator (when it asks for the default view) will not be created unless you have explicitly
+ * created it.
+ * 
  * @author Philip Ogren
- *
+ * 
  */
 public class ViewCreatorAnnotator extends JCasAnnotator_ImplBase {
 
 	/**
 	 * The parameter name for the name of the viewed to be created by this annotator
 	 */
-	public static String PARAM_VIEW_NAME = ConfigurationParameterFactory.createConfigurationParameterName(
-			ViewCreatorAnnotator.class, "viewName");
+	public static String PARAM_VIEW_NAME = ConfigurationParameterFactory
+			.createConfigurationParameterName(ViewCreatorAnnotator.class, "viewName");
 
-	@ConfigurationParameter(mandatory=true)
+	@ConfigurationParameter(mandatory = true)
 	private String viewName;
 
 	@Override
@@ -54,14 +53,18 @@ public class ViewCreatorAnnotator extends JCasAnnotator_ImplBase {
 	}
 
 	/**
-	 * Provides a simple call that allows you to safely create a view if it has not been created yet.  If the view already
-	 * exists, it is ok to call this method anyways without worrying about checking for this yet.
+	 * Provides a simple call that allows you to safely create a view if it has not been created
+	 * yet. If the view already exists, it is ok to call this method anyways without worrying about
+	 * checking for this yet.
+	 * 
 	 * @param jCas
 	 * @param viewName
-	 * @return true if the view was created as a result of calling this method.  false if the view already existed.
+	 * @return true if the view was created as a result of calling this method. false if the view
+	 *         already existed.
 	 * @throws AnalysisEngineProcessException
 	 */
-	public static JCas createViewSafely(JCas jCas, String viewName) throws AnalysisEngineProcessException {
+	public static JCas createViewSafely(JCas jCas, String viewName)
+			throws AnalysisEngineProcessException {
 		try {
 			try {
 				return jCas.getView(viewName);

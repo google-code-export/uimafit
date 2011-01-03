@@ -49,18 +49,20 @@ public class LicenseTest {
 	private void test(File directory) throws IOException {
 		List<String> filesMissingLicense = new ArrayList<String>();
 
-		Iterator<?> files = org.apache.commons.io.FileUtils.iterateFiles(directory, new SuffixFileFilter(".java"), TrueFileFilter.INSTANCE);
+		Iterator<?> files = org.apache.commons.io.FileUtils.iterateFiles(directory,
+				new SuffixFileFilter(".java"), TrueFileFilter.INSTANCE);
 
 		while (files.hasNext()) {
 			File file = (File) files.next();
-			if (file.getParentFile().getName().equals("type") || file.getName().equals("Files.java")) {
+			if (file.getParentFile().getName().equals("type")
+					|| file.getName().equals("Files.java")) {
 				continue;
 			}
 
 			String fileText = FileUtils.file2String(file);
 
-			if (fileText.indexOf("Copyright") == -1 ||
-					fileText.indexOf("Licensed under the Apache License, Version 2.0") == -1
+			if (fileText.indexOf("Copyright") == -1
+					|| fileText.indexOf("Licensed under the Apache License, Version 2.0") == -1
 					|| fileText.indexOf("@author") == -1) {
 				filesMissingLicense.add(file.getPath());
 			}
@@ -77,6 +79,5 @@ public class LicenseTest {
 			Assert.fail(sb.toString());
 		}
 	}
-
 
 }

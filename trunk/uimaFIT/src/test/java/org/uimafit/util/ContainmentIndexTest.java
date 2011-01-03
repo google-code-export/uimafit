@@ -37,7 +37,7 @@ import org.uimafit.util.ContainmentIndex.Type;
 
 /**
  * Unit test for {@link ContainmentIndex}.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
 public class ContainmentIndexTest extends ComponentTestBase {

@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 
 package org.uimafit.factory.testAes;
 
@@ -27,33 +27,28 @@ import org.uimafit.descriptor.ExternalResource;
 
 /**
  * Parametrized AE for testing {@link ExternalResource} annotations.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
-public class ParameterizedAE2 extends JCasAnnotator_ImplBase
-{
+public class ParameterizedAE2 extends JCasAnnotator_ImplBase {
 	@ExternalResource
 	DummyResource res;
 
 	public static final String RES_OTHER = "other";
-	@ExternalResource(key=RES_OTHER)
+	@ExternalResource(key = RES_OTHER)
 	DummyResource res2;
 
 	public static final String RES_OPTIONAL = "optional";
-	@ExternalResource(key=RES_OPTIONAL, mandatory=false)
+	@ExternalResource(key = RES_OPTIONAL, mandatory = false)
 	DummyResource res3;
 
 	@Override
-	public void process(JCas aJCas)
-		throws AnalysisEngineProcessException
-	{
+	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		// Nothing to do
 	}
 
-	public static final class DummyResource extends Resource_ImplBase
-	{
-		public String getName()
-		{
+	public static final class DummyResource extends Resource_ImplBase {
+		public String getName() {
 			return DummyResource.class.getName();
 		}
 	}

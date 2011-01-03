@@ -34,7 +34,7 @@ import org.apache.uima.cas.CAS;
 
 /**
  * Control aspects of the UIMA analysis component.<br/>
- *
+ * 
  * @author Richard Eckart de Castilho
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -56,7 +56,7 @@ public @interface OperationalProperties {
 	/**
 	 * Gets whether multiple instances of this component can be run in parallel, each receiving a
 	 * subset of the documents from a collection.
-	 *
+	 * 
 	 * @return true if multiple instances can be run in parallel, false if not
 	 * @see org.apache.uima.resource.metadata.OperationalProperties#isMultipleDeploymentAllowed()
 	 */
@@ -64,7 +64,7 @@ public @interface OperationalProperties {
 
 	/**
 	 * Gets whether this component will modify the CAS.
-	 *
+	 * 
 	 * @return true if this component modifies the CAS, false if it does not.
 	 * @see org.apache.uima.resource.metadata.OperationalProperties#getModifiesCas()
 	 */
@@ -76,7 +76,7 @@ public @interface OperationalProperties {
 	 * this this AnalysisEngine and then step through all of the output CASes that it produces. For
 	 * example, such an AnalysisEngine could segment a CAS into smaller pieces, emitting each as a
 	 * separate CAS.
-	 *
+	 * 
 	 * @return true if this component may output new CASes, false if it does not
 	 * @see org.apache.uima.resource.metadata.OperationalProperties#getOutputsNewCASes()
 	 */

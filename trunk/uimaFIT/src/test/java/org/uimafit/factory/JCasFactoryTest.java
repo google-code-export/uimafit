@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.factory;
 
 import static org.junit.Assert.assertEquals;
@@ -25,12 +25,13 @@ import org.junit.Test;
 import org.uimafit.ComponentTestBase;
 import org.uimafit.type.Token;
 import org.uimafit.util.JCasUtil;
+
 /**
  * @author Steven Bethard, Philip Ogren
  * @author Richard Eckart de Castilho
  */
 
-public class JCasFactoryTest extends ComponentTestBase{
+public class JCasFactoryTest extends ComponentTestBase {
 
 	@Test
 	public void testXMI() throws IOException {
@@ -41,7 +42,9 @@ public class JCasFactoryTest extends ComponentTestBase{
 	@Test
 	public void testXCAS() throws IOException {
 		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xcas", false);
-		assertEquals("... the more knowledge advances the more it becomes possible to condense it into little books.", jCas.getDocumentText());
+		assertEquals(
+				"... the more knowledge advances the more it becomes possible to condense it into little books.",
+				jCas.getDocumentText());
 	}
 
 	@Test

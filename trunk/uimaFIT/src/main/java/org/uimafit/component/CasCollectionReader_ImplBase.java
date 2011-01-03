@@ -28,7 +28,7 @@ import org.uimafit.component.initialize.ExternalResourceInitializer;
 
 /**
  * Base class for CAS collection readers which initializes itself based on annotations.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
 public abstract class CasCollectionReader_ImplBase extends CollectionReader_ImplBase {
@@ -42,7 +42,7 @@ public abstract class CasCollectionReader_ImplBase extends CollectionReader_Impl
 
 	/**
 	 * This method should be overwritten by subclasses.
-	 *
+	 * 
 	 * @param context
 	 * @throws ResourceInitializationException
 	 */

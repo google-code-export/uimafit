@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 
 package org.uimafit.testing.factory;
 
@@ -35,17 +35,23 @@ import org.uimafit.ComponentTestBase;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 import org.uimafit.util.JCasUtil;
+
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
-public class TokenBuilderTest extends ComponentTestBase{
+public class TokenBuilderTest extends ComponentTestBase {
 
 	@Test
 	public void test1() throws UIMAException {
-		String text = "What if we built a rocket ship made of cheese?" + "We could fly it to the moon for repairs.";
-		tokenBuilder.buildTokens(jCas, text, "What if we built a rocket ship made of cheese ? \r\n We could fly it to the moon for repairs .",
-				"A B C D E F G H I J K L M N O P Q R S T U");
+		String text = "What if we built a rocket ship made of cheese?"
+				+ "We could fly it to the moon for repairs.";
+		tokenBuilder
+				.buildTokens(
+						jCas,
+						text,
+						"What if we built a rocket ship made of cheese ? \r\n We could fly it to the moon for repairs .",
+						"A B C D E F G H I J K L M N O P Q R S T U");
 
 		FSIndex<Annotation> sentenceIndex = jCas.getAnnotationIndex(Sentence.type);
 		assertEquals(2, sentenceIndex.size());
@@ -74,12 +80,17 @@ public class TokenBuilderTest extends ComponentTestBase{
 		token = JCasUtil.selectByIndex(jCas, Token.class, 20);
 		testToken(token, ".", 85, 86, "U", null);
 	}
-	
+
 	@Test
 	public void test2() throws UIMAException {
-		String text = "What if we built a rocket ship made of cheese? \n" + "We could fly it to the moon for repairs.";
-		tokenBuilder.buildTokens(jCas, text, "What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
-				"A B C D E F G H I J K L M N O P Q R S T U");
+		String text = "What if we built a rocket ship made of cheese? \n"
+				+ "We could fly it to the moon for repairs.";
+		tokenBuilder
+				.buildTokens(
+						jCas,
+						text,
+						"What if we built a rocket ship made of cheese ? \n We could fly it to the moon for repairs .",
+						"A B C D E F G H I J K L M N O P Q R S T U");
 
 		Token token = JCasUtil.selectByIndex(jCas, Token.class, 10);
 		testToken(token, "?", 45, 46, "K", null);
@@ -87,16 +98,21 @@ public class TokenBuilderTest extends ComponentTestBase{
 		testToken(token, "We", 48, 50, "L", null);
 
 		jCas.reset();
-		text = "What if we built a rocket ship made of cheese? \n" + "We could fly it to the moon for repairs.";
-		tokenBuilder.buildTokens(jCas, text, "What if we built a rocket ship made of cheese ?\nWe could fly it to the moon for repairs .",
-				"A B C D E F G H I J K L M N O P Q R S T U");
+		text = "What if we built a rocket ship made of cheese? \n"
+				+ "We could fly it to the moon for repairs.";
+		tokenBuilder
+				.buildTokens(
+						jCas,
+						text,
+						"What if we built a rocket ship made of cheese ?\nWe could fly it to the moon for repairs .",
+						"A B C D E F G H I J K L M N O P Q R S T U");
 
 		token = JCasUtil.selectByIndex(jCas, Token.class, 10);
 		testToken(token, "?", 45, 46, "K", null);
 		token = JCasUtil.selectByIndex(jCas, Token.class, 11);
 		testToken(token, "We", 48, 50, "L", null);
 	}
-	
+
 	@Test
 	public void test3() throws UIMAException {
 		String text = "If you like line writer, then you should really check out line rider.";
@@ -114,7 +130,8 @@ public class TokenBuilderTest extends ComponentTestBase{
 		assertEquals(text, sentence.getCoveredText());
 	}
 
-	private void testToken(Token token, String coveredText, int begin, int end, String partOfSpeech, String stem) {
+	private void testToken(Token token, String coveredText, int begin, int end,
+			String partOfSpeech, String stem) {
 		assertEquals(coveredText, token.getCoveredText());
 		assertEquals(begin, token.getBegin());
 		assertEquals(end, token.getEnd());
@@ -133,19 +150,20 @@ public class TokenBuilderTest extends ComponentTestBase{
 		String text = "If you like line writer, then you should really check out line rider.";
 		IllegalArgumentException iae = null;
 		try {
-			tokenBuilder.buildTokens(jCas, text, "If you like line rider, then you really don't need line writer");
-		}catch (IllegalArgumentException e) {
+			tokenBuilder.buildTokens(jCas, text,
+					"If you like line rider, then you really don't need line writer");
+		}
+		catch (IllegalArgumentException e) {
 			iae = e;
 		}
 		assertNotNull(iae);
 	}
-	
+
 	@Test
 	public void testStems() throws UIMAException {
 		String text = "Me and all my friends are non-conformists.";
 		tokenBuilder.buildTokens(jCas, text, "Me and all my friends are non - conformists .",
-				"M A A M F A N - C .",
-				"me and all my friend are non - conformist .");
+				"M A A M F A N - C .", "me and all my friend are non - conformist .");
 
 		assertEquals("Me and all my friends are non-conformists.", jCas.getDocumentText());
 		Token friendToken = JCasUtil.selectByIndex(jCas, Token.class, 4);
@@ -153,8 +171,7 @@ public class TokenBuilderTest extends ComponentTestBase{
 		assertEquals("F", friendToken.getPos());
 		assertEquals("friend", friendToken.getStem());
 	}
-	
-	
+
 	@Test
 	public void test4() throws UIMAException {
 		String text = "a b-c de--fg h,i,j,k";
@@ -162,7 +179,7 @@ public class TokenBuilderTest extends ComponentTestBase{
 
 		FSIterator<Annotation> tokens = jCas.getAnnotationIndex(Token.type).iterator();
 		int tokenCount = 0;
-		while(tokens.hasNext()) {
+		while (tokens.hasNext()) {
 			tokenCount++;
 			tokens.next();
 		}
@@ -172,20 +189,21 @@ public class TokenBuilderTest extends ComponentTestBase{
 	@Test
 	public void test5() throws Exception {
 		JCas myView = jCas.createView("MyView");
-		
+
 		tokenBuilder.buildTokens(myView, "red and blue cars and tipsy motorcycles");
-		
+
 		Token token = JCasUtil.selectByIndex(myView, Token.class, 6);
 		assertEquals("motorcycles", token.getCoveredText());
 
 	}
-	
+
 	@Test
 	public void testNewlinesFromFile() throws Exception {
-		String text = FileUtil.loadTextFile(new File("src/test/resources/data/docs/unix-newlines.txt"), "UTF-8");
-		text = text.substring(1); //remove "\uFEFF" character from begining of text
+		String text = FileUtil.loadTextFile(new File(
+				"src/test/resources/data/docs/unix-newlines.txt"), "UTF-8");
+		text = text.substring(1); // remove "\uFEFF" character from begining of text
 		tokenBuilder.buildTokens(jCas, text);
-		
+
 		Collection<Sentence> sentences = JCasUtil.select(jCas, Sentence.class);
 		assertEquals(4, sentences.size());
 		Iterator<Sentence> iterator = sentences.iterator();
@@ -193,12 +211,13 @@ public class TokenBuilderTest extends ComponentTestBase{
 		assertEquals("sentence 2.", iterator.next().getCoveredText());
 		assertEquals("sentence 3.", iterator.next().getCoveredText());
 		assertEquals("sentence 4.", iterator.next().getCoveredText());
-		
+
 		jCas.reset();
-		text = FileUtil.loadTextFile(new File("src/test/resources/data/docs/windows-newlines.txt"), "UTF-8");
-		text = text.substring(1); //remove "\uFEFF" character from begining of text
+		text = FileUtil.loadTextFile(new File("src/test/resources/data/docs/windows-newlines.txt"),
+				"UTF-8");
+		text = text.substring(1); // remove "\uFEFF" character from begining of text
 		tokenBuilder.buildTokens(jCas, text);
-		
+
 		sentences = JCasUtil.select(jCas, Sentence.class);
 		assertEquals(4, sentences.size());
 		iterator = sentences.iterator();
@@ -206,7 +225,7 @@ public class TokenBuilderTest extends ComponentTestBase{
 		assertEquals("sentence 2.", iterator.next().getCoveredText());
 		assertEquals("sentence 3.", iterator.next().getCoveredText());
 		assertEquals("sentence 4.", iterator.next().getCoveredText());
-		
+
 	}
-	
+
 }
