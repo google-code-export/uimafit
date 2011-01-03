@@ -69,3 +69,22 @@ http://uimafit.googlecode.com/svn/tags/uimafit-parent-0.9.14/uimaFIT/apidocs/ind
 <version>0.9.14</version>
 }}}
 so that it is up-to-date.
+
+= Send an announcement =
+After all of the above steps are complete, send an announcement to uimafit-users@googlegroups.com. Here is a template for the email:
+
+{{{
+subject: uimaFIT <version> released
+
+The uimaFIT development team is pleased to announce a new release of uimaFIT, version <version>.  To view the REAME for this release, please visit:
+http://code.google.com/p/uimafit/source/browse/tags/uimafit-parent-1.1.0/uimaFIT/README?r=498
+
+To view the CHANGES for this release, please visit:
+http://code.google.com/p/uimafit/source/browse/tags/uimafit-parent-1.1.0/uimaFIT/CHANGES?r=498
+
+Please visit the project home page for information about how to add uimaFIT as a dependency to your Maven built project:
+http://uimafit.googlecode.com
+
+If you do not use Maven, the latest version of uimaFIT can be obtained from the downloads page:
+http://code.google.com/p/uimafit/downloads/list
+}}}
