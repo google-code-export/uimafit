@@ -56,4 +56,5 @@ enable-auto-props = yes
 }}}
 
 == Formatting Conventons ==
-All *.java files should conform to the project's Java formatting conventions.  This can be done by simply executing "Menu -> Source -> Format" in Eclipse.  You are encouraged to auto-format when you save a file.  This can be done by opening the Eclipse Properties for the uimaFIT project and selecting "Java Editor -> Save Actions" and enabling project specific settings and turning on the radio button labeled "Format all lines" under "Format source code".  For additional discussing about our formatting conventions, please see issue #28.
+
+All `*.java` files should conform to the project's Java formatting conventions.  This can be done by simply executing "Menu -> Source -> Format" in Eclipse.  You are encouraged to auto-format when you save a file.  This can be done by opening the Eclipse Properties for the uimaFIT project and selecting "Java Editor -> Save Actions" and enabling project specific settings and turning on the radio button labeled "Format all lines" under "Format source code".  For additional discussing about our formatting conventions, please see issue #28.
