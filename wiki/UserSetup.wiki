@@ -1,5 +1,3 @@
-#summary One-sentence summary of this page.
-
 The following instructions describe how to add uimaFIT to your project's classpath.  
 
 = Maven Users = 
