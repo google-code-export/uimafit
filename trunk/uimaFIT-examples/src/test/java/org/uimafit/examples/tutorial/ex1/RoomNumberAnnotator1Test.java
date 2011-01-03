@@ -29,10 +29,11 @@ import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.uimafit.util.JCasUtil;
 
 /**
- * This class demonstrates some simple tests using uimaFIT.  A slightly better
+ * This class demonstrates some simple tests using uimaFIT. A slightly better
  * set of tests can be found in RoomNumberAnnotator2Test
+ * 
  * @author Philip
- *
+ * 
  */
 public class RoomNumberAnnotator1Test {
 
@@ -72,8 +73,7 @@ public class RoomNumberAnnotator1Test {
 	 */
 	@Test
 	public void testRNA2() throws Exception {
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory
-				.createTypeSystemDescription("org.uimafit.examples.TypeSystem");
+		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription("org.uimafit.examples.TypeSystem");
 		AnalysisEngine roomNumberAnnotatorAE = AnalysisEngineFactory.createPrimitive(RoomNumberAnnotator.class, typeSystemDescription);
 		JCas jCas = roomNumberAnnotatorAE.newJCas();
 		jCas.setDocumentText("The meeting is over at Yorktown 01-144");

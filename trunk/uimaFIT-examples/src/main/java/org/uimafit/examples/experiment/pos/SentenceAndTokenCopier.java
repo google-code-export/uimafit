@@ -29,27 +29,28 @@ import org.uimafit.examples.type.Token;
 import org.uimafit.util.JCasUtil;
 
 /**
- * This simple AE copies tokens and sentences from one view to another.  
+ * This simple AE copies tokens and sentences from one view to another.
+ * 
  * @author Philip
- *
+ * 
  */
 
-@SofaCapability(inputSofas= {VIEW1, VIEW2})
+@SofaCapability(inputSofas = { VIEW1, VIEW2 })
 public class SentenceAndTokenCopier extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		try {
-		JCas view1 = jCas.getView(VIEW1);
-		JCas view2 = jCas.getView(VIEW2);
-		
-		for(Token token1 : JCasUtil.iterate(view1, Token.class)) {
-			new Token(view2, token1.getBegin(), token1.getEnd()).addToIndexes();
-		}
+			JCas view1 = jCas.getView(VIEW1);
+			JCas view2 = jCas.getView(VIEW2);
 
-		for(Sentence sentence1 : JCasUtil.iterate(view1, Sentence.class)) {
-			new Sentence(view2, sentence1.getBegin(), sentence1.getEnd()).addToIndexes();
-		}
+			for (Token token1 : JCasUtil.iterate(view1, Token.class)) {
+				new Token(view2, token1.getBegin(), token1.getEnd()).addToIndexes();
+			}
+
+			for (Sentence sentence1 : JCasUtil.iterate(view1, Sentence.class)) {
+				new Sentence(view2, sentence1.getBegin(), sentence1.getEnd()).addToIndexes();
+			}
 		}
 		catch (CASException ce) {
 			throw new AnalysisEngineProcessException(ce);

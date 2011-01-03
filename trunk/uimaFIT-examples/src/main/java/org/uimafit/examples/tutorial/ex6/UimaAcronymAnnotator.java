@@ -40,25 +40,22 @@ import org.uimafit.descriptor.TypeCapability;
 import org.uimafit.examples.tutorial.type.UimaAcronym;
 
 /**
- * Annotates UIMA acronyms and provides their expanded forms. When combined in an aggregate TAE with
- * the UimaMeetingAnnotator, demonstrates the use of the ResourceManager to share data between
- * annotators.
- *  
- *  @author unknown
+ * Annotates UIMA acronyms and provides their expanded forms. When combined in
+ * an aggregate TAE with the UimaMeetingAnnotator, demonstrates the use of the
+ * ResourceManager to share data between annotators.
+ * 
+ * @author unknown
  */
-@TypeCapability(outputs = { "org.apache.uima.examples.tutorial.UimaAcronym",
-		"org.apache.uima.examples.tutorial.UimaAcronym:expandedForm" })
-public class UimaAcronymAnnotator
-	extends JCasAnnotator_ImplBase
-{
+@TypeCapability(outputs = { "org.apache.uima.examples.tutorial.UimaAcronym", "org.apache.uima.examples.tutorial.UimaAcronym:expandedForm" })
+public class UimaAcronymAnnotator extends JCasAnnotator_ImplBase {
 
 	static final String RESOURCE_ACRONYM_TABLE = "AcronymTable";
+
 	@ExternalResource(key = RESOURCE_ACRONYM_TABLE)
 	private StringMapResource mMap;
 
 	@Override
-	public void process(JCas aJCas)
-	{
+	public void process(JCas aJCas) {
 		// go through document word-by-word
 		String text = aJCas.getDocumentText();
 		int pos = 0;
@@ -78,20 +75,16 @@ public class UimaAcronymAnnotator
 		}
 	}
 
-	public static AnalysisEngineDescription createDescription()
-		throws InvalidXMLException, ResourceInitializationException
-	{
+	public static AnalysisEngineDescription createDescription() throws InvalidXMLException, ResourceInitializationException {
 		TypeSystemDescription tsd = createTypeSystemDescription("org.uimafit.examples.tutorial.type.TypeSystem");
 		AnalysisEngineDescription aed = createPrimitiveDescription(UimaAcronymAnnotator.class, tsd);
-		ExternalResourceDescription erd = createExternalResourceDescription("UimaAcronymTableFile",
-				StringMapResource_impl.class, "file:org/uimafit/tutorial/ex6/uimaAcronyms.txt");
+		ExternalResourceDescription erd = createExternalResourceDescription("UimaAcronymTableFile", StringMapResource_impl.class,
+				"file:org/uimafit/tutorial/ex6/uimaAcronyms.txt");
 		bindResource(aed, RESOURCE_ACRONYM_TABLE, erd);
 		return aed;
 	}
 
-	public static void main(String[] args)
-		throws Exception
-	{
+	public static void main(String[] args) throws Exception {
 		File outputDirectory = new File("src/main/resources/org/uimafit/examples/tutorial/ex6/");
 		outputDirectory.mkdirs();
 		AnalysisEngineDescription aed = createDescription();

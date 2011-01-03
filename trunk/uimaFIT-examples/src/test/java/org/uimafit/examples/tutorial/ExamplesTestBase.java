@@ -35,12 +35,13 @@ import org.uimafit.examples.tutorial.type.UimaMeeting;
 /**
  * 
  * @author Philip Ogren
- *
+ * 
  */
-public class ExamplesTestBase
-{
+public class ExamplesTestBase {
 	private static ThreadLocal<JCas> JCAS = new ThreadLocal<JCas>();
+
 	private static ThreadLocal<TypeSystemDescription> TYPE_SYSTEM_DESCRIPTION = new ThreadLocal<TypeSystemDescription>();
+
 	private static ThreadLocal<TypePriorities> TYPE_PRIORITIES = new ThreadLocal<TypePriorities>();
 
 	static {
@@ -48,8 +49,7 @@ public class ExamplesTestBase
 			TypeSystemDescription tsd = createTypeSystemDescription("org.uimafit.examples.TypeSystem");
 			TYPE_SYSTEM_DESCRIPTION.set(tsd);
 
-			TypePriorities tp = createTypePriorities(DateAnnotation.class,
-					DateTimeAnnotation.class, Meeting.class, RoomNumber.class,
+			TypePriorities tp = createTypePriorities(DateAnnotation.class, DateTimeAnnotation.class, Meeting.class, RoomNumber.class,
 					TimeAnnotation.class, UimaAcronym.class, UimaMeeting.class);
 			TYPE_PRIORITIES.set(tp);
 
@@ -62,13 +62,16 @@ public class ExamplesTestBase
 	}
 
 	protected JCas jCas;
+
 	protected TypeSystemDescription typeSystemDescription;
+
 	protected TypePriorities typeSystemPriorities;
 
 	/**
-	 * we do not want to create a new JCas object every time we run a test because it is expensive
-	 * (~100ms on my laptop). Instead, we will have one JCas per thread sitting around that we will
-	 * reset everytime a new test is called.
+	 * we do not want to create a new JCas object every time we run a test
+	 * because it is expensive (~100ms on my laptop). Instead, we will have one
+	 * JCas per thread sitting around that we will reset everytime a new test is
+	 * called.
 	 */
 	@Before
 	public void setUp() {

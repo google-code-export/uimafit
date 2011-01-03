@@ -30,7 +30,7 @@ import org.uimafit.examples.tutorial.type.RoomNumber;
 /**
  * 
  * @author Philip Ogren
- *
+ * 
  */
 public class RoomNumberAnnotatorPipeline {
 
@@ -43,7 +43,7 @@ public class RoomNumberAnnotatorPipeline {
 		analysisEngine.process(jCas);
 
 		for (RoomNumber roomNumber : iterate(jCas, RoomNumber.class)) {
-			System.out.println(roomNumber.getCoveredText() + "\tbuilding = "+roomNumber.getBuilding());
+			System.out.println(roomNumber.getCoveredText() + "\tbuilding = " + roomNumber.getBuilding());
 		}
 	}
 }

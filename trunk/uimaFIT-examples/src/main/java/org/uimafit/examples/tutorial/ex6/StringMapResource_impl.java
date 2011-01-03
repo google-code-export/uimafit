@@ -33,19 +33,15 @@ import org.apache.uima.resource.SharedResourceObject;
 /**
  * 
  * @author unknown
- *
+ * 
  */
-public class StringMapResource_impl
-	implements StringMapResource, SharedResourceObject
-{
+public class StringMapResource_impl implements StringMapResource, SharedResourceObject {
 	private Map<String, String> mMap = new HashMap<String, String>();
 
 	/**
 	 * @see org.apache.uima.resource.SharedResourceObject#load(DataResource)
 	 */
-	public void load(DataResource aData)
-		throws ResourceInitializationException
-	{
+	public void load(DataResource aData) throws ResourceInitializationException {
 		InputStream inStr = null;
 		try {
 			// open input stream to data
@@ -73,8 +69,7 @@ public class StringMapResource_impl
 	/**
 	 * @see StringMapResource#get(String)
 	 */
-	public String get(String aKey)
-	{
+	public String get(String aKey) {
 		return mMap.get(aKey);
 	}
 }

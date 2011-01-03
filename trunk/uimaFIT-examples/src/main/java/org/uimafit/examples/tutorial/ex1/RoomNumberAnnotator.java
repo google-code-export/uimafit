@@ -1,5 +1,5 @@
 /*
-  * Licensed to the Apache Software Foundation (ASF) under one
+ * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
  * regarding copyright ownership.  The ASF licenses this file
@@ -28,24 +28,25 @@ import org.uimafit.descriptor.TypeCapability;
 import org.uimafit.examples.tutorial.type.RoomNumber;
 
 /**
- * This class was copied from the uimaj-examples project and modified in following ways:
- * <ul><li>The package name was changed to org.uimafit.tutorial.ex1</li>
- * 	<li>The super class was changed to org.uimafit.component.JCasAnnotator_ImplBase</li>
- * 	<li>The class is annotated with org.uimafit.descriptor.TypeCapability</li>
- *  </ul>
- *
- *  Here, the type capabilities are annotated using the @TypeCapability annotation which are used
- *  by the AnalysisEngineFactory to specify this information in the descriptors returned by, e.g.
- *  AnalysisEngineFactory.createPrimitive().
- *  
- *  @author unknown
- *
+ * This class was copied from the uimaj-examples project and modified in
+ * following ways:
+ * <ul>
+ * <li>The package name was changed to org.uimafit.tutorial.ex1</li>
+ * <li>The super class was changed to
+ * org.uimafit.component.JCasAnnotator_ImplBase</li>
+ * <li>The class is annotated with org.uimafit.descriptor.TypeCapability</li>
+ * </ul>
+ * 
+ * Here, the type capabilities are annotated using the @TypeCapability
+ * annotation which are used by the AnalysisEngineFactory to specify this
+ * information in the descriptors returned by, e.g.
+ * AnalysisEngineFactory.createPrimitive().
+ * 
+ * @author unknown
+ * 
  */
-@TypeCapability(outputs = { "org.apache.uima.tutorial.RoomNumber",
-		"org.apache.uima.tutorial.RoomNumber:building" })
-public class RoomNumberAnnotator
-	extends JCasAnnotator_ImplBase
-{
+@TypeCapability(outputs = { "org.apache.uima.tutorial.RoomNumber", "org.apache.uima.tutorial.RoomNumber:building" })
+public class RoomNumberAnnotator extends JCasAnnotator_ImplBase {
 	private Pattern mYorktownPattern = Pattern.compile("\\b[0-4]\\d-[0-2]\\d\\d\\b");
 
 	private Pattern mHawthornePattern = Pattern.compile("\\b[G1-4][NS]-[A-Z]\\d\\d\\b");
@@ -54,8 +55,7 @@ public class RoomNumberAnnotator
 	 * @see JCasAnnotator_ImplBase#process(JCas)
 	 */
 	@Override
-	public void process(JCas aJCas)
-	{
+	public void process(JCas aJCas) {
 		// get document text
 		String docText = aJCas.getDocumentText();
 		// search for Yorktown room numbers

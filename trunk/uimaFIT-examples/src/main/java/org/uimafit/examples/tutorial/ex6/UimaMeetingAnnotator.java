@@ -49,18 +49,17 @@ import org.uimafit.examples.tutorial.type.UimaMeeting;
 import org.uimafit.factory.AggregateBuilder;
 
 /**
- * Example annotator that iterates over Meeting annotations and annotates a meeting as a UimaMeeting
- * if a UIMA acronym occurs in close proximity to that meeting. When combined in an aggregate TAE
- * with the UimaAcronymAnnotator, demonstrates the use of the ResourceManager to share data between
- * annotators.
- *
+ * Example annotator that iterates over Meeting annotations and annotates a
+ * meeting as a UimaMeeting if a UIMA acronym occurs in close proximity to that
+ * meeting. When combined in an aggregate TAE with the UimaAcronymAnnotator,
+ * demonstrates the use of the ResourceManager to share data between annotators.
+ * 
  * @author unknown
  */
 @TypeCapability(inputs = "org.apache.uima.tutorial.Meeting", outputs = "org.apache.uima.tutorial.UimaMeeting")
-public class UimaMeetingAnnotator
-	extends JCasAnnotator_ImplBase
-{
+public class UimaMeetingAnnotator extends JCasAnnotator_ImplBase {
 	static final String RESOURCE_UIMA_TERM_TABLE = "UimaTermTable";
+
 	@ExternalResource(key = RESOURCE_UIMA_TERM_TABLE)
 	private StringMapResource mMap;
 
@@ -68,9 +67,7 @@ public class UimaMeetingAnnotator
 	 * @see AnalysisComponent#initialize(UimaContext)
 	 */
 	@Override
-	public void initialize(UimaContext aContext)
-		throws ResourceInitializationException
-	{
+	public void initialize(UimaContext aContext) throws ResourceInitializationException {
 		super.initialize(aContext);
 		try {
 			// get a reference to the String Map Resource
@@ -85,9 +82,7 @@ public class UimaMeetingAnnotator
 	 * @see JCasAnnotator_ImplBase#process(JCas)
 	 */
 	@Override
-	public void process(JCas aJCas)
-		throws AnalysisEngineProcessException
-	{
+	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		// get document text
 		String text = aJCas.getDocumentText();
 
@@ -124,7 +119,8 @@ public class UimaMeetingAnnotator
 					annot.setDate(meeting.getDate());
 					annot.setStartTime(meeting.getStartTime());
 					annot.setEndTime(meeting.getEndTime());
-					// Add annotation to a list, to be later added to the indexes.
+					// Add annotation to a list, to be later added to the
+					// indexes.
 					// We need to do this because it's not allowed to add to an
 					// index that you're currently iterating over.
 					uimaMeetings.add(annot);
@@ -138,9 +134,7 @@ public class UimaMeetingAnnotator
 		}
 	}
 
-	public static void main(String[] args)
-		throws Exception
-	{
+	public static void main(String[] args) throws Exception {
 		File outputDirectory = new File("src/main/resources/org/uimafit/tutorial/ex6/");
 		outputDirectory.mkdirs();
 
@@ -154,8 +148,8 @@ public class UimaMeetingAnnotator
 		builder.add(createAnalysisEngineDescription("org.uimafit.tutorial.ex6.UimaMeetingAnnotator"));
 		AnalysisEngineDescription aggregate = builder.createAggregateDescription();
 
-		ExternalResourceDescription erd = createExternalResourceDescription("UimaAcronymTableFile",
-				StringMapResource_impl.class, "file:org/uimafit/tutorial/ex6/uimaAcronyms.txt");
+		ExternalResourceDescription erd = createExternalResourceDescription("UimaAcronymTableFile", StringMapResource_impl.class,
+				"file:org/uimafit/tutorial/ex6/uimaAcronyms.txt");
 
 		// bindResource(aggregate,
 		// UimaAcronymAnnotator.class.getName()+"/"+UimaAcronymAnnotator.RESOURCE_ACRONYM_TABLE,

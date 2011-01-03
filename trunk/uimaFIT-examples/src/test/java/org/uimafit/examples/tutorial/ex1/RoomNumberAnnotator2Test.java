@@ -27,15 +27,18 @@ import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.util.JCasUtil;
 
 /**
- * This class demonstrates some simple tests using uimaFIT using the ExamplesTestBase. 
- * These tests have the advantage that a new JCas is not created for each test.
+ * This class demonstrates some simple tests using uimaFIT using the
+ * ExamplesTestBase. These tests have the advantage that a new JCas is not
+ * created for each test.
+ * 
  * @author Philip
- *
+ * 
  */
-public class RoomNumberAnnotator2Test extends ExamplesTestBase{
+public class RoomNumberAnnotator2Test extends ExamplesTestBase {
 
 	/**
-	 * This test is nice because the super classes provides the typeSystemDescription and jCas objects.
+	 * This test is nice because the super classes provides the
+	 * typeSystemDescription and jCas objects.
 	 * 
 	 * @throws Exception
 	 */

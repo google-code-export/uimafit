@@ -24,15 +24,15 @@ import org.uimafit.descriptor.ConfigurationParameter;
 /**
  * 
  * @author Philip Ogren
- *
+ * 
  */
 public class GetStartedQuickAE extends JCasAnnotator_ImplBase {
 
-	@ConfigurationParameter(name="stringParamName")
+	@ConfigurationParameter(name = "stringParamName")
 	private String stringParam;
-	
+
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
-		System.out.println("Hello world!  Say 'hi' to "+stringParam);
+		System.out.println("Hello world!  Say 'hi' to " + stringParam);
 	}
 }
