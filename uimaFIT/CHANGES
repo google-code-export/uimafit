@@ -1,3 +1,6 @@
+changes subsequent to 1.1.0
+	- resolved issue #42 "add a "distribution" module to uimaFIT which generates a zip containing uimaFIT plus all dependencies."
+
 changes in 1.1.0
 	- resolved issue #44 "bug in TokenBuilder related to windows newlines"
 	- resolved issue #43 "support for Locale configuration parameters"
