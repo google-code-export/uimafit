@@ -50,29 +50,37 @@ public class AggregateBuilderTest extends ComponentTestBase {
 		tokenBuilder.buildTokens(jCas, "Anyone up for a game of Foosball?");
 
 		AggregateBuilder builder = new AggregateBuilder();
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription), ViewNames.PARENTHESES_VIEW, "A");
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, typeSystemDescription), ViewNames.SORTED_VIEW, "B",
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class,
+				typeSystemDescription), ViewNames.PARENTHESES_VIEW, "A");
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class,
+				typeSystemDescription), ViewNames.SORTED_VIEW, "B",
 				ViewNames.SORTED_PARENTHESES_VIEW, "C", ViewNames.PARENTHESES_VIEW, "A");
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, typeSystemDescription), ViewNames.INITIAL_VIEW, "B");
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class,
+				typeSystemDescription), ViewNames.INITIAL_VIEW, "B");
 		AnalysisEngine aggregateEngine = builder.createAggregate();
 
 		aggregateEngine.process(jCas);
 
 		assertEquals("Anyone up for a game of Foosball?", jCas.getDocumentText());
-		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas.getView("A").getDocumentText());
+		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas.getView("A")
+				.getDocumentText());
 		assertEquals("?AFaaabeeffgllmnnoooooprsuy", jCas.getView("B").getDocumentText());
-		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C").getDocumentText());
-		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
+		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C")
+				.getDocumentText());
+		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW)
+				.getDocumentText());
 
 		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xmi");
-		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, typeSystemDescription);
+		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class,
+				typeSystemDescription);
 
 		SimplePipeline.runPipeline(jCas, ae1, aggregateEngine);
 
 		AnalysisEngineDescription aggregateDescription = builder.createAggregateDescription();
 		builder = new AggregateBuilder();
 		builder.add(aggregateDescription);
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription), ViewNames.PARENTHESES_VIEW, "PARENS");
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class,
+				typeSystemDescription), ViewNames.PARENTHESES_VIEW, "PARENS");
 		aggregateEngine = builder.createAggregate();
 
 		jCas.reset();
@@ -82,11 +90,15 @@ public class AggregateBuilderTest extends ComponentTestBase {
 		aggregateEngine.process(jCas);
 
 		assertEquals("Anyone up for a game of Foosball?", jCas.getDocumentText());
-		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas.getView("A").getDocumentText());
+		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas.getView("A")
+				.getDocumentText());
 		assertEquals("?AFaaabeeffgllmnnoooooprsuy", jCas.getView("B").getDocumentText());
-		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C").getDocumentText());
-		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW).getDocumentText());
-		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas.getView("PARENS").getDocumentText());
+		assertEquals("(((((((((())))))))))?AFaaabeeffgllmnnoooooprsuy", jCas.getView("C")
+				.getDocumentText());
+		assertEquals("yusrpooooonnmllgffeebaaaFA?", jCas.getView(ViewNames.REVERSE_VIEW)
+				.getDocumentText());
+		assertEquals("Any(o)n(e) (u)p f(o)r (a) g(a)m(e) (o)f F(oo)sb(a)ll?", jCas
+				.getView("PARENS").getDocumentText());
 
 	}
 
@@ -95,9 +107,12 @@ public class AggregateBuilderTest extends ComponentTestBase {
 		tokenBuilder.buildTokens(jCas, "'Verb' is a noun!?");
 
 		AggregateBuilder builder = new AggregateBuilder();
-		String componentName1 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription));
-		String componentName2 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription));
-		String componentName3 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription));
+		String componentName1 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(
+				Annotator1.class, typeSystemDescription));
+		String componentName2 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(
+				Annotator1.class, typeSystemDescription));
+		String componentName3 = builder.add(AnalysisEngineFactory.createPrimitiveDescription(
+				Annotator1.class, typeSystemDescription));
 
 		assertEquals("org.uimafit.factory.testAes.Annotator1", componentName1);
 		assertEquals("org.uimafit.factory.testAes.Annotator1.2", componentName2);
@@ -108,7 +123,8 @@ public class AggregateBuilderTest extends ComponentTestBase {
 		builder.addSofaMapping(componentName3, ViewNames.PARENTHESES_VIEW, "C");
 		AnalysisEngineDescription aggregateEngineDescription = builder.createAggregateDescription();
 
-		AnalysisEngine aggregateEngine = AnalysisEngineFactory.createAggregate(aggregateEngineDescription);
+		AnalysisEngine aggregateEngine = AnalysisEngineFactory
+				.createAggregate(aggregateEngineDescription);
 
 		aggregateEngine.process(jCas);
 
@@ -122,18 +138,21 @@ public class AggregateBuilderTest extends ComponentTestBase {
 	@Test(expected = IllegalArgumentException.class)
 	public void testOddNumberOfViewNames() throws ResourceInitializationException {
 		AggregateBuilder builder = new AggregateBuilder();
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription), ViewNames.PARENTHESES_VIEW);
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class,
+				typeSystemDescription), ViewNames.PARENTHESES_VIEW);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testDuplicateComponentNames() throws ResourceInitializationException {
 		AggregateBuilder builder = new AggregateBuilder();
-		builder.add("name", AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription));
-		builder.add("name", AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription));
+		builder.add("name", AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class,
+				typeSystemDescription));
+		builder.add("name", AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class,
+				typeSystemDescription));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testBadSofaMapping()  {
+	public void testBadSofaMapping() {
 		AggregateBuilder builder = new AggregateBuilder();
 		builder.addSofaMapping("name", ViewNames.PARENTHESES_VIEW, "A");
 	}
@@ -143,25 +162,31 @@ public class AggregateBuilderTest extends ComponentTestBase {
 		tokenBuilder.buildTokens(jCas, "An honest man can never surrender an honest doubt.");
 
 		AggregateBuilder builder = new AggregateBuilder();
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(FlowAE1.class, typeSystemDescription));
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(FlowAE2.class, typeSystemDescription));
-		builder.add(AnalysisEngineFactory.createPrimitiveDescription(FlowAE3.class, typeSystemDescription));
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(FlowAE1.class,
+				typeSystemDescription));
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(FlowAE2.class,
+				typeSystemDescription));
+		builder.add(AnalysisEngineFactory.createPrimitiveDescription(FlowAE3.class,
+				typeSystemDescription));
 
-		FlowControllerDescription fcd = FlowControllerFactory.createFlowControllerDescription(ReversableTestFlowController.class);
+		FlowControllerDescription fcd = FlowControllerFactory
+				.createFlowControllerDescription(ReversableTestFlowController.class);
 		builder.setFlowControllerDescription(fcd);
 		AnalysisEngine aggregateEngine = builder.createAggregate();
 		aggregateEngine.process(jCas);
 
 		String text = "An honest man can never surrender an honest doubt.";
-		text = text.replaceAll("[aeiou]+", "($0)");  //this is what FlowAE1 does
+		text = text.replaceAll("[aeiou]+", "($0)"); // this is what FlowAE1 does
 		text = FlowAE2.sort(text);
 		text = FlowAE3.reverse(text);
-		
 
 		assertEquals(text, TypeSystemUtil.getAnalyzedText(jCas));
-		assertEquals("vuutttsssrrrrooonnnnnnnnmhheeeeeeddcbaaaA.)))))))))))))(((((((((((((", TypeSystemUtil.getAnalyzedText(jCas));
+		assertEquals("vuutttsssrrrrooonnnnnnnnmhheeeeeeddcbaaaA.)))))))))))))(((((((((((((",
+				TypeSystemUtil.getAnalyzedText(jCas));
 
-		fcd = FlowControllerFactory.createFlowControllerDescription(ReversableTestFlowController.class, ReversableTestFlowController.PARAM_REVERSE_ORDER, true);
+		fcd = FlowControllerFactory.createFlowControllerDescription(
+				ReversableTestFlowController.class,
+				ReversableTestFlowController.PARAM_REVERSE_ORDER, true);
 		builder.setFlowControllerDescription(fcd);
 		aggregateEngine = builder.createAggregate();
 
@@ -172,11 +197,12 @@ public class AggregateBuilderTest extends ComponentTestBase {
 		text = "An honest man can never surrender an honest doubt.";
 		text = FlowAE3.reverse(text);
 		text = FlowAE2.sort(text);
-		text = text.replaceAll("[aeiou]+", "($0)");  //this is what FlowAE1 does
-		
+		text = text.replaceAll("[aeiou]+", "($0)"); // this is what FlowAE1 does
+
 		assertEquals(text, TypeSystemUtil.getAnalyzedText(jCas));
-		assertEquals(".A(aaa)bcdd(eeeeee)hhmnnnnnnnn(ooo)rrrrsssttt(uu)v", TypeSystemUtil.getAnalyzedText(jCas));
-		
+		assertEquals(".A(aaa)bcdd(eeeeee)hhmnnnnnnnn(ooo)rrrrsssttt(uu)v",
+				TypeSystemUtil.getAnalyzedText(jCas));
+
 	}
 
 }

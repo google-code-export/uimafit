@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 
 package org.uimafit.factory;
 
@@ -45,20 +45,17 @@ import org.uimafit.descriptor.ExternalResource;
 
 /**
  * Test case for {@link ExternalResource} annotations.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
-public class ExternalResourceFactoryTest extends ComponentTestBase
-{
+public class ExternalResourceFactoryTest extends ComponentTestBase {
 	private static final String EX_URI = "http://dum.my";
 	private static final String EX_FILE = "src/test/resources/data/html/1.html";
 
 	@Test
-	public void testScanBind()
-		throws Exception
-	{
-		AnalysisEngineDescription desc = createPrimitiveDescription(
-				DummyAE.class, typeSystemDescription);
+	public void testScanBind() throws Exception {
+		AnalysisEngineDescription desc = createPrimitiveDescription(DummyAE.class,
+				typeSystemDescription);
 
 		bindResource(desc, DummyResource.class);
 		bindResource(desc, DummySharedResourceObject.class, EX_URI);
@@ -76,9 +73,7 @@ public class ExternalResourceFactoryTest extends ComponentTestBase
 		ae.process(ae.newJCas());
 	}
 
-	public static final class DummyAE
-		extends JCasAnnotator_ImplBase
-	{
+	public static final class DummyAE extends JCasAnnotator_ImplBase {
 		@ExternalResource
 		DummyResource r;
 
@@ -86,49 +81,39 @@ public class ExternalResourceFactoryTest extends ComponentTestBase
 		DummySharedResourceObject sharedObject;
 
 		static final String RES_SOME_URI = "SomeUrl";
-		@ExternalResource(key=RES_SOME_URI)
+		@ExternalResource(key = RES_SOME_URI)
 		DataResource someUrl;
 
 		static final String RES_SOME_FILE = "SomeFile";
-		@ExternalResource(key=RES_SOME_FILE)
+		@ExternalResource(key = RES_SOME_FILE)
 		DataResource someFile;
 
 		@Override
-		public void process(JCas aJCas)
-			throws AnalysisEngineProcessException
-		{
+		public void process(JCas aJCas) throws AnalysisEngineProcessException {
 			assertNotNull(r);
 			assertNotNull(sharedObject);
 			assertEquals(EX_URI, sharedObject.getUrl().toString());
 			assertNotNull(someUrl);
 			assertEquals(new File(EX_FILE).toURI().toString(), someUrl.getUri().toString());
 			assertTrue(someFile.getUrl().toString().startsWith("file:"));
-			assertTrue("URL [" + someFile.getUrl() + "] should end in ["
-					+ EX_FILE + "]", someFile.getUrl().toString().endsWith(
-					EX_FILE));
+			assertTrue("URL [" + someFile.getUrl() + "] should end in [" + EX_FILE + "]", someFile
+					.getUrl().toString().endsWith(EX_FILE));
 		}
 	}
 
-	public static final class DummyResource
-		extends Resource_ImplBase
-	{
+	public static final class DummyResource extends Resource_ImplBase {
 		// Nothing
 	}
 
-	public static final class DummySharedResourceObject
-	implements SharedResourceObject
-	{
+	public static final class DummySharedResourceObject implements SharedResourceObject {
 		private URI uri;
 
-		public void load(DataResource aData)
-			throws ResourceInitializationException
-		{
+		public void load(DataResource aData) throws ResourceInitializationException {
 			assertEquals(EX_URI, aData.getUri().toString());
 			uri = aData.getUri();
 		}
 
-		public URI getUrl()
-		{
+		public URI getUrl() {
 			return uri;
 		}
 	}

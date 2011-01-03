@@ -13,18 +13,19 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 
 package org.uimafit.component;
 
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
+
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
 public class JCasAnnotatorAdapter extends JCasAnnotator_ImplBase {
-	
+
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		// this annotator does nothing!

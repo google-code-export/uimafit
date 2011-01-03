@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uimafit.factory.testAes;
 
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -27,7 +27,7 @@ import org.uimafit.descriptor.SofaCapability;
 /**
  * @author Philip Ogren
  */
-@SofaCapability(inputSofas=CAS.NAME_DEFAULT_SOFA, outputSofas=ViewNames.REVERSE_VIEW)
+@SofaCapability(inputSofas = CAS.NAME_DEFAULT_SOFA, outputSofas = ViewNames.REVERSE_VIEW)
 public class Annotator3 extends JCasAnnotator_ImplBase {
 
 	@Override
@@ -53,6 +53,5 @@ public class Annotator3 extends JCasAnnotator_ImplBase {
 		}
 		return returnValue.toString();
 	}
-	
 
 }

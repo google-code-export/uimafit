@@ -24,8 +24,7 @@ import java.util.Locale;
  * @author Philip Ogren
  * 
  */
-public class LocaleUtil
-{
+public class LocaleUtil {
 
 	/**
 	 * This method returns the locale constant for the given string. For example, see
@@ -37,8 +36,7 @@ public class LocaleUtil
 	 *            a string value that names a locale constant.
 	 * @return the corresponding locale or null if there is no locale for the provided string.
 	 */
-	public static Locale getLocaleConstant(String localeConstant)
-	{
+	public static Locale getLocaleConstant(String localeConstant) {
 		try {
 			Field field = Locale.class.getField(localeConstant);
 			if (field != null && field.getType().equals(Locale.class)) {
@@ -61,20 +59,20 @@ public class LocaleUtil
 	 * @param localeString
 	 * @return
 	 */
-  public static Locale createLocale(String localeString) {
-    String[] parts = localeString.split("[_-]", 3);
-    switch (parts.length) {
-      case 3:
-        return new Locale(parts[0], parts[1], parts[2]);
-      case 2:
-        return new Locale(parts[0], parts[1]);
-      case 1:
-        return new Locale(parts[0]);
-      default:
-        throw new IllegalArgumentException("Invalid locale: " + localeString);
-    }
-  }
-	  
+	public static Locale createLocale(String localeString) {
+		String[] parts = localeString.split("[_-]", 3);
+		switch (parts.length) {
+		case 3:
+			return new Locale(parts[0], parts[1], parts[2]);
+		case 2:
+			return new Locale(parts[0], parts[1]);
+		case 1:
+			return new Locale(parts[0]);
+		default:
+			throw new IllegalArgumentException("Invalid locale: " + localeString);
+		}
+	}
+
 	/**
 	 * passes through to getLocaleConstant. If this returns null, then this method passes through to
 	 * createLocale.
@@ -82,14 +80,12 @@ public class LocaleUtil
 	 * @param localeString
 	 * @return
 	 */
-	public static Locale getLocale(String localeString)
-	{
+	public static Locale getLocale(String localeString) {
 		Locale locale = getLocaleConstant(localeString);
 		if (locale != null) {
 			return locale;
 		}
 		return createLocale(localeString);
 	}
-	
-	
+
 }

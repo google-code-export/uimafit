@@ -24,18 +24,16 @@ import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
 /**
- * This annotator will copy the text of one view to another view. It is required
- * that source view already exists. If the destination view does not yet exist,
- * then it will be created. A use case for this analysis engine is when you have
- * a "gold view" which is populated with text and gold-standard annotations. Now
- * you want to run your system/pipeline on a "system view" so that at the end
- * you can compare the annotations in the system view with those in the gold
- * view. It is convenient to have an annotator that simply copies the text from
- * the gold view to the system view before running a pipeline on the system
- * view.
- *
+ * This annotator will copy the text of one view to another view. It is required that source view
+ * already exists. If the destination view does not yet exist, then it will be created. A use case
+ * for this analysis engine is when you have a "gold view" which is populated with text and
+ * gold-standard annotations. Now you want to run your system/pipeline on a "system view" so that at
+ * the end you can compare the annotations in the system view with those in the gold view. It is
+ * convenient to have an annotator that simply copies the text from the gold view to the system view
+ * before running a pipeline on the system view.
+ * 
  * @author Philip Ogren
- *
+ * 
  */
 
 public class ViewTextCopierAnnotator extends JCasAnnotator_ImplBase {
@@ -43,8 +41,8 @@ public class ViewTextCopierAnnotator extends JCasAnnotator_ImplBase {
 	/**
 	 * The parameter name for the name of the source view
 	 */
-	public static String PARAM_SOURCE_VIEW_NAME = ConfigurationParameterFactory.createConfigurationParameterName(
-			ViewTextCopierAnnotator.class, "sourceViewName");
+	public static String PARAM_SOURCE_VIEW_NAME = ConfigurationParameterFactory
+			.createConfigurationParameterName(ViewTextCopierAnnotator.class, "sourceViewName");
 
 	@ConfigurationParameter(mandatory = true)
 	private String sourceViewName;
@@ -52,8 +50,8 @@ public class ViewTextCopierAnnotator extends JCasAnnotator_ImplBase {
 	/**
 	 * The parameter name for the name of the destination view
 	 */
-	public static String PARAM_DESTINATION_VIEW_NAME = ConfigurationParameterFactory.createConfigurationParameterName(
-			ViewTextCopierAnnotator.class, "destinationViewName");
+	public static String PARAM_DESTINATION_VIEW_NAME = ConfigurationParameterFactory
+			.createConfigurationParameterName(ViewTextCopierAnnotator.class, "destinationViewName");
 
 	@ConfigurationParameter(mandatory = true)
 	private String destinationViewName;

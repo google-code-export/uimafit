@@ -22,17 +22,16 @@ import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
-
 /**
  * @author Philip Ogren
  */
 
-public abstract class JCasFlowController_ImplBase extends org.apache.uima.flow.JCasFlowController_ImplBase {
+public abstract class JCasFlowController_ImplBase extends
+		org.apache.uima.flow.JCasFlowController_ImplBase {
 
 	@Override
 	@OverrideMustInvoke
-	public void initialize(FlowControllerContext context) throws ResourceInitializationException
-	{
+	public void initialize(FlowControllerContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		ConfigurationParameterInitializer.initialize(this, context);
 	}

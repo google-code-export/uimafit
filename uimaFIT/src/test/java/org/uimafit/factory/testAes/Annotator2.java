@@ -30,7 +30,8 @@ import org.uimafit.descriptor.SofaCapability;
  * @author Philip Ogren
  */
 
-@SofaCapability(inputSofas = { CAS.NAME_DEFAULT_SOFA, ViewNames.PARENTHESES_VIEW }, outputSofas = {ViewNames.SORTED_VIEW, ViewNames.SORTED_PARENTHESES_VIEW})
+@SofaCapability(inputSofas = { CAS.NAME_DEFAULT_SOFA, ViewNames.PARENTHESES_VIEW }, outputSofas = {
+		ViewNames.SORTED_VIEW, ViewNames.SORTED_PARENTHESES_VIEW })
 public class Annotator2 extends JCasAnnotator_ImplBase {
 
 	@Override
@@ -44,7 +45,8 @@ public class Annotator2 extends JCasAnnotator_ImplBase {
 			String sortedText = new String(chars).trim();
 			sortedView.setDocumentText(sortedText);
 
-			sortedView = ViewCreatorAnnotator.createViewSafely(jCas, ViewNames.SORTED_PARENTHESES_VIEW);
+			sortedView = ViewCreatorAnnotator.createViewSafely(jCas,
+					ViewNames.SORTED_PARENTHESES_VIEW);
 			JCas parenthesesView = jCas.getView(ViewNames.PARENTHESES_VIEW);
 			String parenthesesText = parenthesesView.getDocumentText();
 			chars = parenthesesText.toCharArray();

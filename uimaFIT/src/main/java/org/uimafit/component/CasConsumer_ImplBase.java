@@ -30,7 +30,7 @@ import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 /**
  * Base class for CAS consumers (actually a {@link CasAnnotator_ImplBase}) which initializes itself
  * based on annotations.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
 @OperationalProperties(multipleDeploymentAllowed = false)

@@ -38,17 +38,18 @@ import org.uimafit.factory.AnalysisEngineFactory;
 public class ViewTextCopierAnnotatorTest extends ComponentTestBase {
 
 	@Test
-	public void testViewTextCopier() throws ResourceInitializationException, AnalysisEngineProcessException,
-			CASException {
+	public void testViewTextCopier() throws ResourceInitializationException,
+			AnalysisEngineProcessException, CASException {
 
 		String text = "sample text";
 		String sourceViewName = "SourceView";
 		String destinationViewName = "DestinationView";
 
 		jCas.setDocumentText(text);
-		AnalysisEngine viewCreator = AnalysisEngineFactory.createPrimitive(ViewTextCopierAnnotator.class,
-				typeSystemDescription, ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, CAS.NAME_DEFAULT_SOFA,
-				ViewTextCopierAnnotator.PARAM_DESTINATION_VIEW_NAME,destinationViewName);
+		AnalysisEngine viewCreator = AnalysisEngineFactory.createPrimitive(
+				ViewTextCopierAnnotator.class, typeSystemDescription,
+				ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, CAS.NAME_DEFAULT_SOFA,
+				ViewTextCopierAnnotator.PARAM_DESTINATION_VIEW_NAME, destinationViewName);
 		viewCreator.process(jCas);
 		JCas destinationView = jCas.getView(destinationViewName);
 		assertNotNull(destinationView);
@@ -63,8 +64,9 @@ public class ViewTextCopierAnnotatorTest extends ComponentTestBase {
 		assertEquals(text, destinationView.getDocumentText());
 
 		viewCreator = AnalysisEngineFactory.createPrimitive(ViewTextCopierAnnotator.class,
-				typeSystemDescription, ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, sourceViewName,
-				ViewTextCopierAnnotator.PARAM_DESTINATION_VIEW_NAME,destinationViewName);
+				typeSystemDescription, ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME,
+				sourceViewName, ViewTextCopierAnnotator.PARAM_DESTINATION_VIEW_NAME,
+				destinationViewName);
 		jCas.reset();
 		JCas sourceView = jCas.createView(sourceViewName);
 		sourceView.setDocumentText(text);
@@ -75,15 +77,17 @@ public class ViewTextCopierAnnotatorTest extends ComponentTestBase {
 		assertNull(jCas.getDocumentText());
 	}
 
-	@Test(expected=AnalysisEngineProcessException.class)
-	public void testExceptions() throws ResourceInitializationException, AnalysisEngineProcessException {
+	@Test(expected = AnalysisEngineProcessException.class)
+	public void testExceptions() throws ResourceInitializationException,
+			AnalysisEngineProcessException {
 
 		String sourceViewName = "SourceView";
 		String destinationViewName = "DestinationView";
 
-		AnalysisEngine viewCreator = AnalysisEngineFactory.createPrimitive(ViewTextCopierAnnotator.class,
-				typeSystemDescription, ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, sourceViewName,
-				ViewTextCopierAnnotator.PARAM_DESTINATION_VIEW_NAME,destinationViewName);
+		AnalysisEngine viewCreator = AnalysisEngineFactory.createPrimitive(
+				ViewTextCopierAnnotator.class, typeSystemDescription,
+				ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, sourceViewName,
+				ViewTextCopierAnnotator.PARAM_DESTINATION_VIEW_NAME, destinationViewName);
 		viewCreator.process(jCas);
 	}
 }

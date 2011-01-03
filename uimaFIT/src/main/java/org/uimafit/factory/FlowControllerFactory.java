@@ -31,22 +31,22 @@ import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
  */
 
 public final class FlowControllerFactory {
-	private FlowControllerFactory()
-	{
+	private FlowControllerFactory() {
 		// This class is not meant to be instantiated
 	}
 
 	/**
 	 * Creates a new FlowControllerDescription for a given class and configuration data
+	 * 
 	 * @param flowControllerClass
-	 * @param configurationData should be configuration parameter name / value pairs.
+	 * @param configurationData
+	 *            should be configuration parameter name / value pairs.
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
 	public static FlowControllerDescription createFlowControllerDescription(
 			Class<? extends FlowController> flowControllerClass, Object... configurationData)
-		throws ResourceInitializationException
-	{
+			throws ResourceInitializationException {
 		ConfigurationData cdata = ConfigurationParameterFactory
 				.createConfigurationData(configurationData);
 		return createFlowControllerDescription(flowControllerClass, cdata.configurationParameters,
@@ -54,7 +54,9 @@ public final class FlowControllerFactory {
 	}
 
 	/**
-	 * Creates a new FlowControllerDescription for a given class and configuration parameters with values
+	 * Creates a new FlowControllerDescription for a given class and configuration parameters with
+	 * values
+	 * 
 	 * @param flowControllerClass
 	 * @param configurationParameters
 	 * @param configurationValues
@@ -64,20 +66,20 @@ public final class FlowControllerFactory {
 	public static FlowControllerDescription createFlowControllerDescription(
 			Class<? extends FlowController> flowControllerClass,
 			ConfigurationParameter[] configurationParameters, Object[] configurationValues)
-		throws ResourceInitializationException
-	{
+			throws ResourceInitializationException {
 		FlowControllerDescription desc = new FlowControllerDescription_impl();
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setImplementationName(flowControllerClass.getName());
 
-        ConfigurationData reflectedConfigurationData =
-            ConfigurationParameterFactory.createConfigurationData(flowControllerClass);
-        ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
-            reflectedConfigurationData.configurationParameters, reflectedConfigurationData.configurationValues);
-        if (configurationParameters != null) {
-            ResourceCreationSpecifierFactory.setConfigurationParameters(desc, configurationParameters,
-                configurationValues);
-        }
+		ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
+				.createConfigurationData(flowControllerClass);
+		ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
+				reflectedConfigurationData.configurationParameters,
+				reflectedConfigurationData.configurationValues);
+		if (configurationParameters != null) {
+			ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
+					configurationParameters, configurationValues);
+		}
 
 		ResourceMetaData meta = desc.getMetaData();
 		meta.setName(flowControllerClass.getName());

@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 
 package org.uimafit.util;
 
@@ -39,10 +39,13 @@ public class SimplePipelineTest extends ComponentTestBase {
 	@Test
 	public void test1() throws UIMAException, IOException {
 		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xmi");
-		AnalysisEngineDescription aed1 = AnalysisEngineFactory.createPrimitiveDescription(Annotator1.class, typeSystemDescription);
-		AnalysisEngineDescription aed2 = AnalysisEngineFactory.createPrimitiveDescription(Annotator2.class, typeSystemDescription);
-		AnalysisEngineDescription aed3 = AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class, typeSystemDescription);
+		AnalysisEngineDescription aed1 = AnalysisEngineFactory.createPrimitiveDescription(
+				Annotator1.class, typeSystemDescription);
+		AnalysisEngineDescription aed2 = AnalysisEngineFactory.createPrimitiveDescription(
+				Annotator2.class, typeSystemDescription);
+		AnalysisEngineDescription aed3 = AnalysisEngineFactory.createPrimitiveDescription(
+				Annotator3.class, typeSystemDescription);
 		SimplePipeline.runPipeline(jCas, aed1, aed2, aed3);
-		
+
 	}
 }

@@ -45,7 +45,7 @@ import org.uimafit.descriptor.ConfigurationParameter;
  * Dumps CAS content to a text file. This is useful when setting up test cases which contain a
  * reference output to which an actually produced CAS is compared. The format produced by this
  * component is more easily comparable than a XML or XMI format produced by {@link XWriter}.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
 public class CASDumpWriter extends CasConsumer_ImplBase {

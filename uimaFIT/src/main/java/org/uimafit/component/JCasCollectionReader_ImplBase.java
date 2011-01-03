@@ -32,7 +32,7 @@ import org.uimafit.component.initialize.ExternalResourceInitializer;
 
 /**
  * Base class for JCas collection readers which initializes itself based on annotations.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
 public abstract class JCasCollectionReader_ImplBase extends CollectionReader_ImplBase {
@@ -46,7 +46,7 @@ public abstract class JCasCollectionReader_ImplBase extends CollectionReader_Imp
 
 	/**
 	 * This method should be overwritten by subclasses.
-	 *
+	 * 
 	 * @param context
 	 * @throws ResourceInitializationException
 	 */
@@ -66,7 +66,7 @@ public abstract class JCasCollectionReader_ImplBase extends CollectionReader_Imp
 
 	/**
 	 * Subclasses should implement this method rather than {@link #getNext(CAS)}
-	 *
+	 * 
 	 * @param jCas
 	 * @throws IOException
 	 * @throws CollectionException

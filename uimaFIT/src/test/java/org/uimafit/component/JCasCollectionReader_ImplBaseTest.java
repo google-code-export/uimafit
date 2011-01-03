@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.component;
 
 import static org.junit.Assert.assertEquals;
@@ -34,21 +34,20 @@ import org.apache.uima.util.Progress;
 import org.junit.Test;
 import org.uimafit.descriptor.ConfigurationParameter;
 
-
 /**
  * Test {@link JCasCollectionReader_ImplBase}
- *
+ * 
  * @author Richard Eckart de Castilho
  */
-public class JCasCollectionReader_ImplBaseTest
-{
+public class JCasCollectionReader_ImplBaseTest {
 	/**
 	 * Test using a simple reader reading one text file.
-	 * @throws Exception if an error occurs.
+	 * 
+	 * @throws Exception
+	 *             if an error occurs.
 	 */
 	@Test
-	public void test() throws Exception
-	{
+	public void test() throws Exception {
 		File file = new File("src/test/resources/data/docs/A.txt");
 
 		CollectionReader reader = createCollectionReader(SingleTextReader.class,
@@ -61,27 +60,21 @@ public class JCasCollectionReader_ImplBaseTest
 		assertEquals(FileUtils.readFileToString(file, "UTF-8"), cas.getDocumentText());
 	}
 
-	public static class SingleTextReader extends JCasCollectionReader_ImplBase
-	{
+	public static class SingleTextReader extends JCasCollectionReader_ImplBase {
 		public static final String PARAM_FILE = "File";
-		@ConfigurationParameter(name = PARAM_FILE, mandatory=true)
+		@ConfigurationParameter(name = PARAM_FILE, mandatory = true)
 		private File file;
 
-		public boolean hasNext()
-			throws IOException, CollectionException
-		{
+		public boolean hasNext() throws IOException, CollectionException {
 			return file != null;
 		}
 
-		public Progress[] getProgress()
-		{
+		public Progress[] getProgress() {
 			return new Progress[0];
 		}
 
 		@Override
-		public void getNext(JCas jCas)
-			throws IOException, CollectionException
-		{
+		public void getNext(JCas jCas) throws IOException, CollectionException {
 			jCas.setDocumentText(FileUtils.readFileToString(file, "UTF-8"));
 		}
 	}

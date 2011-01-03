@@ -42,15 +42,15 @@ import org.uimafit.factory.ConfigurationParameterFactory;
  * <li>Float[]</li>
  * <li>float[]</li>
  * </ul>
- *
+ * 
  * Fields marked with this annotation should be declared public or have a setter method. The setter
  * method should be named according to setter naming convention - e.g. a field named
  * "myConfigurationParameter" should have a corresponding setter named "setMyConfigurationParameter"
  * with a single parameter whose type is the same as the type of the field (i.e. you can not mix and
  * match the object or primitive types here).
- *
+ * 
  * @author Philip Ogren
- *
+ * 
  */
 
 @Retention(RetentionPolicy.RUNTIME)

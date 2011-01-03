@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 
 package org.uimafit.testing.util;
 
@@ -21,12 +21,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-
 /**
- * This class provides a way to hide system output which is sometimes desirable when
- * running a suite of unit tests which call methods that might contain sysout calls.
- * This class is a hack and there may be better ways of doing this.  Please advise if you
- * know better!
+ * This class provides a way to hide system output which is sometimes desirable when running a suite
+ * of unit tests which call methods that might contain sysout calls. This class is a hack and there
+ * may be better ways of doing this. Please advise if you know better!
  * 
  * @author Steven Bethard, Philip Ogren
  */
@@ -36,7 +34,8 @@ public class HideOutput extends OutputStream {
 	protected PrintStream err;
 
 	/**
-	 *  calling this constructor will silence System.out and System.err until {@link #restoreOutput()} is called by setting them to this OutputStream
+	 * calling this constructor will silence System.out and System.err until
+	 * {@link #restoreOutput()} is called by setting them to this OutputStream
 	 */
 	public HideOutput() {
 		this.out = System.out;
@@ -55,7 +54,7 @@ public class HideOutput extends OutputStream {
 
 	@Override
 	public void write(int b) throws IOException {
-		//do nothing
+		// do nothing
 	}
-	
+
 }

@@ -34,48 +34,45 @@ import org.apache.uima.util.XMLParser;
  * @author Steven Bethard, Philip Ogren
  */
 public final class ResourceCreationSpecifierFactory {
-	private ResourceCreationSpecifierFactory()
-	{
+	private ResourceCreationSpecifierFactory() {
 		// This class is not meant to be instantiated
 	}
 
 	/**
-	 * Parse a ResourceCreationSpecifier from the URL of an XML descriptor file,
-	 * setting additional configuration parameters as necessary.
-	 *
+	 * Parse a ResourceCreationSpecifier from the URL of an XML descriptor file, setting additional
+	 * configuration parameters as necessary.
+	 * 
 	 * @param descriptorURL
 	 *            The URL of the XML descriptor file.
 	 * @param parameters
-	 *            Any additional configuration parameters to be set. These
-	 *            should be supplied as (name, value) pairs, so there should
-	 *            always be an even number of parameters.
-	 * @return The ResourceCreationSpecifier for the XML descriptor with all the
-	 *         configuration parameters set.
+	 *            Any additional configuration parameters to be set. These should be supplied as
+	 *            (name, value) pairs, so there should always be an even number of parameters.
+	 * @return The ResourceCreationSpecifier for the XML descriptor with all the configuration
+	 *         parameters set.
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public static ResourceCreationSpecifier createResourceCreationSpecifier(URL descriptorURL, Object[] parameters)
-			throws UIMAException, IOException {
+	public static ResourceCreationSpecifier createResourceCreationSpecifier(URL descriptorURL,
+			Object[] parameters) throws UIMAException, IOException {
 		return createResourceCreationSpecifier(new XMLInputSource(descriptorURL), parameters);
 	}
 
 	/**
-	 * Parse a ResourceCreationSpecifier from XML descriptor file input, setting
-	 * additional configuration parameters as necessary.
-	 *
+	 * Parse a ResourceCreationSpecifier from XML descriptor file input, setting additional
+	 * configuration parameters as necessary.
+	 * 
 	 * @param xmlInput
 	 *            The descriptor file as an XMLInputSource.
 	 * @param parameters
-	 *            Any additional configuration parameters to be set. These
-	 *            should be supplied as (name, value) pairs, so there should
-	 *            always be an even number of parameters.
-	 * @return The ResourceCreationSpecifier for the XML descriptor with all the
-	 *         configuration parameters set.
+	 *            Any additional configuration parameters to be set. These should be supplied as
+	 *            (name, value) pairs, so there should always be an even number of parameters.
+	 * @return The ResourceCreationSpecifier for the XML descriptor with all the configuration
+	 *         parameters set.
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public static ResourceCreationSpecifier createResourceCreationSpecifier(XMLInputSource xmlInput, Object[] parameters)
-			throws UIMAException, IOException {
+	public static ResourceCreationSpecifier createResourceCreationSpecifier(
+			XMLInputSource xmlInput, Object[] parameters) throws UIMAException, IOException {
 		if (parameters.length % 2 != 0) {
 			String message = "a value must be specified for each parameter name: an odd number of values passed in ("
 					+ parameters.length + ")";
@@ -87,41 +84,37 @@ public final class ResourceCreationSpecifierFactory {
 		specifier = (ResourceCreationSpecifier) parser.parseResourceSpecifier(xmlInput);
 		setConfigurationParameters(specifier, parameters);
 
-
 		return specifier;
 
 	}
 
 	/**
-	 * Parse a ResourceCreationSpecifier from an XML descriptor file, setting
-	 * additional configuration parameters as necessary.
-	 *
+	 * Parse a ResourceCreationSpecifier from an XML descriptor file, setting additional
+	 * configuration parameters as necessary.
+	 * 
 	 * @param descriptorPath
 	 *            The path to the XML descriptor file.
 	 * @param parameters
-	 *            Any additional configuration parameters to be set. These
-	 *            should be supplied as (name, value) pairs, so there should
-	 *            always be an even number of parameters.
-	 * @return The ResourceCreationSpecifier for the XML descriptor with all the
-	 *         configuration parameters set.
+	 *            Any additional configuration parameters to be set. These should be supplied as
+	 *            (name, value) pairs, so there should always be an even number of parameters.
+	 * @return The ResourceCreationSpecifier for the XML descriptor with all the configuration
+	 *         parameters set.
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public static ResourceCreationSpecifier createResourceCreationSpecifier(String descriptorPath, Object[] parameters)
-			throws UIMAException, IOException {
+	public static ResourceCreationSpecifier createResourceCreationSpecifier(String descriptorPath,
+			Object[] parameters) throws UIMAException, IOException {
 		return createResourceCreationSpecifier(new XMLInputSource(descriptorPath), parameters);
 	}
 
 	/**
-	 * Create configuration parameter declarations and settings from a list of
-	 * (name, value) pairs.
-	 *
+	 * Create configuration parameter declarations and settings from a list of (name, value) pairs.
+	 * 
 	 * @param specifier
 	 *            The ResourceCreationSpecifier whose parameters are to be set.
 	 * @param configurationData
-	 *            The configuration parameters to be set. These should be
-	 *            supplied as (name, value) pairs, so there should always be an
-	 *            even number of parameters.
+	 *            The configuration parameters to be set. These should be supplied as (name, value)
+	 *            pairs, so there should always be an even number of parameters.
 	 */
 	public static void setConfigurationParameters(ResourceCreationSpecifier specifier,
 			Object... configurationData) {
@@ -137,8 +130,8 @@ public final class ResourceCreationSpecifierFactory {
 		for (int i = 0; i < configurationValues.length; i++) {
 			String name = (String) configurationData[i * 2];
 			Object value = configurationData[i * 2 + 1];
-			ConfigurationParameter param = ConfigurationParameterFactory.createPrimitiveParameter(name, value
-					.getClass(), null, false);
+			ConfigurationParameter param = ConfigurationParameterFactory.createPrimitiveParameter(
+					name, value.getClass(), null, false);
 			configurationParameters[i] = param;
 			configurationValues[i] = value;
 		}
@@ -146,31 +139,42 @@ public final class ResourceCreationSpecifierFactory {
 	}
 
 	/**
-	 * This method passes through to {@link #setConfigurationParameters(ResourceMetaData, ConfigurationParameter[], Object[])}
+	 * This method passes through to
+	 * {@link #setConfigurationParameters(ResourceMetaData, ConfigurationParameter[], Object[])}
+	 * 
 	 * @param specifier
 	 * @param configurationParameters
 	 * @param configurationValues
 	 */
 	public static void setConfigurationParameters(ResourceCreationSpecifier specifier,
 			ConfigurationParameter[] configurationParameters, Object[] configurationValues) {
-		setConfigurationParameters(specifier.getMetaData(), configurationParameters, configurationValues);
+		setConfigurationParameters(specifier.getMetaData(), configurationParameters,
+				configurationValues);
 	}
 
 	/**
-	 * This method sets the configuration parameters of a resource.  The length of configurationParameters and configurationValues should be equal
+	 * This method sets the configuration parameters of a resource. The length of
+	 * configurationParameters and configurationValues should be equal
+	 * 
 	 * @param metaData
-	 * @param configurationParameters an array of configuration parameters
-	 * @param configurationValues an array of configuration parameter values
+	 * @param configurationParameters
+	 *            an array of configuration parameters
+	 * @param configurationValues
+	 *            an array of configuration parameter values
 	 */
 	public static void setConfigurationParameters(ResourceMetaData metaData,
 			ConfigurationParameter[] configurationParameters, Object[] configurationValues) {
-		ConfigurationParameterDeclarations paramDecls = metaData.getConfigurationParameterDeclarations();
+		ConfigurationParameterDeclarations paramDecls = metaData
+				.getConfigurationParameterDeclarations();
 		ConfigurationParameterSettings paramSettings = metaData.getConfigurationParameterSettings();
 		for (int i = 0; i < configurationParameters.length; i++) {
-			if (paramDecls != null &&  paramDecls.getConfigurationParameter(null, configurationParameters[i].getName()) == null) {
+			if (paramDecls != null
+					&& paramDecls.getConfigurationParameter(null,
+							configurationParameters[i].getName()) == null) {
 				paramDecls.addConfigurationParameter(configurationParameters[i]);
 			}
-			paramSettings.setParameterValue(configurationParameters[i].getName(), configurationValues[i]);
+			paramSettings.setParameterValue(configurationParameters[i].getName(),
+					configurationValues[i]);
 		}
 	}
 

@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 
 package org.uimafit.pipeline;
 
@@ -35,10 +35,9 @@ import org.uimafit.component.JCasAnnotatorAdapter;
 import org.uimafit.factory.AnalysisEngineFactory;
 
 /**
- * A class implementing iteration over a the documents of a collection. Each
- * element in the Iterable is a JCas containing a single document. The documents
- * have been loaded by the CollectionReader and processed by the AnalysisEngine
- * (if any).
+ * A class implementing iteration over a the documents of a collection. Each element in the Iterable
+ * is a JCas containing a single document. The documents have been loaded by the CollectionReader
+ * and processed by the AnalysisEngine (if any).
  * 
  * @author Steven Bethard, Philip Ogren
  */
@@ -51,22 +50,25 @@ public class JCasIterable implements Iterator<JCas>, Iterable<JCas> {
 	private JCas jCas;
 
 	/**
-	 * Iterate over the documents loaded by the CollectionReader. (Uses an
-	 * JCasAnnotatorAdapter to create the document JCas.)
+	 * Iterate over the documents loaded by the CollectionReader. (Uses an JCasAnnotatorAdapter to
+	 * create the document JCas.)
 	 * 
 	 * @param reader
 	 *            The CollectionReader for loading documents.
-	 * @param typeSystemDescription a type system description
+	 * @param typeSystemDescription
+	 *            a type system description
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public JCasIterable(CollectionReader reader, TypeSystemDescription typeSystemDescription) throws UIMAException, IOException {
-		this(reader, AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class, typeSystemDescription));
+	public JCasIterable(CollectionReader reader, TypeSystemDescription typeSystemDescription)
+			throws UIMAException, IOException {
+		this(reader, AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class,
+				typeSystemDescription));
 	}
 
 	/**
-	 * Iterate over the documents loaded by the CollectionReader, running the
-	 * AnalysisEngine on each one before yielding them.
+	 * Iterate over the documents loaded by the CollectionReader, running the AnalysisEngine on each
+	 * one before yielding them.
 	 * 
 	 * @param reader
 	 *            The CollectionReader for loading documents.
@@ -75,7 +77,8 @@ public class JCasIterable implements Iterator<JCas>, Iterable<JCas> {
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public JCasIterable(CollectionReader reader, AnalysisEngine... engines) throws UIMAException, IOException {
+	public JCasIterable(CollectionReader reader, AnalysisEngine... engines) throws UIMAException,
+			IOException {
 		this.collectionReader = reader;
 		this.analysisEngines = engines;
 		List<ResourceMetaData> metaData = new ArrayList<ResourceMetaData>();

@@ -23,27 +23,27 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
+ * 
  * <pre>
  *   		@SofaCapability(inputSofas = { GOLD_VIEW, SYSTEM_VIEW })
  *   		or
  *   		@SofaCapability(inputSofas = CAS.NAME_DEFAULT_SOFA, outputSofas = GOLD_VIEW)
  * </pre>
- *
+ * 
  * Adding this annotation to your analysis engine description makes your component "sofa aware." The
  * base CAS delivered to "sofa aware" components has no explicit view associated with it. The logic
  * is that it is impossible to know the intent of a sofa aware component and it should use getView
  * as needed. You should therefore be aware that if you need to work with the "_InitialView" view,
  * then you must explicitly request it with a call like:
- *
+ * 
  * JCas initialView = jCas.getView(CAS.NAME_DEFAULT_SOFA);
- *
+ * 
  * This is because the base CAS that it passed into the process method to "sofa aware" components is
  * not the same as the "_InitialView". See how the following member variable is used to understand
  * why/how:
- *
+ * 
  * org.apache.uima.analysis_engine.impl.PrimitiveAnalysisEngine_impl. mSofaAware
- *
+ * 
  * @author Philip Ogren A typical use of this annotation might look something like:
  */
 

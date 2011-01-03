@@ -36,7 +36,7 @@ import org.apache.uima.resource.metadata.TypeSystemDescription;
  * This makes it easy to have runtime decisions determine how the aggregate engine should be built.
  * Finally, one of the create methods are called and an AnalysisEngine or AnalysisEngineDescription
  * is returned.
- *
+ * 
  * @author Philip Ogren
  */
 public class AggregateBuilder {
@@ -51,7 +51,7 @@ public class AggregateBuilder {
 
 	TypePriorities typePriorities;
 
-	 FlowControllerDescription flowControllerDescription;
+	FlowControllerDescription flowControllerDescription;
 
 	/**
 	 * The default no-args constructor calls
@@ -65,7 +65,7 @@ public class AggregateBuilder {
 	/**
 	 * Instantiate an AggregateBuilder with a given type system, type priorities, and flow
 	 * controller. Generally, speaking it suffices to use the no arguments constructor
-	 *
+	 * 
 	 * @param typeSystemDescription
 	 *            this can be instantiated using {@link TypeSystemDescriptionFactory}
 	 * @param typePriorities
@@ -73,8 +73,8 @@ public class AggregateBuilder {
 	 * @param flowControllerDescription
 	 *            this can be instantiated using {@link FlowControllerFactory}
 	 */
-	public AggregateBuilder(TypeSystemDescription typeSystemDescription, TypePriorities typePriorities,
-			 FlowControllerDescription flowControllerDescription) {
+	public AggregateBuilder(TypeSystemDescription typeSystemDescription,
+			TypePriorities typePriorities, FlowControllerDescription flowControllerDescription) {
 		this.typeSystemDescription = typeSystemDescription;
 		this.typePriorities = typePriorities;
 		this.flowControllerDescription = flowControllerDescription;
@@ -84,7 +84,7 @@ public class AggregateBuilder {
 	 * This method simply calls {@link #add(String, AnalysisEngineDescription, String...)} using the
 	 * result of {@link AnalysisEngineDescription#getAnnotatorImplementationName()} for the
 	 * component name
-	 *
+	 * 
 	 * @param aed
 	 * @param viewNames
 	 * @return the name of the component generated for the {@link AnalysisEngineDescription}
@@ -123,9 +123,11 @@ public class AggregateBuilder {
 					+ "' has already been used for another added analysis engine description.");
 		}
 		if (viewNames != null && viewNames.length % 2 != 0) {
-			throw new IllegalArgumentException("an even number of view names is required (as " +
-					"component view name, aggregate view name pairs) for the AggregateBuilder.add " +
-					"method. " + viewNames.length + " view names passed: " + Arrays.asList(viewNames));
+			throw new IllegalArgumentException(
+					"an even number of view names is required (as "
+							+ "component view name, aggregate view name pairs) for the AggregateBuilder.add "
+							+ "method. " + viewNames.length + " view names passed: "
+							+ Arrays.asList(viewNames));
 		}
 
 		analysisEngineDescriptions.add(aed);
@@ -133,14 +135,15 @@ public class AggregateBuilder {
 
 		if (viewNames != null) {
 			for (int i = 0; i < viewNames.length; i += 2) {
-				sofaMappings.add(SofaMappingFactory.createSofaMapping(componentName, viewNames[i], viewNames[i + 1]));
+				sofaMappings.add(SofaMappingFactory.createSofaMapping(componentName, viewNames[i],
+						viewNames[i + 1]));
 			}
 		}
 	}
 
 	/**
 	 * Provide a sofa mapping for a component from the component's view to the aggregate view.
-	 *
+	 * 
 	 * @param componentName
 	 *            the name of the component
 	 * @param componentViewName
@@ -151,20 +154,23 @@ public class AggregateBuilder {
 	public void addSofaMapping(String componentName, String componentViewName,
 			String aggregateViewName) {
 		if (componentNames.contains(componentName)) {
-			sofaMappings.add(SofaMappingFactory.createSofaMapping(componentName, componentViewName, aggregateViewName));
+			sofaMappings.add(SofaMappingFactory.createSofaMapping(componentName, componentViewName,
+					aggregateViewName));
 		}
 		else {
-			throw new IllegalArgumentException("No component with the name '" + componentName +
-					"' has been added to this builder.  Sofa mappings may only be added for " +
-					"components that have been added to this builder. ");
+			throw new IllegalArgumentException("No component with the name '" + componentName
+					+ "' has been added to this builder.  Sofa mappings may only be added for "
+					+ "components that have been added to this builder. ");
 		}
 	}
 
 	/**
 	 * Set the flow controller description of the aggregate engine created by this builder.
-	 * @param flowControllerDescription see {@link FlowControllerFactory}
+	 * 
+	 * @param flowControllerDescription
+	 *            see {@link FlowControllerFactory}
 	 */
-	public void setFlowControllerDescription( FlowControllerDescription flowControllerDescription) {
+	public void setFlowControllerDescription(FlowControllerDescription flowControllerDescription) {
 		this.flowControllerDescription = flowControllerDescription;
 	}
 
@@ -172,7 +178,7 @@ public class AggregateBuilder {
 	 * This method simply delegates to
 	 * {@link AnalysisEngineFactory#createAggregate(List, TypeSystemDescription, TypePriorities, SofaMapping[], Object...)}
 	 * with the data collected by this builder.
-	 *
+	 * 
 	 * @return an aggregate analysis engine
 	 * @throws ResourceInitializationException
 	 */
@@ -187,7 +193,7 @@ public class AggregateBuilder {
 	 * This method simply delegates to
 	 * {@link AnalysisEngineFactory#createAggregateDescription(List, TypeSystemDescription, TypePriorities, SofaMapping[], Object...)}
 	 * with the data collected by this builder.
-	 *
+	 * 
 	 * @return a description of an aggregate analysis engine
 	 * @throws ResourceInitializationException
 	 */

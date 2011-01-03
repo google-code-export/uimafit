@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uimafit.factory;
 
 import static org.junit.Assert.assertEquals;
@@ -24,11 +24,12 @@ import org.junit.Test;
 import org.uimafit.ComponentTestBase;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
+
 /**
  * @author Steven Bethard, Philip Ogren
  */
 
-public class AnnotationFactoryTest extends ComponentTestBase{
+public class AnnotationFactoryTest extends ComponentTestBase {
 
 	@Test
 	public void testCreateAnnotation() throws UIMAException {
@@ -39,14 +40,15 @@ public class AnnotationFactoryTest extends ComponentTestBase{
 		Sentence sentence = AnnotationFactory.createAnnotation(jCas, 0, 10, Sentence.class);
 		assertEquals(0, sentence.getBegin());
 		assertEquals(10, sentence.getEnd());
-		
+
 		UIMAException ue = null;
 		try {
 			AnnotationFactory.createAnnotation(null, 0, 10, Sentence.class);
-		} catch(UIMAException e) {
+		}
+		catch (UIMAException e) {
 			ue = e;
 		}
 		assertNotNull(ue);
-		
+
 	}
 }

@@ -13,8 +13,9 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uimafit.util;
+
 /**
  * @author Philip Ogren
  */
@@ -25,18 +26,17 @@ import org.apache.uima.cas.CASException;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
 
-public class JCasIterableTest extends ComponentTestBase{
+public class JCasIterableTest extends ComponentTestBase {
 
 	@Test
 	public void testResetViews() throws CASException {
 		jCas.createView("point");
 		Iterator<?> views = jCas.getViewIterator();
-		while(views.hasNext()) {
-//			JCas view = (JCas) views.next();
+		while (views.hasNext()) {
+			// JCas view = (JCas) views.next();
 			views.next();
 		}
 		jCas.reset();
-		
-		
+
 	}
 }

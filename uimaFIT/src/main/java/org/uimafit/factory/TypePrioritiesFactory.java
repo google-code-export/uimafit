@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 
 package org.uimafit.factory;
 
@@ -26,19 +26,20 @@ import org.apache.uima.resource.metadata.impl.TypePriorities_impl;
  */
 
 public final class TypePrioritiesFactory {
-	private TypePrioritiesFactory()
-	{
+	private TypePrioritiesFactory() {
 		// This class is not meant to be instantiated
 	}
 
 	/**
 	 * Create a TypePriorities given a sequence of ordered type classes
-	 * @param prioritizedTypes a sequence of ordered type classes
+	 * 
+	 * @param prioritizedTypes
+	 *            a sequence of ordered type classes
 	 * @return
 	 */
 	public static TypePriorities createTypePriorities(Class<?>... prioritizedTypes) {
 		String[] typeNames = new String[prioritizedTypes.length];
-		for(int i=0; i<prioritizedTypes.length; i++) {
+		for (int i = 0; i < prioritizedTypes.length; i++) {
 			typeNames[i] = prioritizedTypes[i].getName();
 		}
 		return createTypePriorities(typeNames);
@@ -46,13 +47,15 @@ public final class TypePrioritiesFactory {
 
 	/**
 	 * Create a TypePriorities given a sequence of ordered type names
-	 * @param prioritizedTypeNames a sequence of ordered type names
+	 * 
+	 * @param prioritizedTypeNames
+	 *            a sequence of ordered type names
 	 * @return
 	 */
 	public static TypePriorities createTypePriorities(String... prioritizedTypeNames) {
 		TypePriorities typePriorities = new TypePriorities_impl();
 		TypePriorityList typePriorityList = typePriorities.addPriorityList();
-		for (String  typeName : prioritizedTypeNames) {
+		for (String typeName : prioritizedTypeNames) {
 			typePriorityList.addType(typeName);
 		}
 		return typePriorities;

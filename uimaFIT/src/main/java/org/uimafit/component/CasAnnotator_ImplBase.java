@@ -27,7 +27,7 @@ import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
 /**
  * Base class for CAS annotators which initializes itself based on annotations.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
 public abstract class CasAnnotator_ImplBase extends

@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uimafit.factory;
 
 import static org.junit.Assert.assertEquals;
@@ -34,6 +34,7 @@ import org.uimafit.factory.testCrs.SingleFileXReader;
 import org.uimafit.pipeline.JCasIterable;
 import org.uimafit.type.Token;
 import org.uimafit.util.JCasUtil;
+
 /**
  * @author Steven Bethard, Philip Ogren
  */
@@ -42,11 +43,12 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 
 	@Test
 	public void testCreateCollectionReader() throws UIMAException, IOException {
-		
-		CollectionReader reader = CollectionReaderFactory.createCollectionReader(SingleFileXReader.class, 
-				typeSystemDescription, SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
-				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
-		
+
+		CollectionReader reader = CollectionReaderFactory.createCollectionReader(
+				SingleFileXReader.class, typeSystemDescription, SingleFileXReader.PARAM_FILE_NAME,
+				"src/test/resources/data/docs/test.xmi", SingleFileXReader.PARAM_XML_SCHEME,
+				SingleFileXReader.XMI);
+
 		JCasIterable jCasIterable = new JCasIterable(reader, typeSystemDescription);
 		jCas = jCasIterable.next();
 		assertNotNull(jCas);
@@ -56,10 +58,10 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 		assertEquals("A", token.getPos());
 		assertEquals("all", token.getStem());
 
-		
-		reader = CollectionReaderFactory.createCollectionReader("org.uimafit.factory.testCrs.SingleFileXReader", 
-				SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
-				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
+		reader = CollectionReaderFactory.createCollectionReader(
+				"org.uimafit.factory.testCrs.SingleFileXReader", SingleFileXReader.PARAM_FILE_NAME,
+				"src/test/resources/data/docs/test.xmi", SingleFileXReader.PARAM_XML_SCHEME,
+				SingleFileXReader.XMI);
 
 		jCasIterable = new JCasIterable(reader, typeSystemDescription);
 		jCas = jCasIterable.next();
@@ -70,8 +72,8 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 		assertEquals(".", token.getPos());
 		assertEquals(".", token.getStem());
 
-		
-		reader = CollectionReaderFactory.createCollectionReaderFromPath("src/test/resources/org/uimafit/factory/testCrs/SingleFileXReader.xml", 
+		reader = CollectionReaderFactory.createCollectionReaderFromPath(
+				"src/test/resources/org/uimafit/factory/testCrs/SingleFileXReader.xml",
 				SingleFileXReader.PARAM_FILE_NAME, "src/test/resources/data/docs/test.xmi",
 				SingleFileXReader.PARAM_XML_SCHEME, SingleFileXReader.XMI);
 
@@ -85,32 +87,34 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 		assertEquals("friend", token.getStem());
 
 	}
-	
+
 	@Test
-	public void testExceptions()  {
+	public void testExceptions() {
 		ResourceInitializationException rie = null;
 		try {
 			CollectionReaderFactory.createCollectionReader(TestCR.class, (Object[]) null);
-		} catch(ResourceInitializationException e) {
+		}
+		catch (ResourceInitializationException e) {
 			rie = e;
 		}
 		assertNotNull(rie);
 
 	}
-	
+
 	private class TestCR extends CollectionReader_ImplBase {
 
 		private TestCR() {
-			//do not instantiate
+			// do not instantiate
 		}
+
 		public void getNext(CAS acas) throws IOException, CollectionException {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void close() throws IOException {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public Progress[] getProgress() {
@@ -122,7 +126,7 @@ public class CollectionReaderFactoryTest extends ComponentTestBase {
 			// TODO Auto-generated method stub
 			return false;
 		}
-		
+
 	}
 
 }

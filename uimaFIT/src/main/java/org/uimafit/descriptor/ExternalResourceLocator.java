@@ -29,7 +29,7 @@ import org.apache.uima.resource.Resource;
  * <p>
  * A {@link ExternalResourceLocator} can be bound to a component field of the type of resource it
  * produces.
- *
+ * 
  * @see ExternalResource#api()
  * @author Richard Eckart de Castilho
  */

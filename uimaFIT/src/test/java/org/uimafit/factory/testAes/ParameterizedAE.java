@@ -13,7 +13,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.factory.testAes;
 
 import java.io.File;
@@ -33,7 +33,7 @@ import org.uimafit.descriptor.SofaCapability;
  * @author Philip Ogren
  */
 
-@SofaCapability(inputSofas= CAS.NAME_DEFAULT_SOFA)
+@SofaCapability(inputSofas = CAS.NAME_DEFAULT_SOFA)
 public class ParameterizedAE extends JCasAnnotator_ImplBase {
 
 	public static final String PARAM_STRING_1 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_STRING_1";
@@ -41,7 +41,8 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	private String string1;
 
 	public static final String PARAM_STRING_2 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_STRING_2";
-	@ConfigurationParameter(name = PARAM_STRING_2, mandatory = false, defaultValue = { "coconut", "mango" })
+	@ConfigurationParameter(name = PARAM_STRING_2, mandatory = false, defaultValue = { "coconut",
+			"mango" })
 	private String[] string2;
 
 	public static final String PARAM_STRING_3 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_STRING_3";
@@ -53,17 +54,17 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	private String[] string4;
 
 	public static final String PARAM_STRING_5 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_STRING_5";
-	@ConfigurationParameter(name = PARAM_STRING_5, mandatory = false, defaultValue="")
+	@ConfigurationParameter(name = PARAM_STRING_5, mandatory = false, defaultValue = "")
 	private String[] string5;
 
-	@ConfigurationParameter(name="strings6", defaultValue = {"kiwi fruit", "grape", "pear"})
+	@ConfigurationParameter(name = "strings6", defaultValue = { "kiwi fruit", "grape", "pear" })
 	private Set<String> strings6;
 
 	public Set<String> getStrings6() {
 		return strings6;
 	}
 
-	@ConfigurationParameter(name="strings7")
+	@ConfigurationParameter(name = "strings7")
 	private Set<String> strings7;
 
 	public Set<String> getStrings7() {
@@ -74,9 +75,8 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 		return strings8;
 	}
 
-	@ConfigurationParameter(name="strings8", defaultValue="cherry")
+	@ConfigurationParameter(name = "strings8", defaultValue = "cherry")
 	private Set<String> strings8;
-
 
 	public static final String PARAM_BOOLEAN_1 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_1";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_1, mandatory = true, defaultValue = "false")
@@ -93,41 +93,43 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	}
 
 	public static final String PARAM_BOOLEAN_3 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_3";
-	@ConfigurationParameter(name = PARAM_BOOLEAN_3, mandatory = true, defaultValue = { "true", "true", "false" })
+	@ConfigurationParameter(name = PARAM_BOOLEAN_3, mandatory = true, defaultValue = { "true",
+			"true", "false" })
 	private Boolean[] boolean3;
 
 	public static final String PARAM_BOOLEAN_4 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_4";
-	@ConfigurationParameter(name = PARAM_BOOLEAN_4, mandatory = true, defaultValue = { "true", "false", "true" })
+	@ConfigurationParameter(name = PARAM_BOOLEAN_4, mandatory = true, defaultValue = { "true",
+			"false", "true" })
 	public boolean[] boolean4;
 
 	public static final String PARAM_BOOLEAN_5 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_5";
-	@ConfigurationParameter(name = PARAM_BOOLEAN_5, mandatory = true, defaultValue="false")
+	@ConfigurationParameter(name = PARAM_BOOLEAN_5, mandatory = true, defaultValue = "false")
 	private boolean[] boolean5;
 
-	@ConfigurationParameter(name = "booleans6", defaultValue = {"true", "true", "true", "false"})
+	@ConfigurationParameter(name = "booleans6", defaultValue = { "true", "true", "true", "false" })
 	private LinkedList<Boolean> booleans6;
 
 	public LinkedList<Boolean> getBooleans6() {
 		return booleans6;
 	}
 
-	public static final String PARAM_INT_1= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_1";
-	@ConfigurationParameter(name = PARAM_INT_1, mandatory = true, defaultValue="0")
+	public static final String PARAM_INT_1 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_1";
+	@ConfigurationParameter(name = PARAM_INT_1, mandatory = true, defaultValue = "0")
 	private int int1;
 
-	public static final String PARAM_INT_2= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_2";
-	@ConfigurationParameter(name = PARAM_INT_2, defaultValue="42")
+	public static final String PARAM_INT_2 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_2";
+	@ConfigurationParameter(name = PARAM_INT_2, defaultValue = "42")
 	private int int2;
 
-	public static final String PARAM_INT_3= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_3";
-	@ConfigurationParameter(name = PARAM_INT_3, defaultValue= {"42","111"})
+	public static final String PARAM_INT_3 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_3";
+	@ConfigurationParameter(name = PARAM_INT_3, defaultValue = { "42", "111" })
 	private int[] int3;
 
-	public static final String PARAM_INT_4= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_4";
-	@ConfigurationParameter(name = PARAM_INT_4, defaultValue= "2", mandatory = true)
+	public static final String PARAM_INT_4 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_INT_4";
+	@ConfigurationParameter(name = PARAM_INT_4, defaultValue = "2", mandatory = true)
 	private Integer[] int4;
 
-	@ConfigurationParameter(name = "ints5", defaultValue= "2")
+	@ConfigurationParameter(name = "ints5", defaultValue = "2")
 	private List<Integer> ints5;
 
 	public List<Integer> getInts5() {
@@ -138,40 +140,43 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 		return ints6;
 	}
 
-	@ConfigurationParameter(name = "ints6", defaultValue= {"1", "2", "3", "4", "5"})
+	@ConfigurationParameter(name = "ints6", defaultValue = { "1", "2", "3", "4", "5" })
 	private List<Integer> ints6;
 
-	public static final String PARAM_FLOAT_1= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_1";
-	@ConfigurationParameter(name = PARAM_FLOAT_1, mandatory = true, defaultValue="0.0f")
+	public static final String PARAM_FLOAT_1 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_1";
+	@ConfigurationParameter(name = PARAM_FLOAT_1, mandatory = true, defaultValue = "0.0f")
 	private float float1;
 
-	public static final String PARAM_FLOAT_2= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_2";
-	@ConfigurationParameter(name = PARAM_FLOAT_2, mandatory = false, defaultValue="3.1415f")
+	public static final String PARAM_FLOAT_2 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_2";
+	@ConfigurationParameter(name = PARAM_FLOAT_2, mandatory = false, defaultValue = "3.1415f")
 	private float float2;
 
-	public static final String PARAM_FLOAT_3= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_3";
+	public static final String PARAM_FLOAT_3 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_3";
 	@ConfigurationParameter(name = PARAM_FLOAT_3, mandatory = true)
 	private float float3;
 
-	public static final String PARAM_FLOAT_4= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_4";
+	public static final String PARAM_FLOAT_4 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_4";
 	@ConfigurationParameter(name = PARAM_FLOAT_4, mandatory = false)
 	private float[] float4;
 
-	public static final String PARAM_FLOAT_5= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_5";
-	@ConfigurationParameter(name = PARAM_FLOAT_5, mandatory = false, defaultValue= {"0.0f", "3.1415f", "2.7182818f"})
+	public static final String PARAM_FLOAT_5 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_5";
+	@ConfigurationParameter(name = PARAM_FLOAT_5, mandatory = false, defaultValue = { "0.0f",
+			"3.1415f", "2.7182818f" })
 	private float[] float5;
 
-	public static final String PARAM_FLOAT_6= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_6";
-		@ConfigurationParameter(name = PARAM_FLOAT_6, mandatory = true)
+	public static final String PARAM_FLOAT_6 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_6";
+	@ConfigurationParameter(name = PARAM_FLOAT_6, mandatory = true)
 	private Float[] float6;
 
-	public static final String PARAM_FLOAT_7= "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_7";
-	@ConfigurationParameter(name = PARAM_FLOAT_7, mandatory = true, defaultValue= {"1.1111f", "2.2222f", "3.333f"})
+	public static final String PARAM_FLOAT_7 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_FLOAT_7";
+	@ConfigurationParameter(name = PARAM_FLOAT_7, mandatory = true, defaultValue = { "1.1111f",
+			"2.2222f", "3.333f" })
 	private Float[] float7;
 
-	@ConfigurationParameter(name = "file1", mandatory = true, defaultValue= "test/data/file")
+	@ConfigurationParameter(name = "file1", mandatory = true, defaultValue = "test/data/file")
 	private File file1;
-	@ConfigurationParameter(name = "file1b", mandatory = true, defaultValue= {"test/data/file", "test/data/file2"})
+	@ConfigurationParameter(name = "file1b", mandatory = true, defaultValue = { "test/data/file",
+			"test/data/file2" })
 	private File file1b;
 	@ConfigurationParameter(name = "file2", mandatory = true)
 	private File file2;
@@ -180,16 +185,15 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	private File[] files3;
 	@ConfigurationParameter(name = "files4", defaultValue = "test/data/file")
 	private File[] files4;
-	@ConfigurationParameter(name = "files5", defaultValue = {"test/data/file", "test/data/file2"})
+	@ConfigurationParameter(name = "files5", defaultValue = { "test/data/file", "test/data/file2" })
 	private File[] files5;
 
 	@ConfigurationParameter(name = "files6")
-	private List <File> files6;
+	private List<File> files6;
 	@ConfigurationParameter(name = "files7", defaultValue = "test/data/file")
 	private List<File> files7;
-	@ConfigurationParameter(name = "files8", defaultValue = {"test/data/file", "test/data/file2"})
+	@ConfigurationParameter(name = "files8", defaultValue = { "test/data/file", "test/data/file2" })
 	private List<File> files8;
-
 
 	public File getFile1() {
 		return file1;
@@ -289,7 +293,7 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas cas) throws AnalysisEngineProcessException {
-		//do nothing
+		// do nothing
 	}
 
 	public String getString1() {
@@ -311,7 +315,6 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	public String[] getString5() {
 		return string5;
 	}
-
 
 	@SuppressWarnings("unused")
 	@ConfigurationParameter(name = "regex1")

@@ -22,12 +22,9 @@ import org.junit.Test;
  * @author Steven Bethard, Philip Ogren
  * @author Richard Eckart de Castilho
  */
-public class TypeSystemDescriptionFactoryTest
-{
+public class TypeSystemDescriptionFactoryTest {
 	@Test
-	public void testFromPath()
-		throws Exception
-	{
+	public void testFromPath() throws Exception {
 		TypeSystemDescriptionFactory.createTypeSystemDescriptionFromPath(
 				"src/test/resources/org/uimafit/type/AnalyzedText.xml",
 				"src/test/resources/org/uimafit/type/Sentence.xml",

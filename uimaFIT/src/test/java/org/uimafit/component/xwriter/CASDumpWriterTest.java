@@ -55,7 +55,7 @@ public class CASDumpWriterTest {
 				new File("src/test/resources/data/reference/test.xmi.dump"), "UTF-8").trim();
 		String actual = readFileToString(outputFile, "UTF-8").trim();
 		actual = actual.replaceAll("\r\n", "\n");
-		
+
 		assertEquals(reference, actual);
 	}
 }

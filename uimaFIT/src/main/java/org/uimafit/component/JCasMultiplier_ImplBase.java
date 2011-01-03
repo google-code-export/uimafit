@@ -28,7 +28,7 @@ import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
 /**
  * Base class for a JCas multiplier which initializes itself based on annotations.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
 @OperationalProperties(outputsNewCases = true)

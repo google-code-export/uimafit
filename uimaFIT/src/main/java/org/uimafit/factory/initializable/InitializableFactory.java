@@ -24,23 +24,24 @@ import org.apache.uima.resource.ResourceInitializationException;
  * <br>
  * Copyright (c) 2007-2008, Regents of the University of Colorado <br>
  * All rights reserved.
- *
- *
+ * 
+ * 
  * @author Philip Ogren
  * @author Philipp Wetzler
  * @author Steven Bethard
  * @see Initializable
  * 
- * Please see {@link Initializable} for a description of how this class is intended to be used
+ *      Please see {@link Initializable} for a description of how this class is intended to be used
  */
 public final class InitializableFactory {
-	private InitializableFactory()
-	{
+	private InitializableFactory() {
 		// This class is not meant to be instantiated
 	}
 
 	/**
-	 * Provides a way to create an instance of T.  If the class specified by className implements Initializable, then the UimaContext provided here will be passed to its initialize method.
+	 * Provides a way to create an instance of T. If the class specified by className implements
+	 * Initializable, then the UimaContext provided here will be passed to its initialize method.
+	 * 
 	 * @param <T>
 	 * @param context
 	 * @param className
@@ -48,7 +49,8 @@ public final class InitializableFactory {
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static <T> T create(UimaContext context, String className, Class<T> superClass) throws ResourceInitializationException {
+	public static <T> T create(UimaContext context, String className, Class<T> superClass)
+			throws ResourceInitializationException {
 		Class<? extends T> cls = getClass(className, superClass);
 		return create(context, cls);
 	}
@@ -60,13 +62,15 @@ public final class InitializableFactory {
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static <T> Class<? extends T> getClass(String className, Class<T> superClass) throws ResourceInitializationException {
+	public static <T> Class<? extends T> getClass(String className, Class<T> superClass)
+			throws ResourceInitializationException {
 		try {
 			Class<? extends T> cls = Class.forName(className).asSubclass(superClass);
 			return cls;
 		}
 		catch (Exception e) {
-			throw new ResourceInitializationException(new Throwable("classname = "+className+" superClass = "+superClass.getName(), e));
+			throw new ResourceInitializationException(new Throwable("classname = " + className
+					+ " superClass = " + superClass.getName(), e));
 		}
 	}
 
@@ -77,10 +81,11 @@ public final class InitializableFactory {
 	 * @return
 	 * @throws ResourceInitializationException
 	 */
-	public static <T> T create(UimaContext context, Class<? extends T> cls) throws ResourceInitializationException{
+	public static <T> T create(UimaContext context, Class<? extends T> cls)
+			throws ResourceInitializationException {
 		T instance;
 		try {
-				instance = cls.newInstance();
+			instance = cls.newInstance();
 		}
 		catch (Exception e) {
 			throw new ResourceInitializationException(e);
@@ -94,7 +99,8 @@ public final class InitializableFactory {
 	 * @param context
 	 * @throws ResourceInitializationException
 	 */
-	public static void initialize(Object object, UimaContext context) throws ResourceInitializationException {
+	public static void initialize(Object object, UimaContext context)
+			throws ResourceInitializationException {
 		if (object instanceof Initializable) {
 			((Initializable) object).initialize(context);
 		}

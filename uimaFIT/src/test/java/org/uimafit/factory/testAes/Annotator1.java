@@ -13,9 +13,8 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  See the License for the specific language governing permissions and 
  limitations under the License.
-*/
+ */
 package org.uimafit.factory.testAes;
-
 
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
@@ -31,11 +30,12 @@ import org.uimafit.descriptor.SofaCapability;
 
 @SofaCapability(inputSofas = CAS.NAME_DEFAULT_SOFA, outputSofas = ViewNames.PARENTHESES_VIEW)
 public class Annotator1 extends JCasAnnotator_ImplBase {
-	
-		@Override
+
+	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		try {
-			JCas parentheticalView = ViewCreatorAnnotator.createViewSafely(jCas, ViewNames.PARENTHESES_VIEW);
+			JCas parentheticalView = ViewCreatorAnnotator.createViewSafely(jCas,
+					ViewNames.PARENTHESES_VIEW);
 			jCas = jCas.getView(CAS.NAME_DEFAULT_SOFA);
 			String initialText = jCas.getDocumentText();
 			String parentheticalText = initialText.replaceAll("[aeiou]+", "($0)");
@@ -44,7 +44,7 @@ public class Annotator1 extends JCasAnnotator_ImplBase {
 		catch (CASException e) {
 			throw new AnalysisEngineProcessException(e);
 		}
-		
+
 	}
 
 }

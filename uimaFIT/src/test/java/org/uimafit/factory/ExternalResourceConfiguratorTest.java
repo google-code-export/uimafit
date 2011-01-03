@@ -35,7 +35,7 @@ import org.uimafit.factory.testAes.ParameterizedAE2;
 
 /**
  * Test the {@link ExternalResourceInitializer}.
- *
+ * 
  * @author Richard Eckart de Castilho
  */
 public class ExternalResourceConfiguratorTest extends ComponentTestBase {

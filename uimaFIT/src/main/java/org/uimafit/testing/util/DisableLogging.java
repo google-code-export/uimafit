@@ -21,21 +21,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * When you are running a suite of unit tests it is often nice to turn off
- * logging. This class helps you do this. However, it only works if logging
- * is being done by the Java logger, not by, say, log4j.
- *
+ * When you are running a suite of unit tests it is often nice to turn off logging. This class helps
+ * you do this. However, it only works if logging is being done by the Java logger, not by, say,
+ * log4j.
+ * 
  * @author Steven Bethard, Philip Ogren
  */
 public final class DisableLogging {
-	private DisableLogging()
-	{
+	private DisableLogging() {
 		// This class is not meant to be instantiated
 	}
 
 	/**
 	 * Disable all logging.
-	 *
+	 * 
 	 * @return The original logging level.
 	 */
 	public static Level disableLogging() {
@@ -47,10 +46,10 @@ public final class DisableLogging {
 
 	/**
 	 * Enable all logging.
-	 *
+	 * 
 	 * @param level
-	 *            The logging level to be restored. Usually this is the result
-	 *            returned by disableLogging().
+	 *            The logging level to be restored. Usually this is the result returned by
+	 *            disableLogging().
 	 */
 	public static void enableLogging(Level level) {
 		Logger logger = Logger.getLogger("");

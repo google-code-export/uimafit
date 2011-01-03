@@ -27,37 +27,38 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.uimafit.testing.util.DisableLogging;
 
-
 /**
  * @author Steven Bethard, Philip Ogren
  */
 public class DisableLoggingTest {
-	
-	
 
 	@Test
 	public void test() {
 		// get the top logger and remove all handlers
 		Logger topLogger = Logger.getLogger("");
 		Handler[] handlers = topLogger.getHandlers();
-		for (Handler handler: handlers) {
+		for (Handler handler : handlers) {
 			topLogger.removeHandler(handler);
 		}
-		
+
 		// add a single hander that writes to a string buffer
 		final StringBuffer buffer = new StringBuffer();
 		Handler bufferhandler = new Handler() {
 			@Override
-			public void close() throws SecurityException {/*do nothing*/}
+			public void close() throws SecurityException {/* do nothing */
+			}
+
 			@Override
-			public void flush() {/*do nothing*/}
+			public void flush() {/* do nothing */
+			}
+
 			@Override
 			public void publish(LogRecord record) {
 				buffer.append(record.getMessage());
 			}
 		};
 		topLogger.addHandler(bufferhandler);
-		
+
 		// log to the buffer
 		Logger.getLogger("foo").info("Hello!");
 		Assert.assertEquals("Hello!", buffer.toString());
@@ -68,33 +69,38 @@ public class DisableLoggingTest {
 		Logger.getLogger("bar").info("Hello!");
 		Assert.assertEquals("", buffer.toString());
 
-		// enable logging, and make sure things are written to the buffer 
+		// enable logging, and make sure things are written to the buffer
 		DisableLogging.enableLogging(level);
 		Logger.getLogger("baz").info("Hello!");
 		Assert.assertEquals("Hello!", buffer.toString());
-		
+
 		// try disabling logging with a logger that has its own handler
 		buffer.setLength(0);
 		Logger logger = Logger.getLogger("foo.bar.baz");
 		logger.addHandler(new Handler() {
 			@Override
-			public void close() throws SecurityException {/*do nothing*/}
+			public void close() throws SecurityException {/* do nothing */
+			}
+
 			@Override
-			public void flush() { /*do nothing*/}
+			public void flush() { /* do nothing */
+			}
+
 			@Override
 			public void publish(LogRecord record) {
 				buffer.append("Not disabled!");
-			}});
+			}
+		});
 		level = DisableLogging.disableLogging();
 		logger.info("Hello!");
 		Assert.assertEquals("", buffer.toString());
 		DisableLogging.enableLogging(level);
-		
+
 		// restore the original handlers
 		topLogger.removeHandler(bufferhandler);
-		for (Handler handler: handlers) {
+		for (Handler handler : handlers) {
 			topLogger.addHandler(handler);
 		}
-		
+
 	}
 }
