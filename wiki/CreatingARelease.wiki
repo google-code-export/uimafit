@@ -62,7 +62,7 @@ If "mvn release:perform" appears to hang check to see if it is asking for your G
 http://uimafit.googlecode.com/svn/tags/uimafit-parent-0.9.14/uimaFIT/apidocs/index.html
 }}}
 
-*Project artifacts*: The new artifacts have not yet been uploaded to googlecode via the release steps.  This task (as well as the javadoc generation) can probably be accomplished using the antrun plugin (see [http://maven.riedelcastro.org/gcupload-maven-plugin/usage.html this].)  Uploading the new downloadable files can be done by clicking on the Downloads tab above and following the instructions.  The files should be located in the target directory.  
+*Project artifacts*: The new artifacts have not yet been uploaded to googlecode via the release steps.  Uploading the new downloadable files can be done by clicking on the Downloads tab above and following the instructions.  The files should be located in the target directory.  
 
 *Update current version*: One final thing to do is edit the front page to have the correct xml for a project's pom file - i.e. edit the snippet 
 {{{
