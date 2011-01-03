@@ -41,7 +41,7 @@ First update the javadoc pages:
 If you run into login or signing problems, try specificing your username, password and keyname like this. Mind that if you do that on a machine with other users, it may leak your password via the process list and shell history. So better do this on a private machine.
 
 {{{
- mvn -Dusername=GOOGLECODE_USERNAME -Dpassword=GOOGLECODE_PASSWORD -Darguments="-Dkeyname=GOOGLECODE_USERNAME" release:perform
+ mvn -Dusername=GOOGLECODE_USERNAME -Dpassword=GOOGLECODE_PASSWORD -Darguments="-Dkeyname=GOOGLECODE_USERNAME" release:prepare
 }}}
 
 If "mvn release:perform" appears to hang check to see if it is asking for your GPG password.  Enter is carefully if so.  
@@ -49,9 +49,9 @@ If "mvn release:perform" appears to hang check to see if it is asking for your G
 = Deploy to Maven Central via Sonatype OSS =
 
    * Go to the [https://oss.sonatype.org Nexus OSS repository] and log in with your Sonatype JIRA account. 
-   * Open the *Staging* page, select *uimaFIT* from the list, select the release you have just performed from the lower part
-   * Right click on it and select *close*. Enter a meaningful comment, e.g. "uimaFIT 0.9.14 release". 
-   * Right click on it again and select *promote*. Again enter e meaningful comment, e.g. "uimaFIT 0.9.14 release".
+   * Open the *Staging Repositories* page, select *uimaFIT* from the list, select the release you have just performed from the lower part
+   * Select it and click *Close* in the action bar above the list. Enter a meaningful comment, e.g. "uimaFIT 0.9.14 release". 
+   * Select it again and click *Release*. Again enter e meaningful comment, e.g. "uimaFIT 0.9.14 release".
    * wait an hour or so for the sync process to run.  Check that the new version is available [http://repo1.maven.org/maven2/org/uimafit/uimafit/ here].
 
 =Update googlecode project=
