@@ -50,22 +50,20 @@ public class LicenseTest {
 		List<String> filesMissingLicense = new ArrayList<String>();
 
 		Iterator<?> files = org.apache.commons.io.FileUtils.iterateFiles(directory, new SuffixFileFilter(".java"), TrueFileFilter.INSTANCE);
-		
+
 		while (files.hasNext()) {
 			File file = (File) files.next();
 			if (file.getParentFile().getName().equals("type") || file.getName().equals("Files.java")) continue;
 
 			String fileText = FileUtils.file2String(file);
 
-			if (	fileText.indexOf("http://www.apache.org/licenses/LICENSE-2.0") == -1
-					|| fileText.indexOf("@author") == -1) {
+			if (fileText.indexOf("http://www.apache.org/licenses/LICENSE-2.0") == -1 || fileText.indexOf("@author") == -1) {
 				filesMissingLicense.add(file.getPath());
 			}
 		}
 
 		if (filesMissingLicense.size() > 0) {
-			String message = String.format("%d source file missing license or author attribution: ",
-					filesMissingLicense.size());
+			String message = String.format("%d source file missing license or author attribution: ", filesMissingLicense.size());
 			System.err.println(message);
 			Collections.sort(filesMissingLicense);
 			for (String path : filesMissingLicense) {
@@ -74,6 +72,5 @@ public class LicenseTest {
 			Assert.fail(message);
 		}
 	}
-
 
 }

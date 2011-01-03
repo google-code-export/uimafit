@@ -74,9 +74,10 @@ public class XmiTest extends ExamplesTestBase {
 	 * Annotator2 will. Another option is to set up all the annotations required
 	 * by Annotator3 manually, but this approach can be tedious, time consuming,
 	 * error prone, and results in a lot of code.
-	 *<p>
-	 * The xmi file is generated once by running {@link #main(String[])}.  Hopefully, 
-	 * it will not be necessary to regenerate the xmi file often.    
+	 * <p>
+	 * The xmi file is generated once by running {@link #main(String[])}.
+	 * Hopefully, it will not be necessary to regenerate the xmi file often.
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -89,7 +90,8 @@ public class XmiTest extends ExamplesTestBase {
 	}
 
 	/**
-	 * Here we generate an xmi file that will be used by {@link #testWithXmi()}.  
+	 * Here we generate an xmi file that will be used by {@link #testWithXmi()}.
+	 * 
 	 * @param args
 	 * @throws Exception
 	 */
@@ -97,8 +99,8 @@ public class XmiTest extends ExamplesTestBase {
 		TypeSystemDescription tsd = createTypeSystemDescription("org.uimafit.examples.TypeSystem");
 		AnalysisEngine a1 = AnalysisEngineFactory.createPrimitive(Annotator1.class, tsd);
 		AnalysisEngine a2 = AnalysisEngineFactory.createPrimitive(Annotator2.class, tsd);
-		AnalysisEngine xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, tsd,
-				XWriter.PARAM_OUTPUT_DIRECTORY_NAME, "src/main/resources/org/uimafit/examples/xmi");
+		AnalysisEngine xWriter = AnalysisEngineFactory.createPrimitive(XWriter.class, tsd, XWriter.PARAM_OUTPUT_DIRECTORY_NAME,
+				"src/main/resources/org/uimafit/examples/xmi");
 		JCas jCas = JCasFactory.createJCas(tsd);
 		jCas.setDocumentText("betgetjetletmetnetpetsetvetwetyet");
 		a1.process(jCas);

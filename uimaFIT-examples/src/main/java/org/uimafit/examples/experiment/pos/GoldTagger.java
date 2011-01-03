@@ -45,7 +45,19 @@ public class GoldTagger extends JCasAnnotator_ImplBase {
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {
 		try {
-			JCas defaultView = jCas.getView(CAS.NAME_DEFAULT_SOFA); //see javadoc comment for SofaCapability for why we have to retrieve the default view from the JCas
+			JCas defaultView = jCas.getView(CAS.NAME_DEFAULT_SOFA); // see
+																	// javadoc
+																	// comment
+																	// for
+																	// SofaCapability
+																	// for why
+																	// we have
+																	// to
+																	// retrieve
+																	// the
+																	// default
+																	// view from
+																	// the JCas
 			String tagData = defaultView.getDocumentText();
 
 			JCas goldView = ViewCreatorAnnotator.createViewSafely(jCas, GOLD_VIEW);

@@ -30,15 +30,18 @@ import org.xml.sax.SAXException;
 /**
  * 
  * @author Philip Ogren
- *
+ * 
  */
 public class GetStartedQuickDescriptor {
 
 	public static void main(String[] args) throws ResourceInitializationException, FileNotFoundException, SAXException, IOException {
-		//normally you would pass in a list of classes corresponding to type system types here
+		// normally you would pass in a list of classes corresponding to type
+		// system types here
 		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(new Class[0]);
-		//here we will instantiate the analysis engine using the value "uimaFIT" for the parameter "stringParamName".
-		AnalysisEngineDescription analysisEngineDescription = AnalysisEngineFactory.createPrimitiveDescription(GetStartedQuickAE.class, typeSystemDescription, "stringParamName", "uimaFIT");
+		// here we will instantiate the analysis engine using the value
+		// "uimaFIT" for the parameter "stringParamName".
+		AnalysisEngineDescription analysisEngineDescription = AnalysisEngineFactory.createPrimitiveDescription(GetStartedQuickAE.class,
+				typeSystemDescription, "stringParamName", "uimaFIT");
 		analysisEngineDescription.toXML(new FileOutputStream("GetStartedQuickAE.xml"));
 	}
 }

@@ -30,7 +30,7 @@ import org.uimafit.examples.tutorial.type.RoomNumber;
 /**
  * 
  * @author Philip Ogren
- *
+ * 
  */
 public class RoomNumberAnnotatorPipeline {
 
@@ -39,13 +39,12 @@ public class RoomNumberAnnotatorPipeline {
 		TypeSystemDescription tsd = createTypeSystemDescription(RoomNumber.class);
 		JCas jCas = createJCas(tsd);
 		jCas.setDocumentText(text);
-		AnalysisEngine analysisEngine = createPrimitive(RoomNumberAnnotator.class, tsd,
-				"Patterns", new String[] { "\\b[0-4]\\d-[0-2]\\d\\d\\b", "\\b[G1-4][NS]-[A-Z]\\d\\d\\b"},
-				"Locations", new String[] {"Downtown", "Uptown"});
+		AnalysisEngine analysisEngine = createPrimitive(RoomNumberAnnotator.class, tsd, "Patterns", new String[] { "\\b[0-4]\\d-[0-2]\\d\\d\\b",
+				"\\b[G1-4][NS]-[A-Z]\\d\\d\\b" }, "Locations", new String[] { "Downtown", "Uptown" });
 		analysisEngine.process(jCas);
 
 		for (RoomNumber roomNumber : iterate(jCas, RoomNumber.class)) {
-			System.out.println(roomNumber.getCoveredText() + "\tbuilding = "+roomNumber.getBuilding());
+			System.out.println(roomNumber.getCoveredText() + "\tbuilding = " + roomNumber.getBuilding());
 		}
 	}
 }
