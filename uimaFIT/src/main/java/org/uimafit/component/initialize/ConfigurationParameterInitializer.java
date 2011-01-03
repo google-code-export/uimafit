@@ -1,17 +1,17 @@
-/* 
- Copyright 2009-2010 Regents of the University of Colorado.  
- All rights reserved. 
+/*
+ Copyright 2009-2010 Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
  */
 package org.uimafit.component.initialize;
@@ -71,15 +71,13 @@ public class ConfigurationParameterInitializer
 	 * not have a configuration parameter, then the default value provided by the developer as
 	 * specified by the defaultValue element of the {@link ConfigurationParameter} will be used. See
 	 * comments in the code for additional details.
-	 * 
+	 *
 	 * @param component
 	 * @param context
 	 * @throws ResourceInitializationException
 	 */
-
 	public static void initialize(Object component, UimaContext context)
-		throws ResourceInitializationException
-	{
+			throws ResourceInitializationException {
 		try {
 			for (Field field : ReflectionUtil.getFields(component)) { // component.getClass().getDeclaredFields())
 				// {
@@ -137,14 +135,14 @@ public class ConfigurationParameterInitializer
 
 	/**
 	 * This method converts UIMA values to values that are appropriate for instantiating the
-	 * annotated member variable.
-	 * For example, if the "uima" value is a string array and the member variable is of type List<String>, then this method will return a list
+	 * annotated member variable. For example, if the "uima" value is a string array and the member
+	 * variable is of type List<String>, then this method will return a list
+	 *
 	 * @param field
 	 * @param uimaValue
 	 * @return
 	 */
-	public static Object convertValue(Field field, Object uimaValue)
-	{
+	public static Object convertValue(Field field, Object uimaValue) {
 		if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
 
 			Object result;
@@ -193,8 +191,7 @@ public class ConfigurationParameterInitializer
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Collection<Object> newCollection(Class<?> cls)
-	{
+	private static Collection<Object> newCollection(Class<?> cls) {
 		try {
 			return cls.asSubclass(Collection.class).newInstance();
 		}
@@ -203,8 +200,7 @@ public class ConfigurationParameterInitializer
 		}
 	}
 
-	private static Class<?> getComponentType(Field field)
-	{
+	private static Class<?> getComponentType(Field field) {
 		Class<?> fieldType = field.getType();
 		if (fieldType.isArray()) {
 			return fieldType.getComponentType();
@@ -218,9 +214,9 @@ public class ConfigurationParameterInitializer
 		}
 	}
 
-	private static void setParameterValue(Object component, Field field, Object value)
-		throws IllegalArgumentException, IllegalAccessException, SecurityException
-	{
+	private static void setParameterValue(Object component, Field field,
+			Object value) throws IllegalArgumentException,
+			IllegalAccessException, SecurityException {
 
 		boolean accessible = field.isAccessible();
 		field.setAccessible(true);
@@ -232,13 +228,11 @@ public class ConfigurationParameterInitializer
 		}
 	}
 
-	private ConfigurationParameterInitializer()
-	{
+	private ConfigurationParameterInitializer() {
 		// should not be instantiated
 	}
 
-	private static Converter<?> getConverter(Class<?> cls)
-	{
+	private static Converter<?> getConverter(Class<?> cls) {
 		Converter<?> converter = converters.get(cls);
 		if (converter != null) {
 			return converter;
@@ -260,59 +254,46 @@ public class ConfigurationParameterInitializer
 		}
 	}
 
-	private static interface Converter<T>
-	{
+	private static interface Converter<T> {
 		public T convert(Object o);
 	}
 
-	private static class BooleanConverter
-		implements Converter<Boolean>
-	{
+	private static class BooleanConverter implements Converter<Boolean> {
 		public Boolean convert(Object o)
 		{
 			return (Boolean) o;
 		}
 	}
 
-	private static class FloatConverter
-		implements Converter<Float>
-	{
+	private static class FloatConverter implements Converter<Float> {
 		public Float convert(Object o)
 		{
 			return (Float) o;
 		}
 	}
 
-	private static class IntegerConverter
-		implements Converter<Integer>
-	{
+	private static class IntegerConverter implements Converter<Integer> {
 		public Integer convert(Object o)
 		{
 			return (Integer) o;
 		}
 	}
 
-	private static class StringConverter
-		implements Converter<String>
-	{
+	private static class StringConverter implements Converter<String> {
 		public String convert(Object o)
 		{
 			return o.toString();
 		}
 	}
 
-	private static class PatternConverter
-		implements Converter<Pattern>
-	{
+	private static class PatternConverter implements Converter<Pattern> {
 		public Pattern convert(Object o)
 		{
 			return Pattern.compile(o.toString());
 		}
 	}
 
-	private static class ConstructorConverter
-		implements Converter<Object>
-	{
+	private static class ConstructorConverter implements Converter<Object> {
 		private Constructor<?> constructor;
 
 		public ConstructorConverter(Constructor<?> constructor)
@@ -332,40 +313,38 @@ public class ConfigurationParameterInitializer
 
 	}
 
-	private static class EnumConverter<T extends Enum<T>>
-		implements Converter<Object>
-	{
+	private static class EnumConverter<T extends Enum<T>> implements
+			Converter<Object> {
 		private Class<T> enumClass;
 
-		public EnumConverter(Class<T> aClass)
-		{
+		public EnumConverter(Class<T> aClass) {
 			this.enumClass = aClass;
 		}
 
-		public T convert(Object o)
-		{
+		public T convert(Object o) {
 			try {
 				return Enum.valueOf(enumClass, o.toString());
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		}
 	}
-	
+
 	private static class LocaleConverter implements Converter<Locale> {
 		public Locale convert(Object o) {
 			if (o == null) {
 				return Locale.getDefault();
-			}
-			else if (o.equals("")) {
+			} else if (o.equals("")) {
 				return Locale.getDefault();
 			}
 			if (o instanceof String) {
 				return LocaleUtil.getLocale((String) o);
 			}
-			throw new RuntimeException("the value for a locale should be either null or an empty string to get the default locale.  Otherwise, the locale should be specified by a single string that names a locale constant (e.g. 'US') or that contains hyphen delimited locale information (e.g. 'en-US').");
+			throw new RuntimeException( "the value for a locale should be either null or an " +
+					"empty string to get the default locale.  Otherwise, the locale should be " +
+					"specified by a single string that names a locale constant (e.g. 'US') or " +
+					"that contains hyphen delimited locale information (e.g. 'en-US').");
 		}
 	}
-	
+
 }

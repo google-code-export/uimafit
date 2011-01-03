@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 
 package org.uimafit.factory;
 
@@ -38,20 +38,18 @@ import org.uimafit.factory.testAes.ParameterizedAE2;
  *
  * @author Richard Eckart de Castilho
  */
-public class ExternalResourceConfiguratorTest extends ComponentTestBase
-{
+public class ExternalResourceConfiguratorTest extends ComponentTestBase {
 	@Test
-	public void testAnalyze() throws Exception
-	{
+	public void testAnalyze() throws Exception {
 		Map<String, ExternalResourceDependency> deps = getResourceDeclarations(ParameterizedAE2.class);
 
 		verify(deps);
 	}
 
 	@Test
-	public void testDescriptor() throws Exception
-	{
-		AnalysisEngineDescription desc = createPrimitiveDescription(ParameterizedAE2.class, typeSystemDescription);
+	public void testDescriptor() throws Exception {
+		AnalysisEngineDescription desc = createPrimitiveDescription(ParameterizedAE2.class,
+				typeSystemDescription);
 
 		Map<String, ExternalResourceDependency> deps = new HashMap<String, ExternalResourceDependency>();
 		for (ExternalResourceDependency dep : desc.getExternalResourceDependencies()) {
@@ -61,8 +59,7 @@ public class ExternalResourceConfiguratorTest extends ComponentTestBase
 		verify(deps);
 	}
 
-	private void verify(Map<String, ExternalResourceDependency> deps)
-	{
+	private void verify(Map<String, ExternalResourceDependency> deps) {
 		assertEquals(3, deps.size());
 
 		String key = ParameterizedAE2.DummyResource.class.getName();

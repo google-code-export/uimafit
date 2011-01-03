@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.component;
 
 import java.io.IOException;
@@ -31,14 +31,10 @@ import org.uimafit.component.initialize.ExternalResourceInitializer;
  *
  * @author Richard Eckart de Castilho
  */
-public abstract class CasCollectionReader_ImplBase
-	extends CollectionReader_ImplBase
-{
+public abstract class CasCollectionReader_ImplBase extends CollectionReader_ImplBase {
 	@Override
 	// This method should not be overwritten. Overwrite initialize(UimaContext) instead.
-	public final void initialize()
-		throws ResourceInitializationException
-	{
+	public final void initialize() throws ResourceInitializationException {
 		ConfigurationParameterInitializer.initialize(this, getUimaContext());
 		ExternalResourceInitializer.initialize(getUimaContext(), this);
 		initialize(getUimaContext());
@@ -50,15 +46,11 @@ public abstract class CasCollectionReader_ImplBase
 	 * @param context
 	 * @throws ResourceInitializationException
 	 */
-	public void initialize(UimaContext context)
-		throws ResourceInitializationException
-	{
+	public void initialize(UimaContext context) throws ResourceInitializationException {
 		// Nothing by default
 	}
 
-	public void close()
-		throws IOException
-	{
+	public void close() throws IOException {
 		// Nothing by default
 	}
 }

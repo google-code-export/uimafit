@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.component;
 
 import org.apache.uima.UimaContext;
@@ -30,14 +30,11 @@ import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
  *
  * @author Richard Eckart de Castilho
  */
-public abstract class JCasAnnotator_ImplBase
-	extends org.apache.uima.analysis_component.JCasAnnotator_ImplBase
-{
+public abstract class JCasAnnotator_ImplBase extends
+		org.apache.uima.analysis_component.JCasAnnotator_ImplBase {
 	@Override
 	@OverrideMustInvoke
-	public void initialize(UimaContext context)
-		throws ResourceInitializationException
-	{
+	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		ConfigurationParameterInitializer.initialize(this, context);
 		ExternalResourceInitializer.initialize(context, this);

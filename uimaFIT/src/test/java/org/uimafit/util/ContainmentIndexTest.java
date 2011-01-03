@@ -40,13 +40,9 @@ import org.uimafit.util.ContainmentIndex.Type;
  *
  * @author Richard Eckart de Castilho
  */
-public class ContainmentIndexTest
-	extends ComponentTestBase
-{
+public class ContainmentIndexTest extends ComponentTestBase {
 	@Test
-	public void test()
-		throws Exception
-	{
+	public void test() throws Exception {
 		String text = "Will you come home today ? \n No , tomorrow !";
 		tokenBuilder.buildTokens(jCas, text);
 
@@ -62,10 +58,10 @@ public class ContainmentIndexTest
 				idx.containedIn(sentences.get(1)));
 
 		assertEquals(asList(sentences.get(0)), idx.containing(tokens.get(0)));
-		assertEquals(asList(sentences.get(1)), idx.containing(tokens.get(tokens.size()-1)));
+		assertEquals(asList(sentences.get(1)), idx.containing(tokens.get(tokens.size() - 1)));
 
 		assertTrue(idx.isContainedIn(sentences.get(0), tokens.get(0)));
-		assertFalse(idx.isContainedIn(sentences.get(0), tokens.get(tokens.size()-1)));
+		assertFalse(idx.isContainedIn(sentences.get(0), tokens.get(tokens.size() - 1)));
 
 		// After removing the annotation the index has to be rebuilt.
 		assertTrue(idx.isContainedInAny(tokens.get(0)));

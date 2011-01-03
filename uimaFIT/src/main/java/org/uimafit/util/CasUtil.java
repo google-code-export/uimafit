@@ -17,7 +17,7 @@
  limitations under the License.
 
  getCoveredAnnotations() contains code adapted from the UIMA Subiterator class.
-*/
+ */
 package org.uimafit.util;
 
 import java.util.ArrayList;
@@ -40,23 +40,22 @@ import org.apache.uima.jcas.tcas.Annotation;
  * @author Richard Eckart de Castilho
  * @author Niklas Jakob
  */
-public class CasUtil
-{
+public class CasUtil {
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
 	 *
-	 * @param <T> the iteration type.
-	 * @param cas a CAS.
-	 * @param type the type.
+	 * @param <T>
+	 *            the iteration type.
+	 * @param cas
+	 *            a CAS.
+	 * @param type
+	 *            the type.
 	 * @return An iterable.
 	 * @see AnnotationIndex#iterator()
 	 */
-	public static <T extends AnnotationFS> Iterable<T> iterate(final CAS cas, final Type type)
-	{
-		return new Iterable<T>()
-		{
-			public Iterator<T> iterator()
-			{
+	public static <T extends AnnotationFS> Iterable<T> iterate(final CAS cas, final Type type) {
+		return new Iterable<T>() {
+			public Iterator<T> iterator() {
 				return CasUtil.iterator(cas, type);
 			}
 		};
@@ -65,14 +64,16 @@ public class CasUtil
 	/**
 	 * Get an iterator over the given annotation type.
 	 *
-	 * @param <T> the JCas type.
-	 * @param cas a CAS.
-	 * @param type a type.
+	 * @param <T>
+	 *            the JCas type.
+	 * @param cas
+	 *            a CAS.
+	 * @param type
+	 *            a type.
 	 * @return a return value.
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T extends AnnotationFS> Iterator<T> iterator(CAS cas, Type type)
-	{
+	public static <T extends AnnotationFS> Iterator<T> iterator(CAS cas, Type type) {
 		return ((AnnotationIndex<T>) cas.getAnnotationIndex(type)).iterator();
 	}
 
@@ -84,19 +85,20 @@ public class CasUtil
 	/**
 	 * Get the CAS type for the given JCas wrapper class.
 	 *
-	 * @param cas the CAS hosting the type system.
-	 * @param type the JCas wrapper class.
+	 * @param cas
+	 *            the CAS hosting the type system.
+	 * @param type
+	 *            the JCas wrapper class.
 	 * @return the CAS type.
 	 */
-	public static Type getType(CAS cas, Class<?> type)
-	{
+	public static Type getType(CAS cas, Class<?> type) {
 		String typeName = type.getName();
 		if (typeName.startsWith(UIMA_BUILTIN_JCAS_PREFIX)) {
-			typeName = "uima."+typeName.substring(UIMA_BUILTIN_JCAS_PREFIX.length());
+			typeName = "uima." + typeName.substring(UIMA_BUILTIN_JCAS_PREFIX.length());
 		}
 		Type t = cas.getTypeSystem().getType(typeName);
 		if (t == null) {
-			throw new IllegalArgumentException("Undeclared type ["+typeName+"]");
+			throw new IllegalArgumentException("Undeclared type [" + typeName + "]");
 		}
 		return t;
 	}
@@ -107,16 +109,19 @@ public class CasUtil
 	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
 	 * Uses the same approach except that type priorities are ignored.
 	 *
-	 * @param <T> the JCas type.
-	 * @param cas a CAS.
-	 * @param type a UIMA type.
-	 * @param coveringAnnotation the covering annotation.
+	 * @param <T>
+	 *            the JCas type.
+	 * @param cas
+	 *            a CAS.
+	 * @param type
+	 *            a UIMA type.
+	 * @param coveringAnnotation
+	 *            the covering annotation.
 	 * @return a return value.
 	 * @see Subiterator
 	 */
-	public static <T extends AnnotationFS> List<T> selectCovered(
-			CAS cas, Type type, AnnotationFS coveringAnnotation)
-	{
+	public static <T extends AnnotationFS> List<T> selectCovered(CAS cas, Type type,
+			AnnotationFS coveringAnnotation) {
 		int begin = coveringAnnotation.getBegin();
 		int end = coveringAnnotation.getEnd();
 
@@ -170,9 +175,9 @@ public class CasUtil
 				continue;
 			}
 
-			assert !(a.getBegin() < coveringAnnotation.getBegin()) : "Illegal begin " + a.getBegin()
-					+ " in [" + coveringAnnotation.getBegin() + ".." + coveringAnnotation.getEnd()
-					+ "]";
+			assert !(a.getBegin() < coveringAnnotation.getBegin()) : "Illegal begin "
+					+ a.getBegin() + " in [" + coveringAnnotation.getBegin() + ".."
+					+ coveringAnnotation.getEnd() + "]";
 
 			assert !(a.getEnd() < coveringAnnotation.getBegin()) : "Illegal end " + a.getEnd()
 					+ " in [" + coveringAnnotation.getBegin() + ".." + coveringAnnotation.getEnd()
@@ -189,15 +194,20 @@ public class CasUtil
 	/**
 	 * Returns the n annotations preceding the given annotation
 	 *
-	 * @param <T> the JCas type.
-	 * @param cas a CAS.
-	 * @param type a UIMA type.
-	 * @param annotation anchor annotation
-	 * @param count number of annotations to collect
+	 * @param <T>
+	 *            the JCas type.
+	 * @param cas
+	 *            a CAS.
+	 * @param type
+	 *            a UIMA type.
+	 * @param annotation
+	 *            anchor annotation
+	 * @param count
+	 *            number of annotations to collect
 	 * @return List of aType annotations preceding anchor annotation
 	 */
-	public static <T extends AnnotationFS> List<T> selectPreceding(
-			CAS cas, Type type, Annotation annotation, int count) {
+	public static <T extends AnnotationFS> List<T> selectPreceding(CAS cas, Type type,
+			Annotation annotation, int count) {
 		List<T> precedingAnnotations = new LinkedList<T>();
 
 		// move to first previous annotation
@@ -210,7 +220,7 @@ public class CasUtil
 
 		while (currentAnnotation < count && itr.isValid()) {
 			@SuppressWarnings("unchecked")
-			T buf= (T) itr.get();
+			T buf = (T) itr.get();
 			precedingAnnotations.add(buf);
 
 			currentAnnotation++;
@@ -226,15 +236,20 @@ public class CasUtil
 	/**
 	 * Returns the n annotations following the given annotation
 	 *
-	 * @param <T> the JCas type.
-	 * @param cas a CAS.
-	 * @param type a UIMA type.
-	 * @param annotation anchor annotation
-	 * @param count number of annotations to collect
+	 * @param <T>
+	 *            the JCas type.
+	 * @param cas
+	 *            a CAS.
+	 * @param type
+	 *            a UIMA type.
+	 * @param annotation
+	 *            anchor annotation
+	 * @param count
+	 *            number of annotations to collect
 	 * @return List of aType annotations following anchor annotation
 	 */
-	public static <T extends AnnotationFS> List<T> selectFollowing(
-			CAS cas, Type type, Annotation annotation, int count) {
+	public static <T extends AnnotationFS> List<T> selectFollowing(CAS cas, Type type,
+			Annotation annotation, int count) {
 		List<T> followingAnnotations = new LinkedList<T>();
 
 		// move to first previous annotation

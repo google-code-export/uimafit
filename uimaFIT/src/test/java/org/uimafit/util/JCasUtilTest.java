@@ -17,7 +17,7 @@
  limitations under the License.
 
  getCoveredAnnotations() contains code adapted from the UIMA Subiterator class.
-*/
+ */
 package org.uimafit.util;
 
 import static org.junit.Assert.*;
@@ -57,9 +57,7 @@ import org.uimafit.type.Token;
  * @author Richard Eckart de Castilho
  * @author Torsten Zesch
  */
-public class JCasUtilTest
-	extends ComponentTestBase
-{
+public class JCasUtilTest extends ComponentTestBase {
 	/**
 	 * Test Tokens (Stems + Lemmas) overlapping with each other.
 	 */
@@ -122,10 +120,10 @@ public class JCasUtilTest
 			}
 
 			// Randomly generate annotations
-			for (int n = 0; n < (10 * i) ; n++) {
+			for (int n = 0; n < (10 * i); n++) {
 				for (Type t : types) {
 					int begin = rnd.nextInt(100);
-					int end = begin+rnd.nextInt(30);
+					int end = begin + rnd.nextInt(30);
 					cas.addFsToIndexes(cas.createAnnotation(t, begin, end));
 				}
 			}
@@ -144,14 +142,16 @@ public class JCasUtilTest
 
 				check(jcas, t, stem1, stem2);
 			}
-			System.out.format("Speed up: n:%d o:%d d:%d (%.2f)\n", t1, t2, t1-t2, (double) t1 / (double) t2);
+			System.out.format("Speed up: n:%d o:%d d:%d (%.2f)\n", t1, t2, t1 - t2, (double) t1
+					/ (double) t2);
 		}
 	}
 
 	@SuppressWarnings("unused")
 	private void print(Collection<? extends Annotation> annos) {
 		for (Annotation a : annos) {
-			System.out.println(a.getClass().getSimpleName()+" "+a.getBegin()+" "+a.getEnd());
+			System.out
+					.println(a.getClass().getSimpleName() + " " + a.getBegin() + " " + a.getEnd());
 		}
 	}
 
@@ -164,31 +164,30 @@ public class JCasUtilTest
 
 	private void check(JCas jcas, Token t, Collection<? extends Annotation> a1,
 			Collection<? extends Annotation> a2) {
-//		List<Annotation> annos = new ArrayList<Annotation>();
-//		FSIterator fs = jcas.getAnnotationIndex().iterator();
-//		while (fs.hasNext()) {
-//			annos.add((Annotation) fs.next());
-//		}
-//
-//		System.out.println("--- Index");
-//		print(annos);
-//		System.out.println("--- Container");
-//		print(Collections.singleton(t));
-//		System.out.println("--- Naive");
-//		print(a1);
-//		System.out.println("--- Optimized");
-//		print(a2);
-		assertEquals("Container: ["+t.getBegin()+".."+t.getEnd()+"]", a1, a2);
+		// List<Annotation> annos = new ArrayList<Annotation>();
+		// FSIterator fs = jcas.getAnnotationIndex().iterator();
+		// while (fs.hasNext()) {
+		// annos.add((Annotation) fs.next());
+		// }
+		//
+		// System.out.println("--- Index");
+		// print(annos);
+		// System.out.println("--- Container");
+		// print(Collections.singleton(t));
+		// System.out.println("--- Naive");
+		// print(a1);
+		// System.out.println("--- Optimized");
+		// print(a2);
+		assertEquals("Container: [" + t.getBegin() + ".." + t.getEnd() + "]", a1, a2);
 	}
 
 	/**
 	 * The version by Torsten slightly optimized by Richard using the cut-off condition found in the
 	 * UIMA subiterator class.
 	 */
-	@SuppressWarnings( { "unchecked" })
-	private static <T extends Annotation> List<T> getCoveredAnnotationsNaive(
-			JCas aJCas, Class<? extends Annotation> aType, Annotation aContainer)
-	{
+	@SuppressWarnings({ "unchecked" })
+	private static <T extends Annotation> List<T> getCoveredAnnotationsNaive(JCas aJCas,
+			Class<? extends Annotation> aType, Annotation aContainer) {
 		int begin = aContainer.getBegin();
 		int end = aContainer.getEnd();
 		Type t = aJCas.getTypeSystem().getType(aType.getName());
@@ -201,10 +200,10 @@ public class JCasUtilTest
 				list.add(a);
 			}
 			// If the start of the current annotation is past the end parameter,
-		    // we're done.
-		    if (a.getBegin() > end) {
-		        break;
-		    }
+			// we're done.
+			if (a.getBegin() > end) {
+				break;
+			}
 		}
 		return list;
 	}

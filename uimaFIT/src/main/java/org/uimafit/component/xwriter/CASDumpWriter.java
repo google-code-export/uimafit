@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.component.xwriter;
 
 import java.io.File;
@@ -48,9 +48,7 @@ import org.uimafit.descriptor.ConfigurationParameter;
  *
  * @author Richard Eckart de Castilho
  */
-public class CASDumpWriter
-	extends CasConsumer_ImplBase
-{
+public class CASDumpWriter extends CasConsumer_ImplBase {
 	/**
 	 * Pattern inclusion prefix.
 	 */
@@ -81,11 +79,8 @@ public class CASDumpWriter
 	 * actually match feature names but lines produced by {@link FeatureStructure#toString()}.
 	 */
 	public static final String PARAM_FEATURE_PATTERNS = "FeaturePatterns";
-	@ConfigurationParameter(name=PARAM_FEATURE_PATTERNS, mandatory=true, defaultValue = {
-			"+|.*",
-			"-|^.*documentUri:.*$",
-			"-|^.*collectionId:.*$",
-			"-|^.*documentBaseUri:.*$" })
+	@ConfigurationParameter(name = PARAM_FEATURE_PATTERNS, mandatory = true, defaultValue = {
+			"+|.*", "-|^.*documentUri:.*$", "-|^.*collectionId:.*$", "-|^.*documentBaseUri:.*$" })
 	private String[] rawFeaturePatterns;
 	private InExPattern[] featurePatterns;
 
@@ -93,7 +88,7 @@ public class CASDumpWriter
 	 * Include/exclude specified UIMA types in the output.
 	 */
 	public static final String PARAM_TYPE_PATTERNS = "TypePatterns";
-	@ConfigurationParameter(name=PARAM_TYPE_PATTERNS, mandatory=true, defaultValue = { "+|.*" })
+	@ConfigurationParameter(name = PARAM_TYPE_PATTERNS, mandatory = true, defaultValue = { "+|.*" })
 	private String[] rawTypePatterns;
 	private InExPattern[] typePatterns;
 
@@ -101,9 +96,7 @@ public class CASDumpWriter
 	private int iCas;
 
 	@Override
-	public void initialize(UimaContext context)
-		throws ResourceInitializationException
-	{
+	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
 
 		try {
@@ -111,7 +104,8 @@ public class CASDumpWriter
 				if (outFile.getParentFile() != null) {
 					outFile.getParentFile().mkdirs();
 				}
-				out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8"));
+				out = new PrintWriter(
+						new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8"));
 			}
 		}
 		catch (IOException e) {
@@ -123,9 +117,7 @@ public class CASDumpWriter
 	}
 
 	@Override
-	public void process(CAS aCAS)
-		throws AnalysisEngineProcessException
-	{
+	public void process(CAS aCAS) throws AnalysisEngineProcessException {
 		out.println("======== CAS " + iCas + " begin ==================================");
 		out.println();
 
@@ -143,14 +135,12 @@ public class CASDumpWriter
 	}
 
 	@Override
-	public void collectionProcessComplete()
-	{
+	public void collectionProcessComplete() {
 		IOUtils.closeQuietly(out);
 		out = null;
 	}
 
-	private void processDocumentMetadata(CAS aCAS)
-	{
+	private void processDocumentMetadata(CAS aCAS) {
 		if (!writeDocumentMetaData) {
 			return;
 		}
@@ -158,15 +148,13 @@ public class CASDumpWriter
 		processFeatureStructure(aCAS.getDocumentAnnotation());
 	}
 
-	private void processDocumentText(CAS aCAS)
-	{
+	private void processDocumentText(CAS aCAS) {
 		out.println();
 		out.println("CAS-Text:");
 		out.println(aCAS.getDocumentText());
 	}
 
-	private void processFeatureStructures(CAS aCAS)
-	{
+	private void processFeatureStructures(CAS aCAS) {
 		Set<String> typesToPrint = getTypes(aCAS);
 		FSIterator<AnnotationFS> annotationIterator = aCAS.getAnnotationIndex().iterator();
 		while (annotationIterator.hasNext()) {
@@ -175,7 +163,7 @@ public class CASDumpWriter
 				continue;
 			}
 			try {
-				out.println("["+annotation.getCoveredText()+"]");
+				out.println("[" + annotation.getCoveredText() + "]");
 			}
 			catch (IndexOutOfBoundsException e) {
 				out.println("<OFFSETS OUT OF BOUNDS>");
@@ -184,8 +172,7 @@ public class CASDumpWriter
 		}
 	}
 
-	private void processFeatureStructure(FeatureStructure aFS)
-	{
+	private void processFeatureStructure(FeatureStructure aFS) {
 		String meta = aFS.toString();
 		for (String line : meta.split("\n")) {
 			boolean print = false;
@@ -201,29 +188,29 @@ public class CASDumpWriter
 		}
 	}
 
-
-	private void processView(CAS aCAS)
-	{
-		out.println("-------- View " + aCAS.getViewName() + " begin ----------------------------------");
+	private void processView(CAS aCAS) {
+		out.println("-------- View " + aCAS.getViewName()
+				+ " begin ----------------------------------");
 		out.println();
 
 		processDocumentMetadata(aCAS);
 		processDocumentText(aCAS);
 		processFeatureStructures(aCAS);
 
-		out.println("-------- View " + aCAS.getViewName() + " end ----------------------------------");
+		out.println("-------- View " + aCAS.getViewName()
+				+ " end ----------------------------------");
 		out.println();
 	}
 
-	private static InExPattern[] compilePatterns(String[] aPatterns)
-	{
+	private static InExPattern[] compilePatterns(String[] aPatterns) {
 		InExPattern[] patterns = new InExPattern[aPatterns.length];
 		for (int i = 0; i < aPatterns.length; i++) {
 			if (aPatterns[i].startsWith(INCLUDE_PREFIX)) {
 				patterns[i] = new InExPattern(aPatterns[i].substring(INCLUDE_PREFIX.length()), true);
 			}
 			else if (aPatterns[i].startsWith(EXCLUDE_PREFIX)) {
-				patterns[i] = new InExPattern(aPatterns[i].substring(EXCLUDE_PREFIX.length()), false);
+				patterns[i] = new InExPattern(aPatterns[i].substring(EXCLUDE_PREFIX.length()),
+						false);
 			}
 			else {
 				patterns[i] = new InExPattern(aPatterns[i], false);
@@ -232,8 +219,7 @@ public class CASDumpWriter
 		return patterns;
 	}
 
-	private Set<String> getTypes(CAS cas)
-	{
+	private Set<String> getTypes(CAS cas) {
 		Set<String> types = new HashSet<String>();
 		Iterator<Type> typeIt = cas.getTypeSystem().getTypeIterator();
 		nextType: while (typeIt.hasNext()) {
@@ -259,13 +245,11 @@ public class CASDumpWriter
 		return types;
 	}
 
-	private static class InExPattern
-	{
+	private static class InExPattern {
 		final boolean includeInOutput;
 		final Matcher matchter;
 
-		public InExPattern(String aPattern, boolean aInclude)
-		{
+		public InExPattern(String aPattern, boolean aInclude) {
 			includeInOutput = aInclude;
 			matchter = Pattern.compile(aPattern).matcher("");
 		}

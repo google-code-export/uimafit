@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.factory;
 
 import static org.apache.commons.io.FileUtils.readFileToString;
@@ -36,9 +36,7 @@ import org.uimafit.type.Token;
 /**
  * @author Richard Eckart de Castilho
  */
-public class JCasBuilderTest
-	extends ComponentTestBase
-{
+public class JCasBuilderTest extends ComponentTestBase {
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
 
@@ -66,7 +64,8 @@ public class JCasBuilderTest
 				CASDumpWriter.PARAM_OUTPUT_FILE, outputFile.getPath());
 		writer.process(jb.getJCas());
 
-		String reference = readFileToString(new File("src/test/resources/data/reference/JCasBuilderTest.dump"), "UTF-8").trim();
+		String reference = readFileToString(
+				new File("src/test/resources/data/reference/JCasBuilderTest.dump"), "UTF-8").trim();
 		String actual = readFileToString(outputFile, "UTF-8").trim();
 
 		assertEquals(reference, actual);

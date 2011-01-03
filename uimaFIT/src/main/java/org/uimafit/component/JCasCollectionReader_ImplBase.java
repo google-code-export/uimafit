@@ -15,7 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 package org.uimafit.component;
 
 import java.io.IOException;
@@ -35,14 +35,10 @@ import org.uimafit.component.initialize.ExternalResourceInitializer;
  *
  * @author Richard Eckart de Castilho
  */
-public abstract class JCasCollectionReader_ImplBase
-	extends CollectionReader_ImplBase
-{
+public abstract class JCasCollectionReader_ImplBase extends CollectionReader_ImplBase {
 	// This method should not be overwritten. Overwrite initialize(UimaContext) instead.
 	@Override
-	public final void initialize()
-		throws ResourceInitializationException
-	{
+	public final void initialize() throws ResourceInitializationException {
 		ConfigurationParameterInitializer.initialize(this, getUimaContext());
 		ExternalResourceInitializer.initialize(getUimaContext(), this);
 		initialize(getUimaContext());
@@ -54,16 +50,12 @@ public abstract class JCasCollectionReader_ImplBase
 	 * @param context
 	 * @throws ResourceInitializationException
 	 */
-	public void initialize(UimaContext context)
-		throws ResourceInitializationException
-	{
+	public void initialize(UimaContext context) throws ResourceInitializationException {
 		// Nothing by default
 	}
 
 	// This method should not be overwritten. Overwrite getNext(JCas) instead.
-	public final void getNext(CAS cas)
-		throws IOException, CollectionException
-	{
+	public final void getNext(CAS cas) throws IOException, CollectionException {
 		try {
 			getNext(cas.getJCas());
 		}
@@ -74,16 +66,14 @@ public abstract class JCasCollectionReader_ImplBase
 
 	/**
 	 * Subclasses should implement this method rather than {@link #getNext(CAS)}
+	 *
 	 * @param jCas
 	 * @throws IOException
 	 * @throws CollectionException
 	 */
-	public abstract void getNext(JCas jCas)
-		throws IOException, CollectionException;
+	public abstract void getNext(JCas jCas) throws IOException, CollectionException;
 
-	public void close()
-		throws IOException
-	{
+	public void close() throws IOException {
 		// Do nothing per default
 	}
 }
