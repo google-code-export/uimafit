@@ -3,6 +3,7 @@
  The following list provides links to various resources for learning more about uimaFIT.  If you can not find an answer to your question, then please send 
  email to [mailto:uimafit-users@googlegroups.com uimafit-users@googlegroups.com].
  
+ * [UserSetup User Setup instructions]
  * [GettingStarted Getting started tutorial]
  * [http://uimafit.googlecode.com/svn/trunk/uimaFIT/apidocs/index.html Javadocs]
  * [http://code.google.com/p/uimafit/source/browse/trunk/uimaFIT/CHANGES CHANGES]
