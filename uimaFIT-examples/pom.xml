@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>uimafit-parent</artifactId>
 		<groupId>org.uimafit</groupId>
-		<version>1.1.0</version>
+		<version>1.1.1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uimafit</groupId>
@@ -10,12 +10,12 @@
 	<name>uimaFIT Examples</name>
 	<description>Factories, Injection, and Testing library for UIMA</description>
 	<url>http://uimafit.googlecode.com</url>
-	<version>1.1.0</version>
+	<version>1.1.1-SNAPSHOT</version>
 	<dependencies>
 		<dependency>
 			<groupId>org.uimafit</groupId>
 			<artifactId>uimafit</artifactId>
-			<version>1.1.0</version>
+			<version>1.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.uima</groupId>
