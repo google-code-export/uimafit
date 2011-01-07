@@ -45,7 +45,7 @@ This code assumes several static method imports (e.g. createTypeSystemDescriptio
 uimaFIT provides mechanisms to instantiate and run UIMA components programmatically with or without descriptor files.  For example, if you have a descriptor file for your analysis engine defined by !MyTagger.java (as shown above), then you can instead instantiate the analysis engine with:
 
 {{{
-AnalysisEngine tagger = createAnalysisEngine("mypackage.MyTagger", typeSystemDescription);
+AnalysisEngine tagger = createAnalysisEngine("mypackage.MyTagger");
 }}}
 
 This will find the descriptor file 'mypackage/!MyTagger.xml' by name.  Similarly, you can find a descriptor file by location with createAnalysisEngineFromPath().  However, if you want to dispense with XML descriptor files altogether (and you probably do), you can use the method createPrimitive() as shown above.  One of the driving motivations for creating the second side of uimaFIT is our frustration with descriptor files and our desire to eliminate them.  Descriptor files are difficult to maintain because they are generally tightly coupled with java code, they decay without warning, they are wearisome to test, and they proliferate, among other reasons.  
