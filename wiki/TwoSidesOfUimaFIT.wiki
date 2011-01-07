@@ -1,0 +1,54 @@
+= Introduction =
+
+While uimaFIT provides a lot of features for a UIMA developer, there are two overarching themes that most features fall under.  These two sides of uimaFIT are, while complementary, largely independent of each other.  One of the beauties of uimaFIT is that a developer that uses one side of uimaFIT extensively is not required to use the other side at all.  
+
+= Simplify Component Implementation = 
+
+The first broad theme of uimaFIT provides features that *simplify component implementation*.  Our favorite example of this is the @ConfigurationParameter annotation which allows you to annotate a member variable as a configuration parameter.  This annotation in combination with the method ConfigurationParameterInitializer.initialize completely automates the process of initializing member variables with values from the UimaContext passed into your analysis engines initialize method.  Similarly, the annotation @ExternalResource annotation in combination with the method ExternalResourceInitializer.initialize completely automates the binding of an external resource as defined in the UimaContext to a member variable.  Dispensing with manually writing the code that performs these two tasks reduces efforts, eliminates verbose and potentially buggy boiler plate code, and makes implementing a UIMA component more enjoyable.  Consider, for example, a member variable that is of type 'Locale'.  With uimaFIT you can simply annotate the member variable with '@ConfigurationParameter' and have your initialize method automatically initialize the variable correctly with a string value in the UimaContext such as "en_US".  
+
+= Simplify Component Instantiation = 
+
+The second broad theme of uimaFIT provides features that *simplify component instantiation*.  Working with UIMA, have you ever said to yourself "but I just want to tag some text!?"  What does it take to "just tag some text?"  Here's a list of things you must do with the traditional approach:
+
+ * wrap you tagger as a UIMA analysis engine
+ * write a descriptor file for your analysis engine
+ * write a CAS consumer that produces the desired output
+ * write another descriptor file for the CAS consumer
+ * write a descriptor file for a collection reader
+ * write a descriptor file that describes a pipeline
+ * invoke the Collection Processing Manager with your pipeline descriptor file
+
+Each of these steps has its own pitfalls and can be rather time consuming.  This is a rather unsatisfying answer to our simple desire to just tag some text.  With uimaFIT you can literally eliminate all of these steps.  Here's a simple snippet of Java code that demonstrates "tagging some text" with uimaFIT:
+
+{{{
+
+TypeSystemDescription typeSystemDescription = createTypeSystemDescription();
+
+JCas jCas = createJCas(typeSystemDescription);
+
+jCas.setDocumentText("some text");
+
+AnalysisEngine tokenizer = createPrimitive(MyTokenizer.class, typeSystemDescription);
+
+AnalysisEngine tagger = createPrimitive(MyTagger.class, typeSystemDescription);
+
+runPipeline(jCas, tokenizer, tagger);
+
+for(Token token : iterate(jCas, Token.class)){
+    System.out.println(token.getTag());
+}
+
+}}}
+
+This code assumes several static method imports (e.g. createTypeSystemDescription) provided by uimaFIT for brevity.  And while the terseness of this code won't make a python programmer blush - it is certainly much easier than the seven steps outlined above!  
+
+uimaFIT provides mechanisms to instantiate and run UIMA components programmatically with or without descriptor files.  For example, if you have a descriptor file for your analysis engine defined by MyTagger.java (as shown above), then you can instead instantiate the analysis engine with:
+
+{{{
+AnalysisEngine tagger = createAnalysisEngine("mypackage.MyTagger", typeSystemDescription);
+}}}
+
+This will find the descriptor file 'mypackage/MyTagger.xml' by name.  Similarly, you can find a descriptor file by location with createAnalysisEngineFromPath().  However, if you want to dispense with XML descriptor files altogether (and you probably do), you can use the method createPrimitive() as shown above.  
+
+
+Is this cheating?
