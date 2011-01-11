@@ -1,6 +1,6 @@
 = Introduction =
 
-While uimaFIT provides a lot of features for a UIMA developer, there are two overarching themes that most features fall under.  These two sides of uimaFIT are, while complementary, largely independent of each other.  One of the beauties of uimaFIT is that a developer that uses one side of uimaFIT extensively is not required to use the other side at all.  
+While uimaFIT provides many features for a UIMA developer, there are two overarching themes that most features fall under.  These two sides of uimaFIT are, while complementary, largely independent of each other.  One of the beauties of uimaFIT is that a developer that uses one side of uimaFIT extensively is not required to use the other side at all.  
 
 = Simplify Component Implementation = 
 
