@@ -13,6 +13,7 @@
  * [TypeDescriptorDetection Automatic type descriptor detection]
  * [http://code.google.com/p/uimafit/source/browse/#svn/trunk/uimaFIT-examples/src/main/java/org/uimafit/examples Examples project] provides a number of examples.
  * The [http://code.google.com/p/uimafit/source/browse/#svn/trunk/uimaFIT/src/test/java/org/uimafit%3Fstate%3Dclosed unit tests] are fairly complete and provide a lot of code examples that should be helpful.
+ * [Working with Sofas/Views]
 
 = Developer Docs =
 
