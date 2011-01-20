@@ -1,5 +1,3 @@
-<wiki:toc max_depth="1" />
-
 UIMA requires that types that are used in the CAS are defined in XML files - so-called type system descriptions (TSD). uimaFIT supports the automatic detection of such files in the classpath. Thus is becomes possible for a UIMA component provider to have component's type automatically detected and thus the components becomes immediately usable by adding it to the classpath.
 
 === Making types auto-detectable ===
@@ -42,7 +40,7 @@ AnalysisEngine ae = createPrimitive(MyEngine.class);
 
 uimaFIT supports multiple `types.txt` files in the classpath (e.g. in differnt JARs). 
 
-The types.txt files are located via Spring using the classpath search pattern: 
+The `types.txt` files are located via Spring using the classpath search pattern: 
 
 {{{
 TYPE_MANIFEST_PATTERN = "classpath*:META-INF/org.uimafit/types.txt" 
@@ -68,11 +66,11 @@ jar:/path/to/token-types.jar!/org/foobar/typesystems/Tokens.xml
 Voilá, the result is a type system covering all types could be found in the classpath. 
 
 I recommend 
-  # to put type system descriptors into proper packages and to use a package-scoped wildcard search 
+  # to put type system descriptors into packages resembling a namespace you "own" and to use a package-scoped wildcard search 
 {{{ 
 classpath*:org/uimafit/type/**/*.xml`
 }}}
-  # or when putting descriptors into the desc.type package, that types.txt file  should explicitly list all type system descriptors instead of using a wildcard search or 
+  # or when putting descriptors into a "well-known" package like `desc.type`, that `types.txt` file  should explicitly list all type system descriptors instead of using a wildcard search or 
 {{{
 classpath*:desc/type/Token.xml 
 classpath*:desc/type/Syntax.xml 
