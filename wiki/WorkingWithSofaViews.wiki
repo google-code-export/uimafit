@@ -1,4 +1,4 @@
-#summary Describes nuances of Sofas, CASes and CAS Views
+#summary Describes nuances of Sofas, CASes and CAS Views (in development)
 
 = Introduction =
 
