@@ -4,11 +4,11 @@
 
 There are some use-cases for copying text and annotations between CASes, and views. There are various Annotators and classes that help deal with these situations available from the different projects:
 
- * UIMA has the CasCopier
- * uimaFit has the ViewTextCopierAnnotator
- * Phillip Wetzler has progress on something similar documented in a ticket at (ClearTK or uimaFIT).
+ * UIMA has the CasCopier that copies annotations between separate CASes, preserving view names.
+ * uimaFit has the ViewTextCopierAnnotator that copies text between views.
+ * Phillip Wetzler has progress on something similar documented in an issue at uimaFIT (46), and ClearTK (175). The code is attached to the uimaFIT issue. It needs test code.
 
-This page describes the problems and the tools. An attempt at a glossary is included. At this point it is a work in progress. Help sharpening the fine points is appreciated. I am not a technical writer, I only play one on the internet. Please leave comments.
+This page describes the problems and the tools. A glossary is included. 
 
 
 = Details =
@@ -19,12 +19,11 @@ In a simple UIMA annotator, a CAS is a structure that contains FeatureSets and t
 
 A more involved annotator may have more than one view on the CAS. Such an annotator uses a Multi-View CAS and is said to be sofa aware.  A Multi-View CAS is a base CAS that contains views, but has no Sofa or indeces (or FeatureSets). Each view has a sofa, indeces and FeatureSets.
 
-The process(Jcas) method is applicable to both. A sofa-aware annotator must get a view to work on since the top-level CAS has no sofa or featureSets. This is accomplished with jcas.getView("_InitialView").
+An annotator's process(Jcas) method is applicable to both types of CASes. A Multi-CAS is handled differently if the annotator is sofa-aware. An annotator is sofa-aware if it has been annotated as such with sofaCapabilities. A sofa-aware annotator must get a view to work on since the top-level CAS has no sofa or featureSets. This is accomplished with jcas.getView("_InitialView"). A sofa-unaware annotator is always passed the _InitialView, the default.
 
-Any annotator, sofa-aware or sofa-unaware, can say jcas.getView("_InitialView") whether sofa-aware or not. (P. Ogren)
-I assume this is a no-op on a simple CAS (not Multi-View).
+Any annotator, sofa-aware or sofa-unaware, can say jcas.getView("_InitialView") whether sofa-aware or not.
 
-Don't be lulled into a false sense of control when writing pipelines in uimaFIT. Just because you can pass a view to the process method of an annotator, does not mean that view will be avaible inside the process method. When anntoation engines are created in uimaFIT, like in UIMA, it is actually an analysis component that surrounds the analysis engine that is created. The process method of the component works to pass the right view to the analysis engine in case it is a cas-unaware or single-view component. The name sofa-aware comes from a a member variable, mSofaAware, in PrimitiveAnalysisEngine_impl. (personal experience)
+Don't be lulled into a false sense of control when writing pipelines in uimaFIT. Just because you can pass a view to the process method of an annotator, does not mean that view will be available inside the process method. When anntoation engines are created in uimaFIT, like in UIMA, it is actually an analysis component that surrounds the analysis engine that is created. The process method of the component works to pass the right view to the analysis engine in case it is a cas-unaware or single-view component. The name sofa-aware comes from a a member variable, mSofaAware, in PrimitiveAnalysisEngine_impl. (personal experience)
 
 When copying annotations from one view to another, using clone() for eample, make sure the sofa feature set is changed to indicate the new view. (need details on exactly how to do this)
 
