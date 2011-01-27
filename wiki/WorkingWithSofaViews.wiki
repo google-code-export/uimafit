@@ -5,8 +5,8 @@
 There are some use-cases for copying text and annotations between CASes, and views. There are various Annotators and classes that help deal with these situations available from the different projects:
 
  * UIMA has the CasCopier that copies annotations between separate CASes, preserving view names.
- * uimaFit has the ViewTextCopierAnnotator that copies text between views.
- * Phillip Wetzler has progress on something similar documented in an issue at uimaFIT (46), and ClearTK (175). The code is attached to the uimaFIT issue. It needs test code.
+ * uimaFit has the ViewTextCopierAnnotator that copies text between views in the same CAS.
+ * Phillip Wetzler has progress on code that copies annotations documented in an issue at uimaFIT (46), and ClearTK (175). The code is attached to the uimaFIT issue. It needs test code.
 
 This page describes the problems and the tools. A glossary is included. 
 
@@ -17,9 +17,11 @@ This page describes the problems and the tools. A glossary is included.
 
 In a simple UIMA annotator, a CAS is a structure that contains FeatureSets and the text or the Sofa, the subject of Annotation. 
 
-A more involved annotator may have more than one view on the CAS. Such an annotator uses a Multi-View CAS and is said to be sofa aware.  A Multi-View CAS is a base CAS that contains views, but has no Sofa or indeces (or FeatureSets). Each view has a sofa, indeces and FeatureSets.
+A more involved annotator can work with a CAS that has more than one view on the CAS. Such an annotator uses a Multi-View CAS and is said to be sofa aware.  A Multi-View CAS is a base CAS that contains views, but has no Sofa or indeces (or FeatureSets). Each view has a sofa, indeces and FeatureSets. The name sofa-aware comes from a variable in PrimitiveAnalysisEngine_impl (mSofaAware). An annotator written for single view CASes can be passed a Multi-CAS: it will always access the _InitialView because the surrounding AnalysisComponent picks it out and sends it to the AnalysisEngine. An annotator written for multi-view CAS, when passed a single-view CAS will only have the _InitialView available.
 
-An annotator's process(Jcas) method is applicable to both types of CASes. A Multi-CAS is handled differently if the annotator is sofa-aware. An annotator is sofa-aware if it has been annotated as such with sofaCapabilities (see 6.2.3 of UTDG) . A sofa-aware annotator must get a view to work on since the top-level CAS has no sofa or featureSets. This is accomplished with jcas.getView("_InitialView"). A sofa-unaware annotator is always passed the _InitialView, the default.
+An annotator's process(Jcas) method is applicable to both types of CASes (single and multi-view).
+
+An annotator is sofa-aware if it has been annotated as such with sofaCapabilities (see 6.2.3 of UTDG) . A sofa-aware annotator must get a view to work on since the top-level CAS has no sofa or featureSets. This is accomplished with jcas.getView("_InitialView"). A sofa-unaware annotator is always passed the _InitialView, the default.
 
 Any annotator, sofa-aware or sofa-unaware, can say jcas.getView("_InitialView") whether sofa-aware or not.
 
