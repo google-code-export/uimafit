@@ -19,7 +19,7 @@ In a simple UIMA annotator, a CAS is a structure that contains FeatureSets and t
 
 A more involved annotator may have more than one view on the CAS. Such an annotator uses a Multi-View CAS and is said to be sofa aware.  A Multi-View CAS is a base CAS that contains views, but has no Sofa or indeces (or FeatureSets). Each view has a sofa, indeces and FeatureSets.
 
-An annotator's process(Jcas) method is applicable to both types of CASes. A Multi-CAS is handled differently if the annotator is sofa-aware. An annotator is sofa-aware if it has been annotated as such with sofaCapabilities. A sofa-aware annotator must get a view to work on since the top-level CAS has no sofa or featureSets. This is accomplished with jcas.getView("_InitialView"). A sofa-unaware annotator is always passed the _InitialView, the default.
+An annotator's process(Jcas) method is applicable to both types of CASes. A Multi-CAS is handled differently if the annotator is sofa-aware. An annotator is sofa-aware if it has been annotated as such with sofaCapabilities (see 6.2.3 of UTDG) . A sofa-aware annotator must get a view to work on since the top-level CAS has no sofa or featureSets. This is accomplished with jcas.getView("_InitialView"). A sofa-unaware annotator is always passed the _InitialView, the default.
 
 Any annotator, sofa-aware or sofa-unaware, can say jcas.getView("_InitialView") whether sofa-aware or not.
 
