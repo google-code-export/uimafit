@@ -49,7 +49,7 @@ import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypePriorityList;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
-import org.uimafit.component.JCasAnnotatorAdapter;
+import org.uimafit.component.NoOpAnnotator;
 import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.OperationalProperties;
 import org.uimafit.factory.testAes.Annotator1;
@@ -85,21 +85,20 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 	@Test
 	public void testCreateAnalysisEngineFromPath() throws UIMAException, IOException {
 		AnalysisEngine engine = AnalysisEngineFactory
-				.createAnalysisEngineFromPath("src/main/resources/org/uimafit/component/JCasAnnotatorAdapter.xml");
+				.createAnalysisEngineFromPath("src/main/resources/org/uimafit/component/NoOpAnnotator.xml");
 		assertNotNull(engine);
 	}
 
 	@Test
 	public void testProcess1() throws UIMAException, IOException {
-		jCas = AnalysisEngineFactory.process("org.uimafit.component.JCasAnnotatorAdapter",
-				"There is no excuse!");
+		jCas = AnalysisEngineFactory.process(NoOpAnnotator.class.getName(), "There is no excuse!");
 
 		assertEquals("There is no excuse!", jCas.getDocumentText());
 	}
 
 	@Test
 	public void testProcess2() throws UIMAException, IOException {
-		jCas = AnalysisEngineFactory.process("org.uimafit.component.JCasAnnotatorAdapter",
+		jCas = AnalysisEngineFactory.process(NoOpAnnotator.class.getName(),
 				"src/test/resources/data/docs/A.txt");
 
 		assertEquals("Aaa Bbbb Cc Dddd eeee ff .", jCas.getDocumentText());
@@ -110,7 +109,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 		String[] prioritizedTypeNames = new String[] { "org.uimafit.type.Token",
 				"org.uimafit.type.Sentence" };
 		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(
-				org.uimafit.component.JCasAnnotatorAdapter.class, typeSystemDescription,
+				org.uimafit.component.NoOpAnnotator.class, typeSystemDescription,
 				prioritizedTypeNames, (Object[]) null);
 
 		typePriorities = engine.getAnalysisEngineMetaData().getTypePriorities();
@@ -128,7 +127,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 
 		prioritizedTypeNames = new String[] { "org.uimafit.type.Sentence", "org.uimafit.type.Token" };
 		engine = AnalysisEngineFactory.createPrimitive(
-				org.uimafit.component.JCasAnnotatorAdapter.class, typeSystemDescription,
+				org.uimafit.component.NoOpAnnotator.class, typeSystemDescription,
 				prioritizedTypeNames, (Object[]) null);
 		jCas = engine.newJCas();
 		tokenBuilder.buildTokens(jCas, "word");
@@ -210,7 +209,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 				.getDocumentText());
 
 		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xmi");
-		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class,
+		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(NoOpAnnotator.class,
 				typeSystemDescription);
 
 		SimplePipeline.runPipeline(jCas, ae1, aggregateEngine);
@@ -344,7 +343,7 @@ public class AnalysisEngineFactoryTest extends ComponentTestBase {
 	public void testPrimitiveDescription() throws ResourceInitializationException {
 
 		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(
-				JCasAnnotatorAdapter.class, typeSystemDescription);
+				NoOpAnnotator.class, typeSystemDescription);
 		assertNotNull(aed);
 		// assertEquals("org.uimafit.type.TypeSystem",
 		// aed.getAnalysisEngineMetaData().getTypeSystem().getImports()[0].getName());

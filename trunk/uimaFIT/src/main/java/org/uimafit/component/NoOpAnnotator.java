@@ -14,27 +14,20 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-package org.uimafit.factory;
 
-import static org.junit.Assert.assertEquals;
+package org.uimafit.component;
 
-import org.apache.uima.analysis_engine.metadata.SofaMapping;
-import org.junit.Test;
-import org.uimafit.component.NoOpAnnotator;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.CAS;
 
 /**
- * @author Philip Ogren
+ * No-operation annotator. This annotator performs no operation whatsoever.
+ *
+ * @author Steven Bethard, Philip Ogren
  */
-
-public class SofaMappingFactoryTest {
-
-	@Test
-	public void test() {
-		SofaMapping sofaMapping = SofaMappingFactory.createSofaMapping(NoOpAnnotator.class,
-				"B", "A");
-
-		assertEquals("A", sofaMapping.getAggregateSofaName());
-		assertEquals(NoOpAnnotator.class.getName(), sofaMapping.getComponentKey());
-		assertEquals("B", sofaMapping.getComponentSofaName());
+public class NoOpAnnotator extends CasAnnotator_ImplBase {
+	@Override
+	public void process(CAS aCAS) throws AnalysisEngineProcessException {
+		// Do nothing at all
 	}
 }

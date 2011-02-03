@@ -20,7 +20,7 @@ package org.uimafit.factory;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.uimafit.component.JCasAnnotatorAdapter;
+import org.uimafit.component.NoOpAnnotator;
 
 /**
  * @author Steven Bethard, Philip Ogren
@@ -41,7 +41,7 @@ public final class UimaContextFactory {
 	 */
 	public static UimaContext createUimaContext(Object... configurationParameters)
 			throws ResourceInitializationException {
-		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class,
+		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(NoOpAnnotator.class,
 				null, configurationParameters);
 		return engine.getUimaContext();
 	}

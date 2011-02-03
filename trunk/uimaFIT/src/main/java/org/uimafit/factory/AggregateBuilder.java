@@ -36,7 +36,24 @@ import org.apache.uima.resource.metadata.TypeSystemDescription;
  * This makes it easy to have runtime decisions determine how the aggregate engine should be built.
  * Finally, one of the create methods are called and an AnalysisEngine or AnalysisEngineDescription
  * is returned.
- * 
+ *
+ * <p>This is an example taken from our test cases:</p>
+ *
+ * <p><blockquote><pre>
+ * import static org.uimafit.factory.AnalysisEngineFactory.createPrimitiveDescription;
+ *
+ * AggregateBuilder builder = new AggregateBuilder();
+ * builder.add(createPrimitiveDescription(Annotator1.class, typeSystemDescription),
+ *     ViewNames.PARENTHESES_VIEW, "A");
+ * builder.add(createPrimitiveDescription(Annotator2.class, typeSystemDescription),
+ *     ViewNames.SORTED_VIEW, "B",
+ *     ViewNames.SORTED_PARENTHESES_VIEW, "C",
+ *     ViewNames.PARENTHESES_VIEW, "A");
+ * builder.add(createPrimitiveDescription(Annotator3.class, typeSystemDescription),
+ *     ViewNames.INITIAL_VIEW, "B");
+ * AnalysisEngine aggregateEngine = builder.createAggregate();
+ * </pre></blockquote></p>
+ *
  * @author Philip Ogren
  */
 public class AggregateBuilder {
@@ -65,7 +82,7 @@ public class AggregateBuilder {
 	/**
 	 * Instantiate an AggregateBuilder with a given type system, type priorities, and flow
 	 * controller. Generally, speaking it suffices to use the no arguments constructor
-	 * 
+	 *
 	 * @param typeSystemDescription
 	 *            this can be instantiated using {@link TypeSystemDescriptionFactory}
 	 * @param typePriorities
@@ -84,7 +101,7 @@ public class AggregateBuilder {
 	 * This method simply calls {@link #add(String, AnalysisEngineDescription, String...)} using the
 	 * result of {@link AnalysisEngineDescription#getAnnotatorImplementationName()} for the
 	 * component name
-	 * 
+	 *
 	 * @param aed
 	 * @param viewNames
 	 * @return the name of the component generated for the {@link AnalysisEngineDescription}
@@ -143,7 +160,7 @@ public class AggregateBuilder {
 
 	/**
 	 * Provide a sofa mapping for a component from the component's view to the aggregate view.
-	 * 
+	 *
 	 * @param componentName
 	 *            the name of the component
 	 * @param componentViewName
@@ -166,7 +183,7 @@ public class AggregateBuilder {
 
 	/**
 	 * Set the flow controller description of the aggregate engine created by this builder.
-	 * 
+	 *
 	 * @param flowControllerDescription
 	 *            see {@link FlowControllerFactory}
 	 */
@@ -178,7 +195,7 @@ public class AggregateBuilder {
 	 * This method simply delegates to
 	 * {@link AnalysisEngineFactory#createAggregate(List, TypeSystemDescription, TypePriorities, SofaMapping[], Object...)}
 	 * with the data collected by this builder.
-	 * 
+	 *
 	 * @return an aggregate analysis engine
 	 * @throws ResourceInitializationException
 	 */
@@ -193,7 +210,7 @@ public class AggregateBuilder {
 	 * This method simply delegates to
 	 * {@link AnalysisEngineFactory#createAggregateDescription(List, TypeSystemDescription, TypePriorities, SofaMapping[], Object...)}
 	 * with the data collected by this builder.
-	 * 
+	 *
 	 * @return a description of an aggregate analysis engine
 	 * @throws ResourceInitializationException
 	 */
