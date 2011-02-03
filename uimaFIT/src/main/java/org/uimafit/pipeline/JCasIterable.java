@@ -31,7 +31,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.util.CasCreationUtils;
-import org.uimafit.component.JCasAnnotatorAdapter;
+import org.uimafit.component.NoOpAnnotator;
 import org.uimafit.factory.AnalysisEngineFactory;
 
 /**
@@ -62,7 +62,7 @@ public class JCasIterable implements Iterator<JCas>, Iterable<JCas> {
 	 */
 	public JCasIterable(CollectionReader reader, TypeSystemDescription typeSystemDescription)
 			throws UIMAException, IOException {
-		this(reader, AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class,
+		this(reader, AnalysisEngineFactory.createPrimitive(NoOpAnnotator.class,
 				typeSystemDescription));
 	}
 

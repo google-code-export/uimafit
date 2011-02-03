@@ -28,7 +28,7 @@ import org.apache.uima.flow.FlowControllerDescription;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
-import org.uimafit.component.JCasAnnotatorAdapter;
+import org.uimafit.component.NoOpAnnotator;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.Annotator2;
 import org.uimafit.factory.testAes.Annotator3;
@@ -71,7 +71,7 @@ public class AggregateBuilderTest extends ComponentTestBase {
 				.getDocumentText());
 
 		JCasFactory.loadJCas(jCas, "src/test/resources/data/docs/test.xmi");
-		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(JCasAnnotatorAdapter.class,
+		AnalysisEngine ae1 = AnalysisEngineFactory.createPrimitive(NoOpAnnotator.class,
 				typeSystemDescription);
 
 		SimplePipeline.runPipeline(jCas, ae1, aggregateEngine);
