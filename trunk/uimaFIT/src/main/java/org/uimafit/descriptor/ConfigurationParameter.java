@@ -16,41 +16,37 @@
  */
 package org.uimafit.descriptor;
 
+import java.io.File;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.net.URI;
+import java.net.URL;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
+import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.factory.ConfigurationParameterFactory;
 
 /**
  * This annotation marks an analysis component member variable as a configuration parameter. The
  * types of member variables that can use this annotation are:
  * <ul>
- * <li>String</li>
- * <li>String[]</li>
- * <li>Boolean</li>
- * <li>boolean</li>
- * <li>Boolean[]</li>
- * <li>boolean[]</li>
- * <li>Integer</li>
- * <li>int</li>
- * <li>Integer[]</li>
- * <li>int[]</li>
- * <li>Float</li>
- * <li>float</li>
- * <li>Float[]</li>
- * <li>float[]</li>
+ * <li>primitive types and arrays: {@code boolean}, {@code boolean[]}, {@code int}, {@code int[]},
+ * {@code float}, {@code float[]}</li>
+ * <li>primitive object wrapper types and arrays: {@link Boolean}, {@link Boolean}{@code []},
+ * {@link Integer}, {@link Integer}{@code []}, {@link Float}, {@link Float}{@code []}</li>
+ * <li>strings and string arrays: {@link String}, {@link String}{@code []}</li>
+ * <li>enumeration types ({@link Enum})</li>
+ * <li>language/locale: {@link Locale}</li>
+ * <li>regular expression patterns: {@link Pattern}</li>
+ * <li>all other types that have a constructor that takes a string as the single argument, e.g.:
+ * {@link File}, {@link URL}, {@link URI} ...</li>
  * </ul>
- * 
- * Fields marked with this annotation should be declared public or have a setter method. The setter
- * method should be named according to setter naming convention - e.g. a field named
- * "myConfigurationParameter" should have a corresponding setter named "setMyConfigurationParameter"
- * with a single parameter whose type is the same as the type of the field (i.e. you can not mix and
- * match the object or primitive types here).
- * 
+ *
  * @author Philip Ogren
- * 
+ * @see ConfigurationParameterInitializer
  */
 
 @Retention(RetentionPolicy.RUNTIME)

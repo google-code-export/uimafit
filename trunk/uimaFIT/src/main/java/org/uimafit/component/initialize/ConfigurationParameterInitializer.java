@@ -38,6 +38,9 @@ import org.uimafit.util.LocaleUtil;
 import org.uimafit.util.ReflectionUtil;
 
 /**
+ * <p>Initialize an instance of a class with fields that are annotated as
+ * {@link ConfigurationParameter}s from the parameter values given in a {@link UimaContext}.</p>
+ *
  * @author Philip Ogren
  */
 
@@ -70,7 +73,7 @@ public class ConfigurationParameterInitializer {
 	 * not have a configuration parameter, then the default value provided by the developer as
 	 * specified by the defaultValue element of the {@link ConfigurationParameter} will be used. See
 	 * comments in the code for additional details.
-	 * 
+	 *
 	 * @param component
 	 * @param context
 	 * @throws ResourceInitializationException
@@ -136,7 +139,7 @@ public class ConfigurationParameterInitializer {
 	 * This method converts UIMA values to values that are appropriate for instantiating the
 	 * annotated member variable. For example, if the "uima" value is a string array and the member
 	 * variable is of type List<String>, then this method will return a list
-	 * 
+	 *
 	 * @param field
 	 * @param uimaValue
 	 * @return
