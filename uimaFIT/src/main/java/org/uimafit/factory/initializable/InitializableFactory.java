@@ -21,17 +21,13 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.resource.ResourceInitializationException;
 
 /**
- * <br>
- * Copyright (c) 2007-2008, Regents of the University of Colorado <br>
- * All rights reserved.
- * 
- * 
+ * Please see {@link Initializable} for a description of how this class is intended to be used.
+ *
+ *
  * @author Philip Ogren
  * @author Philipp Wetzler
  * @author Steven Bethard
  * @see Initializable
- * 
- *      Please see {@link Initializable} for a description of how this class is intended to be used
  */
 public final class InitializableFactory {
 	private InitializableFactory() {
@@ -41,7 +37,7 @@ public final class InitializableFactory {
 	/**
 	 * Provides a way to create an instance of T. If the class specified by className implements
 	 * Initializable, then the UimaContext provided here will be passed to its initialize method.
-	 * 
+	 *
 	 * @param <T>
 	 * @param context
 	 * @param className
