@@ -216,7 +216,7 @@ public final class ConfigurationParameterFactory {
 			return ConfigurationParameterFactory.getConfigurationParameterName(clazz
 					.getDeclaredField(fieldName));
 		}
-		catch (Exception e) {
+		catch (NoSuchFieldException e) {
 			throw new RuntimeException(e);
 		}
 	}
