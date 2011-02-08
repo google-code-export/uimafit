@@ -31,6 +31,7 @@ import org.junit.Test;
 import org.uimafit.ComponentTestBase;
 import org.uimafit.descriptor.SofaCapability;
 import org.uimafit.factory.AnalysisEngineFactory;
+import org.uimafit.testing.util.HideOutput;
 import org.uimafit.type.Token;
 import org.uimafit.util.JCasUtil;
 
