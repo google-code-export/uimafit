@@ -90,7 +90,9 @@ public class ViewCreatorAnnotatorTest extends ComponentTestBase {
 		AnalysisEngineDescription description = AnalysisEngineFactory.createPrimitiveDescription(
 				SofaAwareAnnotator.class, typeSystemDescription);
 		AnalysisEngine engine = AnalysisEngineFactory.createAnalysisEngine(description, "myView");
+		HideOutput hider = new HideOutput();
 		engine.process(jCas);
+		hider.restoreOutput();
 	}
 
 	@Test(expected = AnalysisEngineProcessException.class)
