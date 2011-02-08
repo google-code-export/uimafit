@@ -44,15 +44,16 @@ public final class AnnotationFactory {
 	 */
 	public static <T extends Annotation> T createAnnotation(JCas jCas, int begin, int end,
 			Class<T> cls) throws UIMAException {
+		T annotation;
 		try {
-			T annotation = cls.getConstructor(JCas.class, Integer.TYPE, Integer.TYPE).newInstance(
+			annotation = cls.getConstructor(JCas.class, Integer.TYPE, Integer.TYPE).newInstance(
 					jCas, begin, end);
-			annotation.addToIndexes();
-			return annotation;
 		}
 		catch (Exception e) {
 			throw new UIMAException(e);
 		}
+		annotation.addToIndexes();
+		return annotation;
 	}
 
 }

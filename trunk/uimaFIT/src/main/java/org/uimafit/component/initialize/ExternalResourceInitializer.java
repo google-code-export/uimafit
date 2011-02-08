@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.uima.UimaContext;
 import org.apache.uima.resource.ExternalResourceDependency;
 import org.apache.uima.resource.Resource;
+import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.descriptor.ExternalResource;
 import org.uimafit.descriptor.ExternalResourceLocator;
@@ -51,13 +52,8 @@ public class ExternalResourceInitializer {
 	 */
 	public static <T> void initialize(UimaContext context, T object)
 			throws ResourceInitializationException {
-		try {
-			configure(context, object.getClass(), object.getClass(), object,
-					getResourceDeclarations(object.getClass()));
-		}
-		catch (Exception e) {
-			throw new ResourceInitializationException(e);
-		}
+		configure(context, object.getClass(), object.getClass(), object,
+				getResourceDeclarations(object.getClass()));
 	}
 
 	/**
@@ -81,43 +77,46 @@ public class ExternalResourceInitializer {
 	private static <T> void configure(UimaContext context, Class<?> baseCls, Class<?> cls,
 			T object, Map<String, ExternalResourceDependency> dependencies)
 			throws ResourceInitializationException {
-		try {
-			if (cls.getSuperclass() != null) {
-				configure(context, baseCls, cls.getSuperclass(), object, dependencies);
+		if (cls.getSuperclass() != null) {
+			configure(context, baseCls, cls.getSuperclass(), object, dependencies);
+		}
+
+		for (Field field : cls.getDeclaredFields()) {
+			if (!field.isAnnotationPresent(ExternalResource.class)) {
+				continue;
 			}
 
-			for (Field field : cls.getDeclaredFields()) {
-				if (!field.isAnnotationPresent(ExternalResource.class)) {
-					continue;
-				}
+			// Obtain the resource
+			Object value;
+			try {
+				value = context.getResourceObject(getKey(field));
+			}
+			catch (ResourceAccessException e) {
+				throw new ResourceInitializationException(e);
+			}
+			if (value instanceof ExternalResourceLocator) {
+				value = ((ExternalResourceLocator) value).getResource();
+			}
 
-				// Obtain the resource
-				Object value = context.getResourceObject(getKey(field));
-				if (value instanceof ExternalResourceLocator) {
-					value = ((ExternalResourceLocator) value).getResource();
-				}
+			// Sanity checks
+			if (value == null && isMandatory(field)) {
+				throw new ResourceInitializationException(new IllegalStateException(
+						"Mandatory resource [" + getKey(field) + "] is not set on [" + baseCls
+								+ "]"));
+			}
 
-				// Sanity checks
-				if (value == null && isMandatory(field)) {
-					throw new ResourceInitializationException(new IllegalStateException(
-							"Mandatory resource [" + getKey(field) + "] is not set on [" + baseCls
-									+ "]"));
-				}
-
-				// Now record the setting and optionally apply it to the given
-				// instance.
-				if (value != null) {
-					field.setAccessible(true);
+			// Now record the setting and optionally apply it to the given
+			// instance.
+			if (value != null) {
+				field.setAccessible(true);
+				try {
 					field.set(object, value);
-					field.setAccessible(false);
 				}
+				catch (IllegalAccessException e) {
+					throw new ResourceInitializationException(e);
+				}
+				field.setAccessible(false);
 			}
-		}
-		catch (ResourceInitializationException e) {
-			throw e;
-		}
-		catch (Exception e) {
-			throw new ResourceInitializationException(e);
 		}
 	}
 
@@ -129,17 +128,9 @@ public class ExternalResourceInitializer {
 	 */
 	public static <T> Map<String, ExternalResourceDependency> getResourceDeclarations(Class<?> cls)
 			throws ResourceInitializationException {
-		try {
-			Map<String, ExternalResourceDependency> deps = new HashMap<String, ExternalResourceDependency>();
-			getResourceDeclarations(cls, cls, deps);
-			return deps;
-		}
-		catch (ResourceInitializationException e) {
-			throw e;
-		}
-		catch (Exception e) {
-			throw new ResourceInitializationException(e);
-		}
+		Map<String, ExternalResourceDependency> deps = new HashMap<String, ExternalResourceDependency>();
+		getResourceDeclarations(cls, cls, deps);
+		return deps;
 	}
 
 	private static <T> void getResourceDeclarations(Class<?> baseCls, Class<?> cls,

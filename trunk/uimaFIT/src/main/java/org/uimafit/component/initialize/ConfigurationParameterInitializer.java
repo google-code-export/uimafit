@@ -80,59 +80,58 @@ public class ConfigurationParameterInitializer {
 	 */
 	public static void initialize(Object component, UimaContext context)
 			throws ResourceInitializationException {
-		try {
-			for (Field field : ReflectionUtil.getFields(component)) { // component.getClass().getDeclaredFields())
-				// {
-				if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
-					org.uimafit.descriptor.ConfigurationParameter annotation = field
-							.getAnnotation(org.uimafit.descriptor.ConfigurationParameter.class);
+		for (Field field : ReflectionUtil.getFields(component)) { // component.getClass().getDeclaredFields())
+			// {
+			if (ConfigurationParameterFactory.isConfigurationParameterField(field)) {
+				org.uimafit.descriptor.ConfigurationParameter annotation = field
+						.getAnnotation(org.uimafit.descriptor.ConfigurationParameter.class);
 
-					Object parameterValue;
-					String configurationParameterName = ConfigurationParameterFactory
-							.getConfigurationParameterName(field);
+				Object parameterValue;
+				String configurationParameterName = ConfigurationParameterFactory
+						.getConfigurationParameterName(field);
 
-					// Obtain either from the context - or - if the context does
-					// not provide the parameter, check if there is a default
-					// value. Note there are three possibilities:
-					// 1) Parameter present and set
-					// 2) Parameter present and set to null (null value)
-					// 3) Parameter not present (also provided as null value by
-					// UIMA)
-					// Unfortunately we cannot make a difference between case 2
-					// and 3 since UIMA
-					// does not allow us to actually get a list of the
-					// parameters set in the
-					// context. We can only get a list of the declared
-					// parameters. Thus we
-					// have to rely on the null value.
-					parameterValue = context.getConfigParameterValue(configurationParameterName);
+				// Obtain either from the context - or - if the context does
+				// not provide the parameter, check if there is a default
+				// value. Note there are three possibilities:
+				// 1) Parameter present and set
+				// 2) Parameter present and set to null (null value)
+				// 3) Parameter not present (also provided as null value by
+				// UIMA)
+				// Unfortunately we cannot make a difference between case 2
+				// and 3 since UIMA
+				// does not allow us to actually get a list of the
+				// parameters set in the
+				// context. We can only get a list of the declared
+				// parameters. Thus we
+				// have to rely on the null value.
+				parameterValue = context.getConfigParameterValue(configurationParameterName);
+				if (parameterValue == null) {
+					parameterValue = ConfigurationParameterFactory.getDefaultValue(field);
+				}
+
+				// TODO does this check really belong here? It seems that
+				// this check is already performed by UIMA
+				if (annotation.mandatory()) {
 					if (parameterValue == null) {
-						parameterValue = ConfigurationParameterFactory.getDefaultValue(field);
+						String key = ResourceInitializationException.CONFIG_SETTING_ABSENT;
+						throw new ResourceInitializationException(key,
+								new Object[] { configurationParameterName });
 					}
-
-					// TODO does this check really belong here? It seems that
-					// this check is already performed by UIMA
-					if (annotation.mandatory()) {
-						if (parameterValue == null) {
-							String key = ResourceInitializationException.CONFIG_SETTING_ABSENT;
-							throw new ResourceInitializationException(key,
-									new Object[] { configurationParameterName });
-						}
+				}
+				else {
+					if (parameterValue == null) {
+						continue;
 					}
-					else {
-						if (parameterValue == null) {
-							continue;
-						}
-					}
-					Object fieldValue = convertValue(field, parameterValue);
+				}
+				Object fieldValue = convertValue(field, parameterValue);
+				try {
 					setParameterValue(component, field, fieldValue);
+				}
+				catch (Exception e) {
+					throw new ResourceInitializationException(e);
 				}
 			}
 		}
-		catch (Exception e) {
-			throw new ResourceInitializationException(e);
-		}
-
 	}
 
 	/**
