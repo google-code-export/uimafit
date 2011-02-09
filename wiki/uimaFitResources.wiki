@@ -1,0 +1,39 @@
+#summary Describes the parts necessary in an annotator's code so that resources work in uimaFIT.
+
+= Introduction =
+
+An annotator using resources needs a few parts:
+- (java) annotated uri
+- binding the resource value and key
+- retrieving the resource
+
+
+= Details =
+{{{
+public class BannerEntityTagger_AE extends EntityTagger_AE {
+	
+	final static String MODEL_FILE_KEY = "BannerEntityModelFile"
+        // the java annotation
+	@ExternalResource(key=UIMA_RESOURCE_MODEL_FILE)
+	DataResource uriDataResource;
+
+	@Override
+	public void initialize(UimaContext context) throws ResourceInitializationException {
+                // getting the value
+                URI uri = context.getResourceURI(MODEL_FILE_KEY);
+		String bannerModelFile = uri.getPath();	
+	}
+	
+	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd) 
+	throws ResourceInitializationException {
+		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(
+		        BannerEntityTagger_AE.class, tsd); 
+                // binding
+		ExternalResourceFactory.bindResource(aed, MODEL_FILE_KEY, 
+		        new File("../nlp/resources/nlp-tools/BANNER/data/models/gene_model_v02.bin"));
+			
+		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(aed);
+		return ae;
+	}
+}
+}}}
