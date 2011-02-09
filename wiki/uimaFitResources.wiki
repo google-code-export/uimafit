@@ -3,6 +3,7 @@
 = Introduction =
 
 An annotator using resources needs a few parts:
+ * It needs to derive from the uimaFIT version of JCasAnnotator_ImplBase: org.uimafit.component.JCasAnnotator_ImplBase
  * (java) annotated uri DataResource
  * binding the resource value and key
  * retrieving the resource
@@ -10,7 +11,7 @@ An annotator using resources needs a few parts:
 
 = Details =
 {{{
-public class BannerEntityTagger_AE extends EntityTagger_AE {
+public class BannerEntityTagger_AE extends JCasAnnotator_ImplBase {
 	
 	final static String MODEL_FILE_KEY = "BannerEntityModelFile"
         // the java annotation
