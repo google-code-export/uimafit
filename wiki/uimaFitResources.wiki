@@ -10,6 +10,7 @@ An annotator using resources needs a few parts:
 
 
 = Details =
+This is an abbreviated version of class showing the four parts:
 {{{
 public class BannerEntityTagger_AE extends JCasAnnotator_ImplBase {
 	
