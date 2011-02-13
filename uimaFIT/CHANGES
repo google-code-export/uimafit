@@ -1,4 +1,8 @@
 changes subsequent to 1.1.0
+    - resolved issue #56 "ExternalResourceFactory fails to bind a resource class twice with different parameters"
+    - resolved issue #55 "Support for no-op steps in a pipeline"
+    - resolved issue #52 "null pointer exception thrown when AnalysisEngine impl has no package"
+    - reoslved issue #50 "document what types of member variables can be annotated with @ConfigurationParameter"
 	- resolved issue #47 "jcasgen source files should be generated to target/generated-sources/jcasgen"	
 	- resolved issue #28 "Eclipse code-style file"
 	- resolved issue #45 "set svn:eol-style for .java files	"	
