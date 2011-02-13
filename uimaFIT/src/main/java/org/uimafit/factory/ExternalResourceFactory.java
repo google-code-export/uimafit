@@ -22,6 +22,7 @@ package org.uimafit.factory;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.resource.ConfigurableDataResourceSpecifier;
@@ -51,17 +52,19 @@ import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
 
 /**
  * Helper methods for external resources.
- * 
+ *
  * @author Richard Eckart de Castilho
  */
 public final class ExternalResourceFactory {
+	private final static AtomicLong disambiguator = new AtomicLong();
+
 	private ExternalResourceFactory() {
 		// This class is not meant to be instantiated
 	}
 
 	/**
 	 * Create an external resource description for a custom resource.
-	 * 
+	 *
 	 * @param aName
 	 *            the name of the resource (the key).
 	 * @param aInterface
@@ -99,7 +102,7 @@ public final class ExternalResourceFactory {
 
 	/**
 	 * Create an external resource description for a {@link SharedResourceObject}.
-	 * 
+	 *
 	 * @param aName
 	 *            the name of the resource (the key).
 	 * @param aInterface
@@ -132,7 +135,7 @@ public final class ExternalResourceFactory {
 
 	/**
 	 * Create an external resource description for a file addressable via an URL.
-	 * 
+	 *
 	 * @param aName
 	 *            the name of the resource (the key).
 	 * @param aUrl
@@ -152,7 +155,7 @@ public final class ExternalResourceFactory {
 
 	/**
 	 * Create an external resource binding.
-	 * 
+	 *
 	 * @param aKey
 	 *            the key to bind to.
 	 * @param aResource
@@ -169,7 +172,7 @@ public final class ExternalResourceFactory {
 
 	/**
 	 * Creates an ExternalResourceDependency for a given key and interface
-	 * 
+	 *
 	 * @param aKey
 	 * @param aInterface
 	 * @param aOptional
@@ -195,7 +198,7 @@ public final class ExternalResourceFactory {
 	 * {@link ResourceManager}. If it cannot resolve a remove URL, this mechanism will think it may
 	 * be a local file and will return some local path - or it may redirect it to some location as
 	 * though fit by the {@link ResourceManager}.
-	 * 
+	 *
 	 * @param aDesc
 	 *            a description.
 	 * @param aKey
@@ -220,7 +223,7 @@ public final class ExternalResourceFactory {
 	 * {@link ResourceManager}. If it cannot resolve a remove URL, this mechanism will think it may
 	 * be a local file and will return some local path - or it may redirect it to some location as
 	 * though fit by the {@link ResourceManager}.
-	 * 
+	 *
 	 * @param aDesc
 	 *            a description.
 	 * @param aKey
@@ -253,7 +256,7 @@ public final class ExternalResourceFactory {
 	 * {@link ResourceManager}. If it cannot resolve a remove URL, this mechanism will think it may
 	 * be a local file and will return some local path - or it may redirect it to some location as
 	 * though fit by the {@link ResourceManager}.
-	 * 
+	 *
 	 * @param aDesc
 	 *            a description.
 	 * @param aKey
@@ -273,7 +276,7 @@ public final class ExternalResourceFactory {
 	 * Scan the given resource specifier for external resource dependencies and whenever a
 	 * dependency is encounter that has a key equal to the resource class name, the resource will be
 	 * bound.
-	 * 
+	 *
 	 * @param aDesc
 	 *            a description.
 	 * @param aRes
@@ -292,7 +295,7 @@ public final class ExternalResourceFactory {
 	 * Scan the given resource specifier for external resource dependencies and whenever a
 	 * dependency is encounter that has a key equal to the API class name, the resource will be
 	 * bound.
-	 * 
+	 *
 	 * @param aDesc
 	 *            a description.
 	 * @param aApi
@@ -306,8 +309,10 @@ public final class ExternalResourceFactory {
 	 */
 	public static void bindResource(ResourceSpecifier aDesc, Class<?> aApi,
 			Class<? extends Resource> aRes, String... aParams) throws InvalidXMLException {
-		ExternalResourceDescription extRes = createExternalResourceDescription(aApi.getName(),
-				aRes, aParams);
+		// Appending a disambiguation suffix it possible to have multiple instances of the same
+		// resource with different settings to different keys.
+		ExternalResourceDescription extRes = createExternalResourceDescription(
+				aRes.getName() + '-' + disambiguator.getAndIncrement(), aRes, aParams);
 		bindResource(aDesc, aApi.getName(), extRes);
 	}
 
@@ -315,7 +320,7 @@ public final class ExternalResourceFactory {
 	 * Scan the given resource specifier for external resource dependencies and whenever a
 	 * dependency is encountered that has a key equal to the resource class name, the resource will
 	 * be bound.
-	 * 
+	 *
 	 * @param aDesc
 	 *            a description.
 	 * @param aRes
@@ -337,7 +342,7 @@ public final class ExternalResourceFactory {
 	 * Scan the given resource specifier for external resource dependencies and whenever a
 	 * dependency is encountered that has a key equal to the API class name, the resource will be
 	 * bound.
-	 * 
+	 *
 	 * @param aDesc
 	 *            a description.
 	 * @param aApi
@@ -360,7 +365,7 @@ public final class ExternalResourceFactory {
 	/**
 	 * Scan the given resource specifier for external resource dependencies and whenever a
 	 * dependency with the given key is encountered the resource will be bound.
-	 * 
+	 *
 	 * @param aDesc
 	 *            a description.
 	 * @param aKey
@@ -385,7 +390,7 @@ public final class ExternalResourceFactory {
 	/**
 	 * Scan the given resource specifier for external resource dependencies and whenever a
 	 * dependency with the given key is encountered, the given resource is bound to it.
-	 * 
+	 *
 	 * @param aDesc
 	 *            a description.
 	 * @param aKey
@@ -399,15 +404,17 @@ public final class ExternalResourceFactory {
 	 */
 	public static void bindResource(ResourceSpecifier aDesc, String aKey,
 			Class<? extends Resource> aRes, String... aParams) throws InvalidXMLException {
-		ExternalResourceDescription extRes = createExternalResourceDescription(aRes.getName(),
-				aRes, aParams);
+		// Appending a disambiguation suffix it possible to have multiple instances of the same
+		// resource with different settings to different keys.
+		ExternalResourceDescription extRes = createExternalResourceDescription(
+				aRes.getName() + '-' + disambiguator.getAndIncrement(), aRes, aParams);
 		bindResource(aDesc, aKey, extRes);
 	}
 
 	/**
 	 * Scan the given resource specifier for external resource dependencies and whenever a
 	 * dependency with the given key is encountered, the given resource is bound to it.
-	 * 
+	 *
 	 * @param aDesc
 	 *            a description.
 	 * @param aKey
@@ -427,7 +434,7 @@ public final class ExternalResourceFactory {
 	/**
 	 * Scan the given resource specifier for external resource dependencies and whenever a
 	 * dependency with the given key is encountered, the given resource is bound to it.
-	 * 
+	 *
 	 * @param aDesc
 	 *            a description.
 	 * @param aKey
@@ -461,7 +468,7 @@ public final class ExternalResourceFactory {
 
 	/**
 	 * Create a new external resource binding.
-	 * 
+	 *
 	 * @param aResMgrCfg
 	 *            the resource manager to create the binding in.
 	 * @param aBindTo
