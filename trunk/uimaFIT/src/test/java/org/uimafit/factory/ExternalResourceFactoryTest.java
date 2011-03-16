@@ -27,27 +27,20 @@ import static org.uimafit.factory.ExternalResourceFactory.bindResource;
 
 import java.io.File;
 import java.net.URI;
-import java.util.Map;
 
 import org.apache.uima.UIMAFramework;
-import org.apache.uima.UimaContextAdmin;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.ConfigurationManager;
-import org.apache.uima.resource.CustomResourceSpecifier;
 import org.apache.uima.resource.DataResource;
-import org.apache.uima.resource.Parameter;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.apache.uima.resource.ResourceSpecifier;
-import org.apache.uima.resource.Resource_ImplBase;
 import org.apache.uima.resource.SharedResourceObject;
 import org.apache.uima.resource.metadata.ResourceManagerConfiguration;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
 import org.uimafit.component.JCasAnnotator_ImplBase;
-import org.uimafit.component.initialize.ConfigurationParameterInitializer;
+import org.uimafit.component.Resource_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.descriptor.ExternalResource;
 
@@ -141,30 +134,6 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 		public static final String PARAM_VALUE = "Value";
 		@ConfigurationParameter(name = PARAM_VALUE, mandatory = true)
 		private String value;
-
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		@Override
-		public boolean initialize(ResourceSpecifier aSpecifier, Map aAdditionalParams)
-			throws ResourceInitializationException
-		{
-			if (!super.initialize(aSpecifier, aAdditionalParams)) {
-				return false;
-			}
-
-			// Create synthetic context to be able to use InitializeUtil.
-			UimaContextAdmin context = UIMAFramework.newUimaContext(UIMAFramework.getLogger(),
-					UIMAFramework.newDefaultResourceManager(), UIMAFramework.newConfigurationManager());
-			ConfigurationManager cfgMgr = context.getConfigurationManager();
-			cfgMgr.setSession(context.getSession());
-			CustomResourceSpecifier spec = (CustomResourceSpecifier) aSpecifier;
-			for (Parameter p : spec.getParameters()) {
-				cfgMgr.setConfigParameterValue(context.getQualifiedContextName() + p.getName(), p
-						.getValue());
-			}
-			ConfigurationParameterInitializer.initialize(this, context);
-
-			return true;
-		}
 
 		public String getValue() {
 			return value;
