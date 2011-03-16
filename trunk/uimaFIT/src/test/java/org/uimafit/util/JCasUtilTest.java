@@ -42,7 +42,6 @@ import java.util.Random;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.cas.CAS;
-import org.apache.uima.cas.FSIterator;
 import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.Type;
 import org.apache.uima.jcas.JCas;
@@ -68,16 +67,17 @@ public class JCasUtilTest extends ComponentTestBase {
 	 * Test Tokens (Stems + Lemmas) overlapping with each other.
 	 */
 	@Test
-	public void test1() throws Exception {
+	public void testSelectCoveredOverlapping() throws Exception {
 		add(jCas, 3, 16);
 		add(jCas, 37, 61);
 		add(jCas, 49, 75);
 		add(jCas, 54, 58);
 		add(jCas, 66, 84);
 
-		for (Token t : JCasUtil.iterate(jCas, Token.class)) {
-			List<Sentence> stem1 = getCoveredAnnotationsNaive(jCas, Sentence.class, t);
-			List<Sentence> stem2 = JCasUtil.selectCovered(jCas, Sentence.class, t);
+		for (Token t : select(jCas, Token.class)) {
+			// The naive approach is assumed to be correct
+			List<Sentence> stem1 = selectCovered(jCas, Sentence.class, t.getBegin(), t.getEnd());
+			List<Sentence> stem2 = selectCovered(jCas, Sentence.class, t);
 			check(jCas, t, stem1, stem2);
 		}
 	}
@@ -86,7 +86,7 @@ public class JCasUtilTest extends ComponentTestBase {
 	 * Test what happens if there is actually nothing overlapping with the Token.
 	 */
 	@Test
-	public void test2() throws Exception {
+	public void testSelectCoveredNoOverlap() throws Exception {
 		new Sentence(jCas, 3, 31).addToIndexes();
 		new Sentence(jCas, 21, 21).addToIndexes();
 		new Sentence(jCas, 24, 44).addToIndexes();
@@ -100,15 +100,16 @@ public class JCasUtilTest extends ComponentTestBase {
 
 		new Token(jCas, 73, 96).addToIndexes();
 
-		for (Token t : JCasUtil.iterate(jCas, Token.class)) {
-			List<Sentence> stem1 = getCoveredAnnotationsNaive(jCas, Sentence.class, t);
-			List<Sentence> stem2 = JCasUtil.selectCovered(jCas, Sentence.class, t);
+		for (Token t : select(jCas, Token.class)) {
+			// The naive approach is assumed to be correct
+			List<Sentence> stem1 = selectCovered(jCas, Sentence.class, t.getBegin(), t.getEnd());
+			List<Sentence> stem2 = selectCovered(jCas, Sentence.class, t);
 			check(jCas, t, stem1, stem2);
 		}
 	}
 
 	@Test
-	public void testIteration() throws Exception {
+	public void testSelectCoverRandom() throws Exception {
 		Random rnd = new Random();
 
 		final int ITERATIONS = 10;
@@ -137,9 +138,10 @@ public class JCasUtilTest extends ComponentTestBase {
 			JCas jcas = cas.getJCas();
 			long t1 = 0;
 			long t2 = 0;
-			for (Token t : JCasUtil.iterate(jcas, Token.class)) {
+			for (Token t : select(jcas, Token.class)) {
 				long ti = System.currentTimeMillis();
-				List<Sentence> stem1 = getCoveredAnnotationsNaive(jcas, Sentence.class, t);
+				// The naive approach is assumed to be correct
+				List<Sentence> stem1 = selectCovered(jcas, Sentence.class, t.getBegin(), t.getEnd());
 				t1 += System.currentTimeMillis() - ti;
 
 				ti = System.currentTimeMillis();
@@ -152,6 +154,23 @@ public class JCasUtilTest extends ComponentTestBase {
 					/ (double) t2);
 		}
 	}
+
+	/**
+	 * Test Tokens (Stems + Lemmas) overlapping with each other.
+	 */
+	@Test
+	public void testSelectCoveringOverlapping() throws Exception {
+		add(jCas, 3, 16);
+		add(jCas, 37, 61);
+		add(jCas, 49, 75);
+		add(jCas, 54, 58);
+		add(jCas, 66, 84);
+
+		assertEquals(0, selectCovering(jCas, Token.class, 36, 52).size());
+		assertEquals(1, selectCovering(jCas, Token.class, 37, 52).size());
+		assertEquals(2, selectCovering(jCas, Token.class, 49, 52).size());
+	}
+
 
 	@SuppressWarnings("unused")
 	private void print(Collection<? extends Annotation> annos) {
@@ -185,33 +204,6 @@ public class JCasUtilTest extends ComponentTestBase {
 		// System.out.println("--- Optimized");
 		// print(a2);
 		assertEquals("Container: [" + t.getBegin() + ".." + t.getEnd() + "]", a1, a2);
-	}
-
-	/**
-	 * The version by Torsten slightly optimized by Richard using the cut-off condition found in the
-	 * UIMA subiterator class.
-	 */
-	@SuppressWarnings({ "unchecked" })
-	private static <T extends Annotation> List<T> getCoveredAnnotationsNaive(JCas aJCas,
-			Class<? extends Annotation> aType, Annotation aContainer) {
-		int begin = aContainer.getBegin();
-		int end = aContainer.getEnd();
-		Type t = aJCas.getTypeSystem().getType(aType.getName());
-
-		List<T> list = new ArrayList<T>();
-		FSIterator<Annotation> iter = aJCas.getAnnotationIndex(t).iterator();
-		while (iter.hasNext()) {
-			T a = (T) iter.next();
-			if (a.getBegin() >= begin && a.getEnd() <= end) {
-				list.add(a);
-			}
-			// If the start of the current annotation is past the end parameter,
-			// we're done.
-			if (a.getBegin() > end) {
-				break;
-			}
-		}
-		return list;
 	}
 
 	@Test

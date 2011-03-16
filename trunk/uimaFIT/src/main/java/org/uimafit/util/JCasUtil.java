@@ -287,6 +287,55 @@ public class JCasUtil {
 	}
 
 	/**
+	 * Get a list of annotations of the given annotation type constrained by a 'covering'
+	 * annotation. Iterates over all annotations of the given type to find the covered annotations.
+	 * Does not use subiterators.
+	 * <p>
+	 * <b>Note:</b> this is significantly slower than using {@link #selectCovered(JCas, Class, Annotation)}
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param jCas
+	 *            a JCas containing the annotation.
+	 * @param type
+	 *            a UIMA type.
+	 * @param begin
+	 *            begin offset.
+	 * @param end
+	 *            end offset.
+	 * @return a return value.
+	 */
+	public static <T extends Annotation> List<T> selectCovered(JCas jCas, final Class<T> type,
+			int begin, int end) {
+		return CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), begin, end);
+	}
+
+	/**
+	 * Get a list of annotations of the given annotation type constraint by a certain annotation.
+	 * Iterates over all annotations to find the covering annotations.
+	 *
+	 * <p>
+	 * <b>Note:</b> this is <b>REALLY SLOW!</b> You don't want to use this.
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param jCas
+	 *            a CAS.
+	 * @param type
+	 *            a UIMA type.
+	 * @param begin
+	 *            begin offset.
+	 * @param end
+	 *            end offset.
+	 * @return a return value.
+	 */
+	public static <T extends Annotation> List<T> selectCovering(JCas jCas, Class<T> type, int begin,
+			int end) {
+
+		return CasUtil.selectCovering(jCas.getCas(), getType(jCas, type), begin, end);
+	}
+
+	/**
 	 * Check if the given annotation contains any annotation of the given type.
 	 *
 	 * @param jCas
