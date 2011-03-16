@@ -24,6 +24,7 @@ import static org.junit.Assert.*;
 import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
 import static org.uimafit.util.JCasUtil.exists;
 import static org.uimafit.util.JCasUtil.getType;
+import static org.uimafit.util.JCasUtil.getView;
 import static org.uimafit.util.JCasUtil.isCovered;
 import static org.uimafit.util.JCasUtil.select;
 import static org.uimafit.util.JCasUtil.selectCovered;
@@ -53,7 +54,7 @@ import org.uimafit.type.Token;
 
 /**
  * Test cases for {@link JCasUtil}.
- * 
+ *
  * @author Richard Eckart de Castilho
  * @author Torsten Zesch
  */
@@ -332,5 +333,20 @@ public class JCasUtilTest extends ComponentTestBase {
 	public void testGetInternalUimaType() {
 		Type t = getType(jCas, Annotation.class);
 		assertNotNull(t);
+	}
+
+	@Test
+	public void testGetView() throws Exception {
+		JCas jcas = CasCreationUtils.createCas(createTypeSystemDescription(), null, null).getJCas();
+
+		assertNull(getView(jcas, "view1", null));
+		assertNotNull(getView(jcas, "view1", true));
+		assertNotNull(getView(jcas, "view1", null));
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void testGetNonExistingView() throws Exception {
+		JCas jcas = CasCreationUtils.createCas(createTypeSystemDescription(), null, null).getJCas();
+		assertNull(getView(jcas, "view1", false));
 	}
 }

@@ -18,17 +18,13 @@
  */
 package org.uimafit.util;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
-import org.apache.uima.cas.CASRuntimeException;
-import org.apache.uima.cas.FSIterator;
 import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.Type;
 import org.apache.uima.cas.impl.Subiterator;
@@ -39,7 +35,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 /**
  * Utility methods for convenient access to the {@link JCas}.
- * 
+ *
  * @author Richard Eckart de Castilho
  * @author Philip Ogren
  * @author Niklas Jakob
@@ -47,7 +43,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 public class JCasUtil {
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param jCas
@@ -68,7 +64,7 @@ public class JCasUtil {
 	/**
 	 * Convenience method to iterator over all annotations of a given type occurring within the
 	 * scope of a provided annotation.
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param container
@@ -86,7 +82,7 @@ public class JCasUtil {
 	/**
 	 * Convenience method to iterator over all annotations of a given type occurring within the
 	 * scope of a provided annotation.
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param jCas
@@ -105,7 +101,7 @@ public class JCasUtil {
 	/**
 	 * Convenience method to iterator over all annotations of a given type occurring within the
 	 * scope of a provided annotation (sub-iteration).
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param jCas
@@ -133,7 +129,7 @@ public class JCasUtil {
 
 	/**
 	 * Get an iterator over the given annotation type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param jCas
@@ -149,7 +145,7 @@ public class JCasUtil {
 
 	/**
 	 * Convenience method to get a sub-iterator for the specified type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param container
@@ -172,7 +168,7 @@ public class JCasUtil {
 
 	/**
 	 * Get the CAS type for the given JCas wrapper class type.
-	 * 
+	 *
 	 * @param jCas
 	 *            the JCas containing the type system.
 	 * @param type
@@ -184,8 +180,22 @@ public class JCasUtil {
 	}
 
 	/**
+	 * Get the CAS type for the given JCas wrapper class type making sure it inherits from
+	 * {@link Annotation}.
+	 *
+	 * @param jCas
+	 *            the JCas containing the type system.
+	 * @param type
+	 *            the JCas wrapper class type.
+	 * @return the CAS type.
+	 */
+	public static Type getAnnotationType(JCas jCas, Class<?> type) {
+		return CasUtil.getAnnotationType(jCas.getCas(), type);
+	}
+
+	/**
 	 * Convenience method to iterator over all annotations of a given type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param jCas
@@ -196,28 +206,14 @@ public class JCasUtil {
 	 * @see #selectCovered(Class, AnnotationFS)
 	 */
 	public static <T extends AnnotationFS> Collection<T> select(final JCas jCas, final Class<T> type) {
-		return new AbstractCollection<T>() {
-			@SuppressWarnings("unchecked")
-			AnnotationIndex<T> index = (AnnotationIndex<T>) jCas.getAnnotationIndex(getType(jCas,
-					type));
-
-			@Override
-			public Iterator<T> iterator() {
-				return index.iterator();
-			}
-
-			@Override
-			public int size() {
-				return index.size();
-			}
-		};
+		return CasUtil.select(jCas.getCas(), getType(jCas, type));
 	}
 
 	/**
 	 * Get a list of annotations of the given annotation type constrained by a 'covering'
 	 * annotation. Iterates over all annotations of the given type to find the covered annotations.
 	 * Does not use subiterators.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param type
@@ -237,7 +233,7 @@ public class JCasUtil {
 	 * Get a list of annotations of the given annotation type constrained by a 'covering'
 	 * annotation. Iterates over all annotations of the given type to find the covered annotations.
 	 * Does not use subiterators.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param jCas
@@ -256,7 +252,7 @@ public class JCasUtil {
 
 	/**
 	 * Check if the given annotation contains any annotation of the given type.
-	 * 
+	 *
 	 * @param jCas
 	 *            a JCas containing the annotation.
 	 * @param coveringAnnotation
@@ -273,7 +269,7 @@ public class JCasUtil {
 	/**
 	 * This method exists simply as a convenience method for unit testing. It is not very efficient
 	 * and should not, in general be used outside the context of unit testing.
-	 * 
+	 *
 	 * @param <T>
 	 *            JCas wrapper type.
 	 * @param jCas
@@ -285,31 +281,13 @@ public class JCasUtil {
 	 *            negative (-1 corresponds to the last annotation of a type.)
 	 * @return an annotation of the given type
 	 */
-	@SuppressWarnings("unchecked")
 	public static <T extends Annotation> T selectByIndex(JCas jCas, Class<T> cls, int index) {
-		FSIterator<Annotation> i = jCas.getAnnotationIndex(getType(jCas, cls)).iterator();
-		int n = index;
-		i.moveToFirst();
-		if (n > 0) {
-			while (n > 0 && i.isValid()) {
-				i.moveToNext();
-				n--;
-			}
-		}
-		if (n < 0) {
-			i.moveToLast();
-			while (n < -1 && i.isValid()) {
-				i.moveToPrevious();
-				n++;
-			}
-		}
-
-		return i.isValid() ? (T) i.get() : null;
+		return CasUtil.selectByIndex(jCas.getCas(), getType(jCas, cls), index);
 	}
 
 	/**
 	 * Get the single instance of the specified type from the JCas.
-	 * 
+	 *
 	 * @param <T>
 	 *            JCas wrapper type.
 	 * @param jCas
@@ -320,26 +298,12 @@ public class JCasUtil {
 	 *         one instance if the given type is present.
 	 */
 	public static <T extends FeatureStructure> T selectSingle(JCas jCas, Class<T> type) {
-		FSIterator<FeatureStructure> iterator = jCas.getIndexRepository().getAllIndexedFS(
-				getType(jCas, type));
-
-		if (!iterator.hasNext()) {
-			throw new IllegalArgumentException("CAS does not contain any " + type.getName());
-		}
-
-		@SuppressWarnings("unchecked")
-		T result = (T) iterator.next();
-
-		if (iterator.hasNext()) {
-			throw new IllegalArgumentException("CAS contains more than one " + type.getName());
-		}
-
-		return result;
+		return CasUtil.selectSingle(jCas.getCas(), getType(jCas, type));
 	}
 
 	/**
 	 * Returns the n annotations preceding the given annotation
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param aJCas
@@ -360,7 +324,7 @@ public class JCasUtil {
 
 	/**
 	 * Returns the n annotations following the given annotation
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param aJCas
@@ -381,7 +345,7 @@ public class JCasUtil {
 
 	/**
 	 * Test if a JCas contains an annotation of the given type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the annotation type.
 	 * @param aJCas
@@ -397,78 +361,55 @@ public class JCasUtil {
 	/**
 	 * Convenience method to get the specified view or a default view if the requested view does not
 	 * exist. The default can also be {@code null}.
-	 * 
-	 * @param aJCas
+	 *
+	 * @param jcas
 	 *            a JCas
 	 * @param viewName
 	 *            the requested view.
 	 * @param fallback
 	 *            the default view if the requested view does not exist.
 	 * @return the requested view or the default if the requested view does not exist.
+	 * @throws IllegalStateException
+	 *             if the JCas wrapper cannot be obtained.
 	 */
-	public static JCas getView(JCas aJCas, String viewName, JCas fallback) {
-		JCas view;
+	public static JCas getView(JCas jcas, String viewName, JCas fallback) {
 		try {
-			view = aJCas.getView(viewName);
+			CAS fallbackCas = fallback != null ? fallback.getCas() : null;
+			CAS view = CasUtil.getView(jcas.getCas(), viewName, fallbackCas);
+			return view != null ? view.getJCas() : null;
 		}
 		catch (CASException e) {
-			// use fall-back view instead
-			view = fallback;
+			throw new IllegalStateException(e);
 		}
-		catch (CASRuntimeException e) {
-			// use fall-back view instead
-			view = fallback;
-		}
-		return view;
 	}
 
 	/**
 	 * Convenience method to get the specified view or create a new view if the requested view does
 	 * not exist.
-	 * 
-	 * @param aJCas
+	 *
+	 * @param jcas
 	 *            a JCas
 	 * @param viewName
 	 *            the requested view.
-	 * @param aCreate
+	 * @param create
 	 *            the view is created if it does not exist.
 	 * @return the requested view
-	 * @throws AnalysisEngineProcessException
-	 *             if the view does not exist and is not to be created.
+	 * @throws IllegalStateException
+	 *             if the JCas wrapper cannot be obtained.
 	 */
-	public static JCas getView(JCas aJCas, String viewName, boolean aCreate)
-			throws AnalysisEngineProcessException {
-		JCas view = null;
+	public static JCas getView(JCas jcas, String viewName, boolean create) {
 		try {
-			view = aJCas.getView(viewName);
+			CAS view = CasUtil.getView(jcas.getCas(), viewName, create);
+			return view != null ? view.getJCas() : null;
 		}
 		catch (CASException e) {
-			// View does not exist
+			throw new IllegalStateException(e);
 		}
-		catch (CASRuntimeException e) {
-			// View does not exist
-		}
-
-		if (view == null && aCreate) {
-			try {
-				view = aJCas.createView(viewName);
-			}
-			catch (CASException e) {
-				new AnalysisEngineProcessException(e);
-			}
-		}
-
-		if (view == null) {
-			throw new AnalysisEngineProcessException(new IllegalStateException(
-					"No view with name [" + viewName + "]"));
-		}
-
-		return view;
 	}
 
 	/**
 	 * Fetch the text covered by the specified annotations and return it as a list of strings.
-	 * 
+	 *
 	 * @param <T>
 	 *            UIMA JCas type.
 	 * @param iterable
