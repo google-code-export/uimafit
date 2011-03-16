@@ -31,25 +31,24 @@ import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemD
 import static org.uimafit.util.JCasUtil.exists;
 import static org.uimafit.util.JCasUtil.getAnnotationType;
 import static org.uimafit.util.JCasUtil.getType;
-import static org.uimafit.util.JCasUtil.getView;
-import static org.uimafit.util.JCasUtil.isCovered;
-import static org.uimafit.util.JCasUtil.select;
-import static org.uimafit.util.JCasUtil.selectCovered;
-import static org.uimafit.util.JCasUtil.selectFollowing;
-import static org.uimafit.util.JCasUtil.selectPreceding;
-import static org.uimafit.util.JCasUtil.selectSingle;
+import static org.uimafit.util.JCasUtil.*;
 import static org.uimafit.util.JCasUtil.toText;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.Type;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.EmptyFSList;
+import org.apache.uima.jcas.cas.FSArray;
+import org.apache.uima.jcas.cas.NonEmptyFSList;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.util.CasCreationUtils;
@@ -237,6 +236,80 @@ public class JCasUtilTest extends ComponentTestBase {
 		assertNull(JCasUtil.selectByIndex(jCas, Token.class, -5));
 		assertNull(JCasUtil.selectByIndex(jCas, Token.class, 4));
 	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Test
+	public void testSelectOnArrays() throws Exception {
+		String text = "Rot wood cheeses dew?";
+		tokenBuilder.buildTokens(jCas, text);
+
+		Collection<TOP> allFS = select(jCas, TOP.class);
+		FSArray allFSArray = new FSArray(jCas, allFS.size());
+		int i = 0;
+		for (FeatureStructure fs : allFS) {
+			allFSArray.set(i, fs);
+			i++;
+		}
+
+		// Print what is expected
+		for (FeatureStructure fs : allFS) {
+			System.out.println("Type: "+fs.getType().getName()+"]");
+		}
+		System.out.println("Tokens: ["+toText(select(jCas, Token.class))+"]");
+
+		// Document Annotation, one sentence and 4 tokens.
+		assertEquals(6, allFS.size());
+
+		assertEquals(
+				toText(select(jCas, Token.class)),
+				toText(select(allFSArray, Token.class)));
+
+		assertEquals(
+				toText((Iterable) select(jCas, Token.class)),
+				toText((Iterable) select(allFSArray, Token.class)));
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Test
+	public void testSelectOnLists() throws Exception {
+		String text = "Rot wood cheeses dew?";
+		tokenBuilder.buildTokens(jCas, text);
+
+		Collection<TOP> allFS = select(jCas, TOP.class);
+
+		// Building a list... OMG!
+		NonEmptyFSList allFSList = new NonEmptyFSList(jCas);
+		NonEmptyFSList head = allFSList;
+		Iterator<TOP> i = allFS.iterator();
+		while (i.hasNext()) {
+			head.setHead(i.next());
+			if (i.hasNext()) {
+				head.setTail(new NonEmptyFSList(jCas));
+				head = (NonEmptyFSList) head.getTail();
+			}
+			else {
+				head.setTail(new EmptyFSList(jCas));
+			}
+		}
+
+		// Print what is expected
+		for (FeatureStructure fs : allFS) {
+			System.out.println("Type: "+fs.getType().getName()+"]");
+		}
+		System.out.println("Tokens: ["+toText(select(jCas, Token.class))+"]");
+
+		// Document Annotation, one sentence and 4 tokens.
+		assertEquals(6, allFS.size());
+
+		assertEquals(
+				toText(select(jCas, Token.class)),
+				toText(select(allFSList, Token.class)));
+
+		assertEquals(
+				toText((Iterable) select(jCas, Token.class)),
+				toText((Iterable) select(allFSList, Token.class)));
+	}
+
 
 	@Test
 	public void testToText() throws UIMAException {
