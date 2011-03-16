@@ -50,10 +50,12 @@ public class ConfigurationParameterInitializer {
 	static {
 		converters.put(Boolean.class, new BooleanConverter());
 		converters.put(Float.class, new FloatConverter());
+		converters.put(double.class, new DoubleConverter());
 		converters.put(Integer.class, new IntegerConverter());
 		converters.put(String.class, new StringConverter());
 		converters.put(boolean.class, new BooleanConverter());
 		converters.put(float.class, new FloatConverter());
+		converters.put(double.class, new DoubleConverter());
 		converters.put(int.class, new IntegerConverter());
 		converters.put(Pattern.class, new PatternConverter());
 		converters.put(Locale.class, new LocaleConverter());
@@ -267,6 +269,12 @@ public class ConfigurationParameterInitializer {
 	private static class FloatConverter implements Converter<Float> {
 		public Float convert(Object o) {
 			return (Float) o;
+		}
+	}
+
+	private static class DoubleConverter implements Converter<Float> {
+		public Float convert(Object o) {
+			return ((Number) o).floatValue();
 		}
 	}
 
