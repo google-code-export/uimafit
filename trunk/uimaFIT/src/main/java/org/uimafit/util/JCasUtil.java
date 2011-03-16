@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.uima.cas.ArrayFS;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
@@ -30,6 +31,7 @@ import org.apache.uima.cas.impl.Subiterator;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.cas.text.AnnotationIndex;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.FSList;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.tcas.Annotation;
 
@@ -52,13 +54,11 @@ public class JCasUtil {
 	 *            the type.
 	 * @return An iterable.
 	 * @see AnnotationIndex#iterator()
+	 * @deprecated use {@link #select}
 	 */
+	@Deprecated
 	public static <T extends TOP> Iterable<T> iterate(final JCas jCas, final Class<T> type) {
-		return new Iterable<T>() {
-			public Iterator<T> iterator() {
-				return JCasUtil.iterator(jCas, type);
-			}
-		};
+		return select(jCas, type);
 	}
 
 	/**
@@ -73,7 +73,9 @@ public class JCasUtil {
 	 *            the type.
 	 * @return A iterable.
 	 * @see #selectCovered(Class, AnnotationFS)
+	 * @deprecated use {@link #selectCovered}
 	 */
+	@Deprecated
 	public static <T extends Annotation> Iterable<T> iterate(final Class<T> type,
 			final Annotation container) {
 		return selectCovered(type, container);
@@ -92,7 +94,9 @@ public class JCasUtil {
 	 * @param type
 	 *            the type.
 	 * @return A iterable.
+	 * @deprecated use {@link #selectCovered}
 	 */
+	@Deprecated
 	public static <T extends Annotation> Iterable<T> iterate(final JCas jCas, final Class<T> type,
 			final Annotation container) {
 		return selectCovered(jCas, type, container);
@@ -191,6 +195,38 @@ public class JCasUtil {
 	 */
 	public static Type getAnnotationType(JCas jCas, Class<?> type) {
 		return CasUtil.getAnnotationType(jCas.getCas(), type);
+	}
+
+	/**
+	 * Convenience method select all feature structure from the given type from an array.
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param array
+	 *            a feature structure array.
+	 * @param type
+	 *            the type.
+	 * @return A collection of the selected type.
+	 * @see #selectCovered(Class, AnnotationFS)
+	 */
+	public static <T extends TOP> Collection<T> select(final ArrayFS array, final Class<T> type) {
+		return CasUtil.selectFS(array, CasUtil.getType(array.getCAS(), type.getName()));
+	}
+
+	/**
+	 * Convenience method select all feature structure from the given type from a list.
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param list
+	 *            a feature structure list.
+	 * @param type
+	 *            the type.
+	 * @return A collection of the selected type.
+	 * @see #selectCovered(Class, AnnotationFS)
+	 */
+	public static <T extends TOP> Collection<T> select(final FSList list, final Class<T> type) {
+		return FSCollectionFactory.create(list, CasUtil.getType(list.getCAS(), type.getName()));
 	}
 
 	/**

@@ -20,7 +20,6 @@
  */
 package org.uimafit.util;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,6 +27,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.uima.cas.ArrayFS;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASRuntimeException;
 import org.apache.uima.cas.FSIterator;
@@ -46,6 +46,11 @@ import org.apache.uima.jcas.tcas.Annotation;
  */
 public class CasUtil {
 	/**
+	 * Package name of JCas wrapper classes built into UIMA.
+	 */
+	public static final String UIMA_BUILTIN_JCAS_PREFIX = "org.apache.uima.jcas.";
+
+	/**
 	 * Convenience method to iterator over all feature structures of a given type.
 	 *
 	 * @param <T>
@@ -56,13 +61,11 @@ public class CasUtil {
 	 *            the type.
 	 * @return An iterable.
 	 * @see AnnotationIndex#iterator()
+	 * @deprecated use {@link #selectFS}
 	 */
+	@Deprecated
 	public static <T extends FeatureStructure> Iterable<T> iterateFS(final CAS cas, final Type type) {
-		return new Iterable<T>() {
-			public Iterator<T> iterator() {
-				return CasUtil.iteratorFS(cas, type);
-			}
-		};
+		return selectFS(cas, type);
 	}
 
 	/**
@@ -76,13 +79,11 @@ public class CasUtil {
 	 *            the type.
 	 * @return An iterable.
 	 * @see AnnotationIndex#iterator()
+	 * @deprecated use {@link #select}
 	 */
+	@Deprecated
 	public static <T extends AnnotationFS> Iterable<T> iterate(final CAS cas, final Type type) {
-		return new Iterable<T>() {
-			public Iterator<T> iterator() {
-				return CasUtil.iterator(cas, type);
-			}
-		};
+		return select(cas, type);
 	}
 
 	/**
@@ -118,11 +119,6 @@ public class CasUtil {
 	}
 
 	/**
-	 * Package name of JCas wrapper classes built into UIMA.
-	 */
-	public static final String UIMA_BUILTIN_JCAS_PREFIX = "org.apache.uima.jcas.";
-
-	/**
 	 * Get the CAS type for the given JCas wrapper class.
 	 *
 	 * @param cas
@@ -133,24 +129,6 @@ public class CasUtil {
 	 */
 	public static Type getType(CAS cas, Class<?> type) {
 		return getType(cas, type.getName());
-	}
-
-	/**
-	 * Get the CAS type for the given JCas wrapper class  making sure it is or inherits from
-	 * {@link Annotation}.
-	 *
-	 * @param cas
-	 *            the CAS hosting the type system.
-	 * @param type
-	 *            the JCas wrapper class.
-	 * @return the CAS type.
-	 */
-	public static Type getAnnotationType(CAS cas, Class<?> type) {
-		Type t = getType(cas, type);
-		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), t)) {
-			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
-		}
-		return t;
 	}
 
 	/**
@@ -174,6 +152,24 @@ public class CasUtil {
 	}
 
 	/**
+	 * Get the CAS type for the given JCas wrapper class  making sure it is or inherits from
+	 * {@link Annotation}.
+	 *
+	 * @param cas
+	 *            the CAS hosting the type system.
+	 * @param type
+	 *            the JCas wrapper class.
+	 * @return the CAS type.
+	 */
+	public static Type getAnnotationType(CAS cas, Class<?> type) {
+		Type t = getType(cas, type);
+		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), t)) {
+			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+		}
+		return t;
+	}
+
+	/**
 	 * Get the CAS type for the given name making sure it is or inherits from Annotation.
 	 *
 	 * @param cas
@@ -191,31 +187,67 @@ public class CasUtil {
 	}
 
 	/**
-	 * Convenience method to iterator over all annotations of a given type.
+	 * Convenience method to iterator over all feature structures of a given type.
 	 *
 	 * @param <T>
 	 *            the iteration type.
-	 * @param cas
-	 *            the CAS containing the type system.
+	 * @param array
+	 *            features structure array.
 	 * @param type
 	 *            the type.
 	 * @return A collection of the selected type.
 	 */
-	public static <T extends AnnotationFS> Collection<T> select(final CAS cas, final Type type) {
-		return new AbstractCollection<T>() {
-			@SuppressWarnings("unchecked")
-			AnnotationIndex<T> index = (AnnotationIndex<T>) cas.getAnnotationIndex(type);
+	public static <T extends FeatureStructure> Collection<T> selectFS(ArrayFS array, Type type) {
+		return FSCollectionFactory.create(array, type);
+	}
 
-			@Override
-			public Iterator<T> iterator() {
-				return index.iterator();
-			}
+	/**
+	 * Convenience method to iterator over all annotations of a given type.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param array
+	 *            features structure array.
+	 * @param type
+	 *            the type.
+	 * @return A collection of the selected type.
+	 */
+	public static <T extends AnnotationFS> Collection<T> select(ArrayFS array, Type type) {
+		CAS cas = array.getCAS();
+		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
+			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+		}
+		return FSCollectionFactory.create(cas, type);
+	}
 
-			@Override
-			public int size() {
-				return index.size();
-			}
-		};
+	/**
+	 * Convenience method to iterator over all feature structures of a given type.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param array
+	 *            features structure array.
+	 * @param typeName
+	 *            the fully qualified type name.
+	 * @return A collection of the selected type.
+	 */
+	public static <T extends FeatureStructure> Collection<T> selectFS(ArrayFS array, String typeName) {
+		return selectFS(array, getType(array.getCAS(), typeName));
+	}
+
+	/**
+	 * Convenience method to iterator over all annotations of a given type.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param array
+	 *            features structure array.
+	 * @param typeName
+	 *            the fully qualified type name.
+	 * @return A collection of the selected type.
+	 */
+	public static <T extends AnnotationFS> Collection<T> select(ArrayFS array, String typeName) {
+		return select(array, getAnnotationType(array.getCAS(), typeName));
 	}
 
 	/**
@@ -230,39 +262,25 @@ public class CasUtil {
 	 * @return A collection of the selected type.
 	 */
 	public static <T extends FeatureStructure> Collection<T> selectFS(final CAS cas, final Type type) {
-		return new AbstractCollection<T>() {
-			private volatile int sizeCache = -1;
+		return FSCollectionFactory.create(cas, type);
+	}
 
-			@SuppressWarnings("unchecked")
-			FSIterator<T> index = (FSIterator<T>) cas.getIndexRepository().getAllIndexedFS(type);
-
-			@Override
-			public Iterator<T> iterator() {
-				return index;
-			}
-
-			@Override
-			public int size() {
-				// Unfortunately FSIterator does not expose the sizes of its internal collection,
-				// neither the current position although FSIteratorAggregate has a private field
-				// with that information.
-				if (sizeCache == -1) {
-					synchronized (this) {
-						if (sizeCache == -1) {
-							FSIterator<T> clone = index.copy();
-							clone.moveToFirst();
-							sizeCache = 0;
-							while (clone.isValid()) {
-								sizeCache++;
-								clone.moveToNext();
-							}
-						}
-					}
-				}
-
-				return sizeCache;
-			}
-		};
+	/**
+	 * Convenience method to iterator over all annotations of a given type.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param cas
+	 *            the CAS containing the type system.
+	 * @param type
+	 *            the type.
+	 * @return A collection of the selected type.
+	 */
+	public static <T extends AnnotationFS> Collection<T> select(final CAS cas, final Type type) {
+		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
+			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+		}
+		return FSCollectionFactory.create(cas, type);
 	}
 
 	/**
@@ -277,7 +295,7 @@ public class CasUtil {
 	 * @return A collection of the selected type.
 	 */
 	public static <T extends FeatureStructure> Collection<T> selectFS(final CAS cas, final String typeName) {
-		return selectFS(cas, getAnnotationType(cas, typeName));
+		return selectFS(cas, getType(cas, typeName));
 	}
 
 	/**

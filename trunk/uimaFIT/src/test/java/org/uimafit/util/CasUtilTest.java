@@ -35,7 +35,9 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.cas.ArrayFS;
 import org.apache.uima.cas.CAS;
+import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.Type;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.jcas.cas.TOP;
@@ -107,7 +109,7 @@ public class CasUtilTest extends ComponentTestBase {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
-	public void testSelect() throws Exception {
+	public void testSelectOnAnnotations() throws Exception {
 		String text = "Rot wood cheeses dew?";
 		tokenBuilder.buildTokens(jCas, text);
 
@@ -120,6 +122,40 @@ public class CasUtilTest extends ComponentTestBase {
 		assertEquals(
 				asList("Rot", "wood", "cheeses", "dew?"),
 				toText((Collection<AnnotationFS>)(Collection)selectFS(cas, Token.class.getName())));
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Test
+	public void testSelectOnArrays() throws Exception {
+		String text = "Rot wood cheeses dew?";
+		tokenBuilder.buildTokens(jCas, text);
+
+		CAS cas = jCas.getCas();
+
+		Collection<FeatureStructure> allFS = selectFS(cas, TOP.class.getName());
+		ArrayFS allFSArray = cas.createArrayFS(allFS.size());
+		int i = 0;
+		for (FeatureStructure fs : allFS) {
+			allFSArray.set(i, fs);
+			i++;
+		}
+
+		// Print what is expected
+		for (FeatureStructure fs : allFS) {
+			System.out.println("Type: "+fs.getType().getName()+"]");
+		}
+		System.out.println("Tokens: ["+toText(select(cas, Token.class.getName()))+"]");
+
+		// Document Annotation, one sentence and 4 tokens.
+		assertEquals(6, allFS.size());
+
+		assertEquals(
+				toText(select(cas, Token.class.getName())),
+				toText(select(allFSArray, Token.class.getName())));
+
+		assertEquals(
+				toText((Iterable) selectFS(cas, Token.class.getName())),
+				toText((Iterable) selectFS(allFSArray, Token.class.getName())));
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
