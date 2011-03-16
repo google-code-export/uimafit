@@ -100,7 +100,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 	}
 
 	// Using TOP here because FSList is only available in the JCas.
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T extends TOP> Collection<T> create(FSList aList, Type type)
 	{
 		TypeSystem ts = aList.getCAS().getTypeSystem();
@@ -115,7 +115,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 			i = l.getTail();
 		}
 
-		return (Collection<T>) asList(data.toArray(new FeatureStructure[data.size()]));
+		return (Collection) asList(data.toArray(new FeatureStructure[data.size()]));
 	}
 
 	private static class FSIteratorAdapter<T extends FeatureStructure> extends FSCollectionFactory<T>

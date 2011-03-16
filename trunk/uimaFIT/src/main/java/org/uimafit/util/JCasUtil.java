@@ -142,9 +142,9 @@ public class JCasUtil {
 	 *            a type.
 	 * @return a return value.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T extends TOP> Iterator<T> iterator(JCas jCas, Class<T> type) {
-		return ((FSIterator<T>) jCas.getIndexRepository().getAllIndexedFS(getType(jCas, type)));
+		return (FSIterator) jCas.getIndexRepository().getAllIndexedFS(getType(jCas, type));
 	}
 
 	/**
@@ -367,7 +367,7 @@ public class JCasUtil {
 	 * @return an annotation of the given type
 	 */
 	public static <T extends TOP> T selectByIndex(JCas jCas, Class<T> cls, int index) {
-		return CasUtil.selectFSByIndex(jCas.getCas(), getType(jCas, cls), index);
+		return CasUtil.<T>selectFSByIndex(jCas.getCas(), getType(jCas, cls), index);
 	}
 
 	/**
@@ -383,7 +383,7 @@ public class JCasUtil {
 	 *         one instance if the given type is present.
 	 */
 	public static <T extends TOP> T selectSingle(JCas jCas, Class<T> type) {
-		return CasUtil.selectSingle(jCas.getCas(), getType(jCas, type));
+		return CasUtil.<T>selectSingle(jCas.getCas(), getType(jCas, type));
 	}
 
 	/**

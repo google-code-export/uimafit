@@ -512,7 +512,7 @@ public class CasUtil {
 	 * @return an annotation of the given type
 	 */
 	public static <T extends FeatureStructure> T selectFSByIndex(CAS cas, String typeName, int index) {
-		return selectFSByIndex(cas, getType(cas, typeName), index);
+		return CasUtil.<T>selectFSByIndex(cas, getType(cas, typeName), index);
 	}
 
 	/**
@@ -531,7 +531,7 @@ public class CasUtil {
 	 * @return an annotation of the given type
 	 */
 	public static <T extends AnnotationFS> T selectByIndex(CAS cas, String typeName, int index) {
-		return selectByIndex(cas, getAnnotationType(cas, typeName), index);
+		return CasUtil.<T>selectByIndex(cas, getAnnotationType(cas, typeName), index);
 	}
 
 	/**
@@ -675,7 +675,7 @@ public class CasUtil {
 	 *         one instance if the given type is present.
 	 */
 	public static <T extends FeatureStructure> T selectSingle(CAS cas, String typeName) {
-		return selectSingle(cas, getType(cas, typeName));
+		return CasUtil.<T>selectSingle(cas, getType(cas, typeName));
 	}
 
 	/**
