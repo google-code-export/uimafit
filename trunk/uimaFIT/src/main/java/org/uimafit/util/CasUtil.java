@@ -20,14 +20,18 @@
  */
 package org.uimafit.util;
 
+import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.uima.cas.CAS;
+import org.apache.uima.cas.CASRuntimeException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.Type;
 import org.apache.uima.cas.impl.Subiterator;
 import org.apache.uima.cas.text.AnnotationFS;
@@ -36,14 +40,14 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 /**
  * Utility methods for convenient access to the {@link CAS}.
- * 
+ *
  * @author Richard Eckart de Castilho
  * @author Niklas Jakob
  */
 public class CasUtil {
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param cas
@@ -63,7 +67,7 @@ public class CasUtil {
 
 	/**
 	 * Get an iterator over the given annotation type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param cas
@@ -84,7 +88,7 @@ public class CasUtil {
 
 	/**
 	 * Get the CAS type for the given JCas wrapper class.
-	 * 
+	 *
 	 * @param cas
 	 *            the CAS hosting the type system.
 	 * @param type
@@ -104,11 +108,106 @@ public class CasUtil {
 	}
 
 	/**
+	 * Get the CAS type for the given JCas wrapper class  making sure it is or inherits from
+	 * {@link Annotation}.
+	 *
+	 * @param cas
+	 *            the CAS hosting the type system.
+	 * @param type
+	 *            the JCas wrapper class.
+	 * @return the CAS type.
+	 */
+	public static Type getAnnotationType(CAS cas, Class<?> type) {
+		Type t = getType(cas, type);
+		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), t)) {
+			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+		}
+		return t;
+	}
+
+	/**
+	 * Get the CAS type for the given name.
+	 *
+	 * @param cas
+	 *            the CAS hosting the type system.
+	 * @param typeName
+	 *            the fully qualified type name.
+	 * @return the CAS type.
+	 */
+	public static Type getType(CAS cas,String typeName) {
+		Type t = cas.getTypeSystem().getType(typeName);
+		if (t == null) {
+			throw new IllegalArgumentException("Undeclared type [" + typeName + "]");
+		}
+		return t;
+	}
+
+	/**
+	 * Get the CAS type for the given name making sure it is or inherits from Annotation.
+	 *
+	 * @param cas
+	 *            the CAS hosting the type system.
+	 * @param typeName
+	 *            the fully qualified type name.
+	 * @return the CAS type.
+	 */
+	public static Type getAnnotationType(CAS cas,String typeName) {
+		Type t = getType(cas, typeName);
+		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), t)) {
+			throw new IllegalArgumentException("Type ["+typeName+"] is not an annotation type");
+		}
+		return t;
+	}
+
+	/**
+	 * Convenience method to iterator over all annotations of a given type.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param cas
+	 *            the CAS containing the type system.
+	 * @param type
+	 *            the type.
+	 * @return A collection of the selected type.
+	 */
+	public static <T extends AnnotationFS> Collection<T> select(final CAS cas, final Type type) {
+		return new AbstractCollection<T>() {
+			@SuppressWarnings("unchecked")
+			AnnotationIndex<T> index = (AnnotationIndex<T>) cas.getAnnotationIndex(type);
+
+			@Override
+			public Iterator<T> iterator() {
+				return index.iterator();
+			}
+
+			@Override
+			public int size() {
+				return index.size();
+			}
+		};
+	}
+
+	/**
+	 * Convenience method to iterator over all annotations of a given type.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param cas
+	 *            the CAS containing the type system.
+	 * @param typeName
+	 *            the fully qualified type name.
+	 * @return A collection of the selected type.
+	 */
+	public static <T extends AnnotationFS> Collection<T> select(final CAS cas, final String typeName) {
+		return select(cas, getAnnotationType(cas, typeName));
+	}
+
+	/**
 	 * Get a list of annotations of the given annotation type constraint by a certain annotation.
 	 * Iterates over all annotations of the given type to find the covered annotations. Does not use
 	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
 	 * Uses the same approach except that type priorities are ignored.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param cas
@@ -192,8 +291,131 @@ public class CasUtil {
 	}
 
 	/**
+	 * This method exists simply as a convenience method for unit testing. It is not very efficient
+	 * and should not, in general be used outside the context of unit testing.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param cas
+	 *            a CAS containing the annotation.
+	 * @param typeName
+	 *            the fully qualified type name.
+	 * @param index
+	 *            this can be either positive (0 corresponds to the first annotation of a type) or
+	 *            negative (-1 corresponds to the last annotation of a type.)
+	 * @return an annotation of the given type
+	 */
+	public static <T extends AnnotationFS> T selectByIndex(CAS cas, String typeName, int index) {
+		return selectByIndex(cas, getType(cas, typeName), index);
+	}
+
+	/**
+	 * Get a list of annotations of the given annotation type constraint by a certain annotation.
+	 * Iterates over all annotations of the given type to find the covered annotations. Does not use
+	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
+	 * Uses the same approach except that type priorities are ignored.
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param cas
+	 *            a CAS.
+	 * @param typeName
+	 *            the fully qualified type name.
+	 * @param coveringAnnotation
+	 *            the covering annotation.
+	 * @return a return value.
+	 * @see Subiterator
+	 */
+	public static <T extends AnnotationFS> List<T> selectCovered(CAS cas, String typeName,
+			AnnotationFS coveringAnnotation) {
+		return selectCovered(cas, getType(cas, typeName), coveringAnnotation);
+	}
+
+	/**
+	 * This method exists simply as a convenience method for unit testing. It is not very efficient
+	 * and should not, in general be used outside the context of unit testing.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param cas
+	 *            a CAS containing the annotation.
+	 * @param type
+	 *            a UIMA type.
+	 * @param index
+	 *            this can be either positive (0 corresponds to the first annotation of a type) or
+	 *            negative (-1 corresponds to the last annotation of a type.)
+	 * @return an annotation of the given type
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends AnnotationFS> T selectByIndex(CAS cas, Type type, int index) {
+		FSIterator<AnnotationFS> i = cas.getAnnotationIndex(type).iterator();
+		int n = index;
+		i.moveToFirst();
+		if (n > 0) {
+			while (n > 0 && i.isValid()) {
+				i.moveToNext();
+				n--;
+			}
+		}
+		if (n < 0) {
+			i.moveToLast();
+			while (n < -1 && i.isValid()) {
+				i.moveToPrevious();
+				n++;
+			}
+		}
+
+		return i.isValid() ? (T) i.get() : null;
+	}
+
+	/**
+	 * Get the single instance of the specified type from the JCas.
+	 *
+	 * @param <T>
+	 *            JCas wrapper type.
+	 * @param cas
+	 *            a JCas containing the annotation.
+	 * @param type
+	 *            a UIMA type.
+	 * @return the single instance of the given type. throws IllegalArgumentException if not exactly
+	 *         one instance if the given type is present.
+	 */
+	public static <T extends FeatureStructure> T selectSingle(CAS cas, Type type) {
+		FSIterator<FeatureStructure> iterator = cas.getIndexRepository().getAllIndexedFS(type);
+
+		if (!iterator.hasNext()) {
+			throw new IllegalArgumentException("CAS does not contain any [" + type.getName()+"]");
+		}
+
+		@SuppressWarnings("unchecked")
+		T result = (T) iterator.next();
+
+		if (iterator.hasNext()) {
+			throw new IllegalArgumentException("CAS contains more than one [" + type.getName()+"]");
+		}
+
+		return result;
+	}
+
+	/**
+	 * Get the single instance of the specified type from the JCas.
+	 *
+	 * @param <T>
+	 *            JCas wrapper type.
+	 * @param cas
+	 *            a JCas containing the annotation.
+	 * @param typeName
+	 *            the fully qualified type name.
+	 * @return the single instance of the given type. throws IllegalArgumentException if not exactly
+	 *         one instance if the given type is present.
+	 */
+	public static <T extends FeatureStructure> T selectSingle(CAS cas, String typeName) {
+		return selectSingle(cas, getType(cas, typeName));
+	}
+
+	/**
 	 * Returns the n annotations preceding the given annotation
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param cas
@@ -234,8 +456,28 @@ public class CasUtil {
 	}
 
 	/**
+	 * Returns the n annotations preceding the given annotation
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param cas
+	 *            a CAS.
+	 * @param typeName
+	 *            the fully qualified type name.
+	 * @param annotation
+	 *            anchor annotation
+	 * @param count
+	 *            number of annotations to collect
+	 * @return List of aType annotations preceding anchor annotation
+	 */
+	public static <T extends AnnotationFS> List<T> selectPreceding(CAS cas, String typeName,
+			Annotation annotation, int count) {
+		return selectPreceding(cas, getType(cas, typeName), annotation, count);
+	}
+
+	/**
 	 * Returns the n annotations following the given annotation
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param cas
@@ -270,5 +512,83 @@ public class CasUtil {
 		}
 
 		return followingAnnotations;
+	}
+
+	/**
+	 * Returns the n annotations following the given annotation
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param cas
+	 *            a CAS.
+	 * @param typeName
+	 *            the fully qualified type name.
+	 * @param annotation
+	 *            anchor annotation
+	 * @param count
+	 *            number of annotations to collect
+	 * @return List of aType annotations following anchor annotation
+	 */
+	public static <T extends AnnotationFS> List<T> selectFollowing(CAS cas, String typeName,
+			Annotation annotation, int count) {
+		return selectFollowing(cas, getType(cas, typeName), annotation, count);
+	}
+
+	/**
+	 * Convenience method to get the specified view or a default view if the requested view does not
+	 * exist. The default can also be {@code null}.
+	 *
+	 * @param cas
+	 *            a CAS
+	 * @param viewName
+	 *            the requested view.
+	 * @param fallback
+	 *            the default view if the requested view does not exist.
+	 * @return the requested view or the default if the requested view does not exist.
+	 */
+	public static CAS getView(CAS cas, String viewName, CAS fallback) {
+		CAS view;
+		try {
+			view = cas.getView(viewName);
+		}
+		catch (CASRuntimeException e) {
+			// use fall-back view instead
+			view = fallback;
+		}
+		return view;
+	}
+
+	/**
+	 * Convenience method to get the specified view or create a new view if the requested view does
+	 * not exist.
+	 *
+	 * @param cas
+	 *            a CAS
+	 * @param viewName
+	 *            the requested view.
+	 * @param create
+	 *            the view is created if it does not exist.
+	 * @return the requested view
+	 * @throws IllegalArgumentException
+	 *             if the view does not exist and is not to be created.
+	 */
+	public static CAS getView(CAS cas, String viewName, boolean create) {
+		CAS view = null;
+		try {
+			view = cas.getView(viewName);
+		}
+		catch (CASRuntimeException e) {
+			// View does not exist
+		}
+
+		if (view == null && create) {
+			view = cas.createView(viewName);
+		}
+
+		if (view == null) {
+			throw new IllegalArgumentException("No view with name [" + viewName + "]");
+		}
+
+		return view;
 	}
 }
