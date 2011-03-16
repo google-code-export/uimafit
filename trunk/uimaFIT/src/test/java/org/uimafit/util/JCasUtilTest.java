@@ -20,9 +20,16 @@
  */
 package org.uimafit.util;
 
-import static org.junit.Assert.*;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
 import static org.uimafit.util.JCasUtil.exists;
+import static org.uimafit.util.JCasUtil.getAnnotationType;
 import static org.uimafit.util.JCasUtil.getType;
 import static org.uimafit.util.JCasUtil.getView;
 import static org.uimafit.util.JCasUtil.isCovered;
@@ -32,11 +39,9 @@ import static org.uimafit.util.JCasUtil.selectFollowing;
 import static org.uimafit.util.JCasUtil.selectPreceding;
 import static org.uimafit.util.JCasUtil.selectSingle;
 import static org.uimafit.util.JCasUtil.toText;
-import static java.util.Arrays.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -45,6 +50,7 @@ import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.cas.Type;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.util.CasCreationUtils;
 import org.junit.Test;
@@ -214,41 +220,22 @@ public class JCasUtilTest extends ComponentTestBase {
 		String text = "Rot wood cheeses dew?";
 		tokenBuilder.buildTokens(jCas, text);
 
-		Iterator<Token> tokens = JCasUtil.iterator(jCas, Token.class);
-		assertTrue(tokens.hasNext());
-		assertEquals("Rot", tokens.next().getCoveredText());
-		assertTrue(tokens.hasNext());
-		assertEquals("wood", tokens.next().getCoveredText());
-		assertTrue(tokens.hasNext());
-		assertEquals("cheeses", tokens.next().getCoveredText());
-		assertTrue(tokens.hasNext());
-		assertEquals("dew?", tokens.next().getCoveredText());
-		assertFalse(tokens.hasNext());
+		assertEquals(
+				asList("Rot", "wood", "cheeses", "dew?"),
+				toText(JCasUtil.select(jCas, Token.class)));
 	}
 
 	@Test
-	public void testGet() throws UIMAException {
+	public void testSelectByIndex() throws UIMAException {
 		String text = "Rot wood cheeses dew?";
 		tokenBuilder.buildTokens(jCas, text);
 
-		Token lastToken = JCasUtil.selectByIndex(jCas, Token.class, -1);
-		assertEquals("dew?", lastToken.getCoveredText());
-
-		Token firstToken = JCasUtil.selectByIndex(jCas, Token.class, 0);
-		assertEquals("Rot", firstToken.getCoveredText());
-
-		lastToken = JCasUtil.selectByIndex(jCas, Token.class, 3);
-		assertEquals("dew?", lastToken.getCoveredText());
-
-		firstToken = JCasUtil.selectByIndex(jCas, Token.class, -4);
-		assertEquals("Rot", firstToken.getCoveredText());
-
-		Token oobToken = JCasUtil.selectByIndex(jCas, Token.class, -5);
-		assertNull(oobToken);
-
-		oobToken = JCasUtil.selectByIndex(jCas, Token.class, 4);
-		assertNull(oobToken);
-
+		assertEquals("dew?", JCasUtil.selectByIndex(jCas, Token.class, -1).getCoveredText());
+		assertEquals("dew?", JCasUtil.selectByIndex(jCas, Token.class, 3).getCoveredText());
+		assertEquals("Rot", JCasUtil.selectByIndex(jCas, Token.class, 0).getCoveredText());
+		assertEquals("Rot", JCasUtil.selectByIndex(jCas, Token.class, -4).getCoveredText());
+		assertNull(JCasUtil.selectByIndex(jCas, Token.class, -5));
+		assertNull(JCasUtil.selectByIndex(jCas, Token.class, 4));
 	}
 
 	@Test
@@ -348,5 +335,25 @@ public class JCasUtilTest extends ComponentTestBase {
 	public void testGetNonExistingView() throws Exception {
 		JCas jcas = CasCreationUtils.createCas(createTypeSystemDescription(), null, null).getJCas();
 		assertNull(getView(jcas, "view1", false));
+	}
+
+	@Test
+	public void testGetType() throws UIMAException {
+		String text = "Rot wood cheeses dew?";
+		tokenBuilder.buildTokens(jCas, text);
+
+		assertEquals(Token.class.getName(), getType(jCas, Token.class).getName());
+		assertEquals(Token.class.getName(), getAnnotationType(jCas, Token.class).getName());
+		assertEquals("uima.cas.TOP", getType(jCas, TOP.class).getName());
+		assertEquals("uima.tcas.Annotation", getType(jCas, Annotation.class).getName());
+		assertEquals("uima.tcas.Annotation", getAnnotationType(jCas, Annotation.class).getName());
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void testGetNonAnnotationType() throws UIMAException {
+		String text = "Rot wood cheeses dew?";
+		tokenBuilder.buildTokens(jCas, text);
+
+		getAnnotationType(jCas, TOP.class);
 	}
 }
