@@ -33,6 +33,7 @@ import org.apache.uima.cas.CASRuntimeException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.Type;
+import org.apache.uima.cas.TypeSystem;
 import org.apache.uima.cas.impl.Subiterator;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.cas.text.AnnotationIndex;
@@ -398,6 +399,100 @@ public class CasUtil {
 			}
 		}
 
+		return list;
+	}
+
+	/**
+	 * Get a list of annotations of the given annotation type constraint by a certain annotation.
+	 * Iterates over all annotations of the given type to find the covered annotations. Does not use
+	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
+	 * Uses the same approach except that type priorities are ignored.
+	 * <p>
+	 * <b>Note:</b> this is significantly slower than using {@link #selectCovered(CAS, Type, AnnotationFS)}
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param cas
+	 *            a CAS.
+	 * @param type
+	 *            a UIMA type.
+	 * @param begin
+	 *            begin offset.
+	 * @param end
+	 *            end offset.
+	 * @return a return value.
+	 * @see Subiterator
+	 */
+	public static <T extends AnnotationFS> List<T> selectCovered(CAS cas, Type type,
+			int begin, int end) {
+
+		List<T> list = new ArrayList<T>();
+		FSIterator<AnnotationFS> it = cas.getAnnotationIndex(type).iterator();
+
+		// Skip annotations whose start is before the start parameter.
+		while (it.isValid() && (it.get()).getBegin() < begin) {
+			it.moveToNext();
+		}
+
+		boolean strict = true;
+		while (it.isValid()) {
+			@SuppressWarnings("unchecked")
+			T a = (T) it.get();
+			// If the start of the current annotation is past the end parameter, we're done.
+			if (a.getBegin() > end) {
+				break;
+			}
+			it.moveToNext();
+			if (strict && a.getEnd() > end) {
+				continue;
+			}
+
+			assert !(a.getBegin() < begin) : "Illegal begin " + a.getBegin() + " in [" + begin
+					+ ".." + end + "]";
+
+			assert !(a.getEnd() < begin) : "Illegal end " + a.getEnd() + " in [" + begin + ".."
+					+ end + "]";
+
+			list.add(a);
+		}
+
+		return list;
+	}
+
+	/**
+	 * Get a list of annotations of the given annotation type constraint by a certain annotation.
+	 * Iterates over all annotations to find the covering annotations.
+	 *
+	 * <p>
+	 * <b>Note:</b> this is <b>REALLY SLOW!</b> You don't want to use this.
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param cas
+	 *            a CAS.
+	 * @param type
+	 *            a UIMA type.
+	 * @param begin
+	 *            begin offset.
+	 * @param end
+	 *            end offset.
+	 * @return a return value.
+	 */
+	@SuppressWarnings({ "unchecked" })
+	public static <T extends Annotation> List<T> selectCovering(CAS cas, Type type, int begin,
+			int end) {
+
+		TypeSystem ts = cas.getTypeSystem();
+		List<T> list = new ArrayList<T>();
+		FSIterator<AnnotationFS> iter = cas.getAnnotationIndex().iterator();
+		while (iter.hasNext()) {
+			T a = (T) iter.next();
+			if (a.getBegin() <= begin && a.getEnd() >= end) {
+				if (type == null || ts.subsumes(type, a.getType())) {
+					list.add(a);
+				}
+			}
+		}
 		return list;
 	}
 
