@@ -5,7 +5,7 @@ changes subsequent to 1.1.0
     - resolved issue #56 "ExternalResourceFactory fails to bind a resource class twice with different parameters"
     - resolved issue #55 "Support for no-op steps in a pipeline"
     - resolved issue #52 "null pointer exception thrown when AnalysisEngine impl has no package"
-    - reoslved issue #50 "document what types of member variables can be annotated with @ConfigurationParameter"
+    - resolved issue #50 "document what types of member variables can be annotated with @ConfigurationParameter"
 	- resolved issue #47 "jcasgen source files should be generated to target/generated-sources/jcasgen"	
 	- resolved issue #28 "Eclipse code-style file"
 	- resolved issue #45 "set svn:eol-style for .java files	"	
@@ -24,7 +24,7 @@ changes in 1.1.0
 	- JCasUtil: added select() method which works like iterate() but returns a collection which allows it to be used in extended for loops as well as to initialize collections (e.g. new ArrayList(select(...)))
 	- JCasUtil/CasUtil: added selectPreceding/selectFollowing methods (thanks Niklas Jakob).
 	- introduced Apache Maven RAT plugin which can be used to check presence of license headers during build
-	- fixed enless loop in SingleFileXReader
+	- fixed infinite loop in SingleFileXReader
 
 changes in 1.0.0
  	- resolved issue #36 "remove compiler warnings"
