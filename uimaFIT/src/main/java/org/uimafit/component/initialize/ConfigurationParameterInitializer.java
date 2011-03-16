@@ -19,6 +19,7 @@ package org.uimafit.component.initialize;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,11 +28,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.uima.UIMAFramework;
 import org.apache.uima.UimaContext;
+import org.apache.uima.UimaContextAdmin;
+import org.apache.uima.resource.ConfigurationManager;
+import org.apache.uima.resource.CustomResourceSpecifier;
+import org.apache.uima.resource.Parameter;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.ResourceSpecifier;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
 import org.uimafit.util.LocaleUtil;
@@ -62,22 +70,22 @@ public class ConfigurationParameterInitializer {
 	}
 
 	/**
-	 * This code can be a little confusing because the configuration parameter annotations are used
-	 * in two contexts: in describing the component and to initialize member variables from a
-	 * {@link UimaContext}. Here we are performing the latter task. It is important to remember that
-	 * the {@link UimaContext} passed in to this method may or may not have been derived using
-	 * reflection of the annotations (i.e. using {@link ConfigurationParameterFactory} via e.g. a
-	 * call to a AnalysisEngineFactory.create method). It is just as possible for the description of
-	 * the component to come directly from an XML descriptor file. So, for example, just because a
-	 * configuration parameter specifies a default value, this does not mean that the passed in
-	 * context will have a value for that configuration parameter. It should be possible for a
-	 * descriptor file to specify its own value or to not provide one at all. If the context does
-	 * not have a configuration parameter, then the default value provided by the developer as
-	 * specified by the defaultValue element of the {@link ConfigurationParameter} will be used. See
-	 * comments in the code for additional details.
+	 * Initialize a component from an {@link UimaContext} This code can be a little confusing
+	 * because the configuration parameter annotations are used in two contexts: in describing the
+	 * component and to initialize member variables from a {@link UimaContext}. Here we are
+	 * performing the latter task. It is important to remember that the {@link UimaContext} passed
+	 * in to this method may or may not have been derived using reflection of the annotations (i.e.
+	 * using {@link ConfigurationParameterFactory} via e.g. a call to a AnalysisEngineFactory.create
+	 * method). It is just as possible for the description of the component to come directly from an
+	 * XML descriptor file. So, for example, just because a configuration parameter specifies a
+	 * default value, this does not mean that the passed in context will have a value for that
+	 * configuration parameter. It should be possible for a descriptor file to specify its own value
+	 * or to not provide one at all. If the context does not have a configuration parameter, then
+	 * the default value provided by the developer as specified by the defaultValue element of the
+	 * {@link ConfigurationParameter} will be used. See comments in the code for additional details.
 	 *
-	 * @param component
-	 * @param context
+	 * @param component the component to initialize.
+	 * @param context a UIMA context with configuration parameters.
 	 * @throws ResourceInitializationException
 	 */
 	public static void initialize(Object component, UimaContext context)
@@ -134,6 +142,93 @@ public class ConfigurationParameterInitializer {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Initialize a component from a map.
+	 *
+	 * @param component the component to initialize.
+	 * @param map a UIMA context with configuration parameters.
+	 * @throws ResourceInitializationException
+	 * @see #initialize(Object, UimaContext)
+	 */
+	public static void initialize(Object component, Map<String, Object> map)
+			throws ResourceInitializationException {
+		UimaContextAdmin context = UIMAFramework.newUimaContext(UIMAFramework.getLogger(),
+				UIMAFramework.newDefaultResourceManager(), UIMAFramework.newConfigurationManager());
+		ConfigurationManager cfgMgr = context.getConfigurationManager();
+		cfgMgr.setSession(context.getSession());
+		for (Entry<String, Object> e : map.entrySet()) {
+			cfgMgr.setConfigParameterValue(context.getQualifiedContextName() + e.getKey(),
+					e.getValue());
+		}
+		initialize(component, context);
+	}
+
+	/**
+	 * Initialize a component from a {@link CustomResourceSpecifier}.
+	 *
+	 * @param component the component to initialize.
+	 * @param spec a resource specifier.
+	 * @throws ResourceInitializationException
+	 * @see #initialize(Object, UimaContext)
+	 */
+	public static void initialize(Object component, ResourceSpecifier spec)
+			throws ResourceInitializationException {
+		try {
+			Object result = spec.getClass().getMethod("getParameters").invoke(spec);
+			if (result == null) {
+				initialize(component);
+			}
+			Parameter[] parameters;
+			try {
+				parameters = (Parameter[]) result;
+			}
+			catch (ClassCastException e) {
+				throw new IllegalArgumentException(
+						"The method getParameters of resource specifier of type ["
+								+ spec.getClass().getName()
+								+ "] does not return an Parameter array.", e);
+			}
+			initialize(component, parameters);
+		}
+		catch (NoSuchMethodException e) {
+			throw new IllegalArgumentException("Resource specifier of type ["
+					+ spec.getClass().getName() + "] does not provide a getParameters() method.");
+		}
+		catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("Unable to call getParameters() method of " +
+					"resource specifier of type [" + spec.getClass().getName() + "]", e);
+		}
+		catch (SecurityException e) {
+			throw new IllegalArgumentException("Unable to call getParameters() method of " +
+					"resource specifier of type [" + spec.getClass().getName() + "]", e);
+		}
+		catch (IllegalAccessException e) {
+			throw new IllegalArgumentException("Unable to call getParameters() method of " +
+					"resource specifier of type [" + spec.getClass().getName() + "]", e);
+		}
+		catch (InvocationTargetException e) {
+			throw new IllegalArgumentException("Unable to call getParameters() method of " +
+					"resource specifier of type [" + spec.getClass().getName() + "]", e);
+		}
+	}
+
+	/**
+	 * Initialize a component from a {@link CustomResourceSpecifier}.
+	 *
+	 * @param component the component to initialize.
+	 * @param parameters a list of parameters.
+	 * @throws ResourceInitializationException
+	 * @see #initialize(Object, UimaContext)
+	 */
+	public static void initialize(Object component, Parameter... parameters)
+			throws ResourceInitializationException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		for (Parameter p : parameters) {
+			params.put(p.getName(), p.getValue());
+		}
+		initialize(component, params);
 	}
 
 	/**
