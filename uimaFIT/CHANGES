@@ -1,4 +1,7 @@
 changes subsequent to 1.1.0
+    - resolved issue #59 "Unable to use doubles for parameters in the create* factory methods"
+    - resolved issue #58 "JCasUtil method requests"
+    - resolved issue #57 "JCasUtil has various methods that would be nice to have in CasUtil as well"
     - resolved issue #56 "ExternalResourceFactory fails to bind a resource class twice with different parameters"
     - resolved issue #55 "Support for no-op steps in a pipeline"
     - resolved issue #52 "null pointer exception thrown when AnalysisEngine impl has no package"

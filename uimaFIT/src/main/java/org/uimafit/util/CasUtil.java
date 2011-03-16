@@ -46,6 +46,26 @@ import org.apache.uima.jcas.tcas.Annotation;
  */
 public class CasUtil {
 	/**
+	 * Convenience method to iterator over all feature structures of a given type.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param cas
+	 *            a CAS.
+	 * @param type
+	 *            the type.
+	 * @return An iterable.
+	 * @see AnnotationIndex#iterator()
+	 */
+	public static <T extends FeatureStructure> Iterable<T> iterateFS(final CAS cas, final Type type) {
+		return new Iterable<T>() {
+			public Iterator<T> iterator() {
+				return CasUtil.iteratorFS(cas, type);
+			}
+		};
+	}
+
+	/**
 	 * Convenience method to iterator over all annotations of a given type.
 	 *
 	 * @param <T>
@@ -63,6 +83,22 @@ public class CasUtil {
 				return CasUtil.iterator(cas, type);
 			}
 		};
+	}
+
+	/**
+	 * Get an iterator over the given feature structures type.
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param cas
+	 *            a CAS.
+	 * @param type
+	 *            a type.
+	 * @return a return value.
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends FeatureStructure> Iterator<T> iteratorFS(CAS cas, Type type) {
+		return ((FSIterator<T>) cas.getIndexRepository().getAllIndexedFS(type));
 	}
 
 	/**
@@ -96,15 +132,7 @@ public class CasUtil {
 	 * @return the CAS type.
 	 */
 	public static Type getType(CAS cas, Class<?> type) {
-		String typeName = type.getName();
-		if (typeName.startsWith(UIMA_BUILTIN_JCAS_PREFIX)) {
-			typeName = "uima." + typeName.substring(UIMA_BUILTIN_JCAS_PREFIX.length());
-		}
-		Type t = cas.getTypeSystem().getType(typeName);
-		if (t == null) {
-			throw new IllegalArgumentException("Undeclared type [" + typeName + "]");
-		}
-		return t;
+		return getType(cas, type.getName());
 	}
 
 	/**
@@ -135,6 +163,9 @@ public class CasUtil {
 	 * @return the CAS type.
 	 */
 	public static Type getType(CAS cas,String typeName) {
+		if (typeName.startsWith(UIMA_BUILTIN_JCAS_PREFIX)) {
+			typeName = "uima." + typeName.substring(UIMA_BUILTIN_JCAS_PREFIX.length());
+		}
 		Type t = cas.getTypeSystem().getType(typeName);
 		if (t == null) {
 			throw new IllegalArgumentException("Undeclared type [" + typeName + "]");
@@ -185,6 +216,68 @@ public class CasUtil {
 				return index.size();
 			}
 		};
+	}
+
+	/**
+	 * Convenience method to iterator over all feature structures of a given type.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param cas
+	 *            the CAS containing the type system.
+	 * @param type
+	 *            the type.
+	 * @return A collection of the selected type.
+	 */
+	public static <T extends FeatureStructure> Collection<T> selectFS(final CAS cas, final Type type) {
+		return new AbstractCollection<T>() {
+			private volatile int sizeCache = -1;
+
+			@SuppressWarnings("unchecked")
+			FSIterator<T> index = (FSIterator<T>) cas.getIndexRepository().getAllIndexedFS(type);
+
+			@Override
+			public Iterator<T> iterator() {
+				return index;
+			}
+
+			@Override
+			public int size() {
+				// Unfortunately FSIterator does not expose the sizes of its internal collection,
+				// neither the current position although FSIteratorAggregate has a private field
+				// with that information.
+				if (sizeCache == -1) {
+					synchronized (this) {
+						if (sizeCache == -1) {
+							FSIterator<T> clone = index.copy();
+							clone.moveToFirst();
+							sizeCache = 0;
+							while (clone.isValid()) {
+								sizeCache++;
+								clone.moveToNext();
+							}
+						}
+					}
+				}
+
+				return sizeCache;
+			}
+		};
+	}
+
+	/**
+	 * Convenience method to iterator over all feature structures of a given type.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param cas
+	 *            the CAS containing the type system.
+	 * @param typeName
+	 *            the fully qualified type name.
+	 * @return A collection of the selected type.
+	 */
+	public static <T extends FeatureStructure> Collection<T> selectFS(final CAS cas, final String typeName) {
+		return selectFS(cas, getAnnotationType(cas, typeName));
 	}
 
 	/**
@@ -297,6 +390,25 @@ public class CasUtil {
 	 * @param <T>
 	 *            the iteration type.
 	 * @param cas
+	 *            a CAS containing the feature structure.
+	 * @param typeName
+	 *            the fully qualified type name.
+	 * @param index
+	 *            this can be either positive (0 corresponds to the first annotation of a type) or
+	 *            negative (-1 corresponds to the last annotation of a type.)
+	 * @return an annotation of the given type
+	 */
+	public static <T extends FeatureStructure> T selectFSByIndex(CAS cas, String typeName, int index) {
+		return selectFSByIndex(cas, getType(cas, typeName), index);
+	}
+
+	/**
+	 * This method exists simply as a convenience method for unit testing. It is not very efficient
+	 * and should not, in general be used outside the context of unit testing.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param cas
 	 *            a CAS containing the annotation.
 	 * @param typeName
 	 *            the fully qualified type name.
@@ -306,7 +418,7 @@ public class CasUtil {
 	 * @return an annotation of the given type
 	 */
 	public static <T extends AnnotationFS> T selectByIndex(CAS cas, String typeName, int index) {
-		return selectByIndex(cas, getType(cas, typeName), index);
+		return selectByIndex(cas, getAnnotationType(cas, typeName), index);
 	}
 
 	/**
@@ -328,7 +440,44 @@ public class CasUtil {
 	 */
 	public static <T extends AnnotationFS> List<T> selectCovered(CAS cas, String typeName,
 			AnnotationFS coveringAnnotation) {
-		return selectCovered(cas, getType(cas, typeName), coveringAnnotation);
+		return selectCovered(cas, getAnnotationType(cas, typeName), coveringAnnotation);
+	}
+
+	/**
+	 * This method exists simply as a convenience method for unit testing. It is not very efficient
+	 * and should not, in general be used outside the context of unit testing.
+	 *
+	 * @param <T>
+	 *            the iteration type.
+	 * @param cas
+	 *            a CAS containing the feature structure.
+	 * @param type
+	 *            a UIMA type.
+	 * @param index
+	 *            this can be either positive (0 corresponds to the first annotation of a type) or
+	 *            negative (-1 corresponds to the last annotation of a type.)
+	 * @return an annotation of the given type
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends FeatureStructure> T selectFSByIndex(CAS cas, Type type, int index) {
+		FSIterator<FeatureStructure> i = cas.getIndexRepository().getAllIndexedFS(type);
+		int n = index;
+		i.moveToFirst();
+		if (n > 0) {
+			while (n > 0 && i.isValid()) {
+				i.moveToNext();
+				n--;
+			}
+		}
+		if (n < 0) {
+			i.moveToLast();
+			while (n < -1 && i.isValid()) {
+				i.moveToPrevious();
+				n++;
+			}
+		}
+
+		return i.isValid() ? (T) i.get() : null;
 	}
 
 	/**
@@ -348,6 +497,9 @@ public class CasUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends AnnotationFS> T selectByIndex(CAS cas, Type type, int index) {
+		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
+			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+		}
 		FSIterator<AnnotationFS> i = cas.getAnnotationIndex(type).iterator();
 		int n = index;
 		i.moveToFirst();
@@ -403,7 +555,7 @@ public class CasUtil {
 	 * @param <T>
 	 *            JCas wrapper type.
 	 * @param cas
-	 *            a JCas containing the annotation.
+	 *            a JCas containing the feature structure.
 	 * @param typeName
 	 *            the fully qualified type name.
 	 * @return the single instance of the given type. throws IllegalArgumentException if not exactly
@@ -430,6 +582,9 @@ public class CasUtil {
 	 */
 	public static <T extends AnnotationFS> List<T> selectPreceding(CAS cas, Type type,
 			Annotation annotation, int count) {
+		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
+			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+		}
 		List<T> precedingAnnotations = new LinkedList<T>();
 
 		// move to first previous annotation
@@ -472,7 +627,7 @@ public class CasUtil {
 	 */
 	public static <T extends AnnotationFS> List<T> selectPreceding(CAS cas, String typeName,
 			Annotation annotation, int count) {
-		return selectPreceding(cas, getType(cas, typeName), annotation, count);
+		return selectPreceding(cas, getAnnotationType(cas, typeName), annotation, count);
 	}
 
 	/**
@@ -492,6 +647,9 @@ public class CasUtil {
 	 */
 	public static <T extends AnnotationFS> List<T> selectFollowing(CAS cas, Type type,
 			Annotation annotation, int count) {
+		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
+			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+		}
 		List<T> followingAnnotations = new LinkedList<T>();
 
 		// move to first previous annotation
@@ -531,7 +689,7 @@ public class CasUtil {
 	 */
 	public static <T extends AnnotationFS> List<T> selectFollowing(CAS cas, String typeName,
 			Annotation annotation, int count) {
-		return selectFollowing(cas, getType(cas, typeName), annotation, count);
+		return selectFollowing(cas, getAnnotationType(cas, typeName), annotation, count);
 	}
 
 	/**
@@ -590,5 +748,36 @@ public class CasUtil {
 		}
 
 		return view;
+	}
+
+	/**
+	 * Fetch the text covered by the specified annotations and return it as a list of strings.
+	 *
+	 * @param <T>
+	 *            UIMA JCas type.
+	 * @param iterable
+	 *            annotation container.
+	 * @return list of covered strings.
+	 */
+	public static <T extends AnnotationFS> List<String> toText(Iterable<T> iterable) {
+		return toText(iterable.iterator());
+	}
+
+	/**
+	 * Fetch the text covered by the specified annotations and return it as a list of strings.
+	 *
+	 * @param <T>
+	 *            UIMA JCas type.
+	 * @param iterator
+	 *            annotation iterator.
+	 * @return list of covered strings.
+	 */
+	public static <T extends AnnotationFS> List<String> toText(Iterator<T> iterator) {
+		List<String> text = new ArrayList<String>();
+		while (iterator.hasNext()) {
+			AnnotationFS a = iterator.next();
+			text.add(a.getCoveredText());
+		}
+		return text;
 	}
 }

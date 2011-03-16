@@ -18,19 +18,19 @@
  */
 package org.uimafit.util;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
-import org.apache.uima.cas.FeatureStructure;
+import org.apache.uima.cas.FSIterator;
 import org.apache.uima.cas.Type;
 import org.apache.uima.cas.impl.Subiterator;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.cas.text.AnnotationIndex;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.tcas.Annotation;
 
 /**
@@ -42,7 +42,7 @@ import org.apache.uima.jcas.tcas.Annotation;
  */
 public class JCasUtil {
 	/**
-	 * Convenience method to iterator over all annotations of a given type.
+	 * Convenience method to iterator over all features structures of a given type.
 	 *
 	 * @param <T>
 	 *            the iteration type.
@@ -53,7 +53,7 @@ public class JCasUtil {
 	 * @return An iterable.
 	 * @see AnnotationIndex#iterator()
 	 */
-	public static <T extends AnnotationFS> Iterable<T> iterate(final JCas jCas, final Class<T> type) {
+	public static <T extends TOP> Iterable<T> iterate(final JCas jCas, final Class<T> type) {
 		return new Iterable<T>() {
 			public Iterator<T> iterator() {
 				return JCasUtil.iterator(jCas, type);
@@ -128,7 +128,7 @@ public class JCasUtil {
 	}
 
 	/**
-	 * Get an iterator over the given annotation type.
+	 * Get an iterator over the given feature structure type.
 	 *
 	 * @param <T>
 	 *            the JCas type.
@@ -139,8 +139,8 @@ public class JCasUtil {
 	 * @return a return value.
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T extends AnnotationFS> Iterator<T> iterator(JCas jCas, Class<T> type) {
-		return ((AnnotationIndex<T>) jCas.getAnnotationIndex(getType(jCas, type))).iterator();
+	public static <T extends TOP> Iterator<T> iterator(JCas jCas, Class<T> type) {
+		return ((FSIterator<T>) jCas.getIndexRepository().getAllIndexedFS(getType(jCas, type)));
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class JCasUtil {
 	}
 
 	/**
-	 * Convenience method to iterator over all annotations of a given type.
+	 * Convenience method to iterator over all features structures of a given type.
 	 *
 	 * @param <T>
 	 *            the iteration type.
@@ -205,8 +205,8 @@ public class JCasUtil {
 	 * @return A collection of the selected type.
 	 * @see #selectCovered(Class, AnnotationFS)
 	 */
-	public static <T extends AnnotationFS> Collection<T> select(final JCas jCas, final Class<T> type) {
-		return CasUtil.select(jCas.getCas(), getType(jCas, type));
+	public static <T extends TOP> Collection<T> select(final JCas jCas, final Class<T> type) {
+		return CasUtil.selectFS(jCas.getCas(), getType(jCas, type));
 	}
 
 	/**
@@ -281,8 +281,8 @@ public class JCasUtil {
 	 *            negative (-1 corresponds to the last annotation of a type.)
 	 * @return an annotation of the given type
 	 */
-	public static <T extends Annotation> T selectByIndex(JCas jCas, Class<T> cls, int index) {
-		return CasUtil.selectByIndex(jCas.getCas(), getType(jCas, cls), index);
+	public static <T extends TOP> T selectByIndex(JCas jCas, Class<T> cls, int index) {
+		return CasUtil.selectFSByIndex(jCas.getCas(), getType(jCas, cls), index);
 	}
 
 	/**
@@ -297,7 +297,7 @@ public class JCasUtil {
 	 * @return the single instance of the given type. throws IllegalArgumentException if not exactly
 	 *         one instance if the given type is present.
 	 */
-	public static <T extends FeatureStructure> T selectSingle(JCas jCas, Class<T> type) {
+	public static <T extends TOP> T selectSingle(JCas jCas, Class<T> type) {
 		return CasUtil.selectSingle(jCas.getCas(), getType(jCas, type));
 	}
 
@@ -354,7 +354,7 @@ public class JCasUtil {
 	 *            a annotation class.
 	 * @return {@code true} if there is at least one annotation of the given type in the JCas.
 	 */
-	public static <T extends AnnotationFS> boolean exists(JCas aJCas, Class<T> aType) {
+	public static <T extends TOP> boolean exists(JCas aJCas, Class<T> aType) {
 		return JCasUtil.iterator(aJCas, aType).hasNext();
 	}
 
@@ -417,10 +417,6 @@ public class JCasUtil {
 	 * @return list of covered strings.
 	 */
 	public static <T extends AnnotationFS> List<String> toText(Iterable<T> iterable) {
-		List<String> text = new ArrayList<String>();
-		for (AnnotationFS a : iterable) {
-			text.add(a.getCoveredText());
-		}
-		return text;
+		return CasUtil.toText(iterable);
 	}
 }
