@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.uima.cas.ArrayFS;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
@@ -32,6 +31,7 @@ import org.apache.uima.cas.impl.Subiterator;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.cas.text.AnnotationIndex;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.cas.FSList;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.tcas.Annotation;
@@ -210,8 +210,8 @@ public class JCasUtil {
 	 * @return A collection of the selected type.
 	 * @see #selectCovered(Class, AnnotationFS)
 	 */
-	public static <T extends TOP> Collection<T> select(final ArrayFS array, final Class<T> type) {
-		return CasUtil.selectFS(array, CasUtil.getType(array.getCAS(), type.getName()));
+	public static <T extends TOP> Collection<T> select(final FSArray array, final Class<T> type) {
+		return cast(CasUtil.selectFS(array, CasUtil.getType(array.getCAS(), type.getName())));
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class JCasUtil {
 	 * @see #selectCovered(Class, AnnotationFS)
 	 */
 	public static <T extends TOP> Collection<T> select(final FSList list, final Class<T> type) {
-		return FSCollectionFactory.create(list, CasUtil.getType(list.getCAS(), type.getName()));
+		return cast(FSCollectionFactory.create(list, CasUtil.getType(list.getCAS(), type.getName())));
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class JCasUtil {
 	 * @see #selectCovered(Class, AnnotationFS)
 	 */
 	public static <T extends TOP> Collection<T> select(final JCas jCas, final Class<T> type) {
-		return CasUtil.selectFS(jCas.getCas(), getType(jCas, type));
+		return cast(CasUtil.selectFS(jCas.getCas(), getType(jCas, type)));
 	}
 
 	/**
@@ -263,7 +263,7 @@ public class JCasUtil {
 	public static <T extends AnnotationFS> List<T> selectCovered(Class<T> type,
 			AnnotationFS coveringAnnotation) {
 		CAS cas = coveringAnnotation.getCAS();
-		return CasUtil.selectCovered(cas, CasUtil.getType(cas, type), coveringAnnotation);
+		return cast(CasUtil.selectCovered(cas, CasUtil.getType(cas, type), coveringAnnotation));
 	}
 
 	/**
@@ -284,7 +284,7 @@ public class JCasUtil {
 	 */
 	public static <T extends Annotation> List<T> selectCovered(JCas jCas, final Class<T> type,
 			Annotation coveringAnnotation) {
-		return CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), coveringAnnotation);
+		return cast(CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), coveringAnnotation));
 	}
 
 	/**
@@ -308,7 +308,7 @@ public class JCasUtil {
 	 */
 	public static <T extends Annotation> List<T> selectCovered(JCas jCas, final Class<T> type,
 			int begin, int end) {
-		return CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), begin, end);
+		return cast(CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), begin, end));
 	}
 
 	/**
@@ -333,7 +333,7 @@ public class JCasUtil {
 	public static <T extends Annotation> List<T> selectCovering(JCas jCas, Class<T> type, int begin,
 			int end) {
 
-		return CasUtil.selectCovering(jCas.getCas(), getType(jCas, type), begin, end);
+		return cast(CasUtil.selectCovering(jCas.getCas(), getType(jCas, type), begin, end));
 	}
 
 	/**
@@ -354,8 +354,8 @@ public class JCasUtil {
 	 */
 	public static <T extends Annotation, S extends Annotation> Map<T, Collection<S>> indexCovering(
 			JCas jCas, Class<T> type, Class<S> coveringType) {
-		return CasUtil.indexCovering(jCas.getCas(), getType(jCas, type),
-				getType(jCas, coveringType));
+		return cast(CasUtil.indexCovering(jCas.getCas(), getType(jCas, type),
+				getType(jCas, coveringType)));
 	}
 
 	/**
@@ -389,8 +389,9 @@ public class JCasUtil {
 	 *            negative (-1 corresponds to the last annotation of a type.)
 	 * @return an annotation of the given type
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T extends TOP> T selectByIndex(JCas jCas, Class<T> cls, int index) {
-		return CasUtil.<T>selectFSByIndex(jCas.getCas(), getType(jCas, cls), index);
+		return (T) CasUtil.selectFSByIndex(jCas.getCas(), getType(jCas, cls), index);
 	}
 
 	/**
@@ -405,8 +406,9 @@ public class JCasUtil {
 	 * @return the single instance of the given type. throws IllegalArgumentException if not exactly
 	 *         one instance if the given type is present.
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T extends TOP> T selectSingle(JCas jCas, Class<T> type) {
-		return CasUtil.<T>selectSingle(jCas.getCas(), getType(jCas, type));
+		return (T) CasUtil.selectSingle(jCas.getCas(), getType(jCas, type));
 	}
 
 	/**
@@ -427,7 +429,7 @@ public class JCasUtil {
 	public static <T extends Annotation> List<T> selectPreceding(JCas aJCas, Class<T> aType,
 			Annotation annotation, int count) {
 		Type t = aJCas.getTypeSystem().getType(aType.getName());
-		return CasUtil.selectPreceding(aJCas.getCas(), t, annotation, count);
+		return cast(CasUtil.selectPreceding(aJCas.getCas(), t, annotation, count));
 	}
 
 	/**
@@ -448,7 +450,7 @@ public class JCasUtil {
 	public static <T extends Annotation> List<T> selectFollowing(JCas aJCas, Class<T> aType,
 			Annotation annotation, int count) {
 		Type t = aJCas.getTypeSystem().getType(aType.getName());
-		return CasUtil.selectFollowing(aJCas.getCas(), t, annotation, count);
+		return cast(CasUtil.selectFollowing(aJCas.getCas(), t, annotation, count));
 	}
 
 	/**
@@ -526,5 +528,23 @@ public class JCasUtil {
 	 */
 	public static <T extends AnnotationFS> List<String> toText(Iterable<T> iterable) {
 		return CasUtil.toText(iterable);
+	}
+
+	@SuppressWarnings({ "cast", "unchecked", "rawtypes" })
+	private static <T> Collection<T> cast(Collection aCollection)
+	{
+		return (Collection<T>) aCollection;
+	}
+
+	@SuppressWarnings({ "cast", "unchecked", "rawtypes" })
+	private static <T> List<T> cast(List aCollection)
+	{
+		return (List<T>) aCollection;
+	}
+
+	@SuppressWarnings({ "cast", "unchecked", "rawtypes" })
+	private static <K, V> Map<K,V> cast(Map aCollection)
+	{
+		return (Map<K,V>) aCollection;
 	}
 }

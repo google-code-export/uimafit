@@ -48,8 +48,10 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 		DIRECT, REVERSE, BOTH
 	}
 
-	private Map<S, Collection<U>> data = new LinkedHashMap<S, Collection<U>>();
-	private Map<U, Collection<S>> dataRev = new LinkedHashMap<U, Collection<S>>();
+	private Map<AnnotationFS, Collection<AnnotationFS>> data =
+		new LinkedHashMap<AnnotationFS, Collection<AnnotationFS>>();
+	private Map<AnnotationFS, Collection<AnnotationFS>> dataRev =
+		new LinkedHashMap<AnnotationFS, Collection<AnnotationFS>>();
 
 	/**
 	 * Create a new index on the given JCas using the specified two types. The last argument
@@ -66,10 +68,10 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 	 */
 	public ContainmentIndex(CAS cas, org.apache.uima.cas.Type aSuper, org.apache.uima.cas.Type aUnder,
 			Type aType) {
-		Collection<S> over = select(cas, aSuper);
-		for (S s : over) {
-			Collection<U> under = selectCovered(cas, aUnder, s);
-			for (U u : under) {
+		Collection<AnnotationFS> over = select(cas, aSuper);
+		for (AnnotationFS s : over) {
+			Collection<AnnotationFS> under = selectCovered(cas, aUnder, s);
+			for (AnnotationFS u : under) {
 				switch (aType) {
 				case DIRECT: {
 					put(data, s, u);
@@ -104,8 +106,10 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 	 *            a covering type instance.
 	 * @return a collection of covered type instances.
 	 */
+	@SuppressWarnings("unchecked")
 	public Collection<U> containedIn(S aSuper) {
-		Collection<U> c = data.get(aSuper);
+		@SuppressWarnings("rawtypes")
+		Collection c = data.get(aSuper);
 		if (c == null) {
 			return Collections.emptySet();
 		}
@@ -120,8 +124,10 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 	 *            a covered type instance.
 	 * @return a collection of covering type instances.
 	 */
+	@SuppressWarnings("unchecked")
 	public Collection<S> containing(U aUnder) {
-		Collection<S> c = dataRev.get(aUnder);
+		@SuppressWarnings("rawtypes")
+		Collection c = dataRev.get(aUnder);
 		if (c == null) {
 			return Collections.emptySet();
 		}
@@ -171,9 +177,10 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 	 *            the indexing strategy.
 	 * @return the index instance.
 	 */
+	@SuppressWarnings("unchecked")
 	public static <A extends AnnotationFS, B extends AnnotationFS> ContainmentIndex<A, B> create(
 			JCas aJcas, Class<A> aSuper, Class<B> aUnder, Type aType) {
-		return create(aJcas.getCas(), JCasUtil.getType(aJcas, aSuper),
+		return (ContainmentIndex<A, B>) create(aJcas.getCas(), JCasUtil.getType(aJcas, aSuper),
 				JCasUtil.getType(aJcas, aUnder), aType);
 	}
 
@@ -181,10 +188,6 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 	 * Factory method to create an index instead of using the constructor. This makes used of Java's
 	 * type inference capabilities and results in less verbose code.
 	 *
-	 * @param <A>
-	 *            covering type.
-	 * @param <B>
-	 *            covered type.
 	 * @param cas
 	 *            the working JCas.
 	 * @param aSuper
@@ -195,8 +198,8 @@ public class ContainmentIndex<S extends AnnotationFS, U extends AnnotationFS> {
 	 *            the indexing strategy.
 	 * @return the index instance.
 	 */
-	public static <A extends AnnotationFS, B extends AnnotationFS> ContainmentIndex<A, B> create(
+	public static ContainmentIndex<AnnotationFS, AnnotationFS> create(
 			CAS cas, org.apache.uima.cas.Type aSuper, org.apache.uima.cas.Type aUnder, Type aType) {
-		return new ContainmentIndex<A, B>(cas, aSuper, aUnder, aType);
+		return new ContainmentIndex<AnnotationFS, AnnotationFS>(cas, aSuper, aUnder, aType);
 	}
 }
