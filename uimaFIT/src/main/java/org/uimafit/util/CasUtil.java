@@ -57,8 +57,6 @@ public class CasUtil {
 	/**
 	 * Convenience method to iterator over all feature structures of a given type.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -68,15 +66,13 @@ public class CasUtil {
 	 * @deprecated use {@link #selectFS}
 	 */
 	@Deprecated
-	public static <T extends FeatureStructure> Iterable<T> iterateFS(final CAS cas, final Type type) {
+	public static Iterable<FeatureStructure> iterateFS(final CAS cas, final Type type) {
 		return selectFS(cas, type);
 	}
 
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -86,7 +82,7 @@ public class CasUtil {
 	 * @deprecated use {@link #select}
 	 */
 	@Deprecated
-	public static <T extends AnnotationFS> Iterable<T> iterate(final CAS cas, final Type type) {
+	public static Iterable<AnnotationFS> iterate(final CAS cas, final Type type) {
 		return select(cas, type);
 	}
 
@@ -193,127 +189,113 @@ public class CasUtil {
 	/**
 	 * Convenience method to iterator over all feature structures of a given type.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param array
 	 *            features structure array.
 	 * @param type
 	 *            the type.
 	 * @return A collection of the selected type.
 	 */
-	public static <T extends FeatureStructure> Collection<T> selectFS(ArrayFS array, Type type) {
+	public static Collection<FeatureStructure> selectFS(ArrayFS array, Type type) {
 		return FSCollectionFactory.create(array, type);
 	}
 
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param array
 	 *            features structure array.
 	 * @param type
 	 *            the type.
 	 * @return A collection of the selected type.
 	 */
-	public static <T extends AnnotationFS> Collection<T> select(ArrayFS array, Type type) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Collection<AnnotationFS> select(ArrayFS array, Type type) {
 		CAS cas = array.getCAS();
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
 			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
 		}
-		return FSCollectionFactory.create(cas, type);
+		return (Collection) FSCollectionFactory.create(cas, type);
 	}
 
 	/**
 	 * Convenience method to iterator over all feature structures of a given type.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param array
 	 *            features structure array.
 	 * @param typeName
 	 *            the fully qualified type name.
 	 * @return A collection of the selected type.
 	 */
-	public static <T extends FeatureStructure> Collection<T> selectFS(ArrayFS array, String typeName) {
+	public static Collection<FeatureStructure> selectFS(ArrayFS array, String typeName) {
 		return selectFS(array, getType(array.getCAS(), typeName));
 	}
 
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param array
 	 *            features structure array.
 	 * @param typeName
 	 *            the fully qualified type name.
 	 * @return A collection of the selected type.
 	 */
-	public static <T extends AnnotationFS> Collection<T> select(ArrayFS array, String typeName) {
+	public static Collection<AnnotationFS> select(ArrayFS array, String typeName) {
 		return select(array, getAnnotationType(array.getCAS(), typeName));
 	}
 
 	/**
 	 * Convenience method to iterator over all feature structures of a given type.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param cas
 	 *            the CAS containing the type system.
 	 * @param type
 	 *            the type.
 	 * @return A collection of the selected type.
 	 */
-	public static <T extends FeatureStructure> Collection<T> selectFS(final CAS cas, final Type type) {
+	public static Collection<FeatureStructure> selectFS(final CAS cas, final Type type) {
 		return FSCollectionFactory.create(cas, type);
 	}
 
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param cas
 	 *            the CAS containing the type system.
 	 * @param type
 	 *            the type.
 	 * @return A collection of the selected type.
 	 */
-	public static <T extends AnnotationFS> Collection<T> select(final CAS cas, final Type type) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Collection<AnnotationFS> select(final CAS cas, final Type type) {
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
 			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
 		}
-		return FSCollectionFactory.create(cas, type);
+		return (Collection) FSCollectionFactory.create(cas, type);
 	}
 
 	/**
 	 * Convenience method to iterator over all feature structures of a given type.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param cas
 	 *            the CAS containing the type system.
 	 * @param typeName
 	 *            the fully qualified type name.
 	 * @return A collection of the selected type.
 	 */
-	public static <T extends FeatureStructure> Collection<T> selectFS(final CAS cas, final String typeName) {
+	public static Collection<FeatureStructure> selectFS(final CAS cas, final String typeName) {
 		return selectFS(cas, getType(cas, typeName));
 	}
 
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param cas
 	 *            the CAS containing the type system.
 	 * @param typeName
 	 *            the fully qualified type name.
 	 * @return A collection of the selected type.
 	 */
-	public static <T extends AnnotationFS> Collection<T> select(final CAS cas, final String typeName) {
+	public static Collection<AnnotationFS> select(final CAS cas, final String typeName) {
 		return select(cas, getAnnotationType(cas, typeName));
 	}
 
@@ -323,8 +305,6 @@ public class CasUtil {
 	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
 	 * Uses the same approach except that type priorities are ignored.
 	 *
-	 * @param <T>
-	 *            the JCas type.
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -334,12 +314,12 @@ public class CasUtil {
 	 * @return a return value.
 	 * @see Subiterator
 	 */
-	public static <T extends AnnotationFS> List<T> selectCovered(CAS cas, Type type,
+	public static List<AnnotationFS> selectCovered(CAS cas, Type type,
 			AnnotationFS coveringAnnotation) {
 		int begin = coveringAnnotation.getBegin();
 		int end = coveringAnnotation.getEnd();
 
-		List<T> list = new ArrayList<T>();
+		List<AnnotationFS> list = new ArrayList<AnnotationFS>();
 		FSIterator<AnnotationFS> it = cas.getAnnotationIndex(type).iterator();
 
 		// Try to seek the insertion point.
@@ -378,8 +358,7 @@ public class CasUtil {
 
 		boolean strict = true;
 		while (it.isValid()) {
-			@SuppressWarnings("unchecked")
-			T a = (T) it.get();
+			AnnotationFS a = it.get();
 			// If the start of the current annotation is past the end parameter, we're done.
 			if (a.getBegin() > end) {
 				break;
@@ -413,8 +392,6 @@ public class CasUtil {
 	 * <p>
 	 * <b>Note:</b> this is significantly slower than using {@link #selectCovered(CAS, Type, AnnotationFS)}
 	 *
-	 * @param <T>
-	 *            the JCas type.
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -426,10 +403,9 @@ public class CasUtil {
 	 * @return a return value.
 	 * @see Subiterator
 	 */
-	public static <T extends AnnotationFS> List<T> selectCovered(CAS cas, Type type,
-			int begin, int end) {
+	public static List<AnnotationFS> selectCovered(CAS cas, Type type, int begin, int end) {
 
-		List<T> list = new ArrayList<T>();
+		List<AnnotationFS> list = new ArrayList<AnnotationFS>();
 		FSIterator<AnnotationFS> it = cas.getAnnotationIndex(type).iterator();
 
 		// Skip annotations whose start is before the start parameter.
@@ -439,8 +415,7 @@ public class CasUtil {
 
 		boolean strict = true;
 		while (it.isValid()) {
-			@SuppressWarnings("unchecked")
-			T a = (T) it.get();
+			AnnotationFS a = it.get();
 			// If the start of the current annotation is past the end parameter, we're done.
 			if (a.getBegin() > end) {
 				break;
@@ -469,8 +444,6 @@ public class CasUtil {
 	 * <p>
 	 * <b>Note:</b> this is <b>REALLY SLOW!</b> You don't want to use this.
 	 *
-	 * @param <T>
-	 *            the JCas type.
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -481,15 +454,13 @@ public class CasUtil {
 	 *            end offset.
 	 * @return a return value.
 	 */
-	@SuppressWarnings({ "unchecked" })
-	public static <T extends Annotation> List<T> selectCovering(CAS cas, Type type, int begin,
-			int end) {
+	public static List<AnnotationFS> selectCovering(CAS cas, Type type, int begin, int end) {
 
 		TypeSystem ts = cas.getTypeSystem();
-		List<T> list = new ArrayList<T>();
+		List<AnnotationFS> list = new ArrayList<AnnotationFS>();
 		FSIterator<AnnotationFS> iter = cas.getAnnotationIndex().iterator();
 		while (iter.hasNext()) {
-			T a = (T) iter.next();
+			AnnotationFS a = iter.next();
 			if (a.getBegin() <= begin && a.getEnd() >= end) {
 				if (type == null || ts.subsumes(type, a.getType())) {
 					list.add(a);
@@ -503,8 +474,6 @@ public class CasUtil {
 	 * This method exists simply as a convenience method for unit testing. It is not very efficient
 	 * and should not, in general be used outside the context of unit testing.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param cas
 	 *            a CAS containing the feature structure.
 	 * @param typeName
@@ -514,16 +483,14 @@ public class CasUtil {
 	 *            negative (-1 corresponds to the last annotation of a type.)
 	 * @return an annotation of the given type
 	 */
-	public static <T extends FeatureStructure> T selectFSByIndex(CAS cas, String typeName, int index) {
-		return CasUtil.<T>selectFSByIndex(cas, getType(cas, typeName), index);
+	public static FeatureStructure selectFSByIndex(CAS cas, String typeName, int index) {
+		return selectFSByIndex(cas, getType(cas, typeName), index);
 	}
 
 	/**
 	 * This method exists simply as a convenience method for unit testing. It is not very efficient
 	 * and should not, in general be used outside the context of unit testing.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param cas
 	 *            a CAS containing the annotation.
 	 * @param typeName
@@ -533,8 +500,8 @@ public class CasUtil {
 	 *            negative (-1 corresponds to the last annotation of a type.)
 	 * @return an annotation of the given type
 	 */
-	public static <T extends AnnotationFS> T selectByIndex(CAS cas, String typeName, int index) {
-		return CasUtil.<T>selectByIndex(cas, getAnnotationType(cas, typeName), index);
+	public static AnnotationFS selectByIndex(CAS cas, String typeName, int index) {
+		return selectByIndex(cas, getAnnotationType(cas, typeName), index);
 	}
 
 	/**
@@ -543,8 +510,6 @@ public class CasUtil {
 	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
 	 * Uses the same approach except that type priorities are ignored.
 	 *
-	 * @param <T>
-	 *            the JCas type.
 	 * @param cas
 	 *            a CAS.
 	 * @param typeName
@@ -554,7 +519,7 @@ public class CasUtil {
 	 * @return a return value.
 	 * @see Subiterator
 	 */
-	public static <T extends AnnotationFS> List<T> selectCovered(CAS cas, String typeName,
+	public static List<AnnotationFS> selectCovered(CAS cas, String typeName,
 			AnnotationFS coveringAnnotation) {
 		return selectCovered(cas, getAnnotationType(cas, typeName), coveringAnnotation);
 	}
@@ -565,8 +530,6 @@ public class CasUtil {
 	 * overhead of scanning the CAS occurs only when the index is build. Subsequent lookups to the
 	 * index are fast.
 	 *
-	 * @param <T>
-	 *            the JCas type.
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -575,20 +538,22 @@ public class CasUtil {
 	 * 			  type of covering annotations.
 	 * @return the index.
 	 */
-	public static <T extends AnnotationFS, S extends AnnotationFS> Map<T, Collection<S>> indexCovering(
-			CAS cas, Type type, Type coveringType)	{
+	public static Map<AnnotationFS, Collection<AnnotationFS>> indexCovering(CAS cas, Type type,
+			Type coveringType) {
 		Map<AnnotationFS, Collection<AnnotationFS>> index =
 			new HashMap<AnnotationFS, Collection<AnnotationFS>>() {
-			@Override
-			public Collection<AnnotationFS> get(Object paramObject) {
-				Collection<AnnotationFS> res = super.get(paramObject);
-				if (res == null) {
-					return emptyList();
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public Collection<AnnotationFS> get(Object paramObject) {
+					Collection<AnnotationFS> res = super.get(paramObject);
+					if (res == null) {
+						return emptyList();
+					}
+					else {
+						return res;
+					}
 				}
-				else {
-					return res;
-				}
-			}
 		};
 		for (AnnotationFS s : select(cas, coveringType)) {
 			for (AnnotationFS u : selectCovered(cas, type, s)) {
@@ -600,15 +565,13 @@ public class CasUtil {
 				c.add(s);
 			}
 		}
-		return unmodifiableMap((Map<T, Collection<S>>) (Map) index);
+		return unmodifiableMap(index);
 	}
 
 	/**
 	 * This method exists simply as a convenience method for unit testing. It is not very efficient
 	 * and should not, in general be used outside the context of unit testing.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param cas
 	 *            a CAS containing the feature structure.
 	 * @param type
@@ -618,8 +581,7 @@ public class CasUtil {
 	 *            negative (-1 corresponds to the last annotation of a type.)
 	 * @return an annotation of the given type
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T extends FeatureStructure> T selectFSByIndex(CAS cas, Type type, int index) {
+	public static FeatureStructure selectFSByIndex(CAS cas, Type type, int index) {
 		FSIterator<FeatureStructure> i = cas.getIndexRepository().getAllIndexedFS(type);
 		int n = index;
 		i.moveToFirst();
@@ -637,15 +599,13 @@ public class CasUtil {
 			}
 		}
 
-		return i.isValid() ? (T) i.get() : null;
+		return i.isValid() ? i.get() : null;
 	}
 
 	/**
 	 * This method exists simply as a convenience method for unit testing. It is not very efficient
 	 * and should not, in general be used outside the context of unit testing.
 	 *
-	 * @param <T>
-	 *            the iteration type.
 	 * @param cas
 	 *            a CAS containing the annotation.
 	 * @param type
@@ -655,8 +615,7 @@ public class CasUtil {
 	 *            negative (-1 corresponds to the last annotation of a type.)
 	 * @return an annotation of the given type
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T extends AnnotationFS> T selectByIndex(CAS cas, Type type, int index) {
+	public static AnnotationFS selectByIndex(CAS cas, Type type, int index) {
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
 			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
 		}
@@ -677,14 +636,12 @@ public class CasUtil {
 			}
 		}
 
-		return i.isValid() ? (T) i.get() : null;
+		return i.isValid() ? i.get() : null;
 	}
 
 	/**
 	 * Get the single instance of the specified type from the JCas.
 	 *
-	 * @param <T>
-	 *            JCas wrapper type.
 	 * @param cas
 	 *            a JCas containing the annotation.
 	 * @param type
@@ -692,15 +649,14 @@ public class CasUtil {
 	 * @return the single instance of the given type. throws IllegalArgumentException if not exactly
 	 *         one instance if the given type is present.
 	 */
-	public static <T extends FeatureStructure> T selectSingle(CAS cas, Type type) {
+	public static FeatureStructure selectSingle(CAS cas, Type type) {
 		FSIterator<FeatureStructure> iterator = cas.getIndexRepository().getAllIndexedFS(type);
 
 		if (!iterator.hasNext()) {
 			throw new IllegalArgumentException("CAS does not contain any [" + type.getName()+"]");
 		}
 
-		@SuppressWarnings("unchecked")
-		T result = (T) iterator.next();
+		FeatureStructure result = iterator.next();
 
 		if (iterator.hasNext()) {
 			throw new IllegalArgumentException("CAS contains more than one [" + type.getName()+"]");
@@ -712,8 +668,6 @@ public class CasUtil {
 	/**
 	 * Get the single instance of the specified type from the JCas.
 	 *
-	 * @param <T>
-	 *            JCas wrapper type.
 	 * @param cas
 	 *            a JCas containing the feature structure.
 	 * @param typeName
@@ -721,15 +675,13 @@ public class CasUtil {
 	 * @return the single instance of the given type. throws IllegalArgumentException if not exactly
 	 *         one instance if the given type is present.
 	 */
-	public static <T extends FeatureStructure> T selectSingle(CAS cas, String typeName) {
-		return CasUtil.<T>selectSingle(cas, getType(cas, typeName));
+	public static FeatureStructure selectSingle(CAS cas, String typeName) {
+		return selectSingle(cas, getType(cas, typeName));
 	}
 
 	/**
 	 * Returns the n annotations preceding the given annotation
 	 *
-	 * @param <T>
-	 *            the JCas type.
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -740,12 +692,12 @@ public class CasUtil {
 	 *            number of annotations to collect
 	 * @return List of aType annotations preceding anchor annotation
 	 */
-	public static <T extends AnnotationFS> List<T> selectPreceding(CAS cas, Type type,
-			Annotation annotation, int count) {
+	public static List<AnnotationFS> selectPreceding(CAS cas, Type type, Annotation annotation,
+			int count) {
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
 			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
 		}
-		List<T> precedingAnnotations = new LinkedList<T>();
+		List<AnnotationFS> precedingAnnotations = new LinkedList<AnnotationFS>();
 
 		// move to first previous annotation
 		FSIterator<AnnotationFS> itr = cas.getAnnotationIndex(type).iterator();
@@ -756,8 +708,7 @@ public class CasUtil {
 		itr.moveToPrevious();
 
 		while (currentAnnotation < count && itr.isValid()) {
-			@SuppressWarnings("unchecked")
-			T buf = (T) itr.get();
+			AnnotationFS buf = itr.get();
 			precedingAnnotations.add(buf);
 
 			currentAnnotation++;
@@ -773,8 +724,6 @@ public class CasUtil {
 	/**
 	 * Returns the n annotations preceding the given annotation
 	 *
-	 * @param <T>
-	 *            the JCas type.
 	 * @param cas
 	 *            a CAS.
 	 * @param typeName
@@ -785,7 +734,7 @@ public class CasUtil {
 	 *            number of annotations to collect
 	 * @return List of aType annotations preceding anchor annotation
 	 */
-	public static <T extends AnnotationFS> List<T> selectPreceding(CAS cas, String typeName,
+	public static List<AnnotationFS> selectPreceding(CAS cas, String typeName,
 			Annotation annotation, int count) {
 		return selectPreceding(cas, getAnnotationType(cas, typeName), annotation, count);
 	}
@@ -793,8 +742,6 @@ public class CasUtil {
 	/**
 	 * Returns the n annotations following the given annotation
 	 *
-	 * @param <T>
-	 *            the JCas type.
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -805,12 +752,12 @@ public class CasUtil {
 	 *            number of annotations to collect
 	 * @return List of aType annotations following anchor annotation
 	 */
-	public static <T extends AnnotationFS> List<T> selectFollowing(CAS cas, Type type,
-			Annotation annotation, int count) {
+	public static List<AnnotationFS> selectFollowing(CAS cas, Type type, Annotation annotation,
+			int count) {
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
 			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
 		}
-		List<T> followingAnnotations = new LinkedList<T>();
+		List<AnnotationFS> followingAnnotations = new LinkedList<AnnotationFS>();
 
 		// move to first previous annotation
 		FSIterator<AnnotationFS> itr = cas.getAnnotationIndex(type).iterator();
@@ -821,8 +768,7 @@ public class CasUtil {
 		itr.moveToNext();
 
 		while (currentAnnotation < count && itr.isValid()) {
-			@SuppressWarnings("unchecked")
-			T buf = (T) itr.get();
+			AnnotationFS buf = itr.get();
 			followingAnnotations.add(buf);
 
 			currentAnnotation++;
@@ -835,8 +781,6 @@ public class CasUtil {
 	/**
 	 * Returns the n annotations following the given annotation
 	 *
-	 * @param <T>
-	 *            the JCas type.
 	 * @param cas
 	 *            a CAS.
 	 * @param typeName
@@ -847,7 +791,7 @@ public class CasUtil {
 	 *            number of annotations to collect
 	 * @return List of aType annotations following anchor annotation
 	 */
-	public static <T extends AnnotationFS> List<T> selectFollowing(CAS cas, String typeName,
+	public static List<AnnotationFS> selectFollowing(CAS cas, String typeName,
 			Annotation annotation, int count) {
 		return selectFollowing(cas, getAnnotationType(cas, typeName), annotation, count);
 	}

@@ -20,12 +20,13 @@
  */
 package org.uimafit.util;
 
+import static java.util.Arrays.asList;
+
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import static java.util.Arrays.asList;
 
 import org.apache.uima.cas.ArrayFS;
 import org.apache.uima.cas.CAS;
@@ -49,18 +50,18 @@ import org.apache.uima.jcas.cas.TOP;
  */
 public abstract class FSCollectionFactory<T extends FeatureStructure> extends AbstractCollection<T> {
 
-	@SuppressWarnings("unchecked")
-	public static <T extends FeatureStructure> Collection<T> create(CAS cas, Type type)
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Collection<FeatureStructure> create(CAS cas, Type type)
 	{
 		// If the type is an annotation type, we can use the annotation index, which directly
 		// provides us with its size. If not, we have to use getAllIndexedFS() which we have to
 		// scan from beginning to end in order to determine its size.
 		TypeSystem ts = cas.getTypeSystem();
 		if (ts.subsumes(cas.getAnnotationType(), type)) {
-			return (FSCollectionFactory<T>) create(cas.getAnnotationIndex(type));
+			return (Collection) create(cas.getAnnotationIndex(type));
 		}
 		else {
-			return create((FSIterator<T>) cas.getIndexRepository().getAllIndexedFS(type));
+			return create(cas.getIndexRepository().getAllIndexedFS(type));
 		}
 	}
 
@@ -74,13 +75,12 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		return new AnnotationIndexAdapter<T>(aIndex);
 	}
 
-	public static <T extends FeatureStructure> Collection<T> create(ArrayFS aArray)
+	public static Collection<FeatureStructure> create(ArrayFS aArray)
 	{
 		return create(aArray, null);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T extends FeatureStructure> Collection<T> create(ArrayFS aArray, Type type)
+	public static Collection<FeatureStructure> create(ArrayFS aArray, Type type)
 	{
 		TypeSystem ts = aArray.getCAS().getTypeSystem();
 		List<FeatureStructure> data = new ArrayList<FeatureStructure>(aArray.size());
@@ -90,18 +90,17 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 				data.add(value);
 			}
 		}
-		return (Collection<T>) asList(data.toArray(new FeatureStructure[data.size()]));
+		return asList(data.toArray(new FeatureStructure[data.size()]));
 	}
 
 	// Using TOP here because FSList is only available in the JCas.
-	public static <T extends TOP> Collection<T> create(FSList aList)
+	public static Collection<TOP> create(FSList aList)
 	{
 		return create(aList, null);
 	}
 
 	// Using TOP here because FSList is only available in the JCas.
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static <T extends TOP> Collection<T> create(FSList aList, Type type)
+	public static Collection<TOP> create(FSList aList, Type type)
 	{
 		TypeSystem ts = aList.getCAS().getTypeSystem();
 		List<FeatureStructure> data = new ArrayList<FeatureStructure>();
@@ -115,7 +114,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 			i = l.getTail();
 		}
 
-		return (Collection) asList(data.toArray(new FeatureStructure[data.size()]));
+		return asList(data.toArray(new TOP[data.size()]));
 	}
 
 	private static class FSIteratorAdapter<T extends FeatureStructure> extends FSCollectionFactory<T>
