@@ -1,7 +1,7 @@
 changes subsequent to 1.1.0
-	- resolved issue #63 "Ability to specify container in terms of begin and end offset"
-	- resolved issue #62 "Iteration over FSArray and FSList"
-	- resolved issue #6  "Initialize component from map or resource specifier"
+    - resolved issue #63 "Ability to specify container in terms of begin and end offset"
+    - resolved issue #62 "Iteration over FSArray and FSList"
+    - resolved issue #6  "Initialize component from map or resource specifier"
     - resolved issue #59 "Unable to use doubles for parameters in the create* factory methods"
     - resolved issue #58 "Support for iterating over FeatureStructures"
     - resolved issue #57 "JCasUtil has various methods that would be nice to have in CasUtil as well"
@@ -9,10 +9,11 @@ changes subsequent to 1.1.0
     - resolved issue #55 "Support for no-op steps in a pipeline"
     - resolved issue #52 "null pointer exception thrown when AnalysisEngine impl has no package"
     - resolved issue #50 "document what types of member variables can be annotated with @ConfigurationParameter"
-	- resolved issue #47 "jcasgen source files should be generated to target/generated-sources/jcasgen"	
-	- resolved issue #28 "Eclipse code-style file"
-	- resolved issue #45 "set svn:eol-style for .java files	"	
-	- resolved issue #42 "add a "distribution" module to uimaFIT which generates a zip containing uimaFIT plus all dependencies."
+    - resolved issue #47 "jcasgen source files should be generated to target/generated-sources/jcasgen"	
+    - resolved issue #28 "Eclipse code-style file"
+    - resolved issue #45 "set svn:eol-style for .java files	"	
+    - resolved issue #42 "add a "distribution" module to uimaFIT which generates a zip containing uimaFIT plus all dependencies."
+    - deprecated several iterate() methods in CasUtil and JCasUtil. Instead select() should be used.
 
 changes in 1.1.0
 	- resolved issue #44 "bug in TokenBuilder related to windows newlines"

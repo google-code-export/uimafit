@@ -21,6 +21,7 @@ package org.uimafit.util;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.uima.cas.ArrayFS;
 import org.apache.uima.cas.CAS;
@@ -333,6 +334,28 @@ public class JCasUtil {
 			int end) {
 
 		return CasUtil.selectCovering(jCas.getCas(), getType(jCas, type), begin, end);
+	}
+
+	/**
+	 * Create an index for quickly lookup up the annotations covering a particular annotation.
+	 * This is preferable to using {@link #selectCovering(JCas, Class, int, int)} because the
+	 * overhead of scanning the CAS occurs only when the index is build. Subsequent lookups to the
+	 * index are fast.
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param jCas
+	 *            a JCas.
+	 * @param type
+	 * 			  type to create the index for - this is used in lookups.
+	 * @param coveringType
+	 * 			  type of covering annotations.
+	 * @return the index.
+	 */
+	public static <T extends Annotation, S extends Annotation> Map<T, Collection<S>> indexCovering(
+			JCas jCas, Class<T> type, Class<S> coveringType) {
+		return CasUtil.indexCovering(jCas.getCas(), getType(jCas, type),
+				getType(jCas, coveringType));
 	}
 
 	/**

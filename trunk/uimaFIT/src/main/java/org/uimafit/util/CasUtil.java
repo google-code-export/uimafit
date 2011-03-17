@@ -23,9 +23,11 @@ package org.uimafit.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.uima.cas.ArrayFS;
 import org.apache.uima.cas.CAS;
@@ -38,6 +40,7 @@ import org.apache.uima.cas.impl.Subiterator;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.cas.text.AnnotationIndex;
 import org.apache.uima.jcas.tcas.Annotation;
+import static java.util.Collections.*;
 
 /**
  * Utility methods for convenient access to the {@link CAS}.
@@ -399,7 +402,7 @@ public class CasUtil {
 			}
 		}
 
-		return list;
+		return unmodifiableList(list);
 	}
 
 	/**
@@ -554,6 +557,50 @@ public class CasUtil {
 	public static <T extends AnnotationFS> List<T> selectCovered(CAS cas, String typeName,
 			AnnotationFS coveringAnnotation) {
 		return selectCovered(cas, getAnnotationType(cas, typeName), coveringAnnotation);
+	}
+
+	/**
+	 * Create an index for quickly lookup up the annotations covering a particular annotation.
+	 * This is preferable to using {@link #selectCovering(CAS, Type, int, int)} because the
+	 * overhead of scanning the CAS occurs only when the index is build. Subsequent lookups to the
+	 * index are fast.
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param cas
+	 *            a CAS.
+	 * @param type
+	 * 			  type to create the index for - this is used in lookups.
+	 * @param coveringType
+	 * 			  type of covering annotations.
+	 * @return the index.
+	 */
+	public static <T extends AnnotationFS, S extends AnnotationFS> Map<T, Collection<S>> indexCovering(
+			CAS cas, Type type, Type coveringType)	{
+		Map<AnnotationFS, Collection<AnnotationFS>> index =
+			new HashMap<AnnotationFS, Collection<AnnotationFS>>() {
+			@Override
+			public Collection<AnnotationFS> get(Object paramObject) {
+				Collection<AnnotationFS> res = super.get(paramObject);
+				if (res == null) {
+					return emptyList();
+				}
+				else {
+					return res;
+				}
+			}
+		};
+		for (AnnotationFS s : select(cas, coveringType)) {
+			for (AnnotationFS u : selectCovered(cas, type, s)) {
+				Collection<AnnotationFS> c = index.get(u);
+				if (c == EMPTY_LIST) {
+					c = new LinkedList<AnnotationFS>();
+					index.put(u, c);
+				}
+				c.add(s);
+			}
+		}
+		return unmodifiableMap((Map<T, Collection<S>>) (Map) index);
 	}
 
 	/**
