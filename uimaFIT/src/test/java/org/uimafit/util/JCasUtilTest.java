@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
+import static org.uimafit.util.JCasUtil.indexCovering;
 import static org.uimafit.util.JCasUtil.exists;
 import static org.uimafit.util.JCasUtil.getAnnotationType;
 import static org.uimafit.util.JCasUtil.getType;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.uima.UIMAException;
@@ -420,5 +422,34 @@ public class JCasUtilTest extends ComponentTestBase {
 		tokenBuilder.buildTokens(jCas, text);
 
 		getAnnotationType(jCas, TOP.class);
+	}
+
+	@Test
+	public void testIndexCovering() throws Exception {
+		String text = "Will you come home today ? \n No , tomorrow !";
+		tokenBuilder.buildTokens(jCas, text);
+
+		List<Sentence> sentences = new ArrayList<Sentence>(select(jCas, Sentence.class));
+		List<Token> tokens = new ArrayList<Token>(select(jCas, Token.class));
+
+		Map<Token, Collection<Sentence>> index = indexCovering(jCas, Token.class, Sentence.class);
+
+		// Check covering annotations are found
+		assertEquals(asList(sentences.get(0)), index.get(tokens.get(0)));
+		assertEquals(asList(sentences.get(1)), index.get(tokens.get(tokens.size() - 1)));
+
+		// Check sentence 0 contains first token
+		assertTrue(index.get(tokens.get(0)).contains(sentences.get(0)));
+
+		// Check sentence 0 does not contain last token.
+		assertFalse(index.get(tokens.get(tokens.size()-1)).contains(sentences.get(0)));
+
+		// Check the first token is contained in any sentence
+		assertTrue(!index.get(tokens.get(0)).isEmpty());
+		// After removing the annotation the index has to be rebuilt.
+		sentences.get(0).removeFromIndexes();
+		index = indexCovering(jCas, Token.class, Sentence.class);
+		// Check the first token is not contained in any sentence
+		assertFalse(!index.get(tokens.get(0)).isEmpty());
 	}
 }
