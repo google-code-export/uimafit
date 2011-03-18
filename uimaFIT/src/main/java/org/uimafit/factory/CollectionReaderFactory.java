@@ -39,6 +39,7 @@ import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.metadata.Capability;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
 import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
+import org.apache.uima.resource.metadata.FsIndexCollection;
 import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
@@ -57,7 +58,7 @@ public final class CollectionReaderFactory {
 
 	/**
 	 * Create a CollectionReader from an XML descriptor file and a set of configuration parameters.
-	 * 
+	 *
 	 * @param descriptorPath
 	 *            The path to the XML descriptor file.
 	 * @param configurationData
@@ -78,7 +79,7 @@ public final class CollectionReaderFactory {
 	/**
 	 * Get a CollectionReader from the name (Java-style, dotted) of an XML descriptor file, and a
 	 * set of configuration parameters.
-	 * 
+	 *
 	 * @param descriptorName
 	 *            The fully qualified, Java-style, dotted name of the XML descriptor file.
 	 * @param configurationData
@@ -103,7 +104,7 @@ public final class CollectionReaderFactory {
 	 * Get a CollectionReader from a CollectionReader class, a type system, and a set of
 	 * configuration parameters. The type system is detected automatically using
 	 * {@link TypeSystemDescriptionFactory#createTypeSystemDescription()}.
-	 * 
+	 *
 	 * @param readerClass
 	 *            The class of the CollectionReader to be created.
 	 * @param configurationData
@@ -123,7 +124,7 @@ public final class CollectionReaderFactory {
 	/**
 	 * Get a CollectionReader from a CollectionReader class, a type system, and a set of
 	 * configuration parameters.
-	 * 
+	 *
 	 * @param readerClass
 	 *            The class of the CollectionReader to be created.
 	 * @param typeSystem
@@ -180,7 +181,7 @@ public final class CollectionReaderFactory {
 	/**
 	 * This method creates a CollectionReader from a CollectionReaderDescription adding additional
 	 * configuration parameter data as desired
-	 * 
+	 *
 	 * @param desc
 	 * @param configurationData
 	 *            configuration parameter data as name value pairs. Will override values already set
@@ -224,7 +225,7 @@ public final class CollectionReaderFactory {
 	 * A simple factory method for creating a CollectionReaderDescription with a given class, type
 	 * system description, and configuration data The type system is detected automatically using
 	 * {@link TypeSystemDescriptionFactory#createTypeSystemDescription()}.
-	 * 
+	 *
 	 * @param readerClass
 	 * @param configurationData
 	 * @return
@@ -240,7 +241,7 @@ public final class CollectionReaderFactory {
 	/**
 	 * A simple factory method for creating a CollectionReaderDescription with a given class, type
 	 * system description, and configuration data
-	 * 
+	 *
 	 * @param readerClass
 	 * @param typeSystem
 	 * @param configurationData
@@ -283,8 +284,8 @@ public final class CollectionReaderFactory {
 			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
 			TypePriorities typePriorities, Object... configurationData)
 			throws ResourceInitializationException {
-		return createDescription(readerClass, typeSystem, typePriorities, (Capability[]) null,
-				configurationData);
+		return createDescription(readerClass, typeSystem, typePriorities, (FsIndexCollection) null,
+				(Capability[]) null, configurationData);
 	}
 
 	/**
@@ -298,18 +299,18 @@ public final class CollectionReaderFactory {
 	 */
 	public static CollectionReaderDescription createDescription(
 			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
-			TypePriorities typePriorities, Capability[] capabilities, Object... configurationData)
-			throws ResourceInitializationException {
+			TypePriorities typePriorities, FsIndexCollection indexes, Capability[] capabilities,
+			Object... configurationData) throws ResourceInitializationException {
 		ConfigurationData cdata = ConfigurationParameterFactory
 				.createConfigurationData(configurationData);
-		return createDescription(readerClass, typeSystem, typePriorities, capabilities,
+		return createDescription(readerClass, typeSystem, typePriorities, indexes, capabilities,
 				cdata.configurationParameters, cdata.configurationValues);
 	}
 
 	/**
 	 * The factory method for creating CollectionReaderDescription objects for a given class,
 	 * TypeSystemDescription, TypePriorities, capabilities, and configuration data
-	 * 
+	 *
 	 * @param readerClass
 	 * @param typeSystem
 	 * @param typePriorities
@@ -321,7 +322,7 @@ public final class CollectionReaderFactory {
 	 */
 	public static CollectionReaderDescription createDescription(
 			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
-			TypePriorities typePriorities, Capability[] capabilities,
+			TypePriorities typePriorities, FsIndexCollection indexes, Capability[] capabilities,
 			ConfigurationParameter[] configurationParameters, Object[] configurationValues)
 			throws ResourceInitializationException {
 		// create the descriptor and set configuration parameters
@@ -354,14 +355,26 @@ public final class CollectionReaderFactory {
 			desc.getCollectionReaderMetaData().setTypePriorities(typePriorities);
 		}
 
-		if (capabilities == null) {
-			Capability capability = CapabilityFactory.createCapability(readerClass);
-			if (capability != null) {
-				capabilities = new Capability[] { capability };
-			}
+		// set indexes from the argument to this call or from the annotation present in the
+		// component if the argument is null
+		if (indexes != null) {
+			desc.getCollectionReaderMetaData().setFsIndexCollection(indexes);
 		}
+		else {
+			desc.getCollectionReaderMetaData().setFsIndexCollection(
+					FsIndexFactory.createFsIndexCollection(readerClass));
+		}
+
+		// set capabilities from the argument to this call or from the annotation present in the
+		// component if the argument is null
 		if (capabilities != null) {
 			desc.getCollectionReaderMetaData().setCapabilities(capabilities);
+		}
+		else {
+			Capability capability = CapabilityFactory.createCapability(readerClass);
+			if (capability != null) {
+				desc.getCollectionReaderMetaData().setCapabilities(new Capability[] { capability });
+			}
 		}
 
 		return desc;
@@ -370,7 +383,7 @@ public final class CollectionReaderFactory {
 	/**
 	 * Since the configuration parameters of a CollectionReader with the given configuration
 	 * parameter data
-	 * 
+	 *
 	 * @param collectionReaderDescription
 	 * @param configurationData
 	 * @throws ResourceInitializationException
