@@ -45,7 +45,7 @@ import org.uimafit.descriptor.ConfigurationParameter;
  * Dumps CAS content to a text file. This is useful when setting up test cases which contain a
  * reference output to which an actually produced CAS is compared. The format produced by this
  * component is more easily comparable than a XML or XMI format produced by {@link XWriter}.
- * 
+ *
  * @author Richard Eckart de Castilho
  */
 public class CASDumpWriter extends CasConsumer_ImplBase {
@@ -61,10 +61,11 @@ public class CASDumpWriter extends CasConsumer_ImplBase {
 	/**
 	 * Output file. If multiple CASes as processed, their contents are concatenated into this file.
 	 * Mind that a test case using this consumer with multiple CASes requires a reader which
-	 * produced the CASes always in the same order.
+	 * produced the CASes always in the same order. When this file is set to "-", the dump does to
+	 * {@link System#out} (default).
 	 */
 	public static final String PARAM_OUTPUT_FILE = "OutputFile";
-	@ConfigurationParameter(name = PARAM_OUTPUT_FILE, mandatory = true)
+	@ConfigurationParameter(name = PARAM_OUTPUT_FILE, mandatory = true, defaultValue="-")
 	private File outFile;
 
 	/**
@@ -101,11 +102,16 @@ public class CASDumpWriter extends CasConsumer_ImplBase {
 
 		try {
 			if (out == null) {
-				if (outFile.getParentFile() != null) {
-					outFile.getParentFile().mkdirs();
+				if ("-".equals(outFile.getName())) {
+					out = new PrintWriter(System.out);
 				}
-				out = new PrintWriter(
-						new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8"));
+				else {
+					if (outFile.getParentFile() != null) {
+					outFile.getParentFile().mkdirs();
+					}
+					out = new PrintWriter(
+							new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8"));
+				}
 			}
 		}
 		catch (IOException e) {

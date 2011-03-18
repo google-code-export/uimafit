@@ -16,7 +16,14 @@
  */
 package org.uimafit.factory;
 
+import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
+
+import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.junit.Test;
+import org.uimafit.type.AnalyzedText;
+import org.uimafit.type.Sentence;
+import org.uimafit.type.Token;
+import static org.junit.Assert.*;
 
 /**
  * @author Steven Bethard, Philip Ogren
@@ -29,5 +36,13 @@ public class TypeSystemDescriptionFactoryTest {
 				"src/test/resources/org/uimafit/type/AnalyzedText.xml",
 				"src/test/resources/org/uimafit/type/Sentence.xml",
 				"src/test/resources/org/uimafit/type/Token.xml").resolveImports();
+	}
+
+	@Test
+	public void testScanning() throws Exception {
+		TypeSystemDescription tsd = createTypeSystemDescription();
+		assertNotNull(tsd.getType(Token.class.getName()));
+		assertNotNull(tsd.getType(Sentence.class.getName()));
+		assertNotNull(tsd.getType(AnalyzedText.class.getName()));
 	}
 }

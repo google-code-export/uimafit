@@ -53,6 +53,7 @@ import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.metadata.Capability;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
 import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
+import org.apache.uima.resource.metadata.FsIndexCollection;
 import org.apache.uima.resource.metadata.OperationalProperties;
 import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.resource.metadata.TypePriorities;
@@ -74,7 +75,7 @@ public final class AnalysisEngineFactory {
 	/**
 	 * Get an AnalysisEngine from the name (Java-style, dotted) of an XML descriptor file, and a set
 	 * of configuration parameters.
-	 * 
+	 *
 	 * @param descriptorName
 	 *            The fully qualified, Java-style, dotted name of the XML descriptor file.
 	 * @param configurationData
@@ -94,7 +95,7 @@ public final class AnalysisEngineFactory {
 	/**
 	 * Provides a way to create an AnalysisEngineDescription using a descriptor file referenced by
 	 * name
-	 * 
+	 *
 	 * @param descriptorName
 	 * @param configurationData
 	 *            should consist of name value pairs. Will override configuration parameter settings
@@ -116,7 +117,7 @@ public final class AnalysisEngineFactory {
 	/**
 	 * This method provides a convenient way to instantiate an AnalysisEngine where the default view
 	 * is mapped to the view name passed into the method.
-	 * 
+	 *
 	 * @param analysisEngineDescription
 	 * @param viewName
 	 *            the view name to map the default view to
@@ -134,7 +135,7 @@ public final class AnalysisEngineFactory {
 
 	/**
 	 * Get an AnalysisEngine from an XML descriptor file and a set of configuration parameters.
-	 * 
+	 *
 	 * @param descriptorPath
 	 *            The path to the XML descriptor file.
 	 * @param configurationData
@@ -156,7 +157,7 @@ public final class AnalysisEngineFactory {
 	 * Get an AnalysisEngine from an OperationalProperties class, a type system and a set of
 	 * configuration parameters. The type system is detected automatically using
 	 * {@link TypeSystemDescriptionFactory#createTypeSystemDescription()}.
-	 * 
+	 *
 	 * @param componentClass
 	 *            The class of the OperationalProperties to be created as an AnalysisEngine.
 	 * @param configurationData
@@ -175,7 +176,7 @@ public final class AnalysisEngineFactory {
 	/**
 	 * Get an AnalysisEngine from an OperationalProperties class, a type system and a set of
 	 * configuration parameters.
-	 * 
+	 *
 	 * @param componentClass
 	 *            The class of the OperationalProperties to be created as an AnalysisEngine.
 	 * @param typeSystem
@@ -213,7 +214,7 @@ public final class AnalysisEngineFactory {
 	/**
 	 * A simple factory method for creating a primitive AnalysisEngineDescription for a given class,
 	 * type system, and configuration parameter data
-	 * 
+	 *
 	 * @param componentClass
 	 *            a class that extends AnalysisComponent e.g.
 	 *            org.uimafit.component.JCasAnnotator_ImplBase
@@ -233,7 +234,7 @@ public final class AnalysisEngineFactory {
 	 * A simple factory method for creating a primitive AnalysisEngineDescription for a given class,
 	 * type system, and configuration parameter data The type system is detected automatically using
 	 * {@link TypeSystemDescriptionFactory#createTypeSystemDescription()}.
-	 * 
+	 *
 	 * @param componentClass
 	 *            a class that extends AnalysisComponent e.g.
 	 *            org.uimafit.component.JCasAnnotator_ImplBase
@@ -262,12 +263,12 @@ public final class AnalysisEngineFactory {
 			TypePriorities typePriorities, Object... configurationData)
 			throws ResourceInitializationException {
 		return createPrimitiveDescription(componentClass, typeSystem, typePriorities,
-				(Capability[]) null, configurationData);
+				(FsIndexCollection) null, (Capability[]) null, configurationData);
 	}
 
 	/**
 	 * The factory methods for creating an AnalysisEngineDescription
-	 * 
+	 *
 	 * @param componentClass
 	 * @param typeSystem
 	 * @param typePriorities
@@ -278,12 +279,12 @@ public final class AnalysisEngineFactory {
 	 */
 	public static AnalysisEngineDescription createPrimitiveDescription(
 			Class<? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
-			TypePriorities typePriorities, Capability[] capabilities, Object... configurationData)
-			throws ResourceInitializationException {
+			TypePriorities typePriorities, FsIndexCollection indexes, Capability[] capabilities,
+			Object... configurationData) throws ResourceInitializationException {
 		ConfigurationData cdata = ConfigurationParameterFactory
 				.createConfigurationData(configurationData);
-		return createPrimitiveDescription(componentClass, typeSystem, typePriorities, capabilities,
-				cdata.configurationParameters, cdata.configurationValues);
+		return createPrimitiveDescription(componentClass, typeSystem, typePriorities, indexes,
+				capabilities, cdata.configurationParameters, cdata.configurationValues);
 	}
 
 	/**
@@ -298,7 +299,7 @@ public final class AnalysisEngineFactory {
 	 */
 	public static AnalysisEngineDescription createPrimitiveDescription(
 			Class<? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
-			TypePriorities typePriorities, Capability[] capabilities,
+			TypePriorities typePriorities, FsIndexCollection indexes, Capability[] capabilities,
 			ConfigurationParameter[] configurationParameters, Object[] configurationValues)
 			throws ResourceInitializationException {
 
@@ -325,7 +326,7 @@ public final class AnalysisEngineFactory {
 
 		AnalysisEngineMetaData meta = desc.getAnalysisEngineMetaData();
 		meta.setName(componentClass.getName());
-		
+
 		if(componentClass.getPackage() != null){
 			meta.setVendor(componentClass.getPackage().getName());
 		}
@@ -357,22 +358,35 @@ public final class AnalysisEngineFactory {
 			desc.getAnalysisEngineMetaData().setTypePriorities(typePriorities);
 		}
 
-		if (capabilities == null) {
-			Capability capability = CapabilityFactory.createCapability(componentClass);
-			if (capability != null) {
-				capabilities = new Capability[] { capability };
-			}
+		// set indexes from the argument to this call or from the annotation present in the
+		// component if the argument is null
+		if (indexes != null) {
+			desc.getAnalysisEngineMetaData().setFsIndexCollection(indexes);
 		}
+		else {
+			desc.getAnalysisEngineMetaData().setFsIndexCollection(
+					FsIndexFactory.createFsIndexCollection(componentClass));
+		}
+
+		// set capabilities from the argument to this call or from the annotation present in the
+		// component if the argument is null
 		if (capabilities != null) {
 			desc.getAnalysisEngineMetaData().setCapabilities(capabilities);
 		}
+		else {
+			Capability capability = CapabilityFactory.createCapability(componentClass);
+			if (capability != null) {
+				desc.getAnalysisEngineMetaData().setCapabilities(new Capability[] { capability });
+			}
+		}
+
 		return desc;
 	}
 
 	/**
 	 * Provides a way to override configuration parameter settings with new values in an
 	 * AnalysisEngineDescription
-	 * 
+	 *
 	 * @param analysisEngineDescription
 	 * @param configurationData
 	 * @throws ResourceInitializationException
@@ -623,7 +637,7 @@ public final class AnalysisEngineFactory {
 	/**
 	 * A simplified factory method for creating an aggregate description for a given flow controller
 	 * and a sequence of analysis engine descriptions
-	 * 
+	 *
 	 * @param flowControllerDescription
 	 * @param analysisEngineDescriptions
 	 * @return
@@ -646,7 +660,7 @@ public final class AnalysisEngineFactory {
 
 	/**
 	 * A factory method for creating an aggregate description.
-	 * 
+	 *
 	 * @param analysisEngineDescriptions
 	 * @param componentNames
 	 * @param typeSystem
@@ -712,7 +726,7 @@ public final class AnalysisEngineFactory {
 	/**
 	 * Creates an AnalysisEngine from the given descriptor, and uses the engine to process the file
 	 * or text.
-	 * 
+	 *
 	 * @param descriptorFileName
 	 *            The fully qualified, Java-style, dotted name of the XML descriptor file.
 	 * @param fileNameOrText
@@ -733,7 +747,7 @@ public final class AnalysisEngineFactory {
 
 	/**
 	 * Processes the file or text with the given AnalysisEngine.
-	 * 
+	 *
 	 * @param analysisEngine
 	 *            The AnalysisEngine object to process the text.
 	 * @param fileNameOrText
@@ -753,7 +767,7 @@ public final class AnalysisEngineFactory {
 
 	/**
 	 * Provides a convenience method for running an AnalysisEngine over some text with a given JCas.
-	 * 
+	 *
 	 * @param jCas
 	 * @param analysisEngine
 	 * @param fileNameOrText
