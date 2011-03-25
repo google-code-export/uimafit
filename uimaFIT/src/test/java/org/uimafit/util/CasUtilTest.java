@@ -118,11 +118,11 @@ public class CasUtilTest extends ComponentTestBase {
 
 		assertEquals(
 				asList("Rot", "wood", "cheeses", "dew?"),
-				toText(select(cas, Token.class.getName())));
+				toText(select(cas, getType(cas, Token.class.getName()))));
 
 		assertEquals(
 				asList("Rot", "wood", "cheeses", "dew?"),
-				toText((Collection<AnnotationFS>)(Collection)selectFS(cas, Token.class.getName())));
+				toText((Collection<AnnotationFS>)(Collection)selectFS(cas, getType(cas, Token.class.getName()))));
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -133,7 +133,7 @@ public class CasUtilTest extends ComponentTestBase {
 
 		CAS cas = jCas.getCas();
 
-		Collection<FeatureStructure> allFS = selectFS(cas, TOP.class.getName());
+		Collection<FeatureStructure> allFS = selectFS(cas, getType(cas, TOP.class.getName()));
 		ArrayFS allFSArray = cas.createArrayFS(allFS.size());
 		int i = 0;
 		for (FeatureStructure fs : allFS) {
@@ -145,18 +145,18 @@ public class CasUtilTest extends ComponentTestBase {
 		for (FeatureStructure fs : allFS) {
 			System.out.println("Type: "+fs.getType().getName()+"]");
 		}
-		System.out.println("Tokens: ["+toText(select(cas, Token.class.getName()))+"]");
+		System.out.println("Tokens: ["+toText(select(cas, getType(cas, Token.class.getName())))+"]");
 
 		// Document Annotation, one sentence and 4 tokens.
 		assertEquals(6, allFS.size());
 
 		assertEquals(
-				toText(select(cas, Token.class.getName())),
-				toText(select(allFSArray, Token.class.getName())));
+				toText(select(cas, getType(cas, Token.class.getName()))),
+				toText(select(allFSArray, getType(cas, Token.class.getName()))));
 
 		assertEquals(
-				toText((Iterable) selectFS(cas, Token.class.getName())),
-				toText((Iterable) selectFS(allFSArray, Token.class.getName())));
+				toText((Iterable) selectFS(cas, getType(cas, Token.class.getName()))),
+				toText((Iterable) selectFS(allFSArray, getType(cas, Token.class.getName()))));
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
