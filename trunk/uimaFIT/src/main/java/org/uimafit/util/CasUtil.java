@@ -220,32 +220,6 @@ public class CasUtil {
 	/**
 	 * Convenience method to iterator over all feature structures of a given type.
 	 *
-	 * @param array
-	 *            features structure array.
-	 * @param typeName
-	 *            the fully qualified type name.
-	 * @return A collection of the selected type.
-	 */
-	public static Collection<FeatureStructure> selectFS(ArrayFS array, String typeName) {
-		return selectFS(array, getType(array.getCAS(), typeName));
-	}
-
-	/**
-	 * Convenience method to iterator over all annotations of a given type.
-	 *
-	 * @param array
-	 *            features structure array.
-	 * @param typeName
-	 *            the fully qualified type name.
-	 * @return A collection of the selected type.
-	 */
-	public static Collection<AnnotationFS> select(ArrayFS array, String typeName) {
-		return select(array, getAnnotationType(array.getCAS(), typeName));
-	}
-
-	/**
-	 * Convenience method to iterator over all feature structures of a given type.
-	 *
 	 * @param cas
 	 *            the CAS containing the type system.
 	 * @param type
@@ -271,32 +245,6 @@ public class CasUtil {
 			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
 		}
 		return (Collection) FSCollectionFactory.create(cas, type);
-	}
-
-	/**
-	 * Convenience method to iterator over all feature structures of a given type.
-	 *
-	 * @param cas
-	 *            the CAS containing the type system.
-	 * @param typeName
-	 *            the fully qualified type name.
-	 * @return A collection of the selected type.
-	 */
-	public static Collection<FeatureStructure> selectFS(final CAS cas, final String typeName) {
-		return selectFS(cas, getType(cas, typeName));
-	}
-
-	/**
-	 * Convenience method to iterator over all annotations of a given type.
-	 *
-	 * @param cas
-	 *            the CAS containing the type system.
-	 * @param typeName
-	 *            the fully qualified type name.
-	 * @return A collection of the selected type.
-	 */
-	public static Collection<AnnotationFS> select(final CAS cas, final String typeName) {
-		return select(cas, getAnnotationType(cas, typeName));
 	}
 
 	/**
@@ -471,60 +419,6 @@ public class CasUtil {
 	}
 
 	/**
-	 * This method exists simply as a convenience method for unit testing. It is not very efficient
-	 * and should not, in general be used outside the context of unit testing.
-	 *
-	 * @param cas
-	 *            a CAS containing the feature structure.
-	 * @param typeName
-	 *            the fully qualified type name.
-	 * @param index
-	 *            this can be either positive (0 corresponds to the first annotation of a type) or
-	 *            negative (-1 corresponds to the last annotation of a type.)
-	 * @return an annotation of the given type
-	 */
-	public static FeatureStructure selectFSByIndex(CAS cas, String typeName, int index) {
-		return selectFSByIndex(cas, getType(cas, typeName), index);
-	}
-
-	/**
-	 * This method exists simply as a convenience method for unit testing. It is not very efficient
-	 * and should not, in general be used outside the context of unit testing.
-	 *
-	 * @param cas
-	 *            a CAS containing the annotation.
-	 * @param typeName
-	 *            the fully qualified type name.
-	 * @param index
-	 *            this can be either positive (0 corresponds to the first annotation of a type) or
-	 *            negative (-1 corresponds to the last annotation of a type.)
-	 * @return an annotation of the given type
-	 */
-	public static AnnotationFS selectByIndex(CAS cas, String typeName, int index) {
-		return selectByIndex(cas, getAnnotationType(cas, typeName), index);
-	}
-
-	/**
-	 * Get a list of annotations of the given annotation type constraint by a certain annotation.
-	 * Iterates over all annotations of the given type to find the covered annotations. Does not use
-	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
-	 * Uses the same approach except that type priorities are ignored.
-	 *
-	 * @param cas
-	 *            a CAS.
-	 * @param typeName
-	 *            the fully qualified type name.
-	 * @param coveringAnnotation
-	 *            the covering annotation.
-	 * @return a return value.
-	 * @see Subiterator
-	 */
-	public static List<AnnotationFS> selectCovered(CAS cas, String typeName,
-			AnnotationFS coveringAnnotation) {
-		return selectCovered(cas, getAnnotationType(cas, typeName), coveringAnnotation);
-	}
-
-	/**
 	 * Create an index for quickly lookup up the annotations covering a particular annotation.
 	 * This is preferable to using {@link #selectCovering(CAS, Type, int, int)} because the
 	 * overhead of scanning the CAS occurs only when the index is build. Subsequent lookups to the
@@ -666,20 +560,6 @@ public class CasUtil {
 	}
 
 	/**
-	 * Get the single instance of the specified type from the JCas.
-	 *
-	 * @param cas
-	 *            a JCas containing the feature structure.
-	 * @param typeName
-	 *            the fully qualified type name.
-	 * @return the single instance of the given type. throws IllegalArgumentException if not exactly
-	 *         one instance if the given type is present.
-	 */
-	public static FeatureStructure selectSingle(CAS cas, String typeName) {
-		return selectSingle(cas, getType(cas, typeName));
-	}
-
-	/**
 	 * Returns the n annotations preceding the given annotation
 	 *
 	 * @param cas
@@ -722,24 +602,6 @@ public class CasUtil {
 	}
 
 	/**
-	 * Returns the n annotations preceding the given annotation
-	 *
-	 * @param cas
-	 *            a CAS.
-	 * @param typeName
-	 *            the fully qualified type name.
-	 * @param annotation
-	 *            anchor annotation
-	 * @param count
-	 *            number of annotations to collect
-	 * @return List of aType annotations preceding anchor annotation
-	 */
-	public static List<AnnotationFS> selectPreceding(CAS cas, String typeName,
-			Annotation annotation, int count) {
-		return selectPreceding(cas, getAnnotationType(cas, typeName), annotation, count);
-	}
-
-	/**
 	 * Returns the n annotations following the given annotation
 	 *
 	 * @param cas
@@ -776,24 +638,6 @@ public class CasUtil {
 		}
 
 		return followingAnnotations;
-	}
-
-	/**
-	 * Returns the n annotations following the given annotation
-	 *
-	 * @param cas
-	 *            a CAS.
-	 * @param typeName
-	 *            the fully qualified type name.
-	 * @param annotation
-	 *            anchor annotation
-	 * @param count
-	 *            number of annotations to collect
-	 * @return List of aType annotations following anchor annotation
-	 */
-	public static List<AnnotationFS> selectFollowing(CAS cas, String typeName,
-			Annotation annotation, int count) {
-		return selectFollowing(cas, getAnnotationType(cas, typeName), annotation, count);
 	}
 
 	/**
