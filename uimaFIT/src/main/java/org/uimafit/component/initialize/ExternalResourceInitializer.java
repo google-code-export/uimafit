@@ -29,18 +29,19 @@ import org.apache.uima.resource.ExternalResourceDependency;
 import org.apache.uima.resource.Resource;
 import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.SharedResourceObject;
 import org.uimafit.descriptor.ExternalResource;
 import org.uimafit.descriptor.ExternalResourceLocator;
 
 /**
  * Configurator class for {@link ExternalResource} annotations.
- * 
+ *
  * @author Richard Eckart de Castilho
  */
 public class ExternalResourceInitializer {
 	/**
 	 * Configure a component from the given context.
-	 * 
+	 *
 	 * @param <T>
 	 *            the component type.
 	 * @param context
@@ -58,7 +59,7 @@ public class ExternalResourceInitializer {
 
 	/**
 	 * Helper method for recursively configuring super-classes.
-	 * 
+	 *
 	 * @param <T>
 	 *            the component type.
 	 * @param context
@@ -159,7 +160,7 @@ public class ExternalResourceInitializer {
 
 	/**
 	 * Determine if the field is mandatory.
-	 * 
+	 *
 	 * @param field
 	 *            the field to bind.
 	 * @return whether the field is mandatory.
@@ -171,7 +172,7 @@ public class ExternalResourceInitializer {
 	/**
 	 * Get the binding key for the specified field. If no key is set, use the field class name as
 	 * key.
-	 * 
+	 *
 	 * @param field
 	 *            the field to bind.
 	 * @return the binding key.
@@ -188,7 +189,7 @@ public class ExternalResourceInitializer {
 	/**
 	 * Get the type of class/interface a resource has to implement to bind to the annotated field.
 	 * If no API is set, get it from the annotated field type.
-	 * 
+	 *
 	 * @param field
 	 *            the field to bind.
 	 * @return the API type.
@@ -196,10 +197,21 @@ public class ExternalResourceInitializer {
 	@SuppressWarnings("unchecked")
 	private static Class<? extends Resource> getApi(Field field) {
 		ExternalResource cpa = field.getAnnotation(ExternalResource.class);
-		// If no API is set, get it from the annotated field
 		Class<? extends Resource> api = cpa.api();
+		// If no api is specified, look at the annotated field
 		if (api == Resource.class) {
-			api = (Class<? extends Resource>) field.getType();
+			if (Resource.class.isAssignableFrom(field.getType())
+					|| SharedResourceObject.class.isAssignableFrom(field.getType())) {
+				// If no API is set, check if the field type is already a resource type
+				api = (Class<? extends Resource>) field.getType();
+			}
+			else {
+				// If the field does not have a resource type, assume whatever. This allows to use
+				// a resource locator without having to specifiy the api parameter. It also allows
+				// to directly inject Java objects - yes, I know that Object does not extend
+				// Resource - REC, 2011-03-25
+				api = (Class<? extends Resource>) Object.class;
+			}
 		}
 		return api;
 	}
