@@ -23,10 +23,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.uimafit.factory.AnalysisEngineFactory.createPrimitiveDescription;
-import static org.uimafit.factory.ExternalResourceFactory.bindResource;
+import static org.uimafit.factory.ExternalResourceFactory.*;
 
 import java.io.File;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.uima.UIMAFramework;
 import org.apache.uima.analysis_engine.AnalysisEngine;
@@ -35,14 +39,19 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.DataResource;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.SharedResourceObject;
 import org.apache.uima.resource.metadata.ResourceManagerConfiguration;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 import org.uimafit.ComponentTestBase;
 import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.component.Resource_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.descriptor.ExternalResource;
+import org.uimafit.factory.locator.JndiResourceLocator;
+import org.uimafit.util.SimpleNamedResourceManager;
 
 /**
  * Test case for {@link ExternalResource} annotations.
@@ -54,11 +63,57 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 	private static final String EX_FILE_1 = "src/test/resources/data/html/1.html";
 	private static final String EX_FILE_3 = "src/test/resources/data/html/3.html";
 
+	@BeforeClass
+	public static void initJNDI() throws Exception
+	{
+		// Set up JNDI context to test the JndiResourceLocator
+		final SimpleNamingContextBuilder builder = new SimpleNamingContextBuilder();
+		Properties deDict = new Properties();
+		deDict.setProperty("Hans", "proper noun");
+		builder.bind("dictionaries/german", deDict);
+		builder.activate();
+	}
+
 	@Test
 	public void testScanBind() throws Exception {
-		AnalysisEngineDescription desc = createPrimitiveDescription(DummyAE.class,
-				typeSystemDescription);
+		// Create analysis enginge description
+		AnalysisEngineDescription desc = createPrimitiveDescription(DummyAE.class);
 
+		// Bind external resources
+		bindResources(desc);
+
+		// Test with the default resource manager implementation
+		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(desc);
+		assertNotNull(ae);
+	}
+
+	@Test
+	public void testDirectInjection() throws Exception {
+		// Create analysis enginge description
+		AnalysisEngineDescription desc = createPrimitiveDescription(DummyAE2.class);
+
+		// Bind external resources
+		bindResources(desc);
+
+		// Create a custom resource manager that allows to inject any Java object as an external
+		// dependency
+		ResourceManagerConfiguration resCfg = desc.getResourceManagerConfiguration();
+		assertEquals(8, resCfg.getExternalResourceBindings().length);
+
+		final Map<String, Object> externalContext = new HashMap<String, Object>();
+		externalContext.put(DummyAE2.RES_INJECTED_POJO1, "Just an injected POJO");
+		externalContext.put(DummyAE2.RES_INJECTED_POJO2, new AtomicInteger(5));
+
+		SimpleNamedResourceManager resMgr = new SimpleNamedResourceManager();
+		resMgr.setExternalContext(externalContext);
+
+		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(desc, resMgr, null);
+		assertNotNull(ae);
+
+		ae.process(ae.newJCas());
+	}
+
+	private static void bindResources(ResourceSpecifier desc) throws Exception {
 		bindResource(desc, DummyResource.class);
 		bindResource(desc, DummyAE.RES_KEY_1, ConfigurableResource.class,
 				ConfigurableResource.PARAM_VALUE, "1");
@@ -70,17 +125,11 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 		bindResource(desc, DummyAE.RES_SOME_URL, new File(EX_FILE_1).toURI().toURL());
 		bindResource(desc, DummyAE.RES_SOME_OTHER_URL, new File(EX_FILE_3).toURI().toURL());
 		bindResource(desc, DummyAE.RES_SOME_FILE, new File(EX_FILE_1));
-
-		ResourceManagerConfiguration resCfg = desc.getResourceManagerConfiguration();
-		assertEquals(7, resCfg.getExternalResourceBindings().length);
-
-		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(desc);
-		assertNotNull(ae);
-
-		ae.process(ae.newJCas());
+		bindResource(desc, DummyAE.RES_JNDI_OBJECT, JndiResourceLocator.class,
+				JndiResourceLocator.PARAM_NAME, "dictionaries/german");
 	}
 
-	public static final class DummyAE extends JCasAnnotator_ImplBase {
+	public static class DummyAE extends JCasAnnotator_ImplBase {
 		@ExternalResource
 		DummyResource r;
 
@@ -107,22 +156,52 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 		@ExternalResource(key = RES_SOME_FILE)
 		DataResource someFile;
 
+		static final String RES_JNDI_OBJECT = "JndiObject";
+		@ExternalResource(key = RES_JNDI_OBJECT)
+		Properties jndiPropertes;
+
 		@Override
 		public void process(JCas aJCas) throws AnalysisEngineProcessException {
 			assertNotNull(r);
+
 			assertNotNull(configRes1);
 			assertEquals("1", configRes1.getValue());
+
 			assertNotNull(configRes2);
 			assertEquals("2", configRes2.getValue());
+
 			assertNotNull(sharedObject);
 			assertEquals(EX_URI, sharedObject.getUrl().toString());
+
+			assertNotNull(jndiPropertes);
+			assertEquals("proper noun", jndiPropertes.get("Hans"));
+
 			assertNotNull(someUrl);
 			assertEquals(new File(EX_FILE_1).toURI().toString(), someUrl.getUri().toString());
+
 			assertNotNull(someOtherUrl);
 			assertEquals(new File(EX_FILE_3).toURI().toString(), someOtherUrl.getUri().toString());
+
 			assertTrue(someFile.getUrl().toString().startsWith("file:"));
-			assertTrue("URL [" + someFile.getUrl() + "] should end in [" + EX_FILE_1 + "]", someFile
-					.getUrl().toString().endsWith(EX_FILE_1));
+			assertTrue("URL [" + someFile.getUrl() + "] should end in [" + EX_FILE_1 + "]",
+					someFile.getUrl().toString().endsWith(EX_FILE_1));
+		}
+	}
+
+	public static final class DummyAE2 extends DummyAE {
+		static final String RES_INJECTED_POJO1 = "InjectedPojo1";
+		@ExternalResource(key = RES_INJECTED_POJO1)
+		String injectedString;
+
+		static final String RES_INJECTED_POJO2 = "InjectedPojo2";
+		@ExternalResource(key = RES_INJECTED_POJO2)
+		AtomicInteger injectedAtomicInt;
+
+		@Override
+		public void process(JCas aJCas) throws AnalysisEngineProcessException {
+			super.process(aJCas);
+			assertEquals("Just an injected POJO", injectedString);
+			assertEquals(5, injectedAtomicInt.get());
 		}
 	}
 
