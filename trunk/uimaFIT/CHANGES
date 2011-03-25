@@ -1,4 +1,6 @@
 changes subsequent to 1.1.0
+    - resolved issue #74 "Add a external resource locator using JNDI"
+    - resolved issue #73 "ExternalResources loaded through a ExternalResourceLocator should not need to declare "api""
     - resolved issue #54 "Support creating custom indexes"
     - resolved issue #64 "Methods in CasUtil should not be generic"
     - resolved issue #63 "Ability to specify container in terms of begin and end offset"
