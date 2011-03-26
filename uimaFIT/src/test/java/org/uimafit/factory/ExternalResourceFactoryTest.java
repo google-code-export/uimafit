@@ -19,9 +19,7 @@
 
 package org.uimafit.factory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.uimafit.factory.AnalysisEngineFactory.createPrimitiveDescription;
 import static org.uimafit.factory.ExternalResourceFactory.*;
 
@@ -41,7 +39,6 @@ import org.apache.uima.resource.DataResource;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.SharedResourceObject;
-import org.apache.uima.resource.metadata.ResourceManagerConfiguration;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.mock.jndi.SimpleNamingContextBuilder;
@@ -92,20 +89,47 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 		// Create analysis enginge description
 		AnalysisEngineDescription desc = createPrimitiveDescription(DummyAE2.class);
 
-		// Bind external resources
+		// Bind external resources for DummyAE
+		bindResources(desc);
+
+		// Bind external resources for DummyAE2 - necessary because autowiring is disabled
+		bindExternalResource(desc, DummyAE2.RES_INJECTED_POJO1, "pojoName1");
+		bindExternalResource(desc, DummyAE2.RES_INJECTED_POJO2, "pojoName2");
+
+		// Create a custom resource manager that allows to inject any Java object as an external
+		// dependency
+		final Map<String, Object> externalContext = new HashMap<String, Object>();
+		externalContext.put("pojoName1", "Just an injected POJO");
+		externalContext.put("pojoName2", new AtomicInteger(5));
+
+		SimpleNamedResourceManager resMgr = new SimpleNamedResourceManager();
+		resMgr.setExternalContext(externalContext);
+		assertFalse(resMgr.isAutoWireEnabled());
+
+		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(desc, resMgr, null);
+		assertNotNull(ae);
+
+		ae.process(ae.newJCas());
+	}
+
+	@Test
+	public void testDirectInjectionAutowire() throws Exception {
+		// Create analysis enginge description
+		AnalysisEngineDescription desc = createPrimitiveDescription(DummyAE2.class);
+
+		// Bind external resources for DummyAE
 		bindResources(desc);
 
 		// Create a custom resource manager that allows to inject any Java object as an external
 		// dependency
-		ResourceManagerConfiguration resCfg = desc.getResourceManagerConfiguration();
-		assertEquals(8, resCfg.getExternalResourceBindings().length);
-
 		final Map<String, Object> externalContext = new HashMap<String, Object>();
 		externalContext.put(DummyAE2.RES_INJECTED_POJO1, "Just an injected POJO");
 		externalContext.put(DummyAE2.RES_INJECTED_POJO2, new AtomicInteger(5));
 
 		SimpleNamedResourceManager resMgr = new SimpleNamedResourceManager();
 		resMgr.setExternalContext(externalContext);
+		resMgr.setAutoWireEnabled(true);
+		assertTrue(resMgr.isAutoWireEnabled());
 
 		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(desc, resMgr, null);
 		assertNotNull(ae);
@@ -195,13 +219,13 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 
 		static final String RES_INJECTED_POJO2 = "InjectedPojo2";
 		@ExternalResource(key = RES_INJECTED_POJO2)
-		AtomicInteger injectedAtomicInt;
+		Number injectedAtomicInt;
 
 		@Override
 		public void process(JCas aJCas) throws AnalysisEngineProcessException {
 			super.process(aJCas);
 			assertEquals("Just an injected POJO", injectedString);
-			assertEquals(5, injectedAtomicInt.get());
+			assertEquals(5, injectedAtomicInt.intValue());
 		}
 	}
 
