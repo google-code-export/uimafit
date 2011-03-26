@@ -194,7 +194,7 @@ public class ExternalResourceInitializer {
 	 *            the field to bind.
 	 * @return the API type.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static Class<? extends Resource> getApi(Field field) {
 		ExternalResource cpa = field.getAnnotation(ExternalResource.class);
 		Class<? extends Resource> api = cpa.api();
@@ -207,10 +207,10 @@ public class ExternalResourceInitializer {
 			}
 			else {
 				// If the field does not have a resource type, assume whatever. This allows to use
-				// a resource locator without having to specifiy the api parameter. It also allows
+				// a resource locator without having to specify the api parameter. It also allows
 				// to directly inject Java objects - yes, I know that Object does not extend
 				// Resource - REC, 2011-03-25
-				api = (Class<? extends Resource>) Object.class;
+				api = (Class) Object.class;
 			}
 		}
 		return api;
