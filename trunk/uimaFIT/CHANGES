@@ -1,4 +1,5 @@
 changes subsequent to 1.1.0
+    - resolved issue #76 "SimpleNamedResourceManager does not support bindings"
     - resolved issue #75 "Provide means of injecting arbitrary Java objects as external resource in a local deployment"
     - resolved issue #74 "Add a external resource locator using JNDI"
     - resolved issue #73 "ExternalResources loaded through a ExternalResourceLocator should not need to declare "api""
