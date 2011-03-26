@@ -55,13 +55,32 @@ import org.apache.uima.util.Level;
  *     ...
  *   }
  * }
+ * </pre></blockquote>
  *
+ * Per default it is necessary to explicitly bind a objects from the external context to external
+ * resource keys used by the UIMA component:
+ * <blockquote><pre>
+ * Map<String, Object> context = new HashMap<String, Object>();
+ * context("myString", "Just an injected POJO");
+ *
+ * SimpleNamedResourceManager resMgr = new SimpleNamedResourceManager();
+ * resMgr.setExternalContext(externalContext);
+ *
+ * AnalysisEngineDescription desc = createPrimitiveDescription(MyComponent.class);
+ * bindExternalResource(desc, MyComponent.RES_INJECTED_POJO, "myString");
+ * AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(desc, resMgr, null);
+ * </pre></blockquote>
+ *
+ * With autowireing enabled, an explicit binding is not necessary:
+ * <blockquote><pre>
  * Map<String, Object> context = new HashMap<String, Object>();
  * context(MyComponent.RES_INJECTED_POJO, "Just an injected POJO");
  *
  * SimpleNamedResourceManager resMgr = new SimpleNamedResourceManager();
+ * resMgr.setAutoWireEnabled(true);
  * resMgr.setExternalContext(externalContext);
-
+ *
+ * AnalysisEngineDescription desc = createPrimitiveDescription(MyComponent.class);
  * AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(desc, resMgr, null);
  * </pre></blockquote>
  *
@@ -69,6 +88,8 @@ import org.apache.uima.util.Level;
  */
 public class SimpleNamedResourceManager extends ResourceManager_impl {
 	private Map<String, Object> externalContext;
+
+	private boolean autoWireEnabled = false;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -91,7 +112,9 @@ public class SimpleNamedResourceManager extends ResourceManager_impl {
 					((Map) mInternalResourceRegistrationMap).put(e.getKey(), reg);
 
 					// Perform binding
-					mResourceMap.put(aQualifiedContextName + e.getKey(), e.getValue());
+					if (isAutoWireEnabled()) {
+						mResourceMap.put(aQualifiedContextName + e.getKey(), e.getValue());
+					}
 				}
 				catch (Exception e1) {
 					throw new ResourceInitializationException(e1);
@@ -137,6 +160,14 @@ public class SimpleNamedResourceManager extends ResourceManager_impl {
 
 	public void setExternalContext(Map<String, Object> aExternalContext) {
 		externalContext = aExternalContext;
+	}
+
+	public void setAutoWireEnabled(boolean aAutoWireEnabled) {
+		autoWireEnabled = aAutoWireEnabled;
+	}
+
+	public boolean isAutoWireEnabled() {
+		return autoWireEnabled;
 	}
 
 	/**

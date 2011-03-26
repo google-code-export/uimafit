@@ -33,6 +33,7 @@ import org.apache.uima.resource.ExternalResourceDescription;
 import org.apache.uima.resource.FileResourceSpecifier;
 import org.apache.uima.resource.Parameter;
 import org.apache.uima.resource.Resource;
+import org.apache.uima.resource.ResourceCreationSpecifier;
 import org.apache.uima.resource.ResourceManager;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.SharedResourceObject;
@@ -164,8 +165,22 @@ public final class ExternalResourceFactory {
 	 */
 	public static ExternalResourceBinding createExternalResourceBinding(final String aKey,
 			final ExternalResourceDescription aResource) {
+		return createExternalResourceBinding(aKey, aResource.getName());
+	}
+
+	/**
+	 * Create an external resource binding.
+	 *
+	 * @param aKey
+	 *            the key to bind to.
+	 * @param aResourceKey
+	 *            the resource key to bind.
+	 * @return the description.
+	 */
+	public static ExternalResourceBinding createExternalResourceBinding(final String aKey,
+			final String aResourceKey) {
 		ExternalResourceBinding extResBind = new ExternalResourceBinding_impl();
-		extResBind.setResourceName(aResource.getName());
+		extResBind.setResourceName(aResourceKey);
 		extResBind.setKey(aKey);
 		return extResBind;
 	}
@@ -455,13 +470,7 @@ public final class ExternalResourceFactory {
 		// Bind if necessary
 		for (ExternalResourceDependency dep : aDesc.getExternalResourceDependencies()) {
 			if (aKey.equals(dep.getKey())) {
-
-				ResourceManagerConfiguration resMgrCfg = aDesc.getResourceManagerConfiguration();
-				if (resMgrCfg == null) {
-					resMgrCfg = new ResourceManagerConfiguration_impl();
-					aDesc.setResourceManagerConfiguration(resMgrCfg);
-				}
-				bindExternalResource(resMgrCfg, aKey, aResDesc);
+				bindExternalResource(aDesc, aKey, aResDesc);
 			}
 		}
 	}
@@ -482,5 +491,66 @@ public final class ExternalResourceFactory {
 
 		aResMgrCfg.addExternalResource(aRes);
 		aResMgrCfg.addExternalResourceBinding(extResBind);
+	}
+
+	/**
+	 * Create a new external resource binding.
+	 *
+	 * @param aDesc
+	 *            the specifier to create the binding in.
+	 * @param aBindTo
+	 *            what key to bind to.
+	 * @param aRes
+	 *            the resource that should be bound.
+	 */
+	public static void bindExternalResource(ResourceCreationSpecifier aDesc,
+			String aBindTo, ExternalResourceDescription aRes) {
+		ResourceManagerConfiguration resMgrCfg = aDesc.getResourceManagerConfiguration();
+		if (resMgrCfg == null) {
+			resMgrCfg = new ResourceManagerConfiguration_impl();
+			aDesc.setResourceManagerConfiguration(resMgrCfg);
+		}
+
+		ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);
+		resMgrCfg.addExternalResource(aRes);
+		resMgrCfg.addExternalResourceBinding(extResBind);
+	}
+
+	/**
+	 * Create a new external resource binding.
+	 *
+	 * @param aResMgrCfg
+	 *            the resource manager to create the binding in.
+	 * @param aBindTo
+	 *            what key to bind to.
+	 * @param aRes
+	 *            the resource that should be bound.
+	 */
+	public static void bindExternalResource(ResourceManagerConfiguration aResMgrCfg,
+			String aBindTo, String aRes) {
+		ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);
+		aResMgrCfg.addExternalResourceBinding(extResBind);
+	}
+
+	/**
+	 * Create a new external resource binding.
+	 *
+	 * @param aDesc
+	 *            the specifier to create the binding in.
+	 * @param aBindTo
+	 *            what key to bind to.
+	 * @param aRes
+	 *            the resource that should be bound.
+	 */
+	public static void bindExternalResource(ResourceCreationSpecifier aDesc,
+			String aBindTo, String aRes) {
+		ResourceManagerConfiguration resMgrCfg = aDesc.getResourceManagerConfiguration();
+		if (resMgrCfg == null) {
+			resMgrCfg = new ResourceManagerConfiguration_impl();
+			aDesc.setResourceManagerConfiguration(resMgrCfg);
+		}
+
+		ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);
+		resMgrCfg.addExternalResourceBinding(extResBind);
 	}
 }
