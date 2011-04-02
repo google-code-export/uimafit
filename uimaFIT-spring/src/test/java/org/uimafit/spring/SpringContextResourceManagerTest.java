@@ -21,20 +21,20 @@ package org.uimafit.spring;
 
 import static org.junit.Assert.assertEquals;
 import static org.uimafit.factory.AnalysisEngineFactory.createPrimitiveDescription;
+import static org.uimafit.factory.ExternalResourceFactory.*;
 
 import org.apache.uima.UIMAFramework;
-import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigUtils;
 import org.springframework.context.support.GenericApplicationContext;
+import org.uimafit.component.JCasAnnotator_ImplBase;
+import org.uimafit.descriptor.ExternalResource;
 
 /**
  * Test making Spring beans available to a UIMA component via the resource manager.
@@ -58,6 +58,7 @@ public class SpringContextResourceManagerTest {
 
 		// Create component description
 		AnalysisEngineDescription desc = createPrimitiveDescription(MyAnalysisEngine.class);
+		bindExternalResource(desc, "injectedBean", "springBean");
 
 		// Instantiate component
 		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(desc, resMgr, null);
@@ -67,7 +68,7 @@ public class SpringContextResourceManagerTest {
 	}
 
 	public static class MyAnalysisEngine extends JCasAnnotator_ImplBase {
-		@Autowired @Qualifier("otherBean")
+		@ExternalResource(key = "injectedBean")
 		private Object injectedBean;
 
 		@Override
@@ -79,7 +80,8 @@ public class SpringContextResourceManagerTest {
 	private ApplicationContext getApplicationContext() {
 		final GenericApplicationContext ctx = new GenericApplicationContext();
 		AnnotationConfigUtils.registerAnnotationConfigProcessors(ctx);
-		ctx.registerBeanDefinition("otherBean",
+		ctx.registerBeanDefinition(
+				"springBean",
 				BeanDefinitionBuilder.genericBeanDefinition(String.class)
 						.addConstructorArgValue("BEAN").getBeanDefinition());
 		ctx.refresh();
