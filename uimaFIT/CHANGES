@@ -1,4 +1,6 @@
-changes subsequent to 1.1.0
+changes in 1.2.0
+    - resolved issue #78 "Remove findbugs dependency from uimaFIT"
+    - resolved issue #77 "Avoid directly instantiating internal UIMA component classes"
     - resolved issue #76 "SimpleNamedResourceManager does not support bindings"
     - resolved issue #75 "Provide means of injecting arbitrary Java objects as external resource in a local deployment"
     - resolved issue #74 "Add a external resource locator using JNDI"
