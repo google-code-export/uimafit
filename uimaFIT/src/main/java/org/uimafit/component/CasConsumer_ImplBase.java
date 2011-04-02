@@ -25,19 +25,16 @@ import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.descriptor.OperationalProperties;
 
-import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
-
 /**
  * Base class for CAS consumers (actually a {@link CasAnnotator_ImplBase}) which initializes itself
  * based on annotations.
- * 
+ *
  * @author Richard Eckart de Castilho
  */
 @OperationalProperties(multipleDeploymentAllowed = false)
 public abstract class CasConsumer_ImplBase extends
 		org.apache.uima.analysis_component.CasAnnotator_ImplBase {
 	@Override
-	@OverrideMustInvoke
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		ConfigurationParameterInitializer.initialize(this, context);
