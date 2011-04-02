@@ -37,7 +37,6 @@ import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.impl.AggregateAnalysisEngine_impl;
 import org.apache.uima.analysis_engine.impl.AnalysisEngineDescription_impl;
-import org.apache.uima.analysis_engine.impl.PrimitiveAnalysisEngine_impl;
 import org.apache.uima.analysis_engine.metadata.AnalysisEngineMetaData;
 import org.apache.uima.analysis_engine.metadata.FixedFlow;
 import org.apache.uima.analysis_engine.metadata.FlowControllerDeclaration;
@@ -428,8 +427,6 @@ public final class AnalysisEngineFactory {
 	 */
 	public static AnalysisEngine createPrimitive(AnalysisEngineDescription desc,
 			Object... configurationData) throws ResourceInitializationException {
-		AnalysisEngine engine = new PrimitiveAnalysisEngine_impl();
-
 		if (configurationData != null) {
 			ConfigurationData cdata = ConfigurationParameterFactory
 					.createConfigurationData(configurationData);
@@ -442,12 +439,12 @@ public final class AnalysisEngineFactory {
 					.getConfigurationParameterSettings();
 			Map<String, Object> additionalParameters = new HashMap<String, Object>();
 			additionalParameters.put(AnalysisEngine.PARAM_CONFIG_PARAM_SETTINGS, paramSettings);
-			engine.initialize(desc, additionalParameters);
+
+			return UIMAFramework.produceAnalysisEngine(desc, null, additionalParameters);
 		}
 		else {
-			engine.initialize(desc, null);
+			return UIMAFramework.produceAnalysisEngine(desc, null, null);
 		}
-		return engine;
 	}
 
 	/**
@@ -502,10 +499,9 @@ public final class AnalysisEngineFactory {
 	 */
 	public static AnalysisEngine createAggregate(AnalysisEngineDescription desc)
 			throws ResourceInitializationException {
-		// create the AnalysisEngine, initialize it and return it
-		AnalysisEngine engine = new AggregateAnalysisEngine_impl();
-		engine.initialize(desc, null);
-		return engine;
+//		// create the AnalysisEngine, initialize it and return it
+		return UIMAFramework.produceAnalysisEngine(desc, null, null);
+
 	}
 
 	/**
