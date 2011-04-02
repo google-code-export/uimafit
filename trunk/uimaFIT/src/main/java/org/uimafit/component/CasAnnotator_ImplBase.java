@@ -23,17 +23,14 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.component.initialize.ExternalResourceInitializer;
 
-import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
-
 /**
  * Base class for CAS annotators which initializes itself based on annotations.
- * 
+ *
  * @author Richard Eckart de Castilho
  */
 public abstract class CasAnnotator_ImplBase extends
 		org.apache.uima.analysis_component.CasAnnotator_ImplBase {
 	@Override
-	@OverrideMustInvoke
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		ConfigurationParameterInitializer.initialize(this, context);

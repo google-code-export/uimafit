@@ -24,18 +24,15 @@ import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.descriptor.OperationalProperties;
 
-import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
-
 /**
  * Base class for a JCas multiplier which initializes itself based on annotations.
- * 
+ *
  * @author Richard Eckart de Castilho
  */
 @OperationalProperties(outputsNewCases = true)
 public abstract class JCasMultiplier_ImplBase extends
 		org.apache.uima.analysis_component.JCasMultiplier_ImplBase {
 	@Override
-	@OverrideMustInvoke
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		ConfigurationParameterInitializer.initialize(this, context);
