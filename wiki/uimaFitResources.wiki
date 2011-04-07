@@ -1,41 +1,81 @@
 #summary Describes the parts necessary in an annotator's code so that resources work in uimaFIT.
 
-= Introduction =
+= Using a shared model =
 
-An annotator using resources needs a few parts:
- * It needs to derive from the uimaFIT version of JCasAnnotator_ImplBase: org.uimafit.component.JCasAnnotator_ImplBase
- * (java) annotated uri DataResource
- * binding the resource value and key
- * retrieving the resource
+An analysis engine often uses some data model. This may be as simple as word frequency counts or as complex as the model of a parser. Often these models can become quite large. If an analysis engine is deployed multiple times in the same pipeline or runs on multiple CPU cores, memory can be saved by using a shared instance of the data model. UIMA supports such a scenario by so-called external resources. The following sections illustrates how external resources can be used with uimaFIT.
 
+First create a class for the shared data model. Usually this class would load its data from some URI and then expose it via its methods. An example would be to load word frequency counts and to provide a getFrequency() method. In our simple example we do not load anything from the provided URI - we just offer a method to get the URI from which data be loaded.
 
-= Details =
-This is an abbreviated version of class showing the four parts:
 {{{
-public class BannerEntityTagger_AE extends JCasAnnotator_ImplBase {
-	
-	final static String MODEL_FILE_KEY = "BannerEntityModelFile"
-        // the java annotation
-	@ExternalResource(key=UIMA_RESOURCE_MODEL_FILE)
-	DataResource uriDataResource;
+// Simple model that only stores the URI it was loaded from. Normally data
+// would be loaded from the URI instead and made accessible through methods
+// in this class. This simple example only allows to access the URI.
+public static final class SharedModel implements SharedResourceObject {
+	private String uri;
+
+	public void load(DataResource aData) throws ResourceInitializationException {
+		uri = aData.getUri().toString();
+	}
+
+	public String getUri() { return uri; }
+}
+}}}
+
+Next create an analysis engine that can use the shared data model.
+
+{{{
+// Example annotator that uses the SharedModel. In the process() we only test
+// if the model was properly initialized by uimaFIT
+public static class Annotator extends org.uimafit.component.JCasAnnotator_ImplBase {
+	final static String MODEL_KEY = "Model";
+	@ExternalResource(key = MODEL_KEY)
+	private SharedModel model;
 
 	@Override
-	public void initialize(UimaContext context) throws ResourceInitializationException {
-                // getting the value
-                URI uri = context.getResourceURI(MODEL_FILE_KEY);
-		String bannerModelFile = uri.getPath();	
-	}
-	
-	public static AnalysisEngine createAnalysisEngine(TypeSystemDescription tsd) 
-	throws ResourceInitializationException {
-		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(
-		        BannerEntityTagger_AE.class, tsd); 
-                // binding
-		ExternalResourceFactory.bindResource(aed, MODEL_FILE_KEY, 
-		        new File("../nlp/resources/nlp-tools/BANNER/data/models/gene_model_v02.bin"));
-			
-		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(aed);
-		return ae;
+	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+		assertTrue(model.getUri().endsWith("gene_model_v02.bin"));
+		// Prints the instance ID to the console - this proves the same instance
+		// of the SharedModel is used in both Annotator instances.
+		System.out.println(model);
 	}
 }
+}}}
+
+Finally build a pipeline that uses the analysis engine. The benefit of a shared model is that multiple components can use the same model instance.
+
+{{{
+// Set up the descriptors
+AnalysisEngineDescription aed1 = createPrimitiveDescription(Annotator.class);
+AnalysisEngineDescription aed2 = createPrimitiveDescription(Annotator.class);
+AnalysisEngineDescription aaed = createAggregateDescription(aed1, aed2);
+
+// Bind external resource to the aggregate
+ExternalResourceFactory.bindResource(aaed, Annotator.MODEL_KEY, SharedModel.class,
+		new File("gene_model_v02.bin").toURI().toURL().toString());
+
+// Check the external resource was injected
+AnalysisEngine ae = AnalysisEngineFactory.createAggregate(aaed);
+ae.process(ae.newJCas());
+}}}
+
+In a more complex case where different annotators use different keys for their external resources, the resource can be bound to individual analysis engines before they are added to the aggregate.
+
+{{{
+AnalysisEngineDescription aed1 = createPrimitiveDescription(Annotator1.class);
+AnalysisEngineDescription aed2 = createPrimitiveDescription(Annotator2.class);
+
+ExternalResourceDescription extDesc = ExternalResourceFactory.createExternalResourceDescription(
+		"sharedModel", SharedModel.class,
+		new File("gene_model_v02.bin").toURI().toURL().toString());
+
+// Bind external resource to each Annotator individually
+ExternalResourceFactory.bindResource(aed1, Annotator1.MODEL_KEY, extDesc);
+ExternalResourceFactory.bindResource(aed2, Annotator2.OTHER_MODEL_KEY, extDesc);
+
+// Create an aggregate
+AnalysisEngineDescription aaed = createAggregateDescription(aed1, aed2);
+AnalysisEngine ae = AnalysisEngineFactory.createAggregate(aaed);
+
+// Check the external resource was injected
+ae.process(ae.newJCas());
 }}}
