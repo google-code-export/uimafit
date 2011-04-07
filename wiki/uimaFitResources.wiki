@@ -79,3 +79,5 @@ AnalysisEngine ae = AnalysisEngineFactory.createAggregate(aaed);
 // Check the external resource was injected
 ae.process(ae.newJCas());
 }}}
+
+[http://code.google.com/p/uimafit/source/browse/trunk/uimaFIT-examples/src/main/java/org/uimafit/examples/resource/ExternalResourceExample.java This example] is given as a full JUnit-based example in the the uimaFIT-examples project.
