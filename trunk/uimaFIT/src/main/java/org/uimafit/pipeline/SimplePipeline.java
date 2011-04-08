@@ -18,12 +18,17 @@
 package org.uimafit.pipeline;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.cas.CAS;
 import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.metadata.ResourceMetaData;
+import org.apache.uima.util.CasCreationUtils;
 import org.uimafit.factory.AnalysisEngineFactory;
 
 /**
@@ -81,8 +86,18 @@ public final class SimplePipeline {
 	 */
 	public static void runPipeline(CollectionReader reader, AnalysisEngine... engines)
 			throws UIMAException, IOException {
-		for (JCas jCas : new JCasIterable(reader, engines)) {
-			assert jCas != null;
+		List<ResourceMetaData> metaData = new ArrayList<ResourceMetaData>();
+		metaData.add(reader.getMetaData());
+		for (AnalysisEngine engine : engines) {
+			metaData.add(engine.getMetaData());
+		}
+		CAS cas = CasCreationUtils.createCas(metaData);
+		while (reader.hasNext()) {
+			reader.getNext(cas);
+			for (AnalysisEngine engine : engines) {
+				engine.process(cas);
+			}
+			cas.reset();
 		}
 		for (AnalysisEngine engine : engines) {
 			engine.collectionProcessComplete();
