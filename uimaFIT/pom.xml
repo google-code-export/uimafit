@@ -77,14 +77,8 @@
 						<argument>file:${project.basedir}/src/test/resources/org/uimafit/type/**/*.xml</argument>
 						<argument>${project.build.directory}/generated-sources/jcasgen</argument>
 					</arguments>
+					<classpathScope>test</classpathScope>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>net.sourceforge.cobertura</groupId>
-						<artifactId>cobertura</artifactId>
-						<version>1.9.4.1</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 			<plugin><!-- This plugin adds the jcasgen generated source code folder 
 					as a project source folder -->
