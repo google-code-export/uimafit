@@ -60,7 +60,7 @@
 	</licenses>
 	<build>
 		<plugins>
-		<plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
@@ -78,8 +78,15 @@
 						<argument>${project.build.directory}/generated-sources/jcasgen</argument>
 					</arguments>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>net.sourceforge.cobertura</groupId>
+						<artifactId>cobertura</artifactId>
+						<version>1.9.4.1</version>
+					</dependency>
+				</dependencies>
 			</plugin>
-						<plugin><!-- This plugin adds the jcasgen generated source code folder 
+			<plugin><!-- This plugin adds the jcasgen generated source code folder 
 					as a project source folder -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
