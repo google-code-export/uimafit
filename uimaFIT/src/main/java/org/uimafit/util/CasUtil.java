@@ -20,6 +20,11 @@
  */
 package org.uimafit.util;
 
+import static java.util.Collections.EMPTY_LIST;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableMap;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -40,11 +45,10 @@ import org.apache.uima.cas.impl.Subiterator;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.cas.text.AnnotationIndex;
 import org.apache.uima.jcas.tcas.Annotation;
-import static java.util.Collections.*;
 
 /**
  * Utility methods for convenient access to the {@link CAS}.
- *
+ * 
  * @author Richard Eckart de Castilho
  * @author Niklas Jakob
  */
@@ -56,7 +60,7 @@ public class CasUtil {
 
 	/**
 	 * Convenience method to iterator over all feature structures of a given type.
-	 *
+	 * 
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -72,7 +76,7 @@ public class CasUtil {
 
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
-	 *
+	 * 
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -88,7 +92,7 @@ public class CasUtil {
 
 	/**
 	 * Get an iterator over the given feature structures type.
-	 *
+	 * 
 	 * @param <T>
 	 *            the JCas type.
 	 * @param cas
@@ -104,7 +108,7 @@ public class CasUtil {
 
 	/**
 	 * Get an iterator over the given annotation type.
-	 *
+	 * 
 	 * @param <T>
 	 *            the JCas type.
 	 * @param cas
@@ -120,7 +124,7 @@ public class CasUtil {
 
 	/**
 	 * Get the CAS type for the given JCas wrapper class.
-	 *
+	 * 
 	 * @param cas
 	 *            the CAS hosting the type system.
 	 * @param type
@@ -133,14 +137,14 @@ public class CasUtil {
 
 	/**
 	 * Get the CAS type for the given name.
-	 *
+	 * 
 	 * @param cas
 	 *            the CAS hosting the type system.
 	 * @param typeName
 	 *            the fully qualified type name.
 	 * @return the CAS type.
 	 */
-	public static Type getType(CAS cas,String typeName) {
+	public static Type getType(CAS cas, String typeName) {
 		if (typeName.startsWith(UIMA_BUILTIN_JCAS_PREFIX)) {
 			typeName = "uima." + typeName.substring(UIMA_BUILTIN_JCAS_PREFIX.length());
 		}
@@ -152,9 +156,9 @@ public class CasUtil {
 	}
 
 	/**
-	 * Get the CAS type for the given JCas wrapper class  making sure it is or inherits from
+	 * Get the CAS type for the given JCas wrapper class making sure it is or inherits from
 	 * {@link Annotation}.
-	 *
+	 * 
 	 * @param cas
 	 *            the CAS hosting the type system.
 	 * @param type
@@ -164,31 +168,32 @@ public class CasUtil {
 	public static Type getAnnotationType(CAS cas, Class<?> type) {
 		Type t = getType(cas, type);
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), t)) {
-			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+			throw new IllegalArgumentException("Type [" + type.getName()
+					+ "] is not an annotation type");
 		}
 		return t;
 	}
 
 	/**
 	 * Get the CAS type for the given name making sure it is or inherits from Annotation.
-	 *
+	 * 
 	 * @param cas
 	 *            the CAS hosting the type system.
 	 * @param typeName
 	 *            the fully qualified type name.
 	 * @return the CAS type.
 	 */
-	public static Type getAnnotationType(CAS cas,String typeName) {
+	public static Type getAnnotationType(CAS cas, String typeName) {
 		Type t = getType(cas, typeName);
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), t)) {
-			throw new IllegalArgumentException("Type ["+typeName+"] is not an annotation type");
+			throw new IllegalArgumentException("Type [" + typeName + "] is not an annotation type");
 		}
 		return t;
 	}
 
 	/**
 	 * Convenience method to iterator over all feature structures of a given type.
-	 *
+	 * 
 	 * @param array
 	 *            features structure array.
 	 * @param type
@@ -201,7 +206,7 @@ public class CasUtil {
 
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
-	 *
+	 * 
 	 * @param array
 	 *            features structure array.
 	 * @param type
@@ -212,14 +217,15 @@ public class CasUtil {
 	public static Collection<AnnotationFS> select(ArrayFS array, Type type) {
 		CAS cas = array.getCAS();
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
-			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+			throw new IllegalArgumentException("Type [" + type.getName()
+					+ "] is not an annotation type");
 		}
 		return (Collection) FSCollectionFactory.create(cas, type);
 	}
 
 	/**
 	 * Convenience method to iterator over all feature structures of a given type.
-	 *
+	 * 
 	 * @param cas
 	 *            the CAS containing the type system.
 	 * @param type
@@ -232,7 +238,7 @@ public class CasUtil {
 
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
-	 *
+	 * 
 	 * @param cas
 	 *            the CAS containing the type system.
 	 * @param type
@@ -242,7 +248,8 @@ public class CasUtil {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Collection<AnnotationFS> select(final CAS cas, final Type type) {
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
-			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+			throw new IllegalArgumentException("Type [" + type.getName()
+					+ "] is not an annotation type");
 		}
 		return (Collection) FSCollectionFactory.create(cas, type);
 	}
@@ -252,7 +259,7 @@ public class CasUtil {
 	 * Iterates over all annotations of the given type to find the covered annotations. Does not use
 	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
 	 * Uses the same approach except that type priorities are ignored.
-	 *
+	 * 
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -338,8 +345,9 @@ public class CasUtil {
 	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
 	 * Uses the same approach except that type priorities are ignored.
 	 * <p>
-	 * <b>Note:</b> this is significantly slower than using {@link #selectCovered(CAS, Type, AnnotationFS)}
-	 *
+	 * <b>Note:</b> this is significantly slower than using
+	 * {@link #selectCovered(CAS, Type, AnnotationFS)}
+	 * 
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -388,10 +396,10 @@ public class CasUtil {
 	/**
 	 * Get a list of annotations of the given annotation type constraint by a certain annotation.
 	 * Iterates over all annotations to find the covering annotations.
-	 *
+	 * 
 	 * <p>
 	 * <b>Note:</b> this is <b>REALLY SLOW!</b> You don't want to use this.
-	 *
+	 * 
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -419,35 +427,34 @@ public class CasUtil {
 	}
 
 	/**
-	 * Create an index for quickly lookup up the annotations covering a particular annotation.
-	 * This is preferable to using {@link #selectCovering(CAS, Type, int, int)} because the
-	 * overhead of scanning the CAS occurs only when the index is build. Subsequent lookups to the
-	 * index are fast.
-	 *
+	 * Create an index for quickly lookup up the annotations covering a particular annotation. This
+	 * is preferable to using {@link #selectCovering(CAS, Type, int, int)} because the overhead of
+	 * scanning the CAS occurs only when the index is build. Subsequent lookups to the index are
+	 * fast.
+	 * 
 	 * @param cas
 	 *            a CAS.
 	 * @param type
-	 * 			  type to create the index for - this is used in lookups.
+	 *            type to create the index for - this is used in lookups.
 	 * @param coveringType
-	 * 			  type of covering annotations.
+	 *            type of covering annotations.
 	 * @return the index.
 	 */
 	public static Map<AnnotationFS, Collection<AnnotationFS>> indexCovering(CAS cas, Type type,
 			Type coveringType) {
-		Map<AnnotationFS, Collection<AnnotationFS>> index =
-			new HashMap<AnnotationFS, Collection<AnnotationFS>>() {
-				private static final long serialVersionUID = 1L;
+		Map<AnnotationFS, Collection<AnnotationFS>> index = new HashMap<AnnotationFS, Collection<AnnotationFS>>() {
+			private static final long serialVersionUID = 1L;
 
-				@Override
-				public Collection<AnnotationFS> get(Object paramObject) {
-					Collection<AnnotationFS> res = super.get(paramObject);
-					if (res == null) {
-						return emptyList();
-					}
-					else {
-						return res;
-					}
+			@Override
+			public Collection<AnnotationFS> get(Object paramObject) {
+				Collection<AnnotationFS> res = super.get(paramObject);
+				if (res == null) {
+					return emptyList();
 				}
+				else {
+					return res;
+				}
+			}
 		};
 		for (AnnotationFS s : select(cas, coveringType)) {
 			for (AnnotationFS u : selectCovered(cas, type, s)) {
@@ -465,7 +472,7 @@ public class CasUtil {
 	/**
 	 * This method exists simply as a convenience method for unit testing. It is not very efficient
 	 * and should not, in general be used outside the context of unit testing.
-	 *
+	 * 
 	 * @param cas
 	 *            a CAS containing the feature structure.
 	 * @param type
@@ -499,7 +506,7 @@ public class CasUtil {
 	/**
 	 * This method exists simply as a convenience method for unit testing. It is not very efficient
 	 * and should not, in general be used outside the context of unit testing.
-	 *
+	 * 
 	 * @param cas
 	 *            a CAS containing the annotation.
 	 * @param type
@@ -511,7 +518,8 @@ public class CasUtil {
 	 */
 	public static AnnotationFS selectByIndex(CAS cas, Type type, int index) {
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
-			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+			throw new IllegalArgumentException("Type [" + type.getName()
+					+ "] is not an annotation type");
 		}
 		FSIterator<AnnotationFS> i = cas.getAnnotationIndex(type).iterator();
 		int n = index;
@@ -535,7 +543,7 @@ public class CasUtil {
 
 	/**
 	 * Get the single instance of the specified type from the JCas.
-	 *
+	 * 
 	 * @param cas
 	 *            a JCas containing the annotation.
 	 * @param type
@@ -547,13 +555,14 @@ public class CasUtil {
 		FSIterator<FeatureStructure> iterator = cas.getIndexRepository().getAllIndexedFS(type);
 
 		if (!iterator.hasNext()) {
-			throw new IllegalArgumentException("CAS does not contain any [" + type.getName()+"]");
+			throw new IllegalArgumentException("CAS does not contain any [" + type.getName() + "]");
 		}
 
 		FeatureStructure result = iterator.next();
 
 		if (iterator.hasNext()) {
-			throw new IllegalArgumentException("CAS contains more than one [" + type.getName()+"]");
+			throw new IllegalArgumentException("CAS contains more than one [" + type.getName()
+					+ "]");
 		}
 
 		return result;
@@ -561,7 +570,7 @@ public class CasUtil {
 
 	/**
 	 * Returns the n annotations preceding the given annotation
-	 *
+	 * 
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -575,7 +584,8 @@ public class CasUtil {
 	public static List<AnnotationFS> selectPreceding(CAS cas, Type type, Annotation annotation,
 			int count) {
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
-			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+			throw new IllegalArgumentException("Type [" + type.getName()
+					+ "] is not an annotation type");
 		}
 		List<AnnotationFS> precedingAnnotations = new LinkedList<AnnotationFS>();
 
@@ -603,7 +613,7 @@ public class CasUtil {
 
 	/**
 	 * Returns the n annotations following the given annotation
-	 *
+	 * 
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -617,7 +627,8 @@ public class CasUtil {
 	public static List<AnnotationFS> selectFollowing(CAS cas, Type type, Annotation annotation,
 			int count) {
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
-			throw new IllegalArgumentException("Type ["+type.getName()+"] is not an annotation type");
+			throw new IllegalArgumentException("Type [" + type.getName()
+					+ "] is not an annotation type");
 		}
 		List<AnnotationFS> followingAnnotations = new LinkedList<AnnotationFS>();
 
@@ -628,6 +639,11 @@ public class CasUtil {
 		int currentAnnotation = 0;
 
 		itr.moveToNext();
+
+		// make sure we're past the end of the reference annotation
+		while (itr.isValid() && itr.get().getBegin() < annotation.getEnd()) {
+			itr.moveToNext();
+		}
 
 		while (currentAnnotation < count && itr.isValid()) {
 			AnnotationFS buf = itr.get();
@@ -643,7 +659,7 @@ public class CasUtil {
 	/**
 	 * Convenience method to get the specified view or a default view if the requested view does not
 	 * exist. The default can also be {@code null}.
-	 *
+	 * 
 	 * @param cas
 	 *            a CAS
 	 * @param viewName
@@ -667,7 +683,7 @@ public class CasUtil {
 	/**
 	 * Convenience method to get the specified view or create a new view if the requested view does
 	 * not exist.
-	 *
+	 * 
 	 * @param cas
 	 *            a CAS
 	 * @param viewName
@@ -700,7 +716,7 @@ public class CasUtil {
 
 	/**
 	 * Fetch the text covered by the specified annotations and return it as a list of strings.
-	 *
+	 * 
 	 * @param <T>
 	 *            UIMA JCas type.
 	 * @param iterable
@@ -713,7 +729,7 @@ public class CasUtil {
 
 	/**
 	 * Fetch the text covered by the specified annotations and return it as a list of strings.
-	 *
+	 * 
 	 * @param <T>
 	 *            UIMA JCas type.
 	 * @param iterator

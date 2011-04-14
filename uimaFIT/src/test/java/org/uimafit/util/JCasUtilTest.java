@@ -28,14 +28,22 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
-import static org.uimafit.util.JCasUtil.indexCovering;
 import static org.uimafit.util.JCasUtil.exists;
 import static org.uimafit.util.JCasUtil.getAnnotationType;
 import static org.uimafit.util.JCasUtil.getType;
-import static org.uimafit.util.JCasUtil.*;
+import static org.uimafit.util.JCasUtil.getView;
+import static org.uimafit.util.JCasUtil.indexCovering;
+import static org.uimafit.util.JCasUtil.isCovered;
+import static org.uimafit.util.JCasUtil.select;
+import static org.uimafit.util.JCasUtil.selectCovered;
+import static org.uimafit.util.JCasUtil.selectCovering;
+import static org.uimafit.util.JCasUtil.selectFollowing;
+import static org.uimafit.util.JCasUtil.selectPreceding;
+import static org.uimafit.util.JCasUtil.selectSingle;
 import static org.uimafit.util.JCasUtil.toText;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -60,7 +68,7 @@ import org.uimafit.type.Token;
 
 /**
  * Test cases for {@link JCasUtil}.
- *
+ * 
  * @author Richard Eckart de Castilho
  * @author Torsten Zesch
  */
@@ -173,7 +181,6 @@ public class JCasUtilTest extends ComponentTestBase {
 		assertEquals(2, selectCovering(jCas, Token.class, 49, 52).size());
 	}
 
-
 	@SuppressWarnings("unused")
 	private void print(Collection<? extends Annotation> annos) {
 		for (Annotation a : annos) {
@@ -213,8 +220,7 @@ public class JCasUtilTest extends ComponentTestBase {
 		String text = "Rot wood cheeses dew?";
 		tokenBuilder.buildTokens(jCas, text);
 
-		assertEquals(
-				asList("Rot", "wood", "cheeses", "dew?"),
+		assertEquals(asList("Rot", "wood", "cheeses", "dew?"),
 				toText(JCasUtil.select(jCas, Token.class)));
 	}
 
@@ -247,19 +253,16 @@ public class JCasUtilTest extends ComponentTestBase {
 
 		// Print what is expected
 		for (FeatureStructure fs : allFS) {
-			System.out.println("Type: "+fs.getType().getName()+"]");
+			System.out.println("Type: " + fs.getType().getName() + "]");
 		}
-		System.out.println("Tokens: ["+toText(select(jCas, Token.class))+"]");
+		System.out.println("Tokens: [" + toText(select(jCas, Token.class)) + "]");
 
 		// Document Annotation, one sentence and 4 tokens.
 		assertEquals(6, allFS.size());
 
-		assertEquals(
-				toText(select(jCas, Token.class)),
-				toText(select(allFSArray, Token.class)));
+		assertEquals(toText(select(jCas, Token.class)), toText(select(allFSArray, Token.class)));
 
-		assertEquals(
-				toText((Iterable) select(jCas, Token.class)),
+		assertEquals(toText((Iterable) select(jCas, Token.class)),
 				toText((Iterable) select(allFSArray, Token.class)));
 	}
 
@@ -288,22 +291,18 @@ public class JCasUtilTest extends ComponentTestBase {
 
 		// Print what is expected
 		for (FeatureStructure fs : allFS) {
-			System.out.println("Type: "+fs.getType().getName()+"]");
+			System.out.println("Type: " + fs.getType().getName() + "]");
 		}
-		System.out.println("Tokens: ["+toText(select(jCas, Token.class))+"]");
+		System.out.println("Tokens: [" + toText(select(jCas, Token.class)) + "]");
 
 		// Document Annotation, one sentence and 4 tokens.
 		assertEquals(6, allFS.size());
 
-		assertEquals(
-				toText(select(jCas, Token.class)),
-				toText(select(allFSList, Token.class)));
+		assertEquals(toText(select(jCas, Token.class)), toText(select(allFSList, Token.class)));
 
-		assertEquals(
-				toText((Iterable) select(jCas, Token.class)),
+		assertEquals(toText((Iterable) select(jCas, Token.class)),
 				toText((Iterable) select(allFSList, Token.class)));
 	}
-
 
 	@Test
 	public void testToText() throws UIMAException {
@@ -322,6 +321,38 @@ public class JCasUtilTest extends ComponentTestBase {
 				selectPreceding(jCas, Token.class, token.get(1), 1).get(0).getCoveredText());
 		assertEquals(token.get(2).getCoveredText(),
 				selectFollowing(jCas, Token.class, token.get(1), 1).get(0).getCoveredText());
+	}
+
+	@Test
+	public void testSelectFollowingPrecedingDifferentTypes() {
+		this.jCas.setDocumentText("A B C D E");
+		Token a = new Token(this.jCas, 0, 1);
+		Token b = new Token(this.jCas, 2, 3);
+		Token c = new Token(this.jCas, 4, 5);
+		Token d = new Token(this.jCas, 6, 7);
+		Token e = new Token(this.jCas, 8, 9);
+		for (Token token : Arrays.asList(a, b, c, d, e)) {
+			token.addToIndexes();
+		}
+		Sentence sentence = new Sentence(this.jCas, 2, 5);
+		sentence.addToIndexes();
+
+		List<Token> preceding = selectPreceding(this.jCas, Token.class, sentence, 1);
+		assertEquals(Arrays.asList("A"), JCasUtil.toText(preceding));
+		assertEquals(Arrays.asList(a), preceding);
+		preceding = selectPreceding(this.jCas, Token.class, sentence, 2);
+		assertEquals(Arrays.asList("A"), JCasUtil.toText(preceding));
+		assertEquals(Arrays.asList(a), preceding);
+
+		List<Token> following = selectFollowing(this.jCas, Token.class, sentence, 1);
+		assertEquals(Arrays.asList("D"), JCasUtil.toText(following));
+		assertEquals(Arrays.asList(d), following);
+		following = selectFollowing(this.jCas, Token.class, sentence, 2);
+		assertEquals(Arrays.asList("D", "E"), JCasUtil.toText(following));
+		assertEquals(Arrays.asList(d, e), following);
+		following = selectFollowing(this.jCas, Token.class, sentence, 3);
+		assertEquals(Arrays.asList("D", "E"), JCasUtil.toText(following));
+		assertEquals(Arrays.asList(d, e), following);
 	}
 
 	@Test
@@ -398,7 +429,7 @@ public class JCasUtilTest extends ComponentTestBase {
 		assertNotNull(getView(jcas, "view1", null));
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testGetNonExistingView() throws Exception {
 		JCas jcas = CasCreationUtils.createCas(createTypeSystemDescription(), null, null).getJCas();
 		assertNull(getView(jcas, "view1", false));
@@ -416,7 +447,7 @@ public class JCasUtilTest extends ComponentTestBase {
 		assertEquals("uima.tcas.Annotation", getAnnotationType(jCas, Annotation.class).getName());
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testGetNonAnnotationType() throws UIMAException {
 		String text = "Rot wood cheeses dew?";
 		tokenBuilder.buildTokens(jCas, text);
@@ -442,7 +473,7 @@ public class JCasUtilTest extends ComponentTestBase {
 		assertTrue(index.get(tokens.get(0)).contains(sentences.get(0)));
 
 		// Check sentence 0 does not contain last token.
-		assertFalse(index.get(tokens.get(tokens.size()-1)).contains(sentences.get(0)));
+		assertFalse(index.get(tokens.get(tokens.size() - 1)).contains(sentences.get(0)));
 
 		// Check the first token is contained in any sentence
 		assertTrue(!index.get(tokens.get(0)).isEmpty());
