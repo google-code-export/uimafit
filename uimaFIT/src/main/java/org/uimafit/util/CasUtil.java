@@ -587,27 +587,24 @@ public class CasUtil {
 			throw new IllegalArgumentException("Type [" + type.getName()
 					+ "] is not an annotation type");
 		}
-		List<AnnotationFS> precedingAnnotations = new LinkedList<AnnotationFS>();
 
 		// move to first previous annotation
 		FSIterator<AnnotationFS> itr = cas.getAnnotationIndex(type).iterator();
 		itr.moveTo(annotation);
 
-		int currentAnnotation = 0;
-
-		itr.moveToPrevious();
-
-		while (currentAnnotation < count && itr.isValid()) {
-			AnnotationFS buf = itr.get();
-			precedingAnnotations.add(buf);
-
-			currentAnnotation++;
+		// make sure we're past the beginning of the reference annotation
+		while (itr.isValid() && itr.get().getEnd() > annotation.getBegin()) {
 			itr.moveToPrevious();
+		}
+
+		// add annotations from the iterator into the result list
+		List<AnnotationFS> precedingAnnotations = new LinkedList<AnnotationFS>();
+		for (int i = 0; i < count && itr.isValid(); ++i, itr.moveToPrevious()) {
+			precedingAnnotations.add(itr.get());
 		}
 
 		// return in correct order
 		Collections.reverse(precedingAnnotations);
-
 		return precedingAnnotations;
 	}
 
@@ -630,29 +627,21 @@ public class CasUtil {
 			throw new IllegalArgumentException("Type [" + type.getName()
 					+ "] is not an annotation type");
 		}
-		List<AnnotationFS> followingAnnotations = new LinkedList<AnnotationFS>();
 
 		// move to first previous annotation
 		FSIterator<AnnotationFS> itr = cas.getAnnotationIndex(type).iterator();
 		itr.moveTo(annotation);
-
-		int currentAnnotation = 0;
-
-		itr.moveToNext();
 
 		// make sure we're past the end of the reference annotation
 		while (itr.isValid() && itr.get().getBegin() < annotation.getEnd()) {
 			itr.moveToNext();
 		}
 
-		while (currentAnnotation < count && itr.isValid()) {
-			AnnotationFS buf = itr.get();
-			followingAnnotations.add(buf);
-
-			currentAnnotation++;
-			itr.moveToNext();
+		// add annotations from the iterator into the result list
+		List<AnnotationFS> followingAnnotations = new LinkedList<AnnotationFS>();
+		for (int i = 0; i < count && itr.isValid(); ++i, itr.moveToNext()) {
+			followingAnnotations.add(itr.get());
 		}
-
 		return followingAnnotations;
 	}
 
