@@ -8,7 +8,7 @@ Here is the current (but not perfect) procedure for creating a release:
 
 = CHANGES =
 
-Be sure that the CHANGES files are up-to-date
+Be sure that the CHANGES files are up-to-date. At least all fixed issues that are tagged with the milestone that is designated to be released should be in the file.
 
 = Update Javadoc =
 
