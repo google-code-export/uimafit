@@ -63,6 +63,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.util.CasCreationUtils;
 import org.junit.Test;
 import org.uimafit.ComponentTestBase;
+import org.uimafit.type.AnalyzedText;
 import org.uimafit.type.Sentence;
 import org.uimafit.type.Token;
 
@@ -353,6 +354,35 @@ public class JCasUtilTest extends ComponentTestBase {
 		following = selectFollowing(this.jCas, Token.class, sentence, 3);
 		assertEquals(Arrays.asList("D", "E"), JCasUtil.toText(following));
 		assertEquals(Arrays.asList(d, e), following);
+	}
+
+	@Test
+	public void testSelectFollowingPrecedingDifferentTypesMatchingSpansReversePriorities() {
+		this.jCas.setDocumentText("A B C D E");
+		Sentence a = new Sentence(this.jCas, 0, 1);
+		Sentence b = new Sentence(this.jCas, 2, 3);
+		Sentence c = new Sentence(this.jCas, 4, 5);
+		Sentence d = new Sentence(this.jCas, 6, 7);
+		Sentence e = new Sentence(this.jCas, 8, 9);
+		for (Sentence sentence : Arrays.asList(a, b, c, d, e)) {
+			sentence.addToIndexes();
+		}
+		AnalyzedText text = new AnalyzedText(this.jCas, 2, 3);
+		text.addToIndexes();
+
+		List<Sentence> preceding = selectPreceding(this.jCas, Sentence.class, text, 1);
+		assertEquals(Arrays.asList("A"), JCasUtil.toText(preceding));
+		assertEquals(Arrays.asList(a), preceding);
+		preceding = selectPreceding(this.jCas, Sentence.class, text, 2);
+		assertEquals(Arrays.asList("A"), JCasUtil.toText(preceding));
+		assertEquals(Arrays.asList(a), preceding);
+
+		List<Sentence> following = selectFollowing(this.jCas, Sentence.class, text, 1);
+		assertEquals(Arrays.asList("C"), JCasUtil.toText(following));
+		assertEquals(Arrays.asList(c), following);
+		following = selectFollowing(this.jCas, Sentence.class, text, 2);
+		assertEquals(Arrays.asList("C", "D"), JCasUtil.toText(following));
+		assertEquals(Arrays.asList(c, d), following);
 	}
 
 	@Test
