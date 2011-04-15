@@ -325,6 +325,26 @@ public class JCasUtilTest extends ComponentTestBase {
 	}
 
 	@Test
+	public void testSelectFollowingPrecedingBuiltinTypes() {
+		this.jCas.setDocumentText("A B C");
+		// remove the DocumentAnnotation
+		for (Annotation ann : JCasUtil.select(jCas, Annotation.class)) {
+			ann.removeFromIndexes();
+		}
+		Annotation a = new Annotation(this.jCas, 0, 1);
+		Annotation b = new Annotation(this.jCas, 2, 3);
+		Annotation c = new Annotation(this.jCas, 4, 5);
+		for (Annotation ann : Arrays.asList(a, b, c)) {
+			ann.addToIndexes();
+		}
+
+		assertEquals(Arrays.asList(a), selectPreceding(this.jCas, Annotation.class, b, 2));
+		assertEquals(Arrays.asList(a, b), selectPreceding(this.jCas, Annotation.class, c, 2));
+		assertEquals(Arrays.asList(b, c), selectFollowing(this.jCas, Annotation.class, a, 2));
+		assertEquals(Arrays.asList(c), selectFollowing(this.jCas, Annotation.class, b, 2));
+	}
+
+	@Test
 	public void testSelectFollowingPrecedingDifferentTypes() {
 		this.jCas.setDocumentText("A B C D E");
 		Token a = new Token(this.jCas, 0, 1);
