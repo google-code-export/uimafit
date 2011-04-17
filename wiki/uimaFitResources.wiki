@@ -1,8 +1,30 @@
 #summary Describes the parts necessary in an annotator's code so that resources work in uimaFIT.
 
-= Using a shared model =
+<h1>Working with External Resources</h1>
+
+<wiki:toc max_depth="1" />
 
 An analysis engine often uses some data model. This may be as simple as word frequency counts or as complex as the model of a parser. Often these models can become quite large. If an analysis engine is deployed multiple times in the same pipeline or runs on multiple CPU cores, memory can be saved by using a shared instance of the data model. UIMA supports such a scenario by so-called external resources. The following sections illustrates how external resources can be used with uimaFIT.
+
+= Using External Resources with regular UIMA components =
+
+uimaFIT also supports to configure external resources on a component that is not aware of uimaFIT and thus does not use the @ExternalResource annotation. The problem with such a component is, that uimaFIT has no way of knowing that the component needs the resource and thus cannot create the necessary resource dependency entries when generating the descriptor. Using the createDependencyAndBind() method, you and manually create a dependency and bind a resource in such cases. The following example uses uimaFIT to configure the OpenNLP Tokenizer:
+
+{{{
+// Create descriptor
+AnalysisEngineDescription tokenizer = createPrimitiveDescription(Tokenizer.class,
+		UimaUtil.TOKEN_TYPE_PARAMETER, Token.class.getName(),
+		UimaUtil.SENTENCE_TYPE_PARAMETER, Sentence.class.getName());
+
+// Create the external resource dependency for the model and bind it
+createDependencyAndBind(tokenizer, UimaUtil.MODEL_PARAMETER,
+		TokenizerModelResourceImpl.class,
+		"http://opennlp.sourceforge.net/models-1.5/en-token.bin");
+}}}
+
+= Using External Resources with uimaFIT-aware components =
+
+uimaFIT provides the @ExternalResource annotation to support injecting shared data models into UIMA components. This section demonstrates how it can be used.
 
 First create a class for the shared data model. Usually this class would load its data from some URI and then expose it via its methods. An example would be to load word frequency counts and to provide a getFrequency() method. In our simple example we do not load anything from the provided URI - we just offer a method to get the URI from which data be loaded.
 
