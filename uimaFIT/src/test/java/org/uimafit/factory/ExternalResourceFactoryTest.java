@@ -36,8 +36,8 @@ import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.DataResource;
+import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.SharedResourceObject;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -137,7 +137,7 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 		ae.process(ae.newJCas());
 	}
 
-	private static void bindResources(ResourceSpecifier desc) throws Exception {
+	private static void bindResources(AnalysisEngineDescription desc) throws Exception {
 		bindResource(desc, DummyResource.class);
 		bindResource(desc, DummyAE.RES_KEY_1, ConfigurableResource.class,
 				ConfigurableResource.PARAM_VALUE, "1");
@@ -151,6 +151,7 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 		bindResource(desc, DummyAE.RES_SOME_FILE, new File(EX_FILE_1));
 		bindResource(desc, DummyAE.RES_JNDI_OBJECT, JndiResourceLocator.class,
 				JndiResourceLocator.PARAM_NAME, "dictionaries/german");
+		createDependencyAndBind(desc, "legacyResource", DummySharedResourceObject.class, EX_URI);
 	}
 
 	public static class DummyAE extends JCasAnnotator_ImplBase {
@@ -209,6 +210,13 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 			assertTrue(someFile.getUrl().toString().startsWith("file:"));
 			assertTrue("URL [" + someFile.getUrl() + "] should end in [" + EX_FILE_1 + "]",
 					someFile.getUrl().toString().endsWith(EX_FILE_1));
+
+			try {
+				assertNotNull(getContext().getResourceObject("legacyResource"));
+			}
+			catch (ResourceAccessException e) {
+				throw new AnalysisEngineProcessException(e);
+			}
 		}
 	}
 

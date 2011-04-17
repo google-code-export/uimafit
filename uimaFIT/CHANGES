@@ -1,4 +1,5 @@
 changes in 1.2.0
+    - resolved issue #85 "Configuring external resources for non-uimaFIT components is too complex"
     - resolved issue #78 "Remove findbugs dependency from uimaFIT"
     - resolved issue #77 "Avoid directly instantiating internal UIMA component classes"
     - resolved issue #76 "SimpleNamedResourceManager does not support bindings"
