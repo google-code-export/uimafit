@@ -20,6 +20,7 @@ package org.uimafit.factory;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypePriorityList;
 import org.apache.uima.resource.metadata.impl.TypePriorities_impl;
+import static org.uimafit.util.CasUtil.UIMA_BUILTIN_JCAS_PREFIX;
 
 /**
  * @author Philip Ogren
@@ -32,7 +33,7 @@ public final class TypePrioritiesFactory {
 
 	/**
 	 * Create a TypePriorities given a sequence of ordered type classes
-	 * 
+	 *
 	 * @param prioritizedTypes
 	 *            a sequence of ordered type classes
 	 * @return
@@ -40,14 +41,19 @@ public final class TypePrioritiesFactory {
 	public static TypePriorities createTypePriorities(Class<?>... prioritizedTypes) {
 		String[] typeNames = new String[prioritizedTypes.length];
 		for (int i = 0; i < prioritizedTypes.length; i++) {
-			typeNames[i] = prioritizedTypes[i].getName();
+			String typeName = prioritizedTypes[i].getName();
+			if (typeName.startsWith(UIMA_BUILTIN_JCAS_PREFIX)) {
+				typeName = "uima." + typeName.substring(UIMA_BUILTIN_JCAS_PREFIX.length());
+			}
+
+			typeNames[i] = typeName;
 		}
 		return createTypePriorities(typeNames);
 	}
 
 	/**
 	 * Create a TypePriorities given a sequence of ordered type names
-	 * 
+	 *
 	 * @param prioritizedTypeNames
 	 *            a sequence of ordered type names
 	 * @return
