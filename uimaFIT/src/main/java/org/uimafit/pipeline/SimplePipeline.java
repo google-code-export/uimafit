@@ -17,6 +17,8 @@
 
 package org.uimafit.pipeline;
 
+import static org.uimafit.factory.CollectionReaderFactory.createCollectionReader;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.collection.CollectionReader;
+import org.apache.uima.collection.CollectionReaderDescription;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.util.CasCreationUtils;
@@ -33,7 +36,7 @@ import org.uimafit.factory.AnalysisEngineFactory;
 
 /**
  * @author Steven Bethard, Philip Ogren
- * 
+ *
  */
 public final class SimplePipeline {
 	private SimplePipeline() {
@@ -42,7 +45,7 @@ public final class SimplePipeline {
 
 	/**
 	 * Run the CollectionReader and AnalysisEngines as a pipeline.
-	 * 
+	 *
 	 * @param reader
 	 *            The CollectionReader that loads the documents into the CAS.
 	 * @param descs
@@ -56,6 +59,24 @@ public final class SimplePipeline {
 			throws UIMAException, IOException {
 		AnalysisEngine[] engines = createEngines(descs);
 		runPipeline(reader, engines);
+	}
+
+	/**
+	 * Run the CollectionReader and AnalysisEngines as a pipeline.
+	 *
+	 * @param readerDesc
+	 *            The CollectionReader that loads the documents into the CAS.
+	 * @param descs
+	 *            Primitive AnalysisEngineDescriptions that process the CAS, in order. If you have a
+	 *            mix of primitive and aggregate engines, then please create the AnalysisEngines
+	 *            yourself and call the other runPipeline method.
+	 * @throws UIMAException
+	 * @throws IOException
+	 */
+	public static void runPipeline(CollectionReaderDescription readerDesc, AnalysisEngineDescription... descs)
+			throws UIMAException, IOException {
+		AnalysisEngine[] engines = createEngines(descs);
+		runPipeline(createCollectionReader(readerDesc), engines);
 	}
 
 	private static AnalysisEngine[] createEngines(AnalysisEngineDescription... descs)
@@ -76,7 +97,7 @@ public final class SimplePipeline {
 	/**
 	 * Provides a simple way to run a pipeline for a given collection reader and sequence of
 	 * analysis engines
-	 * 
+	 *
 	 * @param reader
 	 *            a collection reader
 	 * @param engines
@@ -107,7 +128,7 @@ public final class SimplePipeline {
 
 	/**
 	 * This method allows you to run a sequence of analysis engines over a jCas
-	 * 
+	 *
 	 * @param jCas
 	 *            the jCas to process
 	 * @param descs
@@ -123,7 +144,7 @@ public final class SimplePipeline {
 
 	/**
 	 * This method allows you to run a sequence of analysis engines over a jCas
-	 * 
+	 *
 	 * @param jCas
 	 *            the jCas to process
 	 * @param engines
