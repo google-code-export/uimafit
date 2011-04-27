@@ -1,4 +1,6 @@
 changes in 1.2.0
+    - resolved issue #88: runPipeline() never calls destroy() on the analysis engines 
+    - resolved issue #87 "DocumentAnnotation cannot be used in createTypePriorities(Class...)"
     - resolved issue #85 "Configuring external resources for non-uimaFIT components is too complex"
     - resolved issue #78 "Remove findbugs dependency from uimaFIT"
     - resolved issue #77 "Avoid directly instantiating internal UIMA component classes"
