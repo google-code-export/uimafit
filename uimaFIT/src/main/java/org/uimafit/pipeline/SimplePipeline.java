@@ -26,16 +26,19 @@ import java.util.List;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.collection.CollectionReaderDescription;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.Resource;
 import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.util.CasCreationUtils;
 import org.uimafit.factory.AnalysisEngineFactory;
 
 /**
  * @author Steven Bethard, Philip Ogren
+ * @author Richard Eckart de Castilho
  *
  */
 public final class SimplePipeline {
@@ -44,7 +47,10 @@ public final class SimplePipeline {
 	}
 
 	/**
-	 * Run the CollectionReader and AnalysisEngines as a pipeline.
+	 * Run the CollectionReader and AnalysisEngines as a pipeline. After processing all CASes
+	 * provided by the reader, the method calls {@link AnalysisEngine#collectionProcessComplete()
+	 * collectionProcessComplete()} on the engines and {@link Resource#destroy() destroy()} on all
+	 * engines.
 	 *
 	 * @param reader
 	 *            The CollectionReader that loads the documents into the CAS.
@@ -57,12 +63,21 @@ public final class SimplePipeline {
 	 */
 	public static void runPipeline(CollectionReader reader, AnalysisEngineDescription... descs)
 			throws UIMAException, IOException {
+		// Create the components
 		AnalysisEngine[] engines = createEngines(descs);
+
+		// Run the pipeline
 		runPipeline(reader, engines);
+
+		// Destroy the components
+		destroy(engines);
 	}
 
 	/**
-	 * Run the CollectionReader and AnalysisEngines as a pipeline.
+	 * Run the CollectionReader and AnalysisEngines as a pipeline. After processing all CASes
+	 * provided by the reader, the method calls {@link AnalysisEngine#collectionProcessComplete()
+	 * collectionProcessComplete()} on the engines, {@link CollectionReader#close() close()} on the
+	 * reader and {@link Resource#destroy() destroy()} on the reader and all engines.
 	 *
 	 * @param readerDesc
 	 *            The CollectionReader that loads the documents into the CAS.
@@ -75,8 +90,17 @@ public final class SimplePipeline {
 	 */
 	public static void runPipeline(CollectionReaderDescription readerDesc, AnalysisEngineDescription... descs)
 			throws UIMAException, IOException {
+		// Create the components
 		AnalysisEngine[] engines = createEngines(descs);
-		runPipeline(createCollectionReader(readerDesc), engines);
+		CollectionReader reader = createCollectionReader(readerDesc);
+
+		// Run the pipeline
+		runPipeline(reader, engines);
+
+		// Destroy the components
+		reader.close();
+		destroy(reader);
+		destroy(engines);
 	}
 
 	private static AnalysisEngine[] createEngines(AnalysisEngineDescription... descs)
@@ -96,7 +120,9 @@ public final class SimplePipeline {
 
 	/**
 	 * Provides a simple way to run a pipeline for a given collection reader and sequence of
-	 * analysis engines
+	 * analysis engines. After processing all CASes provided by the reader, the method calls
+	 * {@link AnalysisEngine#collectionProcessComplete() collectionProcessComplete()} on the
+	 * engines.
 	 *
 	 * @param reader
 	 *            a collection reader
@@ -112,22 +138,20 @@ public final class SimplePipeline {
 		for (AnalysisEngine engine : engines) {
 			metaData.add(engine.getMetaData());
 		}
+
 		CAS cas = CasCreationUtils.createCas(metaData);
 		while (reader.hasNext()) {
 			reader.getNext(cas);
-			for (AnalysisEngine engine : engines) {
-				engine.process(cas);
-			}
+			runPipeline(cas, engines);
 			cas.reset();
 		}
-		for (AnalysisEngine engine : engines) {
-			engine.collectionProcessComplete();
-		}
-		reader.close();
+
+		collectionProcessComplete(engines);
 	}
 
 	/**
-	 * This method allows you to run a sequence of analysis engines over a jCas
+	 * Run a sequence of {@link AnalysisEngine analysis engines} over a {@link JCas}. The result of
+	 * the analysis can be read from the JCas.
 	 *
 	 * @param jCas
 	 *            the jCas to process
@@ -138,12 +162,20 @@ public final class SimplePipeline {
 	 */
 	public static void runPipeline(JCas jCas, AnalysisEngineDescription... descs)
 			throws UIMAException, IOException {
+		// Create the components
 		AnalysisEngine[] engines = createEngines(descs);
+
+		// Run the pipeline
 		runPipeline(jCas, engines);
+
+		// Destroy the components
+		destroy(engines);
 	}
 
 	/**
-	 * This method allows you to run a sequence of analysis engines over a jCas
+	 * Run a sequence of {@link AnalysisEngine analysis engines} over a {@link JCas}. This method
+	 * does not {@link AnalysisEngine#destroy() destroy} the engines or send them other events like
+	 * {@link AnalysisEngine#collectionProcessComplete()}. This is left to the caller.
 	 *
 	 * @param jCas
 	 *            the jCas to process
@@ -157,10 +189,44 @@ public final class SimplePipeline {
 		for (AnalysisEngine engine : engines) {
 			engine.process(jCas);
 		}
+	}
 
+	/**
+	 * Run a sequence of {@link AnalysisEngine analysis engines} over a {@link CAS}. This method
+	 * does not {@link AnalysisEngine#destroy() destroy} the engines or send them other events like
+	 * {@link AnalysisEngine#collectionProcessComplete()}. This is left to the caller.
+	 *
+	 * @param cas
+	 *            the CAS to process
+	 * @param engines
+	 *            a sequence of analysis engines to run on the jCas
+	 * @throws UIMAException
+	 * @throws IOException
+	 */
+	public static void runPipeline(CAS cas, AnalysisEngine... engines) throws UIMAException,
+			IOException {
 		for (AnalysisEngine engine : engines) {
-			engine.collectionProcessComplete();
+			engine.process(cas);
 		}
 	}
 
+	/**
+	 * Notify a set of {@link AnalysisEngine analysis engines} that the collection process is complete.
+	 */
+	private static void collectionProcessComplete(AnalysisEngine... engines)
+			throws AnalysisEngineProcessException {
+		for (AnalysisEngine e : engines) {
+			e.collectionProcessComplete();
+		}
+	}
+
+	/**
+	 * Destroy a set of {@link Resource resources}.
+	 */
+	private static void destroy(Resource... resources)
+	{
+		for (Resource r : resources) {
+			r.destroy();
+		}
+	}
 }
