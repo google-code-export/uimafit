@@ -1,17 +1,17 @@
-/* 
- Copyright 2009-2010	Regents of the University of Colorado.  
- All rights reserved. 
+/*
+ Copyright 2009-2010	Regents of the University of Colorado.
+ All rights reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); 
- you may not use this file except in compliance with the License. 
- You may obtain a copy of the License at 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0 
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software 
- distributed under the License is distributed on an "AS IS" BASIS, 
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
- See the License for the specific language governing permissions and 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
  limitations under the License.
  */
 package org.uimafit.component.initialize;
@@ -65,8 +65,14 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase {
 		}
 		assertNotNull(rie);
 		AnalysisEngine engine = AnalysisEngineFactory.createPrimitive(ParameterizedAE.class,
-				typeSystemDescription, ParameterizedAE.PARAM_FLOAT_3, 1.234f,
-				ParameterizedAE.PARAM_FLOAT_6, new Float[] { 1.234f, 0.001f }, "file2", "foo/bar");
+				typeSystemDescription,
+				ParameterizedAE.PARAM_FLOAT_3, 1.234f,
+				ParameterizedAE.PARAM_FLOAT_6, new Float[] { 1.234f, 0.001f },
+				"file2", "foo/bar");
+				// Test initializing a multi-valued parameter with a single value
+				// This is supposed to be fixed as part of issue #79
+				// -- REC 2011-05-02
+//				ParameterizedAE.PARAM_STRING_9, "singleelementarray");
 
 		ParameterizedAE component = new ParameterizedAE();
 		component.initialize(engine.getUimaContext());
@@ -82,6 +88,7 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase {
 		assertNull(component.getStrings7());
 		assertEquals(1, component.getStrings8().size());
 		assertTrue(component.getStrings8().contains("cherry"));
+//		assertTrue(component.getStrings9().contains("singleelementarray"));
 
 		assertFalse(component.isBoolean1());
 
@@ -291,6 +298,18 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase {
 		DefaultValueAE2 ae = new DefaultValueAE2();
 		ae.initialize(aed.getUimaContext());
 
+	}
+
+	/**
+	 * Test that a parameter not supported by UIMA produceds an error.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testNonUimaCompatibleParameterValue() throws Exception {
+		String paramColor = DefaultValueAE2.class.getName() + ".color";
+		AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultValueAE2.class, null,
+				paramColor, Color.RED);
+		DefaultValueAE2 ae = new DefaultValueAE2();
+		ae.initialize(aed.getUimaContext());
 	}
 
 	/**
