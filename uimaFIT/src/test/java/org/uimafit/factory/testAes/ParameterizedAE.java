@@ -60,12 +60,19 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(name = "strings6", defaultValue = { "kiwi fruit", "grape", "pear" })
 	private Set<String> strings6;
 
+	@ConfigurationParameter(name = "strings7")
+	private Set<String> strings7;
+
+	@ConfigurationParameter(name = "strings8", defaultValue = "cherry")
+	private Set<String> strings8;
+
+	public static final String PARAM_STRING_9 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_STRING_)";
+	@ConfigurationParameter(name = PARAM_STRING_9)
+	private Set<String> strings9;
+
 	public Set<String> getStrings6() {
 		return strings6;
 	}
-
-	@ConfigurationParameter(name = "strings7")
-	private Set<String> strings7;
 
 	public Set<String> getStrings7() {
 		return strings7;
@@ -75,8 +82,9 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 		return strings8;
 	}
 
-	@ConfigurationParameter(name = "strings8", defaultValue = "cherry")
-	private Set<String> strings8;
+	public Set<String> getStrings9() {
+		return strings9;
+	}
 
 	public static final String PARAM_BOOLEAN_1 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_BOOLEAN_1";
 	@ConfigurationParameter(name = PARAM_BOOLEAN_1, mandatory = true, defaultValue = "false")
