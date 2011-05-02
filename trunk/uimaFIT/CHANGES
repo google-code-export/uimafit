@@ -1,5 +1,5 @@
 changes in 1.2.0
-    - resolved issue #88: runPipeline() never calls destroy() on the analysis engines 
+    - resolved issue #88 "runPipeline() never calls destroy() on the analysis engines"
     - resolved issue #87 "DocumentAnnotation cannot be used in createTypePriorities(Class...)"
     - resolved issue #85 "Configuring external resources for non-uimaFIT components is too complex"
     - resolved issue #78 "Remove findbugs dependency from uimaFIT"
@@ -8,22 +8,24 @@ changes in 1.2.0
     - resolved issue #75 "Provide means of injecting arbitrary Java objects as external resource in a local deployment"
     - resolved issue #74 "Add a external resource locator using JNDI"
     - resolved issue #73 "ExternalResources loaded through a ExternalResourceLocator should not need to declare "api""
-    - resolved issue #54 "Support creating custom indexes"
     - resolved issue #64 "Methods in CasUtil should not be generic"
     - resolved issue #63 "Ability to specify container in terms of begin and end offset"
     - resolved issue #62 "Iteration over FSArray and FSList"
-    - resolved issue #6  "Initialize component from map or resource specifier"
+    - resolved issue #60 "Add indexCovering() to replace ContainmentIndex"
     - resolved issue #59 "Unable to use doubles for parameters in the create* factory methods"
     - resolved issue #58 "Support for iterating over FeatureStructures"
     - resolved issue #57 "JCasUtil has various methods that would be nice to have in CasUtil as well"
     - resolved issue #56 "ExternalResourceFactory fails to bind a resource class twice with different parameters"
     - resolved issue #55 "Support for no-op steps in a pipeline"
+    - resolved issue #54 "Support creating custom indexes"
     - resolved issue #52 "null pointer exception thrown when AnalysisEngine impl has no package"
     - resolved issue #50 "document what types of member variables can be annotated with @ConfigurationParameter"
     - resolved issue #47 "jcasgen source files should be generated to target/generated-sources/jcasgen"	
-    - resolved issue #28 "Eclipse code-style file"
     - resolved issue #45 "set svn:eol-style for .java files	"	
     - resolved issue #42 "add a "distribution" module to uimaFIT which generates a zip containing uimaFIT plus all dependencies."
+    - resolved issue #38 "TypeSystemDescriptionFactory.createTypeSystemDescription(Class...typeSystemClasses) assumes 1 descriptor file per type"
+    - resolved issue #28 "Eclipse code-style file"
+    - resolved issue #6  "Initialize component from map or resource specifier"
     - deprecated several iterate() methods in CasUtil and JCasUtil. Instead select() should be used.
 
 changes in 1.1.0
