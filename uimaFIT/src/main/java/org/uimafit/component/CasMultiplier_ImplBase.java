@@ -18,41 +18,24 @@
  */
 package org.uimafit.component;
 
-import java.io.IOException;
-
 import org.apache.uima.UimaContext;
-import org.apache.uima.collection.CollectionReader_ImplBase;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.descriptor.OperationalProperties;
 
 /**
- * Base class for CAS collection readers which initializes itself based on annotations.
+ * Base class for a CAS multiplier which initializes itself based on annotations.
  *
  * @author Richard Eckart de Castilho
  */
-@OperationalProperties(outputsNewCases=true)
-public abstract class CasCollectionReader_ImplBase extends CollectionReader_ImplBase {
+@OperationalProperties(outputsNewCases = true)
+public abstract class CasMultiplier_ImplBase extends
+		org.apache.uima.analysis_component.CasMultiplier_ImplBase {
 	@Override
-	// This method should not be overwritten. Overwrite initialize(UimaContext) instead.
-	public final void initialize() throws ResourceInitializationException {
-		ConfigurationParameterInitializer.initialize(this, getUimaContext());
-		ExternalResourceInitializer.initialize(getUimaContext(), this);
-		initialize(getUimaContext());
-	}
-
-	/**
-	 * This method should be overwritten by subclasses.
-	 *
-	 * @param context
-	 * @throws ResourceInitializationException
-	 */
 	public void initialize(UimaContext context) throws ResourceInitializationException {
-		// Nothing by default
-	}
-
-	public void close() throws IOException {
-		// Nothing by default
+		super.initialize(context);
+		ConfigurationParameterInitializer.initialize(this, context);
+		ExternalResourceInitializer.initialize(context, this);
 	}
 }
