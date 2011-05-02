@@ -29,12 +29,14 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.component.initialize.ExternalResourceInitializer;
+import org.uimafit.descriptor.OperationalProperties;
 
 /**
  * Base class for JCas collection readers which initializes itself based on annotations.
- * 
+ *
  * @author Richard Eckart de Castilho
  */
+@OperationalProperties(outputsNewCases=true)
 public abstract class JCasCollectionReader_ImplBase extends CollectionReader_ImplBase {
 	// This method should not be overwritten. Overwrite initialize(UimaContext) instead.
 	@Override
@@ -46,7 +48,7 @@ public abstract class JCasCollectionReader_ImplBase extends CollectionReader_Imp
 
 	/**
 	 * This method should be overwritten by subclasses.
-	 * 
+	 *
 	 * @param context
 	 * @throws ResourceInitializationException
 	 */
@@ -66,7 +68,7 @@ public abstract class JCasCollectionReader_ImplBase extends CollectionReader_Imp
 
 	/**
 	 * Subclasses should implement this method rather than {@link #getNext(CAS)}
-	 * 
+	 *
 	 * @param jCas
 	 * @throws IOException
 	 * @throws CollectionException
