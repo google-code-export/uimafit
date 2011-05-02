@@ -61,7 +61,7 @@ public final class ConfigurationParameterFactory {
 	/**
 	 * This method determines if the field is annotated with
 	 * {@link org.uimafit.descriptor.ConfigurationParameter}.
-	 * 
+	 *
 	 * @param field
 	 * @return
 	 */
@@ -74,7 +74,7 @@ public final class ConfigurationParameterFactory {
 	 * not necessarily the value that the annotated member variable will be instantiated with in
 	 * ConfigurationParameterInitializer which does extra work to convert the UIMA configuration
 	 * parameter value to comply with the type of the member variable.
-	 * 
+	 *
 	 * @param field
 	 * @return
 	 */
@@ -183,7 +183,7 @@ public final class ConfigurationParameterFactory {
 	/**
 	 * This method generates the default name of a configuration parameter that is defined by an
 	 * {@link org.uimafit.descriptor.ConfigurationParameter} annotation when no name is given
-	 * 
+	 *
 	 * @param field
 	 * @return
 	 */
@@ -204,7 +204,7 @@ public final class ConfigurationParameterFactory {
 	 * This method provides a convenient way to generate a configuration parameter name for a member
 	 * variable that is annotated with {@link org.uimafit.descriptor.ConfigurationParameter} and no
 	 * name is provided in the annotation.
-	 * 
+	 *
 	 * @param clazz
 	 * @param fieldName
 	 * @return
@@ -223,7 +223,7 @@ public final class ConfigurationParameterFactory {
 
 	/**
 	 * A factory method for creating a ConfigurationParameter from a given field definition
-	 * 
+	 *
 	 * @param field
 	 * @return
 	 */
@@ -243,13 +243,9 @@ public final class ConfigurationParameterFactory {
 		}
 	}
 
-	/*
-	 * The UIMA_IllegalArgumentException statement was copied from org.apache.uima
-	 * .resource.metadata.impl.ConfigurationParameter_impl.setType
-	 */
 	/**
 	 * A factory method for creating a ConfigurationParameter object.
-	 * 
+	 *
 	 * @param name
 	 * @param parameterClass
 	 * @param parameterDescription
@@ -268,9 +264,9 @@ public final class ConfigurationParameterFactory {
 
 		String parameterType = javaUimaTypeMap.get(parameterClassName);
 		if (parameterType == null) {
-			throw new UIMA_IllegalArgumentException(
-					UIMA_IllegalArgumentException.METADATA_ATTRIBUTE_TYPE_MISMATCH, new Object[] {
-							parameterClassName, "type" });
+			throw new IllegalArgumentException("The type [" + parameterClassName
+					+ "] is not a valid parameter type in UIMA."
+					+ " uimaFIT currently does not support using such types as parameter values.");
 		}
 		return createPrimitiveParameter(name, parameterType, parameterDescription,
 				parameterClass.isArray(), isMandatory);
@@ -278,7 +274,7 @@ public final class ConfigurationParameterFactory {
 
 	/**
 	 * A factory method for creating a ConfigurationParameter object.
-	 * 
+	 *
 	 * @param name
 	 * @param parameterType
 	 * @param parameterDescription
@@ -301,7 +297,7 @@ public final class ConfigurationParameterFactory {
 	/**
 	 * This method converts configuration data provided as an array of objects and returns a
 	 * {@link ConfigurationData} object
-	 * 
+	 *
 	 * @param configurationData
 	 * @return
 	 */
@@ -353,7 +349,7 @@ public final class ConfigurationParameterFactory {
 	/**
 	 * This method creates configuration data for a given class definition using reflection and the
 	 * configuration parameter annotation
-	 * 
+	 *
 	 * @param componentClass
 	 * @return
 	 */
@@ -378,16 +374,16 @@ public final class ConfigurationParameterFactory {
 	/**
 	 * A simple class for storing an array of configuration parameters along with an array of the
 	 * values that will fill in those configuration parameters
-	 * 
+	 *
 	 */
 	public static class ConfigurationData {
 		/**
-		 * 
+		 *
 		 */
 		public ConfigurationParameter[] configurationParameters;
 
 		/**
-		 * 
+		 *
 		 */
 		public Object[] configurationValues;
 
@@ -406,7 +402,7 @@ public final class ConfigurationParameterFactory {
 	/**
 	 * This method adds configuration parameter information to the specifier given the provided
 	 * configuration data
-	 * 
+	 *
 	 * @param specifier
 	 * @param configurationData
 	 *            should consist of name value pairs.
@@ -423,7 +419,7 @@ public final class ConfigurationParameterFactory {
 	 * Provides a mechanism to add configuration parameter information to a specifier for the given
 	 * classes. this method may be useful in situations where a class definition has annotated
 	 * configuration parameters that you want to include in the given specifier
-	 * 
+	 *
 	 * @param specifier
 	 * @param dynamicallyLoadedClasses
 	 */
@@ -443,7 +439,7 @@ public final class ConfigurationParameterFactory {
 	 * Provides a mechanism to add configuration parameter information to a specifier for the given
 	 * classes. this method may be useful in situations where a class definition has annotated
 	 * configuration parameters that you want to include in the given specifier
-	 * 
+	 *
 	 * @param specifier
 	 * @param dynamicallyLoadedClasses
 	 */
@@ -460,7 +456,7 @@ public final class ConfigurationParameterFactory {
 
 	/**
 	 * Adds a single configuration parameter name value pair to a specifier
-	 * 
+	 *
 	 * @param specifier
 	 * @param name
 	 * @param value
