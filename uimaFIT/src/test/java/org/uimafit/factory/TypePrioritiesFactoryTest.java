@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.uimafit.factory.TypePrioritiesFactory.createTypePriorities;
 import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
 
-import org.apache.uima.jcas.tcas.DocumentAnnotation;
+import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.util.CasCreationUtils;
 import org.junit.Test;
@@ -37,12 +37,12 @@ public class TypePrioritiesFactoryTest {
 
 	@Test
 	public void testCreateTypePrioritiesClassOfQArray() throws Exception {
-		TypePriorities prio = createTypePriorities(DocumentAnnotation.class);
+		TypePriorities prio = createTypePriorities(Annotation.class);
 
 		CasCreationUtils.createCas(createTypeSystemDescription(), prio, null);
 
 		assertEquals(1, prio.getPriorityLists().length);
 		assertEquals(1, prio.getPriorityLists()[0].getTypes().length);
-		assertEquals("uima.tcas.DocumentAnnotation", prio.getPriorityLists()[0].getTypes()[0]);
+		assertEquals("uima.tcas.Annotation", prio.getPriorityLists()[0].getTypes()[0]);
 	}
 }
