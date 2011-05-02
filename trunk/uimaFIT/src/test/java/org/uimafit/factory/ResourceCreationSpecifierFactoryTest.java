@@ -16,68 +16,40 @@
  */
 package org.uimafit.factory;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.awt.Point;
-import java.io.IOException;
-
-import org.apache.uima.UIMAException;
-import org.apache.uima.UIMA_IllegalArgumentException;
 import org.apache.uima.resource.ResourceCreationSpecifier;
 import org.junit.Test;
 import org.uimafit.factory.testAes.ParameterizedAE;
 
 /**
  * @author Steven Bethard, Philip Ogren
+ * @author Richard Eckart de Castilho
  */
 
 public class ResourceCreationSpecifierFactoryTest {
 
-	@Test
-	public void test2() throws UIMAException, IOException {
-		IllegalArgumentException iae = null;
-		try {
-			ResourceCreationSpecifierFactory.createResourceCreationSpecifier(
-					"src/main/resources/org/uimafit/component/NoOpAnnotator.xml",
-					new String[] { "test" });
-		}
-		catch (IllegalArgumentException e) {
-			iae = e;
-		}
-		assertNotNull(iae);
-
-		iae = null;
-		try {
-			UimaContextFactory.createUimaContext("test");
-		}
-		catch (IllegalArgumentException e) {
-			iae = e;
-		}
-		assertNotNull(iae);
-
-		UIMA_IllegalArgumentException uiae = null;
-		try {
-			ResourceCreationSpecifierFactory.createResourceCreationSpecifier(
-					"src/main/resources/org/uimafit/component/NoOpAnnotator.xml",
-					new Object[] { "test", new Point(0, 5) });
-		}
-		catch (UIMA_IllegalArgumentException e) {
-			uiae = e;
-		}
-		assertNotNull(uiae);
-
+	@Test(expected = IllegalArgumentException.class)
+	public void test4() throws Exception {
+		ResourceCreationSpecifierFactory.createResourceCreationSpecifier(
+				"src/main/resources/org/uimafit/component/NoOpAnnotator.xml",
+				new String[] { "test" });
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
+	public void test3() throws Exception {
+		UimaContextFactory.createUimaContext("test");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void test2() throws Exception {
+		ResourceCreationSpecifierFactory.createResourceCreationSpecifier(
+				"src/main/resources/org/uimafit/component/NoOpAnnotator.xml",
+				new Object[] { "test", new Point(0, 5) });
+	}
+
+	@Test(expected = IllegalArgumentException.class)
 	public void test1() {
-		IllegalArgumentException iae = null;
-		try {
-			ResourceCreationSpecifierFactory.setConfigurationParameters(
-					(ResourceCreationSpecifier) null, ParameterizedAE.PARAM_BOOLEAN_1);
-		}
-		catch (IllegalArgumentException e) {
-			iae = e;
-		}
-		assertNotNull(iae);
+		ResourceCreationSpecifierFactory.setConfigurationParameters(
+				(ResourceCreationSpecifier) null, ParameterizedAE.PARAM_BOOLEAN_1);
 	}
 }
