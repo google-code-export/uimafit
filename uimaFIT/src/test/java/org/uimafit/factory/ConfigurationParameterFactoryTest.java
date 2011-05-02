@@ -29,12 +29,12 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.uima.UIMA_IllegalArgumentException;
 import org.junit.Test;
 import org.uimafit.descriptor.ConfigurationParameter;
 
 /**
  * @author Philip Ogren
+ * @author Richard Eckart de Castilho
  */
 
 public class ConfigurationParameterFactoryTest {
@@ -97,28 +97,16 @@ public class ConfigurationParameterFactoryTest {
 
 	}
 
-	@Test
-	public void test2() throws SecurityException, NoSuchFieldException {
-		IllegalArgumentException iae = null;
-		try {
-			ConfigurationParameterFactory
-					.createPrimitiveParameter(ConfigurationParameterFactoryTest.class
-							.getDeclaredField("double3"));
-		}
-		catch (IllegalArgumentException e) {
-			iae = e;
-		}
-		assertNotNull(iae);
+	@Test(expected = IllegalArgumentException.class)
+	public void test2() throws Exception {
+		ConfigurationParameterFactory
+				.createPrimitiveParameter(ConfigurationParameterFactoryTest.class
+						.getDeclaredField("double3"));
+	}
 
-		UIMA_IllegalArgumentException uiae = null;
-		try {
-			ConfigurationParameterFactory.createPrimitiveParameter("point", Point.class, "", true);
-		}
-		catch (UIMA_IllegalArgumentException e) {
-			uiae = e;
-		}
-		assertNotNull(uiae);
-
+	@Test(expected = IllegalArgumentException.class)
+	public void test3() throws Exception {
+		ConfigurationParameterFactory.createPrimitiveParameter("point", Point.class, "", true);
 	}
 
 	@ConfigurationParameter
