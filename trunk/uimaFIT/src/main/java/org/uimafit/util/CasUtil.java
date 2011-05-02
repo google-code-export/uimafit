@@ -48,7 +48,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 /**
  * Utility methods for convenient access to the {@link CAS}.
- * 
+ *
  * @author Richard Eckart de Castilho
  * @author Niklas Jakob
  */
@@ -60,7 +60,7 @@ public class CasUtil {
 
 	/**
 	 * Convenience method to iterator over all feature structures of a given type.
-	 * 
+	 *
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -76,7 +76,7 @@ public class CasUtil {
 
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
-	 * 
+	 *
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -92,7 +92,7 @@ public class CasUtil {
 
 	/**
 	 * Get an iterator over the given feature structures type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param cas
@@ -108,7 +108,7 @@ public class CasUtil {
 
 	/**
 	 * Get an iterator over the given annotation type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param cas
@@ -124,7 +124,7 @@ public class CasUtil {
 
 	/**
 	 * Get the CAS type for the given JCas wrapper class.
-	 * 
+	 *
 	 * @param cas
 	 *            the CAS hosting the type system.
 	 * @param type
@@ -137,7 +137,7 @@ public class CasUtil {
 
 	/**
 	 * Get the CAS type for the given name.
-	 * 
+	 *
 	 * @param cas
 	 *            the CAS hosting the type system.
 	 * @param typeName
@@ -158,7 +158,7 @@ public class CasUtil {
 	/**
 	 * Get the CAS type for the given JCas wrapper class making sure it is or inherits from
 	 * {@link Annotation}.
-	 * 
+	 *
 	 * @param cas
 	 *            the CAS hosting the type system.
 	 * @param type
@@ -176,7 +176,7 @@ public class CasUtil {
 
 	/**
 	 * Get the CAS type for the given name making sure it is or inherits from Annotation.
-	 * 
+	 *
 	 * @param cas
 	 *            the CAS hosting the type system.
 	 * @param typeName
@@ -193,7 +193,7 @@ public class CasUtil {
 
 	/**
 	 * Convenience method to iterator over all feature structures of a given type.
-	 * 
+	 *
 	 * @param array
 	 *            features structure array.
 	 * @param type
@@ -206,7 +206,7 @@ public class CasUtil {
 
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
-	 * 
+	 *
 	 * @param array
 	 *            features structure array.
 	 * @param type
@@ -225,7 +225,7 @@ public class CasUtil {
 
 	/**
 	 * Convenience method to iterator over all feature structures of a given type.
-	 * 
+	 *
 	 * @param cas
 	 *            the CAS containing the type system.
 	 * @param type
@@ -238,7 +238,7 @@ public class CasUtil {
 
 	/**
 	 * Convenience method to iterator over all annotations of a given type.
-	 * 
+	 *
 	 * @param cas
 	 *            the CAS containing the type system.
 	 * @param type
@@ -259,7 +259,7 @@ public class CasUtil {
 	 * Iterates over all annotations of the given type to find the covered annotations. Does not use
 	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
 	 * Uses the same approach except that type priorities are ignored.
-	 * 
+	 *
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -347,7 +347,7 @@ public class CasUtil {
 	 * <p>
 	 * <b>Note:</b> this is significantly slower than using
 	 * {@link #selectCovered(CAS, Type, AnnotationFS)}
-	 * 
+	 *
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -396,10 +396,10 @@ public class CasUtil {
 	/**
 	 * Get a list of annotations of the given annotation type constraint by a certain annotation.
 	 * Iterates over all annotations to find the covering annotations.
-	 * 
+	 *
 	 * <p>
 	 * <b>Note:</b> this is <b>REALLY SLOW!</b> You don't want to use this.
-	 * 
+	 *
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -431,7 +431,7 @@ public class CasUtil {
 	 * is preferable to using {@link #selectCovering(CAS, Type, int, int)} because the overhead of
 	 * scanning the CAS occurs only when the index is build. Subsequent lookups to the index are
 	 * fast.
-	 * 
+	 *
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -470,9 +470,51 @@ public class CasUtil {
 	}
 
 	/**
+	 * Create an index for quickly lookup up the annotations covered by a particular annotation. This
+	 * is preferable to using {@link #selectCovered(CAS, Type, int, int)} because the overhead of
+	 * scanning the CAS occurs only when the index is build. Subsequent lookups to the index are
+	 * fast.
+	 *
+	 * @param cas
+	 *            a CAS.
+	 * @param type
+	 *            type to create the index for - this is used in lookups.
+	 * @param coveredType
+	 *            type of covering annotations.
+	 * @return the index.
+	 */
+	public static Map<AnnotationFS, Collection<AnnotationFS>> indexCovered(CAS cas, Type type,
+			Type coveredType) {
+		Map<AnnotationFS, Collection<AnnotationFS>> index = new HashMap<AnnotationFS, Collection<AnnotationFS>>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Collection<AnnotationFS> get(Object paramObject) {
+				Collection<AnnotationFS> res = super.get(paramObject);
+				if (res == null) {
+					return emptyList();
+				}
+				else {
+					return res;
+				}
+			}
+		};
+		for (AnnotationFS s : select(cas, type)) {
+			for (AnnotationFS u : selectCovered(cas, coveredType, s)) {
+				Collection<AnnotationFS> c = index.get(s);
+				if (c == EMPTY_LIST) {
+					c = new LinkedList<AnnotationFS>();
+					index.put(s, c);
+				}
+				c.add(u);
+			}
+		}
+		return unmodifiableMap(index);
+	}
+	/**
 	 * This method exists simply as a convenience method for unit testing. It is not very efficient
 	 * and should not, in general be used outside the context of unit testing.
-	 * 
+	 *
 	 * @param cas
 	 *            a CAS containing the feature structure.
 	 * @param type
@@ -506,7 +548,7 @@ public class CasUtil {
 	/**
 	 * This method exists simply as a convenience method for unit testing. It is not very efficient
 	 * and should not, in general be used outside the context of unit testing.
-	 * 
+	 *
 	 * @param cas
 	 *            a CAS containing the annotation.
 	 * @param type
@@ -543,7 +585,7 @@ public class CasUtil {
 
 	/**
 	 * Get the single instance of the specified type from the JCas.
-	 * 
+	 *
 	 * @param cas
 	 *            a JCas containing the annotation.
 	 * @param type
@@ -570,7 +612,7 @@ public class CasUtil {
 
 	/**
 	 * Returns the n annotations preceding the given annotation
-	 * 
+	 *
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -610,7 +652,7 @@ public class CasUtil {
 
 	/**
 	 * Returns the n annotations following the given annotation
-	 * 
+	 *
 	 * @param cas
 	 *            a CAS.
 	 * @param type
@@ -648,7 +690,7 @@ public class CasUtil {
 	/**
 	 * Convenience method to get the specified view or a default view if the requested view does not
 	 * exist. The default can also be {@code null}.
-	 * 
+	 *
 	 * @param cas
 	 *            a CAS
 	 * @param viewName
@@ -672,7 +714,7 @@ public class CasUtil {
 	/**
 	 * Convenience method to get the specified view or create a new view if the requested view does
 	 * not exist.
-	 * 
+	 *
 	 * @param cas
 	 *            a CAS
 	 * @param viewName
@@ -705,7 +747,7 @@ public class CasUtil {
 
 	/**
 	 * Fetch the text covered by the specified annotations and return it as a list of strings.
-	 * 
+	 *
 	 * @param <T>
 	 *            UIMA JCas type.
 	 * @param iterable
@@ -718,7 +760,7 @@ public class CasUtil {
 
 	/**
 	 * Fetch the text covered by the specified annotations and return it as a list of strings.
-	 * 
+	 *
 	 * @param <T>
 	 *            UIMA JCas type.
 	 * @param iterator
