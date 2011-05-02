@@ -32,6 +32,7 @@ import static org.uimafit.util.JCasUtil.exists;
 import static org.uimafit.util.JCasUtil.getAnnotationType;
 import static org.uimafit.util.JCasUtil.getType;
 import static org.uimafit.util.JCasUtil.getView;
+import static org.uimafit.util.JCasUtil.indexCovered;
 import static org.uimafit.util.JCasUtil.indexCovering;
 import static org.uimafit.util.JCasUtil.isCovered;
 import static org.uimafit.util.JCasUtil.select;
@@ -69,7 +70,7 @@ import org.uimafit.type.Token;
 
 /**
  * Test cases for {@link JCasUtil}.
- * 
+ *
  * @author Richard Eckart de Castilho
  * @author Torsten Zesch
  */
@@ -157,9 +158,11 @@ public class JCasUtilTest extends ComponentTestBase {
 
 				ti = System.currentTimeMillis();
 				List<Sentence> stem2 = selectCovered(jcas, Sentence.class, t);
+				Collection<Sentence> stem3 = indexCovered(jcas, Token.class, Sentence.class).get(t);
 				t2 += System.currentTimeMillis() - ti;
 
 				check(jcas, t, stem1, stem2);
+				check(jcas, t, stem1, stem3);
 			}
 			System.out.format("Speed up: n:%d o:%d d:%d (%.2f)\n", t1, t2, t1 - t2, (double) t1
 					/ (double) t2);

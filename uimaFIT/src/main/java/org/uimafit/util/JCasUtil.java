@@ -38,7 +38,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 /**
  * Utility methods for convenient access to the {@link JCas}.
- * 
+ *
  * @author Richard Eckart de Castilho
  * @author Philip Ogren
  * @author Niklas Jakob
@@ -46,7 +46,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 public class JCasUtil {
 	/**
 	 * Convenience method to iterator over all features structures of a given type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param jCas
@@ -65,7 +65,7 @@ public class JCasUtil {
 	/**
 	 * Convenience method to iterator over all annotations of a given type occurring within the
 	 * scope of a provided annotation.
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param container
@@ -85,7 +85,7 @@ public class JCasUtil {
 	/**
 	 * Convenience method to iterator over all annotations of a given type occurring within the
 	 * scope of a provided annotation.
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param jCas
@@ -106,7 +106,7 @@ public class JCasUtil {
 	/**
 	 * Convenience method to iterator over all annotations of a given type occurring within the
 	 * scope of a provided annotation (sub-iteration).
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param jCas
@@ -134,7 +134,7 @@ public class JCasUtil {
 
 	/**
 	 * Get an iterator over the given feature structure type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param jCas
@@ -150,7 +150,7 @@ public class JCasUtil {
 
 	/**
 	 * Convenience method to get a sub-iterator for the specified type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param container
@@ -173,7 +173,7 @@ public class JCasUtil {
 
 	/**
 	 * Get the CAS type for the given JCas wrapper class type.
-	 * 
+	 *
 	 * @param jCas
 	 *            the JCas containing the type system.
 	 * @param type
@@ -187,7 +187,7 @@ public class JCasUtil {
 	/**
 	 * Get the CAS type for the given JCas wrapper class type making sure it inherits from
 	 * {@link Annotation}.
-	 * 
+	 *
 	 * @param jCas
 	 *            the JCas containing the type system.
 	 * @param type
@@ -200,7 +200,7 @@ public class JCasUtil {
 
 	/**
 	 * Convenience method select all feature structure from the given type from an array.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param array
@@ -216,7 +216,7 @@ public class JCasUtil {
 
 	/**
 	 * Convenience method select all feature structure from the given type from a list.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param list
@@ -233,7 +233,7 @@ public class JCasUtil {
 
 	/**
 	 * Convenience method to iterator over all features structures of a given type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the iteration type.
 	 * @param jCas
@@ -251,7 +251,7 @@ public class JCasUtil {
 	 * Get a list of annotations of the given annotation type constrained by a 'covering'
 	 * annotation. Iterates over all annotations of the given type to find the covered annotations.
 	 * Does not use subiterators.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param type
@@ -271,7 +271,7 @@ public class JCasUtil {
 	 * Get a list of annotations of the given annotation type constrained by a 'covering'
 	 * annotation. Iterates over all annotations of the given type to find the covered annotations.
 	 * Does not use subiterators.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param jCas
@@ -295,7 +295,7 @@ public class JCasUtil {
 	 * <p>
 	 * <b>Note:</b> this is significantly slower than using
 	 * {@link #selectCovered(JCas, Class, Annotation)}
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param jCas
@@ -316,10 +316,10 @@ public class JCasUtil {
 	/**
 	 * Get a list of annotations of the given annotation type constraint by a certain annotation.
 	 * Iterates over all annotations to find the covering annotations.
-	 * 
+	 *
 	 * <p>
 	 * <b>Note:</b> this is <b>REALLY SLOW!</b> You don't want to use this.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param jCas
@@ -343,7 +343,7 @@ public class JCasUtil {
 	 * is preferable to using {@link #selectCovering(JCas, Class, int, int)} because the overhead of
 	 * scanning the CAS occurs only when the index is build. Subsequent lookups to the index are
 	 * fast.
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param jCas
@@ -361,8 +361,30 @@ public class JCasUtil {
 	}
 
 	/**
+	 * Create an index for quickly lookup up the annotations covered by a particular annotation. This
+	 * is preferable to using {@link #selectCovered(JCas, Class, int, int)} because the overhead of
+	 * scanning the CAS occurs only when the index is build. Subsequent lookups to the index are
+	 * fast.
+	 *
+	 * @param <T>
+	 *            the JCas type.
+	 * @param jCas
+	 *            a JCas.
+	 * @param type
+	 *            type to create the index for - this is used in lookups.
+	 * @param coveredType
+	 *            type of covered annotations.
+	 * @return the index.
+	 */
+	public static <T extends Annotation, S extends Annotation> Map<T, Collection<S>> indexCovered(
+			JCas jCas, Class<T> type, Class<S> coveredType) {
+		return cast(CasUtil.indexCovered(jCas.getCas(), getType(jCas, type),
+				getType(jCas, coveredType)));
+	}
+
+	/**
 	 * Check if the given annotation contains any annotation of the given type.
-	 * 
+	 *
 	 * @param jCas
 	 *            a JCas containing the annotation.
 	 * @param coveringAnnotation
@@ -379,7 +401,7 @@ public class JCasUtil {
 	/**
 	 * This method exists simply as a convenience method for unit testing. It is not very efficient
 	 * and should not, in general be used outside the context of unit testing.
-	 * 
+	 *
 	 * @param <T>
 	 *            JCas wrapper type.
 	 * @param jCas
@@ -398,7 +420,7 @@ public class JCasUtil {
 
 	/**
 	 * Get the single instance of the specified type from the JCas.
-	 * 
+	 *
 	 * @param <T>
 	 *            JCas wrapper type.
 	 * @param jCas
@@ -415,7 +437,7 @@ public class JCasUtil {
 
 	/**
 	 * Returns the n annotations preceding the given annotation
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param aJCas
@@ -436,7 +458,7 @@ public class JCasUtil {
 
 	/**
 	 * Returns the n annotations following the given annotation
-	 * 
+	 *
 	 * @param <T>
 	 *            the JCas type.
 	 * @param aJCas
@@ -457,7 +479,7 @@ public class JCasUtil {
 
 	/**
 	 * Test if a JCas contains an annotation of the given type.
-	 * 
+	 *
 	 * @param <T>
 	 *            the annotation type.
 	 * @param aJCas
@@ -473,7 +495,7 @@ public class JCasUtil {
 	/**
 	 * Convenience method to get the specified view or a default view if the requested view does not
 	 * exist. The default can also be {@code null}.
-	 * 
+	 *
 	 * @param jcas
 	 *            a JCas
 	 * @param viewName
@@ -498,7 +520,7 @@ public class JCasUtil {
 	/**
 	 * Convenience method to get the specified view or create a new view if the requested view does
 	 * not exist.
-	 * 
+	 *
 	 * @param jcas
 	 *            a JCas
 	 * @param viewName
@@ -521,7 +543,7 @@ public class JCasUtil {
 
 	/**
 	 * Fetch the text covered by the specified annotations and return it as a list of strings.
-	 * 
+	 *
 	 * @param <T>
 	 *            UIMA JCas type.
 	 * @param iterable
