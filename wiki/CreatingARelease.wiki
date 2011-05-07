@@ -27,11 +27,20 @@ $ svn delete -m "Remove old JavaDoc" https://uimafit.googlecode.com/svn/tags/uim
 $ svn copy -m "Add release JavaDoc" https://uimafit.googlecode.com/svn/trunk/apidocs https://uimafit.googlecode.com/svn/tags/uimafit-parent-VERSION/apidocs
 }}}
 
-Now continue with the perform step
+Now continue with the perform step.
 
 {{{
 $ mvn release:perform
 }}}
+
+Build and upload the distribution archive to Google Code (the release checkout is still there from the perform step).
+
+{{{
+$ cd target/checkout/uimaFIT
+$ mvn assembly:assembly
+}}}
+
+Now the archive is built in target/uimafit-VERSION-plus-dependencies.zip - upload it with your browser.
 
 If you run into login or signing problems, try specificing your username, password and keyname like this. Mind that if you do that on a machine with other users, it may leak your password via the process list and shell history. So better do this on a private machine.
 
