@@ -4,13 +4,13 @@
 	<artifactId>uimafit</artifactId>
 	<packaging>jar</packaging>
 	<name>uimaFIT</name>
-	<version>1.2.0</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<description>Factories, Injection, and Testing library for UIMA</description>
 	<url>http://uimafit.googlecode.com</url>
 	<parent>
 		<groupId>org.uimafit</groupId>
 		<artifactId>uimafit-parent</artifactId>
-		<version>1.2.0</version>
+		<version>1.3.0-SNAPSHOT</version>
 	</parent>
 	<dependencies>
 		<dependency>
