@@ -80,8 +80,11 @@
 					<classpathScope>test</classpathScope>
 				</configuration>
 			</plugin>
-			<plugin><!-- This plugin adds the jcasgen generated source code folder 
-					as a project source folder -->
+			<plugin>
+			    <!-- 
+			     - This plugin adds the jcasgen generated source code folder as a project source
+			     - folder 
+			     -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<version>1.5</version>
@@ -132,24 +135,16 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<configuration>
+							<!-- 
+							 - Do not attach so it does not get deployed to Maven central.
+							 - REC - 2011-05-07
+							 -->
+							<attach>false</attach>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<configuration>
-						<notimestamp>true</notimestamp>
-						<linksource>true</linksource>
-						<links>
-							<link>http://uima.apache.org/downloads/releaseDocs/2.3.0-incubating/docs/api/</link>
-						</links>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 </project>
