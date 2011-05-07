@@ -29,20 +29,22 @@
 <FONT color="green">026</FONT>     * up with a file name to be used for the file that it is written by {@link XWriter}. Do not specify<a name="line.26"></a>
 <FONT color="green">027</FONT>     * the full path and do not specify the suffix (.xmi or .xcas will be automatically appended as<a name="line.27"></a>
 <FONT color="green">028</FONT>     * appropriate)<a name="line.28"></a>
-<FONT color="green">029</FONT>     *<a name="line.29"></a>
+<FONT color="green">029</FONT>     * <a name="line.29"></a>
 <FONT color="green">030</FONT>     * @author Philip Ogren<a name="line.30"></a>
 <FONT color="green">031</FONT>     */<a name="line.31"></a>
-<FONT color="green">032</FONT>    public interface XWriterFileNamer<a name="line.32"></a>
-<FONT color="green">033</FONT>    {<a name="line.33"></a>
-<FONT color="green">034</FONT>            /**<a name="line.34"></a>
-<FONT color="green">035</FONT>             * Get file name to be used for the file that it is written by {@link XWriter}.<a name="line.35"></a>
-<FONT color="green">036</FONT>             * @param jCas a file namer should be able to generate a name from a given JCas to be used for creating a file name <a name="line.36"></a>
-<FONT color="green">037</FONT>             * @return a name for the file to be used for creating a file name Do not specify<a name="line.37"></a>
-<FONT color="green">038</FONT>     * the full path and do not specify the suffix (.xmi or .xcas will be automatically appended as<a name="line.38"></a>
-<FONT color="green">039</FONT>     * appropriate)<a name="line.39"></a>
-<FONT color="green">040</FONT>             */<a name="line.40"></a>
-<FONT color="green">041</FONT>            public String nameFile(JCas jCas);<a name="line.41"></a>
-<FONT color="green">042</FONT>    }<a name="line.42"></a>
+<FONT color="green">032</FONT>    public interface XWriterFileNamer {<a name="line.32"></a>
+<FONT color="green">033</FONT>            /**<a name="line.33"></a>
+<FONT color="green">034</FONT>             * Get file name to be used for the file that it is written by {@link XWriter}.<a name="line.34"></a>
+<FONT color="green">035</FONT>             * <a name="line.35"></a>
+<FONT color="green">036</FONT>             * @param jCas<a name="line.36"></a>
+<FONT color="green">037</FONT>             *            a file namer should be able to generate a name from a given JCas to be used for<a name="line.37"></a>
+<FONT color="green">038</FONT>             *            creating a file name<a name="line.38"></a>
+<FONT color="green">039</FONT>             * @return a name for the file to be used for creating a file name Do not specify the full path<a name="line.39"></a>
+<FONT color="green">040</FONT>             *         and do not specify the suffix (.xmi or .xcas will be automatically appended as<a name="line.40"></a>
+<FONT color="green">041</FONT>             *         appropriate)<a name="line.41"></a>
+<FONT color="green">042</FONT>             */<a name="line.42"></a>
+<FONT color="green">043</FONT>            public String nameFile(JCas jCas);<a name="line.43"></a>
+<FONT color="green">044</FONT>    }<a name="line.44"></a>
 
 
 
