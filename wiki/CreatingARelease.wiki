@@ -19,7 +19,7 @@ $ cd uimafit-parent
 $ mvn release:prepare
 }}}
 
-The JavaDoc has been regenerated during the prepare step, but not committed. Commit it and then move it to the tag:
+The !JavaDoc has been regenerated during the prepare step, but not committed. Commit it and then move it to the tag:
 
 {{{
 $ svn commit -m "Updated JavaDoc" apidocs
