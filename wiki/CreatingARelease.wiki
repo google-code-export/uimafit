@@ -72,10 +72,10 @@ After all of the above steps are complete, send an announcement to uimafit-users
 subject: uimaFIT <version> released
 
 The uimaFIT development team is pleased to announce a new release of uimaFIT, version <version>.  To view the REAME for this release, please visit:
-http://code.google.com/p/uimafit/source/browse/tags/uimafit-parent-1.1.0/uimaFIT/README?r=498
+http://code.google.com/p/uimafit/source/browse/tags/uimafit-parent-1.1.0/uimaFIT/README
 
 To view the CHANGES for this release, please visit:
-http://code.google.com/p/uimafit/source/browse/tags/uimafit-parent-1.1.0/uimaFIT/CHANGES?r=498
+http://code.google.com/p/uimafit/source/browse/tags/uimafit-parent-1.1.0/uimaFIT/CHANGES
 
 Please visit the project home page for information about how to add uimaFIT as a dependency to your Maven built project:
 http://uimafit.googlecode.com
