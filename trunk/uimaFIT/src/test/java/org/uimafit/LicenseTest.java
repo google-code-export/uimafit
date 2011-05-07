@@ -61,9 +61,12 @@ public class LicenseTest {
 
 			String fileText = FileUtils.file2String(file);
 
-			if (fileText.indexOf("Copyright") == -1
-					|| fileText.indexOf("Licensed under the Apache License, Version 2.0") == -1
-					|| fileText.indexOf("@author") == -1) {
+			boolean hasCopyright = fileText.indexOf("Copyright") != -1;
+			boolean hasLicense = fileText.indexOf("Licensed under the Apache License, Version 2.0")
+				!= -1;
+			boolean hasAuthor = fileText.indexOf("@author") != -1;
+			boolean isPackageDoc = "package-info.java".equals(file.getName());
+			if ( !hasCopyright || !hasLicense || (!isPackageDoc && !hasAuthor) ) {
 				filesMissingLicense.add(file.getPath());
 			}
 		}
@@ -71,7 +74,7 @@ public class LicenseTest {
 		if (filesMissingLicense.size() > 0) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(filesMissingLicense.size());
-			sb.append(" source file missing license or author attribution: ");
+			sb.append(" source file missing license or author attribution:\n");
 			Collections.sort(filesMissingLicense);
 			for (String path : filesMissingLicense) {
 				sb.append(path).append('\n');

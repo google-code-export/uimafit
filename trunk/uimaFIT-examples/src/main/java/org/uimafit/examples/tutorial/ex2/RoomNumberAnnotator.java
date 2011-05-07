@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -31,6 +31,14 @@ import org.uimafit.descriptor.TypeCapability;
 import org.uimafit.examples.tutorial.type.RoomNumber;
 
 /**
+ * This class demonstrates annotating member variables with the @ConfigurationParameter
+ * annotation. Defining configuration parameters in this way in combination with
+ * using the {@link JCasAnnotator_ImplBase uimaFIT's JCasAnnotator_ImplBase} class obviates the
+ * need for an initialize method at all because the super class initialize
+ * method calls {@link ConfigurationParameterInitializer#initializeConfigurationParameters}. This
+ * method initializes member variables annotated as configuration parameters
+ * using the configuration parameter information provided in the UimaContext.
+ *
  * This class was copied from the uimaj-examples project and modified in
  * following ways:
  * <ul>
@@ -41,16 +49,7 @@ import org.uimafit.examples.tutorial.type.RoomNumber;
  * <li>mPatterns and mLocations is annotated with @ConfigurationParameters</li>
  * <li>the initialize method was removed</li>
  * </ul>
- * 
- * This class demonstrates annotating member variables with the @ConfigurationParameter
- * annotation. Defining configuration parameters in this way in combination with
- * using the org.uimafit.component.JCasAnnotator_ImplBase class obviates the
- * need for an initialize method at all because the super class initialize
- * method calls
- * ConfigurationParameterInitializer.initializeConfigurationParameters. This
- * method initializes member variables annotated as configuration parameters
- * using the configuration parameter information provided in the UimaContext.
- * 
+ *
  * @author unknown
  */
 
