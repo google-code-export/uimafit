@@ -10,38 +10,33 @@ Here is the current (but not perfect) procedure for creating a release:
 
 Be sure that the CHANGES files are up-to-date. At least all fixed issues that are tagged with the milestone that is designated to be released should be in the file.
 
-= Update Javadoc =
-
-First update the javadoc pages:
-  * temporarily edit the `pom.xml` file to specify the release version (rather than the snapshot version)
-  * to avoid subversion complaints about being out of synch, I find it helpful to perform `svn update` and `svn cleanup` before the next step.
-  * run the following
-{{{ 
->cd uimafit-parent/uimaFIT
->mvn javadoc:javadoc
->cp -R target\site\apidocs .
-}}}
-  * revert the `pom.xml`file using
-{{{ 
->svn revert pom.xml
-}}}
-  * commit files to the repository before performing the release so that they get tagged correctly.
-{{{ 
->svn commit -m "Javadoc update" apidocs
-}}}
-
 = Maven release =
 
+Prepare the release.
+
 {{{
->cd uimafit-parent
->mvn release:prepare
->mvn release:perform
+$ cd uimafit-parent
+$ mvn release:prepare
+}}}
+
+The JavaDoc has been regenerated during the prepare step, but not committed. Commit it and then move it to the tag:
+
+{{{
+$ svn commit -m "Updated JavaDoc" apidocs
+$ svn delete -m "Remove old JavaDoc" https://uimafit.googlecode.com/svn/tags/uimafit-parent-VERSION/apidocs
+$ svn copy -m "Add release JavaDoc" https://uimafit.googlecode.com/svn/trunk/apidocs https://uimafit.googlecode.com/svn/tags/uimafit-parent-VERSION/apidocs
+}}}
+
+Now continue with the perform step
+
+{{{
+$ mvn release:perform
 }}}
 
 If you run into login or signing problems, try specificing your username, password and keyname like this. Mind that if you do that on a machine with other users, it may leak your password via the process list and shell history. So better do this on a private machine.
 
 {{{
- mvn -Dusername=GOOGLECODE_USERNAME -Dpassword=GOOGLECODE_PASSWORD -Darguments="-Dkeyname=GOOGLECODE_USERNAME" release:prepare
+$ mvn -Dusername=GOOGLECODE_USERNAME -Dpassword=GOOGLECODE_PASSWORD -Darguments="-Dkeyname=GOOGLECODE_USERNAME" release:prepare
 }}}
 
 If "mvn release:perform" appears to hang check to see if it is asking for your GPG password.  Enter is carefully if so.  
