@@ -25,7 +25,7 @@
 
  * [http://code.google.com/p/uimafit/source/browse/#svn/trunk/uimaFIT-examples/src/main/java/org/uimafit/examples Examples project] provides a number of examples.
  * The [http://code.google.com/p/uimafit/source/browse/#svn/trunk/uimaFIT/src/test/java/org/uimafit%3Fstate%3Dclosed unit tests] are fairly complete and provide a lot of code examples that should be helpful.
- * [http://uimafit.googlecode.com/svn/trunk/uimaFIT/apidocs/index.html Javadocs]
+ * [http://uimafit.googlecode.com/svn/tags/uimafit-parent-1.2.0/apidocs/index.html Javadocs]
  
 = Developer Docs =
 
