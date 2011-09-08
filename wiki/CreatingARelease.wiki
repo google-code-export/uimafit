@@ -60,8 +60,10 @@ If "mvn release:perform" appears to hang check to see if it is asking for your G
 
 =Update googlecode project=
 
-*Javadoc*: After that update the Javadoc link on the main page via the [http://code.google.com/p/uimafit/admin admin interface] to point to the new release, e.g. to
-
+*Javadoc*: 
+   * Update the Javadoc link on the main page via the [http://code.google.com/p/uimafit/admin admin interface] 
+   * Also update the Javadoc link in the wiki at [Documentation]
+   * ... both should point to the new release, e.g. to
 {{{
 http://uimafit.googlecode.com/svn/tags/uimafit-parent-0.9.14/uimaFIT/apidocs/index.html
 }}}
