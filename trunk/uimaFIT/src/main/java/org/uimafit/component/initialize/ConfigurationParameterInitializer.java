@@ -37,9 +37,13 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.UimaContextAdmin;
 import org.apache.uima.resource.ConfigurationManager;
 import org.apache.uima.resource.CustomResourceSpecifier;
+import org.apache.uima.resource.DataResource;
 import org.apache.uima.resource.Parameter;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
+import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
+import org.apache.uima.resource.metadata.NameValuePair;
+import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.ConfigurationParameterFactory;
 import org.uimafit.util.LocaleUtil;
@@ -178,7 +182,7 @@ public class ConfigurationParameterInitializer {
 		try {
 			Object result = spec.getClass().getMethod("getParameters").invoke(spec);
 			if (result == null) {
-				initialize(component);
+				initialize(component, new Parameter[0]);
 			}
 			Parameter[] parameters;
 			try {
@@ -229,6 +233,38 @@ public class ConfigurationParameterInitializer {
 			params.put(p.getName(), p.getValue());
 		}
 		initialize(component, params);
+	}
+
+	/**
+	 * Initialize a component from a {@link ResourceMetaData}.
+	 *
+	 * @param component the component to initialize.
+	 * @param parameters a list of parameters.
+	 * @throws ResourceInitializationException
+	 * @see #initialize(Object, UimaContext)
+	 */
+	public static void initialize(Object component, NameValuePair... parameters)
+			throws ResourceInitializationException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		for (NameValuePair p : parameters) {
+			params.put(p.getName(), p.getValue());
+		}
+		initialize(component, params);
+	}
+
+	/**
+	 * Initialize a component from a {@link ResourceMetaData}.
+	 *
+	 * @param component the component to initialize.
+	 * @param dataResource a data resource with configuration meta data.
+	 * @throws ResourceInitializationException
+	 * @see #initialize(Object, UimaContext)
+	 */
+	public static void initialize(Object component, DataResource dataResource)
+			throws ResourceInitializationException {
+		ResourceMetaData metaData = dataResource.getMetaData();
+		ConfigurationParameterSettings settings = metaData.getConfigurationParameterSettings();
+		initialize(component, settings.getParameterSettings());
 	}
 
 	/**
