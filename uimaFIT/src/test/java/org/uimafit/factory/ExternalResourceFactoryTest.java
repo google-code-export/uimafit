@@ -45,6 +45,7 @@ import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 import org.uimafit.ComponentTestBase;
 import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.component.Resource_ImplBase;
+import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.descriptor.ExternalResource;
 import org.uimafit.factory.locator.JndiResourceLocator;
@@ -143,7 +144,8 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 				ConfigurableResource.PARAM_VALUE, "1");
 		bindResource(desc, DummyAE.RES_KEY_2, ConfigurableResource.class,
 				ConfigurableResource.PARAM_VALUE, "2");
-		bindResource(desc, DummySharedResourceObject.class, EX_URI);
+		bindResource(desc, DummySharedResourceObject.class, EX_URI,
+				DummySharedResourceObject.PARAM_VALUE,"3");
 		// An undefined URL may be used if the specified file/remote URL does not exist or if
 		// the network is down.
 		bindResource(desc, DummyAE.RES_SOME_URL, new File(EX_FILE_1).toURI().toURL());
@@ -151,7 +153,8 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 		bindResource(desc, DummyAE.RES_SOME_FILE, new File(EX_FILE_1));
 		bindResource(desc, DummyAE.RES_JNDI_OBJECT, JndiResourceLocator.class,
 				JndiResourceLocator.PARAM_NAME, "dictionaries/german");
-		createDependencyAndBind(desc, "legacyResource", DummySharedResourceObject.class, EX_URI);
+		createDependencyAndBind(desc, "legacyResource", DummySharedResourceObject.class, EX_URI,
+				DummySharedResourceObject.PARAM_VALUE,"3");
 	}
 
 	public static class DummyAE extends JCasAnnotator_ImplBase {
@@ -194,6 +197,9 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 
 			assertNotNull(configRes2);
 			assertEquals("2", configRes2.getValue());
+
+			assertNotNull(sharedObject);
+			assertEquals("3", sharedObject.getValue());
 
 			assertNotNull(sharedObject);
 			assertEquals(EX_URI, sharedObject.getUrl().toString());
@@ -252,9 +258,14 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 	}
 
 	public static final class DummySharedResourceObject implements SharedResourceObject {
+		public static final String PARAM_VALUE = "Value";
+		@ConfigurationParameter(name = PARAM_VALUE, mandatory = true)
+		private String value;
+
 		private URI uri;
 
 		public void load(DataResource aData) throws ResourceInitializationException {
+			ConfigurationParameterInitializer.initialize(this, aData);
 			assertEquals(EX_URI, aData.getUri().toString());
 			uri = aData.getUri();
 		}
@@ -262,6 +273,9 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 		public URI getUrl() {
 			return uri;
 		}
-	}
 
+		public String getValue() {
+			return value;
+		}
+	}
 }
