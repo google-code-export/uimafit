@@ -264,7 +264,8 @@ public final class ConfigurationParameterFactory {
 
 		String parameterType = javaUimaTypeMap.get(parameterClassName);
 		if (parameterType == null) {
-			throw new IllegalArgumentException("The type [" + parameterClassName
+			throw new IllegalArgumentException("While trying to set the parameter [" + name +
+					"] found the type [" + parameterClassName
 					+ "] is not a valid parameter type in UIMA."
 					+ " uimaFIT currently does not support using such types as parameter values.");
 		}
