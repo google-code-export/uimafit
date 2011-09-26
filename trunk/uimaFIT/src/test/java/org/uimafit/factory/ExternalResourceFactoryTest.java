@@ -19,13 +19,24 @@
 
 package org.uimafit.factory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.uimafit.factory.AnalysisEngineFactory.createPrimitiveDescription;
-import static org.uimafit.factory.ExternalResourceFactory.*;
+import static org.uimafit.factory.ExternalResourceFactory.bindExternalResource;
+import static org.uimafit.factory.ExternalResourceFactory.bindResource;
+import static org.uimafit.factory.ExternalResourceFactory.createDependencyAndBind;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,6 +47,8 @@ import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.DataResource;
+import org.apache.uima.resource.ExternalResourceDescription;
+import org.apache.uima.resource.ParameterizedDataResource;
 import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.SharedResourceObject;
@@ -144,6 +157,8 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 				ConfigurableResource.PARAM_VALUE, "1");
 		bindResource(desc, DummyAE.RES_KEY_2, ConfigurableResource.class,
 				ConfigurableResource.PARAM_VALUE, "2");
+		bindResource(desc, DummyAE.RES_KEY_3, ParametrizedResource.class,
+				ParametrizedResource.PARAM_EXTENSION, ".lala");
 		bindResource(desc, DummySharedResourceObject.class, EX_URI,
 				DummySharedResourceObject.PARAM_VALUE,"3");
 		// An undefined URL may be used if the specified file/remote URL does not exist or if
@@ -168,6 +183,8 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 		static final String RES_KEY_2 = "Key2";
 		@ExternalResource(key = RES_KEY_2)
 		ConfigurableResource configRes2;
+
+		static final String RES_KEY_3 = "Key3";
 
 		@ExternalResource
 		DummySharedResourceObject sharedObject;
@@ -197,6 +214,16 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 
 			assertNotNull(configRes2);
 			assertEquals("2", configRes2.getValue());
+
+			try {
+				DataResource configuredResource = (DataResource) getContext().getResourceObject(RES_KEY_3,
+						new String[] { ConfigurableDataResource.PARAM_URI, "http://dum.my/conf" });
+				assertNotNull(configuredResource);
+				assertEquals("http://dum.my/conf.lala", configuredResource.getUri().toString());
+			}
+			catch (ResourceAccessException e) {
+				throw new AnalysisEngineProcessException(e);
+			}
 
 			assertNotNull(sharedObject);
 			assertEquals("3", sharedObject.getValue());
@@ -254,6 +281,45 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 
 		public String getValue() {
 			return value;
+		}
+	}
+
+	public static final class ConfigurableDataResource extends Resource_ImplBase implements DataResource {
+		public static final String PARAM_URI = "Uri";
+		@ConfigurationParameter(name = PARAM_URI, mandatory = true)
+		private String uri;
+
+		public static final String PARAM_EXTENSION = "Extension";
+		@ConfigurationParameter(name = PARAM_EXTENSION, mandatory = true)
+		private String extension;
+
+		public InputStream getInputStream() throws IOException {
+			return null;
+		}
+
+		public URI getUri() {
+			return URI.create(uri+extension);
+		}
+
+		public URL getUrl() {
+			return null;
+		}
+	}
+
+	public static final class ParametrizedResource extends Resource_ImplBase implements
+			ParameterizedDataResource {
+		public static final String PARAM_EXTENSION = "Extension";
+		@ConfigurationParameter(name = PARAM_EXTENSION, mandatory = true)
+		private String extension;
+
+		public DataResource getDataResource(String[] aParams)
+				throws ResourceInitializationException {
+			List<String> params = new ArrayList<String>(Arrays.asList(aParams));
+			params.add(ConfigurableDataResource.PARAM_EXTENSION);
+			params.add(extension);
+			ExternalResourceDescription desc = ExternalResourceFactory.createExternalResourceDescription(
+					null, ConfigurableDataResource.class, params.toArray(new String[params.size()]));
+			return (DataResource) UIMAFramework.produceResource(desc.getResourceSpecifier(), null);
 		}
 	}
 
