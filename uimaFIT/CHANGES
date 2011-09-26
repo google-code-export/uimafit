@@ -1,4 +1,5 @@
 changes since 1.2.0
+	- resolved issue #99 "Add support/test-case for ParameterizedDataResource "
 	- resolved issue #98 "Setting parameters on a SharedResourceObject"
 
 changes in 1.2.0
