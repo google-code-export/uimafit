@@ -53,7 +53,6 @@ import org.apache.uima.resource.metadata.impl.ResourceMetaData_impl;
 import org.apache.uima.util.InvalidXMLException;
 import org.uimafit.descriptor.ExternalResource;
 import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
-import org.uimafit.factory.ExternalResourceFactoryTest.ParametrizedResource;
 
 import static org.apache.uima.UIMAFramework.*;
 
@@ -475,7 +474,7 @@ public final class ExternalResourceFactory {
 	public static void createDependencyAndBind(ResourceSpecifier aDesc, String aKey,
 			Class<? extends Resource> aImpl, String... aParams)
 			throws InvalidXMLException {
-		Class<?> api = (ParametrizedResource.class.isAssignableFrom(aImpl)) ? DataResource.class
+		Class<?> api = (ParameterizedDataResource.class.isAssignableFrom(aImpl)) ? DataResource.class
 				: aImpl;
 		createDependencyAndBind(aDesc, aKey, aImpl, api, aParams);
 	}
