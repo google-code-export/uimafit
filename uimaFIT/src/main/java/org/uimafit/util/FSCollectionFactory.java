@@ -119,10 +119,10 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 	 *            the JCas wrapper class.
 	 * @return a collection of all annotations of the given type.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T extends TOP> Collection<T> create(ArrayFS aArray, Class<T> aType)
 	{
-		return (Collection<T>) create(aArray, CasUtil.getType(aArray.getCAS(), aType));
+		return (Collection) create(aArray, CasUtil.getType(aArray.getCAS(), aType));
 	}
 
 	/**
