@@ -215,7 +215,7 @@ public class CASDumpWriter extends CasConsumer_ImplBase {
 		out.println();
 	}
 
-	private void processSofaData(CAS aCAS) {
+	private void processSofaData(CAS aCAS) throws AnalysisEngineProcessException {
 		out.println("Sofa data:");
 
 		//
@@ -227,11 +227,15 @@ public class CASDumpWriter extends CasConsumer_ImplBase {
 		}
 		// Data
 		byte[] bytes = null;
+		InputStream in = null;
 		try {
-			InputStream in = aCAS.getSofaDataStream();
+			in = aCAS.getSofaDataStream();
 			bytes = IOUtils.toByteArray(in);
 		} catch (IOException e) {
-			out.println("   <Error while reading Sofa data>");
+			throw new AnalysisEngineProcessException(e);
+		}
+		finally {
+			IOUtils.closeQuietly(in);
 		}
 		if (bytes != null) {
 			// Data size
