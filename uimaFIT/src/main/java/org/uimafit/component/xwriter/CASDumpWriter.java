@@ -21,6 +21,7 @@ package org.uimafit.component.xwriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.HashSet;
@@ -38,6 +39,7 @@ import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.Type;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.springframework.util.DigestUtils;
 import org.uimafit.component.CasConsumer_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 
@@ -129,7 +131,12 @@ public class CASDumpWriter extends CasConsumer_ImplBase {
 
 		Iterator<CAS> viewIt = aCAS.getViewIterator();
 		while (viewIt.hasNext()) {
-			processView(viewIt.next());
+			CAS view = viewIt.next();
+			processView(view);
+
+			if (view.getDocumentText() == null && view.getSofaDataStream() != null) {
+				processSofaData(view);
+			}
 		}
 
 		out.println("======== CAS " + iCas + " end ==================================");
@@ -205,6 +212,35 @@ public class CASDumpWriter extends CasConsumer_ImplBase {
 
 		out.println("-------- View " + aCAS.getViewName()
 				+ " end ----------------------------------");
+		out.println();
+	}
+
+	private void processSofaData(CAS aCAS) {
+		out.println("Sofa data:");
+
+		//
+
+		// Mime type
+		String mimeType = aCAS.getSofaMimeType();
+		if (mimeType != null) {
+			out.println("   mime type:\t" + mimeType);
+		}
+		// Data
+		byte[] bytes = null;
+		try {
+			InputStream in = aCAS.getSofaDataStream();
+			bytes = IOUtils.toByteArray(in);
+		} catch (IOException e) {
+			out.println("   <Error while reading Sofa data>");
+		}
+		if (bytes != null) {
+			// Data size
+			out.println("   size:\t" + bytes.length + " byte(s)");
+			// Hash value of the bytes
+			String hash = DigestUtils.md5DigestAsHex(bytes);
+			out.println("   hash value:\t" + hash);
+		}
+
 		out.println();
 	}
 
