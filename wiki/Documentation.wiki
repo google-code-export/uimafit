@@ -9,6 +9,7 @@
  * [TwoSidesOfUimaFIT Conceptual Overview]
  * [GettingStarted Getting started tutorial]
  * [http://code.google.com/p/uimafit/source/browse/trunk/uimaFIT/CHANGES CHANGES]
+ * [ContextInjection Context injection]
 
 ===== Use cases =====
 
