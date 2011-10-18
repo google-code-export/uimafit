@@ -20,7 +20,7 @@ class MyAnalysisEngine extends CasAnnotator_ImplBase {
 }
 }}}
 
-The component has no way to declare a default value or to declare if a parameter is optional or mandatory. In addition, any documentation needs to be maintained in JavaDoc and in the XML descriptor for the component.
+The component has no way to declare a default value or to declare if a parameter is optional or mandatory. In addition, any documentation needs to be maintained in !JavaDoc and in the XML descriptor for the component.
 
 With uimaFIT, all this information can be declared in the component.
 
@@ -39,17 +39,17 @@ The other information (defaultValue and description) are used when generating an
 
 The parameter injection mechanism is implemented in the ConfigurationParameterInitializer class. uimaFIT provides several base classes that already come with an initialize() method using the initializer:
 
-  * CasAnnotator_ImplBase
-  * CasCollectionReader_ImplBase
-  * CasConsumer_ImplBase
-  * CasMultiplier_ImplBase
+  * !CasAnnotator_ImplBase
+  * !CasCollectionReader_ImplBase
+  * !CasConsumer_ImplBase
+  * !CasMultiplier_ImplBase
   * JCasAnnotator_ImplBase
   * JCasCollectionReader_ImplBase
   * JCasFlowController_ImplBase
   * JCasMultiplier_ImplBase
-  * Resource_ImplBase
+  * !Resource_ImplBase
 
-The ConfigurationParameterInitializer can also be used with shared resources:
+The !ConfigurationParameterInitializer can also be used with shared resources:
 
 {{{
 class MySharedResourceObject implements SharedResourceObject {
