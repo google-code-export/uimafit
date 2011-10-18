@@ -37,6 +37,14 @@ Note, that it is no longer necessary to implement the initialize() method. uimaF
 
 The other information (defaultValue and description) are used when generating an UIMA component description from the class. It should be pointed out in particular, that uimaFIT does not make use of the defaultValue when injecting parameters into fields. For this reason, it is possible to have a parameter that is mandatory but does have a default value. The default value is used as a parameter value when a component description is generated via the uimaFIT factories unless a parameter is specified in the factory call. If a component description in created manually without specifying a value for a mandatory parameter, uimaFIT will generate an exception.
 
+*@ConfigurationParameter*
+|| *Parameter*    || *Description*                             || *Default* ||
+|| _name_         || Parameter name                            || classname.field || 
+|| _description_  || Description of the parameter              || ||
+|| _mandatory_    || Wether a value must be specified          || false ||
+|| _defaultValue_ || The defaul value if no value is specified || ||
+
+
 The parameter injection mechanism is implemented in the ConfigurationParameterInitializer class. uimaFIT provides several base classes that already come with an initialize() method using the initializer:
 
   * !CasAnnotator_ImplBase
@@ -89,6 +97,13 @@ class MyAnalysisEngine extends CasAnnotator_ImplBase {
   private DataResource model;
 }
 }}}
+
+*@ExternalResource*
+|| *Parameter*    || *Description*                             || *Default* ||
+|| _key_          || Resource key                              || field type || 
+|| _api_          || Used when the external resource type is different from the field type, e.g. when using an ExternalResourceLocator || field type ||
+|| _mandatory_    || Wether a value must be specified          || true ||
+
 
 === Locators ===
 
