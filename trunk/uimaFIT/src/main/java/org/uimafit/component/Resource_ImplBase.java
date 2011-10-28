@@ -30,9 +30,8 @@ import org.uimafit.component.initialize.ConfigurationParameterInitializer;
  * @author Richard Eckart de Castilho
  */
 public abstract class Resource_ImplBase extends org.apache.uima.resource.Resource_ImplBase {
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public boolean initialize(ResourceSpecifier aSpecifier, Map aAdditionalParams)
+	public boolean initialize(ResourceSpecifier aSpecifier, Map<String, Object> aAdditionalParams)
 		throws ResourceInitializationException
 	{
 		if (!super.initialize(aSpecifier, aAdditionalParams)) {
