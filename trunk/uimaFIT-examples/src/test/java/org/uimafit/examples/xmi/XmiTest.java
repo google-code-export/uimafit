@@ -18,6 +18,7 @@ package org.uimafit.examples.xmi;
 
 import static org.junit.Assert.assertEquals;
 import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
+import static org.uimafit.util.JCasUtil.select;
 
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -128,7 +129,7 @@ public class XmiTest extends ExamplesTestBase {
 	public static class Annotator2 extends JCasAnnotator_ImplBase {
 		@Override
 		public void process(JCas jCas) throws AnalysisEngineProcessException {
-			for (Token token : JCasUtil.iterate(jCas, Token.class)) {
+			for (Token token : select(jCas, Token.class)) {
 				token.setPos(token.getCoveredText().substring(0, 1));
 			}
 		}
@@ -141,7 +142,7 @@ public class XmiTest extends ExamplesTestBase {
 	public static class Annotator3 extends JCasAnnotator_ImplBase {
 		@Override
 		public void process(JCas jCas) throws AnalysisEngineProcessException {
-			for (Token token : JCasUtil.iterate(jCas, Token.class)) {
+			for (Token token : select(jCas, Token.class)) {
 				if (token.getPos().equals("m")) {
 					new Sentence(jCas, token.getBegin(), jCas.getDocumentText().length()).addToIndexes();
 				}

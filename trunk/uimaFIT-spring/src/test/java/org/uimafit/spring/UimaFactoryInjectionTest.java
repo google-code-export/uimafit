@@ -52,6 +52,7 @@ import org.uimafit.spring.factory.CustomResourceFactory_impl;
  *
  * @author Richard Eckart de Castilho
  */
+@SuppressWarnings("deprecation")
 public class UimaFactoryInjectionTest {
 	@Test
 	public void test() throws Exception {

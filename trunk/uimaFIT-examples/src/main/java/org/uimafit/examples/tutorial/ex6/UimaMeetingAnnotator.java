@@ -24,7 +24,7 @@ import static org.uimafit.factory.AnalysisEngineFactory.createPrimitiveDescripti
 import static org.uimafit.factory.ExternalResourceFactory.bindResource;
 import static org.uimafit.factory.ExternalResourceFactory.createExternalResourceDescription;
 import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
-import static org.uimafit.util.JCasUtil.iterate;
+import static org.uimafit.util.JCasUtil.select;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -94,7 +94,7 @@ public class UimaMeetingAnnotator extends JCasAnnotator_ImplBase {
 		// iterating over.
 		List<UimaMeeting> uimaMeetings = new ArrayList<UimaMeeting>();
 
-		for (Meeting meeting : iterate(aJCas, Meeting.class)) {
+		for (Meeting meeting : select(aJCas, Meeting.class)) {
 			// get span of text within 50 chars on either side of meeting
 			// (window size should probably be a config. param)
 			int begin = meeting.getBegin() - 50;

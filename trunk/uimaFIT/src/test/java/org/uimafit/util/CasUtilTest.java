@@ -23,13 +23,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.uimafit.util.CasUtil.getAnnotationType;
 import static org.uimafit.util.CasUtil.getType;
-import static org.uimafit.util.CasUtil.iterate;
-import static org.uimafit.util.CasUtil.iterateFS;
+import static org.uimafit.util.CasUtil.select;
+import static org.uimafit.util.CasUtil.selectFS;
 import static org.uimafit.util.CasUtil.iterator;
 import static org.uimafit.util.CasUtil.iteratorFS;
-import static org.uimafit.util.CasUtil.select;
 import static org.uimafit.util.CasUtil.selectByIndex;
-import static org.uimafit.util.CasUtil.selectFS;
 import static org.uimafit.util.CasUtil.toText;
 
 import java.util.Collection;
@@ -186,10 +184,10 @@ public class CasUtilTest extends ComponentTestBase {
 
 		assertEquals(
 				asList("Rot", "wood", "cheeses", "dew?"),
-				toText(iterate(cas, getType(cas, Token.class))));
+				toText(select(cas, getType(cas, Token.class))));
 
 		assertEquals(
 				asList("Rot", "wood", "cheeses", "dew?"),
-				toText((Iterable<AnnotationFS>)(Iterable)iterateFS(cas, getType(cas, Token.class))));
+				toText((Iterable<AnnotationFS>)(Iterable)selectFS(cas, getType(cas, Token.class))));
 	}
 }

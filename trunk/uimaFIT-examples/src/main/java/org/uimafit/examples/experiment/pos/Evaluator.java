@@ -18,6 +18,8 @@ package org.uimafit.examples.experiment.pos;
 
 import static org.uimafit.examples.experiment.pos.ViewNames.GOLD_VIEW;
 import static org.uimafit.examples.experiment.pos.ViewNames.SYSTEM_VIEW;
+import static org.uimafit.util.JCasUtil.select;
+import static org.uimafit.util.JCasUtil.selectCovered;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -29,7 +31,6 @@ import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.SofaCapability;
 import org.uimafit.examples.type.Sentence;
 import org.uimafit.examples.type.Token;
-import org.uimafit.util.JCasUtil;
 
 /**
  * This AE evaluates the system part-of-speech tags against the gold
@@ -54,9 +55,9 @@ public class Evaluator extends JCasAnnotator_ImplBase {
 			JCas goldView = jCas.getView(GOLD_VIEW);
 			JCas systemView = jCas.getView(SYSTEM_VIEW);
 
-			for (Sentence goldSentence : JCasUtil.iterate(goldView, Sentence.class)) {
-				List<Token> goldTokens = JCasUtil.selectCovered(goldView, Token.class, goldSentence);
-				List<Token> systemTokens = JCasUtil.selectCovered(systemView, Token.class, goldSentence);
+			for (Sentence goldSentence : select(goldView, Sentence.class)) {
+				List<Token> goldTokens = selectCovered(goldView, Token.class, goldSentence);
+				List<Token> systemTokens = selectCovered(systemView, Token.class, goldSentence);
 				if (goldTokens.size() == systemTokens.size()) {
 					for (int i = 0; i < goldTokens.size(); i++) {
 						String goldPos = goldTokens.get(i).getPos();

@@ -19,7 +19,7 @@ package org.uimafit.examples.tutorial.ex2;
 import static org.uimafit.factory.AnalysisEngineFactory.createPrimitive;
 import static org.uimafit.factory.JCasFactory.createJCas;
 import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
-import static org.uimafit.util.JCasUtil.iterate;
+import static org.uimafit.util.JCasUtil.select;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
@@ -43,7 +43,7 @@ public class RoomNumberAnnotatorPipeline {
 				"\\b[G1-4][NS]-[A-Z]\\d\\d\\b" }, "Locations", new String[] { "Downtown", "Uptown" });
 		analysisEngine.process(jCas);
 
-		for (RoomNumber roomNumber : iterate(jCas, RoomNumber.class)) {
+		for (RoomNumber roomNumber : select(jCas, RoomNumber.class)) {
 			System.out.println(roomNumber.getCoveredText() + "\tbuilding = " + roomNumber.getBuilding());
 		}
 	}
