@@ -36,7 +36,7 @@ public class RoomNumberAnnotatorPipeline {
 
 	public static void main(String[] args) throws UIMAException {
 		String text = "The meeting was moved from Yorktown 01-144 to Hawthorne 1S-W33.";
-		TypeSystemDescription tsd = createTypeSystemDescription(RoomNumber.class);
+		TypeSystemDescription tsd = createTypeSystemDescription("org.uimafit.examples.type.RoomNumber");
 		JCas jCas = createJCas(tsd);
 		jCas.setDocumentText(text);
 		AnalysisEngine analysisEngine = createPrimitive(RoomNumberAnnotator.class, tsd, "Patterns", new String[] { "\\b[0-4]\\d-[0-2]\\d\\d\\b",
