@@ -1,4 +1,5 @@
 changes since 1.2.0
+	- resolved issue #107 "Upgrade to UIMA 2.4.0"
 	- resolved issue #106 "Deprecate TypeSystemDescriptionFactory.createTypeSystemDescription(Class<?>...)"
 	- resolved issue #103 "Resource_ImplBase initialize() does not use generics"
 	- resolved issue #99 "Add support/test-case for ParameterizedDataResource "
