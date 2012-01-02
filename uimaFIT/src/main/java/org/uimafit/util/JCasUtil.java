@@ -248,6 +248,54 @@ public class JCasUtil {
 	}
 
 	/**
+	 * Get a list of annotations of the given annotation type located between two annotations.
+	 * Does not use subiterators and does not respect type priorities. Zero-width annotations
+	 * what lie on the borders are included in the result, e.g. if the boundary annotations are
+	 * [1..2] and [2..3] then an annotation [2..2] is returned. If there is a non-zero overlap
+	 * between the boundary annotations, the result is empty. The method properly handles cases
+	 * where the second boundary annotations occurs before the first boundary annotation by
+	 * switching their roles.
+	 *
+	 * @param type
+	 *            a UIMA type.
+	 * @param ann1
+	 *            the first boundary annotation.
+	 * @param ann2
+	 *            the second boundary annotation.
+	 * @return a return value.
+	 * @see Subiterator
+	 */
+	public static <T extends Annotation> List<T> selectBetween(final Class<T> type,
+			 AnnotationFS ann1, AnnotationFS ann2) {
+		return cast(CasUtil.selectBetween(CasUtil.getType(ann1.getCAS(), type), ann1, ann2));
+	}
+
+	/**
+	 * Get a list of annotations of the given annotation type located between two annotations.
+	 * Does not use subiterators and does not respect type priorities. Zero-width annotations
+	 * what lie on the borders are included in the result, e.g. if the boundary annotations are
+	 * [1..2] and [2..3] then an annotation [2..2] is returned. If there is a non-zero overlap
+	 * between the boundary annotations, the result is empty. The method properly handles cases
+	 * where the second boundary annotations occurs before the first boundary annotation by
+	 * switching their roles.
+	 *
+	 * @param jCas
+	 *            a JCas containing the annotation.
+	 * @param type
+	 *            a UIMA type.
+	 * @param ann1
+	 *            the first boundary annotation.
+	 * @param ann2
+	 *            the second boundary annotation.
+	 * @return a return value.
+	 * @see Subiterator
+	 */
+	public static <T extends Annotation> List<T> selectBetween(JCas jCas, final Class<T> type,
+			 AnnotationFS ann1, AnnotationFS ann2) {
+		return cast(CasUtil.selectBetween(jCas.getCas(), getType(jCas, type), ann1, ann2));
+	}
+
+	/**
 	 * Get a list of annotations of the given annotation type constrained by a 'covering'
 	 * annotation. Iterates over all annotations of the given type to find the covered annotations.
 	 * Does not use subiterators.
@@ -266,7 +314,7 @@ public class JCasUtil {
 		CAS cas = coveringAnnotation.getCAS();
 		return cast(CasUtil.selectCovered(cas, CasUtil.getType(cas, type), coveringAnnotation));
 	}
-
+	
 	/**
 	 * Get a list of annotations of the given annotation type constrained by a 'covering'
 	 * annotation. Iterates over all annotations of the given type to find the covered annotations.

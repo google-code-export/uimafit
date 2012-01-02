@@ -36,6 +36,7 @@ import static org.uimafit.util.JCasUtil.indexCovered;
 import static org.uimafit.util.JCasUtil.indexCovering;
 import static org.uimafit.util.JCasUtil.isCovered;
 import static org.uimafit.util.JCasUtil.select;
+import static org.uimafit.util.JCasUtil.selectBetween;
 import static org.uimafit.util.JCasUtil.selectCovered;
 import static org.uimafit.util.JCasUtil.selectCovering;
 import static org.uimafit.util.JCasUtil.selectFollowing;
@@ -122,52 +123,150 @@ public class JCasUtilTest extends ComponentTestBase {
 
 	@Test
 	public void testSelectCoverRandom() throws Exception {
-		Random rnd = new Random();
-
 		final int ITERATIONS = 10;
 
 		for (int i = 0; i < ITERATIONS; i++) {
 			CAS cas = jCas.getCas();
-			List<Type> types = new ArrayList<Type>();
-			types.add(cas.getTypeSystem().getType(Token.class.getName()));
-			types.add(cas.getTypeSystem().getType(Sentence.class.getName()));
-
-			// Shuffle the types
-			for (int n = 0; n < 10; n++) {
-				Type t = types.remove(rnd.nextInt(types.size()));
-				types.add(t);
-			}
-
-			// Randomly generate annotations
-			for (int n = 0; n < (10 * i); n++) {
-				for (Type t : types) {
-					int begin = rnd.nextInt(100);
-					int end = begin + rnd.nextInt(30);
-					cas.addFsToIndexes(cas.createAnnotation(t, begin, end));
-				}
-			}
+			initRandomCas(cas, 10 * i);
 
 			JCas jcas = cas.getJCas();
-			long t1 = 0;
-			long t2 = 0;
+			long timeNaive = 0;
+			long timeOptimized = 0;
 			for (Token t : select(jcas, Token.class)) {
 				long ti = System.currentTimeMillis();
 				// The naive approach is assumed to be correct
 				List<Sentence> stem1 = selectCovered(jcas, Sentence.class, t.getBegin(), t.getEnd());
-				t1 += System.currentTimeMillis() - ti;
+				timeNaive += System.currentTimeMillis() - ti;
 
 				ti = System.currentTimeMillis();
 				List<Sentence> stem2 = selectCovered(jcas, Sentence.class, t);
+				timeOptimized += System.currentTimeMillis() - ti;
+
 				Collection<Sentence> stem3 = indexCovered(jcas, Token.class, Sentence.class).get(t);
-				t2 += System.currentTimeMillis() - ti;
 
 				check(jcas, t, stem1, stem2);
 				check(jcas, t, stem1, stem3);
 			}
-			System.out.format("Speed up: n:%d o:%d d:%d (%.2f)\n", t1, t2, t1 - t2, (double) t1
-					/ (double) t2);
+			System.out.format("Speed up factor %.2f [naive:%d optimized:%d diff:%d]\n", 
+					 (double) timeNaive / (double) timeOptimized, timeNaive, timeOptimized, 
+					timeNaive - timeOptimized);
 		}
 	}
+	
+	/**
+	 * Test what happens if there is actually nothing overlapping with the Token.
+	 */
+	@Test
+	public void testSelectBetweenInclusion() throws Exception {
+		Token t1 = new Token(jCas, 45, 57);
+		t1.addToIndexes();
+		Token t2 = new Token(jCas, 52, 52);
+		t2.addToIndexes();
+		
+		new Sentence(jCas, 52, 52).addToIndexes();
+
+		List<Sentence> stem1 = selectBetween(jCas, Sentence.class, t1, t2);
+		assertTrue(stem1.isEmpty());
+	}
+
+	@Test
+	public void testSelectBetweenRandom() throws Exception {
+		final int ITERATIONS = 100;
+
+		Random rnd = new Random();
+
+		for (int i = 1; i <= ITERATIONS; i++) {
+			CAS cas = jCas.getCas();
+			initRandomCas(cas, 10 * i);
+
+			JCas jcas = cas.getJCas();
+			List<Token> tokens = new ArrayList<Token>(select(jcas, Token.class));
+
+			long timeNaive = 0;
+			long timeOptimized = 0;
+//			long timeRefImpl = 0;
+			for (int j = 0; j < ITERATIONS; j++) {
+				Token t1 = tokens.get(rnd.nextInt(tokens.size()));
+				Token t2 = tokens.get(rnd.nextInt(tokens.size()));
+				
+				int left = Math.min(t1.getEnd(), t2.getEnd());
+				int right = Math.max(t1.getBegin(), t2.getBegin());
+
+				long ti;
+				List<Sentence> reference;
+				if (
+					(t1.getBegin() < t2.getBegin() && t2.getBegin() < t1.getEnd()) ||
+					(t1.getBegin() < t2.getEnd() && t2.getEnd() < t1.getEnd()) ||
+					(t2.getBegin() < t1.getBegin() && t1.getBegin() < t2.getEnd()) ||
+					(t2.getBegin() < t1.getEnd() && t1.getEnd() < t2.getEnd())
+				) {
+					// If the boundary annotations overlap, the result must be empty
+					ti = System.currentTimeMillis();
+					reference = new ArrayList<Sentence>();
+					timeNaive += System.currentTimeMillis() - ti;
+				}
+				else {
+					ti = System.currentTimeMillis();
+					reference = selectCovered(jcas, Sentence.class, left, right);
+					timeNaive += System.currentTimeMillis() - ti;
+				}
+				
+				ti = System.currentTimeMillis();
+				List<Sentence> actual = selectBetween(Sentence.class, t1, t2);
+				timeOptimized += System.currentTimeMillis() - ti;
+
+//				ti = System.currentTimeMillis();
+//				List<Sentence> refImpl = selectBetweenRef(jcas, Sentence.class, t1, t2);
+//				timeReference += System.currentTimeMillis() - ti;
+
+				assertEquals("Naive: Searching between "+t1+" and "+t2, reference, actual);
+//				assertEquals("Reference impl: Searching between "+t1+" and "+t2, refImpl, actual);
+			}
+			
+			System.out.format("Speed up factor %.2f [naive:%d optimized:%d diff:%d]\n", 
+					 (double) timeNaive / (double) timeOptimized, timeNaive, timeOptimized, 
+					timeNaive - timeOptimized);
+//			System.out.format("Speed up factor %.2f [reference:%d optimized:%d diff:%d]\n", 
+//					 (double) timeRefImpl / (double) timeOptimized, timeRefImpl, timeOptimized, 
+//					 timeRefImpl - timeOptimized);
+		}
+	}
+	
+	// Reference code from Issue 86
+	// REC: I think this code is not working as desired:
+	// Given a CAS with Token [38..51], Token [65..76] and Sentence [55..56] the result using the
+	// Tokens as ann1 and ann2 should be the Sentence, but it is empty instead.
+//	private static <T extends Annotation> List<T> selectBetweenRef(JCas jCas,
+//			Class<T> annotationClass, Annotation ann1, Annotation ann2) {
+//		AnnotationFS left;
+//		AnnotationFS right;
+//		if (ann1.getEnd() > ann2.getBegin()) {
+//			left = ann2;
+//			right = ann1;
+//		}
+//		else {
+//			left = ann1;
+//			right = ann2;
+//		}
+//
+//		if (left.getEnd() > right.getBegin()) {
+////			String message = "Expected first annotation before second, found:\n%s\n%s";
+////			throw new RuntimeException(String.format(message, left, right));
+//			return new ArrayList<T>();
+//		}
+//		Type type = JCasUtil.getType(jCas, annotationClass);
+//		FSIterator<Annotation> iter = jCas.getAnnotationIndex(type).iterator();
+//		iter.moveTo(left);
+//		while (iter.isValid() && iter.get().getBegin() < left.getEnd()) {
+//			iter.moveToNext();
+//		}
+//		List<T> anns = new ArrayList<T>();
+//		while (iter.isValid() && iter.get().getEnd() <= right.getBegin()) {
+//			anns.add(annotationClass.cast(iter.get()));
+//			iter.moveToNext();
+//		}
+//		return anns;
+//	}
 
 	/**
 	 * Test Tokens (Stems + Lemmas) overlapping with each other.
@@ -183,6 +282,29 @@ public class JCasUtilTest extends ComponentTestBase {
 		assertEquals(0, selectCovering(jCas, Token.class, 36, 52).size());
 		assertEquals(1, selectCovering(jCas, Token.class, 37, 52).size());
 		assertEquals(2, selectCovering(jCas, Token.class, 49, 52).size());
+	}
+	
+	private void initRandomCas(CAS cas, int size)
+	{
+		Random rnd = new Random();
+		List<Type> types = new ArrayList<Type>();
+		types.add(cas.getTypeSystem().getType(Token.class.getName()));
+		types.add(cas.getTypeSystem().getType(Sentence.class.getName()));
+
+		// Shuffle the types
+		for (int n = 0; n < 10; n++) {
+			Type t = types.remove(rnd.nextInt(types.size()));
+			types.add(t);
+		}
+
+		// Randomly generate annotations
+		for (int n = 0; n < size; n++) {
+			for (Type t : types) {
+				int begin = rnd.nextInt(100);
+				int end = begin + rnd.nextInt(30);
+				cas.addFsToIndexes(cas.createAnnotation(t, begin, end));
+			}
+		}
 	}
 
 	@SuppressWarnings("unused")
