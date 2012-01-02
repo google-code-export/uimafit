@@ -3,26 +3,29 @@
  The following list provides links to various resources for learning more about uimaFIT.  If you can not find an answer to your question, then please send 
  email to [mailto:uimafit-users@googlegroups.com uimafit-users@googlegroups.com].
  
-===== Introduction =====
+== Introduction ==
 
  * [UserSetup User Setup instructions]
  * [TwoSidesOfUimaFIT Conceptual Overview]
  * [GettingStarted Getting started tutorial]
  * [http://code.google.com/p/uimafit/source/browse/trunk/uimaFIT/CHANGES CHANGES]
- * [ContextInjection Context injection]
 
-===== Use cases =====
+== Use cases ==
 
  * [WritingTests Writing tests]
  * [RunningExperiments Running experiments]
 
-===== Support for UIMA concepts =====
+== uimaFIT features ==
+
+ * [ContextInjection Context injection]
+ * [TypeDescriptorDetection Automatic type detection] 
+
+== Cookbook ==
 
  * [uimaFitResources External Resources] - Sharing data between analysis engines
- * [TypeDescriptorDetection Type Systems] - Automatic type descriptor detection
  * [WorkingWithSofaViews Sofas/Views] - Working with different views
 
-===== Examples, Tests and Reference Documentation =====
+== Examples, Tests and Reference Documentation ==
 
  * [http://code.google.com/p/uimafit/source/browse/#svn/trunk/uimaFIT-examples/src/main/java/org/uimafit/examples Examples project] provides a number of examples.
  * The [http://code.google.com/p/uimafit/source/browse/#svn/trunk/uimaFIT/src/test/java/org/uimafit%3Fstate%3Dclosed unit tests] are fairly complete and provide a lot of code examples that should be helpful.
