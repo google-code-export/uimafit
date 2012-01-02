@@ -1,4 +1,4 @@
-#helpful hints on running NLP experiments in UIMA
+#summary helpful hints on running NLP experiments in UIMA
 
 The [http://code.google.com/p/uimafit/source/browse/#svn/trunk/uimaFIT-examples/src/main/java/org/uimafit/examples uimafit-examples] project contains a package org.uimafit.examples.experiment.pos which demonstrates a very simple experimental setup for testing a part-of-speech tagger.  You may find this example more accessible if you check out the code from subversion and build it in your own environment.  Instructions for doing this can be found [DeveloperSetup here].  
 
