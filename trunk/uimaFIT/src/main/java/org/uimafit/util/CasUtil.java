@@ -255,6 +255,145 @@ public class CasUtil {
 	}
 
 	/**
+	 * Get a list of annotations of the given annotation type located between two annotations.
+	 * Does not use subiterators and does not respect type priorities. Zero-width annotations
+	 * what lie on the borders are included in the result, e.g. if the boundary annotations are
+	 * [1..2] and [2..3] then an annotation [2..2] is returned. If there is a non-zero overlap
+	 * between the boundary annotations, the result is empty. The method properly handles cases
+	 * where the second boundary annotations occurs before the first boundary annotation by
+	 * switching their roles.
+	 *
+	 * @param type
+	 *            a UIMA type.
+	 * @param ann1
+	 *            the first boundary annotation.
+	 * @param ann2
+	 *            the second boundary annotation.
+	 * @return a return value.
+	 * @see Subiterator
+	 */
+	public static List<AnnotationFS> selectBetween(
+			final Type type, final AnnotationFS ann1, final AnnotationFS ann2) {
+		return selectBetween(ann1.getView(), type, ann1, ann2);
+	}
+
+	/**
+	 * Get a list of annotations of the given annotation type located between two annotations.
+	 * Does not use subiterators and does not respect type priorities. Zero-width annotations
+	 * what lie on the borders are included in the result, e.g. if the boundary annotations are
+	 * [1..2] and [2..3] then an annotation [2..2] is returned. If there is a non-zero overlap
+	 * between the boundary annotations, the result is empty. The method properly handles cases
+	 * where the second boundary annotations occurs before the first boundary annotation by
+	 * switching their roles.
+	 *
+	 * @param cas
+	 *            a CAS.
+	 * @param type
+	 *            a UIMA type.
+	 * @param ann1
+	 *            the first boundary annotation.
+	 * @param ann2
+	 *            the second boundary annotation.
+	 * @return a return value.
+	 * @see Subiterator
+	 */
+	public static List<AnnotationFS> selectBetween(final CAS cas, final Type type, 
+			final AnnotationFS ann1, final AnnotationFS ann2) {
+		AnnotationFS left;
+		AnnotationFS right;
+		if (ann1.getEnd() > ann2.getBegin()) {
+			left = ann2;
+			right = ann1;
+		}
+		else {
+			left = ann1;
+			right = ann2;
+		}
+		
+		int begin = left.getEnd();
+		int end = right.getBegin();
+
+		List<AnnotationFS> list = new ArrayList<AnnotationFS>();
+		FSIterator<AnnotationFS> it = cas.getAnnotationIndex(type).iterator();
+
+		// Try to seek the insertion point.
+		it.moveTo(left);
+
+		// If the insertion point is beyond the index, move back to the last.
+		if (!it.isValid()) {
+			it.moveToLast();
+			if (!it.isValid()) {
+				return list;
+			}
+		}
+
+		// Ignore type priorities by seeking to the first that has the same begin
+		boolean moved = false;
+		while (it.isValid() && (it.get()).getBegin() >= begin) {
+			it.moveToPrevious();
+			moved = true;
+		}
+
+		// If we moved, then we are now on one starting before the requested begin, so we have to
+		// move one ahead.
+		if (moved) {
+			it.moveToNext();
+		}
+
+		// If we managed to move outside the index, start at first.
+		if (!it.isValid()) {
+			it.moveToFirst();
+		}
+
+		// Skip annotations whose start is before the start parameter.
+		while (it.isValid() && (it.get()).getBegin() < begin) {
+			it.moveToNext();
+		}
+
+		boolean strict = true;
+		while (it.isValid()) {
+			AnnotationFS a = it.get();
+			// If the start of the current annotation is past the end parameter, we're done.
+			if (a.getBegin() > end) {
+				break;
+			}
+			it.moveToNext();
+			if (strict && a.getEnd() > end) {
+				continue;
+			}
+
+			assert (a.getBegin() >= left.getEnd()) : "Illegal begin "
+					+ a.getBegin() + " in [" + begin + ".." + end + "]";
+
+			assert (a.getEnd() <= right.getBegin()) : "Illegal end "
+					+ a.getBegin() + " in [" + begin + ".." + end + "]";
+
+
+			if (!a.equals(left) && !a.equals(right)) {
+				list.add(a);
+			}
+		}
+
+		return unmodifiableList(list);	}
+	
+	/**
+	 * Get a list of annotations of the given annotation type constraint by a certain annotation.
+	 * Iterates over all annotations of the given type to find the covered annotations. Does not use
+	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
+	 * Uses the same approach except that type priorities are ignored.
+	 *
+	 * @param type
+	 *            a UIMA type.
+	 * @param coveringAnnotation
+	 *            the covering annotation.
+	 * @return a return value.
+	 * @see Subiterator
+	 */
+	public static List<AnnotationFS> selectCovered(Type type, AnnotationFS coveringAnnotation) {
+		return selectCovered(coveringAnnotation.getView(), type, coveringAnnotation);
+	}
+
+	/**
 	 * Get a list of annotations of the given annotation type constraint by a certain annotation.
 	 * Iterates over all annotations of the given type to find the covered annotations. Does not use
 	 * subiterators and does not respect type prioritites. Was adapted from {@link Subiterator}.
@@ -323,11 +462,11 @@ public class CasUtil {
 				continue;
 			}
 
-			assert !(a.getBegin() < coveringAnnotation.getBegin()) : "Illegal begin "
+			assert (a.getBegin() >= coveringAnnotation.getBegin()) : "Illegal begin "
 					+ a.getBegin() + " in [" + coveringAnnotation.getBegin() + ".."
 					+ coveringAnnotation.getEnd() + "]";
 
-			assert !(a.getEnd() < coveringAnnotation.getBegin()) : "Illegal end " + a.getEnd()
+			assert (a.getEnd() <= coveringAnnotation.getEnd()) : "Illegal end " + a.getEnd()
 					+ " in [" + coveringAnnotation.getBegin() + ".." + coveringAnnotation.getEnd()
 					+ "]";
 
@@ -381,10 +520,10 @@ public class CasUtil {
 				continue;
 			}
 
-			assert !(a.getBegin() < begin) : "Illegal begin " + a.getBegin() + " in [" + begin
+			assert (a.getBegin() >= begin) : "Illegal begin " + a.getBegin() + " in [" + begin
 					+ ".." + end + "]";
 
-			assert !(a.getEnd() < begin) : "Illegal end " + a.getEnd() + " in [" + begin + ".."
+			assert (a.getEnd() <= end) : "Illegal end " + a.getEnd() + " in [" + begin + ".."
 					+ end + "]";
 
 			list.add(a);
