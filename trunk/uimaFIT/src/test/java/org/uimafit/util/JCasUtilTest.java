@@ -171,7 +171,7 @@ public class JCasUtilTest extends ComponentTestBase {
 
 	@Test
 	public void testSelectBetweenRandom() throws Exception {
-		final int ITERATIONS = 100;
+		final int ITERATIONS = 10;
 
 		Random rnd = new Random();
 
