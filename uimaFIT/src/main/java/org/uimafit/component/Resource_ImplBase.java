@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.uimafit.component.initialize.ConfigurationParameterInitializer;
+import org.uimafit.util.ExtendedLogger;
 
 /**
  * Base class for external resources which initializes itself based on annotations.
@@ -30,6 +31,16 @@ import org.uimafit.component.initialize.ConfigurationParameterInitializer;
  * @author Richard Eckart de Castilho
  */
 public abstract class Resource_ImplBase extends org.apache.uima.resource.Resource_ImplBase {
+	private ExtendedLogger logger;
+	
+	@Override
+	public ExtendedLogger getLogger() {
+		if (logger == null) {
+			logger = new ExtendedLogger(getUimaContext());
+		}
+		return logger;
+	}
+	
 	@Override
 	public boolean initialize(ResourceSpecifier aSpecifier, Map<String, Object> aAdditionalParams)
 		throws ResourceInitializationException

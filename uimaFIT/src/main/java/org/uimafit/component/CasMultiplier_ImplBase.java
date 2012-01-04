@@ -23,6 +23,7 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.descriptor.OperationalProperties;
+import org.uimafit.util.ExtendedLogger;
 
 /**
  * Base class for a CAS multiplier which initializes itself based on annotations.
@@ -32,6 +33,15 @@ import org.uimafit.descriptor.OperationalProperties;
 @OperationalProperties(outputsNewCases = true)
 public abstract class CasMultiplier_ImplBase extends
 		org.apache.uima.analysis_component.CasMultiplier_ImplBase {
+	private ExtendedLogger logger;
+	
+	public ExtendedLogger getLogger() {
+		if (logger == null) {
+			logger = new ExtendedLogger(getContext());
+		}
+		return logger;
+	}
+	
 	@Override
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);

@@ -6,6 +6,7 @@ changes in 1.3.0
 	- resolved issue #99 "Add support/test-case for ParameterizedDataResource "
 	- resolved issue #98 "Setting parameters on a SharedResourceObject"
 	- resolved issue #86 "Add (J)CasUtil.selectBetween"
+	- resolved issue #80 "Allow injection of logger"
 
 changes in 1.2.0
     - resolved issue #88 "runPipeline() never calls destroy() on the analysis engines"
