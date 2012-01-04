@@ -26,6 +26,7 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.descriptor.OperationalProperties;
+import org.uimafit.util.ExtendedLogger;
 
 /**
  * Base class for CAS collection readers which initializes itself based on annotations.
@@ -34,6 +35,16 @@ import org.uimafit.descriptor.OperationalProperties;
  */
 @OperationalProperties(outputsNewCases=true)
 public abstract class CasCollectionReader_ImplBase extends CollectionReader_ImplBase {
+	private ExtendedLogger logger;
+	
+	@Override
+	public ExtendedLogger getLogger() {
+		if (logger == null) {
+			logger = new ExtendedLogger(getUimaContext());
+		}
+		return logger;
+	}
+	
 	@Override
 	// This method should not be overwritten. Overwrite initialize(UimaContext) instead.
 	public final void initialize() throws ResourceInitializationException {
