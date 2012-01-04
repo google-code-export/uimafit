@@ -184,7 +184,6 @@ public class JCasUtilTest extends ComponentTestBase {
 
 			long timeNaive = 0;
 			long timeOptimized = 0;
-//			long timeRefImpl = 0;
 			for (int j = 0; j < ITERATIONS; j++) {
 				Token t1 = tokens.get(rnd.nextInt(tokens.size()));
 				Token t2 = tokens.get(rnd.nextInt(tokens.size()));
@@ -215,59 +214,15 @@ public class JCasUtilTest extends ComponentTestBase {
 				List<Sentence> actual = selectBetween(Sentence.class, t1, t2);
 				timeOptimized += System.currentTimeMillis() - ti;
 
-//				ti = System.currentTimeMillis();
-//				List<Sentence> refImpl = selectBetweenRef(jcas, Sentence.class, t1, t2);
-//				timeReference += System.currentTimeMillis() - ti;
-
 				assertEquals("Naive: Searching between "+t1+" and "+t2, reference, actual);
-//				assertEquals("Reference impl: Searching between "+t1+" and "+t2, refImpl, actual);
 			}
 			
 			System.out.format("Speed up factor %.2f [naive:%d optimized:%d diff:%d]\n", 
 					 (double) timeNaive / (double) timeOptimized, timeNaive, timeOptimized, 
 					timeNaive - timeOptimized);
-//			System.out.format("Speed up factor %.2f [reference:%d optimized:%d diff:%d]\n", 
-//					 (double) timeRefImpl / (double) timeOptimized, timeRefImpl, timeOptimized, 
-//					 timeRefImpl - timeOptimized);
 		}
 	}
 	
-	// Reference code from Issue 86
-	// REC: I think this code is not working as desired:
-	// Given a CAS with Token [38..51], Token [65..76] and Sentence [55..56] the result using the
-	// Tokens as ann1 and ann2 should be the Sentence, but it is empty instead.
-//	private static <T extends Annotation> List<T> selectBetweenRef(JCas jCas,
-//			Class<T> annotationClass, Annotation ann1, Annotation ann2) {
-//		AnnotationFS left;
-//		AnnotationFS right;
-//		if (ann1.getEnd() > ann2.getBegin()) {
-//			left = ann2;
-//			right = ann1;
-//		}
-//		else {
-//			left = ann1;
-//			right = ann2;
-//		}
-//
-//		if (left.getEnd() > right.getBegin()) {
-////			String message = "Expected first annotation before second, found:\n%s\n%s";
-////			throw new RuntimeException(String.format(message, left, right));
-//			return new ArrayList<T>();
-//		}
-//		Type type = JCasUtil.getType(jCas, annotationClass);
-//		FSIterator<Annotation> iter = jCas.getAnnotationIndex(type).iterator();
-//		iter.moveTo(left);
-//		while (iter.isValid() && iter.get().getBegin() < left.getEnd()) {
-//			iter.moveToNext();
-//		}
-//		List<T> anns = new ArrayList<T>();
-//		while (iter.isValid() && iter.get().getEnd() <= right.getBegin()) {
-//			anns.add(annotationClass.cast(iter.get()));
-//			iter.moveToNext();
-//		}
-//		return anns;
-//	}
-
 	/**
 	 * Test Tokens (Stems + Lemmas) overlapping with each other.
 	 */
