@@ -1,5 +1,5 @@
 changes in 1.3.0
-	- resolved issue #108 "date to latest Sonatype OSS POM"
+	- resolved issue #108 "Update to latest Sonatype OSS POM"
 	- resolved issue #107 "Update to UIMA 2.4.0"
 	- resolved issue #106 "Deprecate TypeSystemDescriptionFactory.createTypeSystemDescription(Class<?>...)"
 	- resolved issue #103 "Resource_ImplBase initialize() does not use generics"
