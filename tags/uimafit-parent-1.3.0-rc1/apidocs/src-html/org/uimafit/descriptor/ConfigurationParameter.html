@@ -1,0 +1,172 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     Copyright 2009-2010    Regents of the University of Colorado.<a name="line.2"></a>
+<FONT color="green">003</FONT>     All rights reserved.<a name="line.3"></a>
+<FONT color="green">004</FONT>    <a name="line.4"></a>
+<FONT color="green">005</FONT>     Licensed under the Apache License, Version 2.0 (the "License");<a name="line.5"></a>
+<FONT color="green">006</FONT>     you may not use this file except in compliance with the License.<a name="line.6"></a>
+<FONT color="green">007</FONT>     You may obtain a copy of the License at<a name="line.7"></a>
+<FONT color="green">008</FONT>    <a name="line.8"></a>
+<FONT color="green">009</FONT>     http://www.apache.org/licenses/LICENSE-2.0<a name="line.9"></a>
+<FONT color="green">010</FONT>    <a name="line.10"></a>
+<FONT color="green">011</FONT>     Unless required by applicable law or agreed to in writing, software<a name="line.11"></a>
+<FONT color="green">012</FONT>     distributed under the License is distributed on an "AS IS" BASIS,<a name="line.12"></a>
+<FONT color="green">013</FONT>     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.13"></a>
+<FONT color="green">014</FONT>     See the License for the specific language governing permissions and<a name="line.14"></a>
+<FONT color="green">015</FONT>     limitations under the License.<a name="line.15"></a>
+<FONT color="green">016</FONT>     */<a name="line.16"></a>
+<FONT color="green">017</FONT>    package org.uimafit.descriptor;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import java.io.File;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import java.lang.annotation.ElementType;<a name="line.20"></a>
+<FONT color="green">021</FONT>    import java.lang.annotation.Retention;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import java.lang.annotation.RetentionPolicy;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import java.lang.annotation.Target;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import java.net.URI;<a name="line.24"></a>
+<FONT color="green">025</FONT>    import java.net.URL;<a name="line.25"></a>
+<FONT color="green">026</FONT>    import java.util.Locale;<a name="line.26"></a>
+<FONT color="green">027</FONT>    import java.util.regex.Pattern;<a name="line.27"></a>
+<FONT color="green">028</FONT>    <a name="line.28"></a>
+<FONT color="green">029</FONT>    import org.uimafit.component.initialize.ConfigurationParameterInitializer;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import org.uimafit.factory.ConfigurationParameterFactory;<a name="line.30"></a>
+<FONT color="green">031</FONT>    <a name="line.31"></a>
+<FONT color="green">032</FONT>    /**<a name="line.32"></a>
+<FONT color="green">033</FONT>     * This annotation marks an analysis component member variable as a configuration parameter. The<a name="line.33"></a>
+<FONT color="green">034</FONT>     * types of member variables that can use this annotation are:<a name="line.34"></a>
+<FONT color="green">035</FONT>     * &lt;ul&gt;<a name="line.35"></a>
+<FONT color="green">036</FONT>     * &lt;li&gt;primitive types and arrays: {@code boolean}, {@code boolean[]}, {@code int}, {@code int[]},<a name="line.36"></a>
+<FONT color="green">037</FONT>     * {@code float}, {@code float[]}&lt;/li&gt;<a name="line.37"></a>
+<FONT color="green">038</FONT>     * &lt;li&gt;primitive object wrapper types and arrays: {@link Boolean}, {@link Boolean}{@code []},<a name="line.38"></a>
+<FONT color="green">039</FONT>     * {@link Integer}, {@link Integer}{@code []}, {@link Float}, {@link Float}{@code []}&lt;/li&gt;<a name="line.39"></a>
+<FONT color="green">040</FONT>     * &lt;li&gt;strings and string arrays: {@link String}, {@link String}{@code []}&lt;/li&gt;<a name="line.40"></a>
+<FONT color="green">041</FONT>     * &lt;li&gt;enumeration types ({@link Enum})&lt;/li&gt;<a name="line.41"></a>
+<FONT color="green">042</FONT>     * &lt;li&gt;language/locale: {@link Locale}&lt;/li&gt;<a name="line.42"></a>
+<FONT color="green">043</FONT>     * &lt;li&gt;regular expression patterns: {@link Pattern}&lt;/li&gt;<a name="line.43"></a>
+<FONT color="green">044</FONT>     * &lt;li&gt;all other types that have a constructor that takes a string as the single argument, e.g.:<a name="line.44"></a>
+<FONT color="green">045</FONT>     * {@link File}, {@link URL}, {@link URI} ...&lt;/li&gt;<a name="line.45"></a>
+<FONT color="green">046</FONT>     * &lt;/ul&gt;<a name="line.46"></a>
+<FONT color="green">047</FONT>     *<a name="line.47"></a>
+<FONT color="green">048</FONT>     * @author Philip Ogren<a name="line.48"></a>
+<FONT color="green">049</FONT>     * @see ConfigurationParameterInitializer<a name="line.49"></a>
+<FONT color="green">050</FONT>     */<a name="line.50"></a>
+<FONT color="green">051</FONT>    <a name="line.51"></a>
+<FONT color="green">052</FONT>    @Retention(RetentionPolicy.RUNTIME)<a name="line.52"></a>
+<FONT color="green">053</FONT>    @Target(ElementType.FIELD)<a name="line.53"></a>
+<FONT color="green">054</FONT>    public @interface ConfigurationParameter {<a name="line.54"></a>
+<FONT color="green">055</FONT>    <a name="line.55"></a>
+<FONT color="green">056</FONT>            /**<a name="line.56"></a>
+<FONT color="green">057</FONT>             * the default value for name if none is given.<a name="line.57"></a>
+<FONT color="green">058</FONT>             */<a name="line.58"></a>
+<FONT color="green">059</FONT>            public static final String USE_FIELD_NAME = "org.uimafit.descriptor.ConfigurationParameter.USE_FIELD_NAME";<a name="line.59"></a>
+<FONT color="green">060</FONT>    <a name="line.60"></a>
+<FONT color="green">061</FONT>            /**<a name="line.61"></a>
+<FONT color="green">062</FONT>             * If you do not specify a name then the default name will be given by {@link #USE_FIELD_NAME}<a name="line.62"></a>
+<FONT color="green">063</FONT>             * will be the default name. This tells ConfigurationParameterFactory to use the name of the<a name="line.63"></a>
+<FONT color="green">064</FONT>             * annotated field as the name of the configuration parameter. The exact name that is used is<a name="line.64"></a>
+<FONT color="green">065</FONT>             * determined by the method<a name="line.65"></a>
+<FONT color="green">066</FONT>             * {@link ConfigurationParameterFactory#getConfigurationParameterName(java.lang.reflect.Field)}<a name="line.66"></a>
+<FONT color="green">067</FONT>             */<a name="line.67"></a>
+<FONT color="green">068</FONT>            String name() default USE_FIELD_NAME;<a name="line.68"></a>
+<FONT color="green">069</FONT>    <a name="line.69"></a>
+<FONT color="green">070</FONT>            /**<a name="line.70"></a>
+<FONT color="green">071</FONT>             * A description for the configuration parameter<a name="line.71"></a>
+<FONT color="green">072</FONT>             */<a name="line.72"></a>
+<FONT color="green">073</FONT>            String description() default "";<a name="line.73"></a>
+<FONT color="green">074</FONT>    <a name="line.74"></a>
+<FONT color="green">075</FONT>            /**<a name="line.75"></a>
+<FONT color="green">076</FONT>             * specifies whether this configuration parameter is mandatory - i.e. the value must be provided<a name="line.76"></a>
+<FONT color="green">077</FONT>             */<a name="line.77"></a>
+<FONT color="green">078</FONT>            boolean mandatory() default false;<a name="line.78"></a>
+<FONT color="green">079</FONT>    <a name="line.79"></a>
+<FONT color="green">080</FONT>            /**<a name="line.80"></a>
+<FONT color="green">081</FONT>             * What can be the value should correspond with the type of the field that is annotated. If for<a name="line.81"></a>
+<FONT color="green">082</FONT>             * example, the field is a String, then the default value can be any string - e.g. "asdf". If<a name="line.82"></a>
+<FONT color="green">083</FONT>             * the field is a boolean, then the default value can be "true" for true or any other string for<a name="line.83"></a>
+<FONT color="green">084</FONT>             * false. If the field is an integer, then the default value can be any string that<a name="line.84"></a>
+<FONT color="green">085</FONT>             * Integer.parseInt() can successfully parse. Remember that just because the default value is a<a name="line.85"></a>
+<FONT color="green">086</FONT>             * string here that you should give an actual integer (not an integer parseable string) value<a name="line.86"></a>
+<FONT color="green">087</FONT>             * when setting the parameter via e.g. AnalysisEngineFactory.createPrimitiveDescription(). If<a name="line.87"></a>
+<FONT color="green">088</FONT>             * the field is a float, then the default value can be any string that Float.parseFloat() can<a name="line.88"></a>
+<FONT color="green">089</FONT>             * successfully parse. Remember that just because the default value is a string here that you<a name="line.89"></a>
+<FONT color="green">090</FONT>             * should give an actual float value (not a float parseable string) when setting the parameter<a name="line.90"></a>
+<FONT color="green">091</FONT>             * via e.g. AnalysisEngineFactory.createPrimitiveDescription().<a name="line.91"></a>
+<FONT color="green">092</FONT>             * &lt;p&gt;<a name="line.92"></a>
+<FONT color="green">093</FONT>             * If the field is multiValued, then the value should look something like this '{"value1",<a name="line.93"></a>
+<FONT color="green">094</FONT>             * "value2"}'<a name="line.94"></a>
+<FONT color="green">095</FONT>             * &lt;p&gt;<a name="line.95"></a>
+<FONT color="green">096</FONT>             * If you want a field to be initialized with a null value, then do not specify a default value<a name="line.96"></a>
+<FONT color="green">097</FONT>             * or specify the value given by the field {@link #NO_DEFAULT_VALUE}<a name="line.97"></a>
+<FONT color="green">098</FONT>             */<a name="line.98"></a>
+<FONT color="green">099</FONT>            String[] defaultValue() default NO_DEFAULT_VALUE;<a name="line.99"></a>
+<FONT color="green">100</FONT>    <a name="line.100"></a>
+<FONT color="green">101</FONT>            /**<a name="line.101"></a>
+<FONT color="green">102</FONT>             * Tells the ConfigurationParameterFactory that no default value has been provided<a name="line.102"></a>
+<FONT color="green">103</FONT>             */<a name="line.103"></a>
+<FONT color="green">104</FONT>            public static final String NO_DEFAULT_VALUE = "org.uimafit.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE";<a name="line.104"></a>
+<FONT color="green">105</FONT>    <a name="line.105"></a>
+<FONT color="green">106</FONT>    }<a name="line.106"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>
