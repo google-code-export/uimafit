@@ -4,6 +4,7 @@ changes in 1.3.0
 	- resolved issue #106 "Deprecate TypeSystemDescriptionFactory.createTypeSystemDescription(Class<?>...)"
 	- resolved issue #103 "Resource_ImplBase initialize() does not use generics"
 	- resolved issue #101 "CASDumpWriter doesn't dump binary Sofa data"
+	- resolved issue #100 "Allow binding external resources in the same way as setting parameters"
 	- resolved issue #99 "Add support/test-case for ParameterizedDataResource "
 	- resolved issue #98 "Setting parameters on a SharedResourceObject"
 	- resolved issue #86 "Add (J)CasUtil.selectBetween"

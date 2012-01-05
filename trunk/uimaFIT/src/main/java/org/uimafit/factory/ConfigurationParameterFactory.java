@@ -306,11 +306,8 @@ public final class ConfigurationParameterFactory {
 		if (configurationData == null) {
 			return new ConfigurationData(new ConfigurationParameter[0], new Object[0]);
 		}
-		if (configurationData.length % 2 != 0) {
-			String message = "a value must be specified for each parameter name: an odd number of values passed in ("
-					+ configurationData.length + ")";
-			throw new IllegalArgumentException(message);
-		}
+		
+		ensureParametersComeInPairs(configurationData);
 
 		int numberOfParameters = configurationData.length / 2;
 		List<ConfigurationParameter> configurationParameters = new ArrayList<ConfigurationParameter>();
@@ -471,4 +468,16 @@ public final class ConfigurationParameterFactory {
 
 	}
 
+	/**
+	 * Helper method to make sure configuration parameter lists have always pairs of name/values.
+	 * 
+	 * @param configurationData the configuration parameters.
+	 */
+	static void ensureParametersComeInPairs(Object[] configurationData) {
+		if (configurationData != null && configurationData.length % 2 != 0) {
+			throw new IllegalArgumentException("Parameter arguments have to "
+					+ "come in key/value pairs, but found odd number of " + "arguments ["
+					+ configurationData.length + "]");
+		}
+	}
 }

@@ -18,6 +18,7 @@
 package org.uimafit.factory;
 
 import static java.util.Arrays.asList;
+import static org.uimafit.factory.ExternalResourceFactory.bindExternalResource;
 import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
 
 import java.io.File;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +49,7 @@ import org.apache.uima.cas.CAS;
 import org.apache.uima.flow.FlowControllerDescription;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ExternalResourceDependency;
+import org.apache.uima.resource.ExternalResourceDescription;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.metadata.Capability;
@@ -280,10 +283,67 @@ public final class AnalysisEngineFactory {
 			Class<? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
 			TypePriorities typePriorities, FsIndexCollection indexes, Capability[] capabilities,
 			Object... configurationData) throws ResourceInitializationException {
-		ConfigurationData cdata = ConfigurationParameterFactory
-				.createConfigurationData(configurationData);
-		return createPrimitiveDescription(componentClass, typeSystem, typePriorities, indexes,
-				capabilities, cdata.configurationParameters, cdata.configurationValues);
+
+		ConfigurationParameterFactory.ensureParametersComeInPairs(configurationData);
+
+		// Extracting the external resources modifies the parameter array, so we copy it before
+		Object[] configData = null;
+		if (configurationData != null) {
+			configData = new Object[configurationData.length];
+			System.arraycopy(configurationData, 0, configData, 0, configData.length);
+		}
+		
+		// Extract ExternalResourceDescriptions from configurationData
+		// <ParamterName, ExternalResourceDescription> will be stored in this map
+		Map<String, ExternalResourceDescription> externalResources = 
+				extractExternalResourceParameters(configData);
+
+		// Create primitive description normally
+		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configData);
+
+		AnalysisEngineDescription aeDesc = createPrimitiveDescription(componentClass, typeSystem,
+				typePriorities, indexes, capabilities, cdata.configurationParameters,
+				cdata.configurationValues);
+
+		// Bind External Resources
+		for (String key : externalResources.keySet()) {
+			bindExternalResource(aeDesc, key, externalResources.get(key));
+		}
+
+		return aeDesc;
+	}
+
+	/**
+	 * Extracts the external resource from the configuration parameters and nulls out these
+	 * parameters.
+	 * 
+	 * @param configurationData the configuration parameters.
+	 * @return extRes the external resource parameters.
+	 */
+	private static Map<String, ExternalResourceDescription> extractExternalResourceParameters(
+			final Object[] configurationData) {
+		if (configurationData == null) {
+			return Collections.emptyMap();
+		}
+	
+		Map<String, ExternalResourceDescription> extRes = new HashMap<String, ExternalResourceDescription>();
+		for (int i = 0; i < configurationData.length - 1; i += 2) {
+			String key = (String) configurationData[i];
+			Object value = configurationData[i + 1];
+
+			// Store External Resource parameters separately
+			if (value instanceof ExternalResourceDescription) {
+				ExternalResourceDescription description = (ExternalResourceDescription) value;
+				extRes.put(key, description);
+
+				// Nulling out the external resource parameter so that 
+				// ConfigurationParameterFactory.createConfigurationData won't try to process it
+				// anymore.
+				configurationData[i + 1] = null;
+			}
+		}
+		
+		return extRes;
 	}
 
 	/**
@@ -499,9 +559,8 @@ public final class AnalysisEngineFactory {
 	 */
 	public static AnalysisEngine createAggregate(AnalysisEngineDescription desc)
 			throws ResourceInitializationException {
-//		// create the AnalysisEngine, initialize it and return it
+		// create the AnalysisEngine, initialize it and return it
 		return UIMAFramework.produceAnalysisEngine(desc, null, null);
-
 	}
 
 	/**

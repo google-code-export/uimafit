@@ -321,16 +321,11 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase {
 		AnalysisEngineDescription aed = AnalysisEngineFactory.createPrimitiveDescription(
 				DefaultValueAE1.class, (Object[]) null);
 		// Remove the settings from the descriptor, but leave the declarations.
-		// The settings
-		// are already filled with default values by createPrimitiveDescription,
-		// but here we
-		// want to simulate loading a descriptor without settings from a file.
-		// The file of
-		// course would declare the parameters optional and thus the settings
-		// for the optional
-		// parameters would be empty. We expect that a default value from the
-		// annotation is used
-		// in this case.
+		// The settings are already filled with default values by createPrimitiveDescription,
+		// but here we want to simulate loading a descriptor without settings from a file.
+		// The file of course would declare the parameters optional and thus the settings
+		// for the optional parameters would be empty. We expect that a default value from the
+		// annotation is used in this case.
 		aed.getMetaData().setConfigurationParameterSettings(
 				new ConfigurationParameterSettings_impl());
 		AnalysisEngine template = UIMAFramework.produceAnalysisEngine(aed);
