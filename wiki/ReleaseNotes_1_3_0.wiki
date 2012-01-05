@@ -1,6 +1,6 @@
 #summary Release notes for 1.3.0
 
-uimaFIT 1.3.0 is a minor feature release. It should be binary backwards compatible with 1.2.0 and provides new features some of which we introduce next. For a complete list of changes see the [[https://uimafit.googlecode.com/svn/tags/uimafit-parent-1.3.0/uimaFIT/CHANGES CHANGES]] file
+uimaFIT 1.3.0 is a minor feature release. It should be binary backwards compatible with 1.2.0 and provides new features some of which we introduce next. For a complete list of changes see the [https://uimafit.googlecode.com/svn/tags/uimafit-parent-1.3.0/uimaFIT/CHANGES CHANGES] file
 
 == External resources ==
 
