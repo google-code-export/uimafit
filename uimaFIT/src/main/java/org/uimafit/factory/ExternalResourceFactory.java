@@ -19,6 +19,8 @@
 
 package org.uimafit.factory;
 
+import static org.apache.uima.UIMAFramework.getResourceSpecifierFactory;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -54,8 +56,6 @@ import org.apache.uima.util.InvalidXMLException;
 import org.uimafit.descriptor.ExternalResource;
 import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
 
-import static org.apache.uima.UIMAFramework.*;
-
 /**
  * Helper methods for external resources.
  *
@@ -68,6 +68,22 @@ public final class ExternalResourceFactory {
 		// This class is not meant to be instantiated
 	}
 
+	/**
+	 * Create an external resource description for a custom resource. This is intended to
+	 * be used together with ....
+	 *
+	 * @param aInterface
+	 *            the interface the resource should implement.
+	 * @param aParams
+	 *            parameters passed to the resource when it is created.
+	 * @return the description.
+	 * @see CustomResourceSpecifier
+	 */
+	public static ExternalResourceDescription createExternalResourceDescription(
+			Class<? extends Resource> aInterface, String... aParams) {
+		return createExternalResourceDescription(uniqueResourceKey(aInterface.getName()), aInterface, aParams);
+	}
+	
 	/**
 	 * Create an external resource description for a custom resource.
 	 *
@@ -82,11 +98,7 @@ public final class ExternalResourceFactory {
 	 */
 	public static ExternalResourceDescription createExternalResourceDescription(final String aName,
 			Class<? extends Resource> aInterface, String... aParams) {
-		if (aParams.length % 2 != 0) {
-			throw new IllegalArgumentException("Parameter arguments have to "
-					+ "come in key/value pairs, but found odd number of " + "arguments ["
-					+ aParams.length + "]");
-		}
+		ConfigurationParameterFactory.ensureParametersComeInPairs(aParams);
 
 		int numberOfParameters = aParams.length / 2;
 		Parameter[] params = new Parameter[numberOfParameters];
@@ -104,6 +116,69 @@ public final class ExternalResourceFactory {
 		extRes.setName(aName);
 		extRes.setResourceSpecifier(spec);
 		return extRes;
+	}
+	
+	/**
+	 * Create an external resource description for a {@link SharedResourceObject}.
+	 *
+	 * @param aInterface
+	 *            the interface the resource should implement.
+	 * @param aUrl
+	 *            the URL from which the resource is initialized.
+	 * @param aParams
+	 *            parameters passed to the resource when it is created.
+	 * @return the description.
+	 * @see ConfigurableDataResourceSpecifier
+	 * @see SharedResourceObject
+	 */
+	public static ExternalResourceDescription createExternalResourceDescription(
+			Class<? extends SharedResourceObject> aInterface, String aUrl, Object... aParams) {
+		return createExternalResourceDescription(uniqueResourceKey(aInterface.getName()), 
+				aInterface, aUrl, aParams);
+	}
+
+	/**
+	 * Create an external resource description for a {@link SharedResourceObject}.
+	 *
+	 * @param aInterface
+	 *            the interface the resource should implement.
+	 * @param aUrl
+	 *            the URL from which the resource is initialized.
+	 * @param aParams
+	 *            parameters passed to the resource when it is created.
+	 * @return the description.
+	 * @see ConfigurableDataResourceSpecifier
+	 * @see SharedResourceObject
+	 */
+	public static ExternalResourceDescription createExternalResourceDescription(
+			Class<? extends SharedResourceObject> aInterface, URL aUrl, Object... aParams) {
+		return createExternalResourceDescription(uniqueResourceKey(aInterface.getName()), 
+				aInterface, aUrl.toString(), aParams);
+	}
+
+	/**
+	 * Create an external resource description for a {@link SharedResourceObject}.
+	 *
+	 * @param aInterface
+	 *            the interface the resource should implement.
+	 * @param aFile
+	 *            the file from which the resource is initialized.
+	 * @param aParams
+	 *            parameters passed to the resource when it is created.
+	 * @return the description.
+	 * @see ConfigurableDataResourceSpecifier
+	 * @see SharedResourceObject
+	 */
+	public static ExternalResourceDescription createExternalResourceDescription(
+			Class<? extends SharedResourceObject> aInterface, File aFile, Object... aParams) {
+		try {
+			return createExternalResourceDescription(aInterface, aFile.toURI().toURL(), aParams);
+		}
+		catch (MalformedURLException e) {
+			// This is something that usually cannot happen, so we degrade this to an 
+			// IllegalArgumentException which is a RuntimeException that does not need to be caught.
+			throw new IllegalArgumentException("File converts to illegal URL [" + aFile + "]");
+		}
 	}
 
 	/**
@@ -259,9 +334,8 @@ public final class ExternalResourceFactory {
 			bindResource(aDesc, aKey, aFile.toURI().toURL());
 		}
 		catch (MalformedURLException e) {
-			// This is something that usually cannot happen, so we degrade this
-			// to an IllegalArgumentException which is a RuntimeException that
-			// does not need to be catched.
+			// This is something that usually cannot happen, so we degrade this to an 
+			// IllegalArgumentException which is a RuntimeException that does not need to be caught.
 			throw new IllegalArgumentException("File converts to illegal URL [" + aFile + "]");
 		}
 	}
@@ -332,7 +406,7 @@ public final class ExternalResourceFactory {
 		// Appending a disambiguation suffix it possible to have multiple instances of the same
 		// resource with different settings to different keys.
 		ExternalResourceDescription extRes = createExternalResourceDescription(
-				aRes.getName() + '-' + disambiguator.getAndIncrement(), aRes, aParams);
+				uniqueResourceKey(aRes.getName()), aRes, aParams);
 		bindResource(aDesc, aApi.getName(), extRes);
 	}
 
@@ -403,8 +477,7 @@ public final class ExternalResourceFactory {
 			Class<? extends SharedResourceObject> aRes, String aUrl, Object... aParams)
 			throws InvalidXMLException {
 		ExternalResourceDescription extRes = createExternalResourceDescription(
-				aRes.getName() + '-' + disambiguator.getAndIncrement(), aRes, aUrl,
-				aParams);
+				uniqueResourceKey(aRes.getName()), aRes, aUrl, aParams);
 		bind((AnalysisEngineDescription) aDesc, aKey, extRes);
 	}
 
@@ -432,7 +505,7 @@ public final class ExternalResourceFactory {
 		// Appending a disambiguation suffix it possible to have multiple instances of the same
 		// resource with different settings to different keys.
 		ExternalResourceDescription extRes = createExternalResourceDescription(
-				aRes.getName() + '-' + disambiguator.getAndIncrement(), aRes, aParams);
+				uniqueResourceKey(aRes.getName()), aRes, aParams);
 		bindResource(aDesc, aKey, extRes);
 	}
 
@@ -698,5 +771,10 @@ public final class ExternalResourceFactory {
 
 		ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);
 		resMgrCfg.addExternalResourceBinding(extResBind);
+	}
+	
+	static String uniqueResourceKey(String aKey)
+	{
+		return aKey + '-' + disambiguator.getAndIncrement();
 	}
 }

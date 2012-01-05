@@ -73,11 +73,7 @@ public final class ResourceCreationSpecifierFactory {
 	 */
 	public static ResourceCreationSpecifier createResourceCreationSpecifier(
 			XMLInputSource xmlInput, Object[] parameters) throws UIMAException, IOException {
-		if (parameters.length % 2 != 0) {
-			String message = "a value must be specified for each parameter name: an odd number of values passed in ("
-					+ parameters.length + ")";
-			throw new IllegalArgumentException(message);
-		}
+		ConfigurationParameterFactory.ensureParametersComeInPairs(parameters);
 
 		ResourceCreationSpecifier specifier;
 		XMLParser parser = UIMAFramework.getXMLParser();
@@ -118,11 +114,7 @@ public final class ResourceCreationSpecifierFactory {
 	 */
 	public static void setConfigurationParameters(ResourceCreationSpecifier specifier,
 			Object... configurationData) {
-		if (configurationData.length % 2 != 0) {
-			String message = "a value must be specified for each parameter name: an odd number of values passed in ("
-					+ configurationData.length + ")";
-			throw new IllegalArgumentException(message);
-		}
+		ConfigurationParameterFactory.ensureParametersComeInPairs(configurationData);
 
 		ConfigurationParameter[] configurationParameters = new ConfigurationParameter[configurationData.length / 2];
 		Object[] configurationValues = new Object[configurationData.length / 2];
