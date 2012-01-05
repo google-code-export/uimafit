@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<artifactId>uimafit-parent</artifactId>
 		<groupId>org.uimafit</groupId>
-		<version>1.3.0-SNAPSHOT</version>
+		<version>1.3.0-rc1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>uimafit-examples</artifactId>
@@ -14,7 +13,7 @@
 		<dependency>
 			<groupId>org.uimafit</groupId>
 			<artifactId>uimafit</artifactId>
-			<version>1.3.0-SNAPSHOT</version>
+			<version>1.3.0-rc1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
