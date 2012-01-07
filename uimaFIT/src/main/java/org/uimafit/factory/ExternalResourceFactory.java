@@ -24,6 +24,9 @@ import static org.apache.uima.UIMAFramework.getResourceSpecifierFactory;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -776,5 +779,38 @@ public final class ExternalResourceFactory {
 	static String uniqueResourceKey(String aKey)
 	{
 		return aKey + '-' + disambiguator.getAndIncrement();
+	}
+	
+	/**
+	 * Extracts the external resource from the configuration parameters and nulls out these
+	 * parameters. Mind that the array passed to this method is modified by the method.
+	 * 
+	 * @param configurationData the configuration parameters.
+	 * @return extRes the external resource parameters.
+	 */
+	protected static Map<String, ExternalResourceDescription> extractExternalResourceParameters(
+			final Object[] configurationData) {
+		if (configurationData == null) {
+			return Collections.emptyMap();
+		}
+	
+		Map<String, ExternalResourceDescription> extRes = new HashMap<String, ExternalResourceDescription>();
+		for (int i = 0; i < configurationData.length - 1; i += 2) {
+			String key = (String) configurationData[i];
+			Object value = configurationData[i + 1];
+
+			// Store External Resource parameters separately
+			if (value instanceof ExternalResourceDescription) {
+				ExternalResourceDescription description = (ExternalResourceDescription) value;
+				extRes.put(key, description);
+
+				// Nulling out the external resource parameter so that 
+				// ConfigurationParameterFactory.createConfigurationData won't try to process it
+				// anymore.
+				configurationData[i + 1] = null;
+			}
+		}
+		
+		return extRes;
 	}
 }

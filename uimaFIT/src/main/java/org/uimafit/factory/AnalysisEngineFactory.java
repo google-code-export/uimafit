@@ -26,10 +26,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.uima.Constants;
 import org.apache.uima.UIMAException;
@@ -296,7 +296,7 @@ public final class AnalysisEngineFactory {
 		// Extract ExternalResourceDescriptions from configurationData
 		// <ParamterName, ExternalResourceDescription> will be stored in this map
 		Map<String, ExternalResourceDescription> externalResources = 
-				extractExternalResourceParameters(configData);
+				ExternalResourceFactory.extractExternalResourceParameters(configData);
 
 		// Create primitive description normally
 		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configData);
@@ -306,44 +306,11 @@ public final class AnalysisEngineFactory {
 				cdata.configurationValues);
 
 		// Bind External Resources
-		for (String key : externalResources.keySet()) {
-			bindExternalResource(aeDesc, key, externalResources.get(key));
+		for (Entry<String, ExternalResourceDescription> e : externalResources.entrySet()) {
+			bindExternalResource(aeDesc, e.getKey(), e.getValue());
 		}
 
 		return aeDesc;
-	}
-
-	/**
-	 * Extracts the external resource from the configuration parameters and nulls out these
-	 * parameters.
-	 * 
-	 * @param configurationData the configuration parameters.
-	 * @return extRes the external resource parameters.
-	 */
-	private static Map<String, ExternalResourceDescription> extractExternalResourceParameters(
-			final Object[] configurationData) {
-		if (configurationData == null) {
-			return Collections.emptyMap();
-		}
-	
-		Map<String, ExternalResourceDescription> extRes = new HashMap<String, ExternalResourceDescription>();
-		for (int i = 0; i < configurationData.length - 1; i += 2) {
-			String key = (String) configurationData[i];
-			Object value = configurationData[i + 1];
-
-			// Store External Resource parameters separately
-			if (value instanceof ExternalResourceDescription) {
-				ExternalResourceDescription description = (ExternalResourceDescription) value;
-				extRes.put(key, description);
-
-				// Nulling out the external resource parameter so that 
-				// ConfigurationParameterFactory.createConfigurationData won't try to process it
-				// anymore.
-				configurationData[i + 1] = null;
-			}
-		}
-		
-		return extRes;
 	}
 
 	/**
