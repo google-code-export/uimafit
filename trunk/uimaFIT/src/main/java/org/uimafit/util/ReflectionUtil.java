@@ -57,6 +57,42 @@ public class ReflectionUtil {
 		}
 		return fields;
 	}
+	
+	/**
+	 * Get the given field of the passed in object from its class or the first superclass that
+	 * declares it.
+	 * 
+	 * @param object
+	 *            any object will do
+	 * @return the fields for the class of the object
+	 * @throws NoSuchFieldException 
+	 */
+	public static Field getField(Object object, String name) throws NoSuchFieldException {
+		Class<?> cls = object.getClass();
+		return getField(cls, name);
+	}
+
+	/**
+	 * Get the given field from the class or the first superclass that declares it.
+	 * 
+	 * @param cls
+	 *            any class will do
+	 * @return the fields for the class of the object
+	 * @throws NoSuchFieldException 
+	 */
+	public static Field getField(Class<?> cls, String name) throws NoSuchFieldException {
+		try {
+			return cls.getDeclaredField(name);
+		}
+		catch (NoSuchFieldException e) {
+			if (cls.getSuperclass() != null) {
+				return getField(cls.getSuperclass(), name);
+			}
+			else {
+				throw e;
+			}
+		}
+	}
 
 	/**
 	 * Search for an annotation of the specified type starting on the given class and tracking back

@@ -25,9 +25,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.IllegalClassException;
 import org.apache.uima.UIMA_IllegalArgumentException;
+import org.apache.uima.resource.ConfigurableDataResourceSpecifier;
+import org.apache.uima.resource.CustomResourceSpecifier;
+import org.apache.uima.resource.Parameter;
 import org.apache.uima.resource.ResourceCreationSpecifier;
+import org.apache.uima.resource.ResourceSpecifier;
+import org.apache.uima.resource.impl.Parameter_impl;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
+import org.apache.uima.resource.metadata.NameValuePair;
 import org.apache.uima.resource.metadata.impl.ConfigurationParameter_impl;
 import org.uimafit.util.ReflectionUtil;
 
@@ -478,6 +485,92 @@ public final class ConfigurationParameterFactory {
 			throw new IllegalArgumentException("Parameter arguments have to "
 					+ "come in key/value pairs, but found odd number of " + "arguments ["
 					+ configurationData.length + "]");
+		}
+	}
+
+	/**
+	 * Fetches the parameter settings from the given resource specifier.
+	 * 
+	 * @param spec a resource specifier.
+	 * @return the parameter settings.
+	 */
+	public static Map<String, Object> getParameterSettings(ResourceSpecifier spec)
+	{
+		Map<String, Object> settings = new HashMap<String, Object>();
+		if (spec instanceof CustomResourceSpecifier) {
+			for (Parameter p : ((CustomResourceSpecifier) spec).getParameters()) {
+				settings.put(p.getName(), p.getValue());
+			}
+		}
+		else if (spec instanceof ResourceCreationSpecifier) {
+			for (NameValuePair p : ((ResourceCreationSpecifier) spec).getMetaData()
+					.getConfigurationParameterSettings().getParameterSettings())
+			{
+				settings.put(p.getName(), p.getValue());
+			}
+		}
+		else if (spec instanceof ConfigurableDataResourceSpecifier) {
+			for (NameValuePair p : ((ResourceCreationSpecifier) spec).getMetaData()
+					.getConfigurationParameterSettings().getParameterSettings())
+			{
+				settings.put(p.getName(), p.getValue());
+			}
+		}
+		else {
+			throw new IllegalClassException("Unsupported resource specifier class ["
+					+ spec.getClass() + "]");
+		}
+		return settings;
+	}
+
+	/**
+	 * Sets the specified parameter in the given resource specifier. If the specified is a
+	 * {@link CustomResourceSpecifier} an exception is thrown if the parameter value not a String.
+	 * 
+	 * @param aSpec a resource specifier.
+	 * @param name the parameter name.
+	 * @param value the parameter value.
+	 * @throws IllegalClassException if the value is not of a supported type for the given 
+	 * specifier.
+	 */
+	public static void setParameter(ResourceSpecifier aSpec, String name, Object value)
+	{
+		if (aSpec instanceof CustomResourceSpecifier) {
+			if (!(value instanceof String || value == null)) {
+				throw new IllegalClassException(String.class, value);
+			}
+			CustomResourceSpecifier spec = (CustomResourceSpecifier) aSpec;
+			
+			// If the parameter is already there, update it
+			boolean found = false;
+			for (Parameter p : spec.getParameters()) {
+				if (p.getName().equals(name)) {
+					p.setValue((String) value);
+					found = true;
+				}
+			}
+			
+			// If the parameter is not there, add it
+			if (!found) {
+				Parameter[] params = new Parameter[spec.getParameters().length + 1];
+				System.arraycopy(spec.getParameters(), 0, params, 0, spec.getParameters().length);
+				params[params.length-1] = new Parameter_impl();
+				params[params.length-1].setName(name);
+				params[params.length-1].setValue((String) value);
+				spec.setParameters(params);
+			}
+		}
+		else if (aSpec instanceof ResourceCreationSpecifier) {
+			ResourceCreationSpecifier spec = (ResourceCreationSpecifier) aSpec;
+			spec.getMetaData().getConfigurationParameterSettings().setParameterValue(name, value);
+		}
+		else if (aSpec instanceof ConfigurableDataResourceSpecifier) {
+			ConfigurableDataResourceSpecifier spec = (ConfigurableDataResourceSpecifier) aSpec;
+			spec.getMetaData().getConfigurationParameterSettings().setParameterValue(name, value);
+		}
+		else {
+			throw new IllegalClassException("Unsupported resource specifier class ["
+					+ aSpec.getClass() + "]");
 		}
 	}
 }
