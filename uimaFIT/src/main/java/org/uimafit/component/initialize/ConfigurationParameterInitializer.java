@@ -19,7 +19,6 @@ package org.uimafit.component.initialize;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -179,43 +178,7 @@ public class ConfigurationParameterInitializer {
 	 */
 	public static void initialize(Object component, ResourceSpecifier spec)
 			throws ResourceInitializationException {
-		try {
-			Object result = spec.getClass().getMethod("getParameters").invoke(spec);
-			if (result == null) {
-				initialize(component, new Parameter[0]);
-			}
-			Parameter[] parameters;
-			try {
-				parameters = (Parameter[]) result;
-			}
-			catch (ClassCastException e) {
-				throw new IllegalArgumentException(
-						"The method getParameters of resource specifier of type ["
-								+ spec.getClass().getName()
-								+ "] does not return an Parameter array.", e);
-			}
-			initialize(component, parameters);
-		}
-		catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException("Resource specifier of type ["
-					+ spec.getClass().getName() + "] does not provide a getParameters() method.");
-		}
-		catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException("Unable to call getParameters() method of " +
-					"resource specifier of type [" + spec.getClass().getName() + "]", e);
-		}
-		catch (SecurityException e) {
-			throw new IllegalArgumentException("Unable to call getParameters() method of " +
-					"resource specifier of type [" + spec.getClass().getName() + "]", e);
-		}
-		catch (IllegalAccessException e) {
-			throw new IllegalArgumentException("Unable to call getParameters() method of " +
-					"resource specifier of type [" + spec.getClass().getName() + "]", e);
-		}
-		catch (InvocationTargetException e) {
-			throw new IllegalArgumentException("Unable to call getParameters() method of " +
-					"resource specifier of type [" + spec.getClass().getName() + "]", e);
-		}
+		initialize(component, ConfigurationParameterFactory.getParameterSettings(spec));
 	}
 
 	/**
@@ -479,5 +442,4 @@ public class ConfigurationParameterInitializer {
 					+ "that contains hyphen delimited locale information (e.g. 'en-US').");
 		}
 	}
-
 }
