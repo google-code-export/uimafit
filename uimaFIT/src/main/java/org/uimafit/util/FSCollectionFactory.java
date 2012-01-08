@@ -512,6 +512,45 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		return asList(data.toArray(new TOP[data.size()]));
 	}
 
+	public static Collection<String> create(StringList aList)
+	{
+		List<String> data = new ArrayList<String>();
+		StringList i = aList;
+		while (i instanceof NonEmptyStringList) {
+			NonEmptyStringList l = (NonEmptyStringList) i;
+			data.add(l.getHead());
+			i = l.getTail();
+		}
+
+		return asList(data.toArray(new String[data.size()]));
+	}
+
+	public static Collection<Integer> create(IntegerList aList)
+	{
+		List<Integer> data = new ArrayList<Integer>();
+		IntegerList i = aList;
+		while (i instanceof NonEmptyIntegerList) {
+			NonEmptyIntegerList l = (NonEmptyIntegerList) i;
+			data.add(l.getHead());
+			i = l.getTail();
+		}
+		
+		return asList(data.toArray(new Integer[data.size()]));
+	}
+
+	public static Collection<Float> create(FloatList aList)
+	{
+		List<Float> data = new ArrayList<Float>();
+		FloatList i = aList;
+		while (i instanceof NonEmptyFloatList) {
+			NonEmptyFloatList l = (NonEmptyFloatList) i;
+			data.add(l.getHead());
+			i = l.getTail();
+		}
+		
+		return asList(data.toArray(new Float[data.size()]));
+	}
+
 	public static FSList createFSList(JCas aJCas, Collection<? extends TOP> aCollection)
 	{
 		if (aCollection.size() == 0) {
