@@ -146,8 +146,8 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		}
 		return asList(data.toArray(new FeatureStructure[data.size()]));
 	}
-
-	public static ArrayFS createFSArray(CAS aCas, Collection<FeatureStructure> aCollection)
+	
+	public static ArrayFS createFSArray(CAS aCas, Collection<? extends FeatureStructure> aCollection)
 	{
 		return fillArrayFS(aCas.createArrayFS(aCollection.size()), aCollection);
 	}
@@ -157,7 +157,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		return fillArrayFS(aCas.createArrayFS(aArray.length), asList(aArray));
 	}
 
-	public static ArrayFS createFSArray(JCas aJCas, Collection<FeatureStructure> aCollection)
+	public static ArrayFS createFSArray(JCas aJCas, Collection<? extends FeatureStructure> aCollection)
 	{
 		return fillArrayFS(new FSArray(aJCas, aCollection.size()), aCollection);
 	}
@@ -327,7 +327,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		return fillArrayFS(new StringArray(aJCas, aArray.length), aArray);
 	}
 
-	public static ArrayFS fillArrayFS(ArrayFS aArrayFs, Iterable<FeatureStructure> aCollection)
+	public static ArrayFS fillArrayFS(ArrayFS aArrayFs, Iterable<? extends FeatureStructure> aCollection)
 	{
 		int i = 0;
 		for (FeatureStructure fs : aCollection) {
@@ -512,7 +512,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		return asList(data.toArray(new TOP[data.size()]));
 	}
 
-	public static FSList createFSList(JCas aJCas, Collection<TOP> aCollection)
+	public static FSList createFSList(JCas aJCas, Collection<? extends TOP> aCollection)
 	{
 		if (aCollection.size() == 0) {
 			return new EmptyFSList(aJCas);
@@ -520,7 +520,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 
 		NonEmptyFSList head = new NonEmptyFSList(aJCas);
 		NonEmptyFSList list = head;
-		Iterator<TOP> i = aCollection.iterator();
+		Iterator<? extends TOP> i = aCollection.iterator();
 		while (i.hasNext()) {
 			head.setHead(i.next());
 			if (i.hasNext()) {
