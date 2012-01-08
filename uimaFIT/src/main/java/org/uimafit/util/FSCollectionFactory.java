@@ -332,6 +332,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		int i = 0;
 		for (FeatureStructure fs : aCollection) {
 			aArrayFs.set(i, fs);
+			i++;
 		}
 		return aArrayFs;
 	}
@@ -347,6 +348,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		int i = 0;
 		for (Boolean fs : aCollection) {
 			aArrayFs.set(i, fs);
+			i++;
 		}
 		return aArrayFs;
 	}
@@ -362,6 +364,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		int i = 0;
 		for (Byte fs : aCollection) {
 			aArrayFs.set(i, fs);
+			i++;
 		}
 		return aArrayFs;
 	}
@@ -377,6 +380,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		int i = 0;
 		for (Double fs : aCollection) {
 			aArrayFs.set(i, fs);
+			i++;
 		}
 		return aArrayFs;
 	}
@@ -392,6 +396,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		int i = 0;
 		for (Float fs : aCollection) {
 			aArrayFs.set(i, fs);
+			i++;
 		}
 		return aArrayFs;
 	}
@@ -407,6 +412,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		int i = 0;
 		for (Integer fs : aCollection) {
 			aArrayFs.set(i, fs);
+			i++;
 		}
 		return aArrayFs;
 	}
@@ -422,6 +428,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		int i = 0;
 		for (Long fs : aCollection) {
 			aArrayFs.set(i, fs);
+			i++;
 		}
 		return aArrayFs;
 	}
@@ -437,6 +444,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		int i = 0;
 		for (Short fs : aCollection) {
 			aArrayFs.set(i, fs);
+			i++;
 		}
 		return aArrayFs;
 	}
@@ -452,6 +460,7 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 		int i = 0;
 		for (String fs : aCollection) {
 			aArrayFs.set(i, fs);
+			i++;
 		}
 		return aArrayFs;
 	}
