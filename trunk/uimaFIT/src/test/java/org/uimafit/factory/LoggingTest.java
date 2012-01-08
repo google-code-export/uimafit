@@ -66,10 +66,11 @@ public class LoggingTest {
 		ConsoleHandler handler = (ConsoleHandler) LogManager.getLogManager().getLogger("").getHandlers()[0];
 		java.util.logging.Level oldLevel = handler.getLevel();
 		handler.setLevel(Level.ALL);
+		// Capture the logging output without actually logging it
 		handler.setFilter( new Filter() {
 			public boolean isLoggable(LogRecord record) {
 				records.add(record);
-				return true;
+				return false;
 			}
 		});
 
@@ -77,12 +78,17 @@ public class LoggingTest {
 			JCas jcas = JCasFactory.createJCas();
 			createPrimitive(LoggingCasConsumerChristmasTree.class).process(jcas.getCas());
 			
-			assertEquals(6, records.size());
+			assertEquals(10, records.size());
 			assertEquals(Level.FINER, records.get(0).getLevel());
-			assertEquals(Level.FINE, records.get(1).getLevel());
-			assertEquals(Level.INFO, records.get(2).getLevel());
-			assertEquals(Level.WARNING, records.get(3).getLevel());
-			assertEquals(Level.SEVERE, records.get(4).getLevel());
+			assertEquals(Level.FINER, records.get(1).getLevel());
+			assertEquals(Level.FINE, records.get(2).getLevel());
+			assertEquals(Level.FINE, records.get(3).getLevel());
+			assertEquals(Level.INFO, records.get(4).getLevel());
+			assertEquals(Level.INFO, records.get(5).getLevel());
+			assertEquals(Level.WARNING, records.get(6).getLevel());
+			assertEquals(Level.WARNING, records.get(7).getLevel());
+			assertEquals(Level.SEVERE, records.get(8).getLevel());
+			assertEquals(Level.SEVERE, records.get(9).getLevel());
 		}
 		finally {
 			if (oldLevel != null) {
@@ -156,11 +162,33 @@ public class LoggingTest {
 		@Override
 		public void process(CAS aCAS) throws AnalysisEngineProcessException {
 			getLogger().setLevel(org.apache.uima.util.Level.ALL);
-			getLogger().trace("Logging: " + getClass().getName());
-			getLogger().debug("Logging: " + getClass().getName());
-			getLogger().info("Logging: " + getClass().getName());
-			getLogger().warn("Logging: " + getClass().getName());
-			getLogger().error("Logging: " + getClass().getName());
+			trigger();
+			getLogger().setLevel(org.apache.uima.util.Level.OFF);
+			trigger();
+		}
+		
+		private void trigger()
+		{
+			if (getLogger().isTraceEnabled()) {
+				getLogger().trace("Logging: " + getClass().getName());
+				getLogger().trace("Logging: " + getClass().getName(), new IllegalArgumentException());
+			}
+			if (getLogger().isDebugEnabled()) {
+				getLogger().debug("Logging: " + getClass().getName());
+				getLogger().debug("Logging: " + getClass().getName(), new IllegalArgumentException());
+			}
+			if (getLogger().isInfoEnabled()) {
+				getLogger().info("Logging: " + getClass().getName());
+				getLogger().info("Logging: " + getClass().getName(), new IllegalArgumentException());
+			}
+			if (getLogger().isWarnEnabled()) {
+				getLogger().warn("Logging: " + getClass().getName());
+				getLogger().warn("Logging: " + getClass().getName(), new IllegalArgumentException());
+			}
+			if (getLogger().isErrorEnabled()) {
+				getLogger().error("Logging: " + getClass().getName());
+				getLogger().error("Logging: " + getClass().getName(), new IllegalArgumentException());
+			}
 		}
 	}
 
