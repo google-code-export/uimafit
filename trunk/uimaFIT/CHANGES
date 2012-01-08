@@ -1,4 +1,5 @@
 changes in 1.3.0
+	- resolved issue #112 "Several create() methods missing from FSCollectionFactory"
 	- resolved issue #111 "Several methods in FSCollectionFactory need generics"
 	- resolved issue #110 "All fillArrayFS methods in FSCollectionFactory are broken"
 	- resolved issue #108 "Update to latest Sonatype OSS POM"
