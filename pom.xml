@@ -13,8 +13,8 @@
 		<version>7</version>
 	</parent>
 	<scm>
-		<connection>scm:svn:http://uimafit.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://uimafit.googlecode.com/svn/trunk/</developerConnection>
+		<connection>scm:svn:http://uimafit.googlecode.com/svn/branches/uimafit-parent-1.3.x</connection>
+		<developerConnection>scm:svn:https://uimafit.googlecode.com/svn/branches/uimafit-parent-1.3.x</developerConnection>
 		<url>http://uimafit.googlecode.com/svn/</url>
 	</scm>
 	<properties>
