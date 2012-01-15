@@ -20,7 +20,6 @@
 package org.uimafit.factory;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
 import static org.uimafit.factory.ExternalResourceFactory.createExternalResourceDescription;
 
 import org.apache.uima.analysis_engine.AnalysisEngine;
@@ -28,7 +27,6 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
 import org.junit.Test;
 import org.uimafit.component.CasAnnotator_ImplBase;
-import org.uimafit.component.NoOpAnnotator;
 import org.uimafit.descriptor.ExternalResource;
 import org.uimafit.factory.testRes.TestExternalResource;
 
@@ -48,51 +46,11 @@ public class AnalysisEngineFactoryExternalResourceTest {
 		ae.process(ae.newCAS());
 	}
 
-	@Test
-	public void testNestedAutoExternalResourceBinding() throws Exception {
-		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(
-				TestAnalysisEngine.class,
-				TestAnalysisEngine.PARAM_RESOURCE,
-				createExternalResourceDescription(TestExternalResource2.class,
-						TestExternalResource.PARAM_VALUE, TestExternalResource.EXPECTED_VALUE,
-						TestExternalResource2.PARAM_RESOURCE, createExternalResourceDescription(
-								TestExternalResource.class,
-								TestExternalResource.PARAM_VALUE, TestExternalResource.EXPECTED_VALUE)));
-		ae.process(ae.newCAS());
-	}
-
-	public static class TestExternalResource2 extends TestExternalResource {
-		public final static String PARAM_RESOURCE = "resource2";
-		@ExternalResource(key = PARAM_RESOURCE)
-		private TestExternalResource resource;
-
-		@Override
-		public void afterResourcesInitialized() {
-			// Ensure the External Resource is binded
-			assertNotNull(resource);
-			assertNotSame(this, resource);
-			assertConfiguredOk();
-		}
-	}
-
 	public static class TestAnalysisEngine extends CasAnnotator_ImplBase {
 
 		public final static String PARAM_RESOURCE = "resource";
 		@ExternalResource(key = PARAM_RESOURCE)
 		private TestExternalResource resource;
-		
-		@Override
-		public void process(CAS aCAS) throws AnalysisEngineProcessException {
-			assertNotNull(resource);
-			resource.assertConfiguredOk();
-		}
-	}
-
-	public static class TestAnalysisEngine2 extends NoOpAnnotator {
-
-		public final static String PARAM_RESOURCE = "resource";
-		@ExternalResource(key = PARAM_RESOURCE)
-		private TestExternalResource2 resource;
 
 		@Override
 		public void process(CAS aCAS) throws AnalysisEngineProcessException {

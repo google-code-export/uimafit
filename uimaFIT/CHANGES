@@ -1,5 +1,3 @@
-changes in 1.4.0
-
 changes in 1.3.0
 	- resolved issue #112 "Several create() methods missing from FSCollectionFactory"
 	- resolved issue #111 "Several methods in FSCollectionFactory need generics"
