@@ -114,6 +114,10 @@ public final class ResourceCreationSpecifierFactory {
 	 */
 	public static void setConfigurationParameters(ResourceCreationSpecifier specifier,
 			Object... configurationData) {
+		if (configurationData == null || configurationData.length == 0) {
+			return;
+		}
+		
 		ConfigurationParameterFactory.ensureParametersComeInPairs(configurationData);
 
 		ConfigurationParameter[] configurationParameters = new ConfigurationParameter[configurationData.length / 2];

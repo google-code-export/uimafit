@@ -803,11 +803,6 @@ public final class ExternalResourceFactory {
 			if (value instanceof ExternalResourceDescription) {
 				ExternalResourceDescription description = (ExternalResourceDescription) value;
 				extRes.put(key, description);
-
-				// Nulling out the external resource parameter so that 
-				// ConfigurationParameterFactory.createConfigurationData won't try to process it
-				// anymore.
-				configurationData[i + 1] = null;
 			}
 		}
 		
