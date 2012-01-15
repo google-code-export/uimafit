@@ -18,6 +18,11 @@
 package org.uimafit.factory;
 
 import static java.util.Arrays.asList;
+import static org.uimafit.descriptor.OperationalProperties.MODIFIES_CAS_DEFAULT;
+import static org.uimafit.descriptor.OperationalProperties.MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT;
+import static org.uimafit.descriptor.OperationalProperties.OUTPUTS_NEW_CASES_DEFAULT;
+import static org.uimafit.factory.ConfigurationParameterFactory.createConfigurationData;
+import static org.uimafit.factory.ConfigurationParameterFactory.ensureParametersComeInPairs;
 import static org.uimafit.factory.ExternalResourceFactory.bindExternalResource;
 import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
 
@@ -26,7 +31,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -54,10 +58,8 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.metadata.Capability;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
-import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
 import org.apache.uima.resource.metadata.FsIndexCollection;
 import org.apache.uima.resource.metadata.OperationalProperties;
-import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.apache.uima.resource.metadata.impl.Import_impl;
@@ -284,35 +286,29 @@ public final class AnalysisEngineFactory {
 			TypePriorities typePriorities, FsIndexCollection indexes, Capability[] capabilities,
 			Object... configurationData) throws ResourceInitializationException {
 
-		ConfigurationParameterFactory.ensureParametersComeInPairs(configurationData);
+		ensureParametersComeInPairs(configurationData);
 
-		// Extracting the external resources modifies the parameter array, so we copy it before
-		Object[] configData = null;
-		if (configurationData != null) {
-			configData = new Object[configurationData.length];
-			System.arraycopy(configurationData, 0, configData, 0, configData.length);
-		}
-		
 		// Extract ExternalResourceDescriptions from configurationData
 		// <ParamterName, ExternalResourceDescription> will be stored in this map
 		Map<String, ExternalResourceDescription> externalResources = 
-				ExternalResourceFactory.extractExternalResourceParameters(configData);
+				ExternalResourceFactory.extractExternalResourceParameters(configurationData);
 
 		// Create primitive description normally
-		ConfigurationData cdata = ConfigurationParameterFactory.createConfigurationData(configData);
-
-		AnalysisEngineDescription aeDesc = createPrimitiveDescription(componentClass, typeSystem,
+		ConfigurationData cdata = createConfigurationData(configurationData);
+		return createPrimitiveDescription(componentClass, typeSystem,
 				typePriorities, indexes, capabilities, cdata.configurationParameters,
-				cdata.configurationValues);
-
-		// Bind External Resources
-		for (Entry<String, ExternalResourceDescription> e : externalResources.entrySet()) {
-			bindExternalResource(aeDesc, e.getKey(), e.getValue());
-		}
-
-		return aeDesc;
+				cdata.configurationValues, externalResources);
 	}
 
+	public static AnalysisEngineDescription createPrimitiveDescription(
+			Class<? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
+			TypePriorities typePriorities, FsIndexCollection indexes, Capability[] capabilities,
+			ConfigurationParameter[] configurationParameters, Object[] configurationValues)
+			throws ResourceInitializationException {
+		return createPrimitiveDescription(componentClass, typeSystem, typePriorities, indexes,
+				capabilities, configurationParameters, configurationValues, null);
+	}
+	
 	/**
 	 * @param componentClass
 	 * @param typeSystem
@@ -326,11 +322,13 @@ public final class AnalysisEngineFactory {
 	public static AnalysisEngineDescription createPrimitiveDescription(
 			Class<? extends AnalysisComponent> componentClass, TypeSystemDescription typeSystem,
 			TypePriorities typePriorities, FsIndexCollection indexes, Capability[] capabilities,
-			ConfigurationParameter[] configurationParameters, Object[] configurationValues)
+			ConfigurationParameter[] configurationParameters, Object[] configurationValues,
+			Map<String, ExternalResourceDescription> externalResources)
 			throws ResourceInitializationException {
 
 		// create the descriptor and set configuration parameters
-		AnalysisEngineDescription desc = new AnalysisEngineDescription_impl();
+		AnalysisEngineDescription desc = UIMAFramework.getResourceSpecifierFactory()
+				.createAnalysisEngineDescription();
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setPrimitive(true);
 		desc.setAnnotatorImplementationName(componentClass.getName());
@@ -345,9 +343,9 @@ public final class AnalysisEngineFactory {
 		}
 		else {
 			OperationalProperties op = desc.getAnalysisEngineMetaData().getOperationalProperties();
-			op.setMultipleDeploymentAllowed(org.uimafit.descriptor.OperationalProperties.MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT);
-			op.setModifiesCas(org.uimafit.descriptor.OperationalProperties.MODIFIES_CAS_DEFAULT);
-			op.setOutputsNewCASes(org.uimafit.descriptor.OperationalProperties.OUTPUTS_NEW_CASES_DEFAULT);
+			op.setMultipleDeploymentAllowed(MULTIPLE_DEPLOYMENT_ALLOWED_DEFAULT);
+			op.setModifiesCas(MODIFIES_CAS_DEFAULT);
+			op.setOutputsNewCASes(OUTPUTS_NEW_CASES_DEFAULT);
 		}
 
 		AnalysisEngineMetaData meta = desc.getAnalysisEngineMetaData();
@@ -365,8 +363,7 @@ public final class AnalysisEngineFactory {
 		desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps
 				.size()]));
 
-		ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
-				.createConfigurationData(componentClass);
+		ConfigurationData reflectedConfigurationData = createConfigurationData(componentClass);
 		ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
 				reflectedConfigurationData.configurationParameters,
 				reflectedConfigurationData.configurationValues);
@@ -405,6 +402,13 @@ public final class AnalysisEngineFactory {
 				desc.getAnalysisEngineMetaData().setCapabilities(new Capability[] { capability });
 			}
 		}
+		
+		// Bind External Resources
+		if (externalResources != null) {
+			for (Entry<String, ExternalResourceDescription> e : externalResources.entrySet()) {
+				bindExternalResource(desc, e.getKey(), e.getValue());
+			}
+		}
 
 		return desc;
 	}
@@ -416,15 +420,14 @@ public final class AnalysisEngineFactory {
 	 * @param analysisEngineDescription
 	 * @param configurationData
 	 * @throws ResourceInitializationException
+	 * @Deprecated use {@link ResourceCreationSpecifierFactory#setConfigurationParameters}
 	 */
+	@Deprecated
 	public static void setConfigurationParameters(
 			AnalysisEngineDescription analysisEngineDescription, Object... configurationData)
 			throws ResourceInitializationException {
-		ConfigurationData cdata = ConfigurationParameterFactory
-				.createConfigurationData(configurationData);
 		ResourceCreationSpecifierFactory.setConfigurationParameters(analysisEngineDescription,
-				cdata.configurationParameters, cdata.configurationValues);
-
+				configurationData);
 	}
 
 	/**
@@ -454,24 +457,9 @@ public final class AnalysisEngineFactory {
 	 */
 	public static AnalysisEngine createPrimitive(AnalysisEngineDescription desc,
 			Object... configurationData) throws ResourceInitializationException {
-		if (configurationData != null) {
-			ConfigurationData cdata = ConfigurationParameterFactory
-					.createConfigurationData(configurationData);
-			ConfigurationParameter[] configurationParameters = cdata.configurationParameters;
-			Object[] configurationValues = cdata.configurationValues;
-			ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
-					configurationParameters, configurationValues);
-			ResourceMetaData metaData = desc.getMetaData();
-			ConfigurationParameterSettings paramSettings = metaData
-					.getConfigurationParameterSettings();
-			Map<String, Object> additionalParameters = new HashMap<String, Object>();
-			additionalParameters.put(AnalysisEngine.PARAM_CONFIG_PARAM_SETTINGS, paramSettings);
-
-			return UIMAFramework.produceAnalysisEngine(desc, null, additionalParameters);
-		}
-		else {
-			return UIMAFramework.produceAnalysisEngine(desc, null, null);
-		}
+		AnalysisEngineDescription descClone = (AnalysisEngineDescription) desc.clone();
+		ResourceCreationSpecifierFactory.setConfigurationParameters(descClone, configurationData);
+		return UIMAFramework.produceAnalysisEngine(descClone);
 	}
 
 	/**

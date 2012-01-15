@@ -17,33 +17,36 @@
 
 package org.uimafit.factory;
 
+import static org.uimafit.factory.ConfigurationParameterFactory.createConfigurationData;
+import static org.uimafit.factory.ConfigurationParameterFactory.ensureParametersComeInPairs;
+import static org.uimafit.factory.ExternalResourceFactory.bindExternalResource;
+import static org.uimafit.factory.FsIndexFactory.createFsIndexCollection;
+import static org.uimafit.factory.ResourceCreationSpecifierFactory.createResourceCreationSpecifier;
+import static org.uimafit.factory.TypePrioritiesFactory.createTypePriorities;
 import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.uima.Constants;
 import org.apache.uima.UIMAException;
 import org.apache.uima.UIMAFramework;
-import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.collection.CollectionReaderDescription;
-import org.apache.uima.collection.impl.CollectionReaderDescription_impl;
 import org.apache.uima.resource.ExternalResourceDependency;
+import org.apache.uima.resource.ExternalResourceDescription;
 import org.apache.uima.resource.ResourceCreationSpecifier;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.metadata.Capability;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
-import org.apache.uima.resource.metadata.ConfigurationParameterSettings;
 import org.apache.uima.resource.metadata.FsIndexCollection;
-import org.apache.uima.resource.metadata.ResourceMetaData;
+import org.apache.uima.resource.metadata.Import;
 import org.apache.uima.resource.metadata.TypePriorities;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
-import org.apache.uima.resource.metadata.impl.Import_impl;
 import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
 
@@ -71,8 +74,8 @@ public final class CollectionReaderFactory {
 	 */
 	public static CollectionReader createCollectionReaderFromPath(String descriptorPath,
 			Object... configurationData) throws UIMAException, IOException {
-		ResourceCreationSpecifier specifier = ResourceCreationSpecifierFactory
-				.createResourceCreationSpecifier(descriptorPath, configurationData);
+		ResourceCreationSpecifier specifier = createResourceCreationSpecifier(descriptorPath,
+				configurationData);
 		return UIMAFramework.produceCollectionReader(specifier);
 	}
 
@@ -92,11 +95,10 @@ public final class CollectionReaderFactory {
 
 	public static CollectionReader createCollectionReader(String descriptorName,
 			Object... configurationData) throws UIMAException, IOException {
-		Import_impl imp = new Import_impl();
+		Import imp = UIMAFramework.getResourceSpecifierFactory().createImport();
 		imp.setName(descriptorName);
 		URL url = imp.findAbsoluteUrl(UIMAFramework.newDefaultResourceManager());
-		ResourceSpecifier specifier = ResourceCreationSpecifierFactory
-				.createResourceCreationSpecifier(url, configurationData);
+		ResourceSpecifier specifier = createResourceCreationSpecifier(url, configurationData);
 		return UIMAFramework.produceCollectionReader(specifier);
 	}
 
@@ -155,10 +157,8 @@ public final class CollectionReaderFactory {
 			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
 			String[] prioritizedTypeNames, Object... configurationData)
 			throws ResourceInitializationException {
-		TypePriorities typePriorities = TypePrioritiesFactory
-				.createTypePriorities(prioritizedTypeNames);
+		TypePriorities typePriorities = createTypePriorities(prioritizedTypeNames);
 		return createCollectionReader(readerClass, typeSystem, typePriorities, configurationData);
-
 	}
 
 	/**
@@ -191,34 +191,9 @@ public final class CollectionReaderFactory {
 	 */
 	public static CollectionReader createCollectionReader(CollectionReaderDescription desc,
 			Object... configurationData) throws ResourceInitializationException {
-		// create the CollectionReader
-		CollectionReader reader;
-		try {
-			reader = (CollectionReader) (Class.forName(desc.getImplementationName()).newInstance());
-		}
-		catch (Exception e) {
-			throw new ResourceInitializationException(e);
-		}
-
-		if (configurationData != null) {
-			ConfigurationData cdata = ConfigurationParameterFactory
-					.createConfigurationData(configurationData);
-			ConfigurationParameter[] configurationParameters = cdata.configurationParameters;
-			Object[] configurationValues = cdata.configurationValues;
-			ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
-					configurationParameters, configurationValues);
-			ResourceMetaData metaData = desc.getMetaData();
-			ConfigurationParameterSettings paramSettings = metaData
-					.getConfigurationParameterSettings();
-			Map<String, Object> additionalParameters = new HashMap<String, Object>();
-			additionalParameters.put(AnalysisEngine.PARAM_CONFIG_PARAM_SETTINGS, paramSettings);
-			reader.initialize(desc, additionalParameters);
-		}
-		else {
-			reader.initialize(desc, null);
-		}
-		return reader;
-
+		CollectionReaderDescription descClone = (CollectionReaderDescription) desc.clone();
+		ResourceCreationSpecifierFactory.setConfigurationParameters(descClone, configurationData);
+		return UIMAFramework.produceCollectionReader(descClone);
 	}
 
 	/**
@@ -266,10 +241,8 @@ public final class CollectionReaderFactory {
 			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
 			String[] prioritizedTypeNames, Object... configurationData)
 			throws ResourceInitializationException {
-		TypePriorities typePriorities = TypePrioritiesFactory
-				.createTypePriorities(prioritizedTypeNames);
+		TypePriorities typePriorities = createTypePriorities(prioritizedTypeNames);
 		return createDescription(readerClass, typeSystem, typePriorities, configurationData);
-
 	}
 
 	/**
@@ -301,12 +274,29 @@ public final class CollectionReaderFactory {
 			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
 			TypePriorities typePriorities, FsIndexCollection indexes, Capability[] capabilities,
 			Object... configurationData) throws ResourceInitializationException {
-		ConfigurationData cdata = ConfigurationParameterFactory
-				.createConfigurationData(configurationData);
+
+		ensureParametersComeInPairs(configurationData);
+
+		// Extract ExternalResourceDescriptions from configurationData
+		// <ParamterName, ExternalResourceDescription> will be stored in this map
+		Map<String, ExternalResourceDescription> externalResources = 
+				ExternalResourceFactory.extractExternalResourceParameters(configurationData);
+
+		// Create description normally
+		ConfigurationData cdata = createConfigurationData(configurationData);
 		return createDescription(readerClass, typeSystem, typePriorities, indexes, capabilities,
-				cdata.configurationParameters, cdata.configurationValues);
+				cdata.configurationParameters, cdata.configurationValues, externalResources);
 	}
 
+	public static CollectionReaderDescription createDescription(
+			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
+			TypePriorities typePriorities, FsIndexCollection indexes, Capability[] capabilities,
+			ConfigurationParameter[] configurationParameters, Object[] configurationValues)
+			throws ResourceInitializationException {
+		return createDescription(readerClass, typeSystem, typePriorities, indexes, capabilities,
+				configurationParameters, configurationValues, null);
+	}
+	
 	/**
 	 * The factory method for creating CollectionReaderDescription objects for a given class,
 	 * TypeSystemDescription, TypePriorities, capabilities, and configuration data
@@ -323,10 +313,12 @@ public final class CollectionReaderFactory {
 	public static CollectionReaderDescription createDescription(
 			Class<? extends CollectionReader> readerClass, TypeSystemDescription typeSystem,
 			TypePriorities typePriorities, FsIndexCollection indexes, Capability[] capabilities,
-			ConfigurationParameter[] configurationParameters, Object[] configurationValues)
+			ConfigurationParameter[] configurationParameters, Object[] configurationValues,
+			Map<String, ExternalResourceDescription> externalResources)
 			throws ResourceInitializationException {
 		// create the descriptor and set configuration parameters
-		CollectionReaderDescription desc = new CollectionReaderDescription_impl();
+		CollectionReaderDescription desc = UIMAFramework.getResourceSpecifierFactory()
+				.createCollectionReaderDescription();
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setImplementationName(readerClass.getName());
 
@@ -336,8 +328,7 @@ public final class CollectionReaderFactory {
 		desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps
 				.size()]));
 
-		ConfigurationData reflectedConfigurationData = ConfigurationParameterFactory
-				.createConfigurationData(readerClass);
+		ConfigurationData reflectedConfigurationData = createConfigurationData(readerClass);
 		ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
 				reflectedConfigurationData.configurationParameters,
 				reflectedConfigurationData.configurationValues);
@@ -362,7 +353,7 @@ public final class CollectionReaderFactory {
 		}
 		else {
 			desc.getCollectionReaderMetaData().setFsIndexCollection(
-					FsIndexFactory.createFsIndexCollection(readerClass));
+					createFsIndexCollection(readerClass));
 		}
 
 		// set capabilities from the argument to this call or from the annotation present in the
@@ -376,6 +367,13 @@ public final class CollectionReaderFactory {
 				desc.getCollectionReaderMetaData().setCapabilities(new Capability[] { capability });
 			}
 		}
+		
+		// Bind External Resources
+		if (externalResources != null) {
+			for (Entry<String, ExternalResourceDescription> e : externalResources.entrySet()) {
+				bindExternalResource(desc, e.getKey(), e.getValue());
+			}
+		}
 
 		return desc;
 	}
@@ -387,14 +385,14 @@ public final class CollectionReaderFactory {
 	 * @param collectionReaderDescription
 	 * @param configurationData
 	 * @throws ResourceInitializationException
+	 * @Deprecated use {@link ResourceCreationSpecifierFactory#setConfigurationParameters}
 	 */
+	@Deprecated
 	public static void setConfigurationParameters(
 			CollectionReaderDescription collectionReaderDescription, Object... configurationData)
 			throws ResourceInitializationException {
-		ConfigurationData cdata = ConfigurationParameterFactory
-				.createConfigurationData(configurationData);
 		ResourceCreationSpecifierFactory.setConfigurationParameters(collectionReaderDescription,
-				cdata.configurationParameters, cdata.configurationValues);
+				configurationData);
 	}
 
 }

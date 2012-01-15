@@ -19,6 +19,7 @@ package org.uimafit.component;
 import org.apache.uima.flow.FlowControllerContext;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.component.initialize.ConfigurationParameterInitializer;
+import org.uimafit.component.initialize.ExternalResourceInitializer;
 import org.uimafit.util.ExtendedLogger;
 
 /**
@@ -40,6 +41,6 @@ public abstract class JCasFlowController_ImplBase extends
 	public void initialize(FlowControllerContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		ConfigurationParameterInitializer.initialize(this, context);
+		ExternalResourceInitializer.initialize(context, this);
 	}
-
 }
