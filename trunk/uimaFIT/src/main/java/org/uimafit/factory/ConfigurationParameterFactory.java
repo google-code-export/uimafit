@@ -29,6 +29,7 @@ import org.apache.commons.lang.IllegalClassException;
 import org.apache.uima.UIMA_IllegalArgumentException;
 import org.apache.uima.resource.ConfigurableDataResourceSpecifier;
 import org.apache.uima.resource.CustomResourceSpecifier;
+import org.apache.uima.resource.ExternalResourceDescription;
 import org.apache.uima.resource.Parameter;
 import org.apache.uima.resource.ResourceCreationSpecifier;
 import org.apache.uima.resource.ResourceSpecifier;
@@ -324,10 +325,10 @@ public final class ConfigurationParameterFactory {
 			String name = (String) configurationData[i * 2];
 			Object value = configurationData[i * 2 + 1];
 
-			if (value == null) {
+			if (value == null || value instanceof ExternalResourceDescription) {
 				continue;
 			}
-
+			
 			if (value.getClass().isArray()
 					&& value.getClass().getComponentType().getName().equals("boolean")) {
 				value = ArrayUtils.toObject((boolean[]) value);

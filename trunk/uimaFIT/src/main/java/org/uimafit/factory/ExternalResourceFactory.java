@@ -109,28 +109,25 @@ public final class ExternalResourceFactory {
 			Class<? extends Resource> aInterface, Object... aParams) {
 		ConfigurationParameterFactory.ensureParametersComeInPairs(aParams);
 
-		// Extracting the external resources modifies the parameter array, so we copy it before
-		Object[] configData = null;
-		if (aParams != null) {
-			configData = new Object[aParams.length];
-			System.arraycopy(aParams, 0, configData, 0, configData.length);
-		}
-		
 		// Extract ExternalResourceDescriptions from configurationData
 		List<ExternalResourceBinding> bindings = new ArrayList<ExternalResourceBinding>();
 		List<ExternalResourceDescription> descs = new ArrayList<ExternalResourceDescription>();
 		for (Entry<String, ExternalResourceDescription> res : extractExternalResourceParameters(
-				configData).entrySet()) {
+				aParams).entrySet()) {
 			bindings.add(createExternalResourceBinding(res.getKey(), res.getValue()));
 			descs.add(res.getValue());
 		}
 		
 		List<Parameter> params = new ArrayList<Parameter>();
-		if (configData != null) {
-			for (int i = 0; i < configData.length / 2; i++) {
+		if (aParams != null) {
+			for (int i = 0; i < aParams.length / 2; i++) {
+				if (aParams[i * 2 + 1] instanceof ExternalResourceDescription) {
+					continue;
+				}
+				
 				Parameter param = new Parameter_impl();
-				param.setName((String) configData[i * 2]);
-				param.setValue((String) configData[i * 2 + 1]);
+				param.setName((String) aParams[i * 2]);
+				param.setValue((String) aParams[i * 2 + 1]);
 				params.add(param);
 			}
 		}
@@ -844,11 +841,6 @@ public final class ExternalResourceFactory {
 			if (value instanceof ExternalResourceDescription) {
 				ExternalResourceDescription description = (ExternalResourceDescription) value;
 				extRes.put(key, description);
-
-				// Nulling out the external resource parameter so that 
-				// ConfigurationParameterFactory.createConfigurationData won't try to process it
-				// anymore.
-				configurationData[i + 1] = null;
 			}
 		}
 		
