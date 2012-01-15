@@ -23,6 +23,8 @@ import java.util.Map;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.uimafit.component.initialize.ConfigurationParameterInitializer;
+import org.uimafit.factory.ConfigurationParameterFactory;
+import org.uimafit.factory.ExternalResourceFactory;
 import org.uimafit.util.ExtendedLogger;
 
 /**
@@ -30,8 +32,11 @@ import org.uimafit.util.ExtendedLogger;
  *
  * @author Richard Eckart de Castilho
  */
-public abstract class Resource_ImplBase extends org.apache.uima.resource.Resource_ImplBase {
+public abstract class Resource_ImplBase extends org.apache.uima.resource.Resource_ImplBase
+		implements ExternalResourceAware {
+
 	private ExtendedLogger logger;
+	private String resourcePrefix;
 	
 	@Override
 	public ExtendedLogger getLogger() {
@@ -49,7 +54,23 @@ public abstract class Resource_ImplBase extends org.apache.uima.resource.Resourc
 			return false;
 		}
 
+		// Remember the prefix for resource keys. This has been set in 
+		// ExternalResourceFactory.bindExternalResource()
+		resourcePrefix = (String) ConfigurationParameterFactory.getParameterSettings(aSpecifier)
+				.get(ExternalResourceFactory.PARAM_RESOURCE_PREFIX);
+				
 		ConfigurationParameterInitializer.initialize(this, aSpecifier);
+		// We cannot call ExternalResourceInitializer.initialize() yet because the 
+		// ResourceManager_impl has not added the resources to the context yet.
+		
 		return true;
+	}
+	
+	public String getResourcePrefix() {
+		return resourcePrefix;
+	}
+	
+	public void afterResourcesInitialized() {
+		// Per default nothing is done here.
 	}
 }

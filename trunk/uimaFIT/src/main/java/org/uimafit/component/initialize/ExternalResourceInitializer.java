@@ -23,15 +23,21 @@ import static org.uimafit.factory.ExternalResourceFactory.createExternalResource
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.apache.uima.UimaContext;
+import org.apache.uima.UimaContextAdmin;
 import org.apache.uima.resource.ExternalResourceDependency;
 import org.apache.uima.resource.Resource;
 import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.ResourceManager;
 import org.apache.uima.resource.SharedResourceObject;
+import org.apache.uima.resource.impl.ResourceManager_impl;
+import org.uimafit.component.ExternalResourceAware;
 import org.uimafit.descriptor.ExternalResource;
 import org.uimafit.descriptor.ExternalResourceLocator;
+import org.uimafit.util.ReflectionUtil;
 
 /**
  * Configurator class for {@link ExternalResource} annotations.
@@ -39,6 +45,10 @@ import org.uimafit.descriptor.ExternalResourceLocator;
  * @author Richard Eckart de Castilho
  */
 public class ExternalResourceInitializer {
+	
+	private static final Object INITIALIZED = new Object();
+	private static Map<Object, Object> initializedResources = new WeakHashMap<Object, Object>();
+	
 	/**
 	 * Configure a component from the given context.
 	 *
@@ -56,7 +66,7 @@ public class ExternalResourceInitializer {
 		configure(context, object.getClass(), object.getClass(), object,
 				getResourceDeclarations(object.getClass()));
 	}
-
+	
 	/**
 	 * Helper method for recursively configuring super-classes.
 	 *
@@ -81,16 +91,30 @@ public class ExternalResourceInitializer {
 		if (cls.getSuperclass() != null) {
 			configure(context, baseCls, cls.getSuperclass(), object, dependencies);
 		}
-
+		else {
+			// Try to initialize the external resources only once, not for each step of the
+			// class hierarchy of a component.
+			initializeNestedResources(context);
+		}
+		
 		for (Field field : cls.getDeclaredFields()) {
 			if (!field.isAnnotationPresent(ExternalResource.class)) {
 				continue;
 			}
 
+			// Get the resource key. If it is a nested resource, also get the prefix.
+			String key = getKey(field);
+			if (object instanceof ExternalResourceAware) {
+				String prefix = ((ExternalResourceAware) object).getResourcePrefix();
+				if (prefix != null) {
+					key = prefix + '.' + key;
+				}
+			}
+			
 			// Obtain the resource
 			Object value;
 			try {
-				value = context.getResourceObject(getKey(field));
+				value = context.getResourceObject(key);
 			}
 			catch (ResourceAccessException e) {
 				throw new ResourceInitializationException(e);
@@ -102,8 +126,7 @@ public class ExternalResourceInitializer {
 			// Sanity checks
 			if (value == null && isMandatory(field)) {
 				throw new ResourceInitializationException(new IllegalStateException(
-						"Mandatory resource [" + getKey(field) + "] is not set on [" + baseCls
-								+ "]"));
+						"Mandatory resource [" + key + "] is not set on [" + baseCls + "]"));
 			}
 
 			// Now record the setting and optionally apply it to the given
@@ -118,9 +141,72 @@ public class ExternalResourceInitializer {
 				}
 				field.setAccessible(false);
 			}
+		}		
+	}
+	
+	/**
+	 * Scan the context and initialize external resources injected into other external resources.
+	 * 
+	 * @param aContext the UIMA context.
+	 * @throws ResourceInitializationException 
+	 */
+	private static void initializeNestedResources(UimaContext aContext)
+			throws ResourceInitializationException {
+		if (!(aContext instanceof UimaContextAdmin)) {
+			return;
+		}
+		
+		ResourceManager resMgr = ((UimaContextAdmin) aContext).getResourceManager();
+		if (!(resMgr instanceof ResourceManager_impl)) {
+			// Unfortunately there is not official way to access the list of resources. Thus we
+			// have to rely on the UIMA implementation details and access the internal resource
+			// map via reflection. If the resource manager is not derived from the default 
+			// UIMA resource manager, then we cannot really do anything here.
+			throw new IllegalStateException("Unsupported resource manager implementation ["
+					+ resMgr.getClass() + "]");
+		}
+		
+		Field resourceMapField = null;
+		try {
+			// Fetch the list of resources
+			resourceMapField = ReflectionUtil.getField(resMgr, "mResourceMap");
+			resourceMapField.setAccessible(true);			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> resources = (Map<String, Object>) resourceMapField.get(resMgr);
+			
+			// Initialize the resources - each resource must only be initialized once. We remember
+			// if a resource has already been initialized in a weak hash map, so we automatically
+			// forget about resources that are garbage collected.
+			for (Object r : resources.values()) {
+				synchronized (initializedResources) {
+					if (r instanceof ExternalResourceAware && !initializedResources.containsKey(r)) {
+						// Already mark the resource as initialized so we do not run into an 
+						// endless recursive loop when initialize() is called again.
+						initializedResources.put(r, INITIALIZED);
+						initialize(aContext, r);
+					}
+				}
+			}
+		}
+		catch (SecurityException e) {
+			throw new ResourceInitializationException(e);
+		}
+		catch (NoSuchFieldException e) {
+			throw new ResourceInitializationException(e);
+		}
+		catch (IllegalArgumentException e) {
+			throw new ResourceInitializationException(e);
+		}
+		catch (IllegalAccessException e) {
+			throw new ResourceInitializationException(e);
+		}
+		finally {
+			if (resourceMapField != null) {
+				resourceMapField.setAccessible(false);
+			}
 		}
 	}
-
+	
 	/**
 	 * @param <T>
 	 * @param cls

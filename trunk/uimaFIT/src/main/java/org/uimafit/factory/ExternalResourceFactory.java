@@ -24,9 +24,12 @@ import static org.apache.uima.UIMAFramework.getResourceSpecifierFactory;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -58,6 +61,7 @@ import org.apache.uima.resource.metadata.impl.ResourceMetaData_impl;
 import org.apache.uima.util.InvalidXMLException;
 import org.uimafit.descriptor.ExternalResource;
 import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
+import org.uimafit.util.ExtendedExternalResourceDescription_impl;
 
 /**
  * Helper methods for external resources.
@@ -65,6 +69,8 @@ import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;
  * @author Richard Eckart de Castilho
  */
 public final class ExternalResourceFactory {
+	public static final String PARAM_RESOURCE_PREFIX = "__UIMAFIT_RESOURCE_PREFIX__";
+	
 	private final static AtomicLong disambiguator = new AtomicLong();
 
 	private ExternalResourceFactory() {
@@ -83,7 +89,7 @@ public final class ExternalResourceFactory {
 	 * @see CustomResourceSpecifier
 	 */
 	public static ExternalResourceDescription createExternalResourceDescription(
-			Class<? extends Resource> aInterface, String... aParams) {
+			Class<? extends Resource> aInterface, Object... aParams) {
 		return createExternalResourceDescription(uniqueResourceKey(aInterface.getName()), aInterface, aParams);
 	}
 	
@@ -100,24 +106,44 @@ public final class ExternalResourceFactory {
 	 * @see CustomResourceSpecifier
 	 */
 	public static ExternalResourceDescription createExternalResourceDescription(final String aName,
-			Class<? extends Resource> aInterface, String... aParams) {
+			Class<? extends Resource> aInterface, Object... aParams) {
 		ConfigurationParameterFactory.ensureParametersComeInPairs(aParams);
 
-		int numberOfParameters = aParams.length / 2;
-		Parameter[] params = new Parameter[numberOfParameters];
-		for (int i = 0; i < numberOfParameters; i++) {
-			params[i] = new Parameter_impl();
-			params[i].setName(aParams[i * 2]);
-			params[i].setValue(aParams[i * 2 + 1]);
+		// Extracting the external resources modifies the parameter array, so we copy it before
+		Object[] configData = null;
+		if (aParams != null) {
+			configData = new Object[aParams.length];
+			System.arraycopy(aParams, 0, configData, 0, configData.length);
+		}
+		
+		// Extract ExternalResourceDescriptions from configurationData
+		List<ExternalResourceBinding> bindings = new ArrayList<ExternalResourceBinding>();
+		List<ExternalResourceDescription> descs = new ArrayList<ExternalResourceDescription>();
+		for (Entry<String, ExternalResourceDescription> res : extractExternalResourceParameters(
+				configData).entrySet()) {
+			bindings.add(createExternalResourceBinding(res.getKey(), res.getValue()));
+			descs.add(res.getValue());
+		}
+		
+		List<Parameter> params = new ArrayList<Parameter>();
+		if (configData != null) {
+			for (int i = 0; i < configData.length / 2; i++) {
+				Parameter param = new Parameter_impl();
+				param.setName((String) configData[i * 2]);
+				param.setValue((String) configData[i * 2 + 1]);
+				params.add(param);
+			}
 		}
 
 		CustomResourceSpecifier spec = getResourceSpecifierFactory().createCustomResourceSpecifier();
 		spec.setResourceClassName(aInterface.getName());
-		spec.setParameters(params);
+		spec.setParameters(params.toArray(new Parameter[params.size()]));
 
-		ExternalResourceDescription extRes = new ExternalResourceDescription_impl();
+		ExtendedExternalResourceDescription_impl extRes = new ExtendedExternalResourceDescription_impl();
 		extRes.setName(aName);
 		extRes.setResourceSpecifier(spec);
+		extRes.setExternalResourceBindings(bindings);
+		extRes.setExternalResourceDescriptions(descs);
 		return extRes;
 	}
 	
@@ -409,7 +435,7 @@ public final class ExternalResourceFactory {
 		// Appending a disambiguation suffix it possible to have multiple instances of the same
 		// resource with different settings to different keys.
 		ExternalResourceDescription extRes = createExternalResourceDescription(
-				uniqueResourceKey(aRes.getName()), aRes, aParams);
+				uniqueResourceKey(aRes.getName()), aRes, (Object[]) aParams);
 		bindResource(aDesc, aApi.getName(), extRes);
 	}
 
@@ -508,7 +534,7 @@ public final class ExternalResourceFactory {
 		// Appending a disambiguation suffix it possible to have multiple instances of the same
 		// resource with different settings to different keys.
 		ExternalResourceDescription extRes = createExternalResourceDescription(
-				uniqueResourceKey(aRes.getName()), aRes, aParams);
+				uniqueResourceKey(aRes.getName()), aRes, (Object[]) aParams);
 		bindResource(aDesc, aKey, extRes);
 	}
 
@@ -612,6 +638,7 @@ public final class ExternalResourceFactory {
 			setExternalResourceDependencies(aDesc, (ExternalResourceDependency[]) ArrayUtils.add(
 					deps, createExternalResourceDependency(aKey, aApi, false)));		}
 	}
+	
 	private static void setExternalResourceDependencies(
 			ResourceSpecifier aDesc, ExternalResourceDependency[] aDependencies) {
 		if (aDesc instanceof CollectionReaderDescription) {
@@ -732,10 +759,24 @@ public final class ExternalResourceFactory {
 			resMgrCfg = new ResourceManagerConfiguration_impl();
 			aDesc.setResourceManagerConfiguration(resMgrCfg);
 		}
-
+		
 		ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);
 		resMgrCfg.addExternalResource(aRes);
 		resMgrCfg.addExternalResourceBinding(extResBind);
+
+		// Handle nested resources
+		if (aRes instanceof ExtendedExternalResourceDescription_impl) {
+			ExtendedExternalResourceDescription_impl extRes = (ExtendedExternalResourceDescription_impl) aRes;
+			for (ExternalResourceDescription desc : extRes.getExternalResourceDescriptions()) {
+				resMgrCfg.addExternalResource(desc);
+			}
+			for (ExternalResourceBinding b : extRes.getExternalResourceBindings()) {
+				resMgrCfg.addExternalResourceBinding(b);
+				b.setKey(aBindTo + "." + b.getKey());
+				ConfigurationParameterFactory.setParameter(extRes.getResourceSpecifier(), 
+						PARAM_RESOURCE_PREFIX, aBindTo);
+			}
+		}
 	}
 
 	/**

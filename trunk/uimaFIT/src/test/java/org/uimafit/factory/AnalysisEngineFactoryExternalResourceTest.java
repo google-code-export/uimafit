@@ -19,12 +19,12 @@
 
 package org.uimafit.factory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.uimafit.factory.AnalysisEngineFactory.createPrimitiveDescription;
 import static org.uimafit.factory.ExternalResourceFactory.createExternalResourceDescription;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.UimaContext;
@@ -34,8 +34,10 @@ import org.apache.uima.cas.CAS;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ExternalResourceDescription;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.ResourceSpecifier;
 import org.junit.Test;
 import org.uimafit.component.CasAnnotator_ImplBase;
+import org.uimafit.component.NoOpAnnotator;
 import org.uimafit.component.Resource_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.descriptor.ExternalResource;
@@ -65,6 +67,24 @@ public class AnalysisEngineFactoryExternalResourceTest {
 	}
 
 	@Test
+	public void testNestedAutoExternalResourceBinding() throws UIMAException, IOException {
+		JCas jcas = JCasFactory.createJCas();
+
+		AnalysisEngineDescription descriptor = AnalysisEngineFactory.createPrimitiveDescription(
+				TestAnalysisEngine2.class,
+				TestAnalysisEngine2.PARAM_RESOURCE,
+				createExternalResourceDescription(TestExternalResource2.class,
+						TestExternalResource2.PARAM_USER_NAME, USER_NAME,
+						TestExternalResource2.PARAM_EXPECTED_GREETING, EXPECTED_GREETING,
+						TestExternalResource2.PARAM_RESOURCE, createExternalResourceDescription(TestExternalResource.class,
+								TestExternalResource.PARAM_USER_NAME, USER_NAME,
+								TestExternalResource.PARAM_EXPECTED_GREETING, EXPECTED_GREETING)),
+				TestAnalysisEngine.PARAM_EXPECTED_GREETING, EXPECTED_GREETING);
+
+		SimplePipeline.runPipeline(jcas, descriptor);
+	}
+
+	@Test
 	public void testSharedExternalResource() throws UIMAException, IOException {
 		JCas jcas = JCasFactory.createJCas();
 
@@ -86,7 +106,6 @@ public class AnalysisEngineFactoryExternalResourceTest {
 	}
 
 	public static class TestExternalResource extends Resource_ImplBase {
-
 		public final static String PARAM_USER_NAME = "userName";
 		@ConfigurationParameter(name = PARAM_USER_NAME)
 		private String userName;
@@ -101,7 +120,45 @@ public class AnalysisEngineFactoryExternalResourceTest {
 			assertEquals(expectedGreeting, greeting);
 			return greeting;
 		}
+	}
 
+	public static class TestExternalResource2 extends Resource_ImplBase {
+		public final static String PARAM_USER_NAME = "userName";
+		@ConfigurationParameter(name = PARAM_USER_NAME)
+		private String userName;
+
+		public final static String PARAM_EXPECTED_GREETING = "expectedGreeting";
+		@ConfigurationParameter(name = PARAM_EXPECTED_GREETING)
+		private String expectedGreeting;
+		
+		public final static String PARAM_RESOURCE = "resource2";
+		@ExternalResource(key = PARAM_RESOURCE)
+		private TestExternalResource resource;
+
+		@Override
+		public boolean initialize(ResourceSpecifier aSpecifier, Map<String, Object> aAdditionalParams)
+			throws ResourceInitializationException
+		{
+			if (!super.initialize(aSpecifier, aAdditionalParams)) {
+				return false;
+			}
+
+			return true;
+		}
+		
+		public String greetUser() {
+			String greeting = "Hi " + userName + "!";
+			// Ensure normal parameters get passed to External Resource
+			assertEquals(expectedGreeting, greeting);
+			return greeting;
+		}
+		
+		@Override
+		public void afterResourcesInitialized() {
+			// Ensure the External Resource is binded
+			assertNotNull(resource);
+			assertNotSame(this, resource);
+		}
 	}
 
 	public static class TestAnalysisEngine extends CasAnnotator_ImplBase {
@@ -127,7 +184,19 @@ public class AnalysisEngineFactoryExternalResourceTest {
 			// Ensure normal parameters get passed to Analysis Engine
 			assertEquals(expectedGreeting, greeting);
 		}
-
 	}
 
+	public static class TestAnalysisEngine2 extends NoOpAnnotator {
+
+		public final static String PARAM_RESOURCE = "resource";
+		@ExternalResource(key = PARAM_RESOURCE)
+		private TestExternalResource2 resource;
+
+		@Override
+		public void initialize(UimaContext context) throws ResourceInitializationException {
+			super.initialize(context);
+			// Ensure the External Resource is binded
+			assertNotNull(resource);
+		}
+	}
 }
