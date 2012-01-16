@@ -556,10 +556,9 @@ public class CasUtil {
 		FSIterator<AnnotationFS> iter = cas.getAnnotationIndex().iterator();
 		while (iter.hasNext()) {
 			AnnotationFS a = iter.next();
-			if (a.getBegin() <= begin && a.getEnd() >= end) {
-				if (type == null || ts.subsumes(type, a.getType())) {
-					list.add(a);
-				}
+			if ((a.getBegin() <= begin) && (a.getEnd() >= end)
+					&& ((type == null) || (ts.subsumes(type, a.getType())))) {
+				list.add(a);
 			}
 		}
 		return list;
@@ -865,20 +864,18 @@ public class CasUtil {
 	 *             if the view does not exist and is not to be created.
 	 */
 	public static CAS getView(CAS cas, String viewName, boolean create) {
-		CAS view = null;
+		CAS view;
 		try {
 			view = cas.getView(viewName);
 		}
 		catch (CASRuntimeException e) {
 			// View does not exist
-		}
-
-		if (view == null && create) {
-			view = cas.createView(viewName);
-		}
-
-		if (view == null) {
-			throw new IllegalArgumentException("No view with name [" + viewName + "]");
+			if (create) {
+				view = cas.createView(viewName);
+			}
+			else {
+				throw new IllegalArgumentException("No view with name [" + viewName + "]");
+			}
 		}
 
 		return view;

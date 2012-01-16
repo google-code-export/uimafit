@@ -19,7 +19,6 @@
 package org.uimafit.component;
 
 import org.apache.uima.UimaContext;
-import org.apache.uima.analysis_component.CasAnnotator_ImplBase;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.component.initialize.ExternalResourceInitializer;
@@ -27,9 +26,10 @@ import org.uimafit.descriptor.OperationalProperties;
 import org.uimafit.util.ExtendedLogger;
 
 /**
- * Base class for CAS consumers (actually a {@link CasAnnotator_ImplBase}) which initializes itself
- * based on annotations.
- *
+ * Base class for CAS consumers (actually a
+ * {@link org.apache.uima.analysis_component.CasAnnotator_ImplBase}) which initializes itself based
+ * on annotations.
+ * 
  * @author Richard Eckart de Castilho
  */
 @OperationalProperties(multipleDeploymentAllowed = false)
