@@ -30,7 +30,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.apache.uima.analysis_engine.AnalysisEngine;
-import org.apache.uima.cas.CAS;
 
 /**
  * Control aspects of the UIMA analysis component.<br/>
@@ -72,7 +71,8 @@ public @interface OperationalProperties {
 
 	/**
 	 * Gets whether this AnalysisEngine may output new CASes. If this property is set to true, an
-	 * application can use the {@link AnalysisEngine#processAndOutputNewCASes(CAS)} to pass a CAS to
+	 * application can use the
+	 * {@link AnalysisEngine#processAndOutputNewCASes(org.apache.uima.cas.CAS)} to pass a CAS to
 	 * this this AnalysisEngine and then step through all of the output CASes that it produces. For
 	 * example, such an AnalysisEngine could segment a CAS into smaller pieces, emitting each as a
 	 * separate CAS.
