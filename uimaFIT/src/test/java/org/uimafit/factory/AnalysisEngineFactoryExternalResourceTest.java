@@ -21,11 +21,14 @@ package org.uimafit.factory;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.uimafit.factory.AnalysisEngineFactory.createPrimitive;
 import static org.uimafit.factory.ExternalResourceFactory.createExternalResourceDescription;
 
 import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
+import org.apache.uima.resource.ExternalResourceDescription;
 import org.junit.Test;
 import org.uimafit.component.CasAnnotator_ImplBase;
 import org.uimafit.component.NoOpAnnotator;
@@ -37,8 +40,11 @@ import org.uimafit.factory.testRes.TestExternalResource;
  * @author Richard Eckart de Castilho
  */
 public class AnalysisEngineFactoryExternalResourceTest {
+	/**
+	 * Test simple injection.
+	 */
 	@Test
-	public void testAutoExternalResourceBinding() throws Exception {
+	public void testInjection() throws Exception {
 		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(
 				TestAnalysisEngine.class,
 				TestAnalysisEngine.PARAM_RESOURCE,
@@ -48,8 +54,11 @@ public class AnalysisEngineFactoryExternalResourceTest {
 		ae.process(ae.newCAS());
 	}
 
+	/**
+	 * Test simple nesting.
+	 */
 	@Test
-	public void testNestedAutoExternalResourceBinding() throws Exception {
+	public void testSimpleNesting() throws Exception {
 		AnalysisEngine ae = AnalysisEngineFactory.createPrimitive(
 				TestAnalysisEngine.class,
 				TestAnalysisEngine.PARAM_RESOURCE,
@@ -58,6 +67,32 @@ public class AnalysisEngineFactoryExternalResourceTest {
 						TestExternalResource2.PARAM_RESOURCE, createExternalResourceDescription(
 								TestExternalResource.class,
 								TestExternalResource.PARAM_VALUE, TestExternalResource.EXPECTED_VALUE)));
+
+		ae.process(ae.newCAS());
+	}
+
+	/**
+	 * Test deeper nesting level.
+	 */
+	@Test
+	public void testDeeperNesting() throws Exception {
+		ExternalResourceDescription resDesc2 = createExternalResourceDescription(
+				TestExternalResource.class,
+				TestExternalResource.PARAM_VALUE, TestExternalResource.EXPECTED_VALUE);
+
+		ExternalResourceDescription resDesc = createExternalResourceDescription(
+				TestExternalResource2.class,
+				TestExternalResource2.PARAM_RESOURCE, resDesc2,
+				TestExternalResource.PARAM_VALUE, TestExternalResource.EXPECTED_VALUE);
+
+		AnalysisEngineDescription aeDesc = AnalysisEngineFactory.createPrimitiveDescription(
+				TestAnalysisEngine.class,
+				TestAnalysisEngine.PARAM_RESOURCE,
+				createExternalResourceDescription(TestExternalResource2.class,
+						TestExternalResource.PARAM_VALUE, TestExternalResource.EXPECTED_VALUE,
+						TestExternalResource2.PARAM_RESOURCE, resDesc));
+		
+		AnalysisEngine ae = createPrimitive(aeDesc);
 		ae.process(ae.newCAS());
 	}
 
@@ -71,6 +106,7 @@ public class AnalysisEngineFactoryExternalResourceTest {
 			// Ensure the External Resource is binded
 			assertNotNull(resource);
 			assertNotSame(this, resource);
+			resource.assertConfiguredOk();
 			assertConfiguredOk();
 		}
 	}

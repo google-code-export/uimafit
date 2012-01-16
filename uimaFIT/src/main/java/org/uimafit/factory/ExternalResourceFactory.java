@@ -733,10 +733,56 @@ public final class ExternalResourceFactory {
 	 */
 	public static void bindExternalResource(ResourceManagerConfiguration aResMgrCfg,
 			String aBindTo, ExternalResourceDescription aRes) {
+		// Create a map of all bindings
+		Map<String, ExternalResourceBinding> bindings = new HashMap<String, ExternalResourceBinding>();
+		for (ExternalResourceBinding b : aResMgrCfg.getExternalResourceBindings()) {
+			bindings.put(b.getKey()+"--"+b.getResourceName(), b);
+		}
+		
+		// Create a map of all resources
+		Map<String, ExternalResourceDescription> resources = new HashMap<String, ExternalResourceDescription>();
+		for (ExternalResourceDescription r : aResMgrCfg.getExternalResources()) {
+			resources.put(r.getName(), r);
+		}
+		
+		// For the current resource, add resource and binding
 		ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);
-
-		aResMgrCfg.addExternalResource(aRes);
-		aResMgrCfg.addExternalResourceBinding(extResBind);
+		bindings.put(extResBind.getKey()+"--"+extResBind.getResourceName(), extResBind);
+		resources.put(aRes.getName(), aRes);
+		
+		// Handle nested resources
+		bindNestedResources(aBindTo, aRes, bindings, resources);
+		
+		// Commit everything to the resource manager configuration
+		aResMgrCfg.setExternalResourceBindings(bindings.values().toArray(
+				new ExternalResourceBinding[bindings.size()]));
+		aResMgrCfg.setExternalResources(resources.values().toArray(
+				new ExternalResourceDescription[resources.size()]));
+	}
+	
+	private static void bindNestedResources(String aBindTo, ExternalResourceDescription aRes,
+			Map<String, ExternalResourceBinding> aBindings,
+			Map<String, ExternalResourceDescription> aResources)	{
+		// Handle nested resources
+		if (aRes instanceof ExtendedExternalResourceDescription_impl) {
+			ExtendedExternalResourceDescription_impl extRes = (ExtendedExternalResourceDescription_impl) aRes;
+			ConfigurationParameterFactory.setParameter(extRes.getResourceSpecifier(),
+					PARAM_RESOURCE_PREFIX, aBindTo);
+			
+			// Create a map of all resources
+			Map<String, ExternalResourceDescription> res = new HashMap<String, ExternalResourceDescription>();
+			for (ExternalResourceDescription r : extRes.getExternalResourceDescriptions()) {
+				res.put(r.getName(), r);
+			}
+			
+			for (ExternalResourceBinding b : extRes.getExternalResourceBindings()) {
+				b.setKey(aBindTo + "." + b.getKey());
+				ExternalResourceDescription nestedRes = res.get(b.getResourceName());
+				aBindings.put(b.getKey()+"--"+b.getResourceName(), b);
+				aResources.put(nestedRes.getName(), nestedRes);
+				bindNestedResources(b.getKey(), nestedRes, aBindings, aResources);
+			}
+		}
 	}
 
 	/**
@@ -757,23 +803,7 @@ public final class ExternalResourceFactory {
 			aDesc.setResourceManagerConfiguration(resMgrCfg);
 		}
 		
-		ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);
-		resMgrCfg.addExternalResource(aRes);
-		resMgrCfg.addExternalResourceBinding(extResBind);
-
-		// Handle nested resources
-		if (aRes instanceof ExtendedExternalResourceDescription_impl) {
-			ExtendedExternalResourceDescription_impl extRes = (ExtendedExternalResourceDescription_impl) aRes;
-			for (ExternalResourceDescription desc : extRes.getExternalResourceDescriptions()) {
-				resMgrCfg.addExternalResource(desc);
-			}
-			for (ExternalResourceBinding b : extRes.getExternalResourceBindings()) {
-				resMgrCfg.addExternalResourceBinding(b);
-				b.setKey(aBindTo + "." + b.getKey());
-				ConfigurationParameterFactory.setParameter(extRes.getResourceSpecifier(), 
-						PARAM_RESOURCE_PREFIX, aBindTo);
-			}
-		}
+		bindExternalResource(resMgrCfg, aBindTo, aRes);
 	}
 
 	/**
@@ -810,8 +840,7 @@ public final class ExternalResourceFactory {
 			aDesc.setResourceManagerConfiguration(resMgrCfg);
 		}
 
-		ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);
-		resMgrCfg.addExternalResourceBinding(extResBind);
+		bindExternalResource(resMgrCfg, aBindTo, aRes);
 	}
 	
 	static String uniqueResourceKey(String aKey)
