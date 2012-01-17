@@ -16,6 +16,7 @@ you can set the resource like
 
 {{{
 AnalysisEngineDescription desc = createPrimitiveDescription(Annotator.class,
+    Annotator.PARAM_STRICT, true,
     Annotator.RES_MODEL, createExternalResourceDescription(
         Model.class, "path/to/my/model"));
 }}}
