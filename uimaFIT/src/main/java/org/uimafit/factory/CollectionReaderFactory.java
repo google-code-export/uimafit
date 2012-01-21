@@ -322,12 +322,6 @@ public final class CollectionReaderFactory {
 		desc.setFrameworkImplementation(Constants.JAVA_FRAMEWORK_NAME);
 		desc.setImplementationName(readerClass.getName());
 
-		// Extract external resource dependencies
-		Collection<ExternalResourceDependency> deps = ExternalResourceInitializer
-				.getResourceDeclarations(readerClass).values();
-		desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps
-				.size()]));
-
 		ConfigurationData reflectedConfigurationData = createConfigurationData(readerClass);
 		ResourceCreationSpecifierFactory.setConfigurationParameters(desc,
 				reflectedConfigurationData.configurationParameters,
@@ -368,6 +362,12 @@ public final class CollectionReaderFactory {
 			}
 		}
 		
+		// Extract external resource dependencies
+		Collection<ExternalResourceDependency> deps = ExternalResourceInitializer
+				.getResourceDeclarations(readerClass).values();
+		desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps
+				.size()]));
+
 		// Bind External Resources
 		if (externalResources != null) {
 			for (Entry<String, ExternalResourceDescription> e : externalResources.entrySet()) {
