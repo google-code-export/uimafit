@@ -2,6 +2,8 @@
 
 <h1>Working with External Resources</h1>
 
+*Features documented here may have been implemented but not yet released. Fetch the latest source code from subversion to try them.*
+
 <wiki:toc max_depth="2" />
 
 An analysis engine often uses some data model. This may be as simple as word frequency counts or as complex as the model of a parser. Often these models can become quite large. If an analysis engine is deployed multiple times in the same pipeline or runs on multiple CPU cores, memory can be saved by using a shared instance of the data model. UIMA supports such a scenario by so-called external resources. The following sections illustrates how external resources can be used with uimaFIT.
