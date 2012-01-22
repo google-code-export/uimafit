@@ -18,7 +18,7 @@ highlights some of the features uimaFIT provides:
  	Also, running components as a pipeline can be accomplished with a method call like this:  
  	SimplePipeline.runPipeline(reader, ae1, ..., aeN, consumer1, ... consumerN)
 
-uimaFIT requires Java 1.5 or higher and UIMA 2.3.0 or higher.
+uimaFIT requires Java 1.5 or higher and UIMA 2.4.0 or higher.
 
 ############
 AVAILABILITY
@@ -34,7 +34,7 @@ as a dependency to your pom.xml file with the following:
 <dependency>
 <groupId>org.uimafit</groupId>
 <artifactId>uimafit</artifactId>
-<version>1.0.0</version>
+<version>1.4.0</version>
 </dependency>
 
 #########
@@ -60,16 +60,17 @@ ABOUT US
 ########
 uimaFIT is a collaborative effort between the Center for Computational Pharmacology at the University of 
 Colorado Denver, the Center for Computational Language and Education Research at the University of 
-Colorado at Boulder, and the Ubiquitous Knowledge Processing (UKP) Lab at the Technische Universit‰t 
+Colorado at Boulder, and the Ubiquitous Knowledge Processing (UKP) Lab at the Technische Universit√§t 
 Darmstadt.  uimaFIT is extensively used by projects being developed by these groups.
 
 The uimaFIT development team is:
 
 Philip Ogren, University of Colorado, USA
-Richard Eckart de Castilho, Technische Universit‰t Darmstadt, Germany
+Richard Eckart de Castilho, Technische Universit√§t Darmstadt, Germany
 Steven Bethard, Stanford University, USA
 
-with contributions from Niklas Jakob, Fabio Mancinelli, Chris Roeder, Philipp Wetzler, Torsten Zesch.
+with contributions from Niklas Jakob, Fabio Mancinelli, Chris Roeder, Philipp Wetzler, Shuo Yang, 
+Torsten Zesch.
 
 #######
 SUPPORT
