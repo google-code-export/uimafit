@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-TokenBuilder (uimaFIT 1.2.0 API)
+TokenBuilder (uimaFIT 1.3.0 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ TokenBuilder (uimaFIT 1.2.0 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="TokenBuilder (uimaFIT 1.2.0 API)";
+        parent.document.title="TokenBuilder (uimaFIT 1.3.0 API)";
     }
 }
 </SCRIPT>
@@ -91,14 +91,14 @@ org.uimafit.testing.factory</FONT>
 <BR>
 Class TokenBuilder&lt;TOKEN_TYPE extends <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>,SENTENCE_TYPE extends <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt;</H2>
 <PRE>
-<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
   <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>org.uimafit.testing.factory.TokenBuilder&lt;TOKEN_TYPE,SENTENCE_TYPE&gt;</B>
 </PRE>
 <DL>
 <DT><DT><B>Type Parameters:</B><DD><CODE>TOKEN_TYPE</CODE> - the type system token type (e.g. org.uimafit.examples.type.Token)<DD><CODE>SENTENCE_TYPE</CODE> - the type system sentence type (e.g. org.uimafit.examples.type.Sentence)</DL>
 <HR>
 <DL>
-<DT><PRE>public class <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.43"><B>TokenBuilder&lt;TOKEN_TYPE extends <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>,SENTENCE_TYPE extends <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt;</B></A><DT>extends <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
+<DT><PRE>public class <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.43"><B>TokenBuilder&lt;TOKEN_TYPE extends <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>,SENTENCE_TYPE extends <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt;</B></A><DT>extends <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
 </PRE>
 
 <P>
@@ -124,18 +124,18 @@ This class provides convenience methods for creating tokens and sentences and ad
 <B>Constructor Summary</B></FONT></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#TokenBuilder(java.lang.Class, java.lang.Class)">TokenBuilder</A></B>(<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">TOKEN_TYPE</A>&gt;&nbsp;tokenClass,
-                         <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">SENTENCE_TYPE</A>&gt;&nbsp;sentenceClass)</CODE>
+<TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#TokenBuilder(java.lang.Class, java.lang.Class)">TokenBuilder</A></B>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">TOKEN_TYPE</A>&gt;&nbsp;tokenClass,
+                         <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">SENTENCE_TYPE</A>&gt;&nbsp;sentenceClass)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calls <A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#TokenBuilder(java.lang.Class, java.lang.Class, java.lang.String, java.lang.String)"><CODE>TokenBuilder(Class, Class, String, String)</CODE></A> with the last two
  arguments as null</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#TokenBuilder(java.lang.Class, java.lang.Class, java.lang.String, java.lang.String)">TokenBuilder</A></B>(<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">TOKEN_TYPE</A>&gt;&nbsp;tokenClass,
-                         <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">SENTENCE_TYPE</A>&gt;&nbsp;sentenceClass,
-                         <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posFeatureName,
-                         <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;stemFeatureName)</CODE>
+<TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#TokenBuilder(java.lang.Class, java.lang.Class, java.lang.String, java.lang.String)">TokenBuilder</A></B>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">TOKEN_TYPE</A>&gt;&nbsp;tokenClass,
+                         <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">SENTENCE_TYPE</A>&gt;&nbsp;sentenceClass,
+                         <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posFeatureName,
+                         <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;stemFeatureName)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Instantiates a TokenBuilder with the type system information that the builder needs to build
@@ -155,7 +155,7 @@ This class provides convenience methods for creating tokens and sentences and ad
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#buildTokens(org.apache.uima.jcas.JCas, java.lang.String)">buildTokens</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
-                       <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text)</CODE>
+                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds white-space delimited tokens from the input text.</TD>
@@ -164,8 +164,8 @@ This class provides convenience methods for creating tokens and sentences and ad
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#buildTokens(org.apache.uima.jcas.JCas, java.lang.String, java.lang.String)">buildTokens</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
-                       <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text,
-                       <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;tokensString)</CODE>
+                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text,
+                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;tokensString)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see <A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#buildTokens(org.apache.uima.jcas.JCas, java.lang.String, java.lang.String, java.lang.String, java.lang.String)"><CODE>buildTokens(JCas, String, String, String, String)</CODE></A></TD>
@@ -174,9 +174,9 @@ This class provides convenience methods for creating tokens and sentences and ad
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#buildTokens(org.apache.uima.jcas.JCas, java.lang.String, java.lang.String, java.lang.String)">buildTokens</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
-                       <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text,
-                       <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;tokensString,
-                       <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posTagsString)</CODE>
+                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text,
+                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;tokensString,
+                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posTagsString)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see <A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#buildTokens(org.apache.uima.jcas.JCas, java.lang.String, java.lang.String, java.lang.String, java.lang.String)"><CODE>buildTokens(JCas, String, String, String, String)</CODE></A></TD>
@@ -185,10 +185,10 @@ This class provides convenience methods for creating tokens and sentences and ad
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#buildTokens(org.apache.uima.jcas.JCas, java.lang.String, java.lang.String, java.lang.String, java.lang.String)">buildTokens</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
-                       <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text,
-                       <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;tokensString,
-                       <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posTagsString,
-                       <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;stemsString)</CODE>
+                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text,
+                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;tokensString,
+                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posTagsString,
+                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;stemsString)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Build tokens for the given text, tokens, part-of-speech tags, and word stems.</TD>
@@ -205,8 +205,8 @@ This class provides convenience methods for creating tokens and sentences and ad
 </TR>
 </TABLE>
 </CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#create(java.lang.Class, java.lang.Class)">create</A></B>(<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;tokenClass,
-             <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;S&gt;&nbsp;sentenceClass)</CODE>
+<TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#create(java.lang.Class, java.lang.Class)">create</A></B>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;tokenClass,
+             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;S&gt;&nbsp;sentenceClass)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Instantiates a TokenBuilder with the type system information that the builder needs to build
@@ -215,7 +215,7 @@ This class provides convenience methods for creating tokens and sentences and ad
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#setPosFeatureName(java.lang.String)">setPosFeatureName</A></B>(<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posFeatureName)</CODE>
+<TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#setPosFeatureName(java.lang.String)">setPosFeatureName</A></B>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posFeatureName)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the feature name for the part-of-speech tag for your token type.</TD>
@@ -223,7 +223,7 @@ This class provides convenience methods for creating tokens and sentences and ad
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#setStemFeatureName(java.lang.String)">setStemFeatureName</A></B>(<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;stemFeatureName)</CODE>
+<TD><CODE><B><A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#setStemFeatureName(java.lang.String)">setStemFeatureName</A></B>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;stemFeatureName)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the feature name for the stem for your token type.</TD>
@@ -232,10 +232,10 @@ This class provides convenience methods for creating tokens and sentences and ad
 &nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
-<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+<TD><CODE><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -254,8 +254,8 @@ This class provides convenience methods for creating tokens and sentences and ad
 <A NAME="TokenBuilder(java.lang.Class, java.lang.Class)"><!-- --></A><H3>
 TokenBuilder</H3>
 <PRE>
-public <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.56"><B>TokenBuilder</B></A>(<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">TOKEN_TYPE</A>&gt;&nbsp;tokenClass,
-                    <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">SENTENCE_TYPE</A>&gt;&nbsp;sentenceClass)</PRE>
+public <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.56"><B>TokenBuilder</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">TOKEN_TYPE</A>&gt;&nbsp;tokenClass,
+                    <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">SENTENCE_TYPE</A>&gt;&nbsp;sentenceClass)</PRE>
 <DL>
 <DD>Calls <A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#TokenBuilder(java.lang.Class, java.lang.Class, java.lang.String, java.lang.String)"><CODE>TokenBuilder(Class, Class, String, String)</CODE></A> with the last two
  arguments as null
@@ -268,10 +268,10 @@ public <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.ht
 <A NAME="TokenBuilder(java.lang.Class, java.lang.Class, java.lang.String, java.lang.String)"><!-- --></A><H3>
 TokenBuilder</H3>
 <PRE>
-public <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.78"><B>TokenBuilder</B></A>(<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">TOKEN_TYPE</A>&gt;&nbsp;tokenClass,
-                    <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">SENTENCE_TYPE</A>&gt;&nbsp;sentenceClass,
-                    <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posFeatureName,
-                    <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;stemFeatureName)</PRE>
+public <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.78"><B>TokenBuilder</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">TOKEN_TYPE</A>&gt;&nbsp;tokenClass,
+                    <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="type parameter in TokenBuilder">SENTENCE_TYPE</A>&gt;&nbsp;sentenceClass,
+                    <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posFeatureName,
+                    <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;stemFeatureName)</PRE>
 <DL>
 <DD>Instantiates a TokenBuilder with the type system information that the builder needs to build
  tokens.
@@ -298,8 +298,8 @@ public <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.ht
 <A NAME="create(java.lang.Class, java.lang.Class)"><!-- --></A><H3>
 create</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>,S extends <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="class in org.uimafit.testing.factory">TokenBuilder</A>&lt;T,S&gt; <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.102"><B>create</B></A>(<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;tokenClass,
-                                                                                   <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;S&gt;&nbsp;sentenceClass)</PRE>
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>,S extends <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html" title="class in org.uimafit.testing.factory">TokenBuilder</A>&lt;T,S&gt; <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.102"><B>create</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;tokenClass,
+                                                                                   <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;S&gt;&nbsp;sentenceClass)</PRE>
 <DL>
 <DD>Instantiates a TokenBuilder with the type system information that the builder needs to build
  tokens.
@@ -316,7 +316,7 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/or
 <A NAME="setPosFeatureName(java.lang.String)"><!-- --></A><H3>
 setPosFeatureName</H3>
 <PRE>
-public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.114"><B>setPosFeatureName</B></A>(<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posFeatureName)</PRE>
+public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.114"><B>setPosFeatureName</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posFeatureName)</PRE>
 <DL>
 <DD>Set the feature name for the part-of-speech tag for your token type. This assumes that there
  is a single string feature for which to put your pos tag. null is an ok value.
@@ -330,7 +330,7 @@ public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuild
 <A NAME="setStemFeatureName(java.lang.String)"><!-- --></A><H3>
 setStemFeatureName</H3>
 <PRE>
-public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.125"><B>setStemFeatureName</B></A>(<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;stemFeatureName)</PRE>
+public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.125"><B>setStemFeatureName</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;stemFeatureName)</PRE>
 <DL>
 <DD>Set the feature name for the stem for your token type. This assumes that there is a single
  string feature for which to put your stem. null is an ok value.
@@ -345,7 +345,7 @@ public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuild
 buildTokens</H3>
 <PRE>
 public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.138"><B>buildTokens</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
-                        <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text)
+                        <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text)
                  throws <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/UIMAException.html?is-external=true" title="class or interface in org.apache.uima">UIMAException</A></PRE>
 <DL>
 <DD>Builds white-space delimited tokens from the input text.
@@ -362,8 +362,8 @@ public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuild
 buildTokens</H3>
 <PRE>
 public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.153"><B>buildTokens</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
-                        <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text,
-                        <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;tokensString)
+                        <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text,
+                        <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;tokensString)
                  throws <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/UIMAException.html?is-external=true" title="class or interface in org.apache.uima">UIMAException</A></PRE>
 <DL>
 <DD>see <A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#buildTokens(org.apache.uima.jcas.JCas, java.lang.String, java.lang.String, java.lang.String, java.lang.String)"><CODE>buildTokens(JCas, String, String, String, String)</CODE></A>
@@ -380,9 +380,9 @@ public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuild
 buildTokens</H3>
 <PRE>
 public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.169"><B>buildTokens</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
-                        <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text,
-                        <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;tokensString,
-                        <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posTagsString)
+                        <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text,
+                        <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;tokensString,
+                        <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posTagsString)
                  throws <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/UIMAException.html?is-external=true" title="class or interface in org.apache.uima">UIMAException</A></PRE>
 <DL>
 <DD>see <A HREF="../../../../org/uimafit/testing/factory/TokenBuilder.html#buildTokens(org.apache.uima.jcas.JCas, java.lang.String, java.lang.String, java.lang.String, java.lang.String)"><CODE>buildTokens(JCas, String, String, String, String)</CODE></A>
@@ -399,10 +399,10 @@ public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuild
 buildTokens</H3>
 <PRE>
 public void <A HREF="../../../../src-html/org/uimafit/testing/factory/TokenBuilder.html#line.196"><B>buildTokens</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
-                        <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text,
-                        <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;tokensString,
-                        <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posTagsString,
-                        <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;stemsString)
+                        <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;text,
+                        <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;tokensString,
+                        <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;posTagsString,
+                        <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;stemsString)
                  throws <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/UIMAException.html?is-external=true" title="class or interface in org.apache.uima">UIMAException</A></PRE>
 <DL>
 <DD>Build tokens for the given text, tokens, part-of-speech tags, and word stems.
@@ -481,6 +481,6 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&n
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2011. All Rights Reserved.
+Copyright &#169; 2012. All Rights Reserved.
 </BODY>
 </HTML>

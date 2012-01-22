@@ -22,7 +22,7 @@
 <FONT color="green">019</FONT>    import static org.uimafit.factory.AnalysisEngineFactory.createPrimitive;<a name="line.19"></a>
 <FONT color="green">020</FONT>    import static org.uimafit.factory.JCasFactory.createJCas;<a name="line.20"></a>
 <FONT color="green">021</FONT>    import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;<a name="line.21"></a>
-<FONT color="green">022</FONT>    import static org.uimafit.util.JCasUtil.iterate;<a name="line.22"></a>
+<FONT color="green">022</FONT>    import static org.uimafit.util.JCasUtil.select;<a name="line.22"></a>
 <FONT color="green">023</FONT>    <a name="line.23"></a>
 <FONT color="green">024</FONT>    import org.apache.uima.UIMAException;<a name="line.24"></a>
 <FONT color="green">025</FONT>    import org.apache.uima.analysis_engine.AnalysisEngine;<a name="line.25"></a>
@@ -39,17 +39,19 @@
 <FONT color="green">036</FONT>    <a name="line.36"></a>
 <FONT color="green">037</FONT>            public static void main(String[] args) throws UIMAException {<a name="line.37"></a>
 <FONT color="green">038</FONT>                    String text = "The meeting was moved from Yorktown 01-144 to Hawthorne 1S-W33.";<a name="line.38"></a>
-<FONT color="green">039</FONT>                    TypeSystemDescription tsd = createTypeSystemDescription(RoomNumber.class);<a name="line.39"></a>
-<FONT color="green">040</FONT>                    JCas jCas = createJCas(tsd);<a name="line.40"></a>
-<FONT color="green">041</FONT>                    jCas.setDocumentText(text);<a name="line.41"></a>
-<FONT color="green">042</FONT>                    AnalysisEngine analysisEngine = createPrimitive(RoomNumberAnnotator.class, tsd);<a name="line.42"></a>
-<FONT color="green">043</FONT>                    analysisEngine.process(jCas);<a name="line.43"></a>
-<FONT color="green">044</FONT>    <a name="line.44"></a>
-<FONT color="green">045</FONT>                    for (RoomNumber roomNumber : iterate(jCas, RoomNumber.class)) {<a name="line.45"></a>
-<FONT color="green">046</FONT>                            System.out.println(roomNumber.getCoveredText() + "\tbuilding = " + roomNumber.getBuilding());<a name="line.46"></a>
-<FONT color="green">047</FONT>                    }<a name="line.47"></a>
-<FONT color="green">048</FONT>            }<a name="line.48"></a>
-<FONT color="green">049</FONT>    }<a name="line.49"></a>
+<FONT color="green">039</FONT>                    TypeSystemDescription tsd = createTypeSystemDescription(<a name="line.39"></a>
+<FONT color="green">040</FONT>                                    "org.uimafit.examples.tutorial.type.RoomNumber");<a name="line.40"></a>
+<FONT color="green">041</FONT>                    JCas jCas = createJCas(tsd);<a name="line.41"></a>
+<FONT color="green">042</FONT>                    jCas.setDocumentText(text);<a name="line.42"></a>
+<FONT color="green">043</FONT>                    AnalysisEngine analysisEngine = createPrimitive(RoomNumberAnnotator.class, tsd);<a name="line.43"></a>
+<FONT color="green">044</FONT>                    analysisEngine.process(jCas);<a name="line.44"></a>
+<FONT color="green">045</FONT>    <a name="line.45"></a>
+<FONT color="green">046</FONT>                    for (RoomNumber roomNumber : select(jCas, RoomNumber.class)) {<a name="line.46"></a>
+<FONT color="green">047</FONT>                            System.out.println(roomNumber.getCoveredText() + "\tbuilding = "<a name="line.47"></a>
+<FONT color="green">048</FONT>                                            + roomNumber.getBuilding());<a name="line.48"></a>
+<FONT color="green">049</FONT>                    }<a name="line.49"></a>
+<FONT color="green">050</FONT>            }<a name="line.50"></a>
+<FONT color="green">051</FONT>    }<a name="line.51"></a>
 
 
 

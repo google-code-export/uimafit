@@ -251,327 +251,375 @@
 <FONT color="green">248</FONT>            }<a name="line.248"></a>
 <FONT color="green">249</FONT>    <a name="line.249"></a>
 <FONT color="green">250</FONT>            /**<a name="line.250"></a>
-<FONT color="green">251</FONT>             * Get a list of annotations of the given annotation type constrained by a 'covering'<a name="line.251"></a>
-<FONT color="green">252</FONT>             * annotation. Iterates over all annotations of the given type to find the covered annotations.<a name="line.252"></a>
-<FONT color="green">253</FONT>             * Does not use subiterators.<a name="line.253"></a>
-<FONT color="green">254</FONT>             *<a name="line.254"></a>
-<FONT color="green">255</FONT>             * @param &lt;T&gt;<a name="line.255"></a>
-<FONT color="green">256</FONT>             *            the JCas type.<a name="line.256"></a>
-<FONT color="green">257</FONT>             * @param type<a name="line.257"></a>
-<FONT color="green">258</FONT>             *            a UIMA type.<a name="line.258"></a>
-<FONT color="green">259</FONT>             * @param coveringAnnotation<a name="line.259"></a>
-<FONT color="green">260</FONT>             *            the covering annotation.<a name="line.260"></a>
-<FONT color="green">261</FONT>             * @return a return value.<a name="line.261"></a>
-<FONT color="green">262</FONT>             * @see Subiterator<a name="line.262"></a>
-<FONT color="green">263</FONT>             */<a name="line.263"></a>
-<FONT color="green">264</FONT>            public static &lt;T extends AnnotationFS&gt; List&lt;T&gt; selectCovered(Class&lt;T&gt; type,<a name="line.264"></a>
-<FONT color="green">265</FONT>                            AnnotationFS coveringAnnotation) {<a name="line.265"></a>
-<FONT color="green">266</FONT>                    CAS cas = coveringAnnotation.getCAS();<a name="line.266"></a>
-<FONT color="green">267</FONT>                    return cast(CasUtil.selectCovered(cas, CasUtil.getType(cas, type), coveringAnnotation));<a name="line.267"></a>
-<FONT color="green">268</FONT>            }<a name="line.268"></a>
-<FONT color="green">269</FONT>    <a name="line.269"></a>
-<FONT color="green">270</FONT>            /**<a name="line.270"></a>
-<FONT color="green">271</FONT>             * Get a list of annotations of the given annotation type constrained by a 'covering'<a name="line.271"></a>
-<FONT color="green">272</FONT>             * annotation. Iterates over all annotations of the given type to find the covered annotations.<a name="line.272"></a>
-<FONT color="green">273</FONT>             * Does not use subiterators.<a name="line.273"></a>
-<FONT color="green">274</FONT>             *<a name="line.274"></a>
-<FONT color="green">275</FONT>             * @param &lt;T&gt;<a name="line.275"></a>
-<FONT color="green">276</FONT>             *            the JCas type.<a name="line.276"></a>
-<FONT color="green">277</FONT>             * @param jCas<a name="line.277"></a>
-<FONT color="green">278</FONT>             *            a JCas containing the annotation.<a name="line.278"></a>
-<FONT color="green">279</FONT>             * @param type<a name="line.279"></a>
-<FONT color="green">280</FONT>             *            a UIMA type.<a name="line.280"></a>
-<FONT color="green">281</FONT>             * @param coveringAnnotation<a name="line.281"></a>
-<FONT color="green">282</FONT>             *            the covering annotation.<a name="line.282"></a>
-<FONT color="green">283</FONT>             * @return a return value.<a name="line.283"></a>
-<FONT color="green">284</FONT>             * @see Subiterator<a name="line.284"></a>
-<FONT color="green">285</FONT>             */<a name="line.285"></a>
-<FONT color="green">286</FONT>            public static &lt;T extends Annotation&gt; List&lt;T&gt; selectCovered(JCas jCas, final Class&lt;T&gt; type,<a name="line.286"></a>
-<FONT color="green">287</FONT>                            Annotation coveringAnnotation) {<a name="line.287"></a>
-<FONT color="green">288</FONT>                    return cast(CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), coveringAnnotation));<a name="line.288"></a>
-<FONT color="green">289</FONT>            }<a name="line.289"></a>
-<FONT color="green">290</FONT>    <a name="line.290"></a>
-<FONT color="green">291</FONT>            /**<a name="line.291"></a>
-<FONT color="green">292</FONT>             * Get a list of annotations of the given annotation type constrained by a 'covering'<a name="line.292"></a>
-<FONT color="green">293</FONT>             * annotation. Iterates over all annotations of the given type to find the covered annotations.<a name="line.293"></a>
-<FONT color="green">294</FONT>             * Does not use subiterators.<a name="line.294"></a>
-<FONT color="green">295</FONT>             * &lt;p&gt;<a name="line.295"></a>
-<FONT color="green">296</FONT>             * &lt;b&gt;Note:&lt;/b&gt; this is significantly slower than using<a name="line.296"></a>
-<FONT color="green">297</FONT>             * {@link #selectCovered(JCas, Class, Annotation)}<a name="line.297"></a>
-<FONT color="green">298</FONT>             *<a name="line.298"></a>
-<FONT color="green">299</FONT>             * @param &lt;T&gt;<a name="line.299"></a>
-<FONT color="green">300</FONT>             *            the JCas type.<a name="line.300"></a>
-<FONT color="green">301</FONT>             * @param jCas<a name="line.301"></a>
-<FONT color="green">302</FONT>             *            a JCas containing the annotation.<a name="line.302"></a>
-<FONT color="green">303</FONT>             * @param type<a name="line.303"></a>
-<FONT color="green">304</FONT>             *            a UIMA type.<a name="line.304"></a>
-<FONT color="green">305</FONT>             * @param begin<a name="line.305"></a>
-<FONT color="green">306</FONT>             *            begin offset.<a name="line.306"></a>
-<FONT color="green">307</FONT>             * @param end<a name="line.307"></a>
-<FONT color="green">308</FONT>             *            end offset.<a name="line.308"></a>
+<FONT color="green">251</FONT>             * Get a list of annotations of the given annotation type located between two annotations.<a name="line.251"></a>
+<FONT color="green">252</FONT>             * Does not use subiterators and does not respect type priorities. Zero-width annotations<a name="line.252"></a>
+<FONT color="green">253</FONT>             * what lie on the borders are included in the result, e.g. if the boundary annotations are<a name="line.253"></a>
+<FONT color="green">254</FONT>             * [1..2] and [2..3] then an annotation [2..2] is returned. If there is a non-zero overlap<a name="line.254"></a>
+<FONT color="green">255</FONT>             * between the boundary annotations, the result is empty. The method properly handles cases<a name="line.255"></a>
+<FONT color="green">256</FONT>             * where the second boundary annotations occurs before the first boundary annotation by<a name="line.256"></a>
+<FONT color="green">257</FONT>             * switching their roles.<a name="line.257"></a>
+<FONT color="green">258</FONT>             *<a name="line.258"></a>
+<FONT color="green">259</FONT>             * @param type<a name="line.259"></a>
+<FONT color="green">260</FONT>             *            a UIMA type.<a name="line.260"></a>
+<FONT color="green">261</FONT>             * @param ann1<a name="line.261"></a>
+<FONT color="green">262</FONT>             *            the first boundary annotation.<a name="line.262"></a>
+<FONT color="green">263</FONT>             * @param ann2<a name="line.263"></a>
+<FONT color="green">264</FONT>             *            the second boundary annotation.<a name="line.264"></a>
+<FONT color="green">265</FONT>             * @return a return value.<a name="line.265"></a>
+<FONT color="green">266</FONT>             * @see Subiterator<a name="line.266"></a>
+<FONT color="green">267</FONT>             */<a name="line.267"></a>
+<FONT color="green">268</FONT>            public static &lt;T extends Annotation&gt; List&lt;T&gt; selectBetween(final Class&lt;T&gt; type,<a name="line.268"></a>
+<FONT color="green">269</FONT>                             AnnotationFS ann1, AnnotationFS ann2) {<a name="line.269"></a>
+<FONT color="green">270</FONT>                    return cast(CasUtil.selectBetween(CasUtil.getType(ann1.getCAS(), type), ann1, ann2));<a name="line.270"></a>
+<FONT color="green">271</FONT>            }<a name="line.271"></a>
+<FONT color="green">272</FONT>    <a name="line.272"></a>
+<FONT color="green">273</FONT>            /**<a name="line.273"></a>
+<FONT color="green">274</FONT>             * Get a list of annotations of the given annotation type located between two annotations.<a name="line.274"></a>
+<FONT color="green">275</FONT>             * Does not use subiterators and does not respect type priorities. Zero-width annotations<a name="line.275"></a>
+<FONT color="green">276</FONT>             * what lie on the borders are included in the result, e.g. if the boundary annotations are<a name="line.276"></a>
+<FONT color="green">277</FONT>             * [1..2] and [2..3] then an annotation [2..2] is returned. If there is a non-zero overlap<a name="line.277"></a>
+<FONT color="green">278</FONT>             * between the boundary annotations, the result is empty. The method properly handles cases<a name="line.278"></a>
+<FONT color="green">279</FONT>             * where the second boundary annotations occurs before the first boundary annotation by<a name="line.279"></a>
+<FONT color="green">280</FONT>             * switching their roles.<a name="line.280"></a>
+<FONT color="green">281</FONT>             *<a name="line.281"></a>
+<FONT color="green">282</FONT>             * @param jCas<a name="line.282"></a>
+<FONT color="green">283</FONT>             *            a JCas containing the annotation.<a name="line.283"></a>
+<FONT color="green">284</FONT>             * @param type<a name="line.284"></a>
+<FONT color="green">285</FONT>             *            a UIMA type.<a name="line.285"></a>
+<FONT color="green">286</FONT>             * @param ann1<a name="line.286"></a>
+<FONT color="green">287</FONT>             *            the first boundary annotation.<a name="line.287"></a>
+<FONT color="green">288</FONT>             * @param ann2<a name="line.288"></a>
+<FONT color="green">289</FONT>             *            the second boundary annotation.<a name="line.289"></a>
+<FONT color="green">290</FONT>             * @return a return value.<a name="line.290"></a>
+<FONT color="green">291</FONT>             * @see Subiterator<a name="line.291"></a>
+<FONT color="green">292</FONT>             */<a name="line.292"></a>
+<FONT color="green">293</FONT>            public static &lt;T extends Annotation&gt; List&lt;T&gt; selectBetween(JCas jCas, final Class&lt;T&gt; type,<a name="line.293"></a>
+<FONT color="green">294</FONT>                             AnnotationFS ann1, AnnotationFS ann2) {<a name="line.294"></a>
+<FONT color="green">295</FONT>                    return cast(CasUtil.selectBetween(jCas.getCas(), getType(jCas, type), ann1, ann2));<a name="line.295"></a>
+<FONT color="green">296</FONT>            }<a name="line.296"></a>
+<FONT color="green">297</FONT>    <a name="line.297"></a>
+<FONT color="green">298</FONT>            /**<a name="line.298"></a>
+<FONT color="green">299</FONT>             * Get a list of annotations of the given annotation type constrained by a 'covering'<a name="line.299"></a>
+<FONT color="green">300</FONT>             * annotation. Iterates over all annotations of the given type to find the covered annotations.<a name="line.300"></a>
+<FONT color="green">301</FONT>             * Does not use subiterators.<a name="line.301"></a>
+<FONT color="green">302</FONT>             *<a name="line.302"></a>
+<FONT color="green">303</FONT>             * @param &lt;T&gt;<a name="line.303"></a>
+<FONT color="green">304</FONT>             *            the JCas type.<a name="line.304"></a>
+<FONT color="green">305</FONT>             * @param type<a name="line.305"></a>
+<FONT color="green">306</FONT>             *            a UIMA type.<a name="line.306"></a>
+<FONT color="green">307</FONT>             * @param coveringAnnotation<a name="line.307"></a>
+<FONT color="green">308</FONT>             *            the covering annotation.<a name="line.308"></a>
 <FONT color="green">309</FONT>             * @return a return value.<a name="line.309"></a>
-<FONT color="green">310</FONT>             */<a name="line.310"></a>
-<FONT color="green">311</FONT>            public static &lt;T extends Annotation&gt; List&lt;T&gt; selectCovered(JCas jCas, final Class&lt;T&gt; type,<a name="line.311"></a>
-<FONT color="green">312</FONT>                            int begin, int end) {<a name="line.312"></a>
-<FONT color="green">313</FONT>                    return cast(CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), begin, end));<a name="line.313"></a>
-<FONT color="green">314</FONT>            }<a name="line.314"></a>
-<FONT color="green">315</FONT>    <a name="line.315"></a>
-<FONT color="green">316</FONT>            /**<a name="line.316"></a>
-<FONT color="green">317</FONT>             * Get a list of annotations of the given annotation type constraint by a certain annotation.<a name="line.317"></a>
-<FONT color="green">318</FONT>             * Iterates over all annotations to find the covering annotations.<a name="line.318"></a>
-<FONT color="green">319</FONT>             *<a name="line.319"></a>
-<FONT color="green">320</FONT>             * &lt;p&gt;<a name="line.320"></a>
-<FONT color="green">321</FONT>             * &lt;b&gt;Note:&lt;/b&gt; this is &lt;b&gt;REALLY SLOW!&lt;/b&gt; You don't want to use this.<a name="line.321"></a>
+<FONT color="green">310</FONT>             * @see Subiterator<a name="line.310"></a>
+<FONT color="green">311</FONT>             */<a name="line.311"></a>
+<FONT color="green">312</FONT>            public static &lt;T extends AnnotationFS&gt; List&lt;T&gt; selectCovered(Class&lt;T&gt; type,<a name="line.312"></a>
+<FONT color="green">313</FONT>                            AnnotationFS coveringAnnotation) {<a name="line.313"></a>
+<FONT color="green">314</FONT>                    CAS cas = coveringAnnotation.getCAS();<a name="line.314"></a>
+<FONT color="green">315</FONT>                    return cast(CasUtil.selectCovered(cas, CasUtil.getType(cas, type), coveringAnnotation));<a name="line.315"></a>
+<FONT color="green">316</FONT>            }<a name="line.316"></a>
+<FONT color="green">317</FONT>            <a name="line.317"></a>
+<FONT color="green">318</FONT>            /**<a name="line.318"></a>
+<FONT color="green">319</FONT>             * Get a list of annotations of the given annotation type constrained by a 'covering'<a name="line.319"></a>
+<FONT color="green">320</FONT>             * annotation. Iterates over all annotations of the given type to find the covered annotations.<a name="line.320"></a>
+<FONT color="green">321</FONT>             * Does not use subiterators.<a name="line.321"></a>
 <FONT color="green">322</FONT>             *<a name="line.322"></a>
 <FONT color="green">323</FONT>             * @param &lt;T&gt;<a name="line.323"></a>
 <FONT color="green">324</FONT>             *            the JCas type.<a name="line.324"></a>
 <FONT color="green">325</FONT>             * @param jCas<a name="line.325"></a>
-<FONT color="green">326</FONT>             *            a CAS.<a name="line.326"></a>
+<FONT color="green">326</FONT>             *            a JCas containing the annotation.<a name="line.326"></a>
 <FONT color="green">327</FONT>             * @param type<a name="line.327"></a>
 <FONT color="green">328</FONT>             *            a UIMA type.<a name="line.328"></a>
-<FONT color="green">329</FONT>             * @param begin<a name="line.329"></a>
-<FONT color="green">330</FONT>             *            begin offset.<a name="line.330"></a>
-<FONT color="green">331</FONT>             * @param end<a name="line.331"></a>
-<FONT color="green">332</FONT>             *            end offset.<a name="line.332"></a>
-<FONT color="green">333</FONT>             * @return a return value.<a name="line.333"></a>
-<FONT color="green">334</FONT>             */<a name="line.334"></a>
-<FONT color="green">335</FONT>            public static &lt;T extends Annotation&gt; List&lt;T&gt; selectCovering(JCas jCas, Class&lt;T&gt; type,<a name="line.335"></a>
-<FONT color="green">336</FONT>                            int begin, int end) {<a name="line.336"></a>
-<FONT color="green">337</FONT>    <a name="line.337"></a>
-<FONT color="green">338</FONT>                    return cast(CasUtil.selectCovering(jCas.getCas(), getType(jCas, type), begin, end));<a name="line.338"></a>
-<FONT color="green">339</FONT>            }<a name="line.339"></a>
-<FONT color="green">340</FONT>    <a name="line.340"></a>
-<FONT color="green">341</FONT>            /**<a name="line.341"></a>
-<FONT color="green">342</FONT>             * Create an index for quickly lookup up the annotations covering a particular annotation. This<a name="line.342"></a>
-<FONT color="green">343</FONT>             * is preferable to using {@link #selectCovering(JCas, Class, int, int)} because the overhead of<a name="line.343"></a>
-<FONT color="green">344</FONT>             * scanning the CAS occurs only when the index is build. Subsequent lookups to the index are<a name="line.344"></a>
-<FONT color="green">345</FONT>             * fast.<a name="line.345"></a>
+<FONT color="green">329</FONT>             * @param coveringAnnotation<a name="line.329"></a>
+<FONT color="green">330</FONT>             *            the covering annotation.<a name="line.330"></a>
+<FONT color="green">331</FONT>             * @return a return value.<a name="line.331"></a>
+<FONT color="green">332</FONT>             * @see Subiterator<a name="line.332"></a>
+<FONT color="green">333</FONT>             */<a name="line.333"></a>
+<FONT color="green">334</FONT>            public static &lt;T extends Annotation&gt; List&lt;T&gt; selectCovered(JCas jCas, final Class&lt;T&gt; type,<a name="line.334"></a>
+<FONT color="green">335</FONT>                            Annotation coveringAnnotation) {<a name="line.335"></a>
+<FONT color="green">336</FONT>                    return cast(CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), coveringAnnotation));<a name="line.336"></a>
+<FONT color="green">337</FONT>            }<a name="line.337"></a>
+<FONT color="green">338</FONT>    <a name="line.338"></a>
+<FONT color="green">339</FONT>            /**<a name="line.339"></a>
+<FONT color="green">340</FONT>             * Get a list of annotations of the given annotation type constrained by a 'covering'<a name="line.340"></a>
+<FONT color="green">341</FONT>             * annotation. Iterates over all annotations of the given type to find the covered annotations.<a name="line.341"></a>
+<FONT color="green">342</FONT>             * Does not use subiterators.<a name="line.342"></a>
+<FONT color="green">343</FONT>             * &lt;p&gt;<a name="line.343"></a>
+<FONT color="green">344</FONT>             * &lt;b&gt;Note:&lt;/b&gt; this is significantly slower than using<a name="line.344"></a>
+<FONT color="green">345</FONT>             * {@link #selectCovered(JCas, Class, Annotation)}<a name="line.345"></a>
 <FONT color="green">346</FONT>             *<a name="line.346"></a>
 <FONT color="green">347</FONT>             * @param &lt;T&gt;<a name="line.347"></a>
 <FONT color="green">348</FONT>             *            the JCas type.<a name="line.348"></a>
 <FONT color="green">349</FONT>             * @param jCas<a name="line.349"></a>
-<FONT color="green">350</FONT>             *            a JCas.<a name="line.350"></a>
+<FONT color="green">350</FONT>             *            a JCas containing the annotation.<a name="line.350"></a>
 <FONT color="green">351</FONT>             * @param type<a name="line.351"></a>
-<FONT color="green">352</FONT>             *            type to create the index for - this is used in lookups.<a name="line.352"></a>
-<FONT color="green">353</FONT>             * @param coveringType<a name="line.353"></a>
-<FONT color="green">354</FONT>             *            type of covering annotations.<a name="line.354"></a>
-<FONT color="green">355</FONT>             * @return the index.<a name="line.355"></a>
-<FONT color="green">356</FONT>             */<a name="line.356"></a>
-<FONT color="green">357</FONT>            public static &lt;T extends Annotation, S extends Annotation&gt; Map&lt;T, Collection&lt;S&gt;&gt; indexCovering(<a name="line.357"></a>
-<FONT color="green">358</FONT>                            JCas jCas, Class&lt;T&gt; type, Class&lt;S&gt; coveringType) {<a name="line.358"></a>
-<FONT color="green">359</FONT>                    return cast(CasUtil.indexCovering(jCas.getCas(), getType(jCas, type),<a name="line.359"></a>
-<FONT color="green">360</FONT>                                    getType(jCas, coveringType)));<a name="line.360"></a>
-<FONT color="green">361</FONT>            }<a name="line.361"></a>
-<FONT color="green">362</FONT>    <a name="line.362"></a>
-<FONT color="green">363</FONT>            /**<a name="line.363"></a>
-<FONT color="green">364</FONT>             * Create an index for quickly lookup up the annotations covered by a particular annotation. This<a name="line.364"></a>
-<FONT color="green">365</FONT>             * is preferable to using {@link #selectCovered(JCas, Class, int, int)} because the overhead of<a name="line.365"></a>
-<FONT color="green">366</FONT>             * scanning the CAS occurs only when the index is build. Subsequent lookups to the index are<a name="line.366"></a>
-<FONT color="green">367</FONT>             * fast.<a name="line.367"></a>
-<FONT color="green">368</FONT>             *<a name="line.368"></a>
-<FONT color="green">369</FONT>             * @param &lt;T&gt;<a name="line.369"></a>
-<FONT color="green">370</FONT>             *            the JCas type.<a name="line.370"></a>
-<FONT color="green">371</FONT>             * @param jCas<a name="line.371"></a>
-<FONT color="green">372</FONT>             *            a JCas.<a name="line.372"></a>
-<FONT color="green">373</FONT>             * @param type<a name="line.373"></a>
-<FONT color="green">374</FONT>             *            type to create the index for - this is used in lookups.<a name="line.374"></a>
-<FONT color="green">375</FONT>             * @param coveredType<a name="line.375"></a>
-<FONT color="green">376</FONT>             *            type of covered annotations.<a name="line.376"></a>
-<FONT color="green">377</FONT>             * @return the index.<a name="line.377"></a>
-<FONT color="green">378</FONT>             */<a name="line.378"></a>
-<FONT color="green">379</FONT>            public static &lt;T extends Annotation, S extends Annotation&gt; Map&lt;T, Collection&lt;S&gt;&gt; indexCovered(<a name="line.379"></a>
-<FONT color="green">380</FONT>                            JCas jCas, Class&lt;T&gt; type, Class&lt;S&gt; coveredType) {<a name="line.380"></a>
-<FONT color="green">381</FONT>                    return cast(CasUtil.indexCovered(jCas.getCas(), getType(jCas, type),<a name="line.381"></a>
-<FONT color="green">382</FONT>                                    getType(jCas, coveredType)));<a name="line.382"></a>
-<FONT color="green">383</FONT>            }<a name="line.383"></a>
-<FONT color="green">384</FONT>    <a name="line.384"></a>
-<FONT color="green">385</FONT>            /**<a name="line.385"></a>
-<FONT color="green">386</FONT>             * Check if the given annotation contains any annotation of the given type.<a name="line.386"></a>
-<FONT color="green">387</FONT>             *<a name="line.387"></a>
-<FONT color="green">388</FONT>             * @param jCas<a name="line.388"></a>
-<FONT color="green">389</FONT>             *            a JCas containing the annotation.<a name="line.389"></a>
-<FONT color="green">390</FONT>             * @param coveringAnnotation<a name="line.390"></a>
-<FONT color="green">391</FONT>             *            the covering annotation.<a name="line.391"></a>
-<FONT color="green">392</FONT>             * @param type<a name="line.392"></a>
-<FONT color="green">393</FONT>             *            a UIMA type.<a name="line.393"></a>
-<FONT color="green">394</FONT>             * @return if an annotation of the given type is present.<a name="line.394"></a>
-<FONT color="green">395</FONT>             */<a name="line.395"></a>
-<FONT color="green">396</FONT>            public static boolean isCovered(JCas jCas, Annotation coveringAnnotation,<a name="line.396"></a>
-<FONT color="green">397</FONT>                            Class&lt;? extends Annotation&gt; type) {<a name="line.397"></a>
-<FONT color="green">398</FONT>                    return selectCovered(jCas, type, coveringAnnotation).size() &gt; 0;<a name="line.398"></a>
-<FONT color="green">399</FONT>            }<a name="line.399"></a>
-<FONT color="green">400</FONT>    <a name="line.400"></a>
-<FONT color="green">401</FONT>            /**<a name="line.401"></a>
-<FONT color="green">402</FONT>             * This method exists simply as a convenience method for unit testing. It is not very efficient<a name="line.402"></a>
-<FONT color="green">403</FONT>             * and should not, in general be used outside the context of unit testing.<a name="line.403"></a>
-<FONT color="green">404</FONT>             *<a name="line.404"></a>
-<FONT color="green">405</FONT>             * @param &lt;T&gt;<a name="line.405"></a>
-<FONT color="green">406</FONT>             *            JCas wrapper type.<a name="line.406"></a>
-<FONT color="green">407</FONT>             * @param jCas<a name="line.407"></a>
-<FONT color="green">408</FONT>             *            a JCas containing the annotation.<a name="line.408"></a>
-<FONT color="green">409</FONT>             * @param cls<a name="line.409"></a>
-<FONT color="green">410</FONT>             *            a UIMA type.<a name="line.410"></a>
-<FONT color="green">411</FONT>             * @param index<a name="line.411"></a>
-<FONT color="green">412</FONT>             *            this can be either positive (0 corresponds to the first annotation of a type) or<a name="line.412"></a>
-<FONT color="green">413</FONT>             *            negative (-1 corresponds to the last annotation of a type.)<a name="line.413"></a>
-<FONT color="green">414</FONT>             * @return an annotation of the given type<a name="line.414"></a>
-<FONT color="green">415</FONT>             */<a name="line.415"></a>
-<FONT color="green">416</FONT>            @SuppressWarnings("unchecked")<a name="line.416"></a>
-<FONT color="green">417</FONT>            public static &lt;T extends TOP&gt; T selectByIndex(JCas jCas, Class&lt;T&gt; cls, int index) {<a name="line.417"></a>
-<FONT color="green">418</FONT>                    return (T) CasUtil.selectFSByIndex(jCas.getCas(), getType(jCas, cls), index);<a name="line.418"></a>
-<FONT color="green">419</FONT>            }<a name="line.419"></a>
-<FONT color="green">420</FONT>    <a name="line.420"></a>
-<FONT color="green">421</FONT>            /**<a name="line.421"></a>
-<FONT color="green">422</FONT>             * Get the single instance of the specified type from the JCas.<a name="line.422"></a>
-<FONT color="green">423</FONT>             *<a name="line.423"></a>
-<FONT color="green">424</FONT>             * @param &lt;T&gt;<a name="line.424"></a>
-<FONT color="green">425</FONT>             *            JCas wrapper type.<a name="line.425"></a>
-<FONT color="green">426</FONT>             * @param jCas<a name="line.426"></a>
-<FONT color="green">427</FONT>             *            a JCas containing the annotation.<a name="line.427"></a>
-<FONT color="green">428</FONT>             * @param type<a name="line.428"></a>
-<FONT color="green">429</FONT>             *            a UIMA type.<a name="line.429"></a>
-<FONT color="green">430</FONT>             * @return the single instance of the given type. throws IllegalArgumentException if not exactly<a name="line.430"></a>
-<FONT color="green">431</FONT>             *         one instance if the given type is present.<a name="line.431"></a>
-<FONT color="green">432</FONT>             */<a name="line.432"></a>
-<FONT color="green">433</FONT>            @SuppressWarnings("unchecked")<a name="line.433"></a>
-<FONT color="green">434</FONT>            public static &lt;T extends TOP&gt; T selectSingle(JCas jCas, Class&lt;T&gt; type) {<a name="line.434"></a>
-<FONT color="green">435</FONT>                    return (T) CasUtil.selectSingle(jCas.getCas(), getType(jCas, type));<a name="line.435"></a>
-<FONT color="green">436</FONT>            }<a name="line.436"></a>
-<FONT color="green">437</FONT>    <a name="line.437"></a>
-<FONT color="green">438</FONT>            /**<a name="line.438"></a>
-<FONT color="green">439</FONT>             * Returns the n annotations preceding the given annotation<a name="line.439"></a>
-<FONT color="green">440</FONT>             *<a name="line.440"></a>
-<FONT color="green">441</FONT>             * @param &lt;T&gt;<a name="line.441"></a>
-<FONT color="green">442</FONT>             *            the JCas type.<a name="line.442"></a>
-<FONT color="green">443</FONT>             * @param aJCas<a name="line.443"></a>
-<FONT color="green">444</FONT>             *            a JCas.<a name="line.444"></a>
-<FONT color="green">445</FONT>             * @param aType<a name="line.445"></a>
-<FONT color="green">446</FONT>             *            a type.<a name="line.446"></a>
-<FONT color="green">447</FONT>             * @param annotation<a name="line.447"></a>
-<FONT color="green">448</FONT>             *            anchor annotation<a name="line.448"></a>
-<FONT color="green">449</FONT>             * @param count<a name="line.449"></a>
-<FONT color="green">450</FONT>             *            number of annotations to collect<a name="line.450"></a>
-<FONT color="green">451</FONT>             * @return List of aType annotations preceding anchor annotation<a name="line.451"></a>
-<FONT color="green">452</FONT>             */<a name="line.452"></a>
-<FONT color="green">453</FONT>            public static &lt;T extends Annotation&gt; List&lt;T&gt; selectPreceding(JCas aJCas, Class&lt;T&gt; aType,<a name="line.453"></a>
-<FONT color="green">454</FONT>                            Annotation annotation, int count) {<a name="line.454"></a>
-<FONT color="green">455</FONT>                    Type t = getType(aJCas, aType);<a name="line.455"></a>
-<FONT color="green">456</FONT>                    return cast(CasUtil.selectPreceding(aJCas.getCas(), t, annotation, count));<a name="line.456"></a>
-<FONT color="green">457</FONT>            }<a name="line.457"></a>
-<FONT color="green">458</FONT>    <a name="line.458"></a>
-<FONT color="green">459</FONT>            /**<a name="line.459"></a>
-<FONT color="green">460</FONT>             * Returns the n annotations following the given annotation<a name="line.460"></a>
-<FONT color="green">461</FONT>             *<a name="line.461"></a>
-<FONT color="green">462</FONT>             * @param &lt;T&gt;<a name="line.462"></a>
-<FONT color="green">463</FONT>             *            the JCas type.<a name="line.463"></a>
-<FONT color="green">464</FONT>             * @param aJCas<a name="line.464"></a>
-<FONT color="green">465</FONT>             *            a JCas.<a name="line.465"></a>
-<FONT color="green">466</FONT>             * @param aType<a name="line.466"></a>
-<FONT color="green">467</FONT>             *            a type.<a name="line.467"></a>
-<FONT color="green">468</FONT>             * @param annotation<a name="line.468"></a>
-<FONT color="green">469</FONT>             *            anchor annotation<a name="line.469"></a>
-<FONT color="green">470</FONT>             * @param count<a name="line.470"></a>
-<FONT color="green">471</FONT>             *            number of annotations to collect<a name="line.471"></a>
-<FONT color="green">472</FONT>             * @return List of aType annotations following anchor annotation<a name="line.472"></a>
-<FONT color="green">473</FONT>             */<a name="line.473"></a>
-<FONT color="green">474</FONT>            public static &lt;T extends Annotation&gt; List&lt;T&gt; selectFollowing(JCas aJCas, Class&lt;T&gt; aType,<a name="line.474"></a>
-<FONT color="green">475</FONT>                            Annotation annotation, int count) {<a name="line.475"></a>
-<FONT color="green">476</FONT>                    Type t = getType(aJCas, aType);<a name="line.476"></a>
-<FONT color="green">477</FONT>                    return cast(CasUtil.selectFollowing(aJCas.getCas(), t, annotation, count));<a name="line.477"></a>
-<FONT color="green">478</FONT>            }<a name="line.478"></a>
-<FONT color="green">479</FONT>    <a name="line.479"></a>
-<FONT color="green">480</FONT>            /**<a name="line.480"></a>
-<FONT color="green">481</FONT>             * Test if a JCas contains an annotation of the given type.<a name="line.481"></a>
-<FONT color="green">482</FONT>             *<a name="line.482"></a>
-<FONT color="green">483</FONT>             * @param &lt;T&gt;<a name="line.483"></a>
-<FONT color="green">484</FONT>             *            the annotation type.<a name="line.484"></a>
-<FONT color="green">485</FONT>             * @param aJCas<a name="line.485"></a>
-<FONT color="green">486</FONT>             *            a JCas.<a name="line.486"></a>
-<FONT color="green">487</FONT>             * @param aType<a name="line.487"></a>
-<FONT color="green">488</FONT>             *            a annotation class.<a name="line.488"></a>
-<FONT color="green">489</FONT>             * @return {@code true} if there is at least one annotation of the given type in the JCas.<a name="line.489"></a>
-<FONT color="green">490</FONT>             */<a name="line.490"></a>
-<FONT color="green">491</FONT>            public static &lt;T extends TOP&gt; boolean exists(JCas aJCas, Class&lt;T&gt; aType) {<a name="line.491"></a>
-<FONT color="green">492</FONT>                    return JCasUtil.iterator(aJCas, aType).hasNext();<a name="line.492"></a>
-<FONT color="green">493</FONT>            }<a name="line.493"></a>
-<FONT color="green">494</FONT>    <a name="line.494"></a>
-<FONT color="green">495</FONT>            /**<a name="line.495"></a>
-<FONT color="green">496</FONT>             * Convenience method to get the specified view or a default view if the requested view does not<a name="line.496"></a>
-<FONT color="green">497</FONT>             * exist. The default can also be {@code null}.<a name="line.497"></a>
-<FONT color="green">498</FONT>             *<a name="line.498"></a>
-<FONT color="green">499</FONT>             * @param jcas<a name="line.499"></a>
-<FONT color="green">500</FONT>             *            a JCas<a name="line.500"></a>
-<FONT color="green">501</FONT>             * @param viewName<a name="line.501"></a>
-<FONT color="green">502</FONT>             *            the requested view.<a name="line.502"></a>
-<FONT color="green">503</FONT>             * @param fallback<a name="line.503"></a>
-<FONT color="green">504</FONT>             *            the default view if the requested view does not exist.<a name="line.504"></a>
-<FONT color="green">505</FONT>             * @return the requested view or the default if the requested view does not exist.<a name="line.505"></a>
-<FONT color="green">506</FONT>             * @throws IllegalStateException<a name="line.506"></a>
-<FONT color="green">507</FONT>             *             if the JCas wrapper cannot be obtained.<a name="line.507"></a>
-<FONT color="green">508</FONT>             */<a name="line.508"></a>
-<FONT color="green">509</FONT>            public static JCas getView(JCas jcas, String viewName, JCas fallback) {<a name="line.509"></a>
-<FONT color="green">510</FONT>                    try {<a name="line.510"></a>
-<FONT color="green">511</FONT>                            CAS fallbackCas = fallback != null ? fallback.getCas() : null;<a name="line.511"></a>
-<FONT color="green">512</FONT>                            CAS view = CasUtil.getView(jcas.getCas(), viewName, fallbackCas);<a name="line.512"></a>
-<FONT color="green">513</FONT>                            return view != null ? view.getJCas() : null;<a name="line.513"></a>
-<FONT color="green">514</FONT>                    }<a name="line.514"></a>
-<FONT color="green">515</FONT>                    catch (CASException e) {<a name="line.515"></a>
-<FONT color="green">516</FONT>                            throw new IllegalStateException(e);<a name="line.516"></a>
-<FONT color="green">517</FONT>                    }<a name="line.517"></a>
-<FONT color="green">518</FONT>            }<a name="line.518"></a>
-<FONT color="green">519</FONT>    <a name="line.519"></a>
-<FONT color="green">520</FONT>            /**<a name="line.520"></a>
-<FONT color="green">521</FONT>             * Convenience method to get the specified view or create a new view if the requested view does<a name="line.521"></a>
-<FONT color="green">522</FONT>             * not exist.<a name="line.522"></a>
-<FONT color="green">523</FONT>             *<a name="line.523"></a>
-<FONT color="green">524</FONT>             * @param jcas<a name="line.524"></a>
-<FONT color="green">525</FONT>             *            a JCas<a name="line.525"></a>
-<FONT color="green">526</FONT>             * @param viewName<a name="line.526"></a>
-<FONT color="green">527</FONT>             *            the requested view.<a name="line.527"></a>
-<FONT color="green">528</FONT>             * @param create<a name="line.528"></a>
-<FONT color="green">529</FONT>             *            the view is created if it does not exist.<a name="line.529"></a>
-<FONT color="green">530</FONT>             * @return the requested view<a name="line.530"></a>
-<FONT color="green">531</FONT>             * @throws IllegalStateException<a name="line.531"></a>
-<FONT color="green">532</FONT>             *             if the JCas wrapper cannot be obtained.<a name="line.532"></a>
-<FONT color="green">533</FONT>             */<a name="line.533"></a>
-<FONT color="green">534</FONT>            public static JCas getView(JCas jcas, String viewName, boolean create) {<a name="line.534"></a>
-<FONT color="green">535</FONT>                    try {<a name="line.535"></a>
-<FONT color="green">536</FONT>                            CAS view = CasUtil.getView(jcas.getCas(), viewName, create);<a name="line.536"></a>
-<FONT color="green">537</FONT>                            return view != null ? view.getJCas() : null;<a name="line.537"></a>
-<FONT color="green">538</FONT>                    }<a name="line.538"></a>
-<FONT color="green">539</FONT>                    catch (CASException e) {<a name="line.539"></a>
-<FONT color="green">540</FONT>                            throw new IllegalStateException(e);<a name="line.540"></a>
-<FONT color="green">541</FONT>                    }<a name="line.541"></a>
-<FONT color="green">542</FONT>            }<a name="line.542"></a>
-<FONT color="green">543</FONT>    <a name="line.543"></a>
-<FONT color="green">544</FONT>            /**<a name="line.544"></a>
-<FONT color="green">545</FONT>             * Fetch the text covered by the specified annotations and return it as a list of strings.<a name="line.545"></a>
+<FONT color="green">352</FONT>             *            a UIMA type.<a name="line.352"></a>
+<FONT color="green">353</FONT>             * @param begin<a name="line.353"></a>
+<FONT color="green">354</FONT>             *            begin offset.<a name="line.354"></a>
+<FONT color="green">355</FONT>             * @param end<a name="line.355"></a>
+<FONT color="green">356</FONT>             *            end offset.<a name="line.356"></a>
+<FONT color="green">357</FONT>             * @return a return value.<a name="line.357"></a>
+<FONT color="green">358</FONT>             */<a name="line.358"></a>
+<FONT color="green">359</FONT>            public static &lt;T extends Annotation&gt; List&lt;T&gt; selectCovered(JCas jCas, final Class&lt;T&gt; type,<a name="line.359"></a>
+<FONT color="green">360</FONT>                            int begin, int end) {<a name="line.360"></a>
+<FONT color="green">361</FONT>                    return cast(CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), begin, end));<a name="line.361"></a>
+<FONT color="green">362</FONT>            }<a name="line.362"></a>
+<FONT color="green">363</FONT>    <a name="line.363"></a>
+<FONT color="green">364</FONT>            /**<a name="line.364"></a>
+<FONT color="green">365</FONT>             * Get a list of annotations of the given annotation type constraint by a certain annotation.<a name="line.365"></a>
+<FONT color="green">366</FONT>             * Iterates over all annotations to find the covering annotations.<a name="line.366"></a>
+<FONT color="green">367</FONT>             *<a name="line.367"></a>
+<FONT color="green">368</FONT>             * &lt;p&gt;<a name="line.368"></a>
+<FONT color="green">369</FONT>             * &lt;b&gt;Note:&lt;/b&gt; this is &lt;b&gt;REALLY SLOW!&lt;/b&gt; You don't want to use this.<a name="line.369"></a>
+<FONT color="green">370</FONT>             *<a name="line.370"></a>
+<FONT color="green">371</FONT>             * @param &lt;T&gt;<a name="line.371"></a>
+<FONT color="green">372</FONT>             *            the JCas type.<a name="line.372"></a>
+<FONT color="green">373</FONT>             * @param jCas<a name="line.373"></a>
+<FONT color="green">374</FONT>             *            a CAS.<a name="line.374"></a>
+<FONT color="green">375</FONT>             * @param type<a name="line.375"></a>
+<FONT color="green">376</FONT>             *            a UIMA type.<a name="line.376"></a>
+<FONT color="green">377</FONT>             * @param begin<a name="line.377"></a>
+<FONT color="green">378</FONT>             *            begin offset.<a name="line.378"></a>
+<FONT color="green">379</FONT>             * @param end<a name="line.379"></a>
+<FONT color="green">380</FONT>             *            end offset.<a name="line.380"></a>
+<FONT color="green">381</FONT>             * @return a return value.<a name="line.381"></a>
+<FONT color="green">382</FONT>             */<a name="line.382"></a>
+<FONT color="green">383</FONT>            public static &lt;T extends Annotation&gt; List&lt;T&gt; selectCovering(JCas jCas, Class&lt;T&gt; type,<a name="line.383"></a>
+<FONT color="green">384</FONT>                            int begin, int end) {<a name="line.384"></a>
+<FONT color="green">385</FONT>    <a name="line.385"></a>
+<FONT color="green">386</FONT>                    return cast(CasUtil.selectCovering(jCas.getCas(), getType(jCas, type), begin, end));<a name="line.386"></a>
+<FONT color="green">387</FONT>            }<a name="line.387"></a>
+<FONT color="green">388</FONT>    <a name="line.388"></a>
+<FONT color="green">389</FONT>            /**<a name="line.389"></a>
+<FONT color="green">390</FONT>             * Create an index for quickly lookup up the annotations covering a particular annotation. This<a name="line.390"></a>
+<FONT color="green">391</FONT>             * is preferable to using {@link #selectCovering(JCas, Class, int, int)} because the overhead of<a name="line.391"></a>
+<FONT color="green">392</FONT>             * scanning the CAS occurs only when the index is build. Subsequent lookups to the index are<a name="line.392"></a>
+<FONT color="green">393</FONT>             * fast.<a name="line.393"></a>
+<FONT color="green">394</FONT>             *<a name="line.394"></a>
+<FONT color="green">395</FONT>             * @param &lt;T&gt;<a name="line.395"></a>
+<FONT color="green">396</FONT>             *            the JCas type.<a name="line.396"></a>
+<FONT color="green">397</FONT>             * @param jCas<a name="line.397"></a>
+<FONT color="green">398</FONT>             *            a JCas.<a name="line.398"></a>
+<FONT color="green">399</FONT>             * @param type<a name="line.399"></a>
+<FONT color="green">400</FONT>             *            type to create the index for - this is used in lookups.<a name="line.400"></a>
+<FONT color="green">401</FONT>             * @param coveringType<a name="line.401"></a>
+<FONT color="green">402</FONT>             *            type of covering annotations.<a name="line.402"></a>
+<FONT color="green">403</FONT>             * @return the index.<a name="line.403"></a>
+<FONT color="green">404</FONT>             */<a name="line.404"></a>
+<FONT color="green">405</FONT>            public static &lt;T extends Annotation, S extends Annotation&gt; Map&lt;T, Collection&lt;S&gt;&gt; indexCovering(<a name="line.405"></a>
+<FONT color="green">406</FONT>                            JCas jCas, Class&lt;T&gt; type, Class&lt;S&gt; coveringType) {<a name="line.406"></a>
+<FONT color="green">407</FONT>                    return cast(CasUtil.indexCovering(jCas.getCas(), getType(jCas, type),<a name="line.407"></a>
+<FONT color="green">408</FONT>                                    getType(jCas, coveringType)));<a name="line.408"></a>
+<FONT color="green">409</FONT>            }<a name="line.409"></a>
+<FONT color="green">410</FONT>    <a name="line.410"></a>
+<FONT color="green">411</FONT>            /**<a name="line.411"></a>
+<FONT color="green">412</FONT>             * Create an index for quickly lookup up the annotations covered by a particular annotation. This<a name="line.412"></a>
+<FONT color="green">413</FONT>             * is preferable to using {@link #selectCovered(JCas, Class, int, int)} because the overhead of<a name="line.413"></a>
+<FONT color="green">414</FONT>             * scanning the CAS occurs only when the index is build. Subsequent lookups to the index are<a name="line.414"></a>
+<FONT color="green">415</FONT>             * fast.<a name="line.415"></a>
+<FONT color="green">416</FONT>             *<a name="line.416"></a>
+<FONT color="green">417</FONT>             * @param &lt;T&gt;<a name="line.417"></a>
+<FONT color="green">418</FONT>             *            the JCas type.<a name="line.418"></a>
+<FONT color="green">419</FONT>             * @param jCas<a name="line.419"></a>
+<FONT color="green">420</FONT>             *            a JCas.<a name="line.420"></a>
+<FONT color="green">421</FONT>             * @param type<a name="line.421"></a>
+<FONT color="green">422</FONT>             *            type to create the index for - this is used in lookups.<a name="line.422"></a>
+<FONT color="green">423</FONT>             * @param coveredType<a name="line.423"></a>
+<FONT color="green">424</FONT>             *            type of covered annotations.<a name="line.424"></a>
+<FONT color="green">425</FONT>             * @return the index.<a name="line.425"></a>
+<FONT color="green">426</FONT>             */<a name="line.426"></a>
+<FONT color="green">427</FONT>            public static &lt;T extends Annotation, S extends Annotation&gt; Map&lt;T, Collection&lt;S&gt;&gt; indexCovered(<a name="line.427"></a>
+<FONT color="green">428</FONT>                            JCas jCas, Class&lt;T&gt; type, Class&lt;S&gt; coveredType) {<a name="line.428"></a>
+<FONT color="green">429</FONT>                    return cast(CasUtil.indexCovered(jCas.getCas(), getType(jCas, type),<a name="line.429"></a>
+<FONT color="green">430</FONT>                                    getType(jCas, coveredType)));<a name="line.430"></a>
+<FONT color="green">431</FONT>            }<a name="line.431"></a>
+<FONT color="green">432</FONT>    <a name="line.432"></a>
+<FONT color="green">433</FONT>            /**<a name="line.433"></a>
+<FONT color="green">434</FONT>             * Check if the given annotation contains any annotation of the given type.<a name="line.434"></a>
+<FONT color="green">435</FONT>             *<a name="line.435"></a>
+<FONT color="green">436</FONT>             * @param jCas<a name="line.436"></a>
+<FONT color="green">437</FONT>             *            a JCas containing the annotation.<a name="line.437"></a>
+<FONT color="green">438</FONT>             * @param coveringAnnotation<a name="line.438"></a>
+<FONT color="green">439</FONT>             *            the covering annotation.<a name="line.439"></a>
+<FONT color="green">440</FONT>             * @param type<a name="line.440"></a>
+<FONT color="green">441</FONT>             *            a UIMA type.<a name="line.441"></a>
+<FONT color="green">442</FONT>             * @return if an annotation of the given type is present.<a name="line.442"></a>
+<FONT color="green">443</FONT>             */<a name="line.443"></a>
+<FONT color="green">444</FONT>            public static boolean isCovered(JCas jCas, Annotation coveringAnnotation,<a name="line.444"></a>
+<FONT color="green">445</FONT>                            Class&lt;? extends Annotation&gt; type) {<a name="line.445"></a>
+<FONT color="green">446</FONT>                    return selectCovered(jCas, type, coveringAnnotation).size() &gt; 0;<a name="line.446"></a>
+<FONT color="green">447</FONT>            }<a name="line.447"></a>
+<FONT color="green">448</FONT>    <a name="line.448"></a>
+<FONT color="green">449</FONT>            /**<a name="line.449"></a>
+<FONT color="green">450</FONT>             * This method exists simply as a convenience method for unit testing. It is not very efficient<a name="line.450"></a>
+<FONT color="green">451</FONT>             * and should not, in general be used outside the context of unit testing.<a name="line.451"></a>
+<FONT color="green">452</FONT>             *<a name="line.452"></a>
+<FONT color="green">453</FONT>             * @param &lt;T&gt;<a name="line.453"></a>
+<FONT color="green">454</FONT>             *            JCas wrapper type.<a name="line.454"></a>
+<FONT color="green">455</FONT>             * @param jCas<a name="line.455"></a>
+<FONT color="green">456</FONT>             *            a JCas containing the annotation.<a name="line.456"></a>
+<FONT color="green">457</FONT>             * @param cls<a name="line.457"></a>
+<FONT color="green">458</FONT>             *            a UIMA type.<a name="line.458"></a>
+<FONT color="green">459</FONT>             * @param index<a name="line.459"></a>
+<FONT color="green">460</FONT>             *            this can be either positive (0 corresponds to the first annotation of a type) or<a name="line.460"></a>
+<FONT color="green">461</FONT>             *            negative (-1 corresponds to the last annotation of a type.)<a name="line.461"></a>
+<FONT color="green">462</FONT>             * @return an annotation of the given type<a name="line.462"></a>
+<FONT color="green">463</FONT>             */<a name="line.463"></a>
+<FONT color="green">464</FONT>            @SuppressWarnings("unchecked")<a name="line.464"></a>
+<FONT color="green">465</FONT>            public static &lt;T extends TOP&gt; T selectByIndex(JCas jCas, Class&lt;T&gt; cls, int index) {<a name="line.465"></a>
+<FONT color="green">466</FONT>                    return (T) CasUtil.selectFSByIndex(jCas.getCas(), getType(jCas, cls), index);<a name="line.466"></a>
+<FONT color="green">467</FONT>            }<a name="line.467"></a>
+<FONT color="green">468</FONT>    <a name="line.468"></a>
+<FONT color="green">469</FONT>            /**<a name="line.469"></a>
+<FONT color="green">470</FONT>             * Get the single instance of the specified type from the JCas.<a name="line.470"></a>
+<FONT color="green">471</FONT>             *<a name="line.471"></a>
+<FONT color="green">472</FONT>             * @param &lt;T&gt;<a name="line.472"></a>
+<FONT color="green">473</FONT>             *            JCas wrapper type.<a name="line.473"></a>
+<FONT color="green">474</FONT>             * @param jCas<a name="line.474"></a>
+<FONT color="green">475</FONT>             *            a JCas containing the annotation.<a name="line.475"></a>
+<FONT color="green">476</FONT>             * @param type<a name="line.476"></a>
+<FONT color="green">477</FONT>             *            a UIMA type.<a name="line.477"></a>
+<FONT color="green">478</FONT>             * @return the single instance of the given type. throws IllegalArgumentException if not exactly<a name="line.478"></a>
+<FONT color="green">479</FONT>             *         one instance if the given type is present.<a name="line.479"></a>
+<FONT color="green">480</FONT>             */<a name="line.480"></a>
+<FONT color="green">481</FONT>            @SuppressWarnings("unchecked")<a name="line.481"></a>
+<FONT color="green">482</FONT>            public static &lt;T extends TOP&gt; T selectSingle(JCas jCas, Class&lt;T&gt; type) {<a name="line.482"></a>
+<FONT color="green">483</FONT>                    return (T) CasUtil.selectSingle(jCas.getCas(), getType(jCas, type));<a name="line.483"></a>
+<FONT color="green">484</FONT>            }<a name="line.484"></a>
+<FONT color="green">485</FONT>    <a name="line.485"></a>
+<FONT color="green">486</FONT>            /**<a name="line.486"></a>
+<FONT color="green">487</FONT>             * Returns the n annotations preceding the given annotation<a name="line.487"></a>
+<FONT color="green">488</FONT>             *<a name="line.488"></a>
+<FONT color="green">489</FONT>             * @param &lt;T&gt;<a name="line.489"></a>
+<FONT color="green">490</FONT>             *            the JCas type.<a name="line.490"></a>
+<FONT color="green">491</FONT>             * @param aJCas<a name="line.491"></a>
+<FONT color="green">492</FONT>             *            a JCas.<a name="line.492"></a>
+<FONT color="green">493</FONT>             * @param aType<a name="line.493"></a>
+<FONT color="green">494</FONT>             *            a type.<a name="line.494"></a>
+<FONT color="green">495</FONT>             * @param annotation<a name="line.495"></a>
+<FONT color="green">496</FONT>             *            anchor annotation<a name="line.496"></a>
+<FONT color="green">497</FONT>             * @param count<a name="line.497"></a>
+<FONT color="green">498</FONT>             *            number of annotations to collect<a name="line.498"></a>
+<FONT color="green">499</FONT>             * @return List of aType annotations preceding anchor annotation<a name="line.499"></a>
+<FONT color="green">500</FONT>             */<a name="line.500"></a>
+<FONT color="green">501</FONT>            public static &lt;T extends Annotation&gt; List&lt;T&gt; selectPreceding(JCas aJCas, Class&lt;T&gt; aType,<a name="line.501"></a>
+<FONT color="green">502</FONT>                            Annotation annotation, int count) {<a name="line.502"></a>
+<FONT color="green">503</FONT>                    Type t = getType(aJCas, aType);<a name="line.503"></a>
+<FONT color="green">504</FONT>                    return cast(CasUtil.selectPreceding(aJCas.getCas(), t, annotation, count));<a name="line.504"></a>
+<FONT color="green">505</FONT>            }<a name="line.505"></a>
+<FONT color="green">506</FONT>    <a name="line.506"></a>
+<FONT color="green">507</FONT>            /**<a name="line.507"></a>
+<FONT color="green">508</FONT>             * Returns the n annotations following the given annotation<a name="line.508"></a>
+<FONT color="green">509</FONT>             *<a name="line.509"></a>
+<FONT color="green">510</FONT>             * @param &lt;T&gt;<a name="line.510"></a>
+<FONT color="green">511</FONT>             *            the JCas type.<a name="line.511"></a>
+<FONT color="green">512</FONT>             * @param aJCas<a name="line.512"></a>
+<FONT color="green">513</FONT>             *            a JCas.<a name="line.513"></a>
+<FONT color="green">514</FONT>             * @param aType<a name="line.514"></a>
+<FONT color="green">515</FONT>             *            a type.<a name="line.515"></a>
+<FONT color="green">516</FONT>             * @param annotation<a name="line.516"></a>
+<FONT color="green">517</FONT>             *            anchor annotation<a name="line.517"></a>
+<FONT color="green">518</FONT>             * @param count<a name="line.518"></a>
+<FONT color="green">519</FONT>             *            number of annotations to collect<a name="line.519"></a>
+<FONT color="green">520</FONT>             * @return List of aType annotations following anchor annotation<a name="line.520"></a>
+<FONT color="green">521</FONT>             */<a name="line.521"></a>
+<FONT color="green">522</FONT>            public static &lt;T extends Annotation&gt; List&lt;T&gt; selectFollowing(JCas aJCas, Class&lt;T&gt; aType,<a name="line.522"></a>
+<FONT color="green">523</FONT>                            Annotation annotation, int count) {<a name="line.523"></a>
+<FONT color="green">524</FONT>                    Type t = getType(aJCas, aType);<a name="line.524"></a>
+<FONT color="green">525</FONT>                    return cast(CasUtil.selectFollowing(aJCas.getCas(), t, annotation, count));<a name="line.525"></a>
+<FONT color="green">526</FONT>            }<a name="line.526"></a>
+<FONT color="green">527</FONT>    <a name="line.527"></a>
+<FONT color="green">528</FONT>            /**<a name="line.528"></a>
+<FONT color="green">529</FONT>             * Test if a JCas contains an annotation of the given type.<a name="line.529"></a>
+<FONT color="green">530</FONT>             *<a name="line.530"></a>
+<FONT color="green">531</FONT>             * @param &lt;T&gt;<a name="line.531"></a>
+<FONT color="green">532</FONT>             *            the annotation type.<a name="line.532"></a>
+<FONT color="green">533</FONT>             * @param aJCas<a name="line.533"></a>
+<FONT color="green">534</FONT>             *            a JCas.<a name="line.534"></a>
+<FONT color="green">535</FONT>             * @param aType<a name="line.535"></a>
+<FONT color="green">536</FONT>             *            a annotation class.<a name="line.536"></a>
+<FONT color="green">537</FONT>             * @return {@code true} if there is at least one annotation of the given type in the JCas.<a name="line.537"></a>
+<FONT color="green">538</FONT>             */<a name="line.538"></a>
+<FONT color="green">539</FONT>            public static &lt;T extends TOP&gt; boolean exists(JCas aJCas, Class&lt;T&gt; aType) {<a name="line.539"></a>
+<FONT color="green">540</FONT>                    return JCasUtil.iterator(aJCas, aType).hasNext();<a name="line.540"></a>
+<FONT color="green">541</FONT>            }<a name="line.541"></a>
+<FONT color="green">542</FONT>    <a name="line.542"></a>
+<FONT color="green">543</FONT>            /**<a name="line.543"></a>
+<FONT color="green">544</FONT>             * Convenience method to get the specified view or a default view if the requested view does not<a name="line.544"></a>
+<FONT color="green">545</FONT>             * exist. The default can also be {@code null}.<a name="line.545"></a>
 <FONT color="green">546</FONT>             *<a name="line.546"></a>
-<FONT color="green">547</FONT>             * @param &lt;T&gt;<a name="line.547"></a>
-<FONT color="green">548</FONT>             *            UIMA JCas type.<a name="line.548"></a>
-<FONT color="green">549</FONT>             * @param iterable<a name="line.549"></a>
-<FONT color="green">550</FONT>             *            annotation container.<a name="line.550"></a>
-<FONT color="green">551</FONT>             * @return list of covered strings.<a name="line.551"></a>
-<FONT color="green">552</FONT>             */<a name="line.552"></a>
-<FONT color="green">553</FONT>            public static &lt;T extends AnnotationFS&gt; List&lt;String&gt; toText(Iterable&lt;T&gt; iterable) {<a name="line.553"></a>
-<FONT color="green">554</FONT>                    return CasUtil.toText(iterable);<a name="line.554"></a>
-<FONT color="green">555</FONT>            }<a name="line.555"></a>
-<FONT color="green">556</FONT>    <a name="line.556"></a>
-<FONT color="green">557</FONT>            @SuppressWarnings({ "cast", "unchecked", "rawtypes" })<a name="line.557"></a>
-<FONT color="green">558</FONT>            private static &lt;T&gt; Collection&lt;T&gt; cast(Collection aCollection) {<a name="line.558"></a>
-<FONT color="green">559</FONT>                    return (Collection&lt;T&gt;) aCollection;<a name="line.559"></a>
-<FONT color="green">560</FONT>            }<a name="line.560"></a>
-<FONT color="green">561</FONT>    <a name="line.561"></a>
-<FONT color="green">562</FONT>            @SuppressWarnings({ "cast", "unchecked", "rawtypes" })<a name="line.562"></a>
-<FONT color="green">563</FONT>            private static &lt;T&gt; List&lt;T&gt; cast(List aCollection) {<a name="line.563"></a>
-<FONT color="green">564</FONT>                    return (List&lt;T&gt;) aCollection;<a name="line.564"></a>
-<FONT color="green">565</FONT>            }<a name="line.565"></a>
-<FONT color="green">566</FONT>    <a name="line.566"></a>
-<FONT color="green">567</FONT>            @SuppressWarnings({ "cast", "unchecked", "rawtypes" })<a name="line.567"></a>
-<FONT color="green">568</FONT>            private static &lt;K, V&gt; Map&lt;K, V&gt; cast(Map aCollection) {<a name="line.568"></a>
-<FONT color="green">569</FONT>                    return (Map&lt;K, V&gt;) aCollection;<a name="line.569"></a>
-<FONT color="green">570</FONT>            }<a name="line.570"></a>
-<FONT color="green">571</FONT>    }<a name="line.571"></a>
+<FONT color="green">547</FONT>             * @param jcas<a name="line.547"></a>
+<FONT color="green">548</FONT>             *            a JCas<a name="line.548"></a>
+<FONT color="green">549</FONT>             * @param viewName<a name="line.549"></a>
+<FONT color="green">550</FONT>             *            the requested view.<a name="line.550"></a>
+<FONT color="green">551</FONT>             * @param fallback<a name="line.551"></a>
+<FONT color="green">552</FONT>             *            the default view if the requested view does not exist.<a name="line.552"></a>
+<FONT color="green">553</FONT>             * @return the requested view or the default if the requested view does not exist.<a name="line.553"></a>
+<FONT color="green">554</FONT>             * @throws IllegalStateException<a name="line.554"></a>
+<FONT color="green">555</FONT>             *             if the JCas wrapper cannot be obtained.<a name="line.555"></a>
+<FONT color="green">556</FONT>             */<a name="line.556"></a>
+<FONT color="green">557</FONT>            public static JCas getView(JCas jcas, String viewName, JCas fallback) {<a name="line.557"></a>
+<FONT color="green">558</FONT>                    try {<a name="line.558"></a>
+<FONT color="green">559</FONT>                            CAS fallbackCas = fallback != null ? fallback.getCas() : null;<a name="line.559"></a>
+<FONT color="green">560</FONT>                            CAS view = CasUtil.getView(jcas.getCas(), viewName, fallbackCas);<a name="line.560"></a>
+<FONT color="green">561</FONT>                            return view != null ? view.getJCas() : null;<a name="line.561"></a>
+<FONT color="green">562</FONT>                    }<a name="line.562"></a>
+<FONT color="green">563</FONT>                    catch (CASException e) {<a name="line.563"></a>
+<FONT color="green">564</FONT>                            throw new IllegalStateException(e);<a name="line.564"></a>
+<FONT color="green">565</FONT>                    }<a name="line.565"></a>
+<FONT color="green">566</FONT>            }<a name="line.566"></a>
+<FONT color="green">567</FONT>    <a name="line.567"></a>
+<FONT color="green">568</FONT>            /**<a name="line.568"></a>
+<FONT color="green">569</FONT>             * Convenience method to get the specified view or create a new view if the requested view does<a name="line.569"></a>
+<FONT color="green">570</FONT>             * not exist.<a name="line.570"></a>
+<FONT color="green">571</FONT>             *<a name="line.571"></a>
+<FONT color="green">572</FONT>             * @param jcas<a name="line.572"></a>
+<FONT color="green">573</FONT>             *            a JCas<a name="line.573"></a>
+<FONT color="green">574</FONT>             * @param viewName<a name="line.574"></a>
+<FONT color="green">575</FONT>             *            the requested view.<a name="line.575"></a>
+<FONT color="green">576</FONT>             * @param create<a name="line.576"></a>
+<FONT color="green">577</FONT>             *            the view is created if it does not exist.<a name="line.577"></a>
+<FONT color="green">578</FONT>             * @return the requested view<a name="line.578"></a>
+<FONT color="green">579</FONT>             * @throws IllegalStateException<a name="line.579"></a>
+<FONT color="green">580</FONT>             *             if the JCas wrapper cannot be obtained.<a name="line.580"></a>
+<FONT color="green">581</FONT>             */<a name="line.581"></a>
+<FONT color="green">582</FONT>            public static JCas getView(JCas jcas, String viewName, boolean create) {<a name="line.582"></a>
+<FONT color="green">583</FONT>                    try {<a name="line.583"></a>
+<FONT color="green">584</FONT>                            CAS view = CasUtil.getView(jcas.getCas(), viewName, create);<a name="line.584"></a>
+<FONT color="green">585</FONT>                            return view != null ? view.getJCas() : null;<a name="line.585"></a>
+<FONT color="green">586</FONT>                    }<a name="line.586"></a>
+<FONT color="green">587</FONT>                    catch (CASException e) {<a name="line.587"></a>
+<FONT color="green">588</FONT>                            throw new IllegalStateException(e);<a name="line.588"></a>
+<FONT color="green">589</FONT>                    }<a name="line.589"></a>
+<FONT color="green">590</FONT>            }<a name="line.590"></a>
+<FONT color="green">591</FONT>    <a name="line.591"></a>
+<FONT color="green">592</FONT>            /**<a name="line.592"></a>
+<FONT color="green">593</FONT>             * Fetch the text covered by the specified annotations and return it as a list of strings.<a name="line.593"></a>
+<FONT color="green">594</FONT>             *<a name="line.594"></a>
+<FONT color="green">595</FONT>             * @param &lt;T&gt;<a name="line.595"></a>
+<FONT color="green">596</FONT>             *            UIMA JCas type.<a name="line.596"></a>
+<FONT color="green">597</FONT>             * @param iterable<a name="line.597"></a>
+<FONT color="green">598</FONT>             *            annotation container.<a name="line.598"></a>
+<FONT color="green">599</FONT>             * @return list of covered strings.<a name="line.599"></a>
+<FONT color="green">600</FONT>             */<a name="line.600"></a>
+<FONT color="green">601</FONT>            public static &lt;T extends AnnotationFS&gt; List&lt;String&gt; toText(Iterable&lt;T&gt; iterable) {<a name="line.601"></a>
+<FONT color="green">602</FONT>                    return CasUtil.toText(iterable);<a name="line.602"></a>
+<FONT color="green">603</FONT>            }<a name="line.603"></a>
+<FONT color="green">604</FONT>    <a name="line.604"></a>
+<FONT color="green">605</FONT>            @SuppressWarnings({ "cast", "unchecked", "rawtypes" })<a name="line.605"></a>
+<FONT color="green">606</FONT>            private static &lt;T&gt; Collection&lt;T&gt; cast(Collection aCollection) {<a name="line.606"></a>
+<FONT color="green">607</FONT>                    return (Collection&lt;T&gt;) aCollection;<a name="line.607"></a>
+<FONT color="green">608</FONT>            }<a name="line.608"></a>
+<FONT color="green">609</FONT>    <a name="line.609"></a>
+<FONT color="green">610</FONT>            @SuppressWarnings({ "cast", "unchecked", "rawtypes" })<a name="line.610"></a>
+<FONT color="green">611</FONT>            private static &lt;T&gt; List&lt;T&gt; cast(List aCollection) {<a name="line.611"></a>
+<FONT color="green">612</FONT>                    return (List&lt;T&gt;) aCollection;<a name="line.612"></a>
+<FONT color="green">613</FONT>            }<a name="line.613"></a>
+<FONT color="green">614</FONT>    <a name="line.614"></a>
+<FONT color="green">615</FONT>            @SuppressWarnings({ "cast", "unchecked", "rawtypes" })<a name="line.615"></a>
+<FONT color="green">616</FONT>            private static &lt;K, V&gt; Map&lt;K, V&gt; cast(Map aCollection) {<a name="line.616"></a>
+<FONT color="green">617</FONT>                    return (Map&lt;K, V&gt;) aCollection;<a name="line.617"></a>
+<FONT color="green">618</FONT>            }<a name="line.618"></a>
+<FONT color="green">619</FONT>    }<a name="line.619"></a>
 
 
 
