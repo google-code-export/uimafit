@@ -2,7 +2,7 @@
 
 <h1>Working with External Resources</h1>
 
-<wiki:toc max_depth="1" />
+<wiki:toc max_depth="2" />
 
 An analysis engine often uses some data model. This may be as simple as word frequency counts or as complex as the model of a parser. Often these models can become quite large. If an analysis engine is deployed multiple times in the same pipeline or runs on multiple CPU cores, memory can be saved by using a shared instance of the data model. UIMA supports such a scenario by so-called external resources. The following sections illustrates how external resources can be used with uimaFIT.
 
@@ -111,6 +111,8 @@ ae.process(ae.newJCas());
 
 With uimaFIT, external resources can be injected into other external resources. The process is slightly different depending on the type of external resource being used.
 
+== Resources extending `Resource_ImplBase` ==
+
 One kind of resources extend `Resource_ImplBase`. These are the easiest to handle, because uimaFIT's version  of `Resource_ImplBase` already implements the necessary logic. Just be sure to call `super.initialize()` when overriding `initialize()`. Also mind that external resources are not available yet when `initialize()` is called. For any initialization logic that requires resources, override and implement `afterResourcesInitialized()`. Other than that, injection of external resources works as usual.
 
 {{{
@@ -125,6 +127,8 @@ public static class ChainableResource extends Resource_ImplBase {
 	}
 }
 }}}
+
+== Resources implementing `SharedResourceObject` ==
 
 The other kind of resources implement `SharedResourceObject`. Since this is an interface, uimaFIT cannot provide the initialization logic, so you have to implement a couple of things in the resource:
 
