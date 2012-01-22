@@ -20,13 +20,16 @@ package org.uimafit.factory.testRes;
 
 import static org.junit.Assert.assertEquals;
 
-import org.uimafit.component.Resource_ImplBase;
+import org.apache.uima.resource.DataResource;
+import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.SharedResourceObject;
+import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.descriptor.ConfigurationParameter;
 
 /**
  * @author Richard Eckart de Castilho
  */
-public class TestExternalResource extends Resource_ImplBase {
+public class TestSharedResourceObject implements SharedResourceObject {
 	public static final String EXPECTED_VALUE = "expected value";
 	
 	public final static String PARAM_VALUE = "value";
@@ -37,5 +40,9 @@ public class TestExternalResource extends Resource_ImplBase {
 		System.out.println(getClass().getSimpleName()+".assertConfiguredOk()");
 		// Ensure normal parameters get passed to External Resource
 		assertEquals(EXPECTED_VALUE, value);
+	}
+	
+	public void load(DataResource aData) throws ResourceInitializationException {
+		ConfigurationParameterInitializer.initialize(this, aData);
 	}
 }

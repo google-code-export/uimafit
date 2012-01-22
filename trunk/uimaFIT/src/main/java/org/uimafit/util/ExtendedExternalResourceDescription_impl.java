@@ -19,6 +19,7 @@
 package org.uimafit.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.uima.resource.ExternalResourceDescription;
@@ -33,24 +34,30 @@ import org.apache.uima.resource.metadata.ExternalResourceBinding;
  */
 public class ExtendedExternalResourceDescription_impl extends ExternalResourceDescription_impl {
 	private static final long serialVersionUID = 4901306350609836452L;
-	private List<ExternalResourceBinding> externalResourceDependencies = new ArrayList<ExternalResourceBinding>();
-	private List<ExternalResourceDescription> externalResourceDescriptions = new ArrayList<ExternalResourceDescription>();
+	private List<ExternalResourceBinding> externalResourceBindings = new ArrayList<ExternalResourceBinding>();
+	private List<ExternalResourceDescription> externalResources = new ArrayList<ExternalResourceDescription>();
 
 	public List<ExternalResourceBinding> getExternalResourceBindings() {
-		return externalResourceDependencies;
+		return externalResourceBindings;
 	}
 
 	public void setExternalResourceBindings(
-			List<ExternalResourceBinding> aExternalResourceBindings) {
-		externalResourceDependencies = aExternalResourceBindings;
+			Collection<ExternalResourceBinding> aExternalResourceBindings) {
+		externalResourceBindings = new ArrayList<ExternalResourceBinding>();
+		if (aExternalResourceBindings != null) {
+			externalResourceBindings.addAll(aExternalResourceBindings);
+		}
 	}
 
-	public List<ExternalResourceDescription> getExternalResourceDescriptions() {
-		return externalResourceDescriptions;
+	public List<ExternalResourceDescription> getExternalResources() {
+		return externalResources;
 	}
 
-	public void setExternalResourceDescriptions(
-			List<ExternalResourceDescription> aExternalResourceDescriptions) {
-		externalResourceDescriptions = aExternalResourceDescriptions;
+	public void setExternalResources(
+			Collection<ExternalResourceDescription> aExternalResourceDescriptions) {
+		externalResources = new ArrayList<ExternalResourceDescription>();
+		if (externalResources != null) {
+			externalResources.addAll(aExternalResourceDescriptions);
+		}
 	}
 }
