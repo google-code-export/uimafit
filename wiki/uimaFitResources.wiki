@@ -121,8 +121,8 @@ public class TestSharedResourceObject implements SharedResourceObject, ExternalR
   @ConfigurationParameter(name=ExternalResourceFactory.PARAM_RESOURCE_NAME)
   private String resourceName;
 
-  public final static String PARAM__CHAINED_RESOURCE = "chainedResource";
-  @ExternalResource(key = PARAM__CHAINED_RESOURCE)
+  public final static String PARAM_CHAINED_RESOURCE = "chainedResource";
+  @ExternalResource(key = PARAM_CHAINED_RESOURCE)
   private ChainableResource chainedResource;
 
   public String getResourceName() {
