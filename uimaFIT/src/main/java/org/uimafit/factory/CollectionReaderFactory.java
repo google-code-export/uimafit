@@ -361,7 +361,7 @@ public final class CollectionReaderFactory {
 				desc.getCollectionReaderMetaData().setCapabilities(new Capability[] { capability });
 			}
 		}
-		
+
 		// Extract external resource dependencies
 		Collection<ExternalResourceDependency> deps = ExternalResourceInitializer
 				.getResourceDeclarations(readerClass).values();

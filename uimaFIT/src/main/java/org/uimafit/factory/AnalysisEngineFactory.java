@@ -396,13 +396,13 @@ public final class AnalysisEngineFactory {
 				desc.getAnalysisEngineMetaData().setCapabilities(new Capability[] { capability });
 			}
 		}
-		
+
 		// Extract external resource dependencies
 		Collection<ExternalResourceDependency> deps = ExternalResourceInitializer
 				.getResourceDeclarations(componentClass).values();
 		desc.setExternalResourceDependencies(deps.toArray(new ExternalResourceDependency[deps
 				.size()]));
-		
+
 		// Bind External Resources
 		if (externalResources != null) {
 			for (Entry<String, ExternalResourceDescription> e : externalResources.entrySet()) {

@@ -23,8 +23,6 @@ import java.util.Map;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.uimafit.component.initialize.ConfigurationParameterInitializer;
-import org.uimafit.descriptor.ConfigurationParameter;
-import org.uimafit.factory.ExternalResourceFactory;
 import org.uimafit.util.ExtendedLogger;
 
 /**
@@ -32,13 +30,8 @@ import org.uimafit.util.ExtendedLogger;
  *
  * @author Richard Eckart de Castilho
  */
-public abstract class Resource_ImplBase extends org.apache.uima.resource.Resource_ImplBase
-		implements ExternalResourceAware {
-
+public abstract class Resource_ImplBase extends org.apache.uima.resource.Resource_ImplBase {
 	private ExtendedLogger logger;
-	
-	@ConfigurationParameter(name=ExternalResourceFactory.PARAM_RESOURCE_NAME, mandatory=false)
-	private String resourceName;
 	
 	@Override
 	public ExtendedLogger getLogger() {
@@ -57,19 +50,6 @@ public abstract class Resource_ImplBase extends org.apache.uima.resource.Resourc
 		}
 
 		ConfigurationParameterInitializer.initialize(this, aSpecifier);
-		// We cannot call ExternalResourceInitializer.initialize() because the 
-		// ResourceManager_impl has not added the resources to the context yet.
-		// Resource initialization is handled by ExternalResourceInitializer.initialize()
-		// when it is called on the first pipeline component.
-		
 		return true;
-	}
-	
-	public String getResourceName() {
-		return resourceName;
-	}
-	
-	public void afterResourcesInitialized() {
-		// Per default nothing is done here.
 	}
 }

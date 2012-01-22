@@ -36,7 +36,6 @@ import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.resource.impl.Parameter_impl;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
 import org.apache.uima.resource.metadata.NameValuePair;
-import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.resource.metadata.impl.ConfigurationParameter_impl;
 import org.uimafit.util.ReflectionUtil;
 
@@ -563,49 +562,16 @@ public final class ConfigurationParameterFactory {
 			}
 		}
 		else if (aSpec instanceof ResourceCreationSpecifier) {
-			ResourceMetaData md = ((ResourceCreationSpecifier) aSpec).getMetaData();
-			
-			if (md.getConfigurationParameterDeclarations().getConfigurationParameter(null, name) == null) {
-				throw new IllegalArgumentException("Cannot set undeclared parameter [" + name + "]");
-			}
-			
-			md.getConfigurationParameterSettings().setParameterValue(name, value);
+			ResourceCreationSpecifier spec = (ResourceCreationSpecifier) aSpec;
+			spec.getMetaData().getConfigurationParameterSettings().setParameterValue(name, value);
 		}
 		else if (aSpec instanceof ConfigurableDataResourceSpecifier) {
-			ResourceMetaData md = ((ConfigurableDataResourceSpecifier) aSpec).getMetaData();
-			
-			if (md.getConfigurationParameterDeclarations().getConfigurationParameter(null, name) == null) {
-				throw new IllegalArgumentException("Cannot set undeclared parameter [" + name + "]");
-			}
-
-			md.getConfigurationParameterSettings().setParameterValue(name, value);
+			ConfigurableDataResourceSpecifier spec = (ConfigurableDataResourceSpecifier) aSpec;
+			spec.getMetaData().getConfigurationParameterSettings().setParameterValue(name, value);
 		}
 		else {
 			throw new IllegalClassException("Unsupported resource specifier class ["
 					+ aSpec.getClass() + "]");
 		}
-	}
-	
-	/**
-	 * Check if the given parameter can be set on the provided specifier. Some specifier types 
-	 * require parameters to be declared before they can be set.
-	 */
-	public static boolean canParameterBeSet(ResourceSpecifier aSpec, String name)
-	{
-		if (aSpec instanceof CustomResourceSpecifier) {
-			return true;
-		}
-		else if (aSpec instanceof ResourceCreationSpecifier) {
-			ResourceMetaData md = ((ResourceCreationSpecifier) aSpec).getMetaData();
-			return md.getConfigurationParameterDeclarations().getConfigurationParameter(null, name) != null;
-		}
-		else if (aSpec instanceof ConfigurableDataResourceSpecifier) {
-			ResourceMetaData md = ((ConfigurableDataResourceSpecifier) aSpec).getMetaData();
-			return md.getConfigurationParameterDeclarations().getConfigurationParameter(null, name) != null;
-		}
-		else {
-			throw new IllegalClassException("Unsupported resource specifier class ["
-					+ aSpec.getClass() + "]");
-		}		
 	}
 }
