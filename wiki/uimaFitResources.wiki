@@ -8,40 +8,24 @@
 
 An analysis engine often uses some data model. This may be as simple as word frequency counts or as complex as the model of a parser. Often these models can become quite large. If an analysis engine is deployed multiple times in the same pipeline or runs on multiple CPU cores, memory can be saved by using a shared instance of the data model. UIMA supports such a scenario by so-called external resources. The following sections illustrates how external resources can be used with uimaFIT.
 
-= Using external resources with regular UIMA components =
-
-uimaFIT also supports to configure external resources on a component that is not aware of uimaFIT and thus does not use the @ExternalResource annotation. The problem with such a component is, that uimaFIT has no way of knowing that the component needs the resource and thus cannot create the necessary resource dependency entries when generating the descriptor. Using the createDependencyAndBind() method, you and manually create a dependency and bind a resource in such cases. The following example uses uimaFIT to configure the OpenNLP Tokenizer:
-
-{{{
-// Create descriptor
-AnalysisEngineDescription tokenizer = createPrimitiveDescription(Tokenizer.class,
-		UimaUtil.TOKEN_TYPE_PARAMETER, Token.class.getName(),
-		UimaUtil.SENTENCE_TYPE_PARAMETER, Sentence.class.getName());
-
-// Create the external resource dependency for the model and bind it
-createDependencyAndBind(tokenizer, UimaUtil.MODEL_PARAMETER,
-		TokenizerModelResourceImpl.class,
-		"http://opennlp.sourceforge.net/models-1.5/en-token.bin");
-}}}
-
 = Using external resources with uimaFIT-aware components =
 
-uimaFIT provides the @ExternalResource annotation to support injecting shared data models into UIMA components. This section demonstrates how it can be used.
+uimaFIT provides the `@ExternalResource` annotation to support injecting shared data models into UIMA components. This section demonstrates how it can be used.
 
-First create a class for the shared data model. Usually this class would load its data from some URI and then expose it via its methods. An example would be to load word frequency counts and to provide a getFrequency() method. In our simple example we do not load anything from the provided URI - we just offer a method to get the URI from which data be loaded.
+First create a class for the shared data model. Usually this class would load its data from some URI and then expose it via its methods. An example would be to load word frequency counts and to provide a `getFrequency()` method. In our simple example we do not load anything from the provided URI - we just offer a method to get the URI from which data be loaded.
 
 {{{
 // Simple model that only stores the URI it was loaded from. Normally data
 // would be loaded from the URI instead and made accessible through methods
 // in this class. This simple example only allows to access the URI.
 public static final class SharedModel implements SharedResourceObject {
-	private String uri;
+  private String uri;
 
-	public void load(DataResource aData) throws ResourceInitializationException {
-		uri = aData.getUri().toString();
-	}
+  public void load(DataResource aData) throws ResourceInitializationException {
+    uri = aData.getUri().toString();
+  }
 
-	public String getUri() { return uri; }
+  public String getUri() { return uri; }
 }
 }}}
 
@@ -51,65 +35,58 @@ Next create an analysis engine that can use the shared data model.
 // Example annotator that uses the SharedModel. In the process() we only test
 // if the model was properly initialized by uimaFIT
 public static class Annotator extends org.uimafit.component.JCasAnnotator_ImplBase {
-	final static String MODEL_KEY = "Model";
-	@ExternalResource(key = MODEL_KEY)
-	private SharedModel model;
+  final static String MODEL_KEY = "Model";
+  @ExternalResource(key = MODEL_KEY)
+  private SharedModel model;
 
-	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
-		assertTrue(model.getUri().endsWith("gene_model_v02.bin"));
-		// Prints the instance ID to the console - this proves the same instance
-		// of the SharedModel is used in both Annotator instances.
-		System.out.println(model);
-	}
+  public void process(JCas aJCas) throws AnalysisEngineProcessException {
+    assertTrue(model.getUri().endsWith("gene_model_v02.bin"));
+    // Prints the instance ID to the console - this proves the same instance
+    // of the SharedModel is used in both Annotator instances.
+    System.out.println(model);
+  }
 }
 }}}
 
 Finally build a pipeline that uses the analysis engine. The benefit of a shared model is that multiple components can use the same model instance.
 
 {{{
-// Set up the descriptors
-AnalysisEngineDescription aed1 = createPrimitiveDescription(Annotator.class);
-AnalysisEngineDescription aed2 = createPrimitiveDescription(Annotator.class);
-AnalysisEngineDescription aaed = createAggregateDescription(aed1, aed2);
+ExternalResourceDescription extDesc = createExternalResourceDescription(
+  SharedModel.class, new File("somemodel.bin"));
+		
+// Binding external resource to each Annotator individually
+AnalysisEngineDescription aed1 = createPrimitiveDescription(Annotator.class,
+  Annotator.MODEL_KEY, extDesc);
+  AnalysisEngineDescription aed2 = createPrimitiveDescription(Annotator.class,
+  Annotator.MODEL_KEY, extDesc);
 
-// Bind external resource to the aggregate
-ExternalResourceFactory.bindResource(aaed, Annotator.MODEL_KEY, SharedModel.class,
-		new File("gene_model_v02.bin").toURI().toURL().toString());
-
-// Check the external resource was injected
-AnalysisEngine ae = AnalysisEngineFactory.createAggregate(aaed);
-ae.process(ae.newJCas());
-}}}
-
-In a more complex case where different annotators use different keys for their external resources, the resource can be bound to individual analysis engines before they are added to the aggregate.
-
-{{{
-AnalysisEngineDescription aed1 = createPrimitiveDescription(Annotator1.class);
-AnalysisEngineDescription aed2 = createPrimitiveDescription(Annotator2.class);
-
-ExternalResourceDescription extDesc = ExternalResourceFactory.createExternalResourceDescription(
-		"sharedModel", SharedModel.class,
-		new File("gene_model_v02.bin").toURI().toURL().toString());
-
-// Bind external resource to each Annotator individually
-ExternalResourceFactory.bindResource(aed1, Annotator1.MODEL_KEY, extDesc);
-ExternalResourceFactory.bindResource(aed2, Annotator2.OTHER_MODEL_KEY, extDesc);
-
-// Create an aggregate
-AnalysisEngineDescription aaed = createAggregateDescription(aed1, aed2);
-AnalysisEngine ae = AnalysisEngineFactory.createAggregate(aaed);
-
-// Check the external resource was injected
-ae.process(ae.newJCas());
+  // Check the external resource was injected
+  AnalysisEngineDescription aaed = createAggregateDescription(aed1, aed2);
+  AnalysisEngine ae = createAggregate(aaed);
+  ae.process(ae.newJCas());
 }}}
 
 [http://code.google.com/p/uimafit/source/browse/trunk/uimaFIT-examples/src/main/java/org/uimafit/examples/resource/ExternalResourceExample.java This example] is given as a full JUnit-based example in the the uimaFIT-examples project.
 
+= Using external resources with regular UIMA components =
+
+uimaFIT also supports to configure external resources on a component that is not aware of uimaFIT and thus does not use the `@ExternalResource` annotation. The problem with such a component is, that uimaFIT has no way of knowing that the component needs the resource and thus cannot create the necessary resource dependency entries when generating the descriptor. Using the `createDependencyAndBind()` method, you and manually create a dependency and bind a resource in such cases. The following example uses uimaFIT to configure the OpenNLP Tokenizer:
+
+{{{
+// Create descriptor
+AnalysisEngineDescription tokenizer = createPrimitiveDescription(Tokenizer.class,
+  UimaUtil.TOKEN_TYPE_PARAMETER, Token.class.getName(),
+  UimaUtil.SENTENCE_TYPE_PARAMETER, Sentence.class.getName());
+
+// Create the external resource dependency for the model and bind it
+createDependencyAndBind(tokenizer, UimaUtil.MODEL_PARAMETER,
+  TokenizerModelResourceImpl.class,
+  "http://opennlp.sourceforge.net/models-1.5/en-token.bin");
+}}}
 
 = Using external resources with external resources =
 
-*Requirements: uimaFIT 1.4.0*
+*Requires uimaFIT 1.4.0*
 
 With uimaFIT, external resources can be injected into other external resources. The process is slightly different depending on the type of external resource being used.
 
@@ -119,14 +96,13 @@ One kind of resources extend `Resource_ImplBase`. These are the easiest to handl
 
 {{{
 public static class ChainableResource extends Resource_ImplBase {
-	public final static String PARAM__CHAINED_RESOURCE = "chainedResource";
-	@ExternalResource(key = PARAM__CHAINED_RESOURCE)
-	private ChainableResource chainedResource;
+  public final static String PARAM_CHAINED_RESOURCE = "chainedResource";
+  @ExternalResource(key = PARAM_CHAINED_RESOURCE)
+  private ChainableResource chainedResource;
 
-	@Override
-	public void afterResourcesInitialized() {
-		// init logic that requires external resources
-	}
+  public void afterResourcesInitialized() {
+    // init logic that requires external resources
+  }
 }
 }}}
 
@@ -142,26 +118,25 @@ Again, mind that external resource not properly initialized until uimaFIT invoke
 
 {{{
 public class TestSharedResourceObject implements SharedResourceObject, ExternalResourceAware {
-	@ConfigurationParameter(name=ExternalResourceFactory.PARAM_RESOURCE_NAME)
-	private String resourceName;
+  @ConfigurationParameter(name=ExternalResourceFactory.PARAM_RESOURCE_NAME)
+  private String resourceName;
 
-	public final static String PARAM__CHAINED_RESOURCE = "chainedResource";
-	@ExternalResource(key = PARAM__CHAINED_RESOURCE)
-	private ChainableResource chainedResource;
+  public final static String PARAM__CHAINED_RESOURCE = "chainedResource";
+  @ExternalResource(key = PARAM__CHAINED_RESOURCE)
+  private ChainableResource chainedResource;
 
-	public String getResourceName() {
-		return resourceName;
-	}
+  public String getResourceName() {
+    return resourceName;
+  }
 
-	public void load(DataResource aData) throws ResourceInitializationException {
-		ConfigurationParameterInitializer.initialize(this, aData);
-		// rest of the init logic that does not require external resources
-	}
+  public void load(DataResource aData) throws ResourceInitializationException {
+    ConfigurationParameterInitializer.initialize(this, aData);
+    // rest of the init logic that does not require external resources
+  }
 
-	@Override
-	public void afterResourcesInitialized() {
-		// init logic that requires external resources
-	}
+  public void afterResourcesInitialized() {
+   // init logic that requires external resources
+  }
 }
 }}}
 
