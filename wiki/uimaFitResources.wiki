@@ -6,7 +6,7 @@
 
 An analysis engine often uses some data model. This may be as simple as word frequency counts or as complex as the model of a parser. Often these models can become quite large. If an analysis engine is deployed multiple times in the same pipeline or runs on multiple CPU cores, memory can be saved by using a shared instance of the data model. UIMA supports such a scenario by so-called external resources. The following sections illustrates how external resources can be used with uimaFIT.
 
-= Using External Resources with regular UIMA components =
+= Using external resources with regular UIMA components =
 
 uimaFIT also supports to configure external resources on a component that is not aware of uimaFIT and thus does not use the @ExternalResource annotation. The problem with such a component is, that uimaFIT has no way of knowing that the component needs the resource and thus cannot create the necessary resource dependency entries when generating the descriptor. Using the createDependencyAndBind() method, you and manually create a dependency and bind a resource in such cases. The following example uses uimaFIT to configure the OpenNLP Tokenizer:
 
@@ -22,7 +22,7 @@ createDependencyAndBind(tokenizer, UimaUtil.MODEL_PARAMETER,
 		"http://opennlp.sourceforge.net/models-1.5/en-token.bin");
 }}}
 
-= Using External Resources with uimaFIT-aware components =
+= Using external resources with uimaFIT-aware components =
 
 uimaFIT provides the @ExternalResource annotation to support injecting shared data models into UIMA components. This section demonstrates how it can be used.
 
@@ -103,3 +103,62 @@ ae.process(ae.newJCas());
 }}}
 
 [http://code.google.com/p/uimafit/source/browse/trunk/uimaFIT-examples/src/main/java/org/uimafit/examples/resource/ExternalResourceExample.java This example] is given as a full JUnit-based example in the the uimaFIT-examples project.
+
+
+= Using external resources with external resources =
+
+*Requirements: uimaFIT 1.4.0*
+
+With uimaFIT, external resources can be injected into other external resources. The process is slightly different depending on the type of external resource being used.
+
+One kind of resources extend `Resource_ImplBase`. These are the easiest to handle, because uimaFIT's version  of `Resource_ImplBase` already implements the necessary logic. Just be sure to call `super.initialize()` when overriding `initialize()`. Also mind that external resources are not available yet when `initialize()` is called. For any initialization logic that requires resources, override and implement `afterResourcesInitialized()`. Other than that, injection of external resources works as usual.
+
+{{{
+public static class ChainableResource extends Resource_ImplBase {
+	public final static String PARAM__CHAINED_RESOURCE = "chainedResource";
+	@ExternalResource(key = PARAM__CHAINED_RESOURCE)
+	private ChainableResource chainedResource;
+
+	@Override
+	public void afterResourcesInitialized() {
+		// init logic that requires external resources
+	}
+}
+}}}
+
+The other kind of resources implement `SharedResourceObject`. Since this is an interface, uimaFIT cannot provide the initialization logic, so you have to implement a couple of things in the resource:
+
+  * implement `ExternalResourceAware`
+  * declare a configuration parameter `ExternalResourceFactory.PARAM_RESOURCE_NAME` and return its value in `getResourceName()`
+  * invoke `ConfigurationParameterInitializer.initialize()` in the `load()` method.
+
+Again, mind that external resource not properly initialized until uimaFIT invokes `afterResourcesInitialized()`.
+
+{{{
+public class TestSharedResourceObject implements SharedResourceObject, ExternalResourceAware {
+	@ConfigurationParameter(name=ExternalResourceFactory.PARAM_RESOURCE_NAME)
+	private String resourceName;
+
+	public final static String PARAM__CHAINED_RESOURCE = "chainedResource";
+	@ExternalResource(key = PARAM__CHAINED_RESOURCE)
+	private ChainableResource chainedResource;
+
+	public String getResourceName() {
+		return resourceName;
+	}
+
+	public void load(DataResource aData) throws ResourceInitializationException {
+		ConfigurationParameterInitializer.initialize(this, aData);
+		// rest of the init logic that does not require external resources
+	}
+
+	@Override
+	public void afterResourcesInitialized() {
+		// init logic that requires external resources
+	}
+}
+}}}
+
+Nested resources are only initialized if they are used in a pipeline which contains at least one component that calls  `ConfigurationParameterInitializer.initialize()`. Any component extending uimaFIT's component base classes qualifies. If you use nested resources in a pipeline without any uimaFIT-aware components, you can just add uimaFIT's `NoopAnnotator` to the pipeline.
+
+}}}
