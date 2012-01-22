@@ -9,6 +9,7 @@
  * [TwoSidesOfUimaFIT Conceptual Overview]
  * [GettingStarted Getting started tutorial]
  * [http://code.google.com/p/uimafit/source/browse/trunk/uimaFIT/CHANGES CHANGES]
+ * [ReleaseNotes_1_3_0 uimaFIT 1.3.0 release notes]
 
 == Use cases ==
 
