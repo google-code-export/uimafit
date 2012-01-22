@@ -6,9 +6,9 @@ Here is the current (but not perfect) procedure for creating a release:
    * Maven 2.2.1+
    * `settings.xml` file set up as explained in the [https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide Sonatype OSS Maven Repository Usage Guide]
 
-= CHANGES =
+= CHANGES and README =
 
-Be sure that the CHANGES files are up-to-date. At least all fixed issues that are tagged with the milestone that is designated to be released should be in the file.
+Be sure that the CHANGES and README files are up-to-date. At least all fixed issues that are tagged with the milestone that is designated to be released should be in the file.
 
 = Maven release =
 
