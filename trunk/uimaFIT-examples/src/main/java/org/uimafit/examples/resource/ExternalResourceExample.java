@@ -37,6 +37,7 @@ import org.apache.uima.resource.ExternalResourceDescription;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.SharedResourceObject;
 import org.junit.Test;
+import org.uimafit.component.Resource_ImplBase;
 import org.uimafit.descriptor.ExternalResource;
 
 /**
@@ -61,10 +62,10 @@ public class ExternalResourceExample {
 			return uri;
 		}
 	}
-
+	
 	/**
-	 * Example annotator that uses the SharedModel. In the process() we only test if the model was
-	 * properly initialized by uimaFIT
+	 * Example annotator that uses the share model object. In the process() we only test if the
+	 * model was properly initialized by uimaFIT
 	 */
 	public static class Annotator extends org.uimafit.component.JCasAnnotator_ImplBase {
 		final static String MODEL_KEY = "Model";
@@ -76,12 +77,35 @@ public class ExternalResourceExample {
 			assertTrue(model.getUri().endsWith("somemodel.bin"));
 			// Prints the instance ID to the console - this proves the same instance
 			// of the SharedModel is used in both Annotator instances.
-			System.out.println(model);
+			System.out.println(getClass().getSimpleName() + ": " + model);
 		}
 	}
 
 	/**
-	 * JUnit test that illustrates how to configure the Annotator with the SharedModel
+	 * JUnit test that illustrates how to configure the annotator with the shared model object
+	 */
+	@Test
+	public void configureAnnotatorsIndividuallyExample() throws Exception {
+		ExternalResourceDescription extDesc = createExternalResourceDescription(
+				SharedModel.class, new File("somemodel.bin"));
+		
+		// Binding external resource to each Annotator individually
+		AnalysisEngineDescription aed1 = createPrimitiveDescription(Annotator.class,
+				Annotator.MODEL_KEY, extDesc);
+		AnalysisEngineDescription aed2 = createPrimitiveDescription(Annotator.class,
+				Annotator.MODEL_KEY, extDesc);
+
+		// Check the external resource was injected
+		AnalysisEngineDescription aaed = createAggregateDescription(aed1, aed2);
+		AnalysisEngine ae = createAggregate(aaed);
+		ae.process(ae.newJCas());
+	}
+	
+	/**
+	 * JUnit test that illustrates how to configure the Annotator with the SharedModel.
+	 * You should avoid this approach unless you are absolutely sure you need this. For this
+	 * approach to work it must be guaranteed that no two components in the aggregate use the
+	 * same resource key for different resoures, e.g. one "model" for different kinds of models.
 	 */
 	@Test
 	public void configureAggregatedExample() throws Exception {
@@ -97,25 +121,50 @@ public class ExternalResourceExample {
 		AnalysisEngine ae = createAggregate(aaed);
 		ae.process(ae.newJCas());
 	}
+	
+	/**
+	 * Simple example resource that can use another resource.
+	 */
+	public static class ChainableResource extends Resource_ImplBase {
+		public final static String PARAM_CHAINED_RESOURCE = "chainedResource";
+		@ExternalResource(key = PARAM_CHAINED_RESOURCE, mandatory=false)
+		private ChainableResource chainedResource;
+
+		@Override
+		public void afterResourcesInitialized() {
+			// init logic that requires external resources
+			System.out.println(getClass().getSimpleName() + ": " + chainedResource);
+		}
+	}
 
 	/**
-	 * JUnit test that illustrates how to configure the Annotator with the SharedModel
+	 * Example annotator that uses the resource. In the process() we only test if the
+	 * model was properly initialized by uimaFIT
+	 */
+	public static class Annotator2 extends org.uimafit.component.JCasAnnotator_ImplBase {
+		final static String MODEL_KEY = "Model";
+		@ExternalResource(key = MODEL_KEY)
+		private ChainableResource model;
+
+		@Override
+		public void process(JCas aJCas) throws AnalysisEngineProcessException {
+			System.out.println(getClass().getSimpleName() + ": " + model);
+		}
+	}
+
+	/**
+	 * JUnit test that illustrates how to configure the annotator with a chainable resource
 	 */
 	@Test
-	public void configureAnnotatorsIndividuallyExample() throws Exception {
-		AnalysisEngineDescription aed1 = createPrimitiveDescription(Annotator.class);
-		AnalysisEngineDescription aed2 = createPrimitiveDescription(Annotator.class);
-
-		ExternalResourceDescription extDesc = createExternalResourceDescription("sharedModel",
-				SharedModel.class, new File("somemodel.bin").toURI().toURL().toString());
-
-		// Binding external resource to each Annotator individually
-		bindResource(aed1, Annotator.MODEL_KEY, extDesc);
-		bindResource(aed2, Annotator.MODEL_KEY, extDesc);
+	public void configureAnnotatorWithChainedResource() throws Exception {
+		AnalysisEngineDescription aed = createPrimitiveDescription(Annotator2.class,
+				Annotator2.MODEL_KEY, createExternalResourceDescription(
+						ChainableResource.class,
+						ChainableResource.PARAM_CHAINED_RESOURCE, createExternalResourceDescription(
+								ChainableResource.class)));
 
 		// Check the external resource was injected
-		AnalysisEngineDescription aaed = createAggregateDescription(aed1, aed2);
-		AnalysisEngine ae = createAggregate(aaed);
+		AnalysisEngine ae = createAggregate(aed);
 		ae.process(ae.newJCas());
 	}
 }
