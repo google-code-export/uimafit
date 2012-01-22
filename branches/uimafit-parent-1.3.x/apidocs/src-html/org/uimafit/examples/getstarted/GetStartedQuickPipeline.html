@@ -35,22 +35,23 @@
 <FONT color="green">032</FONT>    public class GetStartedQuickPipeline {<a name="line.32"></a>
 <FONT color="green">033</FONT>    <a name="line.33"></a>
 <FONT color="green">034</FONT>            public static void main(String[] args) throws UIMAException {<a name="line.34"></a>
-<FONT color="green">035</FONT>                    // normally you would pass in a list of classes corresponding to type<a name="line.35"></a>
-<FONT color="green">036</FONT>                    // system types here or provide the name of your type system (e.g.<a name="line.36"></a>
-<FONT color="green">037</FONT>                    // "org.uimafit.examples.TypeSystem.xml")<a name="line.37"></a>
-<FONT color="green">038</FONT>                    TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(new Class[0]);<a name="line.38"></a>
-<FONT color="green">039</FONT>                    // uimaFIT doesn't provide any collection readers - so we will just<a name="line.39"></a>
-<FONT color="green">040</FONT>                    // instantiate a JCas and run it through our AE<a name="line.40"></a>
-<FONT color="green">041</FONT>                    JCas jCas = JCasFactory.createJCas(typeSystemDescription);<a name="line.41"></a>
-<FONT color="green">042</FONT>                    // here we will instantiate the analysis engine using the value<a name="line.42"></a>
-<FONT color="green">043</FONT>                    // "uimaFIT" for the parameter "stringParamName".<a name="line.43"></a>
-<FONT color="green">044</FONT>                    AnalysisEngine analysisEngine = AnalysisEngineFactory.createPrimitive(GetStartedQuickAE.class, typeSystemDescription, "stringParamName",<a name="line.44"></a>
-<FONT color="green">045</FONT>                                    "uimaFIT");<a name="line.45"></a>
-<FONT color="green">046</FONT>                    // run the analysis engine and look for a special greeting in your<a name="line.46"></a>
-<FONT color="green">047</FONT>                    // console.<a name="line.47"></a>
-<FONT color="green">048</FONT>                    analysisEngine.process(jCas);<a name="line.48"></a>
-<FONT color="green">049</FONT>            }<a name="line.49"></a>
-<FONT color="green">050</FONT>    }<a name="line.50"></a>
+<FONT color="green">035</FONT>                    // Normally you would pass in a list of type system locations in the classpath here or<a name="line.35"></a>
+<FONT color="green">036</FONT>                    // you make use of the automatic type system detection if you do not specify any arguments.<a name="line.36"></a>
+<FONT color="green">037</FONT>                    // In the latter case, the type systems are resolved using the file<a name="line.37"></a>
+<FONT color="green">038</FONT>                    // META-INF/org.uimafit/types.txt<a name="line.38"></a>
+<FONT color="green">039</FONT>                    TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory<a name="line.39"></a>
+<FONT color="green">040</FONT>                                    .createTypeSystemDescription();<a name="line.40"></a>
+<FONT color="green">041</FONT>                    // uimaFIT doesn't provide any collection readers - so we will just instantiate a JCas and<a name="line.41"></a>
+<FONT color="green">042</FONT>                    // run it through our AE<a name="line.42"></a>
+<FONT color="green">043</FONT>                    JCas jCas = JCasFactory.createJCas(typeSystemDescription);<a name="line.43"></a>
+<FONT color="green">044</FONT>                    // here we will instantiate the analysis engine using the value "uimaFIT" for the parameter<a name="line.44"></a>
+<FONT color="green">045</FONT>                    // "stringParamName".<a name="line.45"></a>
+<FONT color="green">046</FONT>                    AnalysisEngine analysisEngine = AnalysisEngineFactory.createPrimitive(<a name="line.46"></a>
+<FONT color="green">047</FONT>                                    GetStartedQuickAE.class, typeSystemDescription, "stringParamName", "uimaFIT");<a name="line.47"></a>
+<FONT color="green">048</FONT>                    // run the analysis engine and look for a special greeting in your console.<a name="line.48"></a>
+<FONT color="green">049</FONT>                    analysisEngine.process(jCas);<a name="line.49"></a>
+<FONT color="green">050</FONT>            }<a name="line.50"></a>
+<FONT color="green">051</FONT>    }<a name="line.51"></a>
 
 
 

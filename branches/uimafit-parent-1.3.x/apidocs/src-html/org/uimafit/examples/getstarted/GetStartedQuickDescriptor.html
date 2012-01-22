@@ -37,17 +37,22 @@
 <FONT color="green">034</FONT>     */<a name="line.34"></a>
 <FONT color="green">035</FONT>    public class GetStartedQuickDescriptor {<a name="line.35"></a>
 <FONT color="green">036</FONT>    <a name="line.36"></a>
-<FONT color="green">037</FONT>            public static void main(String[] args) throws ResourceInitializationException, FileNotFoundException, SAXException, IOException {<a name="line.37"></a>
-<FONT color="green">038</FONT>                    // normally you would pass in a list of classes corresponding to type<a name="line.38"></a>
-<FONT color="green">039</FONT>                    // system types here<a name="line.39"></a>
-<FONT color="green">040</FONT>                    TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory.createTypeSystemDescription(new Class[0]);<a name="line.40"></a>
-<FONT color="green">041</FONT>                    // here we will instantiate the analysis engine using the value<a name="line.41"></a>
-<FONT color="green">042</FONT>                    // "uimaFIT" for the parameter "stringParamName".<a name="line.42"></a>
-<FONT color="green">043</FONT>                    AnalysisEngineDescription analysisEngineDescription = AnalysisEngineFactory.createPrimitiveDescription(GetStartedQuickAE.class,<a name="line.43"></a>
-<FONT color="green">044</FONT>                                    typeSystemDescription, "stringParamName", "uimaFIT");<a name="line.44"></a>
-<FONT color="green">045</FONT>                    analysisEngineDescription.toXML(new FileOutputStream("GetStartedQuickAE.xml"));<a name="line.45"></a>
-<FONT color="green">046</FONT>            }<a name="line.46"></a>
-<FONT color="green">047</FONT>    }<a name="line.47"></a>
+<FONT color="green">037</FONT>            public static void main(String[] args) throws ResourceInitializationException,<a name="line.37"></a>
+<FONT color="green">038</FONT>                            FileNotFoundException, SAXException, IOException {<a name="line.38"></a>
+<FONT color="green">039</FONT>                    // Normally you would pass in a list of type system locations in the classpath here or<a name="line.39"></a>
+<FONT color="green">040</FONT>                    // you make use of the automatic type system detection if you do not specify any arguments.<a name="line.40"></a>
+<FONT color="green">041</FONT>                    // In the latter case, the type systems are resolved using the file <a name="line.41"></a>
+<FONT color="green">042</FONT>                    // META-INF/org.uimafit/types.txt<a name="line.42"></a>
+<FONT color="green">043</FONT>                    TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory<a name="line.43"></a>
+<FONT color="green">044</FONT>                                    .createTypeSystemDescription();<a name="line.44"></a>
+<FONT color="green">045</FONT>                    // here we will instantiate the analysis engine using the value "uimaFIT" for the parameter<a name="line.45"></a>
+<FONT color="green">046</FONT>                    // "stringParamName".<a name="line.46"></a>
+<FONT color="green">047</FONT>                    AnalysisEngineDescription analysisEngineDescription = AnalysisEngineFactory<a name="line.47"></a>
+<FONT color="green">048</FONT>                                    .createPrimitiveDescription(GetStartedQuickAE.class, typeSystemDescription,<a name="line.48"></a>
+<FONT color="green">049</FONT>                                                    "stringParamName", "uimaFIT");<a name="line.49"></a>
+<FONT color="green">050</FONT>                    analysisEngineDescription.toXML(new FileOutputStream("GetStartedQuickAE.xml"));<a name="line.50"></a>
+<FONT color="green">051</FONT>            }<a name="line.51"></a>
+<FONT color="green">052</FONT>    }<a name="line.52"></a>
 
 
 

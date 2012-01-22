@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-Evaluator (uimaFIT 1.2.0 API)
+Evaluator (uimaFIT 1.3.0 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ Evaluator (uimaFIT 1.2.0 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="Evaluator (uimaFIT 1.2.0 API)";
+        parent.document.title="Evaluator (uimaFIT 1.3.0 API)";
     }
 }
 </SCRIPT>
@@ -91,7 +91,7 @@ org.uimafit.examples.experiment.pos</FONT>
 <BR>
 Class Evaluator</H2>
 <PRE>
-<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
   <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/analysis_component/AnalysisComponent_ImplBase.html?is-external=true" title="class or interface in org.apache.uima.analysis_component">org.apache.uima.analysis_component.AnalysisComponent_ImplBase</A>
       <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/analysis_component/Annotator_ImplBase.html?is-external=true" title="class or interface in org.apache.uima.analysis_component">org.apache.uima.analysis_component.Annotator_ImplBase</A>
           <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/analysis_component/JCasAnnotator_ImplBase.html?is-external=true" title="class or interface in org.apache.uima.analysis_component">org.apache.uima.analysis_component.JCasAnnotator_ImplBase</A>
@@ -103,7 +103,7 @@ Class Evaluator</H2>
 </DL>
 <HR>
 <DL>
-<DT><PRE>public class <A HREF="../../../../../src-html/org/uimafit/examples/experiment/pos/Evaluator.html#line.45"><B>Evaluator</B></A><DT>extends <A HREF="../../../../../org/uimafit/component/JCasAnnotator_ImplBase.html" title="class in org.uimafit.component">JCasAnnotator_ImplBase</A></DL>
+<DT><PRE>public class <A HREF="../../../../../src-html/org/uimafit/examples/experiment/pos/Evaluator.html#line.46"><B>Evaluator</B></A><DT>extends <A HREF="../../../../../org/uimafit/component/JCasAnnotator_ImplBase.html" title="class in org.uimafit.component">JCasAnnotator_ImplBase</A></DL>
 </PRE>
 
 <P>
@@ -170,7 +170,7 @@ This AE evaluates the system part-of-speech tags against the gold
 <TH ALIGN="left"><B>Methods inherited from class org.uimafit.component.<A HREF="../../../../../org/uimafit/component/JCasAnnotator_ImplBase.html" title="class in org.uimafit.component">JCasAnnotator_ImplBase</A></B></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><A HREF="../../../../../org/uimafit/component/JCasAnnotator_ImplBase.html#initialize(org.apache.uima.UimaContext)">initialize</A></CODE></TD>
+<TD><CODE><A HREF="../../../../../org/uimafit/component/JCasAnnotator_ImplBase.html#getLogger()">getLogger</A>, <A HREF="../../../../../org/uimafit/component/JCasAnnotator_ImplBase.html#initialize(org.apache.uima.UimaContext)">initialize</A></CODE></TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_org.apache.uima.analysis_component.JCasAnnotator_ImplBase"><!-- --></A>
@@ -203,10 +203,10 @@ This AE evaluates the system part-of-speech tags against the gold
 &nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
-<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+<TD><CODE><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -225,7 +225,7 @@ This AE evaluates the system part-of-speech tags against the gold
 <A NAME="Evaluator()"><!-- --></A><H3>
 Evaluator</H3>
 <PRE>
-public <A HREF="../../../../../src-html/org/uimafit/examples/experiment/pos/Evaluator.html#line.45"><B>Evaluator</B></A>()</PRE>
+public <A HREF="../../../../../src-html/org/uimafit/examples/experiment/pos/Evaluator.html#line.46"><B>Evaluator</B></A>()</PRE>
 <DL>
 </DL>
 
@@ -242,7 +242,7 @@ public <A HREF="../../../../../src-html/org/uimafit/examples/experiment/pos/Eval
 <A NAME="process(org.apache.uima.jcas.JCas)"><!-- --></A><H3>
 process</H3>
 <PRE>
-public void <A HREF="../../../../../src-html/org/uimafit/examples/experiment/pos/Evaluator.html#line.52"><B>process</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas)
+public void <A HREF="../../../../../src-html/org/uimafit/examples/experiment/pos/Evaluator.html#line.53"><B>process</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas)
              throws <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/analysis_engine/AnalysisEngineProcessException.html?is-external=true" title="class or interface in org.apache.uima.analysis_engine">AnalysisEngineProcessException</A></PRE>
 <DL>
 <DD><DL>
@@ -259,7 +259,7 @@ public void <A HREF="../../../../../src-html/org/uimafit/examples/experiment/pos
 <A NAME="collectionProcessComplete()"><!-- --></A><H3>
 collectionProcessComplete</H3>
 <PRE>
-public void <A HREF="../../../../../src-html/org/uimafit/examples/experiment/pos/Evaluator.html#line.84"><B>collectionProcessComplete</B></A>()
+public void <A HREF="../../../../../src-html/org/uimafit/examples/experiment/pos/Evaluator.html#line.85"><B>collectionProcessComplete</B></A>()
                                throws <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/analysis_engine/AnalysisEngineProcessException.html?is-external=true" title="class or interface in org.apache.uima.analysis_engine">AnalysisEngineProcessException</A></PRE>
 <DL>
 <DD><DL>
@@ -332,6 +332,6 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&n
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2011. All Rights Reserved.
+Copyright &#169; 2012. All Rights Reserved.
 </BODY>
 </HTML>

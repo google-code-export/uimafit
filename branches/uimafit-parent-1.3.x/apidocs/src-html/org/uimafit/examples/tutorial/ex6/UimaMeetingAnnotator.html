@@ -27,7 +27,7 @@
 <FONT color="green">024</FONT>    import static org.uimafit.factory.ExternalResourceFactory.bindResource;<a name="line.24"></a>
 <FONT color="green">025</FONT>    import static org.uimafit.factory.ExternalResourceFactory.createExternalResourceDescription;<a name="line.25"></a>
 <FONT color="green">026</FONT>    import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;<a name="line.26"></a>
-<FONT color="green">027</FONT>    import static org.uimafit.util.JCasUtil.iterate;<a name="line.27"></a>
+<FONT color="green">027</FONT>    import static org.uimafit.util.JCasUtil.select;<a name="line.27"></a>
 <FONT color="green">028</FONT>    <a name="line.28"></a>
 <FONT color="green">029</FONT>    import java.io.File;<a name="line.29"></a>
 <FONT color="green">030</FONT>    import java.io.FileOutputStream;<a name="line.30"></a>
@@ -97,7 +97,7 @@
 <FONT color="green">094</FONT>                    // iterating over.<a name="line.94"></a>
 <FONT color="green">095</FONT>                    List&lt;UimaMeeting&gt; uimaMeetings = new ArrayList&lt;UimaMeeting&gt;();<a name="line.95"></a>
 <FONT color="green">096</FONT>    <a name="line.96"></a>
-<FONT color="green">097</FONT>                    for (Meeting meeting : iterate(aJCas, Meeting.class)) {<a name="line.97"></a>
+<FONT color="green">097</FONT>                    for (Meeting meeting : select(aJCas, Meeting.class)) {<a name="line.97"></a>
 <FONT color="green">098</FONT>                            // get span of text within 50 chars on either side of meeting<a name="line.98"></a>
 <FONT color="green">099</FONT>                            // (window size should probably be a config. param)<a name="line.99"></a>
 <FONT color="green">100</FONT>                            int begin = meeting.getBegin() - 50;<a name="line.100"></a>

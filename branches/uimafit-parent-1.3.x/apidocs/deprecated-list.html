@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-Deprecated List (uimaFIT 1.2.0 API)
+Deprecated List (uimaFIT 1.3.0 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ Deprecated List (uimaFIT 1.2.0 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="Deprecated List (uimaFIT 1.2.0 API)";
+        parent.document.title="Deprecated List (uimaFIT 1.3.0 API)";
     }
 }
 </SCRIPT>
@@ -109,6 +109,22 @@ function windowTitle()
 <B>Deprecated Methods</B></FONT></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><A HREF="org/uimafit/factory/JCasFactory.html#createJCas(java.lang.Class...)">org.uimafit.factory.JCasFactory.createJCas(Class<?>...)</A>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<I>This is not the method you want to use. If you declare only one type per XML type
+             descriptor, you'll end up with LOTS of these. Use
+             <A HREF="org/uimafit/factory/TypeSystemDescriptionFactory.html#createTypeSystemDescription(java.lang.String...)"><CODE>TypeSystemDescriptionFactory.createTypeSystemDescription(String...)</CODE></A> or
+             automatic type system detection with
+             <A HREF="org/uimafit/factory/TypeSystemDescriptionFactory.html#createTypeSystemDescription()"><CODE>TypeSystemDescriptionFactory.createTypeSystemDescription()</CODE></A>.</I>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><A HREF="org/uimafit/factory/TypeSystemDescriptionFactory.html#createTypeSystemDescription(java.lang.Class...)">org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription(Class<?>...)</A>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<I>This is not the method you want to use. If you declare only one type per
+ XML type descriptor, you'll end up with LOTS of these. Use <A HREF="org/uimafit/factory/TypeSystemDescriptionFactory.html#createTypeSystemDescription(java.lang.String...)"><CODE>TypeSystemDescriptionFactory.createTypeSystemDescription(String...)</CODE></A> or automatic type system detection with 
+ <A HREF="org/uimafit/factory/TypeSystemDescriptionFactory.html#createTypeSystemDescription()"><CODE>TypeSystemDescriptionFactory.createTypeSystemDescription()</CODE></A>.</I>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
 <TD><A HREF="org/uimafit/util/CasUtil.html#iterate(org.apache.uima.cas.CAS, org.apache.uima.cas.Type)">org.uimafit.util.CasUtil.iterate(CAS, Type)</A>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<I>use <A HREF="org/uimafit/util/CasUtil.html#select(org.apache.uima.cas.ArrayFS, org.apache.uima.cas.Type)"><CODE>CasUtil.select(org.apache.uima.cas.ArrayFS, org.apache.uima.cas.Type)</CODE></A></I>&nbsp;</TD>
@@ -132,6 +148,41 @@ function windowTitle()
 <TD><A HREF="org/uimafit/util/CasUtil.html#iterateFS(org.apache.uima.cas.CAS, org.apache.uima.cas.Type)">org.uimafit.util.CasUtil.iterateFS(CAS, Type)</A>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<I>use <A HREF="org/uimafit/util/CasUtil.html#selectFS(org.apache.uima.cas.ArrayFS, org.apache.uima.cas.Type)"><CODE>CasUtil.selectFS(org.apache.uima.cas.ArrayFS, org.apache.uima.cas.Type)</CODE></A></I>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><A HREF="org/uimafit/util/ExtendedLogger.html#log(java.lang.String)">org.uimafit.util.ExtendedLogger.log(String)</A>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><A HREF="org/uimafit/util/ExtendedLogger.html#log(java.lang.String, java.lang.String, java.lang.Object[])">org.uimafit.util.ExtendedLogger.log(String, String, Object[])</A>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><A HREF="org/uimafit/util/ExtendedLogger.html#logException(java.lang.Exception)">org.uimafit.util.ExtendedLogger.logException(Exception)</A>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><A HREF="org/uimafit/factory/AnalysisEngineFactory.html#setConfigurationParameters(org.apache.uima.analysis_engine.AnalysisEngineDescription, java.lang.Object...)">org.uimafit.factory.AnalysisEngineFactory.setConfigurationParameters(AnalysisEngineDescription, Object...)</A>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><A HREF="org/uimafit/factory/CollectionReaderFactory.html#setConfigurationParameters(org.apache.uima.collection.CollectionReaderDescription, java.lang.Object...)">org.uimafit.factory.CollectionReaderFactory.setConfigurationParameters(CollectionReaderDescription, Object...)</A>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><A HREF="org/uimafit/util/ExtendedLogger.html#setOutputStream(java.io.OutputStream)">org.uimafit.util.ExtendedLogger.setOutputStream(OutputStream)</A>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><A HREF="org/uimafit/util/ExtendedLogger.html#setOutputStream(java.io.PrintStream)">org.uimafit.util.ExtendedLogger.setOutputStream(PrintStream)</A>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -190,6 +241,6 @@ function windowTitle()
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2011. All Rights Reserved.
+Copyright &#169; 2012. All Rights Reserved.
 </BODY>
 </HTML>

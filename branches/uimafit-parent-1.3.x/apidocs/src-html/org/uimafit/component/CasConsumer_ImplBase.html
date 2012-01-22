@@ -27,23 +27,33 @@
 <FONT color="green">024</FONT>    import org.uimafit.component.initialize.ConfigurationParameterInitializer;<a name="line.24"></a>
 <FONT color="green">025</FONT>    import org.uimafit.component.initialize.ExternalResourceInitializer;<a name="line.25"></a>
 <FONT color="green">026</FONT>    import org.uimafit.descriptor.OperationalProperties;<a name="line.26"></a>
-<FONT color="green">027</FONT>    <a name="line.27"></a>
-<FONT color="green">028</FONT>    /**<a name="line.28"></a>
-<FONT color="green">029</FONT>     * Base class for CAS consumers (actually a {@link CasAnnotator_ImplBase}) which initializes itself<a name="line.29"></a>
-<FONT color="green">030</FONT>     * based on annotations.<a name="line.30"></a>
-<FONT color="green">031</FONT>     *<a name="line.31"></a>
-<FONT color="green">032</FONT>     * @author Richard Eckart de Castilho<a name="line.32"></a>
-<FONT color="green">033</FONT>     */<a name="line.33"></a>
-<FONT color="green">034</FONT>    @OperationalProperties(multipleDeploymentAllowed = false)<a name="line.34"></a>
-<FONT color="green">035</FONT>    public abstract class CasConsumer_ImplBase extends<a name="line.35"></a>
-<FONT color="green">036</FONT>                    org.apache.uima.analysis_component.CasAnnotator_ImplBase {<a name="line.36"></a>
-<FONT color="green">037</FONT>            @Override<a name="line.37"></a>
-<FONT color="green">038</FONT>            public void initialize(UimaContext context) throws ResourceInitializationException {<a name="line.38"></a>
-<FONT color="green">039</FONT>                    super.initialize(context);<a name="line.39"></a>
-<FONT color="green">040</FONT>                    ConfigurationParameterInitializer.initialize(this, context);<a name="line.40"></a>
-<FONT color="green">041</FONT>                    ExternalResourceInitializer.initialize(context, this);<a name="line.41"></a>
-<FONT color="green">042</FONT>            }<a name="line.42"></a>
-<FONT color="green">043</FONT>    }<a name="line.43"></a>
+<FONT color="green">027</FONT>    import org.uimafit.util.ExtendedLogger;<a name="line.27"></a>
+<FONT color="green">028</FONT>    <a name="line.28"></a>
+<FONT color="green">029</FONT>    /**<a name="line.29"></a>
+<FONT color="green">030</FONT>     * Base class for CAS consumers (actually a {@link CasAnnotator_ImplBase}) which initializes itself<a name="line.30"></a>
+<FONT color="green">031</FONT>     * based on annotations.<a name="line.31"></a>
+<FONT color="green">032</FONT>     *<a name="line.32"></a>
+<FONT color="green">033</FONT>     * @author Richard Eckart de Castilho<a name="line.33"></a>
+<FONT color="green">034</FONT>     */<a name="line.34"></a>
+<FONT color="green">035</FONT>    @OperationalProperties(multipleDeploymentAllowed = false)<a name="line.35"></a>
+<FONT color="green">036</FONT>    public abstract class CasConsumer_ImplBase extends<a name="line.36"></a>
+<FONT color="green">037</FONT>                    org.apache.uima.analysis_component.CasAnnotator_ImplBase {<a name="line.37"></a>
+<FONT color="green">038</FONT>            private ExtendedLogger logger;<a name="line.38"></a>
+<FONT color="green">039</FONT>            <a name="line.39"></a>
+<FONT color="green">040</FONT>            public ExtendedLogger getLogger() {<a name="line.40"></a>
+<FONT color="green">041</FONT>                    if (logger == null) {<a name="line.41"></a>
+<FONT color="green">042</FONT>                            logger = new ExtendedLogger(getContext());<a name="line.42"></a>
+<FONT color="green">043</FONT>                    }<a name="line.43"></a>
+<FONT color="green">044</FONT>                    return logger;<a name="line.44"></a>
+<FONT color="green">045</FONT>            }<a name="line.45"></a>
+<FONT color="green">046</FONT>            <a name="line.46"></a>
+<FONT color="green">047</FONT>            @Override<a name="line.47"></a>
+<FONT color="green">048</FONT>            public void initialize(UimaContext context) throws ResourceInitializationException {<a name="line.48"></a>
+<FONT color="green">049</FONT>                    super.initialize(context);<a name="line.49"></a>
+<FONT color="green">050</FONT>                    ConfigurationParameterInitializer.initialize(this, context);<a name="line.50"></a>
+<FONT color="green">051</FONT>                    ExternalResourceInitializer.initialize(context, this);<a name="line.51"></a>
+<FONT color="green">052</FONT>            }<a name="line.52"></a>
+<FONT color="green">053</FONT>    }<a name="line.53"></a>
 
 
 
