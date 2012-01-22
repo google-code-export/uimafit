@@ -18,10 +18,15 @@
  */
 package org.uimafit.component.initialize;
 
+import static org.uimafit.factory.ExternalResourceFactory.PREFIX_SEPARATOR;
 import static org.uimafit.factory.ExternalResourceFactory.createExternalResourceDependency;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -105,9 +110,9 @@ public class ExternalResourceInitializer {
 			// Get the resource key. If it is a nested resource, also get the prefix.
 			String key = getKey(field);
 			if (object instanceof ExternalResourceAware) {
-				String prefix = ((ExternalResourceAware) object).getResourcePrefix();
+				String prefix = ((ExternalResourceAware) object).getResourceName();
 				if (prefix != null) {
-					key = prefix + '.' + key;
+					key = prefix + PREFIX_SEPARATOR + key;
 				}
 			}
 			
@@ -152,8 +157,36 @@ public class ExternalResourceInitializer {
 	 */
 	private static void initializeNestedResources(UimaContext aContext)
 			throws ResourceInitializationException {
+		List<ExternalResourceAware> awareResources = new ArrayList<ExternalResourceAware>();
+		
+		// Initialize the resources - each resource must only be initialized once. We remember
+		// if a resource has already been initialized in a weak hash map, so we automatically
+		// forget about resources that are garbage collected.
+		for (Object r : getResources(aContext)) {
+			synchronized (initializedResources) {
+				if (r instanceof ExternalResourceAware && !initializedResources.containsKey(r)) {
+					// Already mark the resource as initialized so we do not run into an 
+					// endless recursive loop when initialize() is called again.
+					initializedResources.put(r, INITIALIZED);
+					initialize(aContext, r);
+					awareResources.add((ExternalResourceAware) r);
+				}
+			}
+		}
+		
+		// Notify the resources after everything has been configured
+		for (ExternalResourceAware res : awareResources) {
+			res.afterResourcesInitialized();
+		}
+	}
+	
+	/**
+	 * Get all resources declared in the context.
+	 */
+	private static Collection<?> getResources(UimaContext aContext)
+			throws ResourceInitializationException	{
 		if (!(aContext instanceof UimaContextAdmin)) {
-			return;
+			return Collections.emptyList();
 		}
 		
 		ResourceManager resMgr = ((UimaContextAdmin) aContext).getResourceManager();
@@ -174,19 +207,7 @@ public class ExternalResourceInitializer {
 			@SuppressWarnings("unchecked")
 			Map<String, Object> resources = (Map<String, Object>) resourceMapField.get(resMgr);
 			
-			// Initialize the resources - each resource must only be initialized once. We remember
-			// if a resource has already been initialized in a weak hash map, so we automatically
-			// forget about resources that are garbage collected.
-			for (Object r : resources.values()) {
-				synchronized (initializedResources) {
-					if (r instanceof ExternalResourceAware && !initializedResources.containsKey(r)) {
-						// Already mark the resource as initialized so we do not run into an 
-						// endless recursive loop when initialize() is called again.
-						initializedResources.put(r, INITIALIZED);
-						initialize(aContext, r);
-					}
-				}
-			}
+			return resources.values();
 		}
 		catch (SecurityException e) {
 			throw new ResourceInitializationException(e);

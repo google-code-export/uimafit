@@ -18,7 +18,6 @@
  */
 package org.uimafit.component;
 
-import org.apache.uima.resource.Resource;
 import org.uimafit.descriptor.ExternalResource;
 import org.uimafit.factory.ExternalResourceFactory;
 
@@ -30,16 +29,17 @@ import org.uimafit.factory.ExternalResourceFactory;
  */
 public interface ExternalResourceAware {
 	/**
-	 * Get the resource key prefix for nested resources. This prefix is set by {@link 
+	 * Get the name of the resource. This is set by {@link 
 	 * ExternalResourceFactory#bindExternalResource(org.apache.uima.resource.ResourceCreationSpecifier, 
 	 * String, org.apache.uima.resource.ExternalResourceDescription) bindExternalResource()} as the
-	 * parameter {@link ExternalResourceFactory#PARAM_RESOURCE_PREFIX PARAM_RESOURCE_PREFIX}. It
-	 * must be saved in the resource when {@link Resource#initialize(org.apache.uima.resource.ResourceSpecifier,
-	 * java.util.Map) initialize()} is called. This is already implemented in {@link Resource_ImplBase}.
+	 * parameter {@link ExternalResourceFactory#PARAM_RESOURCE_NAME PARAM_RESOURCE_NAME}. 
+	 * <br/>
+	 * <b>It is mandatory that any resource implementing this interface declares the configuration
+	 * parameter {@link ExternalResourceFactory#PARAM_RESOURCE_NAME PARAM_RESOURCE_NAME}.</b>
 	 * 
-	 * @return the resource key prefix.
+	 * @return the resource name.
 	 */
-	String getResourcePrefix();
+	String getResourceName();
 	
 	
 	/**
