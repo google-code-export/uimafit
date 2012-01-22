@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ConfigurationParameter (uimaFIT 1.3.0 API)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ConfigurationParameter (uimaFIT 1.3.0 API)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="class-use/ConfigurationParameter.html"><FONT CLASS="NavBarFont1"><B>Use</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../org/uimafit/descriptor/ExternalResource.html" title="annotation in org.uimafit.descriptor"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?org/uimafit/descriptor/ConfigurationParameter.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ConfigurationParameter.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;REQUIRED&nbsp;|&nbsp;<A HREF="#annotation_type_optional_element_summary">OPTIONAL</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#annotation_type_element_detail">ELEMENT</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.uimafit.descriptor</FONT>
+<BR>
+Annotation Type ConfigurationParameter</H2>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Retention.html?is-external=true" title="class or interface in java.lang.annotation">@Retention</A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Retention.html?is-external=true#value()" title="class or interface in java.lang.annotation">value</A>=<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/RetentionPolicy.html?is-external=true#RUNTIME" title="class or interface in java.lang.annotation">RUNTIME</A>)
+<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Target.html?is-external=true" title="class or interface in java.lang.annotation">@Target</A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Target.html?is-external=true#value()" title="class or interface in java.lang.annotation">value</A>=<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/ElementType.html?is-external=true#FIELD" title="class or interface in java.lang.annotation">FIELD</A>)
+</FONT>public @interface <A HREF="../../../src-html/org/uimafit/descriptor/ConfigurationParameter.html#line.54"><B>ConfigurationParameter</B></A></DL>
+</PRE>
+
+<P>
+This annotation marks an analysis component member variable as a configuration parameter. The
+ types of member variables that can use this annotation are:
+ <ul>
+ <li>primitive types and arrays: <code>boolean</code>, <code>boolean[]</code>, <code>int</code>, <code>int[]</code>,
+ <code>float</code>, <code>float[]</code></li>
+ <li>primitive object wrapper types and arrays: <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><CODE>Boolean</CODE></A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang"><CODE>Boolean</CODE></A><code>[]</code>,
+ <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><CODE>Integer</CODE></A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><CODE>Integer</CODE></A><code>[]</code>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang"><CODE>Float</CODE></A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang"><CODE>Float</CODE></A><code>[]</code></li>
+ <li>strings and string arrays: <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><CODE>String</CODE></A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><CODE>String</CODE></A><code>[]</code></li>
+ <li>enumeration types (<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang"><CODE>Enum</CODE></A>)</li>
+ <li>language/locale: <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.html?is-external=true" title="class or interface in java.util"><CODE>Locale</CODE></A></li>
+ <li>regular expression patterns: <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex"><CODE>Pattern</CODE></A></li>
+ <li>all other types that have a constructor that takes a string as the single argument, e.g.:
+ <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io"><CODE>File</CODE></A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net"><CODE>URL</CODE></A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/net/URI.html?is-external=true" title="class or interface in java.net"><CODE>URI</CODE></A> ...</li>
+ </ul>
+<P>
+
+<P>
+<DL>
+<DT><B>Author:</B></DT>
+  <DD>Philip Ogren</DD>
+<DT><B>See Also:</B><DD><A HREF="../../../org/uimafit/component/initialize/ConfigurationParameterInitializer.html" title="class in org.uimafit.component.initialize"><CODE>ConfigurationParameterInitializer</CODE></A></DL>
+<HR>
+
+<P>
+<!-- =========== ANNOTATION TYPE OPTIONAL MEMBER SUMMARY =========== -->
+
+<A NAME="annotation_type_optional_element_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Optional Element Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/descriptor/ConfigurationParameter.html#defaultValue()">defaultValue</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What can be the value should correspond with the type of the field that is annotated.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/descriptor/ConfigurationParameter.html#description()">description</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A description for the configuration parameter</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/descriptor/ConfigurationParameter.html#mandatory()">mandatory</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;specifies whether this configuration parameter is mandatory - i.e. the value must be provided</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/descriptor/ConfigurationParameter.html#name()">name</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you do not specify a name then the default name will be given by <A HREF="../../../org/uimafit/descriptor/ConfigurationParameter.html#USE_FIELD_NAME"><CODE>USE_FIELD_NAME</CODE></A>
+ will be the default name.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+<A NAME="name()"><!-- --></A><H3>
+name</H3>
+<PRE>
+public abstract <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <A HREF="../../../src-html/org/uimafit/descriptor/ConfigurationParameter.html#line.68"><B>name</B></A></PRE>
+<DL>
+<DD>If you do not specify a name then the default name will be given by <A HREF="../../../org/uimafit/descriptor/ConfigurationParameter.html#USE_FIELD_NAME"><CODE>USE_FIELD_NAME</CODE></A>
+ will be the default name. This tells ConfigurationParameterFactory to use the name of the
+ annotated field as the name of the configuration parameter. The exact name that is used is
+ determined by the method
+ <A HREF="../../../org/uimafit/factory/ConfigurationParameterFactory.html#getConfigurationParameterName(java.lang.reflect.Field)"><CODE>ConfigurationParameterFactory.getConfigurationParameterName(java.lang.reflect.Field)</CODE></A>
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+<DL>
+<DT><B>Default:</B><DD>"org.uimafit.descriptor.ConfigurationParameter.USE_FIELD_NAME"</DD>
+</DL>
+</DL>
+<HR>
+
+<A NAME="description()"><!-- --></A><H3>
+description</H3>
+<PRE>
+public abstract <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <A HREF="../../../src-html/org/uimafit/descriptor/ConfigurationParameter.html#line.73"><B>description</B></A></PRE>
+<DL>
+<DD>A description for the configuration parameter
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+<DL>
+<DT><B>Default:</B><DD>""</DD>
+</DL>
+</DL>
+<HR>
+
+<A NAME="mandatory()"><!-- --></A><H3>
+mandatory</H3>
+<PRE>
+public abstract boolean <A HREF="../../../src-html/org/uimafit/descriptor/ConfigurationParameter.html#line.78"><B>mandatory</B></A></PRE>
+<DL>
+<DD>specifies whether this configuration parameter is mandatory - i.e. the value must be provided
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+<DL>
+<DT><B>Default:</B><DD>false</DD>
+</DL>
+</DL>
+<HR>
+
+<A NAME="defaultValue()"><!-- --></A><H3>
+defaultValue</H3>
+<PRE>
+public abstract <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>[] <A HREF="../../../src-html/org/uimafit/descriptor/ConfigurationParameter.html#line.99"><B>defaultValue</B></A></PRE>
+<DL>
+<DD>What can be the value should correspond with the type of the field that is annotated. If for
+ example, the field is a String, then the default value can be any string - e.g. "asdf". If
+ the field is a boolean, then the default value can be "true" for true or any other string for
+ false. If the field is an integer, then the default value can be any string that
+ Integer.parseInt() can successfully parse. Remember that just because the default value is a
+ string here that you should give an actual integer (not an integer parseable string) value
+ when setting the parameter via e.g. AnalysisEngineFactory.createPrimitiveDescription(). If
+ the field is a float, then the default value can be any string that Float.parseFloat() can
+ successfully parse. Remember that just because the default value is a string here that you
+ should give an actual float value (not a float parseable string) when setting the parameter
+ via e.g. AnalysisEngineFactory.createPrimitiveDescription().
+ <p>
+ If the field is multiValued, then the value should look something like this '{"value1",
+ "value2"}'
+ <p>
+ If you want a field to be initialized with a null value, then do not specify a default value
+ or specify the value given by the field <A HREF="../../../org/uimafit/descriptor/ConfigurationParameter.html#NO_DEFAULT_VALUE"><CODE>NO_DEFAULT_VALUE</CODE></A>
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+<DL>
+<DT><B>Default:</B><DD>"org.uimafit.descriptor.ConfigurationParameter.NO_DEFAULT_VALUE"</DD>
+</DL>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="class-use/ConfigurationParameter.html"><FONT CLASS="NavBarFont1"><B>Use</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../org/uimafit/descriptor/ExternalResource.html" title="annotation in org.uimafit.descriptor"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?org/uimafit/descriptor/ConfigurationParameter.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ConfigurationParameter.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;REQUIRED&nbsp;|&nbsp;<A HREF="#annotation_type_optional_element_summary">OPTIONAL</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#annotation_type_element_detail">ELEMENT</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+Copyright &#169; 2012. All Rights Reserved.
+</BODY>
+</HTML>
