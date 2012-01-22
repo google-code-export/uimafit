@@ -20,7 +20,8 @@
 package org.uimafit.factory;
 
 import static org.apache.uima.UIMAFramework.getResourceSpecifierFactory;
-import static org.uimafit.factory.ConfigurationParameterFactory.*;
+import static org.uimafit.factory.ConfigurationParameterFactory.canParameterBeSet;
+import static org.uimafit.factory.ConfigurationParameterFactory.createConfigurationData;
 
 import java.io.File;
 import java.net.MalformedURLException;
