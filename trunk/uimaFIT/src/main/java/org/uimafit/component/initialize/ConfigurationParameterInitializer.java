@@ -57,19 +57,19 @@ import org.uimafit.util.ReflectionUtil;
 
 public class ConfigurationParameterInitializer {
 
-	private static final Map<Class<?>, Converter<?>> converters = new HashMap<Class<?>, Converter<?>>();
+	private static final Map<Class<?>, Converter<?>> CONVERTERS = new HashMap<Class<?>, Converter<?>>();
 	static {
-		converters.put(Boolean.class, new BooleanConverter());
-		converters.put(Float.class, new FloatConverter());
-		converters.put(double.class, new DoubleConverter());
-		converters.put(Integer.class, new IntegerConverter());
-		converters.put(String.class, new StringConverter());
-		converters.put(boolean.class, new BooleanConverter());
-		converters.put(float.class, new FloatConverter());
-		converters.put(double.class, new DoubleConverter());
-		converters.put(int.class, new IntegerConverter());
-		converters.put(Pattern.class, new PatternConverter());
-		converters.put(Locale.class, new LocaleConverter());
+		CONVERTERS.put(Boolean.class, new BooleanConverter());
+		CONVERTERS.put(Float.class, new FloatConverter());
+		CONVERTERS.put(double.class, new DoubleConverter());
+		CONVERTERS.put(Integer.class, new IntegerConverter());
+		CONVERTERS.put(String.class, new StringConverter());
+		CONVERTERS.put(boolean.class, new BooleanConverter());
+		CONVERTERS.put(float.class, new FloatConverter());
+		CONVERTERS.put(double.class, new DoubleConverter());
+		CONVERTERS.put(int.class, new IntegerConverter());
+		CONVERTERS.put(Pattern.class, new PatternConverter());
+		CONVERTERS.put(Locale.class, new LocaleConverter());
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class ConfigurationParameterInitializer {
 	 * @param context a UIMA context with configuration parameters.
 	 * @throws ResourceInitializationException
 	 */
-	public static void initialize(Object component, UimaContext context)
+	public static void initialize(final Object component, final UimaContext context)
 			throws ResourceInitializationException {
 		for (Field field : ReflectionUtil.getFields(component)) { // component.getClass().getDeclaredFields())
 			// {
@@ -126,7 +126,7 @@ public class ConfigurationParameterInitializer {
 				// this check is already performed by UIMA
 				if (annotation.mandatory()) {
 					if (parameterValue == null) {
-						String key = ResourceInitializationException.CONFIG_SETTING_ABSENT;
+						final String key = ResourceInitializationException.CONFIG_SETTING_ABSENT;
 						throw new ResourceInitializationException(key,
 								new Object[] { configurationParameterName });
 					}
@@ -136,7 +136,7 @@ public class ConfigurationParameterInitializer {
 						continue;
 					}
 				}
-				Object fieldValue = convertValue(field, parameterValue);
+				final Object fieldValue = convertValue(field, parameterValue);
 				try {
 					setParameterValue(component, field, fieldValue);
 				}
@@ -155,7 +155,7 @@ public class ConfigurationParameterInitializer {
 	 * @throws ResourceInitializationException
 	 * @see #initialize(Object, UimaContext)
 	 */
-	public static void initialize(Object component, Map<String, Object> map)
+	public static void initialize(final Object component, final Map<String, Object> map)
 			throws ResourceInitializationException {
 		UimaContextAdmin context = UIMAFramework.newUimaContext(UIMAFramework.getLogger(),
 				UIMAFramework.newDefaultResourceManager(), UIMAFramework.newConfigurationManager());
@@ -293,7 +293,7 @@ public class ConfigurationParameterInitializer {
 			return cls.asSubclass(Collection.class).newInstance();
 		}
 		catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(e); // NOPMD
 		}
 	}
 
@@ -328,17 +328,16 @@ public class ConfigurationParameterInitializer {
 		// should not be instantiated
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static Converter<?> getConverter(Class<?> cls) {
-		Converter<?> converter = converters.get(cls);
+		Converter<?> converter = CONVERTERS.get(cls);
 		if (converter != null) {
 			return converter;
 		}
 
 		// Check if we have an enumeration type
 		if (Enum.class.isAssignableFrom(cls)) {
-			@SuppressWarnings({ "unchecked", "rawtypes" })
-			EnumConverter tmp = new EnumConverter(cls);
-			return tmp;
+			return new EnumConverter(cls);
 		}
 
 		try {
@@ -346,52 +345,52 @@ public class ConfigurationParameterInitializer {
 			return new ConstructorConverter(constructor);
 		}
 		catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException("don't know how to convert type " + cls);
+			throw new IllegalArgumentException("don't know how to convert type " + cls); // NOPMD
 		}
 	}
 
-	private static interface Converter<T> {
-		public T convert(Object o);
+	private interface Converter<T> {
+		T convert(Object aObject);
 	}
 
 	private static class BooleanConverter implements Converter<Boolean> {
-		public Boolean convert(Object o) {
-			return (Boolean) o;
+		public Boolean convert(Object aObject) {
+			return (Boolean) aObject;
 		}
 	}
 
 	private static class FloatConverter implements Converter<Float> {
-		public Float convert(Object o) {
-			return (Float) o;
+		public Float convert(Object aObject) {
+			return (Float) aObject;
 		}
 	}
 
 	private static class DoubleConverter implements Converter<Float> {
-		public Float convert(Object o) {
-			return ((Number) o).floatValue();
+		public Float convert(Object aObject) {
+			return ((Number) aObject).floatValue();
 		}
 	}
 
 	private static class IntegerConverter implements Converter<Integer> {
-		public Integer convert(Object o) {
-			return (Integer) o;
+		public Integer convert(Object aObject) {
+			return (Integer) aObject;
 		}
 	}
 
 	private static class StringConverter implements Converter<String> {
-		public String convert(Object o) {
-			return o.toString();
+		public String convert(Object aObject) {
+			return String.valueOf(aObject);
 		}
 	}
 
 	private static class PatternConverter implements Converter<Pattern> {
-		public Pattern convert(Object o) {
-			return Pattern.compile(o.toString());
+		public Pattern convert(Object aObject) {
+			return Pattern.compile(aObject.toString());
 		}
 	}
 
 	private static class ConstructorConverter implements Converter<Object> {
-		private Constructor<?> constructor;
+		final private Constructor<?> constructor;
 
 		public ConstructorConverter(Constructor<?> constructor) {
 			this.constructor = constructor;
@@ -402,14 +401,14 @@ public class ConfigurationParameterInitializer {
 				return this.constructor.newInstance(o);
 			}
 			catch (Exception e) {
-				throw new RuntimeException(e);
+				throw new RuntimeException(e); // NOPMD
 			}
 		}
 
 	}
 
 	private static class EnumConverter<T extends Enum<T>> implements Converter<Object> {
-		private Class<T> enumClass;
+		final private Class<T> enumClass;
 
 		public EnumConverter(Class<T> aClass) {
 			this.enumClass = aClass;
@@ -420,7 +419,7 @@ public class ConfigurationParameterInitializer {
 				return Enum.valueOf(enumClass, o.toString());
 			}
 			catch (Exception e) {
-				throw new RuntimeException(e);
+				throw new RuntimeException(e); // NOPMD
 			}
 		}
 	}
@@ -430,13 +429,13 @@ public class ConfigurationParameterInitializer {
 			if (o == null) {
 				return Locale.getDefault();
 			}
-			else if (o.equals("")) {
+			else if ("".equals(o)) {
 				return Locale.getDefault();
 			}
 			if (o instanceof String) {
 				return LocaleUtil.getLocale((String) o);
 			}
-			throw new RuntimeException("the value for a locale should be either null or an "
+			throw new IllegalArgumentException("the value for a locale should be either null or an "
 					+ "empty string to get the default locale.  Otherwise, the locale should be "
 					+ "specified by a single string that names a locale constant (e.g. 'US') or "
 					+ "that contains hyphen delimited locale information (e.g. 'en-US').");

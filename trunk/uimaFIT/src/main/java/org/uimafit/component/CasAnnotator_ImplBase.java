@@ -41,7 +41,7 @@ public abstract class CasAnnotator_ImplBase extends
 	}
 	
 	@Override
-	public void initialize(UimaContext context) throws ResourceInitializationException {
+	public void initialize(final UimaContext context) throws ResourceInitializationException {
 		super.initialize(context);
 		ConfigurationParameterInitializer.initialize(this, context);
 		ExternalResourceInitializer.initialize(context, this);

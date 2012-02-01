@@ -39,7 +39,8 @@ public abstract class CasFlowController_ImplBase extends
 	}
 	
 	@Override
-	public void initialize(FlowControllerContext context) throws ResourceInitializationException {
+	public void initialize(final FlowControllerContext context)
+			throws ResourceInitializationException {
 		super.initialize(context);
 		ConfigurationParameterInitializer.initialize(this, context);
 		ExternalResourceInitializer.initialize(context, this);

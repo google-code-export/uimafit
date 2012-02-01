@@ -41,7 +41,7 @@ public class ViewTextCopierAnnotator extends JCasAnnotator_ImplBase {
 	/**
 	 * The parameter name for the name of the source view
 	 */
-	public static String PARAM_SOURCE_VIEW_NAME = ConfigurationParameterFactory
+	public static final String PARAM_SOURCE_VIEW_NAME = ConfigurationParameterFactory
 			.createConfigurationParameterName(ViewTextCopierAnnotator.class, "sourceViewName");
 
 	@ConfigurationParameter(mandatory = true)
@@ -50,16 +50,16 @@ public class ViewTextCopierAnnotator extends JCasAnnotator_ImplBase {
 	/**
 	 * The parameter name for the name of the destination view
 	 */
-	public static String PARAM_DESTINATION_VIEW_NAME = ConfigurationParameterFactory
+	public static final String PARAM_DESTINATION_VIEW_NAME = ConfigurationParameterFactory
 			.createConfigurationParameterName(ViewTextCopierAnnotator.class, "destinationViewName");
 
 	@ConfigurationParameter(mandatory = true)
 	private String destinationViewName;
 
 	@Override
-	public void process(JCas jCas) throws AnalysisEngineProcessException {
+	public void process(final JCas jCas) throws AnalysisEngineProcessException {
 		try {
-			JCas sourceView = jCas.getView(sourceViewName);
+			final JCas sourceView = jCas.getView(sourceViewName);
 			JCas destinationView;
 			try {
 				destinationView = jCas.getView(destinationViewName);

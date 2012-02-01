@@ -59,7 +59,7 @@ public abstract class CasCollectionReader_ImplBase extends CollectionReader_Impl
 	 * @param context
 	 * @throws ResourceInitializationException
 	 */
-	public void initialize(UimaContext context) throws ResourceInitializationException {
+	public void initialize(final UimaContext context) throws ResourceInitializationException {
 		// Nothing by default
 	}
 
