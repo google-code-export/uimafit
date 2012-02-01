@@ -27,31 +27,35 @@ import java.util.List;
  * @author Philip Ogren
  * @author Richard Eckart de Castilho
  */
-public class ReflectionUtil {
+public final class ReflectionUtil {
+	
+	private ReflectionUtil() {
+		// Library class
+	}
 
 	/**
 	 * Get all the fields for the class (and superclasses) of the passed in object
 	 * 
-	 * @param object
+	 * @param aObject
 	 *            any object will do
 	 * @return the fields for the class of the object
 	 */
-	public static List<Field> getFields(Object object) {
-		Class<?> cls = object.getClass();
-		return getFields(cls);
+	public static List<Field> getFields(final Object aObject) {
+		return getFields(aObject.getClass());
 	}
 
 	/**
 	 * Get all the fields for this class and all of its superclasses
 	 * 
-	 * @param cls
+	 * @param aClass
 	 *            any class will do
 	 * @return the fields for the class and all of its superclasses
 	 */
-	public static List<Field> getFields(Class<?> cls) {
-		List<Field> fields = new ArrayList<Field>();
+	public static List<Field> getFields(final Class<?> aClass) {
+		Class<?> cls = aClass;
+		final List<Field> fields = new ArrayList<Field>();
 		while (!cls.equals(Object.class)) {
-			Field[] flds = cls.getDeclaredFields();
+			final Field[] flds = cls.getDeclaredFields();
 			fields.addAll(Arrays.asList(flds));
 			cls = cls.getSuperclass();
 		}
@@ -62,35 +66,35 @@ public class ReflectionUtil {
 	 * Get the given field of the passed in object from its class or the first superclass that
 	 * declares it.
 	 * 
-	 * @param object
+	 * @param aObject
 	 *            any object will do
 	 * @return the fields for the class of the object
 	 * @throws NoSuchFieldException 
 	 */
-	public static Field getField(Object object, String name) throws NoSuchFieldException {
-		Class<?> cls = object.getClass();
-		return getField(cls, name);
+	public static Field getField(final Object aObject, final String aName)
+			throws NoSuchFieldException {
+		return getField(aObject.getClass(), aName);
 	}
 
 	/**
 	 * Get the given field from the class or the first superclass that declares it.
 	 * 
-	 * @param cls
+	 * @param aClass
 	 *            any class will do
 	 * @return the fields for the class of the object
 	 * @throws NoSuchFieldException 
 	 */
-	public static Field getField(Class<?> cls, String name) throws NoSuchFieldException {
+	public static Field getField(final Class<?> aClass, final String aName)
+			throws NoSuchFieldException {
 		try {
-			return cls.getDeclaredField(name);
+			return aClass.getDeclaredField(aName);
 		}
 		catch (NoSuchFieldException e) {
-			if (cls.getSuperclass() != null) {
-				return getField(cls.getSuperclass(), name);
-			}
-			else {
+			if (aClass.getSuperclass() == null) {
 				throw e;
 			}
+			
+			return getField(aClass.getSuperclass(), aName);
 		}
 	}
 
@@ -106,8 +110,8 @@ public class ReflectionUtil {
 	 *            the class to start searching on
 	 * @return the annotation or {@code null} if it could not be found
 	 */
-	public static <T extends Annotation> T getInheritableAnnotation(Class<T> aAnnotation,
-			Class<?> aClass) {
+	public static <T extends Annotation> T getInheritableAnnotation(final Class<T> aAnnotation,
+			final Class<?> aClass) {
 		if (aClass.isAnnotationPresent(aAnnotation)) {
 			return aClass.getAnnotation(aAnnotation);
 		}

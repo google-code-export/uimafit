@@ -138,57 +138,58 @@ public class CasUtil {
 	/**
 	 * Get the CAS type for the given name.
 	 *
-	 * @param cas
+	 * @param aCas
 	 *            the CAS hosting the type system.
-	 * @param typeName
+	 * @param aTypename
 	 *            the fully qualified type name.
 	 * @return the CAS type.
 	 */
-	public static Type getType(CAS cas, String typeName) {
+	public static Type getType(CAS aCas, String aTypename) {
+		String typeName = aTypename;
 		if (typeName.startsWith(UIMA_BUILTIN_JCAS_PREFIX)) {
 			typeName = "uima." + typeName.substring(UIMA_BUILTIN_JCAS_PREFIX.length());
 		}
-		Type t = cas.getTypeSystem().getType(typeName);
-		if (t == null) {
-			throw new IllegalArgumentException("Undeclared type [" + typeName + "]");
+		final Type type = aCas.getTypeSystem().getType(typeName);
+		if (type == null) {
+			throw new IllegalArgumentException("Undeclared type [" + aTypename + "]");
 		}
-		return t;
+		return type;
 	}
 
 	/**
 	 * Get the CAS type for the given JCas wrapper class making sure it is or inherits from
 	 * {@link Annotation}.
 	 *
-	 * @param cas
+	 * @param aCas
 	 *            the CAS hosting the type system.
-	 * @param type
+	 * @param aJCasClass
 	 *            the JCas wrapper class.
 	 * @return the CAS type.
 	 */
-	public static Type getAnnotationType(CAS cas, Class<?> type) {
-		Type t = getType(cas, type);
-		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), t)) {
-			throw new IllegalArgumentException("Type [" + type.getName()
+	public static Type getAnnotationType(CAS aCas, Class<?> aJCasClass) {
+		final Type type = getType(aCas, aJCasClass);
+		if (!aCas.getTypeSystem().subsumes(aCas.getAnnotationType(), type)) {
+			throw new IllegalArgumentException("Type [" + aJCasClass.getName()
 					+ "] is not an annotation type");
 		}
-		return t;
+		return type;
 	}
 
 	/**
 	 * Get the CAS type for the given name making sure it is or inherits from Annotation.
 	 *
-	 * @param cas
+	 * @param aCas
 	 *            the CAS hosting the type system.
-	 * @param typeName
+	 * @param aTypeName
 	 *            the fully qualified type name.
 	 * @return the CAS type.
 	 */
-	public static Type getAnnotationType(CAS cas, String typeName) {
-		Type t = getType(cas, typeName);
-		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), t)) {
-			throw new IllegalArgumentException("Type [" + typeName + "] is not an annotation type");
+	public static Type getAnnotationType(CAS aCas, String aTypeName) {
+		Type type = getType(aCas, aTypeName);
+		if (!aCas.getTypeSystem().subsumes(aCas.getAnnotationType(), type)) {
+			throw new IllegalArgumentException("Type [" + aTypeName + "] is not an annotation type");
 		}
-		return t;
+		return type;
 	}
 
 	/**
@@ -215,7 +216,7 @@ public class CasUtil {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Collection<AnnotationFS> select(ArrayFS array, Type type) {
-		CAS cas = array.getCAS();
+		final CAS cas = array.getCAS();
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
 			throw new IllegalArgumentException("Type [" + type.getName()
 					+ "] is not an annotation type");

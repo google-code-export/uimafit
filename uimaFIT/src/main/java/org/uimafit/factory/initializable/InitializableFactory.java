@@ -65,8 +65,8 @@ public final class InitializableFactory {
 			return cls;
 		}
 		catch (Exception e) {
-			throw new ResourceInitializationException(new Throwable("classname = " + className
-					+ " superClass = " + superClass.getName(), e));
+			throw new ResourceInitializationException(new IllegalStateException("classname = "
+					+ className + " superClass = " + superClass.getName(), e));
 		}
 	}
 
