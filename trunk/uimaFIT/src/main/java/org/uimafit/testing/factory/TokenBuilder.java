@@ -174,36 +174,36 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 	/**
 	 * Build tokens for the given text, tokens, part-of-speech tags, and word stems.
 	 * 
-	 * @param jCas
+	 * @param aJCas
 	 *            the JCas to add the Token annotations to
-	 * @param text
+	 * @param aText
 	 *            this method sets the text of the JCas to this method. Therefore, it is generally a
 	 *            good idea to call JCas.reset() before calling this method when passing in the
 	 *            default view.
-	 * @param tokensString
+	 * @param aTokensString
 	 *            the tokensString must have the same non-white space characters as the text. The
 	 *            tokensString is used to identify token boundaries using white space - i.e. the
 	 *            only difference between the 'text' parameter and the 'tokensString' parameter is
 	 *            that the latter may have more whitespace characters. For example, if the text is
 	 *            "She ran." then the tokensString might be "She ran ."
-	 * @param posTagsString
+	 * @param aPosTagsString
 	 *            the posTagsString should be a space delimited string of part-of-speech tags - one
 	 *            for each token
-	 * @param stemsString
+	 * @param aStemsString
 	 *            the stemsString should be a space delimitied string of stems - one for each token
 	 * @throws UIMAException
 	 */
-	public void buildTokens(JCas jCas, String text, String tokensString, String posTagsString,
-			String stemsString) throws UIMAException {
-		jCas.setDocumentText(text);
+	public void buildTokens(JCas aJCas, String aText, String aTokensString, String aPosTagsString,
+			String aStemsString) throws UIMAException {
+		aJCas.setDocumentText(aText);
 
-		if (posTagsString != null && posFeatureName == null) {
+		if (aPosTagsString != null && posFeatureName == null) {
 			throw new IllegalArgumentException("posTagsString must be null if TokenBuilder is "
 					+ "not initialized with a feature name corresponding to the part-of-speech "
 					+ "feature of the token type (assuming your token type has such a feature).");
 		}
 
-		if (stemsString != null && stemFeatureName == null) {
+		if (aStemsString != null && stemFeatureName == null) {
 			throw new IllegalArgumentException(
 					"stemsString must be null if TokenBuilder is not "
 							+ "initialized with a feature name corresponding to the part-of-speech feature "
@@ -214,19 +214,19 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 		if (posFeatureName != null) {
 			// String fullPosFeatureName = tokenClass.getClass().getName()+":"+posFeatureName;
 			// posFeature = jCas.getTypeSystem().getFeatureByFullName(fullPosFeatureName);
-			posFeature = jCas.getTypeSystem().getType(tokenClass.getName())
+			posFeature = aJCas.getTypeSystem().getType(tokenClass.getName())
 					.getFeatureByBaseName(posFeatureName);
 		}
 		Feature stemFeature = null;
 		if (stemFeatureName != null) {
-			stemFeature = jCas.getTypeSystem().getType(tokenClass.getName())
+			stemFeature = aJCas.getTypeSystem().getType(tokenClass.getName())
 					.getFeatureByBaseName(stemFeatureName);
 		}
 
-		tokensString = tokensString.replaceAll("\\s*\n\\s*", "\n");
+		String tokensString = aTokensString.replaceAll("\\s*\n\\s*", "\n");
 		String[] sentenceStrings = tokensString.split("\n");
-		String[] posTags = posTagsString != null ? posTagsString.split("\\s+") : null;
-		String[] stems = stemsString != null ? stemsString.split("\\s+") : null;
+		String[] posTags = aPosTagsString != null ? aPosTagsString.split("\\s+") : null;
+		String[] stems = aStemsString != null ? aStemsString.split("\\s+") : null;
 
 		int offset = 0;
 		int tokenIndex = 0;
@@ -236,9 +236,9 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 			List<Annotation> tokenAnnotations = new ArrayList<Annotation>();
 			for (String tokenString : tokenStrings) {
 				// move the offset up to the beginning of the token
-				while (!text.startsWith(tokenString, offset)) {
+				while (!aText.startsWith(tokenString, offset)) {
 					offset++;
-					if (offset > text.length()) {
+					if (offset > aText.length()) {
 						throw new IllegalArgumentException(String.format(
 								"unable to find string %s", tokenString));
 					}
@@ -247,7 +247,7 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 				// add the Token
 				int start = offset;
 				offset = offset + tokenString.length();
-				Annotation token = AnnotationFactory.createAnnotation(jCas, start, offset,
+				Annotation token = AnnotationFactory.createAnnotation(aJCas, start, offset,
 						tokenClass);
 				tokenAnnotations.add(token);
 
@@ -263,7 +263,7 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 			if (tokenAnnotations.size() > 0) {
 				int begin = tokenAnnotations.get(0).getBegin();
 				int end = tokenAnnotations.get(tokenAnnotations.size() - 1).getEnd();
-				AnnotationFactory.createAnnotation(jCas, begin, end, sentenceClass);
+				AnnotationFactory.createAnnotation(aJCas, begin, end, sentenceClass);
 			}
 		}
 

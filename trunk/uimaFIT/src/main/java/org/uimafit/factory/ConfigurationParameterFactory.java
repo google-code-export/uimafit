@@ -220,13 +220,13 @@ public final class ConfigurationParameterFactory {
 	 * @throws RuntimeException
 	 */
 	public static String createConfigurationParameterName(Class<?> clazz, String fieldName)
-			throws RuntimeException {
+			throws IllegalArgumentException {
 		try {
 			return ConfigurationParameterFactory.getConfigurationParameterName(clazz
 					.getDeclaredField(fieldName));
 		}
 		catch (NoSuchFieldException e) {
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException(e);
 		}
 	}
 

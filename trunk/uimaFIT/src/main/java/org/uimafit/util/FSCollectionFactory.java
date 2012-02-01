@@ -645,10 +645,10 @@ public abstract class FSCollectionFactory<T extends FeatureStructure> extends Ab
 
 	private static class FSIteratorAdapter<T extends FeatureStructure> extends FSCollectionFactory<T>
 	{
-		private volatile int sizeCache = -1;
+		private int sizeCache = -1;
 		private final FSIterator<T> index;
 
-		public FSIteratorAdapter(FSIterator<T> aIterator)
+		public FSIteratorAdapter(final FSIterator<T> aIterator)
 		{
 			index = aIterator.copy();
 			index.moveToFirst();

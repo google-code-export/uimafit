@@ -164,10 +164,6 @@
             <ruleset>Basic Rules</ruleset>
         </rule>
         <rule>
-            <name>AvoidUsingShortType</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
             <name>AvoidUsingVolatile</name>
             <ruleset>Controversial Rules</ruleset>
         </rule>
@@ -550,10 +546,6 @@
         <rule>
             <name>MissingStaticMethodInNonInstantiatableClass</name>
             <ruleset>Design Rules</ruleset>
-        </rule>
-        <rule>
-            <name>MoreThanOneLogger</name>
-            <ruleset>Java Logging Rules</ruleset>
         </rule>
         <rule>
             <name>NcssConstructorCount</name>
