@@ -49,9 +49,8 @@ public abstract class Resource_ImplBase extends org.apache.uima.resource.Resourc
 	}
 	
 	@Override
-	public boolean initialize(ResourceSpecifier aSpecifier, Map<String, Object> aAdditionalParams)
-		throws ResourceInitializationException
-	{
+	public boolean initialize(final ResourceSpecifier aSpecifier,
+			final Map<String, Object> aAdditionalParams) throws ResourceInitializationException {
 		if (!super.initialize(aSpecifier, aAdditionalParams)) {
 			return false;
 		}

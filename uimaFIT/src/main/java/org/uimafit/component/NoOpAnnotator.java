@@ -27,7 +27,7 @@ import org.apache.uima.cas.CAS;
  */
 public class NoOpAnnotator extends CasAnnotator_ImplBase {
 	@Override
-	public void process(CAS aCAS) throws AnalysisEngineProcessException {
+	public void process(final CAS aCAS) throws AnalysisEngineProcessException {
 		// Do nothing at all
 	}
 }

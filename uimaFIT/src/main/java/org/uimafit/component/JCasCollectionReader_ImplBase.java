@@ -63,12 +63,12 @@ public abstract class JCasCollectionReader_ImplBase extends CollectionReader_Imp
 	 * @param context
 	 * @throws ResourceInitializationException
 	 */
-	public void initialize(UimaContext context) throws ResourceInitializationException {
+	public void initialize(final UimaContext context) throws ResourceInitializationException {
 		// Nothing by default
 	}
 
 	// This method should not be overwritten. Overwrite getNext(JCas) instead.
-	public final void getNext(CAS cas) throws IOException, CollectionException {
+	public final void getNext(final CAS cas) throws IOException, CollectionException {
 		try {
 			getNext(cas.getJCas());
 		}
