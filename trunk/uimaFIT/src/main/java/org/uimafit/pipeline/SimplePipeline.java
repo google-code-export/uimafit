@@ -17,6 +17,9 @@
 
 package org.uimafit.pipeline;
 
+import static java.util.Arrays.asList;
+import static org.uimafit.factory.AnalysisEngineFactory.createAggregate;
+import static org.uimafit.factory.AnalysisEngineFactory.createAggregateDescription;
 import static org.uimafit.factory.CollectionReaderFactory.createCollectionReader;
 
 import java.io.IOException;
@@ -30,11 +33,11 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.collection.CollectionReaderDescription;
+import org.apache.uima.collection.base_cpm.BaseCollectionReader;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.Resource;
 import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.util.CasCreationUtils;
-import org.uimafit.factory.AnalysisEngineFactory;
 
 /**
  * @author Steven Bethard, Philip Ogren
@@ -61,16 +64,32 @@ public final class SimplePipeline {
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public static void runPipeline(CollectionReader reader, AnalysisEngineDescription... descs)
-			throws UIMAException, IOException {
-		// Create the components
-		AnalysisEngine[] engines = createEngines(descs);
+	public static void runPipeline(final CollectionReader reader,
+			final AnalysisEngineDescription... descs) throws UIMAException, IOException {
+		// Create AAE
+		final AnalysisEngineDescription aaeDesc = createAggregateDescription(descs);
 
-		// Run the pipeline
-		runPipeline(reader, engines);
+		// Instantiate AAE
+		final AnalysisEngine aae = createAggregate(aaeDesc);
 
-		// Destroy the components
-		destroy(engines);
+		// Create CAS from merged metadata
+		final CAS cas = CasCreationUtils.createCas(asList(reader.getMetaData(), aae.getMetaData()));
+		
+		try {
+			// Process
+			while (reader.hasNext()) {
+				reader.getNext(cas);
+				aae.process(cas);
+				cas.reset();
+			}
+			
+			// Signal end of processing
+			aae.collectionProcessComplete();
+		}
+		finally {
+			// Destroy
+			aae.destroy();
+		}
 	}
 
 	/**
@@ -88,34 +107,19 @@ public final class SimplePipeline {
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public static void runPipeline(CollectionReaderDescription readerDesc, AnalysisEngineDescription... descs)
-			throws UIMAException, IOException {
+	public static void runPipeline(final CollectionReaderDescription readerDesc,
+			final AnalysisEngineDescription... descs) throws UIMAException, IOException {
 		// Create the components
-		AnalysisEngine[] engines = createEngines(descs);
-		CollectionReader reader = createCollectionReader(readerDesc);
+		final CollectionReader reader = createCollectionReader(readerDesc);
 
-		// Run the pipeline
-		runPipeline(reader, engines);
-
-		// Destroy the components
-		reader.close();
-		destroy(reader);
-		destroy(engines);
-	}
-
-	private static AnalysisEngine[] createEngines(AnalysisEngineDescription... descs)
-			throws UIMAException {
-		AnalysisEngine[] engines = new AnalysisEngine[descs.length];
-		for (int i = 0; i < engines.length; ++i) {
-			if (descs[i].isPrimitive()) {
-				engines[i] = AnalysisEngineFactory.createPrimitive(descs[i]);
-			}
-			else {
-				engines[i] = AnalysisEngineFactory.createAggregate(descs[i]);
-			}
+		try {
+			// Run the pipeline
+			runPipeline(reader, descs);
 		}
-		return engines;
-
+		finally {
+			close(reader);
+			destroy(reader);
+		}
 	}
 
 	/**
@@ -131,15 +135,15 @@ public final class SimplePipeline {
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public static void runPipeline(CollectionReader reader, AnalysisEngine... engines)
+	public static void runPipeline(final CollectionReader reader, final AnalysisEngine... engines)
 			throws UIMAException, IOException {
-		List<ResourceMetaData> metaData = new ArrayList<ResourceMetaData>();
+		final List<ResourceMetaData> metaData = new ArrayList<ResourceMetaData>();
 		metaData.add(reader.getMetaData());
 		for (AnalysisEngine engine : engines) {
 			metaData.add(engine.getMetaData());
 		}
 
-		CAS cas = CasCreationUtils.createCas(metaData);
+		final CAS cas = CasCreationUtils.createCas(metaData);
 		while (reader.hasNext()) {
 			reader.getNext(cas);
 			runPipeline(cas, engines);
@@ -153,6 +157,37 @@ public final class SimplePipeline {
 	 * Run a sequence of {@link AnalysisEngine analysis engines} over a {@link JCas}. The result of
 	 * the analysis can be read from the JCas.
 	 *
+	 * @param aCas
+	 *            the CAS to process
+	 * @param aDescs
+	 *            a sequence of analysis engines to run on the jCas
+	 * @throws UIMAException
+	 * @throws IOException
+	 */
+	public static void runPipeline(final CAS aCas, final AnalysisEngineDescription... aDescs)
+			throws UIMAException, IOException {
+		// Create aggregate AE
+		final AnalysisEngineDescription aaeDesc = createAggregateDescription(aDescs);
+
+		// Instantiate
+		final AnalysisEngine aae = createAggregate(aaeDesc);
+		try {
+			// Process
+			aae.process(aCas);
+			
+			// Signal end of processing
+			aae.collectionProcessComplete();
+		}
+		finally {
+			// Destroy
+			aae.destroy();
+		}
+	}
+
+	/**
+	 * Run a sequence of {@link AnalysisEngine analysis engines} over a {@link JCas}. The result of
+	 * the analysis can be read from the JCas.
+	 *
 	 * @param jCas
 	 *            the jCas to process
 	 * @param descs
@@ -160,16 +195,9 @@ public final class SimplePipeline {
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public static void runPipeline(JCas jCas, AnalysisEngineDescription... descs)
+	public static void runPipeline(final JCas jCas, final AnalysisEngineDescription... descs)
 			throws UIMAException, IOException {
-		// Create the components
-		AnalysisEngine[] engines = createEngines(descs);
-
-		// Run the pipeline
-		runPipeline(jCas, engines);
-
-		// Destroy the components
-		destroy(engines);
+		runPipeline(jCas.getCas(), descs);
 	}
 
 	/**
@@ -184,8 +212,8 @@ public final class SimplePipeline {
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public static void runPipeline(JCas jCas, AnalysisEngine... engines) throws UIMAException,
-			IOException {
+	public static void runPipeline(final JCas jCas, final AnalysisEngine... engines)
+			throws UIMAException, IOException {
 		for (AnalysisEngine engine : engines) {
 			engine.process(jCas);
 		}
@@ -203,8 +231,8 @@ public final class SimplePipeline {
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public static void runPipeline(CAS cas, AnalysisEngine... engines) throws UIMAException,
-			IOException {
+	public static void runPipeline(final CAS cas, final AnalysisEngine... engines)
+			throws UIMAException, IOException {
 		for (AnalysisEngine engine : engines) {
 			engine.process(cas);
 		}
@@ -213,7 +241,7 @@ public final class SimplePipeline {
 	/**
 	 * Notify a set of {@link AnalysisEngine analysis engines} that the collection process is complete.
 	 */
-	private static void collectionProcessComplete(AnalysisEngine... engines)
+	private static void collectionProcessComplete(final AnalysisEngine... engines)
 			throws AnalysisEngineProcessException {
 		for (AnalysisEngine e : engines) {
 			e.collectionProcessComplete();
@@ -223,10 +251,26 @@ public final class SimplePipeline {
 	/**
 	 * Destroy a set of {@link Resource resources}.
 	 */
-	private static void destroy(Resource... resources)
+	private static void destroy(final Resource... resources)
 	{
 		for (Resource r : resources) {
-			r.destroy();
+			if (r != null) {
+				r.destroy();
+			}
+		}
+	}
+	
+	private static void close(final BaseCollectionReader aReader)
+	{
+		if (aReader == null) {
+			return;
+		}
+		
+		try {
+			aReader.close();
+		}
+		catch (IOException e) {
+			// Ignore.
 		}
 	}
 }
