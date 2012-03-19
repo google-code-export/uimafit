@@ -1,4 +1,5 @@
 changes in 1.4.0
+    - resolved issue #115: AAEs to run multi-step pipelines
 	- resolved issue #109: Support nested resources
 
 changes in 1.3.0
