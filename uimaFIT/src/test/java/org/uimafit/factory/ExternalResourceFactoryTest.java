@@ -23,10 +23,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.uimafit.factory.AnalysisEngineFactory.createAggregate;
+import static org.uimafit.factory.AnalysisEngineFactory.createAggregateDescription;
 import static org.uimafit.factory.AnalysisEngineFactory.createPrimitiveDescription;
 import static org.uimafit.factory.ExternalResourceFactory.bindExternalResource;
 import static org.uimafit.factory.ExternalResourceFactory.bindResource;
 import static org.uimafit.factory.ExternalResourceFactory.createDependencyAndBind;
+import static org.uimafit.factory.ExternalResourceFactory.createExternalResourceDescription;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +55,7 @@ import org.apache.uima.resource.ParameterizedDataResource;
 import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.SharedResourceObject;
+import org.apache.uima.util.CasCreationUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.mock.jndi.SimpleNamingContextBuilder;
@@ -62,6 +66,7 @@ import org.uimafit.component.initialize.ConfigurationParameterInitializer;
 import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.descriptor.ExternalResource;
 import org.uimafit.factory.locator.JndiResourceLocator;
+import org.uimafit.pipeline.SimplePipeline;
 import org.uimafit.util.SimpleNamedResourceManager;
 
 /**
@@ -149,6 +154,28 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 		assertNotNull(ae);
 
 		ae.process(ae.newJCas());
+	}
+	
+	@Test
+	public void testMultiBinding() throws Exception {
+		ExternalResourceDescription extDesc = createExternalResourceDescription(
+				DummyResource.class);
+		
+		// Binding external resource to each Annotator individually
+		AnalysisEngineDescription aed1 = createPrimitiveDescription(MultiBindAE.class,
+				MultiBindAE.RES_KEY, extDesc);
+		AnalysisEngineDescription aed2 = createPrimitiveDescription(MultiBindAE.class,
+				MultiBindAE.RES_KEY, extDesc);
+
+		// Check the external resource was injected
+		AnalysisEngineDescription aaed = createAggregateDescription(aed1, aed2);
+		AnalysisEngine ae = createAggregate(aaed);
+		ae.process(ae.newJCas());
+
+		MultiBindAE.reset();
+		
+		// Check the external resource was injected
+		SimplePipeline.runPipeline(CasCreationUtils.createCas(aaed.getAnalysisEngineMetaData()), aaed);
 	}
 
 	private static void bindResources(AnalysisEngineDescription desc) throws Exception {
@@ -267,6 +294,35 @@ public class ExternalResourceFactoryTest extends ComponentTestBase {
 			super.process(aJCas);
 			assertEquals("Just an injected POJO", injectedString);
 			assertEquals(5, injectedAtomicInt.intValue());
+		}
+	}
+	
+	/**
+	 * Example annotator that uses the share model object. In the process() we only test if the
+	 * model was properly initialized by uimaFIT
+	 */
+	public static class MultiBindAE extends org.uimafit.component.JCasAnnotator_ImplBase {
+		static int prevHashCode = -1;
+		
+		static final String RES_KEY = "Res";
+		@ExternalResource(key = RES_KEY)
+		DummyResource res;
+
+		@Override
+		public void process(JCas aJCas) throws AnalysisEngineProcessException {
+			if (prevHashCode == -1) {
+				prevHashCode = res.hashCode();
+			}
+			else {
+				assertEquals(prevHashCode, res.hashCode());
+			}
+			
+			System.out.println(getClass().getSimpleName() + ": " + res);
+		}
+		
+		public static void reset()
+		{
+			prevHashCode = -1;
 		}
 	}
 
