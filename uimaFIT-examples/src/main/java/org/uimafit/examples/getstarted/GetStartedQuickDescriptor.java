@@ -22,9 +22,7 @@ import java.io.IOException;
 
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.uimafit.factory.AnalysisEngineFactory;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
 import org.xml.sax.SAXException;
 
 /**
@@ -36,17 +34,15 @@ public class GetStartedQuickDescriptor {
 
 	public static void main(String[] args) throws ResourceInitializationException,
 			FileNotFoundException, SAXException, IOException {
-		// Normally you would pass in a list of type system locations in the classpath here or
-		// you make use of the automatic type system detection if you do not specify any arguments.
-		// In the latter case, the type systems are resolved using the file 
-		// META-INF/org.uimafit/types.txt
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory
-				.createTypeSystemDescription();
-		// here we will instantiate the analysis engine using the value "uimaFIT" for the parameter
-		// "stringParamName".
+		// uimaFIT automatically uses all type systems listed in META-INF/org.uimafit/types.txt
+		
+		// Instantiate the analysis engine using the value "uimaFIT" for the parameter
+		// PARAM_STRING ("stringParam").
 		AnalysisEngineDescription analysisEngineDescription = AnalysisEngineFactory
-				.createPrimitiveDescription(GetStartedQuickAE.class, typeSystemDescription,
-						"stringParamName", "uimaFIT");
+				.createPrimitiveDescription(GetStartedQuickAE.class,
+						GetStartedQuickAE.PARAM_STRING, "uimaFIT");
+		
+		// Write the descriptor to an XML file
 		analysisEngineDescription.toXML(new FileOutputStream("GetStartedQuickAE.xml"));
 	}
 }
