@@ -80,13 +80,20 @@ so that it is up-to-date.
 After all of the above steps are complete, send an announcement to uimafit-users@googlegroups.com. Here is a template for the email:
 
 {{{
-subject: uimaFIT <version> released
+The uimaFIT development team is pleased to announce the release of uimaFIT 1.3.0.  
 
-The uimaFIT development team is pleased to announce a new release of uimaFIT, version <version>.  To view the README for this release, please visit:
-http://code.google.com/p/uimafit/source/browse/tags/uimafit-parent-1.1.0/uimaFIT/README
+Changes in brief
 
-To view the CHANGES for this release, please visit:
-http://code.google.com/p/uimafit/source/browse/tags/uimafit-parent-1.1.0/uimaFIT/CHANGES
+- ...
+
+To view the release notes for this release, please visit:
+http://code.google.com/p/uimafit/wiki/ReleaseNotes_1_3_0
+
+To view the full list of changes for this release, please visit:
+http://code.google.com/p/uimafit/source/browse/tags/uimafit-parent-1.3.0/uimaFIT/CHANGES
+
+To view the readme for this release, please visit:
+http://code.google.com/p/uimafit/source/browse/tags/uimafit-parent-1.3.0/uimaFIT/README
 
 Please visit the project home page for information about how to add uimaFIT as a dependency to your Maven built project:
 http://uimafit.googlecode.com
