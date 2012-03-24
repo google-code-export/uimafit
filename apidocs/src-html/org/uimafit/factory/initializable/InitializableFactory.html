@@ -68,8 +68,8 @@
 <FONT color="green">065</FONT>                            return cls;<a name="line.65"></a>
 <FONT color="green">066</FONT>                    }<a name="line.66"></a>
 <FONT color="green">067</FONT>                    catch (Exception e) {<a name="line.67"></a>
-<FONT color="green">068</FONT>                            throw new ResourceInitializationException(new Throwable("classname = " + className<a name="line.68"></a>
-<FONT color="green">069</FONT>                                            + " superClass = " + superClass.getName(), e));<a name="line.69"></a>
+<FONT color="green">068</FONT>                            throw new ResourceInitializationException(new IllegalStateException("classname = "<a name="line.68"></a>
+<FONT color="green">069</FONT>                                            + className + " superClass = " + superClass.getName(), e));<a name="line.69"></a>
 <FONT color="green">070</FONT>                    }<a name="line.70"></a>
 <FONT color="green">071</FONT>            }<a name="line.71"></a>
 <FONT color="green">072</FONT>    <a name="line.72"></a>

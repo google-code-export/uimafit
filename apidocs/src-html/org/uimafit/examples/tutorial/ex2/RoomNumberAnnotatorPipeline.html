@@ -20,34 +20,34 @@
 <FONT color="green">017</FONT>    package org.uimafit.examples.tutorial.ex2;<a name="line.17"></a>
 <FONT color="green">018</FONT>    <a name="line.18"></a>
 <FONT color="green">019</FONT>    import static org.uimafit.factory.AnalysisEngineFactory.createPrimitive;<a name="line.19"></a>
-<FONT color="green">020</FONT>    import static org.uimafit.factory.JCasFactory.createJCas;<a name="line.20"></a>
-<FONT color="green">021</FONT>    import static org.uimafit.factory.TypeSystemDescriptionFactory.createTypeSystemDescription;<a name="line.21"></a>
-<FONT color="green">022</FONT>    import static org.uimafit.util.JCasUtil.iterate;<a name="line.22"></a>
-<FONT color="green">023</FONT>    <a name="line.23"></a>
-<FONT color="green">024</FONT>    import org.apache.uima.UIMAException;<a name="line.24"></a>
-<FONT color="green">025</FONT>    import org.apache.uima.analysis_engine.AnalysisEngine;<a name="line.25"></a>
-<FONT color="green">026</FONT>    import org.apache.uima.jcas.JCas;<a name="line.26"></a>
-<FONT color="green">027</FONT>    import org.apache.uima.resource.metadata.TypeSystemDescription;<a name="line.27"></a>
-<FONT color="green">028</FONT>    import org.uimafit.examples.tutorial.type.RoomNumber;<a name="line.28"></a>
-<FONT color="green">029</FONT>    <a name="line.29"></a>
-<FONT color="green">030</FONT>    /**<a name="line.30"></a>
-<FONT color="green">031</FONT>     * <a name="line.31"></a>
-<FONT color="green">032</FONT>     * @author Philip Ogren<a name="line.32"></a>
-<FONT color="green">033</FONT>     * <a name="line.33"></a>
-<FONT color="green">034</FONT>     */<a name="line.34"></a>
-<FONT color="green">035</FONT>    public class RoomNumberAnnotatorPipeline {<a name="line.35"></a>
-<FONT color="green">036</FONT>    <a name="line.36"></a>
-<FONT color="green">037</FONT>            public static void main(String[] args) throws UIMAException {<a name="line.37"></a>
-<FONT color="green">038</FONT>                    String text = "The meeting was moved from Yorktown 01-144 to Hawthorne 1S-W33.";<a name="line.38"></a>
-<FONT color="green">039</FONT>                    TypeSystemDescription tsd = createTypeSystemDescription(RoomNumber.class);<a name="line.39"></a>
-<FONT color="green">040</FONT>                    JCas jCas = createJCas(tsd);<a name="line.40"></a>
+<FONT color="green">020</FONT>    import static org.uimafit.util.JCasUtil.select;<a name="line.20"></a>
+<FONT color="green">021</FONT>    <a name="line.21"></a>
+<FONT color="green">022</FONT>    import org.apache.uima.UIMAException;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import org.apache.uima.analysis_engine.AnalysisEngine;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import org.apache.uima.jcas.JCas;<a name="line.24"></a>
+<FONT color="green">025</FONT>    import org.uimafit.examples.tutorial.type.RoomNumber;<a name="line.25"></a>
+<FONT color="green">026</FONT>    <a name="line.26"></a>
+<FONT color="green">027</FONT>    /**<a name="line.27"></a>
+<FONT color="green">028</FONT>     * <a name="line.28"></a>
+<FONT color="green">029</FONT>     * @author Philip Ogren<a name="line.29"></a>
+<FONT color="green">030</FONT>     * <a name="line.30"></a>
+<FONT color="green">031</FONT>     */<a name="line.31"></a>
+<FONT color="green">032</FONT>    public class RoomNumberAnnotatorPipeline {<a name="line.32"></a>
+<FONT color="green">033</FONT>    <a name="line.33"></a>
+<FONT color="green">034</FONT>            public static void main(String[] args) throws UIMAException {<a name="line.34"></a>
+<FONT color="green">035</FONT>                    AnalysisEngine analysisEngine = createPrimitive(RoomNumberAnnotator.class, "Patterns",<a name="line.35"></a>
+<FONT color="green">036</FONT>                                    new String[] { "\\b[0-4]\\d-[0-2]\\d\\d\\b", "\\b[G1-4][NS]-[A-Z]\\d\\d\\b" },<a name="line.36"></a>
+<FONT color="green">037</FONT>                                    "Locations", new String[] { "Downtown", "Uptown" });<a name="line.37"></a>
+<FONT color="green">038</FONT>    <a name="line.38"></a>
+<FONT color="green">039</FONT>                    JCas jCas = analysisEngine.newJCas();<a name="line.39"></a>
+<FONT color="green">040</FONT>                    String text = "The meeting was moved from Yorktown 01-144 to Hawthorne 1S-W33.";<a name="line.40"></a>
 <FONT color="green">041</FONT>                    jCas.setDocumentText(text);<a name="line.41"></a>
-<FONT color="green">042</FONT>                    AnalysisEngine analysisEngine = createPrimitive(RoomNumberAnnotator.class, tsd, "Patterns", new String[] { "\\b[0-4]\\d-[0-2]\\d\\d\\b",<a name="line.42"></a>
-<FONT color="green">043</FONT>                                    "\\b[G1-4][NS]-[A-Z]\\d\\d\\b" }, "Locations", new String[] { "Downtown", "Uptown" });<a name="line.43"></a>
-<FONT color="green">044</FONT>                    analysisEngine.process(jCas);<a name="line.44"></a>
-<FONT color="green">045</FONT>    <a name="line.45"></a>
-<FONT color="green">046</FONT>                    for (RoomNumber roomNumber : iterate(jCas, RoomNumber.class)) {<a name="line.46"></a>
-<FONT color="green">047</FONT>                            System.out.println(roomNumber.getCoveredText() + "\tbuilding = " + roomNumber.getBuilding());<a name="line.47"></a>
+<FONT color="green">042</FONT>    <a name="line.42"></a>
+<FONT color="green">043</FONT>                    analysisEngine.process(jCas);<a name="line.43"></a>
+<FONT color="green">044</FONT>    <a name="line.44"></a>
+<FONT color="green">045</FONT>                    for (RoomNumber roomNumber : select(jCas, RoomNumber.class)) {<a name="line.45"></a>
+<FONT color="green">046</FONT>                            System.out.println(roomNumber.getCoveredText() + "\tbuilding = "<a name="line.46"></a>
+<FONT color="green">047</FONT>                                            + roomNumber.getBuilding());<a name="line.47"></a>
 <FONT color="green">048</FONT>                    }<a name="line.48"></a>
 <FONT color="green">049</FONT>            }<a name="line.49"></a>
 <FONT color="green">050</FONT>    }<a name="line.50"></a>

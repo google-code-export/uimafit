@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-ExternalResourceExample (uimaFIT 1.2.0 API)
+ExternalResourceExample (uimaFIT 1.3.1 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ ExternalResourceExample (uimaFIT 1.2.0 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="ExternalResourceExample (uimaFIT 1.2.0 API)";
+        parent.document.title="ExternalResourceExample (uimaFIT 1.3.1 API)";
     }
 }
 </SCRIPT>
@@ -91,12 +91,12 @@ org.uimafit.examples.resource</FONT>
 <BR>
 Class ExternalResourceExample</H2>
 <PRE>
-<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
   <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>org.uimafit.examples.resource.ExternalResourceExample</B>
 </PRE>
 <HR>
 <DL>
-<DT><PRE>public class <A HREF="../../../../src-html/org/uimafit/examples/resource/ExternalResourceExample.html#line.47"><B>ExternalResourceExample</B></A><DT>extends <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
+<DT><PRE>public class <A HREF="../../../../src-html/org/uimafit/examples/resource/ExternalResourceExample.html#line.48"><B>ExternalResourceExample</B></A><DT>extends <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
 </PRE>
 
 <P>
@@ -125,7 +125,23 @@ Example for the use of external resources with uimaFIT.
 <TD><CODE><B><A HREF="../../../../org/uimafit/examples/resource/ExternalResourceExample.Annotator.html" title="class in org.uimafit.examples.resource">ExternalResourceExample.Annotator</A></B></CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Example annotator that uses the SharedModel.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Example annotator that uses the share model object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/uimafit/examples/resource/ExternalResourceExample.Annotator2.html" title="class in org.uimafit.examples.resource">ExternalResourceExample.Annotator2</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Example annotator that uses the resource.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/uimafit/examples/resource/ExternalResourceExample.ChainableResource.html" title="class in org.uimafit.examples.resource">ExternalResourceExample.ChainableResource</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Simple example resource that can use another resource.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -167,7 +183,7 @@ Example for the use of external resources with uimaFIT.
 <TD><CODE><B><A HREF="../../../../org/uimafit/examples/resource/ExternalResourceExample.html#configureAggregatedExample()">configureAggregatedExample</A></B>()</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JUnit test that illustrates how to configure the Annotator with the SharedModel</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JUnit test that illustrates how to configure the Annotator with the SharedModel.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -175,16 +191,24 @@ Example for the use of external resources with uimaFIT.
 <TD><CODE><B><A HREF="../../../../org/uimafit/examples/resource/ExternalResourceExample.html#configureAnnotatorsIndividuallyExample()">configureAnnotatorsIndividuallyExample</A></B>()</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JUnit test that illustrates how to configure the Annotator with the SharedModel</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JUnit test that illustrates how to configure the annotator with the shared model object</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/uimafit/examples/resource/ExternalResourceExample.html#configureAnnotatorWithChainedResource()">configureAnnotatorWithChainedResource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JUnit test that illustrates how to configure the annotator with a chainable resource</TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
-<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+<TD><CODE><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -203,7 +227,7 @@ Example for the use of external resources with uimaFIT.
 <A NAME="ExternalResourceExample()"><!-- --></A><H3>
 ExternalResourceExample</H3>
 <PRE>
-public <A HREF="../../../../src-html/org/uimafit/examples/resource/ExternalResourceExample.html#line.47"><B>ExternalResourceExample</B></A>()</PRE>
+public <A HREF="../../../../src-html/org/uimafit/examples/resource/ExternalResourceExample.html#line.48"><B>ExternalResourceExample</B></A>()</PRE>
 <DL>
 </DL>
 
@@ -217,34 +241,53 @@ public <A HREF="../../../../src-html/org/uimafit/examples/resource/ExternalResou
 </TR>
 </TABLE>
 
-<A NAME="configureAggregatedExample()"><!-- --></A><H3>
-configureAggregatedExample</H3>
+<A NAME="configureAnnotatorsIndividuallyExample()"><!-- --></A><H3>
+configureAnnotatorsIndividuallyExample</H3>
 <PRE>
-public void <A HREF="../../../../src-html/org/uimafit/examples/resource/ExternalResourceExample.html#line.87"><B>configureAggregatedExample</B></A>()
-                                throws <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></PRE>
+public void <A HREF="../../../../src-html/org/uimafit/examples/resource/ExternalResourceExample.html#line.88"><B>configureAnnotatorsIndividuallyExample</B></A>()
+                                            throws <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></PRE>
 <DL>
-<DD>JUnit test that illustrates how to configure the Annotator with the SharedModel
+<DD>JUnit test that illustrates how to configure the annotator with the shared model object
 <P>
 <DD><DL>
 
 <DT><B>Throws:</B>
-<DD><CODE><A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></CODE></DL>
+<DD><CODE><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></CODE></DL>
 </DD>
 </DL>
 <HR>
 
-<A NAME="configureAnnotatorsIndividuallyExample()"><!-- --></A><H3>
-configureAnnotatorsIndividuallyExample</H3>
+<A NAME="configureAggregatedExample()"><!-- --></A><H3>
+configureAggregatedExample</H3>
 <PRE>
-public void <A HREF="../../../../src-html/org/uimafit/examples/resource/ExternalResourceExample.html#line.105"><B>configureAnnotatorsIndividuallyExample</B></A>()
-                                            throws <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></PRE>
+public void <A HREF="../../../../src-html/org/uimafit/examples/resource/ExternalResourceExample.html#line.111"><B>configureAggregatedExample</B></A>()
+                                throws <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></PRE>
 <DL>
-<DD>JUnit test that illustrates how to configure the Annotator with the SharedModel
+<DD>JUnit test that illustrates how to configure the Annotator with the SharedModel.
+ You should avoid this approach unless you are absolutely sure you need this. For this
+ approach to work it must be guaranteed that no two components in the aggregate use the
+ same resource key for different resoures, e.g. one "model" for different kinds of models.
 <P>
 <DD><DL>
 
 <DT><B>Throws:</B>
-<DD><CODE><A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></CODE></DL>
+<DD><CODE><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="configureAnnotatorWithChainedResource()"><!-- --></A><H3>
+configureAnnotatorWithChainedResource</H3>
+<PRE>
+public void <A HREF="../../../../src-html/org/uimafit/examples/resource/ExternalResourceExample.html#line.159"><B>configureAnnotatorWithChainedResource</B></A>()
+                                           throws <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></PRE>
+<DL>
+<DD>JUnit test that illustrates how to configure the annotator with a chainable resource
+<P>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></CODE></DL>
 </DD>
 </DL>
 <!-- ========= END OF CLASS DATA ========= -->
@@ -308,6 +351,6 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&n
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2011. All Rights Reserved.
+Copyright &#169; 2012. All Rights Reserved.
 </BODY>
 </HTML>

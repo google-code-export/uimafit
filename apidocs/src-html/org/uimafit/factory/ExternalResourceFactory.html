@@ -22,575 +22,964 @@
 <FONT color="green">019</FONT>    <a name="line.19"></a>
 <FONT color="green">020</FONT>    package org.uimafit.factory;<a name="line.20"></a>
 <FONT color="green">021</FONT>    <a name="line.21"></a>
-<FONT color="green">022</FONT>    import java.io.File;<a name="line.22"></a>
-<FONT color="green">023</FONT>    import java.net.MalformedURLException;<a name="line.23"></a>
-<FONT color="green">024</FONT>    import java.net.URL;<a name="line.24"></a>
-<FONT color="green">025</FONT>    import java.util.concurrent.atomic.AtomicLong;<a name="line.25"></a>
-<FONT color="green">026</FONT>    <a name="line.26"></a>
-<FONT color="green">027</FONT>    import org.apache.commons.lang.ArrayUtils;<a name="line.27"></a>
-<FONT color="green">028</FONT>    import org.apache.uima.analysis_engine.AnalysisEngineDescription;<a name="line.28"></a>
-<FONT color="green">029</FONT>    import org.apache.uima.resource.ConfigurableDataResourceSpecifier;<a name="line.29"></a>
-<FONT color="green">030</FONT>    import org.apache.uima.resource.CustomResourceSpecifier;<a name="line.30"></a>
-<FONT color="green">031</FONT>    import org.apache.uima.resource.DataResource;<a name="line.31"></a>
-<FONT color="green">032</FONT>    import org.apache.uima.resource.ExternalResourceDependency;<a name="line.32"></a>
-<FONT color="green">033</FONT>    import org.apache.uima.resource.ExternalResourceDescription;<a name="line.33"></a>
-<FONT color="green">034</FONT>    import org.apache.uima.resource.FileResourceSpecifier;<a name="line.34"></a>
-<FONT color="green">035</FONT>    import org.apache.uima.resource.Parameter;<a name="line.35"></a>
-<FONT color="green">036</FONT>    import org.apache.uima.resource.Resource;<a name="line.36"></a>
-<FONT color="green">037</FONT>    import org.apache.uima.resource.ResourceCreationSpecifier;<a name="line.37"></a>
-<FONT color="green">038</FONT>    import org.apache.uima.resource.ResourceManager;<a name="line.38"></a>
-<FONT color="green">039</FONT>    import org.apache.uima.resource.ResourceSpecifier;<a name="line.39"></a>
-<FONT color="green">040</FONT>    import org.apache.uima.resource.SharedResourceObject;<a name="line.40"></a>
-<FONT color="green">041</FONT>    import org.apache.uima.resource.impl.ConfigurableDataResourceSpecifier_impl;<a name="line.41"></a>
-<FONT color="green">042</FONT>    import org.apache.uima.resource.impl.CustomResourceSpecifier_impl;<a name="line.42"></a>
-<FONT color="green">043</FONT>    import org.apache.uima.resource.impl.ExternalResourceDependency_impl;<a name="line.43"></a>
-<FONT color="green">044</FONT>    import org.apache.uima.resource.impl.ExternalResourceDescription_impl;<a name="line.44"></a>
-<FONT color="green">045</FONT>    import org.apache.uima.resource.impl.FileResourceSpecifier_impl;<a name="line.45"></a>
-<FONT color="green">046</FONT>    import org.apache.uima.resource.impl.Parameter_impl;<a name="line.46"></a>
-<FONT color="green">047</FONT>    import org.apache.uima.resource.metadata.ExternalResourceBinding;<a name="line.47"></a>
-<FONT color="green">048</FONT>    import org.apache.uima.resource.metadata.ResourceManagerConfiguration;<a name="line.48"></a>
-<FONT color="green">049</FONT>    import org.apache.uima.resource.metadata.impl.ExternalResourceBinding_impl;<a name="line.49"></a>
-<FONT color="green">050</FONT>    import org.apache.uima.resource.metadata.impl.ResourceManagerConfiguration_impl;<a name="line.50"></a>
-<FONT color="green">051</FONT>    import org.apache.uima.resource.metadata.impl.ResourceMetaData_impl;<a name="line.51"></a>
-<FONT color="green">052</FONT>    import org.apache.uima.util.InvalidXMLException;<a name="line.52"></a>
-<FONT color="green">053</FONT>    import org.uimafit.descriptor.ExternalResource;<a name="line.53"></a>
-<FONT color="green">054</FONT>    import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;<a name="line.54"></a>
-<FONT color="green">055</FONT>    <a name="line.55"></a>
-<FONT color="green">056</FONT>    /**<a name="line.56"></a>
-<FONT color="green">057</FONT>     * Helper methods for external resources.<a name="line.57"></a>
-<FONT color="green">058</FONT>     *<a name="line.58"></a>
-<FONT color="green">059</FONT>     * @author Richard Eckart de Castilho<a name="line.59"></a>
-<FONT color="green">060</FONT>     */<a name="line.60"></a>
-<FONT color="green">061</FONT>    public final class ExternalResourceFactory {<a name="line.61"></a>
-<FONT color="green">062</FONT>            private final static AtomicLong disambiguator = new AtomicLong();<a name="line.62"></a>
-<FONT color="green">063</FONT>    <a name="line.63"></a>
-<FONT color="green">064</FONT>            private ExternalResourceFactory() {<a name="line.64"></a>
-<FONT color="green">065</FONT>                    // This class is not meant to be instantiated<a name="line.65"></a>
-<FONT color="green">066</FONT>            }<a name="line.66"></a>
+<FONT color="green">022</FONT>    import static org.apache.uima.UIMAFramework.getResourceSpecifierFactory;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import static org.uimafit.factory.ConfigurationParameterFactory.canParameterBeSet;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import static org.uimafit.factory.ConfigurationParameterFactory.createConfigurationData;<a name="line.24"></a>
+<FONT color="green">025</FONT>    <a name="line.25"></a>
+<FONT color="green">026</FONT>    import java.io.File;<a name="line.26"></a>
+<FONT color="green">027</FONT>    import java.net.MalformedURLException;<a name="line.27"></a>
+<FONT color="green">028</FONT>    import java.net.URL;<a name="line.28"></a>
+<FONT color="green">029</FONT>    import java.util.ArrayList;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import java.util.Collections;<a name="line.30"></a>
+<FONT color="green">031</FONT>    import java.util.HashMap;<a name="line.31"></a>
+<FONT color="green">032</FONT>    import java.util.List;<a name="line.32"></a>
+<FONT color="green">033</FONT>    import java.util.Map;<a name="line.33"></a>
+<FONT color="green">034</FONT>    import java.util.Map.Entry;<a name="line.34"></a>
+<FONT color="green">035</FONT>    import java.util.concurrent.atomic.AtomicLong;<a name="line.35"></a>
+<FONT color="green">036</FONT>    <a name="line.36"></a>
+<FONT color="green">037</FONT>    import org.apache.commons.lang.ArrayUtils;<a name="line.37"></a>
+<FONT color="green">038</FONT>    import org.apache.uima.analysis_engine.AnalysisEngineDescription;<a name="line.38"></a>
+<FONT color="green">039</FONT>    import org.apache.uima.collection.CollectionReaderDescription;<a name="line.39"></a>
+<FONT color="green">040</FONT>    import org.apache.uima.resource.ConfigurableDataResourceSpecifier;<a name="line.40"></a>
+<FONT color="green">041</FONT>    import org.apache.uima.resource.CustomResourceSpecifier;<a name="line.41"></a>
+<FONT color="green">042</FONT>    import org.apache.uima.resource.DataResource;<a name="line.42"></a>
+<FONT color="green">043</FONT>    import org.apache.uima.resource.ExternalResourceDependency;<a name="line.43"></a>
+<FONT color="green">044</FONT>    import org.apache.uima.resource.ExternalResourceDescription;<a name="line.44"></a>
+<FONT color="green">045</FONT>    import org.apache.uima.resource.FileResourceSpecifier;<a name="line.45"></a>
+<FONT color="green">046</FONT>    import org.apache.uima.resource.Parameter;<a name="line.46"></a>
+<FONT color="green">047</FONT>    import org.apache.uima.resource.ParameterizedDataResource;<a name="line.47"></a>
+<FONT color="green">048</FONT>    import org.apache.uima.resource.Resource;<a name="line.48"></a>
+<FONT color="green">049</FONT>    import org.apache.uima.resource.ResourceCreationSpecifier;<a name="line.49"></a>
+<FONT color="green">050</FONT>    import org.apache.uima.resource.ResourceManager;<a name="line.50"></a>
+<FONT color="green">051</FONT>    import org.apache.uima.resource.ResourceSpecifier;<a name="line.51"></a>
+<FONT color="green">052</FONT>    import org.apache.uima.resource.SharedResourceObject;<a name="line.52"></a>
+<FONT color="green">053</FONT>    import org.apache.uima.resource.impl.ConfigurableDataResourceSpecifier_impl;<a name="line.53"></a>
+<FONT color="green">054</FONT>    import org.apache.uima.resource.impl.ExternalResourceDependency_impl;<a name="line.54"></a>
+<FONT color="green">055</FONT>    import org.apache.uima.resource.impl.ExternalResourceDescription_impl;<a name="line.55"></a>
+<FONT color="green">056</FONT>    import org.apache.uima.resource.impl.FileResourceSpecifier_impl;<a name="line.56"></a>
+<FONT color="green">057</FONT>    import org.apache.uima.resource.impl.Parameter_impl;<a name="line.57"></a>
+<FONT color="green">058</FONT>    import org.apache.uima.resource.metadata.ExternalResourceBinding;<a name="line.58"></a>
+<FONT color="green">059</FONT>    import org.apache.uima.resource.metadata.ResourceManagerConfiguration;<a name="line.59"></a>
+<FONT color="green">060</FONT>    import org.apache.uima.resource.metadata.impl.ExternalResourceBinding_impl;<a name="line.60"></a>
+<FONT color="green">061</FONT>    import org.apache.uima.resource.metadata.impl.ResourceManagerConfiguration_impl;<a name="line.61"></a>
+<FONT color="green">062</FONT>    import org.apache.uima.resource.metadata.impl.ResourceMetaData_impl;<a name="line.62"></a>
+<FONT color="green">063</FONT>    import org.apache.uima.util.InvalidXMLException;<a name="line.63"></a>
+<FONT color="green">064</FONT>    import org.uimafit.descriptor.ExternalResource;<a name="line.64"></a>
+<FONT color="green">065</FONT>    import org.uimafit.factory.ConfigurationParameterFactory.ConfigurationData;<a name="line.65"></a>
+<FONT color="green">066</FONT>    import org.uimafit.util.ExtendedExternalResourceDescription_impl;<a name="line.66"></a>
 <FONT color="green">067</FONT>    <a name="line.67"></a>
-<FONT color="green">068</FONT>            /**<a name="line.68"></a>
-<FONT color="green">069</FONT>             * Create an external resource description for a custom resource.<a name="line.69"></a>
-<FONT color="green">070</FONT>             *<a name="line.70"></a>
-<FONT color="green">071</FONT>             * @param aName<a name="line.71"></a>
-<FONT color="green">072</FONT>             *            the name of the resource (the key).<a name="line.72"></a>
-<FONT color="green">073</FONT>             * @param aInterface<a name="line.73"></a>
-<FONT color="green">074</FONT>             *            the interface the resource should implement.<a name="line.74"></a>
-<FONT color="green">075</FONT>             * @param aParams<a name="line.75"></a>
-<FONT color="green">076</FONT>             *            parameters passed to the resource when it is created.<a name="line.76"></a>
-<FONT color="green">077</FONT>             * @return the description.<a name="line.77"></a>
-<FONT color="green">078</FONT>             * @see CustomResourceSpecifier<a name="line.78"></a>
-<FONT color="green">079</FONT>             */<a name="line.79"></a>
-<FONT color="green">080</FONT>            public static ExternalResourceDescription createExternalResourceDescription(final String aName,<a name="line.80"></a>
-<FONT color="green">081</FONT>                            Class&lt;? extends Resource&gt; aInterface, String... aParams) {<a name="line.81"></a>
-<FONT color="green">082</FONT>                    if (aParams.length % 2 != 0) {<a name="line.82"></a>
-<FONT color="green">083</FONT>                            throw new IllegalArgumentException("Parameter arguments have to "<a name="line.83"></a>
-<FONT color="green">084</FONT>                                            + "come in key/value pairs, but found odd number of " + "arguments ["<a name="line.84"></a>
-<FONT color="green">085</FONT>                                            + aParams.length + "]");<a name="line.85"></a>
-<FONT color="green">086</FONT>                    }<a name="line.86"></a>
-<FONT color="green">087</FONT>    <a name="line.87"></a>
-<FONT color="green">088</FONT>                    int numberOfParameters = aParams.length / 2;<a name="line.88"></a>
-<FONT color="green">089</FONT>                    Parameter[] params = new Parameter[numberOfParameters];<a name="line.89"></a>
-<FONT color="green">090</FONT>                    for (int i = 0; i &lt; numberOfParameters; i++) {<a name="line.90"></a>
-<FONT color="green">091</FONT>                            params[i] = new Parameter_impl();<a name="line.91"></a>
-<FONT color="green">092</FONT>                            params[i].setName(aParams[i * 2]);<a name="line.92"></a>
-<FONT color="green">093</FONT>                            params[i].setValue(aParams[i * 2 + 1]);<a name="line.93"></a>
-<FONT color="green">094</FONT>                    }<a name="line.94"></a>
-<FONT color="green">095</FONT>    <a name="line.95"></a>
-<FONT color="green">096</FONT>                    CustomResourceSpecifier spec = new CustomResourceSpecifier_impl();<a name="line.96"></a>
-<FONT color="green">097</FONT>                    spec.setResourceClassName(aInterface.getName());<a name="line.97"></a>
-<FONT color="green">098</FONT>                    spec.setParameters(params);<a name="line.98"></a>
-<FONT color="green">099</FONT>    <a name="line.99"></a>
-<FONT color="green">100</FONT>                    ExternalResourceDescription extRes = new ExternalResourceDescription_impl();<a name="line.100"></a>
-<FONT color="green">101</FONT>                    extRes.setName(aName);<a name="line.101"></a>
-<FONT color="green">102</FONT>                    extRes.setResourceSpecifier(spec);<a name="line.102"></a>
-<FONT color="green">103</FONT>                    return extRes;<a name="line.103"></a>
+<FONT color="green">068</FONT>    /**<a name="line.68"></a>
+<FONT color="green">069</FONT>     * Helper methods for external resources.<a name="line.69"></a>
+<FONT color="green">070</FONT>     *<a name="line.70"></a>
+<FONT color="green">071</FONT>     * @author Richard Eckart de Castilho<a name="line.71"></a>
+<FONT color="green">072</FONT>     */<a name="line.72"></a>
+<FONT color="green">073</FONT>    public final class ExternalResourceFactory {<a name="line.73"></a>
+<FONT color="green">074</FONT>            public static final String PARAM_RESOURCE_NAME = "__UIMAFIT_RESOURCE_NAME__";<a name="line.74"></a>
+<FONT color="green">075</FONT>            <a name="line.75"></a>
+<FONT color="green">076</FONT>            /**<a name="line.76"></a>
+<FONT color="green">077</FONT>             * Used to separate resource name from key for nested resource.<a name="line.77"></a>
+<FONT color="green">078</FONT>             */<a name="line.78"></a>
+<FONT color="green">079</FONT>            public static final String PREFIX_SEPARATOR = "##";<a name="line.79"></a>
+<FONT color="green">080</FONT>            <a name="line.80"></a>
+<FONT color="green">081</FONT>            /**<a name="line.81"></a>
+<FONT color="green">082</FONT>             * Counter used to create unique resource names.<a name="line.82"></a>
+<FONT color="green">083</FONT>             */<a name="line.83"></a>
+<FONT color="green">084</FONT>            private final static AtomicLong disambiguator = new AtomicLong();<a name="line.84"></a>
+<FONT color="green">085</FONT>    <a name="line.85"></a>
+<FONT color="green">086</FONT>            private ExternalResourceFactory() {<a name="line.86"></a>
+<FONT color="green">087</FONT>                    // This class is not meant to be instantiated<a name="line.87"></a>
+<FONT color="green">088</FONT>            }<a name="line.88"></a>
+<FONT color="green">089</FONT>    <a name="line.89"></a>
+<FONT color="green">090</FONT>            /**<a name="line.90"></a>
+<FONT color="green">091</FONT>             * Create an external resource description for a custom resource. This is intended to<a name="line.91"></a>
+<FONT color="green">092</FONT>             * be used together with ....<a name="line.92"></a>
+<FONT color="green">093</FONT>             *<a name="line.93"></a>
+<FONT color="green">094</FONT>             * @param aInterface<a name="line.94"></a>
+<FONT color="green">095</FONT>             *            the interface the resource should implement.<a name="line.95"></a>
+<FONT color="green">096</FONT>             * @param aParams<a name="line.96"></a>
+<FONT color="green">097</FONT>             *            parameters passed to the resource when it is created.<a name="line.97"></a>
+<FONT color="green">098</FONT>             * @return the description.<a name="line.98"></a>
+<FONT color="green">099</FONT>             * @see CustomResourceSpecifier<a name="line.99"></a>
+<FONT color="green">100</FONT>             */<a name="line.100"></a>
+<FONT color="green">101</FONT>            public static ExternalResourceDescription createExternalResourceDescription(<a name="line.101"></a>
+<FONT color="green">102</FONT>                            Class&lt;? extends Resource&gt; aInterface, Object... aParams) {<a name="line.102"></a>
+<FONT color="green">103</FONT>                    return createExternalResourceDescription(uniqueResourceKey(aInterface.getName()), aInterface, aParams);<a name="line.103"></a>
 <FONT color="green">104</FONT>            }<a name="line.104"></a>
-<FONT color="green">105</FONT>    <a name="line.105"></a>
+<FONT color="green">105</FONT>            <a name="line.105"></a>
 <FONT color="green">106</FONT>            /**<a name="line.106"></a>
-<FONT color="green">107</FONT>             * Create an external resource description for a {@link SharedResourceObject}.<a name="line.107"></a>
+<FONT color="green">107</FONT>             * Create an external resource description for a custom resource.<a name="line.107"></a>
 <FONT color="green">108</FONT>             *<a name="line.108"></a>
 <FONT color="green">109</FONT>             * @param aName<a name="line.109"></a>
 <FONT color="green">110</FONT>             *            the name of the resource (the key).<a name="line.110"></a>
 <FONT color="green">111</FONT>             * @param aInterface<a name="line.111"></a>
 <FONT color="green">112</FONT>             *            the interface the resource should implement.<a name="line.112"></a>
-<FONT color="green">113</FONT>             * @param aUrl<a name="line.113"></a>
-<FONT color="green">114</FONT>             *            the URL from which the resource is initialized.<a name="line.114"></a>
-<FONT color="green">115</FONT>             * @param aParams<a name="line.115"></a>
-<FONT color="green">116</FONT>             *            parameters passed to the resource when it is created.<a name="line.116"></a>
-<FONT color="green">117</FONT>             * @return the description.<a name="line.117"></a>
-<FONT color="green">118</FONT>             * @see ConfigurableDataResourceSpecifier<a name="line.118"></a>
-<FONT color="green">119</FONT>             * @see SharedResourceObject<a name="line.119"></a>
-<FONT color="green">120</FONT>             */<a name="line.120"></a>
-<FONT color="green">121</FONT>            public static ExternalResourceDescription createExternalResourceDescription(final String aName,<a name="line.121"></a>
-<FONT color="green">122</FONT>                            Class&lt;? extends SharedResourceObject&gt; aInterface, String aUrl, Object... aParams) {<a name="line.122"></a>
-<FONT color="green">123</FONT>                    ConfigurationData cfg = ConfigurationParameterFactory.createConfigurationData(aParams);<a name="line.123"></a>
-<FONT color="green">124</FONT>                    ResourceMetaData_impl meta = new ResourceMetaData_impl();<a name="line.124"></a>
-<FONT color="green">125</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(meta,<a name="line.125"></a>
-<FONT color="green">126</FONT>                                    cfg.configurationParameters, cfg.configurationValues);<a name="line.126"></a>
-<FONT color="green">127</FONT>    <a name="line.127"></a>
-<FONT color="green">128</FONT>                    ConfigurableDataResourceSpecifier_impl spec = new ConfigurableDataResourceSpecifier_impl();<a name="line.128"></a>
-<FONT color="green">129</FONT>                    spec.setUrl(aUrl);<a name="line.129"></a>
-<FONT color="green">130</FONT>                    spec.setMetaData(meta);<a name="line.130"></a>
-<FONT color="green">131</FONT>    <a name="line.131"></a>
-<FONT color="green">132</FONT>                    ExternalResourceDescription extRes = new ExternalResourceDescription_impl();<a name="line.132"></a>
-<FONT color="green">133</FONT>                    extRes.setName(aName);<a name="line.133"></a>
-<FONT color="green">134</FONT>                    extRes.setResourceSpecifier(spec);<a name="line.134"></a>
-<FONT color="green">135</FONT>                    extRes.setImplementationName(aInterface.getName());<a name="line.135"></a>
-<FONT color="green">136</FONT>                    return extRes;<a name="line.136"></a>
-<FONT color="green">137</FONT>            }<a name="line.137"></a>
-<FONT color="green">138</FONT>    <a name="line.138"></a>
-<FONT color="green">139</FONT>            /**<a name="line.139"></a>
-<FONT color="green">140</FONT>             * Create an external resource description for a file addressable via an URL.<a name="line.140"></a>
-<FONT color="green">141</FONT>             *<a name="line.141"></a>
-<FONT color="green">142</FONT>             * @param aName<a name="line.142"></a>
-<FONT color="green">143</FONT>             *            the name of the resource (the key).<a name="line.143"></a>
-<FONT color="green">144</FONT>             * @param aUrl<a name="line.144"></a>
-<FONT color="green">145</FONT>             *            a URL.<a name="line.145"></a>
-<FONT color="green">146</FONT>             * @return the description.<a name="line.146"></a>
-<FONT color="green">147</FONT>             * @see FileResourceSpecifier<a name="line.147"></a>
-<FONT color="green">148</FONT>             */<a name="line.148"></a>
-<FONT color="green">149</FONT>            public static ExternalResourceDescription createExternalResourceDescription(final String aName,<a name="line.149"></a>
-<FONT color="green">150</FONT>                            String aUrl) {<a name="line.150"></a>
-<FONT color="green">151</FONT>                    ExternalResourceDescription extRes = new ExternalResourceDescription_impl();<a name="line.151"></a>
-<FONT color="green">152</FONT>                    extRes.setName(aName);<a name="line.152"></a>
-<FONT color="green">153</FONT>                    FileResourceSpecifier frs = new FileResourceSpecifier_impl();<a name="line.153"></a>
-<FONT color="green">154</FONT>                    frs.setFileUrl(aUrl);<a name="line.154"></a>
-<FONT color="green">155</FONT>                    extRes.setResourceSpecifier(frs);<a name="line.155"></a>
-<FONT color="green">156</FONT>                    return extRes;<a name="line.156"></a>
-<FONT color="green">157</FONT>            }<a name="line.157"></a>
-<FONT color="green">158</FONT>    <a name="line.158"></a>
-<FONT color="green">159</FONT>            /**<a name="line.159"></a>
-<FONT color="green">160</FONT>             * Create an external resource binding.<a name="line.160"></a>
-<FONT color="green">161</FONT>             *<a name="line.161"></a>
-<FONT color="green">162</FONT>             * @param aKey<a name="line.162"></a>
-<FONT color="green">163</FONT>             *            the key to bind to.<a name="line.163"></a>
-<FONT color="green">164</FONT>             * @param aResource<a name="line.164"></a>
-<FONT color="green">165</FONT>             *            the resource to bind.<a name="line.165"></a>
-<FONT color="green">166</FONT>             * @return the description.<a name="line.166"></a>
-<FONT color="green">167</FONT>             */<a name="line.167"></a>
-<FONT color="green">168</FONT>            public static ExternalResourceBinding createExternalResourceBinding(final String aKey,<a name="line.168"></a>
-<FONT color="green">169</FONT>                            final ExternalResourceDescription aResource) {<a name="line.169"></a>
-<FONT color="green">170</FONT>                    return createExternalResourceBinding(aKey, aResource.getName());<a name="line.170"></a>
-<FONT color="green">171</FONT>            }<a name="line.171"></a>
-<FONT color="green">172</FONT>    <a name="line.172"></a>
-<FONT color="green">173</FONT>            /**<a name="line.173"></a>
-<FONT color="green">174</FONT>             * Create an external resource binding.<a name="line.174"></a>
-<FONT color="green">175</FONT>             *<a name="line.175"></a>
-<FONT color="green">176</FONT>             * @param aKey<a name="line.176"></a>
-<FONT color="green">177</FONT>             *            the key to bind to.<a name="line.177"></a>
-<FONT color="green">178</FONT>             * @param aResourceKey<a name="line.178"></a>
-<FONT color="green">179</FONT>             *            the resource key to bind.<a name="line.179"></a>
-<FONT color="green">180</FONT>             * @return the description.<a name="line.180"></a>
-<FONT color="green">181</FONT>             */<a name="line.181"></a>
-<FONT color="green">182</FONT>            public static ExternalResourceBinding createExternalResourceBinding(final String aKey,<a name="line.182"></a>
-<FONT color="green">183</FONT>                            final String aResourceKey) {<a name="line.183"></a>
-<FONT color="green">184</FONT>                    ExternalResourceBinding extResBind = new ExternalResourceBinding_impl();<a name="line.184"></a>
-<FONT color="green">185</FONT>                    extResBind.setResourceName(aResourceKey);<a name="line.185"></a>
-<FONT color="green">186</FONT>                    extResBind.setKey(aKey);<a name="line.186"></a>
-<FONT color="green">187</FONT>                    return extResBind;<a name="line.187"></a>
-<FONT color="green">188</FONT>            }<a name="line.188"></a>
-<FONT color="green">189</FONT>    <a name="line.189"></a>
-<FONT color="green">190</FONT>            /**<a name="line.190"></a>
-<FONT color="green">191</FONT>             * Creates an ExternalResourceDependency for a given key and interface<a name="line.191"></a>
-<FONT color="green">192</FONT>             *<a name="line.192"></a>
-<FONT color="green">193</FONT>             * @param aKey<a name="line.193"></a>
-<FONT color="green">194</FONT>             * @param aInterface<a name="line.194"></a>
-<FONT color="green">195</FONT>             * @param aOptional<a name="line.195"></a>
-<FONT color="green">196</FONT>             *            determines whether the dependency is optional<a name="line.196"></a>
-<FONT color="green">197</FONT>             * @return<a name="line.197"></a>
-<FONT color="green">198</FONT>             */<a name="line.198"></a>
-<FONT color="green">199</FONT>            public static ExternalResourceDependency createExternalResourceDependency(final String aKey,<a name="line.199"></a>
-<FONT color="green">200</FONT>                            final Class&lt;?&gt; aInterface, final boolean aOptional) {<a name="line.200"></a>
-<FONT color="green">201</FONT>                    ExternalResourceDependency dep = new ExternalResourceDependency_impl();<a name="line.201"></a>
-<FONT color="green">202</FONT>                    dep.setInterfaceName(aInterface.getName());<a name="line.202"></a>
-<FONT color="green">203</FONT>                    dep.setKey(aKey);<a name="line.203"></a>
-<FONT color="green">204</FONT>                    dep.setOptional(aOptional);<a name="line.204"></a>
-<FONT color="green">205</FONT>                    return dep;<a name="line.205"></a>
-<FONT color="green">206</FONT>            }<a name="line.206"></a>
-<FONT color="green">207</FONT>    <a name="line.207"></a>
-<FONT color="green">208</FONT>            /**<a name="line.208"></a>
-<FONT color="green">209</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.209"></a>
-<FONT color="green">210</FONT>             * dependency is encounter that has the specified key, the resource will be bound.<a name="line.210"></a>
-<FONT color="green">211</FONT>             * &lt;p&gt;<a name="line.211"></a>
-<FONT color="green">212</FONT>             * &lt;b&gt;Caveat&lt;/b&gt;: If you use this method, you may expect that {@link DataResource#getUrl()} or<a name="line.212"></a>
-<FONT color="green">213</FONT>             * {@link DataResource#getUri()} will return the same URL that you have specified here. This may<a name="line.213"></a>
-<FONT color="green">214</FONT>             * &lt;b&gt;NOT&lt;/b&gt; be the case. UIMA will internally try to resolve the URL via a<a name="line.214"></a>
-<FONT color="green">215</FONT>             * {@link ResourceManager}. If it cannot resolve a remove URL, this mechanism will think it may<a name="line.215"></a>
-<FONT color="green">216</FONT>             * be a local file and will return some local path - or it may redirect it to some location as<a name="line.216"></a>
-<FONT color="green">217</FONT>             * though fit by the {@link ResourceManager}.<a name="line.217"></a>
-<FONT color="green">218</FONT>             *<a name="line.218"></a>
-<FONT color="green">219</FONT>             * @param aDesc<a name="line.219"></a>
-<FONT color="green">220</FONT>             *            a description.<a name="line.220"></a>
-<FONT color="green">221</FONT>             * @param aKey<a name="line.221"></a>
-<FONT color="green">222</FONT>             *            the key to bind to.<a name="line.222"></a>
-<FONT color="green">223</FONT>             * @param aUrl<a name="line.223"></a>
-<FONT color="green">224</FONT>             *            a URL.<a name="line.224"></a>
-<FONT color="green">225</FONT>             * @throws InvalidXMLException<a name="line.225"></a>
-<FONT color="green">226</FONT>             * @see FileResourceSpecifier<a name="line.226"></a>
-<FONT color="green">227</FONT>             */<a name="line.227"></a>
-<FONT color="green">228</FONT>            public static void bindResource(ResourceSpecifier aDesc, String aKey, URL aUrl)<a name="line.228"></a>
-<FONT color="green">229</FONT>                            throws InvalidXMLException {<a name="line.229"></a>
-<FONT color="green">230</FONT>                    bindResource(aDesc, aKey, aUrl.toString());<a name="line.230"></a>
-<FONT color="green">231</FONT>            }<a name="line.231"></a>
-<FONT color="green">232</FONT>    <a name="line.232"></a>
-<FONT color="green">233</FONT>            /**<a name="line.233"></a>
-<FONT color="green">234</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.234"></a>
-<FONT color="green">235</FONT>             * dependency is encounter that has the specified key, the resource will be bound.<a name="line.235"></a>
-<FONT color="green">236</FONT>             * &lt;p&gt;<a name="line.236"></a>
-<FONT color="green">237</FONT>             * &lt;b&gt;Caveat&lt;/b&gt;: If you use this method, you may expect that {@link DataResource#getUrl()} or<a name="line.237"></a>
-<FONT color="green">238</FONT>             * {@link DataResource#getUri()} will return the URL of the file that you have specified here.<a name="line.238"></a>
-<FONT color="green">239</FONT>             * This may &lt;b&gt;NOT&lt;/b&gt; be the case. UIMA will internally try to resolve the URL via a<a name="line.239"></a>
-<FONT color="green">240</FONT>             * {@link ResourceManager}. If it cannot resolve a remove URL, this mechanism will think it may<a name="line.240"></a>
-<FONT color="green">241</FONT>             * be a local file and will return some local path - or it may redirect it to some location as<a name="line.241"></a>
-<FONT color="green">242</FONT>             * though fit by the {@link ResourceManager}.<a name="line.242"></a>
-<FONT color="green">243</FONT>             *<a name="line.243"></a>
-<FONT color="green">244</FONT>             * @param aDesc<a name="line.244"></a>
-<FONT color="green">245</FONT>             *            a description.<a name="line.245"></a>
-<FONT color="green">246</FONT>             * @param aKey<a name="line.246"></a>
-<FONT color="green">247</FONT>             *            the key to bind to.<a name="line.247"></a>
-<FONT color="green">248</FONT>             * @param aFile<a name="line.248"></a>
-<FONT color="green">249</FONT>             *            a file.<a name="line.249"></a>
-<FONT color="green">250</FONT>             * @throws InvalidXMLException<a name="line.250"></a>
-<FONT color="green">251</FONT>             * @see FileResourceSpecifier<a name="line.251"></a>
-<FONT color="green">252</FONT>             */<a name="line.252"></a>
-<FONT color="green">253</FONT>            public static void bindResource(ResourceSpecifier aDesc, String aKey, File aFile)<a name="line.253"></a>
-<FONT color="green">254</FONT>                            throws InvalidXMLException {<a name="line.254"></a>
-<FONT color="green">255</FONT>                    try {<a name="line.255"></a>
-<FONT color="green">256</FONT>                            bindResource(aDesc, aKey, aFile.toURI().toURL());<a name="line.256"></a>
-<FONT color="green">257</FONT>                    }<a name="line.257"></a>
-<FONT color="green">258</FONT>                    catch (MalformedURLException e) {<a name="line.258"></a>
-<FONT color="green">259</FONT>                            // This is something that usually cannot happen, so we degrade this<a name="line.259"></a>
-<FONT color="green">260</FONT>                            // to an IllegalArgumentException which is a RuntimeException that<a name="line.260"></a>
-<FONT color="green">261</FONT>                            // does not need to be catched.<a name="line.261"></a>
-<FONT color="green">262</FONT>                            throw new IllegalArgumentException("File converts to illegal URL [" + aFile + "]");<a name="line.262"></a>
-<FONT color="green">263</FONT>                    }<a name="line.263"></a>
-<FONT color="green">264</FONT>            }<a name="line.264"></a>
-<FONT color="green">265</FONT>    <a name="line.265"></a>
-<FONT color="green">266</FONT>            /**<a name="line.266"></a>
-<FONT color="green">267</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.267"></a>
-<FONT color="green">268</FONT>             * dependency is encounter that has the specified key, the resource will be bound.<a name="line.268"></a>
-<FONT color="green">269</FONT>             * &lt;p&gt;<a name="line.269"></a>
-<FONT color="green">270</FONT>             * &lt;b&gt;Caveat&lt;/b&gt;: If you use this method, you may expect that {@link DataResource#getUrl()} or<a name="line.270"></a>
-<FONT color="green">271</FONT>             * {@link DataResource#getUri()} will return the same URL that you have specified here. This is<a name="line.271"></a>
-<FONT color="green">272</FONT>             * may &lt;b&gt;NOT&lt;/b&gt; be the case. UIMA will internally try to resolve the URL via a<a name="line.272"></a>
-<FONT color="green">273</FONT>             * {@link ResourceManager}. If it cannot resolve a remove URL, this mechanism will think it may<a name="line.273"></a>
-<FONT color="green">274</FONT>             * be a local file and will return some local path - or it may redirect it to some location as<a name="line.274"></a>
-<FONT color="green">275</FONT>             * though fit by the {@link ResourceManager}.<a name="line.275"></a>
-<FONT color="green">276</FONT>             *<a name="line.276"></a>
-<FONT color="green">277</FONT>             * @param aDesc<a name="line.277"></a>
-<FONT color="green">278</FONT>             *            a description.<a name="line.278"></a>
-<FONT color="green">279</FONT>             * @param aKey<a name="line.279"></a>
-<FONT color="green">280</FONT>             *            the key to bind to.<a name="line.280"></a>
-<FONT color="green">281</FONT>             * @param aUrl<a name="line.281"></a>
-<FONT color="green">282</FONT>             *            a URL.<a name="line.282"></a>
-<FONT color="green">283</FONT>             * @throws InvalidXMLException<a name="line.283"></a>
-<FONT color="green">284</FONT>             * @see FileResourceSpecifier<a name="line.284"></a>
-<FONT color="green">285</FONT>             */<a name="line.285"></a>
-<FONT color="green">286</FONT>            public static void bindResource(ResourceSpecifier aDesc, String aKey, String aUrl)<a name="line.286"></a>
-<FONT color="green">287</FONT>                            throws InvalidXMLException {<a name="line.287"></a>
-<FONT color="green">288</FONT>                    ExternalResourceDescription extRes = createExternalResourceDescription(aKey, aUrl);<a name="line.288"></a>
-<FONT color="green">289</FONT>                    bindResource(aDesc, aKey, extRes);<a name="line.289"></a>
-<FONT color="green">290</FONT>            }<a name="line.290"></a>
-<FONT color="green">291</FONT>    <a name="line.291"></a>
-<FONT color="green">292</FONT>            /**<a name="line.292"></a>
-<FONT color="green">293</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.293"></a>
-<FONT color="green">294</FONT>             * dependency is encounter that has a key equal to the resource class name, the resource will be<a name="line.294"></a>
-<FONT color="green">295</FONT>             * bound.<a name="line.295"></a>
+<FONT color="green">113</FONT>             * @param aParams<a name="line.113"></a>
+<FONT color="green">114</FONT>             *            parameters passed to the resource when it is created.<a name="line.114"></a>
+<FONT color="green">115</FONT>             * @return the description.<a name="line.115"></a>
+<FONT color="green">116</FONT>             * @see CustomResourceSpecifier<a name="line.116"></a>
+<FONT color="green">117</FONT>             */<a name="line.117"></a>
+<FONT color="green">118</FONT>            public static ExternalResourceDescription createExternalResourceDescription(final String aName,<a name="line.118"></a>
+<FONT color="green">119</FONT>                            Class&lt;? extends Resource&gt; aInterface, Object... aParams) {<a name="line.119"></a>
+<FONT color="green">120</FONT>                    ConfigurationParameterFactory.ensureParametersComeInPairs(aParams);<a name="line.120"></a>
+<FONT color="green">121</FONT>    <a name="line.121"></a>
+<FONT color="green">122</FONT>                    // Extract ExternalResourceDescriptions from configurationData<a name="line.122"></a>
+<FONT color="green">123</FONT>                    List&lt;ExternalResourceBinding&gt; bindings = new ArrayList&lt;ExternalResourceBinding&gt;();<a name="line.123"></a>
+<FONT color="green">124</FONT>                    List&lt;ExternalResourceDescription&gt; descs = new ArrayList&lt;ExternalResourceDescription&gt;();<a name="line.124"></a>
+<FONT color="green">125</FONT>                    for (Entry&lt;String, ExternalResourceDescription&gt; res : extractExternalResourceParameters(<a name="line.125"></a>
+<FONT color="green">126</FONT>                                    aParams).entrySet()) {<a name="line.126"></a>
+<FONT color="green">127</FONT>                            bindings.add(createExternalResourceBinding(res.getKey(), res.getValue()));<a name="line.127"></a>
+<FONT color="green">128</FONT>                            descs.add(res.getValue());<a name="line.128"></a>
+<FONT color="green">129</FONT>                    }<a name="line.129"></a>
+<FONT color="green">130</FONT>                    <a name="line.130"></a>
+<FONT color="green">131</FONT>                    List&lt;Parameter&gt; params = new ArrayList&lt;Parameter&gt;();<a name="line.131"></a>
+<FONT color="green">132</FONT>                    if (aParams != null) {<a name="line.132"></a>
+<FONT color="green">133</FONT>                            for (int i = 0; i &lt; aParams.length / 2; i++) {<a name="line.133"></a>
+<FONT color="green">134</FONT>                                    if (aParams[i * 2 + 1] instanceof ExternalResourceDescription) {<a name="line.134"></a>
+<FONT color="green">135</FONT>                                            continue;<a name="line.135"></a>
+<FONT color="green">136</FONT>                                    }<a name="line.136"></a>
+<FONT color="green">137</FONT>                                    <a name="line.137"></a>
+<FONT color="green">138</FONT>                                    Parameter param = new Parameter_impl();<a name="line.138"></a>
+<FONT color="green">139</FONT>                                    param.setName((String) aParams[i * 2]);<a name="line.139"></a>
+<FONT color="green">140</FONT>                                    param.setValue((String) aParams[i * 2 + 1]);<a name="line.140"></a>
+<FONT color="green">141</FONT>                                    params.add(param);<a name="line.141"></a>
+<FONT color="green">142</FONT>                            }<a name="line.142"></a>
+<FONT color="green">143</FONT>                    }<a name="line.143"></a>
+<FONT color="green">144</FONT>    <a name="line.144"></a>
+<FONT color="green">145</FONT>                    CustomResourceSpecifier spec = getResourceSpecifierFactory().createCustomResourceSpecifier();<a name="line.145"></a>
+<FONT color="green">146</FONT>                    spec.setResourceClassName(aInterface.getName());<a name="line.146"></a>
+<FONT color="green">147</FONT>                    spec.setParameters(params.toArray(new Parameter[params.size()]));<a name="line.147"></a>
+<FONT color="green">148</FONT>    <a name="line.148"></a>
+<FONT color="green">149</FONT>                    ExtendedExternalResourceDescription_impl extRes = new ExtendedExternalResourceDescription_impl();<a name="line.149"></a>
+<FONT color="green">150</FONT>                    extRes.setName(aName);<a name="line.150"></a>
+<FONT color="green">151</FONT>                    extRes.setResourceSpecifier(spec);<a name="line.151"></a>
+<FONT color="green">152</FONT>                    extRes.setExternalResourceBindings(bindings);<a name="line.152"></a>
+<FONT color="green">153</FONT>                    extRes.setExternalResources(descs);<a name="line.153"></a>
+<FONT color="green">154</FONT>    <a name="line.154"></a>
+<FONT color="green">155</FONT>                    return extRes;<a name="line.155"></a>
+<FONT color="green">156</FONT>            }<a name="line.156"></a>
+<FONT color="green">157</FONT>            <a name="line.157"></a>
+<FONT color="green">158</FONT>            /**<a name="line.158"></a>
+<FONT color="green">159</FONT>             * Create an external resource description for a {@link SharedResourceObject}.<a name="line.159"></a>
+<FONT color="green">160</FONT>             *<a name="line.160"></a>
+<FONT color="green">161</FONT>             * @param aInterface<a name="line.161"></a>
+<FONT color="green">162</FONT>             *            the interface the resource should implement.<a name="line.162"></a>
+<FONT color="green">163</FONT>             * @param aUrl<a name="line.163"></a>
+<FONT color="green">164</FONT>             *            the URL from which the resource is initialized.<a name="line.164"></a>
+<FONT color="green">165</FONT>             * @param aParams<a name="line.165"></a>
+<FONT color="green">166</FONT>             *            parameters passed to the resource when it is created.<a name="line.166"></a>
+<FONT color="green">167</FONT>             * @return the description.<a name="line.167"></a>
+<FONT color="green">168</FONT>             * @see ConfigurableDataResourceSpecifier<a name="line.168"></a>
+<FONT color="green">169</FONT>             * @see SharedResourceObject<a name="line.169"></a>
+<FONT color="green">170</FONT>             */<a name="line.170"></a>
+<FONT color="green">171</FONT>            public static ExternalResourceDescription createExternalResourceDescription(<a name="line.171"></a>
+<FONT color="green">172</FONT>                            Class&lt;? extends SharedResourceObject&gt; aInterface, String aUrl, Object... aParams) {<a name="line.172"></a>
+<FONT color="green">173</FONT>                    return createExternalResourceDescription(uniqueResourceKey(aInterface.getName()), <a name="line.173"></a>
+<FONT color="green">174</FONT>                                    aInterface, aUrl, aParams);<a name="line.174"></a>
+<FONT color="green">175</FONT>            }<a name="line.175"></a>
+<FONT color="green">176</FONT>    <a name="line.176"></a>
+<FONT color="green">177</FONT>            /**<a name="line.177"></a>
+<FONT color="green">178</FONT>             * Create an external resource description for a {@link SharedResourceObject}.<a name="line.178"></a>
+<FONT color="green">179</FONT>             *<a name="line.179"></a>
+<FONT color="green">180</FONT>             * @param aInterface<a name="line.180"></a>
+<FONT color="green">181</FONT>             *            the interface the resource should implement.<a name="line.181"></a>
+<FONT color="green">182</FONT>             * @param aUrl<a name="line.182"></a>
+<FONT color="green">183</FONT>             *            the URL from which the resource is initialized.<a name="line.183"></a>
+<FONT color="green">184</FONT>             * @param aParams<a name="line.184"></a>
+<FONT color="green">185</FONT>             *            parameters passed to the resource when it is created.<a name="line.185"></a>
+<FONT color="green">186</FONT>             * @return the description.<a name="line.186"></a>
+<FONT color="green">187</FONT>             * @see ConfigurableDataResourceSpecifier<a name="line.187"></a>
+<FONT color="green">188</FONT>             * @see SharedResourceObject<a name="line.188"></a>
+<FONT color="green">189</FONT>             */<a name="line.189"></a>
+<FONT color="green">190</FONT>            public static ExternalResourceDescription createExternalResourceDescription(<a name="line.190"></a>
+<FONT color="green">191</FONT>                            Class&lt;? extends SharedResourceObject&gt; aInterface, URL aUrl, Object... aParams) {<a name="line.191"></a>
+<FONT color="green">192</FONT>                    return createExternalResourceDescription(uniqueResourceKey(aInterface.getName()), <a name="line.192"></a>
+<FONT color="green">193</FONT>                                    aInterface, aUrl.toString(), aParams);<a name="line.193"></a>
+<FONT color="green">194</FONT>            }<a name="line.194"></a>
+<FONT color="green">195</FONT>    <a name="line.195"></a>
+<FONT color="green">196</FONT>            /**<a name="line.196"></a>
+<FONT color="green">197</FONT>             * Create an external resource description for a {@link SharedResourceObject}.<a name="line.197"></a>
+<FONT color="green">198</FONT>             *<a name="line.198"></a>
+<FONT color="green">199</FONT>             * @param aInterface<a name="line.199"></a>
+<FONT color="green">200</FONT>             *            the interface the resource should implement.<a name="line.200"></a>
+<FONT color="green">201</FONT>             * @param aFile<a name="line.201"></a>
+<FONT color="green">202</FONT>             *            the file from which the resource is initialized.<a name="line.202"></a>
+<FONT color="green">203</FONT>             * @param aParams<a name="line.203"></a>
+<FONT color="green">204</FONT>             *            parameters passed to the resource when it is created.<a name="line.204"></a>
+<FONT color="green">205</FONT>             * @return the description.<a name="line.205"></a>
+<FONT color="green">206</FONT>             * @see ConfigurableDataResourceSpecifier<a name="line.206"></a>
+<FONT color="green">207</FONT>             * @see SharedResourceObject<a name="line.207"></a>
+<FONT color="green">208</FONT>             */<a name="line.208"></a>
+<FONT color="green">209</FONT>            public static ExternalResourceDescription createExternalResourceDescription(<a name="line.209"></a>
+<FONT color="green">210</FONT>                            Class&lt;? extends SharedResourceObject&gt; aInterface, File aFile, Object... aParams) {<a name="line.210"></a>
+<FONT color="green">211</FONT>                    try {<a name="line.211"></a>
+<FONT color="green">212</FONT>                            return createExternalResourceDescription(aInterface, aFile.toURI().toURL(), aParams);<a name="line.212"></a>
+<FONT color="green">213</FONT>                    }<a name="line.213"></a>
+<FONT color="green">214</FONT>                    catch (MalformedURLException e) {<a name="line.214"></a>
+<FONT color="green">215</FONT>                            // This is something that usually cannot happen, so we degrade this to an <a name="line.215"></a>
+<FONT color="green">216</FONT>                            // IllegalArgumentException which is a RuntimeException that does not need to be caught.<a name="line.216"></a>
+<FONT color="green">217</FONT>                            throw new IllegalArgumentException("File converts to illegal URL [" + aFile + "]");<a name="line.217"></a>
+<FONT color="green">218</FONT>                    }<a name="line.218"></a>
+<FONT color="green">219</FONT>            }<a name="line.219"></a>
+<FONT color="green">220</FONT>    <a name="line.220"></a>
+<FONT color="green">221</FONT>            /**<a name="line.221"></a>
+<FONT color="green">222</FONT>             * Create an external resource description for a {@link SharedResourceObject}.<a name="line.222"></a>
+<FONT color="green">223</FONT>             *<a name="line.223"></a>
+<FONT color="green">224</FONT>             * @param aName<a name="line.224"></a>
+<FONT color="green">225</FONT>             *            the name of the resource (the key).<a name="line.225"></a>
+<FONT color="green">226</FONT>             * @param aInterface<a name="line.226"></a>
+<FONT color="green">227</FONT>             *            the interface the resource should implement.<a name="line.227"></a>
+<FONT color="green">228</FONT>             * @param aUrl<a name="line.228"></a>
+<FONT color="green">229</FONT>             *            the URL from which the resource is initialized.<a name="line.229"></a>
+<FONT color="green">230</FONT>             * @param aParams<a name="line.230"></a>
+<FONT color="green">231</FONT>             *            parameters passed to the resource when it is created.<a name="line.231"></a>
+<FONT color="green">232</FONT>             * @return the description.<a name="line.232"></a>
+<FONT color="green">233</FONT>             * @see ConfigurableDataResourceSpecifier<a name="line.233"></a>
+<FONT color="green">234</FONT>             * @see SharedResourceObject<a name="line.234"></a>
+<FONT color="green">235</FONT>             */<a name="line.235"></a>
+<FONT color="green">236</FONT>            public static ExternalResourceDescription createExternalResourceDescription(final String aName,<a name="line.236"></a>
+<FONT color="green">237</FONT>                            Class&lt;? extends SharedResourceObject&gt; aInterface, String aUrl, Object... aParams) {<a name="line.237"></a>
+<FONT color="green">238</FONT>                    ConfigurationData cfg = ConfigurationParameterFactory.createConfigurationData(aParams);<a name="line.238"></a>
+<FONT color="green">239</FONT>                    ResourceMetaData_impl meta = new ResourceMetaData_impl();<a name="line.239"></a>
+<FONT color="green">240</FONT>    <a name="line.240"></a>
+<FONT color="green">241</FONT>                    ConfigurationData reflectedConfigurationData = createConfigurationData(aInterface);<a name="line.241"></a>
+<FONT color="green">242</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(meta,<a name="line.242"></a>
+<FONT color="green">243</FONT>                                    reflectedConfigurationData.configurationParameters,<a name="line.243"></a>
+<FONT color="green">244</FONT>                                    reflectedConfigurationData.configurationValues);<a name="line.244"></a>
+<FONT color="green">245</FONT>                    ResourceCreationSpecifierFactory.setConfigurationParameters(meta,<a name="line.245"></a>
+<FONT color="green">246</FONT>                                    cfg.configurationParameters, cfg.configurationValues);<a name="line.246"></a>
+<FONT color="green">247</FONT>    <a name="line.247"></a>
+<FONT color="green">248</FONT>                    ConfigurableDataResourceSpecifier_impl spec = new ConfigurableDataResourceSpecifier_impl();<a name="line.248"></a>
+<FONT color="green">249</FONT>                    spec.setUrl(aUrl);<a name="line.249"></a>
+<FONT color="green">250</FONT>                    spec.setMetaData(meta);<a name="line.250"></a>
+<FONT color="green">251</FONT>    <a name="line.251"></a>
+<FONT color="green">252</FONT>                    ExtendedExternalResourceDescription_impl extRes = new ExtendedExternalResourceDescription_impl();<a name="line.252"></a>
+<FONT color="green">253</FONT>                    extRes.setName(aName);<a name="line.253"></a>
+<FONT color="green">254</FONT>                    extRes.setResourceSpecifier(spec);<a name="line.254"></a>
+<FONT color="green">255</FONT>                    extRes.setImplementationName(aInterface.getName());<a name="line.255"></a>
+<FONT color="green">256</FONT>                    <a name="line.256"></a>
+<FONT color="green">257</FONT>                    return extRes;<a name="line.257"></a>
+<FONT color="green">258</FONT>            }<a name="line.258"></a>
+<FONT color="green">259</FONT>    <a name="line.259"></a>
+<FONT color="green">260</FONT>            /**<a name="line.260"></a>
+<FONT color="green">261</FONT>             * Create an external resource description for a file addressable via an URL.<a name="line.261"></a>
+<FONT color="green">262</FONT>             *<a name="line.262"></a>
+<FONT color="green">263</FONT>             * @param aName<a name="line.263"></a>
+<FONT color="green">264</FONT>             *            the name of the resource (the key).<a name="line.264"></a>
+<FONT color="green">265</FONT>             * @param aUrl<a name="line.265"></a>
+<FONT color="green">266</FONT>             *            a URL.<a name="line.266"></a>
+<FONT color="green">267</FONT>             * @return the description.<a name="line.267"></a>
+<FONT color="green">268</FONT>             * @see FileResourceSpecifier<a name="line.268"></a>
+<FONT color="green">269</FONT>             */<a name="line.269"></a>
+<FONT color="green">270</FONT>            public static ExternalResourceDescription createExternalResourceDescription(final String aName,<a name="line.270"></a>
+<FONT color="green">271</FONT>                            String aUrl) {<a name="line.271"></a>
+<FONT color="green">272</FONT>                    ExternalResourceDescription extRes = new ExternalResourceDescription_impl();<a name="line.272"></a>
+<FONT color="green">273</FONT>                    extRes.setName(aName);<a name="line.273"></a>
+<FONT color="green">274</FONT>                    FileResourceSpecifier frs = new FileResourceSpecifier_impl();<a name="line.274"></a>
+<FONT color="green">275</FONT>                    frs.setFileUrl(aUrl);<a name="line.275"></a>
+<FONT color="green">276</FONT>                    extRes.setResourceSpecifier(frs);<a name="line.276"></a>
+<FONT color="green">277</FONT>                    return extRes;<a name="line.277"></a>
+<FONT color="green">278</FONT>            }<a name="line.278"></a>
+<FONT color="green">279</FONT>    <a name="line.279"></a>
+<FONT color="green">280</FONT>            /**<a name="line.280"></a>
+<FONT color="green">281</FONT>             * Create an external resource binding.<a name="line.281"></a>
+<FONT color="green">282</FONT>             *<a name="line.282"></a>
+<FONT color="green">283</FONT>             * @param aKey<a name="line.283"></a>
+<FONT color="green">284</FONT>             *            the key to bind to.<a name="line.284"></a>
+<FONT color="green">285</FONT>             * @param aResource<a name="line.285"></a>
+<FONT color="green">286</FONT>             *            the resource to bind.<a name="line.286"></a>
+<FONT color="green">287</FONT>             * @return the description.<a name="line.287"></a>
+<FONT color="green">288</FONT>             */<a name="line.288"></a>
+<FONT color="green">289</FONT>            public static ExternalResourceBinding createExternalResourceBinding(final String aKey,<a name="line.289"></a>
+<FONT color="green">290</FONT>                            final ExternalResourceDescription aResource) {<a name="line.290"></a>
+<FONT color="green">291</FONT>                    return createExternalResourceBinding(aKey, aResource.getName());<a name="line.291"></a>
+<FONT color="green">292</FONT>            }<a name="line.292"></a>
+<FONT color="green">293</FONT>    <a name="line.293"></a>
+<FONT color="green">294</FONT>            /**<a name="line.294"></a>
+<FONT color="green">295</FONT>             * Create an external resource binding.<a name="line.295"></a>
 <FONT color="green">296</FONT>             *<a name="line.296"></a>
-<FONT color="green">297</FONT>             * @param aDesc<a name="line.297"></a>
-<FONT color="green">298</FONT>             *            a description.<a name="line.298"></a>
-<FONT color="green">299</FONT>             * @param aRes<a name="line.299"></a>
-<FONT color="green">300</FONT>             *            the resource to bind.<a name="line.300"></a>
-<FONT color="green">301</FONT>             * @param aParams<a name="line.301"></a>
-<FONT color="green">302</FONT>             *            parameters passed to the resource when it is created.<a name="line.302"></a>
-<FONT color="green">303</FONT>             * @throws InvalidXMLException<a name="line.303"></a>
-<FONT color="green">304</FONT>             * @see CustomResourceSpecifier<a name="line.304"></a>
-<FONT color="green">305</FONT>             */<a name="line.305"></a>
-<FONT color="green">306</FONT>            public static void bindResource(ResourceSpecifier aDesc, Class&lt;? extends Resource&gt; aRes,<a name="line.306"></a>
-<FONT color="green">307</FONT>                            String... aParams) throws InvalidXMLException {<a name="line.307"></a>
-<FONT color="green">308</FONT>                    bindResource(aDesc, aRes, aRes, aParams);<a name="line.308"></a>
+<FONT color="green">297</FONT>             * @param aKey<a name="line.297"></a>
+<FONT color="green">298</FONT>             *            the key to bind to.<a name="line.298"></a>
+<FONT color="green">299</FONT>             * @param aResourceKey<a name="line.299"></a>
+<FONT color="green">300</FONT>             *            the resource key to bind.<a name="line.300"></a>
+<FONT color="green">301</FONT>             * @return the description.<a name="line.301"></a>
+<FONT color="green">302</FONT>             */<a name="line.302"></a>
+<FONT color="green">303</FONT>            public static ExternalResourceBinding createExternalResourceBinding(final String aKey,<a name="line.303"></a>
+<FONT color="green">304</FONT>                            final String aResourceKey) {<a name="line.304"></a>
+<FONT color="green">305</FONT>                    ExternalResourceBinding extResBind = new ExternalResourceBinding_impl();<a name="line.305"></a>
+<FONT color="green">306</FONT>                    extResBind.setResourceName(aResourceKey);<a name="line.306"></a>
+<FONT color="green">307</FONT>                    extResBind.setKey(aKey);<a name="line.307"></a>
+<FONT color="green">308</FONT>                    return extResBind;<a name="line.308"></a>
 <FONT color="green">309</FONT>            }<a name="line.309"></a>
 <FONT color="green">310</FONT>    <a name="line.310"></a>
 <FONT color="green">311</FONT>            /**<a name="line.311"></a>
-<FONT color="green">312</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.312"></a>
-<FONT color="green">313</FONT>             * dependency is encounter that has a key equal to the API class name, the resource will be<a name="line.313"></a>
-<FONT color="green">314</FONT>             * bound.<a name="line.314"></a>
-<FONT color="green">315</FONT>             *<a name="line.315"></a>
-<FONT color="green">316</FONT>             * @param aDesc<a name="line.316"></a>
-<FONT color="green">317</FONT>             *            a description.<a name="line.317"></a>
-<FONT color="green">318</FONT>             * @param aApi<a name="line.318"></a>
-<FONT color="green">319</FONT>             *            the resource interface.<a name="line.319"></a>
-<FONT color="green">320</FONT>             * @param aRes<a name="line.320"></a>
-<FONT color="green">321</FONT>             *            the resource to bind.<a name="line.321"></a>
-<FONT color="green">322</FONT>             * @param aParams<a name="line.322"></a>
-<FONT color="green">323</FONT>             *            parameters passed to the resource when it is created.<a name="line.323"></a>
-<FONT color="green">324</FONT>             * @throws InvalidXMLException<a name="line.324"></a>
-<FONT color="green">325</FONT>             * @see CustomResourceSpecifier<a name="line.325"></a>
-<FONT color="green">326</FONT>             */<a name="line.326"></a>
-<FONT color="green">327</FONT>            public static void bindResource(ResourceSpecifier aDesc, Class&lt;?&gt; aApi,<a name="line.327"></a>
-<FONT color="green">328</FONT>                            Class&lt;? extends Resource&gt; aRes, String... aParams) throws InvalidXMLException {<a name="line.328"></a>
-<FONT color="green">329</FONT>                    // Appending a disambiguation suffix it possible to have multiple instances of the same<a name="line.329"></a>
-<FONT color="green">330</FONT>                    // resource with different settings to different keys.<a name="line.330"></a>
-<FONT color="green">331</FONT>                    ExternalResourceDescription extRes = createExternalResourceDescription(<a name="line.331"></a>
-<FONT color="green">332</FONT>                                    aRes.getName() + '-' + disambiguator.getAndIncrement(), aRes, aParams);<a name="line.332"></a>
-<FONT color="green">333</FONT>                    bindResource(aDesc, aApi.getName(), extRes);<a name="line.333"></a>
-<FONT color="green">334</FONT>            }<a name="line.334"></a>
-<FONT color="green">335</FONT>    <a name="line.335"></a>
-<FONT color="green">336</FONT>            /**<a name="line.336"></a>
-<FONT color="green">337</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.337"></a>
-<FONT color="green">338</FONT>             * dependency is encountered that has a key equal to the resource class name, the resource will<a name="line.338"></a>
-<FONT color="green">339</FONT>             * be bound.<a name="line.339"></a>
-<FONT color="green">340</FONT>             *<a name="line.340"></a>
-<FONT color="green">341</FONT>             * @param aDesc<a name="line.341"></a>
-<FONT color="green">342</FONT>             *            a description.<a name="line.342"></a>
-<FONT color="green">343</FONT>             * @param aRes<a name="line.343"></a>
-<FONT color="green">344</FONT>             *            the resource to bind.<a name="line.344"></a>
-<FONT color="green">345</FONT>             * @param aUrl<a name="line.345"></a>
-<FONT color="green">346</FONT>             *            the URL from which the resource is initialized.<a name="line.346"></a>
-<FONT color="green">347</FONT>             * @param aParams<a name="line.347"></a>
-<FONT color="green">348</FONT>             *            parameters passed to the resource when it is created.<a name="line.348"></a>
-<FONT color="green">349</FONT>             * @throws InvalidXMLException<a name="line.349"></a>
-<FONT color="green">350</FONT>             * @see SharedResourceObject<a name="line.350"></a>
-<FONT color="green">351</FONT>             */<a name="line.351"></a>
-<FONT color="green">352</FONT>            public static void bindResource(ResourceSpecifier aDesc,<a name="line.352"></a>
-<FONT color="green">353</FONT>                            Class&lt;? extends SharedResourceObject&gt; aRes, String aUrl, Object... aParams)<a name="line.353"></a>
-<FONT color="green">354</FONT>                            throws InvalidXMLException {<a name="line.354"></a>
-<FONT color="green">355</FONT>                    bindResource(aDesc, aRes, aRes, aUrl, aParams);<a name="line.355"></a>
-<FONT color="green">356</FONT>            }<a name="line.356"></a>
-<FONT color="green">357</FONT>    <a name="line.357"></a>
-<FONT color="green">358</FONT>            /**<a name="line.358"></a>
-<FONT color="green">359</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.359"></a>
-<FONT color="green">360</FONT>             * dependency is encountered that has a key equal to the API class name, the resource will be<a name="line.360"></a>
-<FONT color="green">361</FONT>             * bound.<a name="line.361"></a>
-<FONT color="green">362</FONT>             *<a name="line.362"></a>
-<FONT color="green">363</FONT>             * @param aDesc<a name="line.363"></a>
-<FONT color="green">364</FONT>             *            a description.<a name="line.364"></a>
-<FONT color="green">365</FONT>             * @param aApi<a name="line.365"></a>
-<FONT color="green">366</FONT>             *            the resource interface.<a name="line.366"></a>
-<FONT color="green">367</FONT>             * @param aRes<a name="line.367"></a>
-<FONT color="green">368</FONT>             *            the resource to bind.<a name="line.368"></a>
-<FONT color="green">369</FONT>             * @param aUrl<a name="line.369"></a>
-<FONT color="green">370</FONT>             *            the URL from which the resource is initialized.<a name="line.370"></a>
-<FONT color="green">371</FONT>             * @param aParams<a name="line.371"></a>
-<FONT color="green">372</FONT>             *            parameters passed to the resource when it is created.<a name="line.372"></a>
-<FONT color="green">373</FONT>             * @throws InvalidXMLException<a name="line.373"></a>
-<FONT color="green">374</FONT>             * @see SharedResourceObject<a name="line.374"></a>
-<FONT color="green">375</FONT>             */<a name="line.375"></a>
-<FONT color="green">376</FONT>            public static void bindResource(ResourceSpecifier aDesc, Class&lt;?&gt; aApi,<a name="line.376"></a>
-<FONT color="green">377</FONT>                            Class&lt;? extends SharedResourceObject&gt; aRes, String aUrl, Object... aParams)<a name="line.377"></a>
-<FONT color="green">378</FONT>                            throws InvalidXMLException {<a name="line.378"></a>
-<FONT color="green">379</FONT>                    bindResource(aDesc, aApi.getName(), aRes, aUrl, aParams);<a name="line.379"></a>
-<FONT color="green">380</FONT>            }<a name="line.380"></a>
-<FONT color="green">381</FONT>    <a name="line.381"></a>
-<FONT color="green">382</FONT>            /**<a name="line.382"></a>
-<FONT color="green">383</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.383"></a>
-<FONT color="green">384</FONT>             * dependency with the given key is encountered the resource will be bound.<a name="line.384"></a>
-<FONT color="green">385</FONT>             *<a name="line.385"></a>
-<FONT color="green">386</FONT>             * @param aDesc<a name="line.386"></a>
-<FONT color="green">387</FONT>             *            a description.<a name="line.387"></a>
-<FONT color="green">388</FONT>             * @param aKey<a name="line.388"></a>
-<FONT color="green">389</FONT>             *            the key to bind to.<a name="line.389"></a>
-<FONT color="green">390</FONT>             * @param aRes<a name="line.390"></a>
-<FONT color="green">391</FONT>             *            the resource to bind.<a name="line.391"></a>
-<FONT color="green">392</FONT>             * @param aUrl<a name="line.392"></a>
-<FONT color="green">393</FONT>             *            the URL from which the resource is initialized.<a name="line.393"></a>
-<FONT color="green">394</FONT>             * @param aParams<a name="line.394"></a>
-<FONT color="green">395</FONT>             *            parameters passed to the resource when it is created.<a name="line.395"></a>
-<FONT color="green">396</FONT>             * @throws InvalidXMLException<a name="line.396"></a>
-<FONT color="green">397</FONT>             * @see SharedResourceObject<a name="line.397"></a>
-<FONT color="green">398</FONT>             */<a name="line.398"></a>
-<FONT color="green">399</FONT>            public static void bindResource(ResourceSpecifier aDesc, String aKey,<a name="line.399"></a>
-<FONT color="green">400</FONT>                            Class&lt;? extends SharedResourceObject&gt; aRes, String aUrl, Object... aParams)<a name="line.400"></a>
-<FONT color="green">401</FONT>                            throws InvalidXMLException {<a name="line.401"></a>
-<FONT color="green">402</FONT>                    ExternalResourceDescription extRes = createExternalResourceDescription(<a name="line.402"></a>
-<FONT color="green">403</FONT>                                    aRes.getName() + '-' + disambiguator.getAndIncrement(), aRes, aUrl,<a name="line.403"></a>
-<FONT color="green">404</FONT>                                    aParams);<a name="line.404"></a>
-<FONT color="green">405</FONT>                    bind((AnalysisEngineDescription) aDesc, aKey, extRes);<a name="line.405"></a>
-<FONT color="green">406</FONT>            }<a name="line.406"></a>
-<FONT color="green">407</FONT>    <a name="line.407"></a>
-<FONT color="green">408</FONT>            /**<a name="line.408"></a>
-<FONT color="green">409</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.409"></a>
-<FONT color="green">410</FONT>             * dependency with the given key is encountered, the given resource is bound to it.<a name="line.410"></a>
-<FONT color="green">411</FONT>             *<a name="line.411"></a>
-<FONT color="green">412</FONT>             * @param aDesc<a name="line.412"></a>
-<FONT color="green">413</FONT>             *            a description.<a name="line.413"></a>
-<FONT color="green">414</FONT>             * @param aKey<a name="line.414"></a>
-<FONT color="green">415</FONT>             *            the key to bind to.<a name="line.415"></a>
-<FONT color="green">416</FONT>             * @param aRes<a name="line.416"></a>
-<FONT color="green">417</FONT>             *            the resource to bind.<a name="line.417"></a>
-<FONT color="green">418</FONT>             * @param aParams<a name="line.418"></a>
-<FONT color="green">419</FONT>             *            parameters passed to the resource when it is created.<a name="line.419"></a>
-<FONT color="green">420</FONT>             * @throws InvalidXMLException<a name="line.420"></a>
-<FONT color="green">421</FONT>             * @see CustomResourceSpecifier<a name="line.421"></a>
-<FONT color="green">422</FONT>             */<a name="line.422"></a>
-<FONT color="green">423</FONT>            public static void bindResource(ResourceSpecifier aDesc, String aKey,<a name="line.423"></a>
-<FONT color="green">424</FONT>                            Class&lt;? extends Resource&gt; aRes, String... aParams) throws InvalidXMLException {<a name="line.424"></a>
-<FONT color="green">425</FONT>                    // Appending a disambiguation suffix it possible to have multiple instances of the same<a name="line.425"></a>
-<FONT color="green">426</FONT>                    // resource with different settings to different keys.<a name="line.426"></a>
-<FONT color="green">427</FONT>                    ExternalResourceDescription extRes = createExternalResourceDescription(<a name="line.427"></a>
-<FONT color="green">428</FONT>                                    aRes.getName() + '-' + disambiguator.getAndIncrement(), aRes, aParams);<a name="line.428"></a>
-<FONT color="green">429</FONT>                    bindResource(aDesc, aKey, extRes);<a name="line.429"></a>
-<FONT color="green">430</FONT>            }<a name="line.430"></a>
-<FONT color="green">431</FONT>    <a name="line.431"></a>
-<FONT color="green">432</FONT>            /**<a name="line.432"></a>
-<FONT color="green">433</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.433"></a>
-<FONT color="green">434</FONT>             * dependency with the given key is encountered, the given resource is bound to it.<a name="line.434"></a>
+<FONT color="green">312</FONT>             * Creates an ExternalResourceDependency for a given key and interface<a name="line.312"></a>
+<FONT color="green">313</FONT>             *<a name="line.313"></a>
+<FONT color="green">314</FONT>             * @param aKey<a name="line.314"></a>
+<FONT color="green">315</FONT>             * @param aInterface<a name="line.315"></a>
+<FONT color="green">316</FONT>             * @param aOptional<a name="line.316"></a>
+<FONT color="green">317</FONT>             *            determines whether the dependency is optional<a name="line.317"></a>
+<FONT color="green">318</FONT>             * @return<a name="line.318"></a>
+<FONT color="green">319</FONT>             */<a name="line.319"></a>
+<FONT color="green">320</FONT>            public static ExternalResourceDependency createExternalResourceDependency(final String aKey,<a name="line.320"></a>
+<FONT color="green">321</FONT>                            final Class&lt;?&gt; aInterface, final boolean aOptional) {<a name="line.321"></a>
+<FONT color="green">322</FONT>                    ExternalResourceDependency dep = new ExternalResourceDependency_impl();<a name="line.322"></a>
+<FONT color="green">323</FONT>                    dep.setInterfaceName(aInterface.getName());<a name="line.323"></a>
+<FONT color="green">324</FONT>                    dep.setKey(aKey);<a name="line.324"></a>
+<FONT color="green">325</FONT>                    dep.setOptional(aOptional);<a name="line.325"></a>
+<FONT color="green">326</FONT>                    return dep;<a name="line.326"></a>
+<FONT color="green">327</FONT>            }<a name="line.327"></a>
+<FONT color="green">328</FONT>    <a name="line.328"></a>
+<FONT color="green">329</FONT>            /**<a name="line.329"></a>
+<FONT color="green">330</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.330"></a>
+<FONT color="green">331</FONT>             * dependency is encounter that has the specified key, the resource will be bound.<a name="line.331"></a>
+<FONT color="green">332</FONT>             * &lt;p&gt;<a name="line.332"></a>
+<FONT color="green">333</FONT>             * &lt;b&gt;Caveat&lt;/b&gt;: If you use this method, you may expect that {@link DataResource#getUrl()} or<a name="line.333"></a>
+<FONT color="green">334</FONT>             * {@link DataResource#getUri()} will return the same URL that you have specified here. This may<a name="line.334"></a>
+<FONT color="green">335</FONT>             * &lt;b&gt;NOT&lt;/b&gt; be the case. UIMA will internally try to resolve the URL via a<a name="line.335"></a>
+<FONT color="green">336</FONT>             * {@link ResourceManager}. If it cannot resolve a remove URL, this mechanism will think it may<a name="line.336"></a>
+<FONT color="green">337</FONT>             * be a local file and will return some local path - or it may redirect it to some location as<a name="line.337"></a>
+<FONT color="green">338</FONT>             * though fit by the {@link ResourceManager}.<a name="line.338"></a>
+<FONT color="green">339</FONT>             *<a name="line.339"></a>
+<FONT color="green">340</FONT>             * @param aDesc<a name="line.340"></a>
+<FONT color="green">341</FONT>             *            a description.<a name="line.341"></a>
+<FONT color="green">342</FONT>             * @param aKey<a name="line.342"></a>
+<FONT color="green">343</FONT>             *            the key to bind to.<a name="line.343"></a>
+<FONT color="green">344</FONT>             * @param aUrl<a name="line.344"></a>
+<FONT color="green">345</FONT>             *            a URL.<a name="line.345"></a>
+<FONT color="green">346</FONT>             * @throws InvalidXMLException<a name="line.346"></a>
+<FONT color="green">347</FONT>             * @see FileResourceSpecifier<a name="line.347"></a>
+<FONT color="green">348</FONT>             */<a name="line.348"></a>
+<FONT color="green">349</FONT>            public static void bindResource(ResourceSpecifier aDesc, String aKey, URL aUrl)<a name="line.349"></a>
+<FONT color="green">350</FONT>                            throws InvalidXMLException {<a name="line.350"></a>
+<FONT color="green">351</FONT>                    bindResource(aDesc, aKey, aUrl.toString());<a name="line.351"></a>
+<FONT color="green">352</FONT>            }<a name="line.352"></a>
+<FONT color="green">353</FONT>    <a name="line.353"></a>
+<FONT color="green">354</FONT>            /**<a name="line.354"></a>
+<FONT color="green">355</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.355"></a>
+<FONT color="green">356</FONT>             * dependency is encounter that has the specified key, the resource will be bound.<a name="line.356"></a>
+<FONT color="green">357</FONT>             * &lt;p&gt;<a name="line.357"></a>
+<FONT color="green">358</FONT>             * &lt;b&gt;Caveat&lt;/b&gt;: If you use this method, you may expect that {@link DataResource#getUrl()} or<a name="line.358"></a>
+<FONT color="green">359</FONT>             * {@link DataResource#getUri()} will return the URL of the file that you have specified here.<a name="line.359"></a>
+<FONT color="green">360</FONT>             * This may &lt;b&gt;NOT&lt;/b&gt; be the case. UIMA will internally try to resolve the URL via a<a name="line.360"></a>
+<FONT color="green">361</FONT>             * {@link ResourceManager}. If it cannot resolve a remove URL, this mechanism will think it may<a name="line.361"></a>
+<FONT color="green">362</FONT>             * be a local file and will return some local path - or it may redirect it to some location as<a name="line.362"></a>
+<FONT color="green">363</FONT>             * though fit by the {@link ResourceManager}.<a name="line.363"></a>
+<FONT color="green">364</FONT>             *<a name="line.364"></a>
+<FONT color="green">365</FONT>             * @param aDesc<a name="line.365"></a>
+<FONT color="green">366</FONT>             *            a description.<a name="line.366"></a>
+<FONT color="green">367</FONT>             * @param aKey<a name="line.367"></a>
+<FONT color="green">368</FONT>             *            the key to bind to.<a name="line.368"></a>
+<FONT color="green">369</FONT>             * @param aFile<a name="line.369"></a>
+<FONT color="green">370</FONT>             *            a file.<a name="line.370"></a>
+<FONT color="green">371</FONT>             * @throws InvalidXMLException<a name="line.371"></a>
+<FONT color="green">372</FONT>             * @see FileResourceSpecifier<a name="line.372"></a>
+<FONT color="green">373</FONT>             */<a name="line.373"></a>
+<FONT color="green">374</FONT>            public static void bindResource(ResourceSpecifier aDesc, String aKey, File aFile)<a name="line.374"></a>
+<FONT color="green">375</FONT>                            throws InvalidXMLException {<a name="line.375"></a>
+<FONT color="green">376</FONT>                    try {<a name="line.376"></a>
+<FONT color="green">377</FONT>                            bindResource(aDesc, aKey, aFile.toURI().toURL());<a name="line.377"></a>
+<FONT color="green">378</FONT>                    }<a name="line.378"></a>
+<FONT color="green">379</FONT>                    catch (MalformedURLException e) {<a name="line.379"></a>
+<FONT color="green">380</FONT>                            // This is something that usually cannot happen, so we degrade this to an <a name="line.380"></a>
+<FONT color="green">381</FONT>                            // IllegalArgumentException which is a RuntimeException that does not need to be caught.<a name="line.381"></a>
+<FONT color="green">382</FONT>                            throw new IllegalArgumentException("File converts to illegal URL [" + aFile + "]");<a name="line.382"></a>
+<FONT color="green">383</FONT>                    }<a name="line.383"></a>
+<FONT color="green">384</FONT>            }<a name="line.384"></a>
+<FONT color="green">385</FONT>    <a name="line.385"></a>
+<FONT color="green">386</FONT>            /**<a name="line.386"></a>
+<FONT color="green">387</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.387"></a>
+<FONT color="green">388</FONT>             * dependency is encounter that has the specified key, the resource will be bound.<a name="line.388"></a>
+<FONT color="green">389</FONT>             * &lt;p&gt;<a name="line.389"></a>
+<FONT color="green">390</FONT>             * &lt;b&gt;Caveat&lt;/b&gt;: If you use this method, you may expect that {@link DataResource#getUrl()} or<a name="line.390"></a>
+<FONT color="green">391</FONT>             * {@link DataResource#getUri()} will return the same URL that you have specified here. This is<a name="line.391"></a>
+<FONT color="green">392</FONT>             * may &lt;b&gt;NOT&lt;/b&gt; be the case. UIMA will internally try to resolve the URL via a<a name="line.392"></a>
+<FONT color="green">393</FONT>             * {@link ResourceManager}. If it cannot resolve a remove URL, this mechanism will think it may<a name="line.393"></a>
+<FONT color="green">394</FONT>             * be a local file and will return some local path - or it may redirect it to some location as<a name="line.394"></a>
+<FONT color="green">395</FONT>             * though fit by the {@link ResourceManager}.<a name="line.395"></a>
+<FONT color="green">396</FONT>             *<a name="line.396"></a>
+<FONT color="green">397</FONT>             * @param aDesc<a name="line.397"></a>
+<FONT color="green">398</FONT>             *            a description.<a name="line.398"></a>
+<FONT color="green">399</FONT>             * @param aKey<a name="line.399"></a>
+<FONT color="green">400</FONT>             *            the key to bind to.<a name="line.400"></a>
+<FONT color="green">401</FONT>             * @param aUrl<a name="line.401"></a>
+<FONT color="green">402</FONT>             *            a URL.<a name="line.402"></a>
+<FONT color="green">403</FONT>             * @throws InvalidXMLException<a name="line.403"></a>
+<FONT color="green">404</FONT>             * @see FileResourceSpecifier<a name="line.404"></a>
+<FONT color="green">405</FONT>             */<a name="line.405"></a>
+<FONT color="green">406</FONT>            public static void bindResource(ResourceSpecifier aDesc, String aKey, String aUrl)<a name="line.406"></a>
+<FONT color="green">407</FONT>                            throws InvalidXMLException {<a name="line.407"></a>
+<FONT color="green">408</FONT>                    ExternalResourceDescription extRes = createExternalResourceDescription(aKey, aUrl);<a name="line.408"></a>
+<FONT color="green">409</FONT>                    bindResource(aDesc, aKey, extRes);<a name="line.409"></a>
+<FONT color="green">410</FONT>            }<a name="line.410"></a>
+<FONT color="green">411</FONT>    <a name="line.411"></a>
+<FONT color="green">412</FONT>            /**<a name="line.412"></a>
+<FONT color="green">413</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.413"></a>
+<FONT color="green">414</FONT>             * dependency is encounter that has a key equal to the resource class name, the resource will be<a name="line.414"></a>
+<FONT color="green">415</FONT>             * bound.<a name="line.415"></a>
+<FONT color="green">416</FONT>             *<a name="line.416"></a>
+<FONT color="green">417</FONT>             * @param aDesc<a name="line.417"></a>
+<FONT color="green">418</FONT>             *            a description.<a name="line.418"></a>
+<FONT color="green">419</FONT>             * @param aRes<a name="line.419"></a>
+<FONT color="green">420</FONT>             *            the resource to bind.<a name="line.420"></a>
+<FONT color="green">421</FONT>             * @param aParams<a name="line.421"></a>
+<FONT color="green">422</FONT>             *            parameters passed to the resource when it is created.<a name="line.422"></a>
+<FONT color="green">423</FONT>             * @throws InvalidXMLException<a name="line.423"></a>
+<FONT color="green">424</FONT>             * @see CustomResourceSpecifier<a name="line.424"></a>
+<FONT color="green">425</FONT>             */<a name="line.425"></a>
+<FONT color="green">426</FONT>            public static void bindResource(ResourceSpecifier aDesc, Class&lt;? extends Resource&gt; aRes,<a name="line.426"></a>
+<FONT color="green">427</FONT>                            String... aParams) throws InvalidXMLException {<a name="line.427"></a>
+<FONT color="green">428</FONT>                    bindResource(aDesc, aRes, aRes, aParams);<a name="line.428"></a>
+<FONT color="green">429</FONT>            }<a name="line.429"></a>
+<FONT color="green">430</FONT>    <a name="line.430"></a>
+<FONT color="green">431</FONT>            /**<a name="line.431"></a>
+<FONT color="green">432</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.432"></a>
+<FONT color="green">433</FONT>             * dependency is encounter that has a key equal to the API class name, the resource will be<a name="line.433"></a>
+<FONT color="green">434</FONT>             * bound.<a name="line.434"></a>
 <FONT color="green">435</FONT>             *<a name="line.435"></a>
 <FONT color="green">436</FONT>             * @param aDesc<a name="line.436"></a>
 <FONT color="green">437</FONT>             *            a description.<a name="line.437"></a>
-<FONT color="green">438</FONT>             * @param aKey<a name="line.438"></a>
-<FONT color="green">439</FONT>             *            the key to bind to.<a name="line.439"></a>
-<FONT color="green">440</FONT>             * @param aResDesc<a name="line.440"></a>
-<FONT color="green">441</FONT>             *            the resource description.<a name="line.441"></a>
-<FONT color="green">442</FONT>             * @throws InvalidXMLException<a name="line.442"></a>
-<FONT color="green">443</FONT>             */<a name="line.443"></a>
-<FONT color="green">444</FONT>            public static void bindResource(ResourceSpecifier aDesc, String aKey,<a name="line.444"></a>
-<FONT color="green">445</FONT>                            ExternalResourceDescription aResDesc) throws InvalidXMLException {<a name="line.445"></a>
-<FONT color="green">446</FONT>                    // Dispatch<a name="line.446"></a>
-<FONT color="green">447</FONT>                    if (aDesc instanceof AnalysisEngineDescription) {<a name="line.447"></a>
-<FONT color="green">448</FONT>                            bind((AnalysisEngineDescription) aDesc, aKey, aResDesc);<a name="line.448"></a>
-<FONT color="green">449</FONT>                    }<a name="line.449"></a>
-<FONT color="green">450</FONT>            }<a name="line.450"></a>
-<FONT color="green">451</FONT>    <a name="line.451"></a>
-<FONT color="green">452</FONT>            /**<a name="line.452"></a>
-<FONT color="green">453</FONT>             * Create a new dependency for the specified resource and bind it. This method is helpful for<a name="line.453"></a>
-<FONT color="green">454</FONT>             * UIMA components that do not use the uimaFIT {@link ExternalResource} annotation, because no<a name="line.454"></a>
-<FONT color="green">455</FONT>             * external resource dependencies can be automatically generated by uimaFIT for such components.<a name="line.455"></a>
-<FONT color="green">456</FONT>             *<a name="line.456"></a>
-<FONT color="green">457</FONT>             * @param aDesc<a name="line.457"></a>
-<FONT color="green">458</FONT>             *            a description.<a name="line.458"></a>
-<FONT color="green">459</FONT>             * @param aKey<a name="line.459"></a>
-<FONT color="green">460</FONT>             *            the key to bind to.<a name="line.460"></a>
-<FONT color="green">461</FONT>             * @param aImpl<a name="line.461"></a>
-<FONT color="green">462</FONT>             *            the resource implementation.<a name="line.462"></a>
-<FONT color="green">463</FONT>             * @param aUrl<a name="line.463"></a>
-<FONT color="green">464</FONT>             *            the resource URL.<a name="line.464"></a>
-<FONT color="green">465</FONT>             * @param aParams<a name="line.465"></a>
-<FONT color="green">466</FONT>             *            additional parameters supported by the resource.<a name="line.466"></a>
-<FONT color="green">467</FONT>             * @throws InvalidXMLException<a name="line.467"></a>
-<FONT color="green">468</FONT>             */<a name="line.468"></a>
-<FONT color="green">469</FONT>            public static void createDependencyAndBind(AnalysisEngineDescription aDesc, String aKey,<a name="line.469"></a>
-<FONT color="green">470</FONT>                            Class&lt;? extends SharedResourceObject&gt; aImpl, String aUrl, Object... aParams)<a name="line.470"></a>
-<FONT color="green">471</FONT>                            throws InvalidXMLException {<a name="line.471"></a>
-<FONT color="green">472</FONT>                    if (aDesc.getExternalResourceDependency(aKey) == null) {<a name="line.472"></a>
-<FONT color="green">473</FONT>                            ExternalResourceDependency[] deps = aDesc.getExternalResourceDependencies();<a name="line.473"></a>
-<FONT color="green">474</FONT>                            if (deps == null) {<a name="line.474"></a>
-<FONT color="green">475</FONT>                                    deps = new ExternalResourceDependency[] {};<a name="line.475"></a>
-<FONT color="green">476</FONT>                            }<a name="line.476"></a>
-<FONT color="green">477</FONT>                            aDesc.setExternalResourceDependencies((ExternalResourceDependency[]) ArrayUtils.add(<a name="line.477"></a>
-<FONT color="green">478</FONT>                                            deps, createExternalResourceDependency(aKey, aImpl, false)));<a name="line.478"></a>
-<FONT color="green">479</FONT>                    }<a name="line.479"></a>
-<FONT color="green">480</FONT>                    bindResource(aDesc, aKey, aImpl, aUrl, aParams);<a name="line.480"></a>
-<FONT color="green">481</FONT>            }<a name="line.481"></a>
-<FONT color="green">482</FONT>    <a name="line.482"></a>
-<FONT color="green">483</FONT>            /**<a name="line.483"></a>
-<FONT color="green">484</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.484"></a>
-<FONT color="green">485</FONT>             * dependency with the given key is encountered, the given resource is bound to it.<a name="line.485"></a>
-<FONT color="green">486</FONT>             *<a name="line.486"></a>
-<FONT color="green">487</FONT>             * @param aDesc<a name="line.487"></a>
-<FONT color="green">488</FONT>             *            a description.<a name="line.488"></a>
-<FONT color="green">489</FONT>             * @param aKey<a name="line.489"></a>
-<FONT color="green">490</FONT>             *            the key to bind to.<a name="line.490"></a>
-<FONT color="green">491</FONT>             * @param aResDesc<a name="line.491"></a>
-<FONT color="green">492</FONT>             *            the resource description.<a name="line.492"></a>
+<FONT color="green">438</FONT>             * @param aApi<a name="line.438"></a>
+<FONT color="green">439</FONT>             *            the resource interface.<a name="line.439"></a>
+<FONT color="green">440</FONT>             * @param aRes<a name="line.440"></a>
+<FONT color="green">441</FONT>             *            the resource to bind.<a name="line.441"></a>
+<FONT color="green">442</FONT>             * @param aParams<a name="line.442"></a>
+<FONT color="green">443</FONT>             *            parameters passed to the resource when it is created.<a name="line.443"></a>
+<FONT color="green">444</FONT>             * @throws InvalidXMLException<a name="line.444"></a>
+<FONT color="green">445</FONT>             * @see CustomResourceSpecifier<a name="line.445"></a>
+<FONT color="green">446</FONT>             */<a name="line.446"></a>
+<FONT color="green">447</FONT>            public static void bindResource(ResourceSpecifier aDesc, Class&lt;?&gt; aApi,<a name="line.447"></a>
+<FONT color="green">448</FONT>                            Class&lt;? extends Resource&gt; aRes, String... aParams) throws InvalidXMLException {<a name="line.448"></a>
+<FONT color="green">449</FONT>                    // Appending a disambiguation suffix it possible to have multiple instances of the same<a name="line.449"></a>
+<FONT color="green">450</FONT>                    // resource with different settings to different keys.<a name="line.450"></a>
+<FONT color="green">451</FONT>                    ExternalResourceDescription extRes = createExternalResourceDescription(<a name="line.451"></a>
+<FONT color="green">452</FONT>                                    uniqueResourceKey(aRes.getName()), aRes, (Object[]) aParams);<a name="line.452"></a>
+<FONT color="green">453</FONT>                    bindResource(aDesc, aApi.getName(), extRes);<a name="line.453"></a>
+<FONT color="green">454</FONT>            }<a name="line.454"></a>
+<FONT color="green">455</FONT>    <a name="line.455"></a>
+<FONT color="green">456</FONT>            /**<a name="line.456"></a>
+<FONT color="green">457</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.457"></a>
+<FONT color="green">458</FONT>             * dependency is encountered that has a key equal to the resource class name, the resource will<a name="line.458"></a>
+<FONT color="green">459</FONT>             * be bound.<a name="line.459"></a>
+<FONT color="green">460</FONT>             *<a name="line.460"></a>
+<FONT color="green">461</FONT>             * @param aDesc<a name="line.461"></a>
+<FONT color="green">462</FONT>             *            a description.<a name="line.462"></a>
+<FONT color="green">463</FONT>             * @param aRes<a name="line.463"></a>
+<FONT color="green">464</FONT>             *            the resource to bind.<a name="line.464"></a>
+<FONT color="green">465</FONT>             * @param aUrl<a name="line.465"></a>
+<FONT color="green">466</FONT>             *            the URL from which the resource is initialized.<a name="line.466"></a>
+<FONT color="green">467</FONT>             * @param aParams<a name="line.467"></a>
+<FONT color="green">468</FONT>             *            parameters passed to the resource when it is created.<a name="line.468"></a>
+<FONT color="green">469</FONT>             * @throws InvalidXMLException<a name="line.469"></a>
+<FONT color="green">470</FONT>             * @see SharedResourceObject<a name="line.470"></a>
+<FONT color="green">471</FONT>             */<a name="line.471"></a>
+<FONT color="green">472</FONT>            public static void bindResource(ResourceSpecifier aDesc,<a name="line.472"></a>
+<FONT color="green">473</FONT>                            Class&lt;? extends SharedResourceObject&gt; aRes, String aUrl, Object... aParams)<a name="line.473"></a>
+<FONT color="green">474</FONT>                            throws InvalidXMLException {<a name="line.474"></a>
+<FONT color="green">475</FONT>                    bindResource(aDesc, aRes, aRes, aUrl, aParams);<a name="line.475"></a>
+<FONT color="green">476</FONT>            }<a name="line.476"></a>
+<FONT color="green">477</FONT>    <a name="line.477"></a>
+<FONT color="green">478</FONT>            /**<a name="line.478"></a>
+<FONT color="green">479</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.479"></a>
+<FONT color="green">480</FONT>             * dependency is encountered that has a key equal to the API class name, the resource will be<a name="line.480"></a>
+<FONT color="green">481</FONT>             * bound.<a name="line.481"></a>
+<FONT color="green">482</FONT>             *<a name="line.482"></a>
+<FONT color="green">483</FONT>             * @param aDesc<a name="line.483"></a>
+<FONT color="green">484</FONT>             *            a description.<a name="line.484"></a>
+<FONT color="green">485</FONT>             * @param aApi<a name="line.485"></a>
+<FONT color="green">486</FONT>             *            the resource interface.<a name="line.486"></a>
+<FONT color="green">487</FONT>             * @param aRes<a name="line.487"></a>
+<FONT color="green">488</FONT>             *            the resource to bind.<a name="line.488"></a>
+<FONT color="green">489</FONT>             * @param aUrl<a name="line.489"></a>
+<FONT color="green">490</FONT>             *            the URL from which the resource is initialized.<a name="line.490"></a>
+<FONT color="green">491</FONT>             * @param aParams<a name="line.491"></a>
+<FONT color="green">492</FONT>             *            parameters passed to the resource when it is created.<a name="line.492"></a>
 <FONT color="green">493</FONT>             * @throws InvalidXMLException<a name="line.493"></a>
-<FONT color="green">494</FONT>             */<a name="line.494"></a>
-<FONT color="green">495</FONT>            private static void bind(AnalysisEngineDescription aDesc, String aKey,<a name="line.495"></a>
-<FONT color="green">496</FONT>                            ExternalResourceDescription aResDesc) throws InvalidXMLException {<a name="line.496"></a>
-<FONT color="green">497</FONT>                    // Recursively address delegates<a name="line.497"></a>
-<FONT color="green">498</FONT>                    if (!aDesc.isPrimitive()) {<a name="line.498"></a>
-<FONT color="green">499</FONT>                            for (Object delegate : aDesc.getDelegateAnalysisEngineSpecifiers().values()) {<a name="line.499"></a>
-<FONT color="green">500</FONT>                                    bindResource((ResourceSpecifier) delegate, aKey, aResDesc);<a name="line.500"></a>
-<FONT color="green">501</FONT>                            }<a name="line.501"></a>
-<FONT color="green">502</FONT>                    }<a name="line.502"></a>
-<FONT color="green">503</FONT>    <a name="line.503"></a>
-<FONT color="green">504</FONT>                    // Bind if necessary<a name="line.504"></a>
-<FONT color="green">505</FONT>                    for (ExternalResourceDependency dep : aDesc.getExternalResourceDependencies()) {<a name="line.505"></a>
-<FONT color="green">506</FONT>                            if (aKey.equals(dep.getKey())) {<a name="line.506"></a>
-<FONT color="green">507</FONT>                                    bindExternalResource(aDesc, aKey, aResDesc);<a name="line.507"></a>
-<FONT color="green">508</FONT>                            }<a name="line.508"></a>
-<FONT color="green">509</FONT>                    }<a name="line.509"></a>
-<FONT color="green">510</FONT>            }<a name="line.510"></a>
-<FONT color="green">511</FONT>    <a name="line.511"></a>
-<FONT color="green">512</FONT>            /**<a name="line.512"></a>
-<FONT color="green">513</FONT>             * Create a new external resource binding.<a name="line.513"></a>
-<FONT color="green">514</FONT>             *<a name="line.514"></a>
-<FONT color="green">515</FONT>             * @param aResMgrCfg<a name="line.515"></a>
-<FONT color="green">516</FONT>             *            the resource manager to create the binding in.<a name="line.516"></a>
-<FONT color="green">517</FONT>             * @param aBindTo<a name="line.517"></a>
-<FONT color="green">518</FONT>             *            what key to bind to.<a name="line.518"></a>
-<FONT color="green">519</FONT>             * @param aRes<a name="line.519"></a>
-<FONT color="green">520</FONT>             *            the resource that should be bound.<a name="line.520"></a>
-<FONT color="green">521</FONT>             */<a name="line.521"></a>
-<FONT color="green">522</FONT>            public static void bindExternalResource(ResourceManagerConfiguration aResMgrCfg,<a name="line.522"></a>
-<FONT color="green">523</FONT>                            String aBindTo, ExternalResourceDescription aRes) {<a name="line.523"></a>
-<FONT color="green">524</FONT>                    ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);<a name="line.524"></a>
-<FONT color="green">525</FONT>    <a name="line.525"></a>
-<FONT color="green">526</FONT>                    aResMgrCfg.addExternalResource(aRes);<a name="line.526"></a>
-<FONT color="green">527</FONT>                    aResMgrCfg.addExternalResourceBinding(extResBind);<a name="line.527"></a>
-<FONT color="green">528</FONT>            }<a name="line.528"></a>
-<FONT color="green">529</FONT>    <a name="line.529"></a>
-<FONT color="green">530</FONT>            /**<a name="line.530"></a>
-<FONT color="green">531</FONT>             * Create a new external resource binding.<a name="line.531"></a>
-<FONT color="green">532</FONT>             *<a name="line.532"></a>
-<FONT color="green">533</FONT>             * @param aDesc<a name="line.533"></a>
-<FONT color="green">534</FONT>             *            the specifier to create the binding in.<a name="line.534"></a>
-<FONT color="green">535</FONT>             * @param aBindTo<a name="line.535"></a>
-<FONT color="green">536</FONT>             *            what key to bind to.<a name="line.536"></a>
-<FONT color="green">537</FONT>             * @param aRes<a name="line.537"></a>
-<FONT color="green">538</FONT>             *            the resource that should be bound.<a name="line.538"></a>
-<FONT color="green">539</FONT>             */<a name="line.539"></a>
-<FONT color="green">540</FONT>            public static void bindExternalResource(ResourceCreationSpecifier aDesc,<a name="line.540"></a>
-<FONT color="green">541</FONT>                            String aBindTo, ExternalResourceDescription aRes) {<a name="line.541"></a>
-<FONT color="green">542</FONT>                    ResourceManagerConfiguration resMgrCfg = aDesc.getResourceManagerConfiguration();<a name="line.542"></a>
-<FONT color="green">543</FONT>                    if (resMgrCfg == null) {<a name="line.543"></a>
-<FONT color="green">544</FONT>                            resMgrCfg = new ResourceManagerConfiguration_impl();<a name="line.544"></a>
-<FONT color="green">545</FONT>                            aDesc.setResourceManagerConfiguration(resMgrCfg);<a name="line.545"></a>
+<FONT color="green">494</FONT>             * @see SharedResourceObject<a name="line.494"></a>
+<FONT color="green">495</FONT>             */<a name="line.495"></a>
+<FONT color="green">496</FONT>            public static void bindResource(ResourceSpecifier aDesc, Class&lt;?&gt; aApi,<a name="line.496"></a>
+<FONT color="green">497</FONT>                            Class&lt;? extends SharedResourceObject&gt; aRes, String aUrl, Object... aParams)<a name="line.497"></a>
+<FONT color="green">498</FONT>                            throws InvalidXMLException {<a name="line.498"></a>
+<FONT color="green">499</FONT>                    bindResource(aDesc, aApi.getName(), aRes, aUrl, aParams);<a name="line.499"></a>
+<FONT color="green">500</FONT>            }<a name="line.500"></a>
+<FONT color="green">501</FONT>    <a name="line.501"></a>
+<FONT color="green">502</FONT>            /**<a name="line.502"></a>
+<FONT color="green">503</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.503"></a>
+<FONT color="green">504</FONT>             * dependency with the given key is encountered the resource will be bound.<a name="line.504"></a>
+<FONT color="green">505</FONT>             *<a name="line.505"></a>
+<FONT color="green">506</FONT>             * @param aDesc<a name="line.506"></a>
+<FONT color="green">507</FONT>             *            a description.<a name="line.507"></a>
+<FONT color="green">508</FONT>             * @param aKey<a name="line.508"></a>
+<FONT color="green">509</FONT>             *            the key to bind to.<a name="line.509"></a>
+<FONT color="green">510</FONT>             * @param aRes<a name="line.510"></a>
+<FONT color="green">511</FONT>             *            the resource to bind.<a name="line.511"></a>
+<FONT color="green">512</FONT>             * @param aUrl<a name="line.512"></a>
+<FONT color="green">513</FONT>             *            the URL from which the resource is initialized.<a name="line.513"></a>
+<FONT color="green">514</FONT>             * @param aParams<a name="line.514"></a>
+<FONT color="green">515</FONT>             *            parameters passed to the resource when it is created.<a name="line.515"></a>
+<FONT color="green">516</FONT>             * @throws InvalidXMLException<a name="line.516"></a>
+<FONT color="green">517</FONT>             * @see SharedResourceObject<a name="line.517"></a>
+<FONT color="green">518</FONT>             */<a name="line.518"></a>
+<FONT color="green">519</FONT>            public static void bindResource(ResourceSpecifier aDesc, String aKey,<a name="line.519"></a>
+<FONT color="green">520</FONT>                            Class&lt;? extends SharedResourceObject&gt; aRes, String aUrl, Object... aParams)<a name="line.520"></a>
+<FONT color="green">521</FONT>                            throws InvalidXMLException {<a name="line.521"></a>
+<FONT color="green">522</FONT>                    ExternalResourceDescription extRes = createExternalResourceDescription(<a name="line.522"></a>
+<FONT color="green">523</FONT>                                    uniqueResourceKey(aRes.getName()), aRes, aUrl, aParams);<a name="line.523"></a>
+<FONT color="green">524</FONT>                    bind((AnalysisEngineDescription) aDesc, aKey, extRes);<a name="line.524"></a>
+<FONT color="green">525</FONT>            }<a name="line.525"></a>
+<FONT color="green">526</FONT>    <a name="line.526"></a>
+<FONT color="green">527</FONT>            /**<a name="line.527"></a>
+<FONT color="green">528</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.528"></a>
+<FONT color="green">529</FONT>             * dependency with the given key is encountered, the given resource is bound to it.<a name="line.529"></a>
+<FONT color="green">530</FONT>             *<a name="line.530"></a>
+<FONT color="green">531</FONT>             * @param aDesc<a name="line.531"></a>
+<FONT color="green">532</FONT>             *            a description.<a name="line.532"></a>
+<FONT color="green">533</FONT>             * @param aKey<a name="line.533"></a>
+<FONT color="green">534</FONT>             *            the key to bind to.<a name="line.534"></a>
+<FONT color="green">535</FONT>             * @param aRes<a name="line.535"></a>
+<FONT color="green">536</FONT>             *            the resource to bind.<a name="line.536"></a>
+<FONT color="green">537</FONT>             * @param aParams<a name="line.537"></a>
+<FONT color="green">538</FONT>             *            parameters passed to the resource when it is created.<a name="line.538"></a>
+<FONT color="green">539</FONT>             * @throws InvalidXMLException<a name="line.539"></a>
+<FONT color="green">540</FONT>             * @see CustomResourceSpecifier<a name="line.540"></a>
+<FONT color="green">541</FONT>             */<a name="line.541"></a>
+<FONT color="green">542</FONT>            public static void bindResource(ResourceSpecifier aDesc, String aKey,<a name="line.542"></a>
+<FONT color="green">543</FONT>                            Class&lt;? extends Resource&gt; aRes, String... aParams) throws InvalidXMLException {<a name="line.543"></a>
+<FONT color="green">544</FONT>                    if (ParameterizedDataResource.class.isAssignableFrom(aRes)) {<a name="line.544"></a>
+<FONT color="green">545</FONT>                            createDependency(aDesc, aKey, DataResource.class);<a name="line.545"></a>
 <FONT color="green">546</FONT>                    }<a name="line.546"></a>
 <FONT color="green">547</FONT>    <a name="line.547"></a>
-<FONT color="green">548</FONT>                    ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);<a name="line.548"></a>
-<FONT color="green">549</FONT>                    resMgrCfg.addExternalResource(aRes);<a name="line.549"></a>
-<FONT color="green">550</FONT>                    resMgrCfg.addExternalResourceBinding(extResBind);<a name="line.550"></a>
-<FONT color="green">551</FONT>            }<a name="line.551"></a>
-<FONT color="green">552</FONT>    <a name="line.552"></a>
-<FONT color="green">553</FONT>            /**<a name="line.553"></a>
-<FONT color="green">554</FONT>             * Create a new external resource binding.<a name="line.554"></a>
-<FONT color="green">555</FONT>             *<a name="line.555"></a>
-<FONT color="green">556</FONT>             * @param aResMgrCfg<a name="line.556"></a>
-<FONT color="green">557</FONT>             *            the resource manager to create the binding in.<a name="line.557"></a>
-<FONT color="green">558</FONT>             * @param aBindTo<a name="line.558"></a>
-<FONT color="green">559</FONT>             *            what key to bind to.<a name="line.559"></a>
-<FONT color="green">560</FONT>             * @param aRes<a name="line.560"></a>
-<FONT color="green">561</FONT>             *            the resource that should be bound.<a name="line.561"></a>
-<FONT color="green">562</FONT>             */<a name="line.562"></a>
-<FONT color="green">563</FONT>            public static void bindExternalResource(ResourceManagerConfiguration aResMgrCfg,<a name="line.563"></a>
-<FONT color="green">564</FONT>                            String aBindTo, String aRes) {<a name="line.564"></a>
-<FONT color="green">565</FONT>                    ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);<a name="line.565"></a>
-<FONT color="green">566</FONT>                    aResMgrCfg.addExternalResourceBinding(extResBind);<a name="line.566"></a>
-<FONT color="green">567</FONT>            }<a name="line.567"></a>
-<FONT color="green">568</FONT>    <a name="line.568"></a>
-<FONT color="green">569</FONT>            /**<a name="line.569"></a>
-<FONT color="green">570</FONT>             * Create a new external resource binding.<a name="line.570"></a>
-<FONT color="green">571</FONT>             *<a name="line.571"></a>
-<FONT color="green">572</FONT>             * @param aDesc<a name="line.572"></a>
-<FONT color="green">573</FONT>             *            the specifier to create the binding in.<a name="line.573"></a>
-<FONT color="green">574</FONT>             * @param aBindTo<a name="line.574"></a>
-<FONT color="green">575</FONT>             *            what key to bind to.<a name="line.575"></a>
-<FONT color="green">576</FONT>             * @param aRes<a name="line.576"></a>
-<FONT color="green">577</FONT>             *            the resource that should be bound.<a name="line.577"></a>
-<FONT color="green">578</FONT>             */<a name="line.578"></a>
-<FONT color="green">579</FONT>            public static void bindExternalResource(ResourceCreationSpecifier aDesc,<a name="line.579"></a>
-<FONT color="green">580</FONT>                            String aBindTo, String aRes) {<a name="line.580"></a>
-<FONT color="green">581</FONT>                    ResourceManagerConfiguration resMgrCfg = aDesc.getResourceManagerConfiguration();<a name="line.581"></a>
-<FONT color="green">582</FONT>                    if (resMgrCfg == null) {<a name="line.582"></a>
-<FONT color="green">583</FONT>                            resMgrCfg = new ResourceManagerConfiguration_impl();<a name="line.583"></a>
-<FONT color="green">584</FONT>                            aDesc.setResourceManagerConfiguration(resMgrCfg);<a name="line.584"></a>
-<FONT color="green">585</FONT>                    }<a name="line.585"></a>
-<FONT color="green">586</FONT>    <a name="line.586"></a>
-<FONT color="green">587</FONT>                    ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);<a name="line.587"></a>
-<FONT color="green">588</FONT>                    resMgrCfg.addExternalResourceBinding(extResBind);<a name="line.588"></a>
-<FONT color="green">589</FONT>            }<a name="line.589"></a>
-<FONT color="green">590</FONT>    }<a name="line.590"></a>
+<FONT color="green">548</FONT>                    // Appending a disambiguation suffix it possible to have multiple instances of the same<a name="line.548"></a>
+<FONT color="green">549</FONT>                    // resource with different settings to different keys.<a name="line.549"></a>
+<FONT color="green">550</FONT>                    ExternalResourceDescription extRes = createExternalResourceDescription(<a name="line.550"></a>
+<FONT color="green">551</FONT>                                    uniqueResourceKey(aRes.getName()), aRes, (Object[]) aParams);<a name="line.551"></a>
+<FONT color="green">552</FONT>                    bindResource(aDesc, aKey, extRes);<a name="line.552"></a>
+<FONT color="green">553</FONT>            }<a name="line.553"></a>
+<FONT color="green">554</FONT>    <a name="line.554"></a>
+<FONT color="green">555</FONT>            /**<a name="line.555"></a>
+<FONT color="green">556</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.556"></a>
+<FONT color="green">557</FONT>             * dependency with the given key is encountered, the given resource is bound to it.<a name="line.557"></a>
+<FONT color="green">558</FONT>             *<a name="line.558"></a>
+<FONT color="green">559</FONT>             * @param aDesc<a name="line.559"></a>
+<FONT color="green">560</FONT>             *            a description.<a name="line.560"></a>
+<FONT color="green">561</FONT>             * @param aKey<a name="line.561"></a>
+<FONT color="green">562</FONT>             *            the key to bind to.<a name="line.562"></a>
+<FONT color="green">563</FONT>             * @param aResDesc<a name="line.563"></a>
+<FONT color="green">564</FONT>             *            the resource description.<a name="line.564"></a>
+<FONT color="green">565</FONT>             * @throws InvalidXMLException<a name="line.565"></a>
+<FONT color="green">566</FONT>             */<a name="line.566"></a>
+<FONT color="green">567</FONT>            public static void bindResource(ResourceSpecifier aDesc, String aKey,<a name="line.567"></a>
+<FONT color="green">568</FONT>                            ExternalResourceDescription aResDesc) throws InvalidXMLException {<a name="line.568"></a>
+<FONT color="green">569</FONT>                    // Dispatch<a name="line.569"></a>
+<FONT color="green">570</FONT>                    if (aDesc instanceof AnalysisEngineDescription) {<a name="line.570"></a>
+<FONT color="green">571</FONT>                            bind((AnalysisEngineDescription) aDesc, aKey, aResDesc);<a name="line.571"></a>
+<FONT color="green">572</FONT>                    }<a name="line.572"></a>
+<FONT color="green">573</FONT>            }<a name="line.573"></a>
+<FONT color="green">574</FONT>    <a name="line.574"></a>
+<FONT color="green">575</FONT>            /**<a name="line.575"></a>
+<FONT color="green">576</FONT>             * Create a new dependency for the specified resource and bind it. This method is helpful for<a name="line.576"></a>
+<FONT color="green">577</FONT>             * UIMA components that do not use the uimaFIT {@link ExternalResource} annotation, because no<a name="line.577"></a>
+<FONT color="green">578</FONT>             * external resource dependencies can be automatically generated by uimaFIT for such components.<a name="line.578"></a>
+<FONT color="green">579</FONT>             *<a name="line.579"></a>
+<FONT color="green">580</FONT>             * @param aDesc<a name="line.580"></a>
+<FONT color="green">581</FONT>             *            a description.<a name="line.581"></a>
+<FONT color="green">582</FONT>             * @param aKey<a name="line.582"></a>
+<FONT color="green">583</FONT>             *            the key to bind to.<a name="line.583"></a>
+<FONT color="green">584</FONT>             * @param aImpl<a name="line.584"></a>
+<FONT color="green">585</FONT>             *            the resource implementation.<a name="line.585"></a>
+<FONT color="green">586</FONT>             * @param aParams<a name="line.586"></a>
+<FONT color="green">587</FONT>             *            additional parameters supported by the resource.<a name="line.587"></a>
+<FONT color="green">588</FONT>             * @throws InvalidXMLException<a name="line.588"></a>
+<FONT color="green">589</FONT>             */<a name="line.589"></a>
+<FONT color="green">590</FONT>            public static void createDependencyAndBind(ResourceSpecifier aDesc, String aKey,<a name="line.590"></a>
+<FONT color="green">591</FONT>                            Class&lt;? extends Resource&gt; aImpl, String... aParams)<a name="line.591"></a>
+<FONT color="green">592</FONT>                            throws InvalidXMLException {<a name="line.592"></a>
+<FONT color="green">593</FONT>                    Class&lt;?&gt; api = (ParameterizedDataResource.class.isAssignableFrom(aImpl)) ? DataResource.class<a name="line.593"></a>
+<FONT color="green">594</FONT>                                    : aImpl;<a name="line.594"></a>
+<FONT color="green">595</FONT>                    createDependencyAndBind(aDesc, aKey, aImpl, api, aParams);<a name="line.595"></a>
+<FONT color="green">596</FONT>            }<a name="line.596"></a>
+<FONT color="green">597</FONT>    <a name="line.597"></a>
+<FONT color="green">598</FONT>            /**<a name="line.598"></a>
+<FONT color="green">599</FONT>             * Create a new dependency for the specified resource and bind it. This method is helpful for<a name="line.599"></a>
+<FONT color="green">600</FONT>             * UIMA components that do not use the uimaFIT {@link ExternalResource} annotation, because no<a name="line.600"></a>
+<FONT color="green">601</FONT>             * external resource dependencies can be automatically generated by uimaFIT for such components.<a name="line.601"></a>
+<FONT color="green">602</FONT>             *<a name="line.602"></a>
+<FONT color="green">603</FONT>             * @param aDesc<a name="line.603"></a>
+<FONT color="green">604</FONT>             *            a description.<a name="line.604"></a>
+<FONT color="green">605</FONT>             * @param aKey<a name="line.605"></a>
+<FONT color="green">606</FONT>             *            the key to bind to.<a name="line.606"></a>
+<FONT color="green">607</FONT>             * @param aImpl<a name="line.607"></a>
+<FONT color="green">608</FONT>             *            the resource implementation.<a name="line.608"></a>
+<FONT color="green">609</FONT>             * @param aParams<a name="line.609"></a>
+<FONT color="green">610</FONT>             *            additional parameters supported by the resource.<a name="line.610"></a>
+<FONT color="green">611</FONT>             * @throws InvalidXMLException<a name="line.611"></a>
+<FONT color="green">612</FONT>             */<a name="line.612"></a>
+<FONT color="green">613</FONT>            public static void createDependencyAndBind(ResourceSpecifier aDesc, String aKey,<a name="line.613"></a>
+<FONT color="green">614</FONT>                            Class&lt;? extends Resource&gt; aImpl, Class&lt;?&gt; aApi, String... aParams)<a name="line.614"></a>
+<FONT color="green">615</FONT>                            throws InvalidXMLException {<a name="line.615"></a>
+<FONT color="green">616</FONT>                    createDependency(aDesc, aKey, aApi);<a name="line.616"></a>
+<FONT color="green">617</FONT>                    bindResource(aDesc, aKey, aImpl, aParams);<a name="line.617"></a>
+<FONT color="green">618</FONT>            }<a name="line.618"></a>
+<FONT color="green">619</FONT>    <a name="line.619"></a>
+<FONT color="green">620</FONT>    <a name="line.620"></a>
+<FONT color="green">621</FONT>            /**<a name="line.621"></a>
+<FONT color="green">622</FONT>             * Create a new dependency for the specified resource and bind it. This method is helpful for<a name="line.622"></a>
+<FONT color="green">623</FONT>             * UIMA components that do not use the uimaFIT {@link ExternalResource} annotation, because no<a name="line.623"></a>
+<FONT color="green">624</FONT>             * external resource dependencies can be automatically generated by uimaFIT for such components.<a name="line.624"></a>
+<FONT color="green">625</FONT>             *<a name="line.625"></a>
+<FONT color="green">626</FONT>             * @param aDesc<a name="line.626"></a>
+<FONT color="green">627</FONT>             *            a description.<a name="line.627"></a>
+<FONT color="green">628</FONT>             * @param aKey<a name="line.628"></a>
+<FONT color="green">629</FONT>             *            the key to bind to.<a name="line.629"></a>
+<FONT color="green">630</FONT>             * @param aApi<a name="line.630"></a>
+<FONT color="green">631</FONT>             *            the resource API.<a name="line.631"></a>
+<FONT color="green">632</FONT>             * @throws InvalidXMLException<a name="line.632"></a>
+<FONT color="green">633</FONT>             */<a name="line.633"></a>
+<FONT color="green">634</FONT>            public static void createDependency(ResourceSpecifier aDesc, String aKey, Class&lt;?&gt; aApi)<a name="line.634"></a>
+<FONT color="green">635</FONT>                            throws InvalidXMLException {<a name="line.635"></a>
+<FONT color="green">636</FONT>                    ExternalResourceDependency[] deps = getExternalResourceDependencies(aDesc);<a name="line.636"></a>
+<FONT color="green">637</FONT>                    if (deps == null) {<a name="line.637"></a>
+<FONT color="green">638</FONT>                            deps = new ExternalResourceDependency[] {};<a name="line.638"></a>
+<FONT color="green">639</FONT>                    }<a name="line.639"></a>
+<FONT color="green">640</FONT>    <a name="line.640"></a>
+<FONT color="green">641</FONT>                    // Check if the resource dependency is already present<a name="line.641"></a>
+<FONT color="green">642</FONT>                    boolean found = false;<a name="line.642"></a>
+<FONT color="green">643</FONT>                    for (ExternalResourceDependency dep : deps) {<a name="line.643"></a>
+<FONT color="green">644</FONT>                            if (dep.getKey().equals(aKey)) {<a name="line.644"></a>
+<FONT color="green">645</FONT>                                    found = true;<a name="line.645"></a>
+<FONT color="green">646</FONT>                                    break;<a name="line.646"></a>
+<FONT color="green">647</FONT>                            }<a name="line.647"></a>
+<FONT color="green">648</FONT>                    }<a name="line.648"></a>
+<FONT color="green">649</FONT>    <a name="line.649"></a>
+<FONT color="green">650</FONT>                    // If not, create one<a name="line.650"></a>
+<FONT color="green">651</FONT>                    if (!found) {<a name="line.651"></a>
+<FONT color="green">652</FONT>                            setExternalResourceDependencies(aDesc, (ExternalResourceDependency[]) ArrayUtils.add(<a name="line.652"></a>
+<FONT color="green">653</FONT>                                            deps, createExternalResourceDependency(aKey, aApi, false)));            }<a name="line.653"></a>
+<FONT color="green">654</FONT>            }<a name="line.654"></a>
+<FONT color="green">655</FONT>            <a name="line.655"></a>
+<FONT color="green">656</FONT>            /**<a name="line.656"></a>
+<FONT color="green">657</FONT>             * Convenience method to set the external resource dependencies on a resource specifier. <a name="line.657"></a>
+<FONT color="green">658</FONT>             * Unfortunately different methods need to be used for different sub-classes.<a name="line.658"></a>
+<FONT color="green">659</FONT>             * <a name="line.659"></a>
+<FONT color="green">660</FONT>             * @throws IllegalArgumentException if the sub-class passed is not supported.<a name="line.660"></a>
+<FONT color="green">661</FONT>             */<a name="line.661"></a>
+<FONT color="green">662</FONT>            private static void setExternalResourceDependencies(<a name="line.662"></a>
+<FONT color="green">663</FONT>                            ResourceSpecifier aDesc, ExternalResourceDependency[] aDependencies) {<a name="line.663"></a>
+<FONT color="green">664</FONT>                    if (aDesc instanceof CollectionReaderDescription) {<a name="line.664"></a>
+<FONT color="green">665</FONT>                            ((CollectionReaderDescription) aDesc).setExternalResourceDependencies(aDependencies);<a name="line.665"></a>
+<FONT color="green">666</FONT>                    }<a name="line.666"></a>
+<FONT color="green">667</FONT>                    else if (aDesc instanceof AnalysisEngineDescription) {<a name="line.667"></a>
+<FONT color="green">668</FONT>                            ((AnalysisEngineDescription) aDesc).setExternalResourceDependencies(aDependencies);<a name="line.668"></a>
+<FONT color="green">669</FONT>                    }<a name="line.669"></a>
+<FONT color="green">670</FONT>                    else {<a name="line.670"></a>
+<FONT color="green">671</FONT>                            throw new IllegalArgumentException("Resource specified cannot have external resource dependencies");<a name="line.671"></a>
+<FONT color="green">672</FONT>                    }<a name="line.672"></a>
+<FONT color="green">673</FONT>            }<a name="line.673"></a>
+<FONT color="green">674</FONT>    <a name="line.674"></a>
+<FONT color="green">675</FONT>            /**<a name="line.675"></a>
+<FONT color="green">676</FONT>             * Convenience method to get the external resource dependencies from a resource specifier. <a name="line.676"></a>
+<FONT color="green">677</FONT>             * Unfortunately different methods need to be used for different sub-classes.<a name="line.677"></a>
+<FONT color="green">678</FONT>             * <a name="line.678"></a>
+<FONT color="green">679</FONT>             * @throws IllegalArgumentException if the sub-class passed is not supported.<a name="line.679"></a>
+<FONT color="green">680</FONT>             */<a name="line.680"></a>
+<FONT color="green">681</FONT>            private static ExternalResourceDependency[] getExternalResourceDependencies(<a name="line.681"></a>
+<FONT color="green">682</FONT>                            ResourceSpecifier aDesc) {<a name="line.682"></a>
+<FONT color="green">683</FONT>                    if (aDesc instanceof CollectionReaderDescription) {<a name="line.683"></a>
+<FONT color="green">684</FONT>                            return ((CollectionReaderDescription) aDesc).getExternalResourceDependencies();<a name="line.684"></a>
+<FONT color="green">685</FONT>                    }<a name="line.685"></a>
+<FONT color="green">686</FONT>                    else if (aDesc instanceof AnalysisEngineDescription) {<a name="line.686"></a>
+<FONT color="green">687</FONT>                            return ((AnalysisEngineDescription) aDesc).getExternalResourceDependencies();<a name="line.687"></a>
+<FONT color="green">688</FONT>                    }<a name="line.688"></a>
+<FONT color="green">689</FONT>                    else {<a name="line.689"></a>
+<FONT color="green">690</FONT>                            throw new IllegalArgumentException("Resource specified cannot have external resource dependencies");<a name="line.690"></a>
+<FONT color="green">691</FONT>                    }<a name="line.691"></a>
+<FONT color="green">692</FONT>            }<a name="line.692"></a>
+<FONT color="green">693</FONT>            /**<a name="line.693"></a>
+<FONT color="green">694</FONT>             * Create a new dependency for the specified resource and bind it. This method is helpful for<a name="line.694"></a>
+<FONT color="green">695</FONT>             * UIMA components that do not use the uimaFIT {@link ExternalResource} annotation, because no<a name="line.695"></a>
+<FONT color="green">696</FONT>             * external resource dependencies can be automatically generated by uimaFIT for such components.<a name="line.696"></a>
+<FONT color="green">697</FONT>             *<a name="line.697"></a>
+<FONT color="green">698</FONT>             * @param aDesc<a name="line.698"></a>
+<FONT color="green">699</FONT>             *            a description.<a name="line.699"></a>
+<FONT color="green">700</FONT>             * @param aKey<a name="line.700"></a>
+<FONT color="green">701</FONT>             *            the key to bind to.<a name="line.701"></a>
+<FONT color="green">702</FONT>             * @param aImpl<a name="line.702"></a>
+<FONT color="green">703</FONT>             *            the resource implementation.<a name="line.703"></a>
+<FONT color="green">704</FONT>             * @param aUrl<a name="line.704"></a>
+<FONT color="green">705</FONT>             *            the resource URL.<a name="line.705"></a>
+<FONT color="green">706</FONT>             * @param aParams<a name="line.706"></a>
+<FONT color="green">707</FONT>             *            additional parameters supported by the resource.<a name="line.707"></a>
+<FONT color="green">708</FONT>             * @throws InvalidXMLException<a name="line.708"></a>
+<FONT color="green">709</FONT>             */<a name="line.709"></a>
+<FONT color="green">710</FONT>            public static void createDependencyAndBind(AnalysisEngineDescription aDesc, String aKey,<a name="line.710"></a>
+<FONT color="green">711</FONT>                            Class&lt;? extends SharedResourceObject&gt; aImpl, String aUrl, Object... aParams)<a name="line.711"></a>
+<FONT color="green">712</FONT>                            throws InvalidXMLException {<a name="line.712"></a>
+<FONT color="green">713</FONT>                    if (aDesc.getExternalResourceDependency(aKey) == null) {<a name="line.713"></a>
+<FONT color="green">714</FONT>                            ExternalResourceDependency[] deps = aDesc.getExternalResourceDependencies();<a name="line.714"></a>
+<FONT color="green">715</FONT>                            if (deps == null) {<a name="line.715"></a>
+<FONT color="green">716</FONT>                                    deps = new ExternalResourceDependency[] {};<a name="line.716"></a>
+<FONT color="green">717</FONT>                            }<a name="line.717"></a>
+<FONT color="green">718</FONT>                            aDesc.setExternalResourceDependencies((ExternalResourceDependency[]) ArrayUtils.add(<a name="line.718"></a>
+<FONT color="green">719</FONT>                                            deps, createExternalResourceDependency(aKey, aImpl, false)));<a name="line.719"></a>
+<FONT color="green">720</FONT>                    }<a name="line.720"></a>
+<FONT color="green">721</FONT>                    bindResource(aDesc, aKey, aImpl, aUrl, aParams);<a name="line.721"></a>
+<FONT color="green">722</FONT>            }<a name="line.722"></a>
+<FONT color="green">723</FONT>    <a name="line.723"></a>
+<FONT color="green">724</FONT>            /**<a name="line.724"></a>
+<FONT color="green">725</FONT>             * Scan the given resource specifier for external resource dependencies and whenever a<a name="line.725"></a>
+<FONT color="green">726</FONT>             * dependency with the given key is encountered, the given resource is bound to it.<a name="line.726"></a>
+<FONT color="green">727</FONT>             *<a name="line.727"></a>
+<FONT color="green">728</FONT>             * @param aDesc<a name="line.728"></a>
+<FONT color="green">729</FONT>             *            a description.<a name="line.729"></a>
+<FONT color="green">730</FONT>             * @param aKey<a name="line.730"></a>
+<FONT color="green">731</FONT>             *            the key to bind to.<a name="line.731"></a>
+<FONT color="green">732</FONT>             * @param aResDesc<a name="line.732"></a>
+<FONT color="green">733</FONT>             *            the resource description.<a name="line.733"></a>
+<FONT color="green">734</FONT>             * @throws InvalidXMLException<a name="line.734"></a>
+<FONT color="green">735</FONT>             */<a name="line.735"></a>
+<FONT color="green">736</FONT>            private static void bind(AnalysisEngineDescription aDesc, String aKey,<a name="line.736"></a>
+<FONT color="green">737</FONT>                            ExternalResourceDescription aResDesc) throws InvalidXMLException {<a name="line.737"></a>
+<FONT color="green">738</FONT>                    // Recursively address delegates<a name="line.738"></a>
+<FONT color="green">739</FONT>                    if (!aDesc.isPrimitive()) {<a name="line.739"></a>
+<FONT color="green">740</FONT>                            for (Object delegate : aDesc.getDelegateAnalysisEngineSpecifiers().values()) {<a name="line.740"></a>
+<FONT color="green">741</FONT>                                    bindResource((ResourceSpecifier) delegate, aKey, aResDesc);<a name="line.741"></a>
+<FONT color="green">742</FONT>                            }<a name="line.742"></a>
+<FONT color="green">743</FONT>                    }<a name="line.743"></a>
+<FONT color="green">744</FONT>    <a name="line.744"></a>
+<FONT color="green">745</FONT>                    // Bind if necessary<a name="line.745"></a>
+<FONT color="green">746</FONT>                    for (ExternalResourceDependency dep : aDesc.getExternalResourceDependencies()) {<a name="line.746"></a>
+<FONT color="green">747</FONT>                            if (aKey.equals(dep.getKey())) {<a name="line.747"></a>
+<FONT color="green">748</FONT>                                    bindExternalResource(aDesc, aKey, aResDesc);<a name="line.748"></a>
+<FONT color="green">749</FONT>                            }<a name="line.749"></a>
+<FONT color="green">750</FONT>                    }<a name="line.750"></a>
+<FONT color="green">751</FONT>            }<a name="line.751"></a>
+<FONT color="green">752</FONT>    <a name="line.752"></a>
+<FONT color="green">753</FONT>            /**<a name="line.753"></a>
+<FONT color="green">754</FONT>             * Create a new external resource binding.<a name="line.754"></a>
+<FONT color="green">755</FONT>             *<a name="line.755"></a>
+<FONT color="green">756</FONT>             * @param aResMgrCfg<a name="line.756"></a>
+<FONT color="green">757</FONT>             *            the resource manager to create the binding in.<a name="line.757"></a>
+<FONT color="green">758</FONT>             * @param aBindTo<a name="line.758"></a>
+<FONT color="green">759</FONT>             *            what key to bind to.<a name="line.759"></a>
+<FONT color="green">760</FONT>             * @param aRes<a name="line.760"></a>
+<FONT color="green">761</FONT>             *            the resource that should be bound.<a name="line.761"></a>
+<FONT color="green">762</FONT>             */<a name="line.762"></a>
+<FONT color="green">763</FONT>            public static void bindExternalResource(ResourceManagerConfiguration aResMgrCfg,<a name="line.763"></a>
+<FONT color="green">764</FONT>                            String aBindTo, ExternalResourceDescription aRes) {<a name="line.764"></a>
+<FONT color="green">765</FONT>                    // Create a map of all bindings<a name="line.765"></a>
+<FONT color="green">766</FONT>                    Map&lt;String, ExternalResourceBinding&gt; bindings = new HashMap&lt;String, ExternalResourceBinding&gt;();<a name="line.766"></a>
+<FONT color="green">767</FONT>                    for (ExternalResourceBinding b : aResMgrCfg.getExternalResourceBindings()) {<a name="line.767"></a>
+<FONT color="green">768</FONT>                            bindings.put(b.getKey(), b);<a name="line.768"></a>
+<FONT color="green">769</FONT>                    }<a name="line.769"></a>
+<FONT color="green">770</FONT>                    <a name="line.770"></a>
+<FONT color="green">771</FONT>                    // Create a map of all resources<a name="line.771"></a>
+<FONT color="green">772</FONT>                    Map&lt;String, ExternalResourceDescription&gt; resources = new HashMap&lt;String, ExternalResourceDescription&gt;();<a name="line.772"></a>
+<FONT color="green">773</FONT>                    for (ExternalResourceDescription r : aResMgrCfg.getExternalResources()) {<a name="line.773"></a>
+<FONT color="green">774</FONT>                            resources.put(r.getName(), r);<a name="line.774"></a>
+<FONT color="green">775</FONT>                    }<a name="line.775"></a>
+<FONT color="green">776</FONT>                    <a name="line.776"></a>
+<FONT color="green">777</FONT>                    // For the current resource, add resource and binding<a name="line.777"></a>
+<FONT color="green">778</FONT>                    ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);<a name="line.778"></a>
+<FONT color="green">779</FONT>                    bindings.put(extResBind.getKey(), extResBind);<a name="line.779"></a>
+<FONT color="green">780</FONT>                    resources.put(aRes.getName(), aRes);<a name="line.780"></a>
+<FONT color="green">781</FONT>                    <a name="line.781"></a>
+<FONT color="green">782</FONT>                    // Handle nested resources<a name="line.782"></a>
+<FONT color="green">783</FONT>                    bindNestedResources(aRes, bindings, resources);<a name="line.783"></a>
+<FONT color="green">784</FONT>                    <a name="line.784"></a>
+<FONT color="green">785</FONT>                    // Commit everything to the resource manager configuration<a name="line.785"></a>
+<FONT color="green">786</FONT>                    aResMgrCfg.setExternalResourceBindings(bindings.values().toArray(<a name="line.786"></a>
+<FONT color="green">787</FONT>                                    new ExternalResourceBinding[bindings.size()]));<a name="line.787"></a>
+<FONT color="green">788</FONT>                    aResMgrCfg.setExternalResources(resources.values().toArray(<a name="line.788"></a>
+<FONT color="green">789</FONT>                                    new ExternalResourceDescription[resources.size()]));<a name="line.789"></a>
+<FONT color="green">790</FONT>            }<a name="line.790"></a>
+<FONT color="green">791</FONT>            <a name="line.791"></a>
+<FONT color="green">792</FONT>            /**<a name="line.792"></a>
+<FONT color="green">793</FONT>             * Create a new external resource binding.<a name="line.793"></a>
+<FONT color="green">794</FONT>             * <a name="line.794"></a>
+<FONT color="green">795</FONT>             * @param aRes<a name="line.795"></a>
+<FONT color="green">796</FONT>             *            the resource to bind to<a name="line.796"></a>
+<FONT color="green">797</FONT>             * @param aBindTo<a name="line.797"></a>
+<FONT color="green">798</FONT>             *            what key to bind to.<a name="line.798"></a>
+<FONT color="green">799</FONT>             * @param aNestedRes<a name="line.799"></a>
+<FONT color="green">800</FONT>             *            the resource that should be bound.<a name="line.800"></a>
+<FONT color="green">801</FONT>             */<a name="line.801"></a>
+<FONT color="green">802</FONT>            public static void bindExternalResource(ExternalResourceDescription aRes, String aBindTo,<a name="line.802"></a>
+<FONT color="green">803</FONT>                            ExternalResourceDescription aNestedRes) {<a name="line.803"></a>
+<FONT color="green">804</FONT>                    if (!(aRes instanceof ExtendedExternalResourceDescription_impl)) {<a name="line.804"></a>
+<FONT color="green">805</FONT>                            throw new IllegalArgumentException(<a name="line.805"></a>
+<FONT color="green">806</FONT>                                            "Nested resources are only supported on instances of [" + <a name="line.806"></a>
+<FONT color="green">807</FONT>                                            ExtendedExternalResourceDescription_impl.class.getName() + "] which" + <a name="line.807"></a>
+<FONT color="green">808</FONT>                                            "can be created with uimaFIT's createExternalResourceDescription() methods.");<a name="line.808"></a>
+<FONT color="green">809</FONT>                    }<a name="line.809"></a>
+<FONT color="green">810</FONT>    <a name="line.810"></a>
+<FONT color="green">811</FONT>                    ExtendedExternalResourceDescription_impl extRes = (ExtendedExternalResourceDescription_impl) aRes;<a name="line.811"></a>
+<FONT color="green">812</FONT>    <a name="line.812"></a>
+<FONT color="green">813</FONT>                    // Create a map of all bindings<a name="line.813"></a>
+<FONT color="green">814</FONT>                    Map&lt;String, ExternalResourceBinding&gt; bindings = new HashMap&lt;String, ExternalResourceBinding&gt;();<a name="line.814"></a>
+<FONT color="green">815</FONT>                    for (ExternalResourceBinding b : extRes.getExternalResourceBindings()) {<a name="line.815"></a>
+<FONT color="green">816</FONT>                            bindings.put(b.getKey(), b);<a name="line.816"></a>
+<FONT color="green">817</FONT>                    }<a name="line.817"></a>
+<FONT color="green">818</FONT>                    <a name="line.818"></a>
+<FONT color="green">819</FONT>                    // Create a map of all resources<a name="line.819"></a>
+<FONT color="green">820</FONT>                    Map&lt;String, ExternalResourceDescription&gt; resources = new HashMap&lt;String, ExternalResourceDescription&gt;();<a name="line.820"></a>
+<FONT color="green">821</FONT>                    for (ExternalResourceDescription r : extRes.getExternalResources()) {<a name="line.821"></a>
+<FONT color="green">822</FONT>                            resources.put(r.getName(), r);<a name="line.822"></a>
+<FONT color="green">823</FONT>                    }<a name="line.823"></a>
+<FONT color="green">824</FONT>                    <a name="line.824"></a>
+<FONT color="green">825</FONT>                    // For the current resource, add resource and binding<a name="line.825"></a>
+<FONT color="green">826</FONT>                    ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aNestedRes);<a name="line.826"></a>
+<FONT color="green">827</FONT>                    bindings.put(extResBind.getKey(), extResBind);<a name="line.827"></a>
+<FONT color="green">828</FONT>                    resources.put(aRes.getName(), aRes);<a name="line.828"></a>
+<FONT color="green">829</FONT>                    <a name="line.829"></a>
+<FONT color="green">830</FONT>                    // Handle nested resources<a name="line.830"></a>
+<FONT color="green">831</FONT>                    bindNestedResources(aRes, bindings, resources);<a name="line.831"></a>
+<FONT color="green">832</FONT>                    <a name="line.832"></a>
+<FONT color="green">833</FONT>                    // Commit everything to the resource manager configuration<a name="line.833"></a>
+<FONT color="green">834</FONT>                    extRes.setExternalResourceBindings(bindings.values());<a name="line.834"></a>
+<FONT color="green">835</FONT>                    extRes.setExternalResources(resources.values());<a name="line.835"></a>
+<FONT color="green">836</FONT>                    <a name="line.836"></a>
+<FONT color="green">837</FONT>            }<a name="line.837"></a>
+<FONT color="green">838</FONT>            <a name="line.838"></a>
+<FONT color="green">839</FONT>            /**<a name="line.839"></a>
+<FONT color="green">840</FONT>             * Helper method to recursively bind resources bound to resources.<a name="line.840"></a>
+<FONT color="green">841</FONT>             * <a name="line.841"></a>
+<FONT color="green">842</FONT>             * @param aRes resource.<a name="line.842"></a>
+<FONT color="green">843</FONT>             * @param aBindings bindings already made.<a name="line.843"></a>
+<FONT color="green">844</FONT>             * @param aResources resources already bound.<a name="line.844"></a>
+<FONT color="green">845</FONT>             */<a name="line.845"></a>
+<FONT color="green">846</FONT>            private static void bindNestedResources(ExternalResourceDescription aRes,<a name="line.846"></a>
+<FONT color="green">847</FONT>                            Map&lt;String, ExternalResourceBinding&gt; aBindings,<a name="line.847"></a>
+<FONT color="green">848</FONT>                            Map&lt;String, ExternalResourceDescription&gt; aResources)      {<a name="line.848"></a>
+<FONT color="green">849</FONT>                    // Handle nested resources<a name="line.849"></a>
+<FONT color="green">850</FONT>                    if (aRes instanceof ExtendedExternalResourceDescription_impl) {<a name="line.850"></a>
+<FONT color="green">851</FONT>                            ExtendedExternalResourceDescription_impl extRes = (ExtendedExternalResourceDescription_impl) aRes;<a name="line.851"></a>
+<FONT color="green">852</FONT>                            <a name="line.852"></a>
+<FONT color="green">853</FONT>                            // Tell the external resource its name. This is needed in order to find the resources<a name="line.853"></a>
+<FONT color="green">854</FONT>                            // bound to this resource later on. Set only if the resource supports this parameter.<a name="line.854"></a>
+<FONT color="green">855</FONT>                            // Mind that supporting this parameter is mandatory for resource implementing <a name="line.855"></a>
+<FONT color="green">856</FONT>                            // ExternalResourceAware.<a name="line.856"></a>
+<FONT color="green">857</FONT>                            if (canParameterBeSet(extRes.getResourceSpecifier(), PARAM_RESOURCE_NAME)) {<a name="line.857"></a>
+<FONT color="green">858</FONT>                                    ConfigurationParameterFactory.setParameter(extRes.getResourceSpecifier(),<a name="line.858"></a>
+<FONT color="green">859</FONT>                                                    PARAM_RESOURCE_NAME, aRes.getName());<a name="line.859"></a>
+<FONT color="green">860</FONT>                            }<a name="line.860"></a>
+<FONT color="green">861</FONT>                            <a name="line.861"></a>
+<FONT color="green">862</FONT>                            // Create a map of all resources<a name="line.862"></a>
+<FONT color="green">863</FONT>                            Map&lt;String, ExternalResourceDescription&gt; res = new HashMap&lt;String, ExternalResourceDescription&gt;();<a name="line.863"></a>
+<FONT color="green">864</FONT>                            for (ExternalResourceDescription r : extRes.getExternalResources()) {<a name="line.864"></a>
+<FONT color="green">865</FONT>                                    res.put(r.getName(), r);<a name="line.865"></a>
+<FONT color="green">866</FONT>                            }<a name="line.866"></a>
+<FONT color="green">867</FONT>                            <a name="line.867"></a>
+<FONT color="green">868</FONT>                            // Bind nested resources<a name="line.868"></a>
+<FONT color="green">869</FONT>                            for (ExternalResourceBinding b : extRes.getExternalResourceBindings()) {<a name="line.869"></a>
+<FONT color="green">870</FONT>                                    // Avoid re-prefixing the resource name<a name="line.870"></a>
+<FONT color="green">871</FONT>                                    String key = b.getKey();<a name="line.871"></a>
+<FONT color="green">872</FONT>                                    if (!key.startsWith(aRes.getName() + PREFIX_SEPARATOR)) {<a name="line.872"></a>
+<FONT color="green">873</FONT>                                            key = aRes.getName() + PREFIX_SEPARATOR + b.getKey();<a name="line.873"></a>
+<FONT color="green">874</FONT>                                    }<a name="line.874"></a>
+<FONT color="green">875</FONT>                                    // Avoid unnecessary binding and an infinite loop when a resource binds to itself<a name="line.875"></a>
+<FONT color="green">876</FONT>                                    if (!aBindings.containsKey(key)) {<a name="line.876"></a>
+<FONT color="green">877</FONT>                                            // Mark the current binding as processed so we do not recurse<a name="line.877"></a>
+<FONT color="green">878</FONT>                                            aBindings.put(key, b);<a name="line.878"></a>
+<FONT color="green">879</FONT>                                            ExternalResourceDescription nestedRes = res.get(b.getResourceName());<a name="line.879"></a>
+<FONT color="green">880</FONT>                                            aResources.put(nestedRes.getName(), nestedRes);<a name="line.880"></a>
+<FONT color="green">881</FONT>                                            bindNestedResources(nestedRes, aBindings, aResources);<a name="line.881"></a>
+<FONT color="green">882</FONT>                                            // Set the proper key on the binding.<a name="line.882"></a>
+<FONT color="green">883</FONT>                                            b.setKey(key);<a name="line.883"></a>
+<FONT color="green">884</FONT>                                    }<a name="line.884"></a>
+<FONT color="green">885</FONT>                            }<a name="line.885"></a>
+<FONT color="green">886</FONT>                    }<a name="line.886"></a>
+<FONT color="green">887</FONT>            }<a name="line.887"></a>
+<FONT color="green">888</FONT>            <a name="line.888"></a>
+<FONT color="green">889</FONT>            /**<a name="line.889"></a>
+<FONT color="green">890</FONT>             * Create a new external resource binding.<a name="line.890"></a>
+<FONT color="green">891</FONT>             *<a name="line.891"></a>
+<FONT color="green">892</FONT>             * @param aDesc<a name="line.892"></a>
+<FONT color="green">893</FONT>             *            the specifier to create the binding in.<a name="line.893"></a>
+<FONT color="green">894</FONT>             * @param aBindTo<a name="line.894"></a>
+<FONT color="green">895</FONT>             *            what key to bind to.<a name="line.895"></a>
+<FONT color="green">896</FONT>             * @param aRes<a name="line.896"></a>
+<FONT color="green">897</FONT>             *            the resource that should be bound.<a name="line.897"></a>
+<FONT color="green">898</FONT>             */<a name="line.898"></a>
+<FONT color="green">899</FONT>            public static void bindExternalResource(ResourceCreationSpecifier aDesc,<a name="line.899"></a>
+<FONT color="green">900</FONT>                            String aBindTo, ExternalResourceDescription aRes) {<a name="line.900"></a>
+<FONT color="green">901</FONT>                    ResourceManagerConfiguration resMgrCfg = aDesc.getResourceManagerConfiguration();<a name="line.901"></a>
+<FONT color="green">902</FONT>                    if (resMgrCfg == null) {<a name="line.902"></a>
+<FONT color="green">903</FONT>                            resMgrCfg = new ResourceManagerConfiguration_impl();<a name="line.903"></a>
+<FONT color="green">904</FONT>                            aDesc.setResourceManagerConfiguration(resMgrCfg);<a name="line.904"></a>
+<FONT color="green">905</FONT>                    }<a name="line.905"></a>
+<FONT color="green">906</FONT>                    <a name="line.906"></a>
+<FONT color="green">907</FONT>                    bindExternalResource(resMgrCfg, aBindTo, aRes);<a name="line.907"></a>
+<FONT color="green">908</FONT>            }<a name="line.908"></a>
+<FONT color="green">909</FONT>    <a name="line.909"></a>
+<FONT color="green">910</FONT>            /**<a name="line.910"></a>
+<FONT color="green">911</FONT>             * Create a new external resource binding.<a name="line.911"></a>
+<FONT color="green">912</FONT>             *<a name="line.912"></a>
+<FONT color="green">913</FONT>             * @param aResMgrCfg<a name="line.913"></a>
+<FONT color="green">914</FONT>             *            the resource manager to create the binding in.<a name="line.914"></a>
+<FONT color="green">915</FONT>             * @param aBindTo<a name="line.915"></a>
+<FONT color="green">916</FONT>             *            what key to bind to.<a name="line.916"></a>
+<FONT color="green">917</FONT>             * @param aRes<a name="line.917"></a>
+<FONT color="green">918</FONT>             *            the resource that should be bound.<a name="line.918"></a>
+<FONT color="green">919</FONT>             */<a name="line.919"></a>
+<FONT color="green">920</FONT>            public static void bindExternalResource(ResourceManagerConfiguration aResMgrCfg,<a name="line.920"></a>
+<FONT color="green">921</FONT>                            String aBindTo, String aRes) {<a name="line.921"></a>
+<FONT color="green">922</FONT>                    ExternalResourceBinding extResBind = createExternalResourceBinding(aBindTo, aRes);<a name="line.922"></a>
+<FONT color="green">923</FONT>                    aResMgrCfg.addExternalResourceBinding(extResBind);<a name="line.923"></a>
+<FONT color="green">924</FONT>            }<a name="line.924"></a>
+<FONT color="green">925</FONT>    <a name="line.925"></a>
+<FONT color="green">926</FONT>            /**<a name="line.926"></a>
+<FONT color="green">927</FONT>             * Create a new external resource binding.<a name="line.927"></a>
+<FONT color="green">928</FONT>             *<a name="line.928"></a>
+<FONT color="green">929</FONT>             * @param aDesc<a name="line.929"></a>
+<FONT color="green">930</FONT>             *            the specifier to create the binding in.<a name="line.930"></a>
+<FONT color="green">931</FONT>             * @param aBindTo<a name="line.931"></a>
+<FONT color="green">932</FONT>             *            what key to bind to.<a name="line.932"></a>
+<FONT color="green">933</FONT>             * @param aRes<a name="line.933"></a>
+<FONT color="green">934</FONT>             *            the resource that should be bound.<a name="line.934"></a>
+<FONT color="green">935</FONT>             */<a name="line.935"></a>
+<FONT color="green">936</FONT>            public static void bindExternalResource(ResourceCreationSpecifier aDesc,<a name="line.936"></a>
+<FONT color="green">937</FONT>                            String aBindTo, String aRes) {<a name="line.937"></a>
+<FONT color="green">938</FONT>                    ResourceManagerConfiguration resMgrCfg = aDesc.getResourceManagerConfiguration();<a name="line.938"></a>
+<FONT color="green">939</FONT>                    if (resMgrCfg == null) {<a name="line.939"></a>
+<FONT color="green">940</FONT>                            resMgrCfg = new ResourceManagerConfiguration_impl();<a name="line.940"></a>
+<FONT color="green">941</FONT>                            aDesc.setResourceManagerConfiguration(resMgrCfg);<a name="line.941"></a>
+<FONT color="green">942</FONT>                    }<a name="line.942"></a>
+<FONT color="green">943</FONT>    <a name="line.943"></a>
+<FONT color="green">944</FONT>                    bindExternalResource(resMgrCfg, aBindTo, aRes);<a name="line.944"></a>
+<FONT color="green">945</FONT>            }<a name="line.945"></a>
+<FONT color="green">946</FONT>            <a name="line.946"></a>
+<FONT color="green">947</FONT>            static String uniqueResourceKey(String aKey)<a name="line.947"></a>
+<FONT color="green">948</FONT>            {<a name="line.948"></a>
+<FONT color="green">949</FONT>                    return aKey + '-' + disambiguator.getAndIncrement();<a name="line.949"></a>
+<FONT color="green">950</FONT>            }<a name="line.950"></a>
+<FONT color="green">951</FONT>            <a name="line.951"></a>
+<FONT color="green">952</FONT>            /**<a name="line.952"></a>
+<FONT color="green">953</FONT>             * Extracts the external resource from the configuration parameters and nulls out these<a name="line.953"></a>
+<FONT color="green">954</FONT>             * parameters. Mind that the array passed to this method is modified by the method.<a name="line.954"></a>
+<FONT color="green">955</FONT>             * <a name="line.955"></a>
+<FONT color="green">956</FONT>             * @param configurationData the configuration parameters.<a name="line.956"></a>
+<FONT color="green">957</FONT>             * @return extRes the external resource parameters.<a name="line.957"></a>
+<FONT color="green">958</FONT>             */<a name="line.958"></a>
+<FONT color="green">959</FONT>            protected static Map&lt;String, ExternalResourceDescription&gt; extractExternalResourceParameters(<a name="line.959"></a>
+<FONT color="green">960</FONT>                            final Object[] configurationData) {<a name="line.960"></a>
+<FONT color="green">961</FONT>                    if (configurationData == null) {<a name="line.961"></a>
+<FONT color="green">962</FONT>                            return Collections.emptyMap();<a name="line.962"></a>
+<FONT color="green">963</FONT>                    }<a name="line.963"></a>
+<FONT color="green">964</FONT>            <a name="line.964"></a>
+<FONT color="green">965</FONT>                    Map&lt;String, ExternalResourceDescription&gt; extRes = new HashMap&lt;String, ExternalResourceDescription&gt;();<a name="line.965"></a>
+<FONT color="green">966</FONT>                    for (int i = 0; i &lt; configurationData.length - 1; i += 2) {<a name="line.966"></a>
+<FONT color="green">967</FONT>                            String key = (String) configurationData[i];<a name="line.967"></a>
+<FONT color="green">968</FONT>                            Object value = configurationData[i + 1];<a name="line.968"></a>
+<FONT color="green">969</FONT>    <a name="line.969"></a>
+<FONT color="green">970</FONT>                            // Store External Resource parameters separately<a name="line.970"></a>
+<FONT color="green">971</FONT>                            if (value instanceof ExternalResourceDescription) {<a name="line.971"></a>
+<FONT color="green">972</FONT>                                    ExternalResourceDescription description = (ExternalResourceDescription) value;<a name="line.972"></a>
+<FONT color="green">973</FONT>                                    extRes.put(key, description);<a name="line.973"></a>
+<FONT color="green">974</FONT>                            }<a name="line.974"></a>
+<FONT color="green">975</FONT>                    }<a name="line.975"></a>
+<FONT color="green">976</FONT>                    <a name="line.976"></a>
+<FONT color="green">977</FONT>                    return extRes;<a name="line.977"></a>
+<FONT color="green">978</FONT>            }<a name="line.978"></a>
+<FONT color="green">979</FONT>    }<a name="line.979"></a>
 
 
 
