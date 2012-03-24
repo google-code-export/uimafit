@@ -1,6 +1,11 @@
-UIMA requires that types that are used in the CAS are defined in XML files - so-called type system descriptions (TSD). uimaFIT supports the automatic detection of such files in the classpath. Thus is becomes possible for a UIMA component provider to have component's type automatically detected and thus the components becomes immediately usable by adding it to the classpath.
+<h1>External Resources</h1>
 
-=== Making types auto-detectable ===
+<wiki:toc max_depth="2" />
+
+UIMA requires that types that are used in the CAS are defined in XML files - so-called type system descriptions (TSD). Whenever a UIMA component is created, it must be associated with such a type system. While it is possible to manually load the type system descriptors and pass them to each
+UIMA component and to each created CAS, it is quite inconvenient to do so. For this reason, uimaFIT supports the automatic detection of such files in the classpath. Thus is becomes possible for a UIMA component provider to have component's type automatically detected and thus the components becomes immediately usable by adding it to the classpath.
+
+= Making types auto-detectable =
 
 The provider of a type system should create a file `META-INF/org.uimafit/types.txt` in the classpath. This file should define the locations of the type system descriptions. Assume that a type `org.uimafit.type.Token` is specified  in the TSD `org/uimafit/type/Token.xml`, then the file should have the following contents:
 
@@ -22,7 +27,7 @@ If it is not possible or inconvenient to add the `types.txt` file, patterns can 
 org.uimafit.type.import_pattern=classpath*:org/uimafit/type/**/*.xml
 }}}
 
-=== Using type auto-detection ===
+= Using type auto-detection =
 
 The auto-detected type system can be obtained from the `TypeSystemDescriptionFactory`:
 
@@ -36,7 +41,7 @@ Popular factory methods also support auto-detection:
 AnalysisEngine ae = createPrimitive(MyEngine.class);
 }}}
 
-=== Multiple `META-INF/org.uimafit/types.txt` files ===
+= Multiple `META-INF/org.uimafit/types.txt` files =
 
 uimaFIT supports multiple `types.txt` files in the classpath (e.g. in differnt JARs). 
 
@@ -78,23 +83,23 @@ classpath*:desc/type/Syntax.xml
 
 Method 1 should be preferred. Both methods can be mixed. 
 
-=== Performance note and caching ===
+= Performance note and caching =
 
 Currently uimaFIT evaluates the patterns for TSDs once and caches the locations, but not the actual merged type system description. A rescan can be forced using `TypeSystemDescriptionFactory.forceTypeDescriptorsScan()`. This may change in future.
 
-=== Potential problems ===
+= Potential problems =
 
 The mechanism works fine. However, there are specific issues with Java in general that one should be aware of.
 
-==== m2eclipse fails to copy descriptors to target/classes ====
+== m2eclipse fails to copy descriptors to target/classes ==
 
 There seems to be a bug in m2eclipse that causes resources not always to be copied to `target/classes`. If UIMA complains about type definitions missing at runtime, try to clean/rebuild your project and carefully check the m2eclipse console in the console view for error messages that might cause m2eclipse to abort.
 
-==== Class version conflicts ====
+== Class version conflicts ==
 
 A problem can occur if you end up having multiple incompatible versions of the same type system in the classpath. This is a general problem and not related to the auto-detection feature. It is the same as when you have incompatible version of a particular class (e.g. JCas wrapper or some third-party-library) in the classpath. The behavior of the Java Classloader is undefined in that case. The detection will do its best to try and load everything it can find, but the UIMA type system merger may barf or you may end up with undefined behavior at runtime because one of the class versions is used at random. 
 
-==== Classes and ressources in the default package ====
+== Classes and resources in the default package ==
 
 It is bad practice to place classes into the default (unnamed) package. In fact it is not possible to import classes from the default package in another class. Similarly it is a bad idea to put resources at the root of the classpath. The Spring documentation on resources [http://static.springsource.org/spring/docs/3.0.x/reference/resources.html#resources-app-ctx-wildcards-in-resource-paths explains this in detail].
 

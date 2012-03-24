@@ -19,10 +19,8 @@ package org.uimafit.examples.getstarted;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.metadata.TypeSystemDescription;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.JCasFactory;
-import org.uimafit.factory.TypeSystemDescriptionFactory;
 
 /**
  * 
@@ -32,19 +30,18 @@ import org.uimafit.factory.TypeSystemDescriptionFactory;
 public class GetStartedQuickPipeline {
 
 	public static void main(String[] args) throws UIMAException {
-		// Normally you would pass in a list of type system locations in the classpath here or
-		// you make use of the automatic type system detection if you do not specify any arguments.
-		// In the latter case, the type systems are resolved using the file
-		// META-INF/org.uimafit/types.txt
-		TypeSystemDescription typeSystemDescription = TypeSystemDescriptionFactory
-				.createTypeSystemDescription();
+		// uimaFIT automatically uses all type systems listed in META-INF/org.uimafit/types.txt
+
 		// uimaFIT doesn't provide any collection readers - so we will just instantiate a JCas and
 		// run it through our AE
-		JCas jCas = JCasFactory.createJCas(typeSystemDescription);
-		// here we will instantiate the analysis engine using the value "uimaFIT" for the parameter
-		// "stringParamName".
+		JCas jCas = JCasFactory.createJCas();
+		
+		// Instantiate the analysis engine using the value "uimaFIT" for the parameter
+		// PARAM_STRING ("stringParam").
 		AnalysisEngine analysisEngine = AnalysisEngineFactory.createPrimitive(
-				GetStartedQuickAE.class, typeSystemDescription, "stringParamName", "uimaFIT");
+				GetStartedQuickAE.class, 
+				GetStartedQuickAE.PARAM_STRING, "uimaFIT");
+		
 		// run the analysis engine and look for a special greeting in your console.
 		analysisEngine.process(jCas);
 	}

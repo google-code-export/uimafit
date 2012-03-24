@@ -22,13 +22,12 @@ import org.uimafit.component.JCasAnnotator_ImplBase;
 import org.uimafit.descriptor.ConfigurationParameter;
 
 /**
- * 
  * @author Philip Ogren
- * 
  */
 public class GetStartedQuickAE extends JCasAnnotator_ImplBase {
 
-	@ConfigurationParameter(name = "stringParamName")
+	public static final String PARAM_STRING = "stringParam";
+	@ConfigurationParameter(name = PARAM_STRING)
 	private String stringParam;
 
 	@Override
