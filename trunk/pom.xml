@@ -153,7 +153,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<preparationGoals>clean verify javadoc:aggregate antrun:run</preparationGoals>
-					<autoVersionSubmodules>false</autoVersionSubmodules>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
 				</configuration>
 			</plugin>
 			<plugin>
