@@ -53,7 +53,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>rat-maven-plugin</artifactId>
-				<version>1.0-alpha-3</version>
 				<configuration>
 					<excludes>
 						<exclude>release.properties</exclude> <!-- release generated artifact -->
@@ -67,20 +66,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<configuration>
-						<notimestamp>true</notimestamp>
-						<linksource>true</linksource>
-						<links>
-							<link>http://uima.apache.org/downloads/releaseDocs/2.3.0-incubating/docs/api/</link>
-						</links>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 </project>
