@@ -17,7 +17,7 @@
  * [ExternalResources External resources] 
  * [WorkingWithSofaViews Sofas/Views]
  
- == Use cases ==
+== Use cases ==
 
  * [WritingTests Writing tests]
  * [RunningExperiments Running experiments]
