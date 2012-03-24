@@ -44,21 +44,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<configuration>
-						<notimestamp>true</notimestamp>
-						<linksource>true</linksource>
-						<links>
-							<link>http://uima.apache.org/downloads/releaseDocs/2.3.0-incubating/docs/api/</link>
-							<link>http://uimafit.googlecode.com/svn/trunk/uimaFIT/apidocs/</link>
-						</links>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 </project>
