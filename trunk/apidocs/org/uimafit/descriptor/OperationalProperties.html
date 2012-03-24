@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-OperationalProperties (uimaFIT 1.2.0 API)
+OperationalProperties (uimaFIT 1.3.1 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ OperationalProperties (uimaFIT 1.2.0 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="OperationalProperties (uimaFIT 1.2.0 API)";
+        parent.document.title="OperationalProperties (uimaFIT 1.3.1 API)";
     }
 }
 </SCRIPT>
@@ -92,9 +92,9 @@ org.uimafit.descriptor</FONT>
 Annotation Type OperationalProperties</H2>
 <HR>
 <DL>
-<DT><PRE><FONT SIZE="-1"><A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/annotation/Retention.html?is-external=true" title="class or interface in java.lang.annotation">@Retention</A>(<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/annotation/Retention.html?is-external=true#value()" title="class or interface in java.lang.annotation">value</A>=<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/annotation/RetentionPolicy.html?is-external=true#RUNTIME" title="class or interface in java.lang.annotation">RUNTIME</A>)
-<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/annotation/Target.html?is-external=true" title="class or interface in java.lang.annotation">@Target</A>(<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/annotation/Target.html?is-external=true#value()" title="class or interface in java.lang.annotation">value</A>=<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/annotation/ElementType.html?is-external=true#TYPE" title="class or interface in java.lang.annotation">TYPE</A>)
-</FONT>public @interface <A HREF="../../../src-html/org/uimafit/descriptor/OperationalProperties.html#line.42"><B>OperationalProperties</B></A></DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Retention.html?is-external=true" title="class or interface in java.lang.annotation">@Retention</A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Retention.html?is-external=true#value()" title="class or interface in java.lang.annotation">value</A>=<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/RetentionPolicy.html?is-external=true#RUNTIME" title="class or interface in java.lang.annotation">RUNTIME</A>)
+<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Target.html?is-external=true" title="class or interface in java.lang.annotation">@Target</A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Target.html?is-external=true#value()" title="class or interface in java.lang.annotation">value</A>=<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/ElementType.html?is-external=true#TYPE" title="class or interface in java.lang.annotation">TYPE</A>)
+</FONT>public @interface <A HREF="../../../src-html/org/uimafit/descriptor/OperationalProperties.html#line.41"><B>OperationalProperties</B></A></DL>
 </PRE>
 
 <P>
@@ -148,7 +148,7 @@ Control aspects of the UIMA analysis component.<br/>
 <A NAME="multipleDeploymentAllowed()"><!-- --></A><H3>
 multipleDeploymentAllowed</H3>
 <PRE>
-public abstract boolean <A HREF="../../../src-html/org/uimafit/descriptor/OperationalProperties.html#line.63"><B>multipleDeploymentAllowed</B></A></PRE>
+public abstract boolean <A HREF="../../../src-html/org/uimafit/descriptor/OperationalProperties.html#line.62"><B>multipleDeploymentAllowed</B></A></PRE>
 <DL>
 <DD>Gets whether multiple instances of this component can be run in parallel, each receiving a
  subset of the documents from a collection.
@@ -158,7 +158,7 @@ public abstract boolean <A HREF="../../../src-html/org/uimafit/descriptor/Operat
 </DD>
 <DD><DL>
 
-<DT><B>Returns:</B><DD>true if multiple instances can be run in parallel, false if not<DT><B>See Also:</B><DD><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/metadata/OperationalProperties.html?is-external=true#isMultipleDeploymentAllowed()" title="class or interface in org.apache.uima.resource.metadata"><CODE>OperationalProperties.isMultipleDeploymentAllowed()</CODE></A></DL>
+<DT><B>Returns:</B><DD>true if multiple instances can be run in parallel, false if not<DT><B>See Also:</B><DD><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/OperationalProperties.html?is-external=true#isMultipleDeploymentAllowed()" title="class or interface in org.apache.uima.resource.metadata"><CODE>OperationalProperties.isMultipleDeploymentAllowed()</CODE></A></DL>
 <DL>
 <DT><B>Default:</B><DD>true</DD>
 </DL>
@@ -168,7 +168,7 @@ public abstract boolean <A HREF="../../../src-html/org/uimafit/descriptor/Operat
 <A NAME="modifiesCas()"><!-- --></A><H3>
 modifiesCas</H3>
 <PRE>
-public abstract boolean <A HREF="../../../src-html/org/uimafit/descriptor/OperationalProperties.html#line.71"><B>modifiesCas</B></A></PRE>
+public abstract boolean <A HREF="../../../src-html/org/uimafit/descriptor/OperationalProperties.html#line.70"><B>modifiesCas</B></A></PRE>
 <DL>
 <DD>Gets whether this component will modify the CAS.
 <P>
@@ -177,7 +177,7 @@ public abstract boolean <A HREF="../../../src-html/org/uimafit/descriptor/Operat
 </DD>
 <DD><DL>
 
-<DT><B>Returns:</B><DD>true if this component modifies the CAS, false if it does not.<DT><B>See Also:</B><DD><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/metadata/OperationalProperties.html?is-external=true#getModifiesCas()" title="class or interface in org.apache.uima.resource.metadata"><CODE>OperationalProperties.getModifiesCas()</CODE></A></DL>
+<DT><B>Returns:</B><DD>true if this component modifies the CAS, false if it does not.<DT><B>See Also:</B><DD><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/OperationalProperties.html?is-external=true#getModifiesCas()" title="class or interface in org.apache.uima.resource.metadata"><CODE>OperationalProperties.getModifiesCas()</CODE></A></DL>
 <DL>
 <DT><B>Default:</B><DD>true</DD>
 </DL>
@@ -190,7 +190,8 @@ outputsNewCases</H3>
 public abstract boolean <A HREF="../../../src-html/org/uimafit/descriptor/OperationalProperties.html#line.83"><B>outputsNewCases</B></A></PRE>
 <DL>
 <DD>Gets whether this AnalysisEngine may output new CASes. If this property is set to true, an
- application can use the <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/analysis_engine/AnalysisEngine.html?is-external=true#processAndOutputNewCASes(org.apache.uima.cas.CAS)" title="class or interface in org.apache.uima.analysis_engine"><CODE>AnalysisEngine.processAndOutputNewCASes(CAS)</CODE></A> to pass a CAS to
+ application can use the
+ <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngine.html?is-external=true#processAndOutputNewCASes(org.apache.uima.cas.CAS)" title="class or interface in org.apache.uima.analysis_engine"><CODE>AnalysisEngine.processAndOutputNewCASes(org.apache.uima.cas.CAS)</CODE></A> to pass a CAS to
  this this AnalysisEngine and then step through all of the output CASes that it produces. For
  example, such an AnalysisEngine could segment a CAS into smaller pieces, emitting each as a
  separate CAS.
@@ -200,7 +201,7 @@ public abstract boolean <A HREF="../../../src-html/org/uimafit/descriptor/Operat
 </DD>
 <DD><DL>
 
-<DT><B>Returns:</B><DD>true if this component may output new CASes, false if it does not<DT><B>See Also:</B><DD><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/metadata/OperationalProperties.html?is-external=true#getOutputsNewCASes()" title="class or interface in org.apache.uima.resource.metadata"><CODE>OperationalProperties.getOutputsNewCASes()</CODE></A></DL>
+<DT><B>Returns:</B><DD>true if this component may output new CASes, false if it does not<DT><B>See Also:</B><DD><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/OperationalProperties.html?is-external=true#getOutputsNewCASes()" title="class or interface in org.apache.uima.resource.metadata"><CODE>OperationalProperties.getOutputsNewCASes()</CODE></A></DL>
 <DL>
 <DT><B>Default:</B><DD>false</DD>
 </DL>
@@ -266,6 +267,6 @@ DETAIL:&nbsp;<A HREF="#annotation_type_element_detail">ELEMENT</A></FONT></TD>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2011. All Rights Reserved.
+Copyright &#169; 2012. All Rights Reserved.
 </BODY>
 </HTML>

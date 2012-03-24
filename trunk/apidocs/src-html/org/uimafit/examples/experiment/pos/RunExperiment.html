@@ -28,94 +28,97 @@
 <FONT color="green">025</FONT>    import org.apache.uima.resource.metadata.TypeSystemDescription;<a name="line.25"></a>
 <FONT color="green">026</FONT>    import org.uimafit.component.ViewTextCopierAnnotator;<a name="line.26"></a>
 <FONT color="green">027</FONT>    import org.uimafit.component.xwriter.XWriter;<a name="line.27"></a>
-<FONT color="green">028</FONT>    import org.uimafit.examples.type.Sentence;<a name="line.28"></a>
-<FONT color="green">029</FONT>    import org.uimafit.examples.type.Token;<a name="line.29"></a>
-<FONT color="green">030</FONT>    import org.uimafit.factory.AggregateBuilder;<a name="line.30"></a>
-<FONT color="green">031</FONT>    import org.uimafit.factory.AnalysisEngineFactory;<a name="line.31"></a>
-<FONT color="green">032</FONT>    import org.uimafit.factory.CollectionReaderFactory;<a name="line.32"></a>
-<FONT color="green">033</FONT>    import org.uimafit.factory.TypeSystemDescriptionFactory;<a name="line.33"></a>
-<FONT color="green">034</FONT>    import org.uimafit.pipeline.SimplePipeline;<a name="line.34"></a>
-<FONT color="green">035</FONT>    <a name="line.35"></a>
-<FONT color="green">036</FONT>    /**<a name="line.36"></a>
-<FONT color="green">037</FONT>     * This class demonstrates a very common (though simplified) experimental setup<a name="line.37"></a>
-<FONT color="green">038</FONT>     * in which gold standard data is available for some task and you want to<a name="line.38"></a>
-<FONT color="green">039</FONT>     * evaluate how well your analysis engine works against that data. Here we are<a name="line.39"></a>
-<FONT color="green">040</FONT>     * evaluating "BaselineTagger" which is a (ridiculously) simple part-of-speech<a name="line.40"></a>
-<FONT color="green">041</FONT>     * tagger against the part-of-speech tags found in<a name="line.41"></a>
-<FONT color="green">042</FONT>     * "src/main/resources/org/uimafit/examples/pos/sample.txt.pos".<a name="line.42"></a>
-<FONT color="green">043</FONT>     * &lt;p&gt;<a name="line.43"></a>
-<FONT color="green">044</FONT>     * The basic strategy is as follows:<a name="line.44"></a>
-<FONT color="green">045</FONT>     * &lt;ul&gt;<a name="line.45"></a>
-<FONT color="green">046</FONT>     * &lt;li&gt;post the data "as is" into the default view&lt;/li&gt;<a name="line.46"></a>
-<FONT color="green">047</FONT>     * &lt;li&gt;parse the gold-standard tokens and part-of-speech tags and put the<a name="line.47"></a>
-<FONT color="green">048</FONT>     * results into another view we will call GOLD_VIEW&lt;/li&gt;<a name="line.48"></a>
-<FONT color="green">049</FONT>     * &lt;li&gt;create another view called SYSTEM_VIEW and copy the text and Token<a name="line.49"></a>
-<FONT color="green">050</FONT>     * annotations from the GOLD_VIEW into this view&lt;/li&gt;<a name="line.50"></a>
-<FONT color="green">051</FONT>     * &lt;li&gt;Run the BaselineTagger on the SYSTEM_VIEW over the copied Token<a name="line.51"></a>
-<FONT color="green">052</FONT>     * annoations&lt;/lI&gt;<a name="line.52"></a>
-<FONT color="green">053</FONT>     * &lt;li&gt;Evaluate the part-of-speech tags found in the SYSTEM_VIEW with those in<a name="line.53"></a>
-<FONT color="green">054</FONT>     * the GOLD_VIEW&lt;/li&gt;<a name="line.54"></a>
-<FONT color="green">055</FONT>     * &lt;/ul&gt;<a name="line.55"></a>
+<FONT color="green">028</FONT>    import org.uimafit.factory.AggregateBuilder;<a name="line.28"></a>
+<FONT color="green">029</FONT>    import org.uimafit.factory.AnalysisEngineFactory;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import org.uimafit.factory.CollectionReaderFactory;<a name="line.30"></a>
+<FONT color="green">031</FONT>    import org.uimafit.factory.TypeSystemDescriptionFactory;<a name="line.31"></a>
+<FONT color="green">032</FONT>    import org.uimafit.pipeline.SimplePipeline;<a name="line.32"></a>
+<FONT color="green">033</FONT>    <a name="line.33"></a>
+<FONT color="green">034</FONT>    /**<a name="line.34"></a>
+<FONT color="green">035</FONT>     * This class demonstrates a very common (though simplified) experimental setup in which gold<a name="line.35"></a>
+<FONT color="green">036</FONT>     * standard data is available for some task and you want to evaluate how well your analysis engine<a name="line.36"></a>
+<FONT color="green">037</FONT>     * works against that data. Here we are evaluating "BaselineTagger" which is a (ridiculously) simple<a name="line.37"></a>
+<FONT color="green">038</FONT>     * part-of-speech tagger against the part-of-speech tags found in<a name="line.38"></a>
+<FONT color="green">039</FONT>     * "src/main/resources/org/uimafit/examples/pos/sample.txt.pos".<a name="line.39"></a>
+<FONT color="green">040</FONT>     * &lt;p&gt;<a name="line.40"></a>
+<FONT color="green">041</FONT>     * The basic strategy is as follows:<a name="line.41"></a>
+<FONT color="green">042</FONT>     * &lt;ul&gt;<a name="line.42"></a>
+<FONT color="green">043</FONT>     * &lt;li&gt;post the data "as is" into the default view&lt;/li&gt;<a name="line.43"></a>
+<FONT color="green">044</FONT>     * &lt;li&gt;parse the gold-standard tokens and part-of-speech tags and put the results into another view<a name="line.44"></a>
+<FONT color="green">045</FONT>     * we will call GOLD_VIEW&lt;/li&gt;<a name="line.45"></a>
+<FONT color="green">046</FONT>     * &lt;li&gt;create another view called SYSTEM_VIEW and copy the text and Token annotations from the<a name="line.46"></a>
+<FONT color="green">047</FONT>     * GOLD_VIEW into this view&lt;/li&gt;<a name="line.47"></a>
+<FONT color="green">048</FONT>     * &lt;li&gt;Run the BaselineTagger on the SYSTEM_VIEW over the copied Token annoations&lt;/lI&gt;<a name="line.48"></a>
+<FONT color="green">049</FONT>     * &lt;li&gt;Evaluate the part-of-speech tags found in the SYSTEM_VIEW with those in the GOLD_VIEW&lt;/li&gt;<a name="line.49"></a>
+<FONT color="green">050</FONT>     * &lt;/ul&gt;<a name="line.50"></a>
+<FONT color="green">051</FONT>     * <a name="line.51"></a>
+<FONT color="green">052</FONT>     * Please see comments in the code for details on how the UIMA pipeline is set up and run for this<a name="line.52"></a>
+<FONT color="green">053</FONT>     * task.<a name="line.53"></a>
+<FONT color="green">054</FONT>     * <a name="line.54"></a>
+<FONT color="green">055</FONT>     * @author Philip Ogren<a name="line.55"></a>
 <FONT color="green">056</FONT>     * <a name="line.56"></a>
-<FONT color="green">057</FONT>     * Please see comments in the code for details on how the UIMA pipeline is set<a name="line.57"></a>
-<FONT color="green">058</FONT>     * up and run for this task.<a name="line.58"></a>
-<FONT color="green">059</FONT>     * <a name="line.59"></a>
-<FONT color="green">060</FONT>     * @author Philip Ogren<a name="line.60"></a>
-<FONT color="green">061</FONT>     * <a name="line.61"></a>
-<FONT color="green">062</FONT>     */<a name="line.62"></a>
-<FONT color="green">063</FONT>    public class RunExperiment {<a name="line.63"></a>
-<FONT color="green">064</FONT>    <a name="line.64"></a>
-<FONT color="green">065</FONT>            public static void main(String[] args) throws UIMAException, IOException {<a name="line.65"></a>
-<FONT color="green">066</FONT>                    String samplePosFileName = "src/main/resources/org/uimafit/examples/pos/sample.txt.pos";<a name="line.66"></a>
-<FONT color="green">067</FONT>    <a name="line.67"></a>
-<FONT color="green">068</FONT>                    TypeSystemDescription typeSystem = TypeSystemDescriptionFactory.createTypeSystemDescription(Sentence.class, Token.class);<a name="line.68"></a>
-<FONT color="green">069</FONT>    <a name="line.69"></a>
-<FONT color="green">070</FONT>                    // The lineReader simply copies the lines from the input file into the<a name="line.70"></a>
-<FONT color="green">071</FONT>                    // default view - one line per CAS<a name="line.71"></a>
-<FONT color="green">072</FONT>                    CollectionReader lineReader = CollectionReaderFactory.createCollectionReader(LineReader.class, typeSystem, LineReader.PARAM_INPUT_FILE,<a name="line.72"></a>
-<FONT color="green">073</FONT>                                    samplePosFileName);<a name="line.73"></a>
-<FONT color="green">074</FONT>    <a name="line.74"></a>
-<FONT color="green">075</FONT>                    AggregateBuilder builder = new AggregateBuilder();<a name="line.75"></a>
-<FONT color="green">076</FONT>    <a name="line.76"></a>
-<FONT color="green">077</FONT>                    // The goldTagger parses the data in the default view into Token objects<a name="line.77"></a>
-<FONT color="green">078</FONT>                    // along with their part-of-speech tags which will be added to the<a name="line.78"></a>
-<FONT color="green">079</FONT>                    // GOLD_VIEW<a name="line.79"></a>
-<FONT color="green">080</FONT>                    AnalysisEngineDescription goldTagger = AnalysisEngineFactory.createPrimitiveDescription(GoldTagger.class, typeSystem);<a name="line.80"></a>
-<FONT color="green">081</FONT>                    builder.add(goldTagger);<a name="line.81"></a>
-<FONT color="green">082</FONT>    <a name="line.82"></a>
-<FONT color="green">083</FONT>                    // The textCopier creates the SYSTEM_VIEW and set the text of this view<a name="line.83"></a>
-<FONT color="green">084</FONT>                    // to that of the text found in GOLD_VIEW<a name="line.84"></a>
-<FONT color="green">085</FONT>                    AnalysisEngineDescription textCopier = AnalysisEngineFactory.createPrimitiveDescription(ViewTextCopierAnnotator.class, typeSystem,<a name="line.85"></a>
-<FONT color="green">086</FONT>                                    ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, ViewNames.GOLD_VIEW, ViewTextCopierAnnotator.PARAM_DESTINATION_VIEW_NAME,<a name="line.86"></a>
-<FONT color="green">087</FONT>                                    ViewNames.SYSTEM_VIEW);<a name="line.87"></a>
-<FONT color="green">088</FONT>                    builder.add(textCopier);<a name="line.88"></a>
-<FONT color="green">089</FONT>    <a name="line.89"></a>
-<FONT color="green">090</FONT>                    // The sentenceAndTokenCopier copies Token and Sentence annotations in<a name="line.90"></a>
-<FONT color="green">091</FONT>                    // the GOLD_VIEW into the SYSTEM_VIEW<a name="line.91"></a>
-<FONT color="green">092</FONT>                    AnalysisEngineDescription sentenceAndTokenCopier = AnalysisEngineFactory.createPrimitiveDescription(SentenceAndTokenCopier.class, typeSystem);<a name="line.92"></a>
-<FONT color="green">093</FONT>                    builder.add(sentenceAndTokenCopier, ViewNames.VIEW1, ViewNames.GOLD_VIEW, ViewNames.VIEW2, ViewNames.SYSTEM_VIEW);<a name="line.93"></a>
+<FONT color="green">057</FONT>     */<a name="line.57"></a>
+<FONT color="green">058</FONT>    public class RunExperiment {<a name="line.58"></a>
+<FONT color="green">059</FONT>    <a name="line.59"></a>
+<FONT color="green">060</FONT>            public static void main(String[] args) throws UIMAException, IOException {<a name="line.60"></a>
+<FONT color="green">061</FONT>                    String samplePosFileName = "src/main/resources/org/uimafit/examples/pos/sample.txt.pos";<a name="line.61"></a>
+<FONT color="green">062</FONT>    <a name="line.62"></a>
+<FONT color="green">063</FONT>                    TypeSystemDescription typeSystem = TypeSystemDescriptionFactory<a name="line.63"></a>
+<FONT color="green">064</FONT>                                    .createTypeSystemDescription();<a name="line.64"></a>
+<FONT color="green">065</FONT>    <a name="line.65"></a>
+<FONT color="green">066</FONT>                    // The lineReader simply copies the lines from the input file into the<a name="line.66"></a>
+<FONT color="green">067</FONT>                    // default view - one line per CAS<a name="line.67"></a>
+<FONT color="green">068</FONT>                    CollectionReader lineReader = CollectionReaderFactory.createCollectionReader(<a name="line.68"></a>
+<FONT color="green">069</FONT>                                    LineReader.class, typeSystem, LineReader.PARAM_INPUT_FILE, samplePosFileName);<a name="line.69"></a>
+<FONT color="green">070</FONT>    <a name="line.70"></a>
+<FONT color="green">071</FONT>                    AggregateBuilder builder = new AggregateBuilder();<a name="line.71"></a>
+<FONT color="green">072</FONT>    <a name="line.72"></a>
+<FONT color="green">073</FONT>                    // The goldTagger parses the data in the default view into Token objects<a name="line.73"></a>
+<FONT color="green">074</FONT>                    // along with their part-of-speech tags which will be added to the<a name="line.74"></a>
+<FONT color="green">075</FONT>                    // GOLD_VIEW<a name="line.75"></a>
+<FONT color="green">076</FONT>                    AnalysisEngineDescription goldTagger = AnalysisEngineFactory.createPrimitiveDescription(<a name="line.76"></a>
+<FONT color="green">077</FONT>                                    GoldTagger.class, typeSystem);<a name="line.77"></a>
+<FONT color="green">078</FONT>                    builder.add(goldTagger);<a name="line.78"></a>
+<FONT color="green">079</FONT>    <a name="line.79"></a>
+<FONT color="green">080</FONT>                    // The textCopier creates the SYSTEM_VIEW and set the text of this view<a name="line.80"></a>
+<FONT color="green">081</FONT>                    // to that of the text found in GOLD_VIEW<a name="line.81"></a>
+<FONT color="green">082</FONT>                    AnalysisEngineDescription textCopier = AnalysisEngineFactory.createPrimitiveDescription(<a name="line.82"></a>
+<FONT color="green">083</FONT>                                    ViewTextCopierAnnotator.class, typeSystem,<a name="line.83"></a>
+<FONT color="green">084</FONT>                                    ViewTextCopierAnnotator.PARAM_SOURCE_VIEW_NAME, ViewNames.GOLD_VIEW,<a name="line.84"></a>
+<FONT color="green">085</FONT>                                    ViewTextCopierAnnotator.PARAM_DESTINATION_VIEW_NAME, ViewNames.SYSTEM_VIEW);<a name="line.85"></a>
+<FONT color="green">086</FONT>                    builder.add(textCopier);<a name="line.86"></a>
+<FONT color="green">087</FONT>    <a name="line.87"></a>
+<FONT color="green">088</FONT>                    // The sentenceAndTokenCopier copies Token and Sentence annotations in<a name="line.88"></a>
+<FONT color="green">089</FONT>                    // the GOLD_VIEW into the SYSTEM_VIEW<a name="line.89"></a>
+<FONT color="green">090</FONT>                    AnalysisEngineDescription sentenceAndTokenCopier = AnalysisEngineFactory<a name="line.90"></a>
+<FONT color="green">091</FONT>                                    .createPrimitiveDescription(SentenceAndTokenCopier.class, typeSystem);<a name="line.91"></a>
+<FONT color="green">092</FONT>                    builder.add(sentenceAndTokenCopier, ViewNames.VIEW1, ViewNames.GOLD_VIEW, ViewNames.VIEW2,<a name="line.92"></a>
+<FONT color="green">093</FONT>                                    ViewNames.SYSTEM_VIEW);<a name="line.93"></a>
 <FONT color="green">094</FONT>    <a name="line.94"></a>
 <FONT color="green">095</FONT>                    // The baselineTagger is run on the SYSTEM_VIEW<a name="line.95"></a>
-<FONT color="green">096</FONT>                    AnalysisEngineDescription baselineTagger = AnalysisEngineFactory.createPrimitiveDescription(BaselineTagger.class, typeSystem);<a name="line.96"></a>
-<FONT color="green">097</FONT>                    builder.add(baselineTagger, CAS.NAME_DEFAULT_SOFA, ViewNames.SYSTEM_VIEW);<a name="line.97"></a>
-<FONT color="green">098</FONT>    <a name="line.98"></a>
-<FONT color="green">099</FONT>                    // The evaluator will compare the part-of-speech tags in the SYSTEM_VIEW<a name="line.99"></a>
-<FONT color="green">100</FONT>                    // with those in the GOLD_VIEW<a name="line.100"></a>
-<FONT color="green">101</FONT>                    AnalysisEngineDescription evaluator = AnalysisEngineFactory.createPrimitiveDescription(Evaluator.class, typeSystem);<a name="line.101"></a>
-<FONT color="green">102</FONT>                    builder.add(evaluator);<a name="line.102"></a>
-<FONT color="green">103</FONT>    <a name="line.103"></a>
-<FONT color="green">104</FONT>                    // The xWriter writes out the contents of each CAS (one per sentence) to<a name="line.104"></a>
-<FONT color="green">105</FONT>                    // an XMI file. It is instructive to open one of these<a name="line.105"></a>
-<FONT color="green">106</FONT>                    // xmi files in the CAS Visual Debugger and look at the contents of each<a name="line.106"></a>
-<FONT color="green">107</FONT>                    // view.<a name="line.107"></a>
-<FONT color="green">108</FONT>                    AnalysisEngineDescription xWriter = AnalysisEngineFactory.createPrimitiveDescription(XWriter.class, typeSystem,<a name="line.108"></a>
-<FONT color="green">109</FONT>                                    XWriter.PARAM_OUTPUT_DIRECTORY_NAME, "src/main/resources/org/uimafit/examples/pos/xmi");<a name="line.109"></a>
-<FONT color="green">110</FONT>                    builder.add(xWriter);<a name="line.110"></a>
-<FONT color="green">111</FONT>    <a name="line.111"></a>
-<FONT color="green">112</FONT>                    // runs the collection reader and the aggregate AE.<a name="line.112"></a>
-<FONT color="green">113</FONT>                    SimplePipeline.runPipeline(lineReader, builder.createAggregate());<a name="line.113"></a>
-<FONT color="green">114</FONT>            }<a name="line.114"></a>
-<FONT color="green">115</FONT>    }<a name="line.115"></a>
+<FONT color="green">096</FONT>                    AnalysisEngineDescription baselineTagger = AnalysisEngineFactory<a name="line.96"></a>
+<FONT color="green">097</FONT>                                    .createPrimitiveDescription(BaselineTagger.class, typeSystem);<a name="line.97"></a>
+<FONT color="green">098</FONT>                    builder.add(baselineTagger, CAS.NAME_DEFAULT_SOFA, ViewNames.SYSTEM_VIEW);<a name="line.98"></a>
+<FONT color="green">099</FONT>    <a name="line.99"></a>
+<FONT color="green">100</FONT>                    // The evaluator will compare the part-of-speech tags in the SYSTEM_VIEW<a name="line.100"></a>
+<FONT color="green">101</FONT>                    // with those in the GOLD_VIEW<a name="line.101"></a>
+<FONT color="green">102</FONT>                    AnalysisEngineDescription evaluator = AnalysisEngineFactory.createPrimitiveDescription(<a name="line.102"></a>
+<FONT color="green">103</FONT>                                    Evaluator.class, typeSystem);<a name="line.103"></a>
+<FONT color="green">104</FONT>                    builder.add(evaluator);<a name="line.104"></a>
+<FONT color="green">105</FONT>    <a name="line.105"></a>
+<FONT color="green">106</FONT>                    // The xWriter writes out the contents of each CAS (one per sentence) to<a name="line.106"></a>
+<FONT color="green">107</FONT>                    // an XMI file. It is instructive to open one of these<a name="line.107"></a>
+<FONT color="green">108</FONT>                    // xmi files in the CAS Visual Debugger and look at the contents of each<a name="line.108"></a>
+<FONT color="green">109</FONT>                    // view.<a name="line.109"></a>
+<FONT color="green">110</FONT>                    AnalysisEngineDescription xWriter = AnalysisEngineFactory.createPrimitiveDescription(<a name="line.110"></a>
+<FONT color="green">111</FONT>                                    XWriter.class, typeSystem, XWriter.PARAM_OUTPUT_DIRECTORY_NAME,<a name="line.111"></a>
+<FONT color="green">112</FONT>                                    "src/main/resources/org/uimafit/examples/pos/xmi");<a name="line.112"></a>
+<FONT color="green">113</FONT>                    builder.add(xWriter);<a name="line.113"></a>
+<FONT color="green">114</FONT>    <a name="line.114"></a>
+<FONT color="green">115</FONT>                    // runs the collection reader and the aggregate AE.<a name="line.115"></a>
+<FONT color="green">116</FONT>                    SimplePipeline.runPipeline(lineReader, builder.createAggregate());<a name="line.116"></a>
+<FONT color="green">117</FONT>            }<a name="line.117"></a>
+<FONT color="green">118</FONT>    }<a name="line.118"></a>
 
 
 

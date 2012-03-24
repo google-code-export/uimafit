@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-JndiResourceLocator (uimaFIT 1.2.0 API)
+JndiResourceLocator (uimaFIT 1.3.1 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ JndiResourceLocator (uimaFIT 1.2.0 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="JndiResourceLocator (uimaFIT 1.2.0 API)";
+        parent.document.title="JndiResourceLocator (uimaFIT 1.3.1 API)";
     }
 }
 </SCRIPT>
@@ -91,13 +91,13 @@ org.uimafit.factory.locator</FONT>
 <BR>
 Class JndiResourceLocator</H2>
 <PRE>
-<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
-  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource_ImplBase.html?is-external=true" title="class or interface in org.apache.uima.resource">org.apache.uima.resource.Resource_ImplBase</A>
+<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource_ImplBase.html?is-external=true" title="class or interface in org.apache.uima.resource">org.apache.uima.resource.Resource_ImplBase</A>
       <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../org/uimafit/component/Resource_ImplBase.html" title="class in org.uimafit.component">org.uimafit.component.Resource_ImplBase</A>
           <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>org.uimafit.factory.locator.JndiResourceLocator</B>
 </PRE>
 <DL>
-<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true" title="class or interface in org.apache.uima.resource">Resource</A>, <A HREF="../../../../org/uimafit/descriptor/ExternalResourceLocator.html" title="interface in org.uimafit.descriptor">ExternalResourceLocator</A></DD>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true" title="class or interface in org.apache.uima.resource">Resource</A>, <A HREF="../../../../org/uimafit/component/ExternalResourceAware.html" title="interface in org.uimafit.component">ExternalResourceAware</A>, <A HREF="../../../../org/uimafit/descriptor/ExternalResourceLocator.html" title="interface in org.uimafit.descriptor">ExternalResourceLocator</A></DD>
 </DL>
 <HR>
 <DL>
@@ -126,7 +126,7 @@ Locate an object via JNDI.
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>static&nbsp;<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<CODE>static&nbsp;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../../org/uimafit/factory/locator/JndiResourceLocator.html#PARAM_NAME">PARAM_NAME</A></B></CODE>
 
 <BR>
@@ -136,10 +136,10 @@ Locate an object via JNDI.
 &nbsp;<A NAME="fields_inherited_from_class_org.apache.uima.resource.Resource"><!-- --></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
-<TH ALIGN="left"><B>Fields inherited from interface org.apache.uima.resource.<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true" title="class or interface in org.apache.uima.resource">Resource</A></B></TH>
+<TH ALIGN="left"><B>Fields inherited from interface org.apache.uima.resource.<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true" title="class or interface in org.apache.uima.resource">Resource</A></B></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#PARAM_AGGREGATE_SOFA_MAPPINGS" title="class or interface in org.apache.uima.resource">PARAM_AGGREGATE_SOFA_MAPPINGS</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#PARAM_CONFIG_PARAM_SETTINGS" title="class or interface in org.apache.uima.resource">PARAM_CONFIG_PARAM_SETTINGS</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#PARAM_PERFORMANCE_TUNING_SETTINGS" title="class or interface in org.apache.uima.resource">PARAM_PERFORMANCE_TUNING_SETTINGS</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#PARAM_RESOURCE_MANAGER" title="class or interface in org.apache.uima.resource">PARAM_RESOURCE_MANAGER</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#PARAM_UIMA_CONTEXT" title="class or interface in org.apache.uima.resource">PARAM_UIMA_CONTEXT</A></CODE></TD>
+<TD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#PARAM_AGGREGATE_SOFA_MAPPINGS" title="class or interface in org.apache.uima.resource">PARAM_AGGREGATE_SOFA_MAPPINGS</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#PARAM_CONFIG_MANAGER" title="class or interface in org.apache.uima.resource">PARAM_CONFIG_MANAGER</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#PARAM_CONFIG_PARAM_SETTINGS" title="class or interface in org.apache.uima.resource">PARAM_CONFIG_PARAM_SETTINGS</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#PARAM_PERFORMANCE_TUNING_SETTINGS" title="class or interface in org.apache.uima.resource">PARAM_PERFORMANCE_TUNING_SETTINGS</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#PARAM_RESOURCE_MANAGER" title="class or interface in org.apache.uima.resource">PARAM_RESOURCE_MANAGER</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#PARAM_UIMA_CONTEXT" title="class or interface in org.apache.uima.resource">PARAM_UIMA_CONTEXT</A></CODE></TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -169,7 +169,7 @@ Locate an object via JNDI.
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>&nbsp;<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></CODE></FONT></TD>
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../../org/uimafit/factory/locator/JndiResourceLocator.html#getResource()">getResource</A></B>()</CODE>
 
 <BR>
@@ -178,38 +178,47 @@ Locate an object via JNDI.
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;boolean</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../../org/uimafit/factory/locator/JndiResourceLocator.html#initialize(org.apache.uima.resource.ResourceSpecifier, java.util.Map)">initialize</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/ResourceSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceSpecifier</A>&nbsp;aSpecifier,
-                     <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&nbsp;aAdditionalParams)</CODE>
+<TD><CODE><B><A HREF="../../../../org/uimafit/factory/locator/JndiResourceLocator.html#initialize(org.apache.uima.resource.ResourceSpecifier, java.util.Map)">initialize</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceSpecifier</A>&nbsp;aSpecifier,
+                     <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&nbsp;aAdditionalParams)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
 </TR>
 </TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.uimafit.component.Resource_ImplBase"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.uimafit.component.<A HREF="../../../../org/uimafit/component/Resource_ImplBase.html" title="class in org.uimafit.component">Resource_ImplBase</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../org/uimafit/component/Resource_ImplBase.html#afterResourcesInitialized()">afterResourcesInitialized</A>, <A HREF="../../../../org/uimafit/component/Resource_ImplBase.html#getLogger()">getLogger</A>, <A HREF="../../../../org/uimafit/component/Resource_ImplBase.html#getResourceName()">getResourceName</A></CODE></TD>
+</TR>
+</TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_org.apache.uima.resource.Resource_ImplBase"><!-- --></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
-<TH ALIGN="left"><B>Methods inherited from class org.apache.uima.resource.<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource_ImplBase.html?is-external=true" title="class or interface in org.apache.uima.resource">Resource_ImplBase</A></B></TH>
+<TH ALIGN="left"><B>Methods inherited from class org.apache.uima.resource.<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource_ImplBase.html?is-external=true" title="class or interface in org.apache.uima.resource">Resource_ImplBase</A></B></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#destroy()" title="class or interface in org.apache.uima.resource">destroy</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#getCasManager()" title="class or interface in org.apache.uima.resource">getCasManager</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#getLogger()" title="class or interface in org.apache.uima.resource">getLogger</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#getMetaData()" title="class or interface in org.apache.uima.resource">getMetaData</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#getResourceManager()" title="class or interface in org.apache.uima.resource">getResourceManager</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#getUimaContext()" title="class or interface in org.apache.uima.resource">getUimaContext</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#getUimaContextAdmin()" title="class or interface in org.apache.uima.resource">getUimaContextAdmin</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#setLogger(org.apache.uima.util.Logger)" title="class or interface in org.apache.uima.resource">setLogger</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#setMetaData(org.apache.uima.resource.metadata.ResourceMetaData)" title="class or interface in org.apache.uima.resource">setMetaData</A></CODE></TD>
+<TD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#destroy()" title="class or interface in org.apache.uima.resource">destroy</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#getCasManager()" title="class or interface in org.apache.uima.resource">getCasManager</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#getMetaData()" title="class or interface in org.apache.uima.resource">getMetaData</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#getResourceManager()" title="class or interface in org.apache.uima.resource">getResourceManager</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#getUimaContext()" title="class or interface in org.apache.uima.resource">getUimaContext</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#getUimaContextAdmin()" title="class or interface in org.apache.uima.resource">getUimaContextAdmin</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#setLogger(org.apache.uima.util.Logger)" title="class or interface in org.apache.uima.resource">setLogger</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource_ImplBase.html?is-external=true#setMetaData(org.apache.uima.resource.metadata.ResourceMetaData)" title="class or interface in org.apache.uima.resource">setMetaData</A></CODE></TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
-<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+<TD><CODE><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_org.apache.uima.resource.Resource"><!-- --></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
 <TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
-<TH ALIGN="left"><B>Methods inherited from interface org.apache.uima.resource.<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true" title="class or interface in org.apache.uima.resource">Resource</A></B></TH>
+<TH ALIGN="left"><B>Methods inherited from interface org.apache.uima.resource.<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true" title="class or interface in org.apache.uima.resource">Resource</A></B></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#destroy()" title="class or interface in org.apache.uima.resource">destroy</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#getLogger()" title="class or interface in org.apache.uima.resource">getLogger</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#getMetaData()" title="class or interface in org.apache.uima.resource">getMetaData</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#getResourceManager()" title="class or interface in org.apache.uima.resource">getResourceManager</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#getUimaContext()" title="class or interface in org.apache.uima.resource">getUimaContext</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#getUimaContextAdmin()" title="class or interface in org.apache.uima.resource">getUimaContextAdmin</A>, <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#setLogger(org.apache.uima.util.Logger)" title="class or interface in org.apache.uima.resource">setLogger</A></CODE></TD>
+<TD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#destroy()" title="class or interface in org.apache.uima.resource">destroy</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#getLogger()" title="class or interface in org.apache.uima.resource">getLogger</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#getMetaData()" title="class or interface in org.apache.uima.resource">getMetaData</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#getResourceManager()" title="class or interface in org.apache.uima.resource">getResourceManager</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#getUimaContext()" title="class or interface in org.apache.uima.resource">getUimaContext</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#getUimaContextAdmin()" title="class or interface in org.apache.uima.resource">getUimaContextAdmin</A>, <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#setLogger(org.apache.uima.util.Logger)" title="class or interface in org.apache.uima.resource">setLogger</A></CODE></TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -228,7 +237,7 @@ Locate an object via JNDI.
 <A NAME="PARAM_NAME"><!-- --></A><H3>
 PARAM_NAME</H3>
 <PRE>
-public static final <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <A HREF="../../../../src-html/org/uimafit/factory/locator/JndiResourceLocator.html#line.38"><B>PARAM_NAME</B></A></PRE>
+public static final <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <A HREF="../../../../src-html/org/uimafit/factory/locator/JndiResourceLocator.html#line.38"><B>PARAM_NAME</B></A></PRE>
 <DL>
 <DL>
 <DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.uimafit.factory.locator.JndiResourceLocator.PARAM_NAME">Constant Field Values</A></DL>
@@ -264,17 +273,17 @@ public <A HREF="../../../../src-html/org/uimafit/factory/locator/JndiResourceLoc
 <A NAME="initialize(org.apache.uima.resource.ResourceSpecifier, java.util.Map)"><!-- --></A><H3>
 initialize</H3>
 <PRE>
-public boolean <A HREF="../../../../src-html/org/uimafit/factory/locator/JndiResourceLocator.html#line.46"><B>initialize</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/ResourceSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceSpecifier</A>&nbsp;aSpecifier,
-                          <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&nbsp;aAdditionalParams)
-                   throws <A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
+public boolean <A HREF="../../../../src-html/org/uimafit/factory/locator/JndiResourceLocator.html#line.46"><B>initialize</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceSpecifier</A>&nbsp;aSpecifier,
+                          <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&nbsp;aAdditionalParams)
+                   throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
 <DD><DL>
-<DT><B>Specified by:</B><DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true#initialize(org.apache.uima.resource.ResourceSpecifier, java.util.Map)" title="class or interface in org.apache.uima.resource">initialize</A></CODE> in interface <CODE><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/Resource.html?is-external=true" title="class or interface in org.apache.uima.resource">Resource</A></CODE><DT><B>Overrides:</B><DD><CODE><A HREF="../../../../org/uimafit/component/Resource_ImplBase.html#initialize(org.apache.uima.resource.ResourceSpecifier, java.util.Map)">initialize</A></CODE> in class <CODE><A HREF="../../../../org/uimafit/component/Resource_ImplBase.html" title="class in org.uimafit.component">Resource_ImplBase</A></CODE></DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true#initialize(org.apache.uima.resource.ResourceSpecifier, java.util.Map)" title="class or interface in org.apache.uima.resource">initialize</A></CODE> in interface <CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/Resource.html?is-external=true" title="class or interface in org.apache.uima.resource">Resource</A></CODE><DT><B>Overrides:</B><DD><CODE><A HREF="../../../../org/uimafit/component/Resource_ImplBase.html#initialize(org.apache.uima.resource.ResourceSpecifier, java.util.Map)">initialize</A></CODE> in class <CODE><A HREF="../../../../org/uimafit/component/Resource_ImplBase.html" title="class in org.uimafit.component">Resource_ImplBase</A></CODE></DL>
 </DD>
 <DD><DL>
 
 <DT><B>Throws:</B>
-<DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.3.1/api/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
+<DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
 </DD>
 </DL>
 <HR>
@@ -282,7 +291,7 @@ public boolean <A HREF="../../../../src-html/org/uimafit/factory/locator/JndiRes
 <A NAME="getResource()"><!-- --></A><H3>
 getResource</H3>
 <PRE>
-public <A HREF="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <A HREF="../../../../src-html/org/uimafit/factory/locator/JndiResourceLocator.html#line.62"><B>getResource</B></A>()</PRE>
+public <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <A HREF="../../../../src-html/org/uimafit/factory/locator/JndiResourceLocator.html#line.62"><B>getResource</B></A>()</PRE>
 <DL>
 <DD><DL>
 <DT><B>Specified by:</B><DD><CODE><A HREF="../../../../org/uimafit/descriptor/ExternalResourceLocator.html#getResource()">getResource</A></CODE> in interface <CODE><A HREF="../../../../org/uimafit/descriptor/ExternalResourceLocator.html" title="interface in org.uimafit.descriptor">ExternalResourceLocator</A></CODE></DL>
@@ -353,6 +362,6 @@ DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
 
 <HR>
-Copyright &#169; 2011. All Rights Reserved.
+Copyright &#169; 2012. All Rights Reserved.
 </BODY>
 </HTML>
