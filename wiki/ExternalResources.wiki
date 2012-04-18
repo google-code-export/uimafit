@@ -38,7 +38,7 @@ class MyAnalysisEngine extends CasAnnotator_ImplBase {
 }
 }}}
 
-uimaFIT can be used to inject external resources into such traditional components using the `createDependencyAndBind()` method. To show that this works with any off-the-shelve UIMA component, the following example uses uimaFIT to configure the OpenNLP Tokenizer:
+uimaFIT can be used to inject external resources into such traditional components using the `createDependencyAndBind()` method. To show that this works with any off-the-shelf UIMA component, the following example uses uimaFIT to configure the OpenNLP Tokenizer:
 
 {{{
 // Create descriptor
@@ -60,7 +60,7 @@ uimaFIT provides the `@ExternalResource` annotation to inject external resources
 || *Parameter*    || *Description*                             || *Default* ||
 || _key_          || Resource key                              || field type || 
 || _api_          || Used when the external resource type is different from the field type, e.g. when using an ExternalResourceLocator || field type ||
-|| _mandatory_    || Wether a value must be specified          || true ||
+|| _mandatory_    || Whether a value must be specified          || true ||
 
 {{{
 // Example annotator that uses the SharedModel. In the process() we only test
@@ -185,5 +185,3 @@ AnalysisEngineDescription desc = createPrimitiveDescription(MyAnalysisEngine2.cl
 bindResource(desc, MyAnalysisEngine2.RES_DICTIONARY, JndiResourceLocator.class,
   JndiResourceLocator.PARAM_NAME, "dictionaries/german");
 }}}
-
-
