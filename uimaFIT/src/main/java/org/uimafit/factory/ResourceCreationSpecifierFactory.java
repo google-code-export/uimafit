@@ -129,7 +129,7 @@ public final class ResourceCreationSpecifierFactory {
 			ConfigurationParameter param = ConfigurationParameterFactory.createPrimitiveParameter(
 					name, value.getClass(), null, false);
 			configurationParameters[i] = param;
-			configurationValues[i] = value;
+			configurationValues[i] = ConfigurationParameterFactory.convertParameterValue(param, value);
 		}
 		setConfigurationParameters(specifier, configurationParameters, configurationValues);
 	}

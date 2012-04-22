@@ -23,7 +23,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.awt.Point;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -102,11 +101,6 @@ public class ConfigurationParameterFactoryTest {
 		ConfigurationParameterFactory
 				.createPrimitiveParameter(ConfigurationParameterFactoryTest.class
 						.getDeclaredField("double3"));
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void test3() throws Exception {
-		ConfigurationParameterFactory.createPrimitiveParameter("point", Point.class, "", true);
 	}
 
 	@ConfigurationParameter

@@ -38,10 +38,14 @@ import org.apache.uima.resource.metadata.ConfigurationParameter;
 import org.apache.uima.resource.metadata.NameValuePair;
 import org.apache.uima.resource.metadata.ResourceMetaData;
 import org.apache.uima.resource.metadata.impl.ConfigurationParameter_impl;
+import org.springframework.beans.SimpleTypeConverter;
+import org.springframework.beans.TypeMismatchException;
+import org.uimafit.propertyeditors.PropertyEditorUtil;
 import org.uimafit.util.ReflectionUtil;
 
 /**
  * @author Philip Ogren
+ * @author Richard Eckart de Castilho
  */
 
 public final class ConfigurationParameterFactory {
@@ -273,13 +277,57 @@ public final class ConfigurationParameterFactory {
 
 		String parameterType = javaUimaTypeMap.get(parameterClassName);
 		if (parameterType == null) {
-			throw new IllegalArgumentException("While trying to set the parameter [" + name +
-					"] found the type [" + parameterClassName
-					+ "] is not a valid parameter type in UIMA."
-					+ " uimaFIT currently does not support using such types as parameter values.");
+			// If we cannot map the type, we'll try to convert it to a String
+			parameterType = ConfigurationParameter.TYPE_STRING;
 		}
 		return createPrimitiveParameter(name, parameterType, parameterDescription,
 				parameterClass.isArray(), isMandatory);
+	}
+	
+	/**
+	 * Convert a value so it can be injected into a UIMA component. UIMA only supports several
+	 * parameter types. If the value is not of these types, this method can be used to coerce the
+	 * value into a supported type (typically String). It is also used to convert primitive
+	 * arrays to object arrays when necessary.
+	 * 
+	 * @param param the configuration parameter.
+	 * @param aValue the parameter value.
+	 * @return the converted value.
+	 */
+	protected static Object convertParameterValue(ConfigurationParameter param, Object aValue)
+	{
+		Object value = aValue;
+		if (value.getClass().isArray()
+				&& value.getClass().getComponentType().getName().equals("boolean")) {
+			value = ArrayUtils.toObject((boolean[]) value);
+		}
+		else if (value.getClass().isArray()
+				&& value.getClass().getComponentType().getName().equals("int")) {
+			value = ArrayUtils.toObject((int[]) value);
+		}
+		else if (value.getClass().isArray()
+				&& value.getClass().getComponentType().getName().equals("float")) {
+			value = ArrayUtils.toObject((float[]) value);
+		}
+		else {
+			try {
+				if (param.getType().equals(ConfigurationParameter.TYPE_STRING)) {
+					SimpleTypeConverter converter = new SimpleTypeConverter();
+					PropertyEditorUtil.registerUimaFITEditors(converter);		
+					if (value.getClass().isArray() || value instanceof Collection) {
+						value = converter.convertIfNecessary(value, String[].class);
+					}
+					else {
+						value = converter.convertIfNecessary(value, String.class);
+					}
+				}
+			}
+			catch (TypeMismatchException e) {
+				throw new IllegalArgumentException(e.getMessage(), e);
+			}
+		}
+		
+		return value;
 	}
 
 	/**
@@ -330,23 +378,10 @@ public final class ConfigurationParameterFactory {
 				continue;
 			}
 			
-			if (value.getClass().isArray()
-					&& value.getClass().getComponentType().getName().equals("boolean")) {
-				value = ArrayUtils.toObject((boolean[]) value);
-			}
-			else if (value.getClass().isArray()
-					&& value.getClass().getComponentType().getName().equals("int")) {
-				value = ArrayUtils.toObject((int[]) value);
-			}
-			else if (value.getClass().isArray()
-					&& value.getClass().getComponentType().getName().equals("float")) {
-				value = ArrayUtils.toObject((float[]) value);
-			}
-
 			ConfigurationParameter param = ConfigurationParameterFactory.createPrimitiveParameter(
 					name, value.getClass(), null, false);
 			configurationParameters.add(param);
-			configurationValues.add(value);
+			configurationValues.add(ConfigurationParameterFactory.convertParameterValue(param, value));
 		}
 		return new ConfigurationData(
 				configurationParameters.toArray(new ConfigurationParameter[configurationParameters

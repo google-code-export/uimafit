@@ -70,6 +70,9 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(name = PARAM_STRING_9)
 	private Set<String> strings9;
 
+	@ConfigurationParameter(name = "strings10", mandatory = true, defaultValue = {})
+	private Set<String> strings10;
+
 	public Set<String> getStrings6() {
 		return strings6;
 	}
@@ -202,6 +205,8 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	private List<File> files7;
 	@ConfigurationParameter(name = "files8", defaultValue = { "test/data/file", "test/data/file2" })
 	private List<File> files8;
+	@ConfigurationParameter(name = "files9")
+	private List<File> files9;
 
 	public File getFile1() {
 		return file1;
@@ -237,6 +242,10 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 
 	public List<File> getFiles8() {
 		return files8;
+	}
+
+	public List<File> getFiles9() {
+		return files9;
 	}
 
 	public float[] getFloat4() {
