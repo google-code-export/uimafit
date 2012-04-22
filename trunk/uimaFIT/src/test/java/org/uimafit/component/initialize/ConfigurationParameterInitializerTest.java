@@ -68,7 +68,8 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase {
 				typeSystemDescription,
 				ParameterizedAE.PARAM_FLOAT_3, 1.234f,
 				ParameterizedAE.PARAM_FLOAT_6, new Float[] { 1.234f, 0.001f },
-				"file2", "foo/bar");
+				"file2", "foo/bar",
+				"files9", new File[] { new File("test/data/file"), new File("test/data/file2") } );
 				// Test initializing a multi-valued parameter with a single value
 				// This is supposed to be fixed as part of issue #79
 				// -- REC 2011-05-02
@@ -154,6 +155,9 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase {
 		assertEquals(1, component.getFiles7().size());
 		assertEquals(new File("test/data/file"), component.getFiles7().get(0));
 		assertEquals(2, component.getFiles8().size());
+		assertEquals(new File("test/data/file"), component.getFiles8().get(0));
+		assertEquals(new File("test/data/file2"), component.getFiles8().get(1));
+		assertEquals(2, component.getFiles9().size());
 		assertEquals(new File("test/data/file"), component.getFiles8().get(0));
 		assertEquals(new File("test/data/file2"), component.getFiles8().get(1));
 
