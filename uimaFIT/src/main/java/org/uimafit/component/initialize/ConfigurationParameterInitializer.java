@@ -293,7 +293,7 @@ public class ConfigurationParameterInitializer {
 			return cls.asSubclass(Collection.class).newInstance();
 		}
 		catch (Exception e) {
-			throw new RuntimeException(e); // NOPMD
+			throw new RuntimeException(e); 
 		}
 	}
 
@@ -345,7 +345,7 @@ public class ConfigurationParameterInitializer {
 			return new ConstructorConverter(constructor);
 		}
 		catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException("don't know how to convert type " + cls); // NOPMD
+			throw new IllegalArgumentException("don't know how to convert type " + cls); 
 		}
 	}
 
@@ -401,7 +401,7 @@ public class ConfigurationParameterInitializer {
 				return this.constructor.newInstance(o);
 			}
 			catch (Exception e) {
-				throw new RuntimeException(e); // NOPMD
+				throw new RuntimeException(e); 
 			}
 		}
 
@@ -419,7 +419,7 @@ public class ConfigurationParameterInitializer {
 				return Enum.valueOf(enumClass, o.toString());
 			}
 			catch (Exception e) {
-				throw new RuntimeException(e); // NOPMD
+				throw new RuntimeException(e); 
 			}
 		}
 	}

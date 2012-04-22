@@ -206,7 +206,9 @@ public final class JCasFactory {
 		catch (SAXException e) {
 			IOException ioe = new IOException(e.getMessage());
 			ioe.initCause(e);
-			throw ioe;
+			throw ioe; // NOPMD
+			// If we were using Java 1.6 and add the wrapped exception to the IOException
+			// constructor, we would not get a warning here
 		}
 		finally {
 			IOUtils.closeQuietly(xmlInputStream);

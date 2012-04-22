@@ -47,11 +47,15 @@ import org.uimafit.descriptor.FsIndexKey;
 /**
  * @author Richard Eckart de Castilho
  */
-public class FsIndexFactory {
+public final class FsIndexFactory {
 	  public static final int STANDARD_COMPARE = FsIndexKeyDescription.STANDARD_COMPARE;
 
 	  public static final int REVERSE_STANDARD_COMPARE = FsIndexKeyDescription.STANDARD_COMPARE;
 
+	private FsIndexFactory() {
+		// Factory class
+	}  
+	  
 	/**
 	 * Create index configuration data for a given class definition using reflection and the
 	 * configuration parameter annotation.
