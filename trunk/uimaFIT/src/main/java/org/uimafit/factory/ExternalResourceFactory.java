@@ -81,7 +81,7 @@ public final class ExternalResourceFactory {
 	/**
 	 * Counter used to create unique resource names.
 	 */
-	private final static AtomicLong disambiguator = new AtomicLong();
+	private final static AtomicLong DISAMBIGUATOR = new AtomicLong();
 
 	private ExternalResourceFactory() {
 		// This class is not meant to be instantiated
@@ -946,7 +946,7 @@ public final class ExternalResourceFactory {
 	
 	static String uniqueResourceKey(String aKey)
 	{
-		return aKey + '-' + disambiguator.getAndIncrement();
+		return aKey + '-' + DISAMBIGUATOR.getAndIncrement();
 	}
 	
 	/**

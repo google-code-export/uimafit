@@ -30,7 +30,7 @@ import org.apache.uima.jcas.JCas;
  * @author Richard Eckart de Castilho
  */
 public class JCasBuilder {
-	private StringBuilder sb = new StringBuilder();
+	private final StringBuilder documentText = new StringBuilder();
 	private final JCas jcas;
 
 	/**
@@ -51,7 +51,7 @@ public class JCasBuilder {
 	 *            the text to append.
 	 */
 	public void add(String aText) {
-		sb.append(aText);
+		documentText.append(aText);
 	}
 
 	/**
@@ -69,9 +69,9 @@ public class JCasBuilder {
 	@SuppressWarnings("unchecked")
 	public <T> T add(String aText, Class<T> aClass) {
 		Type type = getType(jcas, aClass);
-		int begin = sb.length();
+		int begin = documentText.length();
 		add(aText);
-		int end = sb.length();
+		int end = documentText.length();
 		AnnotationFS fs = jcas.getCas().createAnnotation(type, begin, end);
 		jcas.addFsToIndexes(fs);
 		return (T) fs;
@@ -93,7 +93,7 @@ public class JCasBuilder {
 	@SuppressWarnings("unchecked")
 	public <T> T add(int aBegin, Class<T> aClass) {
 		Type type = getType(jcas, aClass);
-		int end = sb.length();
+		int end = documentText.length();
 		AnnotationFS fs = jcas.getCas().createAnnotation(type, aBegin, end);
 		jcas.addFsToIndexes(fs);
 		return (T) fs;
@@ -105,7 +105,7 @@ public class JCasBuilder {
 	 * @return current text length.
 	 */
 	public int getPosition() {
-		return sb.length();
+		return documentText.length();
 	}
 
 	/**
@@ -121,6 +121,6 @@ public class JCasBuilder {
 	 * Complete the building process by writing the text into the CAS. This can only be called once.
 	 */
 	public void close() {
-		jcas.setDocumentText(sb.toString());
+		jcas.setDocumentText(documentText.toString());
 	}
 }
