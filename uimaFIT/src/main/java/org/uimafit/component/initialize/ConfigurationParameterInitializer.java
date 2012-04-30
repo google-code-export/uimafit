@@ -107,7 +107,7 @@ public final class ConfigurationParameterInitializer {
 				}
 				
 				if (parameterValue != null) {
-					values.add(field.getName(), parameterValue);
+					values.addPropertyValue(field.getName(), parameterValue);
 				}
 
 				// TODO does this check really belong here? It seems that
