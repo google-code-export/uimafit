@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Locale;
 
 import org.apache.uima.UIMAException;
@@ -158,8 +159,8 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase {
 		assertEquals(new File("test/data/file"), component.getFiles8().get(0));
 		assertEquals(new File("test/data/file2"), component.getFiles8().get(1));
 		assertEquals(2, component.getFiles9().size());
-		assertEquals(new File("test/data/file"), component.getFiles8().get(0));
-		assertEquals(new File("test/data/file2"), component.getFiles8().get(1));
+		assertEquals(new File("test/data/file"), component.getFiles9().get(0));
+		assertEquals(new File("test/data/file2"), component.getFiles9().get(1));
 
 		engine = AnalysisEngineFactory.createPrimitive(ParameterizedAE.class,
 				typeSystemDescription, ParameterizedAE.PARAM_FLOAT_3, 1.234f,
@@ -179,7 +180,7 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase {
 				"files4", new String[0], "files5", new String[] { "foos/bars" }, "files6",
 				new String[] { "C:\\Documents and Settings\\Philip\\My Documents\\",
 						"/usr/local/bin" }, "files7", new String[0], "files8",
-				new String[] { "foos/bars" });
+				new String[] { "foos/bars" }, "files9", Arrays.asList("test/data/file", "test/data/file2"));
 		component = new ParameterizedAE();
 		component.initialize(engine.getUimaContext());
 		assertEquals("lime", component.getString1());
@@ -216,6 +217,9 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase {
 		assertEquals(0, component.getFiles7().size());
 		assertEquals(1, component.getFiles8().size());
 		assertEquals(new File("foos/bars"), component.getFiles8().get(0));
+		assertEquals(2, component.getFiles9().size());
+		assertEquals(new File("test/data/file"), component.getFiles9().get(0));
+		assertEquals(new File("test/data/file2"), component.getFiles9().get(1));
 
 		engine = AnalysisEngineFactory.createPrimitive(ParameterizedAE.class,
 				typeSystemDescription, ParameterizedAE.PARAM_FLOAT_3, 1.234f,
