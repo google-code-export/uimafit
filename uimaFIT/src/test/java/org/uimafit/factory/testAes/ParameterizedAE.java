@@ -70,6 +70,7 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(name = PARAM_STRING_9)
 	private Set<String> strings9;
 
+	@SuppressWarnings("unused")
 	@ConfigurationParameter(name = "strings10", mandatory = true, defaultValue = {})
 	private Set<String> strings10;
 
