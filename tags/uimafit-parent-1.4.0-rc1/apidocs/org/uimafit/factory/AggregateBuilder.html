@@ -1,0 +1,448 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+AggregateBuilder (uimaFIT 1.3.1 API)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="AggregateBuilder (uimaFIT 1.3.1 API)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="class-use/AggregateBuilder.html"><FONT CLASS="NavBarFont1"><B>Use</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../org/uimafit/factory/AnalysisEngineFactory.html" title="class in org.uimafit.factory"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?org/uimafit/factory/AggregateBuilder.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AggregateBuilder.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.uimafit.factory</FONT>
+<BR>
+Class AggregateBuilder</H2>
+<PRE>
+<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>org.uimafit.factory.AggregateBuilder</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public class <A HREF="../../../src-html/org/uimafit/factory/AggregateBuilder.html#line.59"><B>AggregateBuilder</B></A><DT>extends <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
+</PRE>
+
+<P>
+This builder makes it easier to create an aggregate analysis engine. A typical use-case would
+ involve initializing this builder with your preferred type system and type priorities (the latter
+ may be null). This is followed by adding analysis engine descriptions one at a time until done.
+ This makes it easy to have runtime decisions determine how the aggregate engine should be built.
+ Finally, one of the create methods are called and an AnalysisEngine or AnalysisEngineDescription
+ is returned.
+
+ <p>This is an example taken from our test cases:</p>
+
+ <p><blockquote><pre>
+ import static org.uimafit.factory.AnalysisEngineFactory.createPrimitiveDescription;
+
+ AggregateBuilder builder = new AggregateBuilder();
+ builder.add(createPrimitiveDescription(Annotator1.class, typeSystemDescription),
+     ViewNames.PARENTHESES_VIEW, "A");
+ builder.add(createPrimitiveDescription(Annotator2.class, typeSystemDescription),
+     ViewNames.SORTED_VIEW, "B",
+     ViewNames.SORTED_PARENTHESES_VIEW, "C",
+     ViewNames.PARENTHESES_VIEW, "A");
+ builder.add(createPrimitiveDescription(Annotator3.class, typeSystemDescription),
+     ViewNames.INITIAL_VIEW, "B");
+ AnalysisEngine aggregateEngine = builder.createAggregate();
+ </pre></blockquote></p>
+<P>
+
+<P>
+<DL>
+<DT><B>Author:</B></DT>
+  <DD>Philip Ogren</DD>
+</DL>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../org/uimafit/factory/AggregateBuilder.html#AggregateBuilder()">AggregateBuilder</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The default no-args constructor calls
+ <A HREF="../../../org/uimafit/factory/AggregateBuilder.html#AggregateBuilder(org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, org.apache.uima.flow.FlowControllerDescription)"><CODE>AggregateBuilder(TypeSystemDescription, TypePriorities, FlowControllerDescription)</CODE></A>
+ with null-valued args.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../org/uimafit/factory/AggregateBuilder.html#AggregateBuilder(org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, org.apache.uima.flow.FlowControllerDescription)">AggregateBuilder</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A>&nbsp;typeSystemDescription,
+                                 <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypePriorities.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypePriorities</A>&nbsp;typePriorities,
+                                 <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/flow/FlowControllerDescription.html?is-external=true" title="class or interface in org.apache.uima.flow">FlowControllerDescription</A>&nbsp;flowControllerDescription)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Instantiate an AggregateBuilder with a given type system, type priorities, and flow
+ controller.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/factory/AggregateBuilder.html#add(org.apache.uima.analysis_engine.AnalysisEngineDescription, java.lang.String...)">add</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngineDescription.html?is-external=true" title="class or interface in org.apache.uima.analysis_engine">AnalysisEngineDescription</A>&nbsp;aed,
+       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>...&nbsp;viewNames)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This method simply calls <A HREF="../../../org/uimafit/factory/AggregateBuilder.html#add(java.lang.String, org.apache.uima.analysis_engine.AnalysisEngineDescription, java.lang.String...)"><CODE>add(String, AnalysisEngineDescription, String...)</CODE></A> using the
+ result of <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngineDescription.html?is-external=true#getAnnotatorImplementationName()" title="class or interface in org.apache.uima.analysis_engine"><CODE>AnalysisEngineDescription.getAnnotatorImplementationName()</CODE></A> for the
+ component name</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/factory/AggregateBuilder.html#add(java.lang.String, org.apache.uima.analysis_engine.AnalysisEngineDescription, java.lang.String...)">add</A></B>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;componentName,
+       <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngineDescription.html?is-external=true" title="class or interface in org.apache.uima.analysis_engine">AnalysisEngineDescription</A>&nbsp;aed,
+       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>...&nbsp;viewNames)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/factory/AggregateBuilder.html#addSofaMapping(java.lang.String, java.lang.String, java.lang.String)">addSofaMapping</A></B>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;componentName,
+                             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;componentViewName,
+                             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;aggregateViewName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Provide a sofa mapping for a component from the component's view to the aggregate view.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngine.html?is-external=true" title="class or interface in org.apache.uima.analysis_engine">AnalysisEngine</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/factory/AggregateBuilder.html#createAggregate()">createAggregate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This method simply delegates to
+ <A HREF="../../../org/uimafit/factory/AnalysisEngineFactory.html#createAggregate(java.util.List, org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, org.apache.uima.analysis_engine.metadata.SofaMapping[], java.lang.Object...)"><CODE>AnalysisEngineFactory.createAggregate(List, TypeSystemDescription, TypePriorities, SofaMapping[], Object...)</CODE></A></TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngineDescription.html?is-external=true" title="class or interface in org.apache.uima.analysis_engine">AnalysisEngineDescription</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/factory/AggregateBuilder.html#createAggregateDescription()">createAggregateDescription</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This method simply delegates to
+ <A HREF="../../../org/uimafit/factory/AnalysisEngineFactory.html#createAggregateDescription(java.util.List, org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, org.apache.uima.analysis_engine.metadata.SofaMapping[], java.lang.Object...)"><CODE>AnalysisEngineFactory.createAggregateDescription(List, TypeSystemDescription, TypePriorities, SofaMapping[], Object...)</CODE></A></TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/factory/AggregateBuilder.html#setFlowControllerDescription(org.apache.uima.flow.FlowControllerDescription)">setFlowControllerDescription</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/flow/FlowControllerDescription.html?is-external=true" title="class or interface in org.apache.uima.flow">FlowControllerDescription</A>&nbsp;flowControllerDescription)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set the flow controller description of the aggregate engine created by this builder.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="AggregateBuilder()"><!-- --></A><H3>
+AggregateBuilder</H3>
+<PRE>
+public <A HREF="../../../src-html/org/uimafit/factory/AggregateBuilder.html#line.78"><B>AggregateBuilder</B></A>()</PRE>
+<DL>
+<DD>The default no-args constructor calls
+ <A HREF="../../../org/uimafit/factory/AggregateBuilder.html#AggregateBuilder(org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, org.apache.uima.flow.FlowControllerDescription)"><CODE>AggregateBuilder(TypeSystemDescription, TypePriorities, FlowControllerDescription)</CODE></A>
+ with null-valued args.
+<P>
+</DL>
+<HR>
+
+<A NAME="AggregateBuilder(org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, org.apache.uima.flow.FlowControllerDescription)"><!-- --></A><H3>
+AggregateBuilder</H3>
+<PRE>
+public <A HREF="../../../src-html/org/uimafit/factory/AggregateBuilder.html#line.93"><B>AggregateBuilder</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A>&nbsp;typeSystemDescription,
+                        <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypePriorities.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypePriorities</A>&nbsp;typePriorities,
+                        <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/flow/FlowControllerDescription.html?is-external=true" title="class or interface in org.apache.uima.flow">FlowControllerDescription</A>&nbsp;flowControllerDescription)</PRE>
+<DL>
+<DD>Instantiate an AggregateBuilder with a given type system, type priorities, and flow
+ controller. Generally, speaking it suffices to use the no arguments constructor
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>typeSystemDescription</CODE> - this can be instantiated using <A HREF="../../../org/uimafit/factory/TypeSystemDescriptionFactory.html" title="class in org.uimafit.factory"><CODE>TypeSystemDescriptionFactory</CODE></A><DD><CODE>typePriorities</CODE> - this can be instantiated using <A HREF="../../../org/uimafit/factory/TypePrioritiesFactory.html" title="class in org.uimafit.factory"><CODE>TypePrioritiesFactory</CODE></A><DD><CODE>flowControllerDescription</CODE> - this can be instantiated using <A HREF="../../../org/uimafit/factory/FlowControllerFactory.html" title="class in org.uimafit.factory"><CODE>FlowControllerFactory</CODE></A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="add(org.apache.uima.analysis_engine.AnalysisEngineDescription, java.lang.String...)"><!-- --></A><H3>
+add</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <A HREF="../../../src-html/org/uimafit/factory/AggregateBuilder.html#line.109"><B>add</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngineDescription.html?is-external=true" title="class or interface in org.apache.uima.analysis_engine">AnalysisEngineDescription</A>&nbsp;aed,
+                  <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>...&nbsp;viewNames)</PRE>
+<DL>
+<DD>This method simply calls <A HREF="../../../org/uimafit/factory/AggregateBuilder.html#add(java.lang.String, org.apache.uima.analysis_engine.AnalysisEngineDescription, java.lang.String...)"><CODE>add(String, AnalysisEngineDescription, String...)</CODE></A> using the
+ result of <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngineDescription.html?is-external=true#getAnnotatorImplementationName()" title="class or interface in org.apache.uima.analysis_engine"><CODE>AnalysisEngineDescription.getAnnotatorImplementationName()</CODE></A> for the
+ component name
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>aed</CODE> - <DD><CODE>viewNames</CODE> - 
+<DT><B>Returns:</B><DD>the name of the component generated for the <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngineDescription.html?is-external=true" title="class or interface in org.apache.uima.analysis_engine"><CODE>AnalysisEngineDescription</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="add(java.lang.String, org.apache.uima.analysis_engine.AnalysisEngineDescription, java.lang.String...)"><!-- --></A><H3>
+add</H3>
+<PRE>
+public void <A HREF="../../../src-html/org/uimafit/factory/AggregateBuilder.html#line.137"><B>add</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;componentName,
+                <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngineDescription.html?is-external=true" title="class or interface in org.apache.uima.analysis_engine">AnalysisEngineDescription</A>&nbsp;aed,
+                <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>...&nbsp;viewNames)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>componentName</CODE> - the name of the component to add<DD><CODE>aed</CODE> - an analysis engine description to add to the aggregate analysis engine<DD><CODE>viewNames</CODE> - pairs of view names corresponding to a componentSofaName followed by the
+            aggregateSofaName that it is mapped to. An even number of names must be passed in
+            or else an IllegalArgumentException will be thrown. See
+            <A HREF="../../../org/uimafit/factory/SofaMappingFactory.html#createSofaMapping(java.lang.String, java.lang.String, java.lang.String)"><CODE>SofaMappingFactory.createSofaMapping(String, String, String)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addSofaMapping(java.lang.String, java.lang.String, java.lang.String)"><!-- --></A><H3>
+addSofaMapping</H3>
+<PRE>
+public void <A HREF="../../../src-html/org/uimafit/factory/AggregateBuilder.html#line.171"><B>addSofaMapping</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;componentName,
+                           <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;componentViewName,
+                           <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;aggregateViewName)</PRE>
+<DL>
+<DD>Provide a sofa mapping for a component from the component's view to the aggregate view.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>componentName</CODE> - the name of the component<DD><CODE>componentViewName</CODE> - the name of the component view<DD><CODE>aggregateViewName</CODE> - the name of the aggregate view to map the component view to.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFlowControllerDescription(org.apache.uima.flow.FlowControllerDescription)"><!-- --></A><H3>
+setFlowControllerDescription</H3>
+<PRE>
+public void <A HREF="../../../src-html/org/uimafit/factory/AggregateBuilder.html#line.190"><B>setFlowControllerDescription</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/flow/FlowControllerDescription.html?is-external=true" title="class or interface in org.apache.uima.flow">FlowControllerDescription</A>&nbsp;flowControllerDescription)</PRE>
+<DL>
+<DD>Set the flow controller description of the aggregate engine created by this builder.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>flowControllerDescription</CODE> - see <A HREF="../../../org/uimafit/factory/FlowControllerFactory.html" title="class in org.uimafit.factory"><CODE>FlowControllerFactory</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createAggregate()"><!-- --></A><H3>
+createAggregate</H3>
+<PRE>
+public <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngine.html?is-external=true" title="class or interface in org.apache.uima.analysis_engine">AnalysisEngine</A> <A HREF="../../../src-html/org/uimafit/factory/AggregateBuilder.html#line.202"><B>createAggregate</B></A>()
+                               throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
+<DL>
+<DD>This method simply delegates to
+ <A HREF="../../../org/uimafit/factory/AnalysisEngineFactory.html#createAggregate(java.util.List, org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, org.apache.uima.analysis_engine.metadata.SofaMapping[], java.lang.Object...)"><CODE>AnalysisEngineFactory.createAggregate(List, TypeSystemDescription, TypePriorities, SofaMapping[], Object...)</CODE></A>
+ with the data collected by this builder.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>an aggregate analysis engine
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createAggregateDescription()"><!-- --></A><H3>
+createAggregateDescription</H3>
+<PRE>
+public <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngineDescription.html?is-external=true" title="class or interface in org.apache.uima.analysis_engine">AnalysisEngineDescription</A> <A HREF="../../../src-html/org/uimafit/factory/AggregateBuilder.html#line.217"><B>createAggregateDescription</B></A>()
+                                                     throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
+<DL>
+<DD>This method simply delegates to
+ <A HREF="../../../org/uimafit/factory/AnalysisEngineFactory.html#createAggregateDescription(java.util.List, org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, org.apache.uima.analysis_engine.metadata.SofaMapping[], java.lang.Object...)"><CODE>AnalysisEngineFactory.createAggregateDescription(List, TypeSystemDescription, TypePriorities, SofaMapping[], Object...)</CODE></A>
+ with the data collected by this builder.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a description of an aggregate analysis engine
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="class-use/AggregateBuilder.html"><FONT CLASS="NavBarFont1"><B>Use</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../org/uimafit/factory/AnalysisEngineFactory.html" title="class in org.uimafit.factory"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?org/uimafit/factory/AggregateBuilder.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AggregateBuilder.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+Copyright &#169; 2012. All Rights Reserved.
+</BODY>
+</HTML>
