@@ -20,15 +20,13 @@ package org.uimafit.propertyeditors;
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
-import java.util.Locale;
 
 import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.PropertyEditorRegistrySupport;
 
 /**
- * Custom property editor for {@link Locale} that supports "-" as separator and sets the default
- * locale when {@code null} or {@code ""} is passed. This is used to be backwards-compatible with 
- * previous uimaFIT behavior.
+ * Custom property editor that tries to look convert and value to a string by checking if there is
+ * a registered property editor for the source value.
  * 
  * @author Richard Eckart de Castilho
  */
@@ -56,12 +54,17 @@ public class GetAsTextStringEditor extends PropertyEditorSupport {
 			if (editor == null) {
 				editor = editorRegistrySupport.getDefaultEditor(value.getClass());
 			}
-			if (editor == null) {
+			if (editor != null) {
+				editor.setValue(value);
+				super.setValue(editor.getAsText());
+			}
+			else if (Enum.class.isAssignableFrom(value.getClass())) {
+				super.setValue(String.valueOf(value));
+			}
+			else {
 				throw new IllegalArgumentException("Unable to convert " + value.getClass()
 						+ " to String. No PropertyEditor found.");
 			}
-			editor.setValue(value);
-			super.setValue(editor.getAsText());
 		}
 	}
 	
