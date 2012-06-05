@@ -22,7 +22,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static java.util.Arrays.asList;
 
+import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -46,6 +48,7 @@ import org.uimafit.descriptor.ConfigurationParameter;
 import org.uimafit.factory.AnalysisEngineFactory;
 import org.uimafit.factory.testAes.Annotator1;
 import org.uimafit.factory.testAes.ParameterizedAE;
+import org.uimafit.factory.testAes.ParameterizedAE.EnumValue;
 import org.xml.sax.SAXException;
 
 /**
@@ -145,6 +148,9 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase {
 		assertEquals(2.2222f, component.getFloat7()[1], 0.001f);
 		assertEquals(3.3333f, component.getFloat7()[2], 0.001f);
 
+		assertEquals(EnumValue.ENUM_1, component.getEnum1());
+		assertArrayEquals(new EnumValue[] { EnumValue.ENUM_1, EnumValue.ENUM_2 }, component.getEnum2());
+		assertEquals(asList( EnumValue.ENUM_1, EnumValue.ENUM_2 ), component.getEnum3());
 		assertEquals(new File("test/data/file"), component.getFile1());
 		assertEquals(new File("test/data/file"), component.getFile1b());
 		assertEquals(new File("foo/bar"), component.getFile2());
@@ -310,13 +316,13 @@ public class ConfigurationParameterInitializerTest extends ComponentTestBase {
 	}
 
 	/**
-	 * Test that a parameter not supported by UIMA produceds an error.
+	 * Test that a parameter not supported by UIMA produces an error.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testNonUimaCompatibleParameterValue() throws Exception {
 		String paramColor = DefaultValueAE2.class.getName() + ".color";
 		AnalysisEngine aed = AnalysisEngineFactory.createPrimitive(DefaultValueAE2.class, null,
-				paramColor, Color.RED);
+				paramColor, new Point(1, 2));
 		DefaultValueAE2 ae = new DefaultValueAE2();
 		ae.initialize(aed.getUimaContext());
 	}

@@ -185,6 +185,22 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 			"2.2222f", "3.333f" })
 	private Float[] float7;
 
+	public static enum EnumValue {
+		ENUM_1, ENUM_2
+	}
+	
+	public static final String PARAM_ENUM_1 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_ENUM_1";
+	@ConfigurationParameter(name = PARAM_ENUM_1, mandatory = true, defaultValue = { "ENUM_1" })
+	private EnumValue enum1;
+
+	public static final String PARAM_ENUM_2 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_ENUM_2";
+	@ConfigurationParameter(name = PARAM_ENUM_2, mandatory = true, defaultValue = { "ENUM_1", "ENUM_2" })
+	private EnumValue[] enum2;
+
+	public static final String PARAM_ENUM_3 = "org.uimafit.factory.testAes.ParameterizedAE.PARAM_ENUM_3";
+	@ConfigurationParameter(name = PARAM_ENUM_3, mandatory = true, defaultValue = { "ENUM_1", "ENUM_2" })
+	private List<EnumValue> enum3;
+
 	@ConfigurationParameter(name = "file1", mandatory = true, defaultValue = "test/data/file")
 	private File file1;
 	@ConfigurationParameter(name = "file1b", mandatory = true, defaultValue = { "test/data/file",
@@ -209,6 +225,18 @@ public class ParameterizedAE extends JCasAnnotator_ImplBase {
 	@ConfigurationParameter(name = "files9")
 	private List<File> files9;
 
+	public EnumValue getEnum1() {
+		return enum1;
+	}
+	
+	public EnumValue[] getEnum2() {
+		return enum2;
+	}
+	
+	public List<EnumValue> getEnum3() {
+		return enum3;
+	}
+	
 	public File getFile1() {
 		return file1;
 	}
