@@ -420,7 +420,7 @@ public final class AnalysisEngineFactory {
 	 * @param analysisEngineDescription
 	 * @param configurationData
 	 * @throws ResourceInitializationException
-	 * @Deprecated use {@link ResourceCreationSpecifierFactory#setConfigurationParameters}
+	 * @deprecated use {@link ResourceCreationSpecifierFactory#setConfigurationParameters}
 	 */
 	@Deprecated
 	public static void setConfigurationParameters(
