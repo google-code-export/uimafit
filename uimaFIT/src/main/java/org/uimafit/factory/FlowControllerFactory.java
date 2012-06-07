@@ -49,11 +49,8 @@ public final class FlowControllerFactory {
 	/**
 	 * Creates a new FlowControllerDescription for a given class and configuration data
 	 * 
-	 * @param flowControllerClass
 	 * @param configurationData
 	 *            should be configuration parameter name / value pairs.
-	 * @return
-	 * @throws ResourceInitializationException
 	 */
 	public static FlowControllerDescription createFlowControllerDescription(
 			Class<? extends FlowController> flowControllerClass, Object... configurationData)
@@ -83,12 +80,6 @@ public final class FlowControllerFactory {
 	/**
 	 * Creates a new FlowControllerDescription for a given class and configuration parameters with
 	 * values
-	 * 
-	 * @param flowControllerClass
-	 * @param configurationParameters
-	 * @param configurationValues
-	 * @return
-	 * @throws ResourceInitializationException
 	 */
 	public static FlowControllerDescription createFlowControllerDescription(
 			Class<? extends FlowController> flowControllerClass,

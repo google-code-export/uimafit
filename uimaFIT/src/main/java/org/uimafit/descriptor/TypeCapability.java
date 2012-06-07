@@ -54,8 +54,6 @@ public @interface TypeCapability {
 	 * outputs can be type names or feature names. A feature name typically looks like a type name
 	 * followed by a colon (':') followed by the feature name. A valid feature name from the uimaFIT
 	 * test type system is "org.uimafit.type.Token:pos"
-	 * 
-	 * @return
 	 */
 	String[] outputs() default NO_DEFAULT_VALUE;
 
@@ -64,5 +62,4 @@ public @interface TypeCapability {
 	 * that no value has been given to the inputs or outputs elements.
 	 */
 	public static final String NO_DEFAULT_VALUE = "org.uimafit.descriptor.TypeCapability.NO_DEFAULT_VALUE";
-
 }

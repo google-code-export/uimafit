@@ -48,10 +48,7 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 
 	/**
 	 * Calls {@link TokenBuilder#TokenBuilder(Class, Class, String, String)} with the last two
-	 * arguments as null
-	 * 
-	 * @param tokenClass
-	 * @param sentenceClass
+	 * arguments as null.
 	 */
 	public TokenBuilder(Class<TOKEN_TYPE> tokenClass, Class<SENTENCE_TYPE> sentenceClass) {
 		this(tokenClass, sentenceClass, null, null);
@@ -133,7 +130,6 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 	 *            the JCas to add the tokens to
 	 * @param text
 	 *            the JCas will have its document text set to this.
-	 * @throws UIMAException
 	 */
 	public void buildTokens(JCas jCas, String text) throws UIMAException {
 		if (text == null) {
@@ -144,11 +140,6 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 
 	/**
 	 * see {@link #buildTokens(JCas, String, String, String, String)}
-	 * 
-	 * @param jCas
-	 * @param text
-	 * @param tokensString
-	 * @throws UIMAException
 	 */
 	public void buildTokens(JCas jCas, String text, String tokensString) throws UIMAException {
 		if (tokensString == null) {
@@ -159,12 +150,6 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 
 	/**
 	 * see {@link #buildTokens(JCas, String, String, String, String)}
-	 * 
-	 * @param jCas
-	 * @param text
-	 * @param tokensString
-	 * @param posTagsString
-	 * @throws UIMAException
 	 */
 	public void buildTokens(JCas jCas, String text, String tokensString, String posTagsString)
 			throws UIMAException {
@@ -191,7 +176,6 @@ public class TokenBuilder<TOKEN_TYPE extends Annotation, SENTENCE_TYPE extends A
 	 *            for each token
 	 * @param aStemsString
 	 *            the stemsString should be a space delimitied string of stems - one for each token
-	 * @throws UIMAException
 	 */
 	public void buildTokens(JCas aJCas, String aText, String aTokensString, String aPosTagsString,
 			String aStemsString) throws UIMAException {

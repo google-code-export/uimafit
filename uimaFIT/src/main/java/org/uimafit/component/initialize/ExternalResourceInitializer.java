@@ -153,7 +153,6 @@ public class ExternalResourceInitializer {
 	 * Scan the context and initialize external resources injected into other external resources.
 	 * 
 	 * @param aContext the UIMA context.
-	 * @throws ResourceInitializationException 
 	 */
 	private static void initializeNestedResources(UimaContext aContext)
 			throws ResourceInitializationException {
@@ -228,12 +227,6 @@ public class ExternalResourceInitializer {
 		}
 	}
 	
-	/**
-	 * @param <T>
-	 * @param cls
-	 * @return
-	 * @throws ResourceInitializationException
-	 */
 	public static <T> Map<String, ExternalResourceDependency> getResourceDeclarations(Class<?> cls)
 			throws ResourceInitializationException {
 		Map<String, ExternalResourceDependency> deps = new HashMap<String, ExternalResourceDependency>();

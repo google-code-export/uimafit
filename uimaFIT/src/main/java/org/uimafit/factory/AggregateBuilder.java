@@ -102,8 +102,6 @@ public class AggregateBuilder {
 	 * result of {@link AnalysisEngineDescription#getAnnotatorImplementationName()} for the
 	 * component name
 	 *
-	 * @param aed
-	 * @param viewNames
 	 * @return the name of the component generated for the {@link AnalysisEngineDescription}
 	 */
 	public String add(AnalysisEngineDescription aed, String... viewNames) {
@@ -197,7 +195,6 @@ public class AggregateBuilder {
 	 * with the data collected by this builder.
 	 *
 	 * @return an aggregate analysis engine
-	 * @throws ResourceInitializationException
 	 */
 	public AnalysisEngine createAggregate() throws ResourceInitializationException {
 		return AnalysisEngineFactory.createAggregate(analysisEngineDescriptions, componentNames,
@@ -212,7 +209,6 @@ public class AggregateBuilder {
 	 * with the data collected by this builder.
 	 *
 	 * @return a description of an aggregate analysis engine
-	 * @throws ResourceInitializationException
 	 */
 	public AnalysisEngineDescription createAggregateDescription()
 			throws ResourceInitializationException {

@@ -69,7 +69,6 @@ public final class ReflectionUtil {
 	 * @param aObject
 	 *            any object will do
 	 * @return the fields for the class of the object
-	 * @throws NoSuchFieldException 
 	 */
 	public static Field getField(final Object aObject, final String aName)
 			throws NoSuchFieldException {
@@ -82,7 +81,6 @@ public final class ReflectionUtil {
 	 * @param aClass
 	 *            any class will do
 	 * @return the fields for the class of the object
-	 * @throws NoSuchFieldException 
 	 */
 	public static Field getField(final Class<?> aClass, final String aName)
 			throws NoSuchFieldException {

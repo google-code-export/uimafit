@@ -59,9 +59,6 @@ public abstract class JCasCollectionReader_ImplBase extends CollectionReader_Imp
 
 	/**
 	 * This method should be overwritten by subclasses.
-	 *
-	 * @param context
-	 * @throws ResourceInitializationException
 	 */
 	public void initialize(final UimaContext context) throws ResourceInitializationException {
 		// Nothing by default
@@ -79,10 +76,6 @@ public abstract class JCasCollectionReader_ImplBase extends CollectionReader_Imp
 
 	/**
 	 * Subclasses should implement this method rather than {@link #getNext(CAS)}
-	 *
-	 * @param jCas
-	 * @throws IOException
-	 * @throws CollectionException
 	 */
 	public abstract void getNext(JCas jCas) throws IOException, CollectionException;
 

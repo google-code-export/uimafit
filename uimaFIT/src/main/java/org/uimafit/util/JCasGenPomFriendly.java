@@ -69,9 +69,6 @@ import org.uimafit.factory.TypeSystemDescriptionFactory;
 public class JCasGenPomFriendly {
 	/**
 	 * See class-level javadoc for instructions on running this program.
-	 * 
-	 * @param args
-	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
 		Jg jg = new Jg();

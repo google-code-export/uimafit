@@ -140,7 +140,6 @@ public final class TypeSystemDescriptionFactory {
 	 * classpath.
 	 *
 	 * @return the auto-scanned type system.
-	 * @throws ResourceInitializationException
 	 */
 	public static TypeSystemDescription createTypeSystemDescription()
 			throws ResourceInitializationException {
@@ -226,7 +225,6 @@ public final class TypeSystemDescriptionFactory {
 	/**
 	 * Resolve a list of patterns to a set of URLs.
 	 *
-	 * @param patterns
 	 * @return an array of locations.
 	 * @throws ResourceInitializationException
 	 *             if the locations could not be resolved.

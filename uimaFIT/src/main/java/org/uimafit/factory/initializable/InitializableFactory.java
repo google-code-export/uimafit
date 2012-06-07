@@ -37,13 +37,6 @@ public final class InitializableFactory {
 	/**
 	 * Provides a way to create an instance of T. If the class specified by className implements
 	 * Initializable, then the UimaContext provided here will be passed to its initialize method.
-	 *
-	 * @param <T>
-	 * @param context
-	 * @param className
-	 * @param superClass
-	 * @return
-	 * @throws ResourceInitializationException
 	 */
 	public static <T> T create(UimaContext context, String className, Class<T> superClass)
 			throws ResourceInitializationException {
@@ -51,13 +44,6 @@ public final class InitializableFactory {
 		return create(context, cls);
 	}
 
-	/**
-	 * @param <T>
-	 * @param className
-	 * @param superClass
-	 * @return
-	 * @throws ResourceInitializationException
-	 */
 	public static <T> Class<? extends T> getClass(String className, Class<T> superClass)
 			throws ResourceInitializationException {
 		try {
@@ -70,13 +56,6 @@ public final class InitializableFactory {
 		}
 	}
 
-	/**
-	 * @param <T>
-	 * @param context
-	 * @param cls
-	 * @return
-	 * @throws ResourceInitializationException
-	 */
 	public static <T> T create(UimaContext context, Class<? extends T> cls)
 			throws ResourceInitializationException {
 		T instance;
@@ -90,11 +69,6 @@ public final class InitializableFactory {
 		return instance;
 	}
 
-	/**
-	 * @param object
-	 * @param context
-	 * @throws ResourceInitializationException
-	 */
 	public static void initialize(Object object, UimaContext context)
 			throws ResourceInitializationException {
 		if (object instanceof Initializable) {

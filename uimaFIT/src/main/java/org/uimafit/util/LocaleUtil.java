@@ -20,12 +20,14 @@ import java.lang.reflect.Field;
 import java.util.Locale;
 
 /**
- * 
  * @author Philip Ogren
- * 
  */
 public class LocaleUtil {
 
+	private LocaleUtil() {
+		// Utility method class.
+	}
+	
 	/**
 	 * This method returns the locale constant for the given string. For example, see
 	 * {@link Locale#US} as an example locale constant. To retrieve that locale using this method,
@@ -55,9 +57,6 @@ public class LocaleUtil {
 	 * strings are passed into the multi-parameter constructors of Locale. The passed in string
 	 * should not contain more than two hyphens as the Locale constructor with the most params is
 	 * three.
-	 * 
-	 * @param localeString
-	 * @return
 	 */
 	public static Locale createLocale(String localeString) {
 		String[] parts = localeString.split("[_-]", 3);
@@ -76,9 +75,6 @@ public class LocaleUtil {
 	/**
 	 * passes through to getLocaleConstant. If this returns null, then this method passes through to
 	 * createLocale.
-	 * 
-	 * @param localeString
-	 * @return
 	 */
 	public static Locale getLocale(String localeString) {
 		Locale locale = getLocaleConstant(localeString);
@@ -87,5 +83,4 @@ public class LocaleUtil {
 		}
 		return createLocale(localeString);
 	}
-
 }

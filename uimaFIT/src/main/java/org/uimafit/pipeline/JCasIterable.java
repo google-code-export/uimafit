@@ -57,8 +57,6 @@ public class JCasIterable implements Iterator<JCas>, Iterable<JCas> {
 	 *            The CollectionReader for loading documents.
 	 * @param aTypeSystemDescription
 	 *            a type system description
-	 * @throws UIMAException
-	 * @throws IOException
 	 */
 	public JCasIterable(final CollectionReader aReader,
 			final TypeSystemDescription aTypeSystemDescription) throws UIMAException, IOException {
@@ -74,8 +72,6 @@ public class JCasIterable implements Iterator<JCas>, Iterable<JCas> {
 	 *            The CollectionReader for loading documents.
 	 * @param aEngines
 	 *            The AnalysisEngines for processing documents.
-	 * @throws UIMAException
-	 * @throws IOException
 	 */
 	public JCasIterable(final CollectionReader aReader, final AnalysisEngine... aEngines)
 			throws UIMAException, IOException {

@@ -311,11 +311,8 @@ public final class ExternalResourceFactory {
 	/**
 	 * Creates an ExternalResourceDependency for a given key and interface
 	 *
-	 * @param aKey
-	 * @param aInterface
 	 * @param aOptional
 	 *            determines whether the dependency is optional
-	 * @return
 	 */
 	public static ExternalResourceDependency createExternalResourceDependency(final String aKey,
 			final Class<?> aInterface, final boolean aOptional) {
@@ -343,7 +340,6 @@ public final class ExternalResourceFactory {
 	 *            the key to bind to.
 	 * @param aUrl
 	 *            a URL.
-	 * @throws InvalidXMLException
 	 * @see FileResourceSpecifier
 	 */
 	public static void bindResource(ResourceSpecifier aDesc, String aKey, URL aUrl)
@@ -368,7 +364,6 @@ public final class ExternalResourceFactory {
 	 *            the key to bind to.
 	 * @param aFile
 	 *            a file.
-	 * @throws InvalidXMLException
 	 * @see FileResourceSpecifier
 	 */
 	public static void bindResource(ResourceSpecifier aDesc, String aKey, File aFile)
@@ -400,7 +395,6 @@ public final class ExternalResourceFactory {
 	 *            the key to bind to.
 	 * @param aUrl
 	 *            a URL.
-	 * @throws InvalidXMLException
 	 * @see FileResourceSpecifier
 	 */
 	public static void bindResource(ResourceSpecifier aDesc, String aKey, String aUrl)
@@ -420,7 +414,6 @@ public final class ExternalResourceFactory {
 	 *            the resource to bind.
 	 * @param aParams
 	 *            parameters passed to the resource when it is created.
-	 * @throws InvalidXMLException
 	 * @see CustomResourceSpecifier
 	 */
 	public static void bindResource(ResourceSpecifier aDesc, Class<? extends Resource> aRes,
@@ -441,7 +434,6 @@ public final class ExternalResourceFactory {
 	 *            the resource to bind.
 	 * @param aParams
 	 *            parameters passed to the resource when it is created.
-	 * @throws InvalidXMLException
 	 * @see CustomResourceSpecifier
 	 */
 	public static void bindResource(ResourceSpecifier aDesc, Class<?> aApi,
@@ -466,7 +458,6 @@ public final class ExternalResourceFactory {
 	 *            the URL from which the resource is initialized.
 	 * @param aParams
 	 *            parameters passed to the resource when it is created.
-	 * @throws InvalidXMLException
 	 * @see SharedResourceObject
 	 */
 	public static void bindResource(ResourceSpecifier aDesc,
@@ -490,7 +481,6 @@ public final class ExternalResourceFactory {
 	 *            the URL from which the resource is initialized.
 	 * @param aParams
 	 *            parameters passed to the resource when it is created.
-	 * @throws InvalidXMLException
 	 * @see SharedResourceObject
 	 */
 	public static void bindResource(ResourceSpecifier aDesc, Class<?> aApi,
@@ -513,7 +503,6 @@ public final class ExternalResourceFactory {
 	 *            the URL from which the resource is initialized.
 	 * @param aParams
 	 *            parameters passed to the resource when it is created.
-	 * @throws InvalidXMLException
 	 * @see SharedResourceObject
 	 */
 	public static void bindResource(ResourceSpecifier aDesc, String aKey,
@@ -536,7 +525,6 @@ public final class ExternalResourceFactory {
 	 *            the resource to bind.
 	 * @param aParams
 	 *            parameters passed to the resource when it is created.
-	 * @throws InvalidXMLException
 	 * @see CustomResourceSpecifier
 	 */
 	public static void bindResource(ResourceSpecifier aDesc, String aKey,
@@ -562,7 +550,6 @@ public final class ExternalResourceFactory {
 	 *            the key to bind to.
 	 * @param aResDesc
 	 *            the resource description.
-	 * @throws InvalidXMLException
 	 */
 	public static void bindResource(ResourceSpecifier aDesc, String aKey,
 			ExternalResourceDescription aResDesc) throws InvalidXMLException {
@@ -585,7 +572,6 @@ public final class ExternalResourceFactory {
 	 *            the resource implementation.
 	 * @param aParams
 	 *            additional parameters supported by the resource.
-	 * @throws InvalidXMLException
 	 */
 	public static void createDependencyAndBind(ResourceSpecifier aDesc, String aKey,
 			Class<? extends Resource> aImpl, String... aParams)
@@ -608,7 +594,6 @@ public final class ExternalResourceFactory {
 	 *            the resource implementation.
 	 * @param aParams
 	 *            additional parameters supported by the resource.
-	 * @throws InvalidXMLException
 	 */
 	public static void createDependencyAndBind(ResourceSpecifier aDesc, String aKey,
 			Class<? extends Resource> aImpl, Class<?> aApi, String... aParams)
@@ -629,7 +614,6 @@ public final class ExternalResourceFactory {
 	 *            the key to bind to.
 	 * @param aApi
 	 *            the resource API.
-	 * @throws InvalidXMLException
 	 */
 	public static void createDependency(ResourceSpecifier aDesc, String aKey, Class<?> aApi)
 			throws InvalidXMLException {
@@ -705,7 +689,6 @@ public final class ExternalResourceFactory {
 	 *            the resource URL.
 	 * @param aParams
 	 *            additional parameters supported by the resource.
-	 * @throws InvalidXMLException
 	 */
 	public static void createDependencyAndBind(AnalysisEngineDescription aDesc, String aKey,
 			Class<? extends SharedResourceObject> aImpl, String aUrl, Object... aParams)
@@ -731,7 +714,6 @@ public final class ExternalResourceFactory {
 	 *            the key to bind to.
 	 * @param aResDesc
 	 *            the resource description.
-	 * @throws InvalidXMLException
 	 */
 	private static void bind(AnalysisEngineDescription aDesc, String aKey,
 			ExternalResourceDescription aResDesc) throws InvalidXMLException {

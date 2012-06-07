@@ -80,9 +80,6 @@ public class ViewCreatorAnnotatorTest extends ComponentTestBase {
 	 * This test demonstrates the bad behavior that occurs when you try to map the default view to
 	 * some other view without initializing that other view first. This is the behavior that
 	 * SofaInitializerAnnotator addresses.
-	 * 
-	 * @throws ResourceInitializationException
-	 * @throws AnalysisEngineProcessException
 	 */
 	@Test(expected = AnalysisEngineProcessException.class)
 	public void testOtherViewAware() throws ResourceInitializationException,
@@ -107,10 +104,6 @@ public class ViewCreatorAnnotatorTest extends ComponentTestBase {
 	/**
 	 * This test demonstrates that running the viewCreator is doing the right thing (i.e.
 	 * initializing the view "myView")
-	 * 
-	 * @throws ResourceInitializationException
-	 * @throws AnalysisEngineProcessException
-	 * @throws CASException
 	 */
 	@Test
 	public void testSofaInitializer() throws ResourceInitializationException,

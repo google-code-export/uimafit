@@ -36,7 +36,6 @@ public final class TypePrioritiesFactory {
 	 *
 	 * @param prioritizedTypes
 	 *            a sequence of ordered type classes
-	 * @return
 	 */
 	public static TypePriorities createTypePriorities(Class<?>... prioritizedTypes) {
 		String[] typeNames = new String[prioritizedTypes.length];
@@ -56,7 +55,6 @@ public final class TypePrioritiesFactory {
 	 *
 	 * @param prioritizedTypeNames
 	 *            a sequence of ordered type names
-	 * @return
 	 */
 	public static TypePriorities createTypePriorities(String... prioritizedTypeNames) {
 		TypePriorities typePriorities = new TypePriorities_impl();
