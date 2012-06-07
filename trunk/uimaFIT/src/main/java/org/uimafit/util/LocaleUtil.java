@@ -22,7 +22,7 @@ import java.util.Locale;
 /**
  * @author Philip Ogren
  */
-public class LocaleUtil {
+public final class LocaleUtil {
 
 	private LocaleUtil() {
 		// Utility method class.
