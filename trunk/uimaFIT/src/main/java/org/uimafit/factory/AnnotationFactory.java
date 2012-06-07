@@ -33,14 +33,6 @@ public final class AnnotationFactory {
 
 	/**
 	 * Provides a convenient way to create an annotation and addToIndexes in a single line.
-	 * 
-	 * @param <T>
-	 * @param jCas
-	 * @param begin
-	 * @param end
-	 * @param cls
-	 * @return
-	 * @throws UIMAException
 	 */
 	public static <T extends Annotation> T createAnnotation(JCas jCas, int begin, int end,
 			Class<T> cls) throws UIMAException {

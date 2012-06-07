@@ -214,7 +214,6 @@ public final class FsIndexFactory {
 	 * in the classpath.
 	 *
 	 * @return the auto-scanned indexes.
-	 * @throws ResourceInitializationException
 	 */
 	public static FsIndexCollection createFsIndexCollection()
 			throws ResourceInitializationException {

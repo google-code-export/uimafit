@@ -76,7 +76,6 @@ public final class ConfigurationParameterInitializer {
 	 *
 	 * @param component the component to initialize.
 	 * @param context a UIMA context with configuration parameters.
-	 * @throws ResourceInitializationException
 	 */
 	public static void initialize(final Object component, final UimaContext context)
 			throws ResourceInitializationException {
@@ -197,7 +196,6 @@ public final class ConfigurationParameterInitializer {
 	 *
 	 * @param component the component to initialize.
 	 * @param map a UIMA context with configuration parameters.
-	 * @throws ResourceInitializationException
 	 * @see #initialize(Object, UimaContext)
 	 */
 	public static void initialize(final Object component, final Map<String, Object> map)
@@ -218,7 +216,6 @@ public final class ConfigurationParameterInitializer {
 	 *
 	 * @param component the component to initialize.
 	 * @param spec a resource specifier.
-	 * @throws ResourceInitializationException
 	 * @see #initialize(Object, UimaContext)
 	 */
 	public static void initialize(Object component, ResourceSpecifier spec)
@@ -231,7 +228,6 @@ public final class ConfigurationParameterInitializer {
 	 *
 	 * @param component the component to initialize.
 	 * @param parameters a list of parameters.
-	 * @throws ResourceInitializationException
 	 * @see #initialize(Object, UimaContext)
 	 */
 	public static void initialize(Object component, Parameter... parameters)
@@ -248,7 +244,6 @@ public final class ConfigurationParameterInitializer {
 	 *
 	 * @param component the component to initialize.
 	 * @param parameters a list of parameters.
-	 * @throws ResourceInitializationException
 	 * @see #initialize(Object, UimaContext)
 	 */
 	public static void initialize(Object component, NameValuePair... parameters)
@@ -265,7 +260,6 @@ public final class ConfigurationParameterInitializer {
 	 *
 	 * @param component the component to initialize.
 	 * @param dataResource a data resource with configuration meta data.
-	 * @throws ResourceInitializationException
 	 * @see #initialize(Object, UimaContext)
 	 */
 	public static void initialize(Object component, DataResource dataResource)

@@ -55,9 +55,6 @@ public abstract class CasCollectionReader_ImplBase extends CollectionReader_Impl
 
 	/**
 	 * This method should be overwritten by subclasses.
-	 *
-	 * @param context
-	 * @throws ResourceInitializationException
 	 */
 	public void initialize(final UimaContext context) throws ResourceInitializationException {
 		// Nothing by default

@@ -57,11 +57,8 @@ public class ViewCreatorAnnotator extends JCasAnnotator_ImplBase {
 	 * yet. If the view already exists, it is ok to call this method anyways without worrying about
 	 * checking for this yet.
 	 * 
-	 * @param aJCas
-	 * @param aViewName
 	 * @return true if the view was created as a result of calling this method. false if the view
 	 *         already existed.
-	 * @throws AnalysisEngineProcessException
 	 */
 	public static JCas createViewSafely(final JCas aJCas, final String aViewName)
 			throws AnalysisEngineProcessException {

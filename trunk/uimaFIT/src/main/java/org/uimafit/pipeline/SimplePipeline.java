@@ -61,8 +61,6 @@ public final class SimplePipeline {
 	 *            Primitive AnalysisEngineDescriptions that process the CAS, in order. If you have a
 	 *            mix of primitive and aggregate engines, then please create the AnalysisEngines
 	 *            yourself and call the other runPipeline method.
-	 * @throws UIMAException
-	 * @throws IOException
 	 */
 	public static void runPipeline(final CollectionReader reader,
 			final AnalysisEngineDescription... descs) throws UIMAException, IOException {
@@ -104,8 +102,6 @@ public final class SimplePipeline {
 	 *            Primitive AnalysisEngineDescriptions that process the CAS, in order. If you have a
 	 *            mix of primitive and aggregate engines, then please create the AnalysisEngines
 	 *            yourself and call the other runPipeline method.
-	 * @throws UIMAException
-	 * @throws IOException
 	 */
 	public static void runPipeline(final CollectionReaderDescription readerDesc,
 			final AnalysisEngineDescription... descs) throws UIMAException, IOException {
@@ -132,8 +128,6 @@ public final class SimplePipeline {
 	 *            a collection reader
 	 * @param engines
 	 *            a sequence of analysis engines
-	 * @throws UIMAException
-	 * @throws IOException
 	 */
 	public static void runPipeline(final CollectionReader reader, final AnalysisEngine... engines)
 			throws UIMAException, IOException {
@@ -161,8 +155,6 @@ public final class SimplePipeline {
 	 *            the CAS to process
 	 * @param aDescs
 	 *            a sequence of analysis engines to run on the jCas
-	 * @throws UIMAException
-	 * @throws IOException
 	 */
 	public static void runPipeline(final CAS aCas, final AnalysisEngineDescription... aDescs)
 			throws UIMAException, IOException {
@@ -192,8 +184,6 @@ public final class SimplePipeline {
 	 *            the jCas to process
 	 * @param descs
 	 *            a sequence of analysis engines to run on the jCas
-	 * @throws UIMAException
-	 * @throws IOException
 	 */
 	public static void runPipeline(final JCas jCas, final AnalysisEngineDescription... descs)
 			throws UIMAException, IOException {
@@ -209,8 +199,6 @@ public final class SimplePipeline {
 	 *            the jCas to process
 	 * @param engines
 	 *            a sequence of analysis engines to run on the jCas
-	 * @throws UIMAException
-	 * @throws IOException
 	 */
 	public static void runPipeline(final JCas jCas, final AnalysisEngine... engines)
 			throws UIMAException, IOException {
@@ -228,8 +216,6 @@ public final class SimplePipeline {
 	 *            the CAS to process
 	 * @param engines
 	 *            a sequence of analysis engines to run on the jCas
-	 * @throws UIMAException
-	 * @throws IOException
 	 */
 	public static void runPipeline(final CAS cas, final AnalysisEngine... engines)
 			throws UIMAException, IOException {

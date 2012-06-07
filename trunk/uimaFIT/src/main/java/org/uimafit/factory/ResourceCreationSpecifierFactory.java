@@ -49,8 +49,6 @@ public final class ResourceCreationSpecifierFactory {
 	 *            (name, value) pairs, so there should always be an even number of parameters.
 	 * @return The ResourceCreationSpecifier for the XML descriptor with all the configuration
 	 *         parameters set.
-	 * @throws UIMAException
-	 * @throws IOException
 	 */
 	public static ResourceCreationSpecifier createResourceCreationSpecifier(URL descriptorURL,
 			Object[] parameters) throws UIMAException, IOException {
@@ -68,8 +66,6 @@ public final class ResourceCreationSpecifierFactory {
 	 *            (name, value) pairs, so there should always be an even number of parameters.
 	 * @return The ResourceCreationSpecifier for the XML descriptor with all the configuration
 	 *         parameters set.
-	 * @throws UIMAException
-	 * @throws IOException
 	 */
 	public static ResourceCreationSpecifier createResourceCreationSpecifier(
 			XMLInputSource xmlInput, Object[] parameters) throws UIMAException, IOException {
@@ -81,7 +77,6 @@ public final class ResourceCreationSpecifierFactory {
 		setConfigurationParameters(specifier, parameters);
 
 		return specifier;
-
 	}
 
 	/**
@@ -95,8 +90,6 @@ public final class ResourceCreationSpecifierFactory {
 	 *            (name, value) pairs, so there should always be an even number of parameters.
 	 * @return The ResourceCreationSpecifier for the XML descriptor with all the configuration
 	 *         parameters set.
-	 * @throws UIMAException
-	 * @throws IOException
 	 */
 	public static ResourceCreationSpecifier createResourceCreationSpecifier(String descriptorPath,
 			Object[] parameters) throws UIMAException, IOException {
@@ -137,10 +130,6 @@ public final class ResourceCreationSpecifierFactory {
 	/**
 	 * This method passes through to
 	 * {@link #setConfigurationParameters(ResourceMetaData, ConfigurationParameter[], Object[])}
-	 * 
-	 * @param specifier
-	 * @param configurationParameters
-	 * @param configurationValues
 	 */
 	public static void setConfigurationParameters(ResourceCreationSpecifier specifier,
 			ConfigurationParameter[] configurationParameters, Object[] configurationValues) {
@@ -152,7 +141,6 @@ public final class ResourceCreationSpecifierFactory {
 	 * This method sets the configuration parameters of a resource. The length of
 	 * configurationParameters and configurationValues should be equal
 	 * 
-	 * @param metaData
 	 * @param configurationParameters
 	 *            an array of configuration parameters
 	 * @param configurationValues
