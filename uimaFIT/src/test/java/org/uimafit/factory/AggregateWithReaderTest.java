@@ -19,6 +19,11 @@ import org.apache.uima.util.Progress;
 import org.junit.Test;
 
 public class AggregateWithReaderTest {
+	
+	/**
+	 * Demo of running a collection reader as part of an aggregate engine. This allows to run
+	 * a pipeline an access the output CASes directly - no need to write the data to files.
+	 */
 	@Test
 	public void demoAggregateWithReader() throws UIMAException {
 		ResourceSpecifierFactory factory = UIMAFramework.getResourceSpecifierFactory();
@@ -53,9 +58,15 @@ public class AggregateWithReaderTest {
 		}
 	}
 
+	/**
+	 * Demo of disguising a reader as a CAS multiplier. This works because internally, UIMA wraps
+	 * the reader in a CollectionReaderAdapter. This nice thing about this is, that in principle
+	 * it would be possible to define sofa mappings. However, UIMA-2419 prevents this.
+	 */
 	@Test
 	public void demoAggregateWithDisguisedReader() throws UIMAException {
 		ResourceSpecifierFactory factory = UIMAFramework.getResourceSpecifierFactory();
+		
 		AnalysisEngineDescription reader = factory.createAnalysisEngineDescription();
 		reader.getMetaData().setName("reader");
 		reader.setPrimitive(true);
