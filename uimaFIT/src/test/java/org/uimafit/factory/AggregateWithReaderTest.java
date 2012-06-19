@@ -1,3 +1,19 @@
+/* 
+  Copyright 2010 Regents of the University of Colorado.  
+ All rights reserved. 
+
+ Licensed under the Apache License, Version 2.0 (the "License"); 
+ you may not use this file except in compliance with the License. 
+ You may obtain a copy of the License at 
+
+ http://www.apache.org/licenses/LICENSE-2.0 
+
+ Unless required by applicable law or agreed to in writing, software 
+ distributed under the License is distributed on an "AS IS" BASIS, 
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ See the License for the specific language governing permissions and 
+ limitations under the License.
+ */
 package org.uimafit.factory;
 
 import java.io.IOException;
@@ -72,15 +88,15 @@ public class AggregateWithReaderTest {
 		reader.setPrimitive(true);
 		reader.setImplementationName(SimpleReader.class.getName());
 		reader.getAnalysisEngineMetaData().getOperationalProperties().setOutputsNewCASes(true);
-
+	
 		AnalysisEngineDescription analyzer = factory.createAnalysisEngineDescription();
 		analyzer.getMetaData().setName("analyzer");
 		analyzer.setPrimitive(true);
 		analyzer.setImplementationName(SimpleAnalyzer.class.getName());
-
+	
 		FixedFlow flow = factory.createFixedFlow();
 		flow.setFixedFlow(new String[] { "reader", "analyzer" });
-
+	
 		AnalysisEngineDescription aggregate = factory.createAnalysisEngineDescription();
 		aggregate.getMetaData().setName("aggregate");
 		aggregate.setPrimitive(false);
@@ -90,7 +106,7 @@ public class AggregateWithReaderTest {
 				.setMultipleDeploymentAllowed(false);
 		aggregate.getDelegateAnalysisEngineSpecifiersWithImports().put("reader", reader);
 		aggregate.getDelegateAnalysisEngineSpecifiersWithImports().put("analyzer", analyzer);
-
+	
 		AnalysisEngine pipeline = UIMAFramework.produceAnalysisEngine(aggregate);
 		CasIterator iterator = pipeline.processAndOutputNewCASes(pipeline.newCAS());
 		while (iterator.hasNext()) {
