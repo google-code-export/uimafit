@@ -78,7 +78,7 @@ public class JCasUtil {
 	 */
 	@Deprecated
 	public static <T extends Annotation> Iterable<T> iterate(final Class<T> type,
-			final Annotation container) {
+			final AnnotationFS container) {
 		return selectCovered(type, container);
 	}
 
@@ -99,7 +99,7 @@ public class JCasUtil {
 	 */
 	@Deprecated
 	public static <T extends Annotation> Iterable<T> iterate(final JCas jCas, final Class<T> type,
-			final Annotation container) {
+			final AnnotationFS container) {
 		return selectCovered(jCas, type, container);
 	}
 
@@ -123,7 +123,7 @@ public class JCasUtil {
 	 * @see AnnotationIndex#subiterator(AnnotationFS, boolean, boolean)
 	 */
 	public static <T extends Annotation> Iterable<T> subiterate(final JCas jCas,
-			final Class<T> type, final Annotation container, final boolean ambiguous,
+			final Class<T> type, final AnnotationFS container, final boolean ambiguous,
 			final boolean strict) {
 		return new Iterable<T>() {
 			public Iterator<T> iterator() {
@@ -164,7 +164,7 @@ public class JCasUtil {
 	 * @return A sub-iterator.
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T extends AnnotationFS> Iterator<T> iterator(Annotation container,
+	public static <T extends AnnotationFS> Iterator<T> iterator(AnnotationFS container,
 			Class<T> type, boolean ambiguous, boolean strict) {
 		CAS cas = container.getCAS();
 		return ((AnnotationIndex<T>) cas.getAnnotationIndex(CasUtil.getType(cas, type)))
@@ -332,7 +332,7 @@ public class JCasUtil {
 	 * @see Subiterator
 	 */
 	public static <T extends Annotation> List<T> selectCovered(JCas jCas, final Class<T> type,
-			Annotation coveringAnnotation) {
+			AnnotationFS coveringAnnotation) {
 		return cast(CasUtil.selectCovered(jCas.getCas(), getType(jCas, type), coveringAnnotation));
 	}
 
@@ -342,7 +342,7 @@ public class JCasUtil {
 	 * Does not use subiterators.
 	 * <p>
 	 * <b>Note:</b> this is significantly slower than using
-	 * {@link #selectCovered(JCas, Class, Annotation)}
+	 * {@link #selectCovered(JCas, Class, AnnotationFS)}
 	 *
 	 * @param <T>
 	 *            the JCas type.
@@ -441,7 +441,7 @@ public class JCasUtil {
 	 *            a UIMA type.
 	 * @return if an annotation of the given type is present.
 	 */
-	public static boolean isCovered(JCas jCas, Annotation coveringAnnotation,
+	public static boolean isCovered(JCas jCas, AnnotationFS coveringAnnotation,
 			Class<? extends Annotation> type) {
 		return selectCovered(jCas, type, coveringAnnotation).size() > 0;
 	}
@@ -499,7 +499,7 @@ public class JCasUtil {
 	 * @return List of aType annotations preceding anchor annotation
 	 */
 	public static <T extends Annotation> List<T> selectPreceding(JCas aJCas, Class<T> aType,
-			Annotation annotation, int count) {
+			AnnotationFS annotation, int count) {
 		Type t = getType(aJCas, aType);
 		return cast(CasUtil.selectPreceding(aJCas.getCas(), t, annotation, count));
 	}
@@ -520,7 +520,7 @@ public class JCasUtil {
 	 * @return List of aType annotations following anchor annotation
 	 */
 	public static <T extends Annotation> List<T> selectFollowing(JCas aJCas, Class<T> aType,
-			Annotation annotation, int count) {
+			AnnotationFS annotation, int count) {
 		Type t = getType(aJCas, aType);
 		return cast(CasUtil.selectFollowing(aJCas.getCas(), t, annotation, count));
 	}

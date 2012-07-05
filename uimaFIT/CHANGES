@@ -1,4 +1,5 @@
-changes since 1.3.1
+changes in 1.4.0
+    - resolved issue #104 "JCasUtil.selectCovered should accept AnnotationFS"
     - resolved issue #79 "Use PropertyEditors to convert parameter values"
 
 changes in 1.3.1
