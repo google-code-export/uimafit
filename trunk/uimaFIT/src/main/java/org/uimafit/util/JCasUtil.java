@@ -502,6 +502,37 @@ public class JCasUtil {
 	}
 
 	/**
+	 * Return an annotation preceding or following of a given reference annotation.
+	 * 
+	 * @param <T>
+	 *            the JCas type.
+	 * @param jCas
+	 *            a JCas.
+	 * @param type
+	 *            a type.
+	 * @param annotation
+	 *            anchor annotation
+	 * @param index
+	 *            relative position to access. A negative value selectes a preceding annotation
+	 *            while a positive number selects a following annotation.
+	 * @return the addressed annotation.
+	 */
+	public static <T extends Annotation> T selectRelative(JCas jCas, Class<T> type,
+			AnnotationFS annotation, int index) {
+		if (index > 0) {
+			List<T> xs = selectFollowing(jCas, type, annotation, index);
+			return (xs.size() >= index) ? xs.get(index - 1) : null;
+		}
+		else if (index < 0) {
+			List<T> xs = selectPreceding(jCas, type, annotation, -index);
+			return (xs.size() >= -index) ? xs.get(-index - 1) : null;
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
 	 * Returns the n annotations preceding the given annotation
 	 *
 	 * @param <T>
