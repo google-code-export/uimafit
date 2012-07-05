@@ -440,8 +440,26 @@ public class JCasUtil {
 	 * @param type
 	 *            a UIMA type.
 	 * @return if an annotation of the given type is present.
+	 * @deprecated use {@link #contains}
 	 */
+	@Deprecated
 	public static boolean isCovered(JCas jCas, AnnotationFS coveringAnnotation,
+			Class<? extends Annotation> type) {
+		return selectCovered(jCas, type, coveringAnnotation).size() > 0;
+	}
+
+	/**
+	 * Check if the given annotation contains any annotation of the given type.
+	 *
+	 * @param jCas
+	 *            a JCas containing the annotation.
+	 * @param coveringAnnotation
+	 *            the covering annotation.
+	 * @param type
+	 *            a UIMA type.
+	 * @return if an annotation of the given type is present.
+	 */
+	public static boolean contains(JCas jCas, AnnotationFS coveringAnnotation,
 			Class<? extends Annotation> type) {
 		return selectCovered(jCas, type, coveringAnnotation).size() > 0;
 	}
