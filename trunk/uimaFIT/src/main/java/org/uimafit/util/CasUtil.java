@@ -762,7 +762,7 @@ public class CasUtil {
 	 *            number of annotations to collect
 	 * @return List of aType annotations preceding anchor annotation
 	 */
-	public static List<AnnotationFS> selectPreceding(CAS cas, Type type, Annotation annotation,
+	public static List<AnnotationFS> selectPreceding(CAS cas, Type type, AnnotationFS annotation,
 			int count) {
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
 			throw new IllegalArgumentException("Type [" + type.getName()
@@ -802,7 +802,7 @@ public class CasUtil {
 	 *            number of annotations to collect
 	 * @return List of aType annotations following anchor annotation
 	 */
-	public static List<AnnotationFS> selectFollowing(CAS cas, Type type, Annotation annotation,
+	public static List<AnnotationFS> selectFollowing(CAS cas, Type type, AnnotationFS annotation,
 			int count) {
 		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
 			throw new IllegalArgumentException("Type [" + type.getName()
