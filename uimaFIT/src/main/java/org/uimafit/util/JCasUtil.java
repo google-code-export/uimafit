@@ -445,7 +445,7 @@ public class JCasUtil {
 	@Deprecated
 	public static boolean isCovered(JCas jCas, AnnotationFS coveringAnnotation,
 			Class<? extends Annotation> type) {
-		return selectCovered(jCas, type, coveringAnnotation).size() > 0;
+		return contains(jCas, coveringAnnotation, type);
 	}
 
 	/**
