@@ -486,7 +486,9 @@ public class CasUtil {
 	 * Uses the same approach except that type priorities are ignored.
 	 * <p>
 	 * <b>Note:</b> this is significantly slower than using
-	 * {@link #selectCovered(CAS, Type, AnnotationFS)}
+	 * {@link #selectCovered(CAS, Type, AnnotationFS)}. It is possible to use {@code 
+	 * selectCovered(cas, type, new Annotation(jCas, int, int))}, but that will allocate memory
+	 * in the jCas for the new annotation. If you do that repeatedly many times, memory may fill up. 
 	 *
 	 * @param cas
 	 *            a CAS.
@@ -538,7 +540,8 @@ public class CasUtil {
 	 * Iterates over all annotations to find the covering annotations.
 	 *
 	 * <p>
-	 * <b>Note:</b> this is <b>REALLY SLOW!</b> You don't want to use this.
+	 * <b>Note:</b> this is <b>REALLY SLOW!</b> You don't want to use this. Instead, consider
+	 * using {@link #indexCovering(CAS, Type, Type)} or a {@link ContainmentIndex}.
 	 *
 	 * @param cas
 	 *            a CAS.
