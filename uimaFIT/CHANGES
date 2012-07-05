@@ -1,4 +1,5 @@
 changes in 1.4.0
+    - resolved issue #68 "Improve performance of selectCovered() using offsets"
     - resolved issue #90 "JCasUtil.isCovered() is named somewhat confusing"
     - resolved issue #104 "JCasUtil.selectCovered should accept AnnotationFS"
     - resolved issue #79 "Use PropertyEditors to convert parameter values"
