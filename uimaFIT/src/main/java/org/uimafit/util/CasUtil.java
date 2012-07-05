@@ -225,6 +225,17 @@ public class CasUtil {
 	}
 
 	/**
+	 * Convenience method to iterator over all features structures.
+	 *
+	 * @param aCas
+	 *            the CAS hosting the type system.
+	 * @return A collection of the selected type.
+	 */
+	public static Collection<FeatureStructure> selectFS(final CAS aCas) {
+		return selectFS(aCas, getType(aCas, CAS.TYPE_NAME_TOP));
+	}
+
+	/**
 	 * Convenience method to iterator over all feature structures of a given type.
 	 *
 	 * @param cas
@@ -235,6 +246,17 @@ public class CasUtil {
 	 */
 	public static Collection<FeatureStructure> selectFS(final CAS cas, final Type type) {
 		return FSCollectionFactory.create(cas, type);
+	}
+
+	/**
+	 * Convenience method to iterator over all annotations.
+	 *
+	 * @param aCas
+	 *            the CAS hosting the type system.
+	 * @return A collection of the selected type.
+	 */
+	public static Collection<AnnotationFS> select(final CAS aCas) {
+		return select(aCas, getType(aCas, CAS.TYPE_NAME_ANNOTATION));
 	}
 
 	/**

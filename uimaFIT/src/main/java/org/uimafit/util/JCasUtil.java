@@ -241,10 +241,21 @@ public class JCasUtil {
 	 * @param type
 	 *            the type.
 	 * @return A collection of the selected type.
-	 * @see #selectCovered(Class, AnnotationFS)
 	 */
 	public static <T extends TOP> Collection<T> select(final JCas jCas, final Class<T> type) {
 		return cast(CasUtil.selectFS(jCas.getCas(), getType(jCas, type)));
+	}
+
+	/**
+	 * Convenience method to iterator over all features structures.
+	 *
+	 * @param jCas
+	 *            the JCas containing the type system.
+	 *            the type.
+	 * @return A collection of the selected type.
+	 */
+	public static Collection<TOP> select(final JCas jCas) {
+		return select(jCas, TOP.class);
 	}
 
 	/**
