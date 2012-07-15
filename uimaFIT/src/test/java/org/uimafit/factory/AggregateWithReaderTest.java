@@ -118,6 +118,52 @@ public class AggregateWithReaderTest {
 		}
 	}
 
+//	@Test
+//	public void testAggregateBuilderWithReaderAndSofaMapping() throws UIMAException {
+//		CollectionReaderDescription reader = CollectionReaderFactory.createDescription(TestReader.class);
+//		
+//		AnalysisEngineDescription readerAed = UIMAFramework.getResourceSpecifierFactory().createAnalysisEngineDescription();
+//		readerAed.setAnnotatorImplementationName(reader.getImplementationName());
+//		readerAed.setExternalResourceDependencies(reader.getExternalResourceDependencies());
+//		readerAed.setFrameworkImplementation(reader.getFrameworkImplementation());
+//		readerAed.setImplementationName(reader.getImplementationName());
+//		readerAed.setMetaData(reader.getMetaData());
+////		readerAed.getAnalysisEngineMetaData().getOperationalProperties().setModifiesCas(true);
+////		readerAed.getAnalysisEngineMetaData().getOperationalProperties().setOutputsNewCASes(true);
+//		readerAed.setPrimitive(true);
+//		readerAed.setResourceManagerConfiguration(reader.getResourceManagerConfiguration());
+//		readerAed.setSourceUrl(reader.getSourceUrl());
+//		
+//		AggregateBuilder builder = new AggregateBuilder();
+//		builder.add(readerAed, 
+//				ViewNames.INITIAL_VIEW, "A");
+//		builder.add(AnalysisEngineFactory.createPrimitiveDescription(Annotator3.class), 
+//				ViewNames.INITIAL_VIEW, "A",
+//				ViewNames.REVERSE_VIEW, "B");
+//		
+//		builder.setFlowControllerDescription(createFlowControllerDescription(FixedFlowController.class,
+//				FixedFlowController.PARAM_ACTION_AFTER_CAS_MULTIPLIER, "drop"));
+//		
+//		AnalysisEngineDescription aggregateEngineDesc = builder.createAggregateDescription();
+//		aggregateEngineDesc.getAnalysisEngineMetaData().getOperationalProperties().setOutputsNewCASes(true);
+//
+//		AnalysisEngine aggregateEngine = createAggregate(aggregateEngineDesc);
+//		
+//		jCas.reset();
+//		JCasIterator ji = aggregateEngine.processAndOutputNewCASes(jCas);
+//		while (ji.hasNext()) {
+//			JCas jc = ji.next();
+//			FSIterator<SofaFS> i = jc.getSofaIterator();
+//			while (i.hasNext()) {
+//				SofaFS s = i.next();
+//				System.out.printf("%s - %s%n", s.getSofaID(), jc.getView(s.getSofaID()).getDocumentText());
+//			}
+//
+//			assertEquals("Anyone up for a game of Foosball?", jc.getView("A").getDocumentText());
+//			assertEquals("?llabsooF fo emag a rof pu enoynA", jc.getView("B").getDocumentText());
+//		}
+//	}
+	
 	public static class SimpleReader extends CollectionReader_ImplBase {
 		private boolean done = false;
 
