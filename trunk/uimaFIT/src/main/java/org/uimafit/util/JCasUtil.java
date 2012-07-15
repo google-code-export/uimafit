@@ -528,6 +528,7 @@ public class JCasUtil {
 	 *            relative position to access. A negative value selects a preceding annotation
 	 *            while a positive number selects a following annotation.
 	 * @return the addressed annotation.
+	 * @throws IndexOutOfBoundsException if the relative index points beyond the type index bounds.
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends Annotation> T selectSingleRelative(Class<T> aType,
@@ -552,6 +553,7 @@ public class JCasUtil {
 	 *            relative position to access. A negative value selects a preceding annotation
 	 *            while a positive number selects a following annotation.
 	 * @return the addressed annotation.
+	 * @throws IndexOutOfBoundsException if the relative index points beyond the type index bounds.
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends Annotation> T selectSingleRelative(JCas aJCas, Class<T> aType,
