@@ -23,9 +23,11 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
 import org.junit.Test;
 import org.uimafit.component.JCasAnnotator_ImplBase;
@@ -78,6 +80,12 @@ public class SimplePipelineTest {
 
 		public static List<String> SENTENCES = new ArrayList<String>();
 
+		@Override
+		public void initialize(UimaContext context) throws ResourceInitializationException {
+			super.initialize(context);
+			SENTENCES = new ArrayList<String>();
+		}
+		
 		@Override
 		public void process(JCas jCas) throws AnalysisEngineProcessException {
 			for (Sentence sentence : JCasUtil.select(jCas, Sentence.class)) {
