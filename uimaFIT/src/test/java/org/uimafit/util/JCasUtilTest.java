@@ -42,6 +42,7 @@ import static org.uimafit.util.JCasUtil.selectCovering;
 import static org.uimafit.util.JCasUtil.selectFollowing;
 import static org.uimafit.util.JCasUtil.selectPreceding;
 import static org.uimafit.util.JCasUtil.selectSingle;
+import static org.uimafit.util.JCasUtil.selectSingleRelative;
 import static org.uimafit.util.JCasUtil.toText;
 
 import java.util.ArrayList;
@@ -390,6 +391,19 @@ public class JCasUtilTest extends ComponentTestBase {
 		String text = "Rot wood cheeses dew?";
 		tokenBuilder.buildTokens(jCas, text);
 		assertEquals(asList(text.split(" ")), toText(select(jCas, Token.class)));
+	}
+
+	@Test
+	public void testSelectSingleRelative() throws UIMAException {
+		String text = "one two three";
+		tokenBuilder.buildTokens(jCas, text);
+		List<Token> token = new ArrayList<Token>(select(jCas, Token.class));
+
+		Token preceding = selectSingleRelative(jCas, Token.class, token.get(1), -1);
+		assertEquals(token.get(0).getCoveredText(), preceding.getCoveredText());
+		
+		Token following = selectSingleRelative(jCas, Token.class, token.get(1), 1);
+		assertEquals(token.get(2).getCoveredText(), following.getCoveredText());
 	}
 
 	@Test
