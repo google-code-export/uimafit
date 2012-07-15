@@ -834,7 +834,6 @@ public class CasUtil {
 				itr.moveToNext();
 			}
 			
-			List<AnnotationFS> precedingAnnotations = new LinkedList<AnnotationFS>();
 			for (int i = 0; i < (index - 1) && itr.isValid(); ++i, itr.moveToPrevious()) {
 				// Seeking
 			}
