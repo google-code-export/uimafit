@@ -39,4 +39,5 @@
  * [http://code.google.com/p/uimafit/source/browse/trunk/uimaFIT/CHANGES CHANGES]
  * [ReleaseNotes_1_3_0 uimaFIT 1.3.0 release notes]
  * [ReleaseNotes_1_3_1 uimaFIT 1.3.1 release notes]
+ * [ReleaseNotes_1_4_0 uimaFIT 1.4.0 release notes]
  
