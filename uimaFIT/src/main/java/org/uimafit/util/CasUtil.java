@@ -804,6 +804,7 @@ public class CasUtil {
 	 *            relative position to access. A negative value selects a preceding annotation
 	 *            while a positive number selects a following annotation.
 	 * @return the addressed annotation.
+	 * @throws IndexOutOfBoundsException if the relative index points beyond the type index bounds.
 	 */
 	public static AnnotationFS selectSingleRelative(CAS cas, Type type,
 			AnnotationFS annotation, int index) {
@@ -826,7 +827,12 @@ public class CasUtil {
 				// Seeking
 			}
 			
-			return itr.isValid() ? itr.get() : null;
+			if (!itr.isValid()) {
+				throw new IndexOutOfBoundsException("Reached end of index while seeking.");
+			}
+			else {
+				return itr.get();
+			}
 		}
 		else if (index > 0) {
 			// make sure we're past the end of the reference annotation
@@ -838,7 +844,12 @@ public class CasUtil {
 				// Seeking
 			}
 			
-			return itr.isValid() ? itr.get() : null;
+			if (!itr.isValid()) {
+				throw new IndexOutOfBoundsException("Reached end of index while seeking.");
+			}
+			else {
+				return itr.get();
+			}
 		}
 		else {
 			return annotation;
