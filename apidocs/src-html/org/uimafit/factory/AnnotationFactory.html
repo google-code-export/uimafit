@@ -36,30 +36,22 @@
 <FONT color="green">033</FONT>    <a name="line.33"></a>
 <FONT color="green">034</FONT>            /**<a name="line.34"></a>
 <FONT color="green">035</FONT>             * Provides a convenient way to create an annotation and addToIndexes in a single line.<a name="line.35"></a>
-<FONT color="green">036</FONT>             * <a name="line.36"></a>
-<FONT color="green">037</FONT>             * @param &lt;T&gt;<a name="line.37"></a>
-<FONT color="green">038</FONT>             * @param jCas<a name="line.38"></a>
-<FONT color="green">039</FONT>             * @param begin<a name="line.39"></a>
-<FONT color="green">040</FONT>             * @param end<a name="line.40"></a>
-<FONT color="green">041</FONT>             * @param cls<a name="line.41"></a>
-<FONT color="green">042</FONT>             * @return<a name="line.42"></a>
-<FONT color="green">043</FONT>             * @throws UIMAException<a name="line.43"></a>
-<FONT color="green">044</FONT>             */<a name="line.44"></a>
-<FONT color="green">045</FONT>            public static &lt;T extends Annotation&gt; T createAnnotation(JCas jCas, int begin, int end,<a name="line.45"></a>
-<FONT color="green">046</FONT>                            Class&lt;T&gt; cls) throws UIMAException {<a name="line.46"></a>
-<FONT color="green">047</FONT>                    T annotation;<a name="line.47"></a>
-<FONT color="green">048</FONT>                    try {<a name="line.48"></a>
-<FONT color="green">049</FONT>                            annotation = cls.getConstructor(JCas.class, Integer.TYPE, Integer.TYPE).newInstance(<a name="line.49"></a>
-<FONT color="green">050</FONT>                                            jCas, begin, end);<a name="line.50"></a>
-<FONT color="green">051</FONT>                    }<a name="line.51"></a>
-<FONT color="green">052</FONT>                    catch (Exception e) {<a name="line.52"></a>
-<FONT color="green">053</FONT>                            throw new UIMAException(e);<a name="line.53"></a>
-<FONT color="green">054</FONT>                    }<a name="line.54"></a>
-<FONT color="green">055</FONT>                    annotation.addToIndexes();<a name="line.55"></a>
-<FONT color="green">056</FONT>                    return annotation;<a name="line.56"></a>
-<FONT color="green">057</FONT>            }<a name="line.57"></a>
-<FONT color="green">058</FONT>    <a name="line.58"></a>
-<FONT color="green">059</FONT>    }<a name="line.59"></a>
+<FONT color="green">036</FONT>             */<a name="line.36"></a>
+<FONT color="green">037</FONT>            public static &lt;T extends Annotation&gt; T createAnnotation(JCas jCas, int begin, int end,<a name="line.37"></a>
+<FONT color="green">038</FONT>                            Class&lt;T&gt; cls) throws UIMAException {<a name="line.38"></a>
+<FONT color="green">039</FONT>                    T annotation;<a name="line.39"></a>
+<FONT color="green">040</FONT>                    try {<a name="line.40"></a>
+<FONT color="green">041</FONT>                            annotation = cls.getConstructor(JCas.class, Integer.TYPE, Integer.TYPE).newInstance(<a name="line.41"></a>
+<FONT color="green">042</FONT>                                            jCas, begin, end);<a name="line.42"></a>
+<FONT color="green">043</FONT>                    }<a name="line.43"></a>
+<FONT color="green">044</FONT>                    catch (Exception e) {<a name="line.44"></a>
+<FONT color="green">045</FONT>                            throw new UIMAException(e);<a name="line.45"></a>
+<FONT color="green">046</FONT>                    }<a name="line.46"></a>
+<FONT color="green">047</FONT>                    annotation.addToIndexes();<a name="line.47"></a>
+<FONT color="green">048</FONT>                    return annotation;<a name="line.48"></a>
+<FONT color="green">049</FONT>            }<a name="line.49"></a>
+<FONT color="green">050</FONT>    <a name="line.50"></a>
+<FONT color="green">051</FONT>    }<a name="line.51"></a>
 
 
 

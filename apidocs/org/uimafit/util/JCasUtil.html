@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-JCasUtil (uimaFIT 1.3.1 API)
+JCasUtil (uimaFIT 1.4.0 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ JCasUtil (uimaFIT 1.3.1 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="JCasUtil (uimaFIT 1.3.1 API)";
+        parent.document.title="JCasUtil (uimaFIT 1.4.0 API)";
     }
 }
 </SCRIPT>
@@ -138,6 +138,16 @@ Utility methods for convenient access to the <A HREF="http://uima.apache.org/d/u
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#contains(org.apache.uima.jcas.JCas, org.apache.uima.cas.text.AnnotationFS, java.lang.Class)">contains</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+                 <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;coveringAnnotation,
+                 <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt;&nbsp;type)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Check if the given annotation contains any annotation of the given type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static
 <TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
 <TR ALIGN="right" VALIGN="">
@@ -236,12 +246,12 @@ boolean</CODE></FONT></TD>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;boolean</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#isCovered(org.apache.uima.jcas.JCas, org.apache.uima.jcas.tcas.Annotation, java.lang.Class)">isCovered</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
-                   <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;coveringAnnotation,
+<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#isCovered(org.apache.uima.jcas.JCas, org.apache.uima.cas.text.AnnotationFS, java.lang.Class)">isCovered</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+                   <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;coveringAnnotation,
                    <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt;&nbsp;type)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Check if the given annotation contains any annotation of the given type.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>Deprecated.</B>&nbsp;<I>use <A HREF="../../../org/uimafit/util/JCasUtil.html#contains(org.apache.uima.jcas.JCas, org.apache.uima.cas.text.AnnotationFS, java.lang.Class)"><CODE>contains(org.apache.uima.jcas.JCas, org.apache.uima.cas.text.AnnotationFS, java.lang.Class<? extends org.apache.uima.jcas.tcas.Annotation>)</CODE></A></I></TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -255,8 +265,8 @@ boolean</CODE></FONT></TD>
 </TR>
 </TABLE>
 </CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#iterate(java.lang.Class, org.apache.uima.jcas.tcas.Annotation)">iterate</A></B>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
-               <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;container)</CODE>
+<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#iterate(java.lang.Class, org.apache.uima.cas.text.AnnotationFS)">iterate</A></B>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
+               <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;container)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>Deprecated.</B>&nbsp;<I>use <A HREF="../../../org/uimafit/util/JCasUtil.html#selectCovered(java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><CODE>selectCovered(java.lang.Class<T>, org.apache.uima.cas.text.AnnotationFS)</CODE></A></I></TD>
@@ -291,9 +301,9 @@ boolean</CODE></FONT></TD>
 </TR>
 </TABLE>
 </CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#iterate(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation)">iterate</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#iterate(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS)">iterate</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
-               <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;container)</CODE>
+               <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;container)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>Deprecated.</B>&nbsp;<I>use <A HREF="../../../org/uimafit/util/JCasUtil.html#selectCovered(java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><CODE>selectCovered(java.lang.Class<T>, org.apache.uima.cas.text.AnnotationFS)</CODE></A></I></TD>
@@ -310,7 +320,7 @@ boolean</CODE></FONT></TD>
 </TR>
 </TABLE>
 </CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#iterator(org.apache.uima.jcas.tcas.Annotation, java.lang.Class, boolean, boolean)">iterator</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;container,
+<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#iterator(org.apache.uima.cas.text.AnnotationFS, java.lang.Class, boolean, boolean)">iterator</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;container,
                  <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
                  boolean&nbsp;ambiguous,
                  boolean&nbsp;strict)</CODE>
@@ -389,6 +399,14 @@ boolean</CODE></FONT></TD>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convenience method to iterator over all features structures of a given type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/cas/TOP.html?is-external=true" title="class or interface in org.apache.uima.jcas.cas">TOP</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#selectAll(org.apache.uima.jcas.JCas)">selectAll</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convenience method to iterator over all features structures.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -479,9 +497,9 @@ T</CODE></FONT></TD>
 </TR>
 </TABLE>
 </CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#selectCovered(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation)">selectCovered</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#selectCovered(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS)">selectCovered</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                            <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
-                           <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;coveringAnnotation)</CODE>
+                           <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;coveringAnnotation)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get a list of annotations of the given annotation type constrained by a 'covering'
@@ -540,9 +558,9 @@ T</CODE></FONT></TD>
 </TR>
 </TABLE>
 </CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#selectFollowing(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation, int)">selectFollowing</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;aJCas,
+<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#selectFollowing(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, int)">selectFollowing</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;aJCas,
                                <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;aType,
-                               <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;annotation,
+                               <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;annotation,
                                int&nbsp;count)</CODE>
 
 <BR>
@@ -560,9 +578,9 @@ T</CODE></FONT></TD>
 </TR>
 </TABLE>
 </CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#selectPreceding(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation, int)">selectPreceding</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;aJCas,
+<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#selectPreceding(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, int)">selectPreceding</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;aJCas,
                                <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;aType,
-                               <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;annotation,
+                               <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;annotation,
                                int&nbsp;count)</CODE>
 
 <BR>
@@ -594,13 +612,52 @@ T</CODE></FONT></TD>
 <TD NOWRAP><FONT SIZE="-1">
 <CODE>&lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; 
 <BR>
+T</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#selectSingleRelative(java.lang.Class, org.apache.uima.cas.text.AnnotationFS, int)">selectSingleRelative</A></B>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;aType,
+                                         <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;annotation,
+                                         int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return an annotation preceding or following of a given reference annotation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; 
+<BR>
+T</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#selectSingleRelative(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, int)">selectSingleRelative</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;aJCas,
+                                         <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;aType,
+                                         <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;annotation,
+                                         int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return an annotation preceding or following of a given reference annotation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; 
+<BR>
 <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;T&gt;</CODE></FONT></TD>
 </TR>
 </TABLE>
 </CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#subiterate(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation, boolean, boolean)">subiterate</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+<TD><CODE><B><A HREF="../../../org/uimafit/util/JCasUtil.html#subiterate(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, boolean, boolean)">subiterate</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                      <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
-                     <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;container,
+                     <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;container,
                      boolean&nbsp;ambiguous,
                      boolean&nbsp;strict)</CODE>
 
@@ -683,12 +740,12 @@ iterate</H3>
 </DL>
 <HR>
 
-<A NAME="iterate(java.lang.Class, org.apache.uima.jcas.tcas.Annotation)"><!-- --></A><H3>
+<A NAME="iterate(java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><!-- --></A><H3>
 iterate</H3>
 <PRE>
 <FONT SIZE="-1"><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</A>
 </FONT>public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.80"><B>iterate</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
-                                                                    <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;container)</PRE>
+                                                                    <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;container)</PRE>
 <DL>
 <DD><B>Deprecated.</B>&nbsp;<I>use <A HREF="../../../org/uimafit/util/JCasUtil.html#selectCovered(java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><CODE>selectCovered(java.lang.Class<T>, org.apache.uima.cas.text.AnnotationFS)</CODE></A></I>
 <P>
@@ -702,13 +759,13 @@ iterate</H3>
 </DL>
 <HR>
 
-<A NAME="iterate(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation)"><!-- --></A><H3>
+<A NAME="iterate(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><!-- --></A><H3>
 iterate</H3>
 <PRE>
 <FONT SIZE="-1"><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</A>
 </FONT>public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.101"><B>iterate</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                                                                     <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
-                                                                    <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;container)</PRE>
+                                                                    <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;container)</PRE>
 <DL>
 <DD><B>Deprecated.</B>&nbsp;<I>use <A HREF="../../../org/uimafit/util/JCasUtil.html#selectCovered(java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><CODE>selectCovered(java.lang.Class<T>, org.apache.uima.cas.text.AnnotationFS)</CODE></A></I>
 <P>
@@ -722,12 +779,12 @@ iterate</H3>
 </DL>
 <HR>
 
-<A NAME="subiterate(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation, boolean, boolean)"><!-- --></A><H3>
+<A NAME="subiterate(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, boolean, boolean)"><!-- --></A><H3>
 subiterate</H3>
 <PRE>
 public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.125"><B>subiterate</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                                                             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
-                                                            <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;container,
+                                                            <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;container,
                                                             boolean&nbsp;ambiguous,
                                                             boolean&nbsp;strict)</PRE>
 <DL>
@@ -756,10 +813,10 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 </DL>
 <HR>
 
-<A NAME="iterator(org.apache.uima.jcas.tcas.Annotation, java.lang.Class, boolean, boolean)"><!-- --></A><H3>
+<A NAME="iterator(org.apache.uima.cas.text.AnnotationFS, java.lang.Class, boolean, boolean)"><!-- --></A><H3>
 iterator</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.167"><B>iterator</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;container,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.167"><B>iterator</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;container,
                                                             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
                                                             boolean&nbsp;ambiguous,
                                                             boolean&nbsp;strict)</PRE>
@@ -837,14 +894,29 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 <A NAME="select(org.apache.uima.jcas.JCas, java.lang.Class)"><!-- --></A><H3>
 select</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/cas/TOP.html?is-external=true" title="class or interface in org.apache.uima.jcas.cas">TOP</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.246"><B>select</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/cas/TOP.html?is-external=true" title="class or interface in org.apache.uima.jcas.cas">TOP</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.245"><B>select</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                                                    <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type)</PRE>
 <DL>
 <DD>Convenience method to iterator over all features structures of a given type.
 <P>
 <DD><DL>
 <DT><B>Type Parameters:</B><DD><CODE>T</CODE> - the iteration type.<DT><B>Parameters:</B><DD><CODE>jCas</CODE> - the JCas containing the type system.<DD><CODE>type</CODE> - the type.
-<DT><B>Returns:</B><DD>A collection of the selected type.<DT><B>See Also:</B><DD><A HREF="../../../org/uimafit/util/JCasUtil.html#selectCovered(java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><CODE>selectCovered(Class, AnnotationFS)</CODE></A></DL>
+<DT><B>Returns:</B><DD>A collection of the selected type.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="selectAll(org.apache.uima.jcas.JCas)"><!-- --></A><H3>
+selectAll</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/cas/TOP.html?is-external=true" title="class or interface in org.apache.uima.jcas.cas">TOP</A>&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.257"><B>selectAll</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas)</PRE>
+<DL>
+<DD>Convenience method to iterator over all features structures.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>jCas</CODE> - the JCas containing the type system.
+            the type.
+<DT><B>Returns:</B><DD>A collection of the selected type.</DL>
 </DD>
 </DL>
 <HR>
@@ -852,7 +924,7 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 <A NAME="selectBetween(java.lang.Class, org.apache.uima.cas.text.AnnotationFS, org.apache.uima.cas.text.AnnotationFS)"><!-- --></A><H3>
 selectBetween</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.268"><B>selectBetween</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.279"><B>selectBetween</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
                                                            <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;ann1,
                                                            <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;ann2)</PRE>
 <DL>
@@ -874,7 +946,7 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 <A NAME="selectBetween(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, org.apache.uima.cas.text.AnnotationFS)"><!-- --></A><H3>
 selectBetween</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.293"><B>selectBetween</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.304"><B>selectBetween</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                                                            <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
                                                            <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;ann1,
                                                            <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;ann2)</PRE>
@@ -897,7 +969,7 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 <A NAME="selectCovered(java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><!-- --></A><H3>
 selectCovered</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.312"><B>selectCovered</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.323"><B>selectCovered</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
                                                              <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;coveringAnnotation)</PRE>
 <DL>
 <DD>Get a list of annotations of the given annotation type constrained by a 'covering'
@@ -911,12 +983,12 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 </DL>
 <HR>
 
-<A NAME="selectCovered(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation)"><!-- --></A><H3>
+<A NAME="selectCovered(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><!-- --></A><H3>
 selectCovered</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.334"><B>selectCovered</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.345"><B>selectCovered</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                                                            <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
-                                                           <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;coveringAnnotation)</PRE>
+                                                           <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;coveringAnnotation)</PRE>
 <DL>
 <DD>Get a list of annotations of the given annotation type constrained by a 'covering'
  annotation. Iterates over all annotations of the given type to find the covered annotations.
@@ -932,7 +1004,7 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 <A NAME="selectCovered(org.apache.uima.jcas.JCas, java.lang.Class, int, int)"><!-- --></A><H3>
 selectCovered</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.359"><B>selectCovered</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.372"><B>selectCovered</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                                                            <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
                                                            int&nbsp;begin,
                                                            int&nbsp;end)</PRE>
@@ -942,7 +1014,8 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
  Does not use subiterators.
  <p>
  <b>Note:</b> this is significantly slower than using
- <A HREF="../../../org/uimafit/util/JCasUtil.html#selectCovered(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation)"><CODE>selectCovered(JCas, Class, Annotation)</CODE></A>
+ <A HREF="../../../org/uimafit/util/JCasUtil.html#selectCovered(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><CODE>selectCovered(JCas, Class, AnnotationFS)</CODE></A>. It is possible to use <code>selectCovered(jCas, cls, new Annotation(jCas, int, int))</code>, but that will allocate memory
+ in the jCas for the new annotation. If you do that repeatedly many times, memory may fill up.
 <P>
 <DD><DL>
 <DT><B>Type Parameters:</B><DD><CODE>T</CODE> - the JCas type.<DT><B>Parameters:</B><DD><CODE>jCas</CODE> - a JCas containing the annotation.<DD><CODE>type</CODE> - a UIMA type.<DD><CODE>begin</CODE> - begin offset.<DD><CODE>end</CODE> - end offset.
@@ -954,7 +1027,7 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 <A NAME="selectCovering(org.apache.uima.jcas.JCas, java.lang.Class, int, int)"><!-- --></A><H3>
 selectCovering</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.383"><B>selectCovering</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.397"><B>selectCovering</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                                                             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
                                                             int&nbsp;begin,
                                                             int&nbsp;end)</PRE>
@@ -963,7 +1036,8 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
  Iterates over all annotations to find the covering annotations.
 
  <p>
- <b>Note:</b> this is <b>REALLY SLOW!</b> You don't want to use this.
+ <b>Note:</b> this is <b>REALLY SLOW!</b> You don't want to use this. Instead, consider
+ using <A HREF="../../../org/uimafit/util/JCasUtil.html#indexCovering(org.apache.uima.jcas.JCas, java.lang.Class, java.lang.Class)"><CODE>indexCovering(JCas, Class, Class)</CODE></A> or a <A HREF="../../../org/uimafit/util/ContainmentIndex.html" title="class in org.uimafit.util"><CODE>ContainmentIndex</CODE></A>.
 <P>
 <DD><DL>
 <DT><B>Type Parameters:</B><DD><CODE>T</CODE> - the JCas type.<DT><B>Parameters:</B><DD><CODE>jCas</CODE> - a CAS.<DD><CODE>type</CODE> - a UIMA type.<DD><CODE>begin</CODE> - begin offset.<DD><CODE>end</CODE> - end offset.
@@ -975,7 +1049,7 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 <A NAME="indexCovering(org.apache.uima.jcas.JCas, java.lang.Class, java.lang.Class)"><!-- --></A><H3>
 indexCovering</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>,S extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;T,<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;S&gt;&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.405"><B>indexCovering</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>,S extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;T,<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;S&gt;&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.419"><B>indexCovering</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                                                                                              <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
                                                                                              <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;S&gt;&nbsp;coveringType)</PRE>
 <DL>
@@ -994,7 +1068,7 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 <A NAME="indexCovered(org.apache.uima.jcas.JCas, java.lang.Class, java.lang.Class)"><!-- --></A><H3>
 indexCovered</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>,S extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;T,<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;S&gt;&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.427"><B>indexCovered</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>,S extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;T,<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;S&gt;&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.441"><B>indexCovered</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                                                                                             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
                                                                                             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;S&gt;&nbsp;coveredType)</PRE>
 <DL>
@@ -1010,12 +1084,31 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 </DL>
 <HR>
 
-<A NAME="isCovered(org.apache.uima.jcas.JCas, org.apache.uima.jcas.tcas.Annotation, java.lang.Class)"><!-- --></A><H3>
+<A NAME="isCovered(org.apache.uima.jcas.JCas, org.apache.uima.cas.text.AnnotationFS, java.lang.Class)"><!-- --></A><H3>
 isCovered</H3>
 <PRE>
-public static boolean <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.444"><B>isCovered</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
-                                <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;coveringAnnotation,
-                                <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt;&nbsp;type)</PRE>
+<FONT SIZE="-1"><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</A>
+</FONT>public static boolean <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.460"><B>isCovered</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+                                           <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;coveringAnnotation,
+                                           <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt;&nbsp;type)</PRE>
+<DL>
+<DD><B>Deprecated.</B>&nbsp;<I>use <A HREF="../../../org/uimafit/util/JCasUtil.html#contains(org.apache.uima.jcas.JCas, org.apache.uima.cas.text.AnnotationFS, java.lang.Class)"><CODE>contains(org.apache.uima.jcas.JCas, org.apache.uima.cas.text.AnnotationFS, java.lang.Class<? extends org.apache.uima.jcas.tcas.Annotation>)</CODE></A></I>
+<P>
+<DD>Check if the given annotation contains any annotation of the given type.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>jCas</CODE> - a JCas containing the annotation.<DD><CODE>coveringAnnotation</CODE> - the covering annotation.<DD><CODE>type</CODE> - a UIMA type.
+<DT><B>Returns:</B><DD>if an annotation of the given type is present.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="contains(org.apache.uima.jcas.JCas, org.apache.uima.cas.text.AnnotationFS, java.lang.Class)"><!-- --></A><H3>
+contains</H3>
+<PRE>
+public static boolean <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.476"><B>contains</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+                               <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;coveringAnnotation,
+                               <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt;&nbsp;type)</PRE>
 <DL>
 <DD>Check if the given annotation contains any annotation of the given type.
 <P>
@@ -1029,7 +1122,7 @@ public static boolean <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#
 <A NAME="selectByIndex(org.apache.uima.jcas.JCas, java.lang.Class, int)"><!-- --></A><H3>
 selectByIndex</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/cas/TOP.html?is-external=true" title="class or interface in org.apache.uima.jcas.cas">TOP</A>&gt; T <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.465"><B>selectByIndex</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/cas/TOP.html?is-external=true" title="class or interface in org.apache.uima.jcas.cas">TOP</A>&gt; T <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.497"><B>selectByIndex</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                                               <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;cls,
                                               int&nbsp;index)</PRE>
 <DL>
@@ -1047,7 +1140,7 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 <A NAME="selectSingle(org.apache.uima.jcas.JCas, java.lang.Class)"><!-- --></A><H3>
 selectSingle</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/cas/TOP.html?is-external=true" title="class or interface in org.apache.uima.jcas.cas">TOP</A>&gt; T <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.482"><B>selectSingle</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/cas/TOP.html?is-external=true" title="class or interface in org.apache.uima.jcas.cas">TOP</A>&gt; T <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.514"><B>selectSingle</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                                              <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type)</PRE>
 <DL>
 <DD>Get the single instance of the specified type from the JCas.
@@ -1060,12 +1153,51 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 </DL>
 <HR>
 
-<A NAME="selectPreceding(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation, int)"><!-- --></A><H3>
+<A NAME="selectSingleRelative(java.lang.Class, org.apache.uima.cas.text.AnnotationFS, int)"><!-- --></A><H3>
+selectSingleRelative</H3>
+<PRE>
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; T <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.534"><B>selectSingleRelative</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;aType,
+                                                            <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;annotation,
+                                                            int&nbsp;index)</PRE>
+<DL>
+<DD>Return an annotation preceding or following of a given reference annotation.
+<P>
+<DD><DL>
+<DT><B>Type Parameters:</B><DD><CODE>T</CODE> - the JCas type.<DT><B>Parameters:</B><DD><CODE>aType</CODE> - a type.<DD><CODE>annotation</CODE> - anchor annotation<DD><CODE>index</CODE> - relative position to access. A negative value selects a preceding annotation
+            while a positive number selects a following annotation.
+<DT><B>Returns:</B><DD>the addressed annotation.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang">IndexOutOfBoundsException</A></CODE> - if the relative index points beyond the type index bounds.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="selectSingleRelative(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, int)"><!-- --></A><H3>
+selectSingleRelative</H3>
+<PRE>
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; T <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.559"><B>selectSingleRelative</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;aJCas,
+                                                            <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;aType,
+                                                            <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;annotation,
+                                                            int&nbsp;index)</PRE>
+<DL>
+<DD>Return an annotation preceding or following of a given reference annotation.
+<P>
+<DD><DL>
+<DT><B>Type Parameters:</B><DD><CODE>T</CODE> - the JCas type.<DT><B>Parameters:</B><DD><CODE>aJCas</CODE> - a JCas.<DD><CODE>aType</CODE> - a type.<DD><CODE>annotation</CODE> - anchor annotation<DD><CODE>index</CODE> - relative position to access. A negative value selects a preceding annotation
+            while a positive number selects a following annotation.
+<DT><B>Returns:</B><DD>the addressed annotation.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang">IndexOutOfBoundsException</A></CODE> - if the relative index points beyond the type index bounds.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="selectPreceding(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, int)"><!-- --></A><H3>
 selectPreceding</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.501"><B>selectPreceding</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;aJCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.580"><B>selectPreceding</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;aJCas,
                                                              <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;aType,
-                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;annotation,
+                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;annotation,
                                                              int&nbsp;count)</PRE>
 <DL>
 <DD>Returns the n annotations preceding the given annotation
@@ -1077,12 +1209,12 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 </DL>
 <HR>
 
-<A NAME="selectFollowing(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation, int)"><!-- --></A><H3>
+<A NAME="selectFollowing(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, int)"><!-- --></A><H3>
 selectFollowing</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.522"><B>selectFollowing</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;aJCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;T&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.601"><B>selectFollowing</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;aJCas,
                                                              <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;aType,
-                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&nbsp;annotation,
+                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&nbsp;annotation,
                                                              int&nbsp;count)</PRE>
 <DL>
 <DD>Returns the n annotations following the given annotation
@@ -1097,7 +1229,7 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 <A NAME="exists(org.apache.uima.jcas.JCas, java.lang.Class)"><!-- --></A><H3>
 exists</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/cas/TOP.html?is-external=true" title="class or interface in org.apache.uima.jcas.cas">TOP</A>&gt; boolean <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.539"><B>exists</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;aJCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/cas/TOP.html?is-external=true" title="class or interface in org.apache.uima.jcas.cas">TOP</A>&gt; boolean <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.618"><B>exists</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;aJCas,
                                              <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;aType)</PRE>
 <DL>
 <DD>Test if a JCas contains an annotation of the given type.
@@ -1112,7 +1244,7 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 <A NAME="getView(org.apache.uima.jcas.JCas, java.lang.String, org.apache.uima.jcas.JCas)"><!-- --></A><H3>
 getView</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A> <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.557"><B>getView</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jcas,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A> <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.636"><B>getView</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jcas,
                            <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;viewName,
                            <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;fallback)</PRE>
 <DL>
@@ -1131,7 +1263,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="getView(org.apache.uima.jcas.JCas, java.lang.String, boolean)"><!-- --></A><H3>
 getView</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A> <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.582"><B>getView</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jcas,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A> <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.661"><B>getView</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jcas,
                            <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;viewName,
                            boolean&nbsp;create)</PRE>
 <DL>
@@ -1150,7 +1282,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="toText(java.lang.Iterable)"><!-- --></A><H3>
 toText</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.601"><B>toText</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;T&gt;&nbsp;iterable)</PRE>
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/cas/text/AnnotationFS.html?is-external=true" title="class or interface in org.apache.uima.cas.text">AnnotationFS</A>&gt; <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&gt; <A HREF="../../../src-html/org/uimafit/util/JCasUtil.html#line.680"><B>toText</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;T&gt;&nbsp;iterable)</PRE>
 <DL>
 <DD>Fetch the text covered by the specified annotations and return it as a list of strings.
 <P>

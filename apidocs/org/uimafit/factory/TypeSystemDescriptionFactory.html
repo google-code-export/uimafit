@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-TypeSystemDescriptionFactory (uimaFIT 1.3.1 API)
+TypeSystemDescriptionFactory (uimaFIT 1.4.0 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ TypeSystemDescriptionFactory (uimaFIT 1.3.1 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="TypeSystemDescriptionFactory (uimaFIT 1.3.1 API)";
+        parent.document.title="TypeSystemDescriptionFactory (uimaFIT 1.4.0 API)";
     }
 }
 </SCRIPT>
@@ -322,7 +322,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createTypeSystemDescription()"><!-- --></A><H3>
 createTypeSystemDescription</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A> <A HREF="../../../src-html/org/uimafit/factory/TypeSystemDescriptionFactory.html#line.145"><B>createTypeSystemDescription</B></A>()
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A> <A HREF="../../../src-html/org/uimafit/factory/TypeSystemDescriptionFactory.html#line.144"><B>createTypeSystemDescription</B></A>()
                                                          throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
 <DD>Creates a <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata"><CODE>TypeSystemDescription</CODE></A> from all type descriptions that can be found via the
@@ -341,7 +341,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="scanTypeDescriptors()"><!-- --></A><H3>
 scanTypeDescriptors</H3>
 <PRE>
-public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>[] <A HREF="../../../src-html/org/uimafit/factory/TypeSystemDescriptionFactory.html#line.176"><B>scanTypeDescriptors</B></A>()
+public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>[] <A HREF="../../../src-html/org/uimafit/factory/TypeSystemDescriptionFactory.html#line.175"><B>scanTypeDescriptors</B></A>()
                                     throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
 <DD>Get all currently accessible type system descriptor locations. A scan is actually only
@@ -360,7 +360,7 @@ public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.
 <A NAME="forceTypeDescriptorsScan()"><!-- --></A><H3>
 forceTypeDescriptorsScan</H3>
 <PRE>
-public static void <A HREF="../../../src-html/org/uimafit/factory/TypeSystemDescriptionFactory.html#line.188"><B>forceTypeDescriptorsScan</B></A>()</PRE>
+public static void <A HREF="../../../src-html/org/uimafit/factory/TypeSystemDescriptionFactory.html#line.187"><B>forceTypeDescriptorsScan</B></A>()</PRE>
 <DL>
 <DD>Force rescan of type descriptors. The next call to <A HREF="../../../org/uimafit/factory/TypeSystemDescriptionFactory.html#scanTypeDescriptors()"><CODE>scanTypeDescriptors()</CODE></A> will rescan
  all auto-import locations.
@@ -374,7 +374,7 @@ public static void <A HREF="../../../src-html/org/uimafit/factory/TypeSystemDesc
 <A NAME="scanImportsAndManifests(java.lang.String, java.lang.String)"><!-- --></A><H3>
 scanImportsAndManifests</H3>
 <PRE>
-public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>[] <A HREF="../../../src-html/org/uimafit/factory/TypeSystemDescriptionFactory.html#line.199"><B>scanImportsAndManifests</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;manifestPatterns,
+public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>[] <A HREF="../../../src-html/org/uimafit/factory/TypeSystemDescriptionFactory.html#line.198"><B>scanImportsAndManifests</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;manifestPatterns,
                                                <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;importProperty)
                                         throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
@@ -392,13 +392,13 @@ public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.
 <A NAME="resolve(java.lang.String...)"><!-- --></A><H3>
 resolve</H3>
 <PRE>
-public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>[] <A HREF="../../../src-html/org/uimafit/factory/TypeSystemDescriptionFactory.html#line.234"><B>resolve</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>...&nbsp;patterns)
+public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>[] <A HREF="../../../src-html/org/uimafit/factory/TypeSystemDescriptionFactory.html#line.232"><B>resolve</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>...&nbsp;patterns)
                         throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
 <DD>Resolve a list of patterns to a set of URLs.
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>patterns</CODE> - 
+
 <DT><B>Returns:</B><DD>an array of locations.
 <DT><B>Throws:</B>
 <DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE> - if the locations could not be resolved.</DL>

@@ -6,6 +6,7 @@ org.uimafit.factory
 org.uimafit.factory.initializable
 org.uimafit.factory.locator
 org.uimafit.pipeline
+org.uimafit.propertyeditors
 org.uimafit.testing.factory
 org.uimafit.testing.util
 org.uimafit.util

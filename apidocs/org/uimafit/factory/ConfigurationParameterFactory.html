@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-ConfigurationParameterFactory (uimaFIT 1.3.1 API)
+ConfigurationParameterFactory (uimaFIT 1.4.0 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ ConfigurationParameterFactory (uimaFIT 1.3.1 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="ConfigurationParameterFactory (uimaFIT 1.3.1 API)";
+        parent.document.title="ConfigurationParameterFactory (uimaFIT 1.4.0 API)";
     }
 }
 </SCRIPT>
@@ -96,13 +96,13 @@ Class ConfigurationParameterFactory</H2>
 </PRE>
 <HR>
 <DL>
-<DT><PRE>public final class <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.47"><B>ConfigurationParameterFactory</B></A><DT>extends <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
+<DT><PRE>public final class <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.51"><B>ConfigurationParameterFactory</B></A><DT>extends <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
 </PRE>
 
 <P>
 <DL>
 <DT><B>Author:</B></DT>
-  <DD>Philip Ogren</DD>
+  <DD>Philip Ogren, Richard Eckart de Castilho</DD>
 </DL>
 <HR>
 
@@ -201,6 +201,15 @@ Class ConfigurationParameterFactory</H2>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Check if the given parameter can be set on the provided specifier.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected static&nbsp;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../org/uimafit/factory/ConfigurationParameterFactory.html#convertParameterValue(org.apache.uima.resource.metadata.ConfigurationParameter, java.lang.Object)">convertParameterValue</A></B>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/ConfigurationParameter.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">ConfigurationParameter</A>&nbsp;param,
+                                           <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;aValue)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convert a value so it can be injected into a UIMA component.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -332,7 +341,7 @@ Class ConfigurationParameterFactory</H2>
 <A NAME="javaUimaTypeMap"><!-- --></A><H3>
 javaUimaTypeMap</H3>
 <PRE>
-public static final <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>,<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&gt; <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.56"><B>javaUimaTypeMap</B></A></PRE>
+public static final <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>,<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&gt; <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.60"><B>javaUimaTypeMap</B></A></PRE>
 <DL>
 <DD>A mapping from Java class names to UIMA configuration parameter type names. Used by
  setConfigurationParameters().
@@ -354,14 +363,13 @@ public static final <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/M
 <A NAME="isConfigurationParameterField(java.lang.reflect.Field)"><!-- --></A><H3>
 isConfigurationParameterField</H3>
 <PRE>
-public static boolean <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.77"><B>isConfigurationParameterField</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html?is-external=true" title="class or interface in java.lang.reflect">Field</A>&nbsp;field)</PRE>
+public static boolean <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.78"><B>isConfigurationParameterField</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html?is-external=true" title="class or interface in java.lang.reflect">Field</A>&nbsp;field)</PRE>
 <DL>
 <DD>This method determines if the field is annotated with
  <A HREF="../../../org/uimafit/descriptor/ConfigurationParameter.html" title="annotation in org.uimafit.descriptor"><CODE>ConfigurationParameter</CODE></A>.
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>field</CODE> - 
-<DT><B>Returns:</B><DD></DL>
+</DL>
 </DD>
 </DL>
 <HR>
@@ -369,7 +377,7 @@ public static boolean <A HREF="../../../src-html/org/uimafit/factory/Configurati
 <A NAME="getDefaultValue(java.lang.reflect.Field)"><!-- --></A><H3>
 getDefaultValue</H3>
 <PRE>
-public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.90"><B>getDefaultValue</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html?is-external=true" title="class or interface in java.lang.reflect">Field</A>&nbsp;field)</PRE>
+public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.88"><B>getDefaultValue</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html?is-external=true" title="class or interface in java.lang.reflect">Field</A>&nbsp;field)</PRE>
 <DL>
 <DD>Determines the default value of an annotated configuration parameter. The returned value is
  not necessarily the value that the annotated member variable will be instantiated with in
@@ -377,8 +385,7 @@ public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.
  parameter value to comply with the type of the member variable.
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>field</CODE> - 
-<DT><B>Returns:</B><DD></DL>
+</DL>
 </DD>
 </DL>
 <HR>
@@ -386,14 +393,13 @@ public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.
 <A NAME="getConfigurationParameterName(java.lang.reflect.Field)"><!-- --></A><H3>
 getConfigurationParameterName</H3>
 <PRE>
-public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.199"><B>getConfigurationParameterName</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html?is-external=true" title="class or interface in java.lang.reflect">Field</A>&nbsp;field)</PRE>
+public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.194"><B>getConfigurationParameterName</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html?is-external=true" title="class or interface in java.lang.reflect">Field</A>&nbsp;field)</PRE>
 <DL>
 <DD>This method generates the default name of a configuration parameter that is defined by an
  <A HREF="../../../org/uimafit/descriptor/ConfigurationParameter.html" title="annotation in org.uimafit.descriptor"><CODE>ConfigurationParameter</CODE></A> annotation when no name is given
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>field</CODE> - 
-<DT><B>Returns:</B><DD></DL>
+</DL>
 </DD>
 </DL>
 <HR>
@@ -401,7 +407,7 @@ public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.
 <A NAME="createConfigurationParameterName(java.lang.Class, java.lang.String)"><!-- --></A><H3>
 createConfigurationParameterName</H3>
 <PRE>
-public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.222"><B>createConfigurationParameterName</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;?&gt;&nbsp;clazz,
+public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.212"><B>createConfigurationParameterName</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;?&gt;&nbsp;clazz,
                                                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;fieldName)
                                                throws <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></PRE>
 <DL>
@@ -410,10 +416,8 @@ public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.
  name is provided in the annotation.
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>clazz</CODE> - <DD><CODE>fieldName</CODE> - 
-<DT><B>Returns:</B><DD>
+
 <DT><B>Throws:</B>
-<DD><CODE><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</A></CODE>
 <DD><CODE><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE></DL>
 </DD>
 </DL>
@@ -422,13 +426,12 @@ public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.
 <A NAME="createPrimitiveParameter(java.lang.reflect.Field)"><!-- --></A><H3>
 createPrimitiveParameter</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/ConfigurationParameter.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">ConfigurationParameter</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.239"><B>createPrimitiveParameter</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html?is-external=true" title="class or interface in java.lang.reflect">Field</A>&nbsp;field)</PRE>
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/ConfigurationParameter.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">ConfigurationParameter</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.226"><B>createPrimitiveParameter</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html?is-external=true" title="class or interface in java.lang.reflect">Field</A>&nbsp;field)</PRE>
 <DL>
 <DD>A factory method for creating a ConfigurationParameter from a given field definition
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>field</CODE> - 
-<DT><B>Returns:</B><DD></DL>
+</DL>
 </DD>
 </DL>
 <HR>
@@ -436,7 +439,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createPrimitiveParameter(java.lang.String, java.lang.Class, java.lang.String, boolean)"><!-- --></A><H3>
 createPrimitiveParameter</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/ConfigurationParameter.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">ConfigurationParameter</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.264"><B>createPrimitiveParameter</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;name,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/ConfigurationParameter.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">ConfigurationParameter</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.245"><B>createPrimitiveParameter</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;name,
                                                               <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;?&gt;&nbsp;parameterClass,
                                                               <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;parameterDescription,
                                                               boolean&nbsp;isMandatory)</PRE>
@@ -444,8 +447,25 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <DD>A factory method for creating a ConfigurationParameter object.
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>name</CODE> - <DD><CODE>parameterClass</CODE> - <DD><CODE>parameterDescription</CODE> - <DD><CODE>isMandatory</CODE> - 
-<DT><B>Returns:</B><DD></DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="convertParameterValue(org.apache.uima.resource.metadata.ConfigurationParameter, java.lang.Object)"><!-- --></A><H3>
+convertParameterValue</H3>
+<PRE>
+protected static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.274"><B>convertParameterValue</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/ConfigurationParameter.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">ConfigurationParameter</A>&nbsp;param,
+                                              <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;aValue)</PRE>
+<DL>
+<DD>Convert a value so it can be injected into a UIMA component. UIMA only supports several
+ parameter types. If the value is not of these types, this method can be used to coerce the
+ value into a supported type (typically String). It is also used to convert primitive
+ arrays to object arrays when necessary.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>param</CODE> - the configuration parameter.<DD><CODE>aValue</CODE> - the parameter value.
+<DT><B>Returns:</B><DD>the converted value.</DL>
 </DD>
 </DL>
 <HR>
@@ -453,7 +473,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createPrimitiveParameter(java.lang.String, java.lang.String, java.lang.String, boolean, boolean)"><!-- --></A><H3>
 createPrimitiveParameter</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/ConfigurationParameter.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">ConfigurationParameter</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.295"><B>createPrimitiveParameter</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;name,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/ConfigurationParameter.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">ConfigurationParameter</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.313"><B>createPrimitiveParameter</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;name,
                                                               <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;parameterType,
                                                               <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;parameterDescription,
                                                               boolean&nbsp;isMultiValued,
@@ -462,8 +482,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <DD>A factory method for creating a ConfigurationParameter object.
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>name</CODE> - <DD><CODE>parameterType</CODE> - <DD><CODE>parameterDescription</CODE> - <DD><CODE>isMultiValued</CODE> - <DD><CODE>isMandatory</CODE> - 
-<DT><B>Returns:</B><DD></DL>
+</DL>
 </DD>
 </DL>
 <HR>
@@ -471,14 +490,13 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createConfigurationData(java.lang.Object...)"><!-- --></A><H3>
 createConfigurationData</H3>
 <PRE>
-public static <A HREF="../../../org/uimafit/factory/ConfigurationParameterFactory.ConfigurationData.html" title="class in org.uimafit.factory">ConfigurationParameterFactory.ConfigurationData</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.314"><B>createConfigurationData</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)</PRE>
+public static <A HREF="../../../org/uimafit/factory/ConfigurationParameterFactory.ConfigurationData.html" title="class in org.uimafit.factory">ConfigurationParameterFactory.ConfigurationData</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.329"><B>createConfigurationData</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)</PRE>
 <DL>
 <DD>This method converts configuration data provided as an array of objects and returns a
  <A HREF="../../../org/uimafit/factory/ConfigurationParameterFactory.ConfigurationData.html" title="class in org.uimafit.factory"><CODE>ConfigurationParameterFactory.ConfigurationData</CODE></A> object
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>configurationData</CODE> - 
-<DT><B>Returns:</B><DD></DL>
+</DL>
 </DD>
 </DL>
 <HR>
@@ -486,14 +504,13 @@ public static <A HREF="../../../org/uimafit/factory/ConfigurationParameterFactor
 <A NAME="createConfigurationData(java.lang.Class)"><!-- --></A><H3>
 createConfigurationData</H3>
 <PRE>
-public static <A HREF="../../../org/uimafit/factory/ConfigurationParameterFactory.ConfigurationData.html" title="class in org.uimafit.factory">ConfigurationParameterFactory.ConfigurationData</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.363"><B>createConfigurationData</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;?&gt;&nbsp;componentClass)</PRE>
+public static <A HREF="../../../org/uimafit/factory/ConfigurationParameterFactory.ConfigurationData.html" title="class in org.uimafit.factory">ConfigurationParameterFactory.ConfigurationData</A> <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.362"><B>createConfigurationData</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;?&gt;&nbsp;componentClass)</PRE>
 <DL>
 <DD>This method creates configuration data for a given class definition using reflection and the
  configuration parameter annotation
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>componentClass</CODE> - 
-<DT><B>Returns:</B><DD></DL>
+</DL>
 </DD>
 </DL>
 <HR>
@@ -501,14 +518,14 @@ public static <A HREF="../../../org/uimafit/factory/ConfigurationParameterFactor
 <A NAME="addConfigurationParameters(org.apache.uima.resource.ResourceCreationSpecifier, java.lang.Object...)"><!-- --></A><H3>
 addConfigurationParameters</H3>
 <PRE>
-public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.417"><B>addConfigurationParameters</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceCreationSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceCreationSpecifier</A>&nbsp;specifier,
+public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.404"><B>addConfigurationParameters</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceCreationSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceCreationSpecifier</A>&nbsp;specifier,
                                               <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)</PRE>
 <DL>
 <DD>This method adds configuration parameter information to the specifier given the provided
  configuration data
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>specifier</CODE> - <DD><CODE>configurationData</CODE> - should consist of name value pairs.</DL>
+<DT><B>Parameters:</B><DD><CODE>configurationData</CODE> - should consist of name value pairs.</DL>
 </DD>
 </DL>
 <HR>
@@ -516,7 +533,7 @@ public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationP
 <A NAME="addConfigurationParameters(org.apache.uima.resource.ResourceCreationSpecifier, java.util.List)"><!-- --></A><H3>
 addConfigurationParameters</H3>
 <PRE>
-public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.433"><B>addConfigurationParameters</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceCreationSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceCreationSpecifier</A>&nbsp;specifier,
+public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.417"><B>addConfigurationParameters</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceCreationSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceCreationSpecifier</A>&nbsp;specifier,
                                               <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;?&gt;&gt;&nbsp;dynamicallyLoadedClasses)</PRE>
 <DL>
 <DD>Provides a mechanism to add configuration parameter information to a specifier for the given
@@ -524,7 +541,7 @@ public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationP
  configuration parameters that you want to include in the given specifier
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>specifier</CODE> - <DD><CODE>dynamicallyLoadedClasses</CODE> - </DL>
+</DL>
 </DD>
 </DL>
 <HR>
@@ -532,7 +549,7 @@ public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationP
 <A NAME="addConfigurationParameters(org.apache.uima.resource.ResourceCreationSpecifier, java.lang.Class...)"><!-- --></A><H3>
 addConfigurationParameters</H3>
 <PRE>
-public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.453"><B>addConfigurationParameters</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceCreationSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceCreationSpecifier</A>&nbsp;specifier,
+public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.434"><B>addConfigurationParameters</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceCreationSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceCreationSpecifier</A>&nbsp;specifier,
                                               <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;?&gt;...&nbsp;dynamicallyLoadedClasses)</PRE>
 <DL>
 <DD>Provides a mechanism to add configuration parameter information to a specifier for the given
@@ -540,7 +557,7 @@ public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationP
  configuration parameters that you want to include in the given specifier
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>specifier</CODE> - <DD><CODE>dynamicallyLoadedClasses</CODE> - </DL>
+</DL>
 </DD>
 </DL>
 <HR>
@@ -548,14 +565,14 @@ public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationP
 <A NAME="addConfigurationParameter(org.apache.uima.resource.ResourceCreationSpecifier, java.lang.String, java.lang.Object)"><!-- --></A><H3>
 addConfigurationParameter</H3>
 <PRE>
-public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.471"><B>addConfigurationParameter</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceCreationSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceCreationSpecifier</A>&nbsp;specifier,
+public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.448"><B>addConfigurationParameter</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceCreationSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceCreationSpecifier</A>&nbsp;specifier,
                                              <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;name,
                                              <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</PRE>
 <DL>
 <DD>Adds a single configuration parameter name value pair to a specifier
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>specifier</CODE> - <DD><CODE>name</CODE> - <DD><CODE>value</CODE> - </DL>
+</DL>
 </DD>
 </DL>
 <HR>
@@ -563,7 +580,7 @@ public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationP
 <A NAME="getParameterSettings(org.apache.uima.resource.ResourceSpecifier)"><!-- --></A><H3>
 getParameterSettings</H3>
 <PRE>
-public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>,<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&gt; <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.499"><B>getParameterSettings</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceSpecifier</A>&nbsp;spec)</PRE>
+public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>,<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&gt; <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.476"><B>getParameterSettings</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceSpecifier</A>&nbsp;spec)</PRE>
 <DL>
 <DD>Fetches the parameter settings from the given resource specifier.
 <P>
@@ -577,7 +594,7 @@ public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Map.htm
 <A NAME="setParameter(org.apache.uima.resource.ResourceSpecifier, java.lang.String, java.lang.Object)"><!-- --></A><H3>
 setParameter</H3>
 <PRE>
-public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.538"><B>setParameter</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceSpecifier</A>&nbsp;aSpec,
+public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.515"><B>setParameter</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceSpecifier</A>&nbsp;aSpec,
                                 <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;name,
                                 <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</PRE>
 <DL>
@@ -596,7 +613,7 @@ public static void <A HREF="../../../src-html/org/uimafit/factory/ConfigurationP
 <A NAME="canParameterBeSet(org.apache.uima.resource.ResourceSpecifier, java.lang.String)"><!-- --></A><H3>
 canParameterBeSet</H3>
 <PRE>
-public static boolean <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.593"><B>canParameterBeSet</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceSpecifier</A>&nbsp;aSpec,
+public static boolean <A HREF="../../../src-html/org/uimafit/factory/ConfigurationParameterFactory.html#line.570"><B>canParameterBeSet</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceSpecifier.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceSpecifier</A>&nbsp;aSpec,
                                         <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;name)</PRE>
 <DL>
 <DD>Check if the given parameter can be set on the provided specifier. Some specifier types 

@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-LocaleUtil (uimaFIT 1.3.1 API)
+LocaleUtil (uimaFIT 1.4.0 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ LocaleUtil (uimaFIT 1.3.1 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="LocaleUtil (uimaFIT 1.3.1 API)";
+        parent.document.title="LocaleUtil (uimaFIT 1.4.0 API)";
     }
 }
 </SCRIPT>
@@ -75,9 +75,9 @@ function windowTitle()
 </TR>
 <TR>
 <TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
-  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
 <TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
-DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
 </TR>
 </TABLE>
 <A NAME="skip-navbar_top"></A>
@@ -96,7 +96,7 @@ Class LocaleUtil</H2>
 </PRE>
 <HR>
 <DL>
-<DT><PRE>public class <A HREF="../../../src-html/org/uimafit/util/LocaleUtil.html#line.27"><B>LocaleUtil</B></A><DT>extends <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
+<DT><PRE>public final class <A HREF="../../../src-html/org/uimafit/util/LocaleUtil.html#line.25"><B>LocaleUtil</B></A><DT>extends <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
 </PRE>
 
 <P>
@@ -108,22 +108,6 @@ Class LocaleUtil</H2>
 
 <P>
 
-<!-- ======== CONSTRUCTOR SUMMARY ======== -->
-
-<A NAME="constructor_summary"><!-- --></A>
-<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
-<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
-<B>Constructor Summary</B></FONT></TH>
-</TR>
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><B><A HREF="../../../org/uimafit/util/LocaleUtil.html#LocaleUtil()">LocaleUtil</A></B>()</CODE>
-
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
-</TR>
-</TABLE>
-&nbsp;
 <!-- ========== METHOD SUMMARY =========== -->
 
 <A NAME="method_summary"><!-- --></A>
@@ -170,23 +154,6 @@ Class LocaleUtil</H2>
 &nbsp;
 <P>
 
-<!-- ========= CONSTRUCTOR DETAIL ======== -->
-
-<A NAME="constructor_detail"><!-- --></A>
-<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
-<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
-<B>Constructor Detail</B></FONT></TH>
-</TR>
-</TABLE>
-
-<A NAME="LocaleUtil()"><!-- --></A><H3>
-LocaleUtil</H3>
-<PRE>
-public <A HREF="../../../src-html/org/uimafit/util/LocaleUtil.html#line.27"><B>LocaleUtil</B></A>()</PRE>
-<DL>
-</DL>
-
 <!-- ============ METHOD DETAIL ========== -->
 
 <A NAME="method_detail"><!-- --></A>
@@ -200,7 +167,7 @@ public <A HREF="../../../src-html/org/uimafit/util/LocaleUtil.html#line.27"><B>L
 <A NAME="getLocaleConstant(java.lang.String)"><!-- --></A><H3>
 getLocaleConstant</H3>
 <PRE>
-public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.html?is-external=true" title="class or interface in java.util">Locale</A> <A HREF="../../../src-html/org/uimafit/util/LocaleUtil.html#line.39"><B>getLocaleConstant</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;localeConstant)</PRE>
+public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.html?is-external=true" title="class or interface in java.util">Locale</A> <A HREF="../../../src-html/org/uimafit/util/LocaleUtil.html#line.41"><B>getLocaleConstant</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;localeConstant)</PRE>
 <DL>
 <DD>This method returns the locale constant for the given string. For example, see
  <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.html?is-external=true#US" title="class or interface in java.util"><CODE>Locale.US</CODE></A> as an example locale constant. To retrieve that locale using this method,
@@ -217,7 +184,7 @@ public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.
 <A NAME="createLocale(java.lang.String)"><!-- --></A><H3>
 createLocale</H3>
 <PRE>
-public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.html?is-external=true" title="class or interface in java.util">Locale</A> <A HREF="../../../src-html/org/uimafit/util/LocaleUtil.html#line.62"><B>createLocale</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;localeString)</PRE>
+public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.html?is-external=true" title="class or interface in java.util">Locale</A> <A HREF="../../../src-html/org/uimafit/util/LocaleUtil.html#line.61"><B>createLocale</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;localeString)</PRE>
 <DL>
 <DD>This method passes through to <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.html?is-external=true#Locale(java.lang.String)" title="class or interface in java.util"><CODE>Locale.Locale(String)</CODE></A> unless the provided string
  contains a hyphen. If it does, then the string is split on the hyphen and the resulting
@@ -226,8 +193,7 @@ public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.
  three.
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>localeString</CODE> - 
-<DT><B>Returns:</B><DD></DL>
+</DL>
 </DD>
 </DL>
 <HR>
@@ -235,14 +201,13 @@ public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.
 <A NAME="getLocale(java.lang.String)"><!-- --></A><H3>
 getLocale</H3>
 <PRE>
-public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.html?is-external=true" title="class or interface in java.util">Locale</A> <A HREF="../../../src-html/org/uimafit/util/LocaleUtil.html#line.83"><B>getLocale</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;localeString)</PRE>
+public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.html?is-external=true" title="class or interface in java.util">Locale</A> <A HREF="../../../src-html/org/uimafit/util/LocaleUtil.html#line.79"><B>getLocale</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;localeString)</PRE>
 <DL>
 <DD>passes through to getLocaleConstant. If this returns null, then this method passes through to
  createLocale.
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>localeString</CODE> - 
-<DT><B>Returns:</B><DD></DL>
+</DL>
 </DD>
 </DL>
 <!-- ========= END OF CLASS DATA ========= -->
@@ -297,9 +262,9 @@ public static <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.
 </TR>
 <TR>
 <TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
-  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
 <TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
-DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
 </TR>
 </TABLE>
 <A NAME="skip-navbar_bottom"></A>

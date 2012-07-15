@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-CollectionReaderFactory (uimaFIT 1.3.1 API)
+CollectionReaderFactory (uimaFIT 1.4.0 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ CollectionReaderFactory (uimaFIT 1.3.1 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="CollectionReaderFactory (uimaFIT 1.3.1 API)";
+        parent.document.title="CollectionReaderFactory (uimaFIT 1.4.0 API)";
     }
 }
 </SCRIPT>
@@ -282,7 +282,7 @@ Class CollectionReaderFactory</H2>
                                                      <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>Deprecated.</B>&nbsp;</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>Deprecated.</B>&nbsp;<I>use <A HREF="../../../org/uimafit/factory/ResourceCreationSpecifierFactory.html#setConfigurationParameters(org.apache.uima.resource.ResourceCreationSpecifier, java.lang.Object...)"><CODE>ResourceCreationSpecifierFactory.setConfigurationParameters(org.apache.uima.resource.ResourceCreationSpecifier, java.lang.Object...)</CODE></A></I></TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
@@ -310,7 +310,7 @@ Class CollectionReaderFactory</H2>
 <A NAME="createCollectionReaderFromPath(java.lang.String, java.lang.Object...)"><!-- --></A><H3>
 createCollectionReaderFromPath</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.75"><B>createCollectionReaderFromPath</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;descriptorPath,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.73"><B>createCollectionReaderFromPath</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;descriptorPath,
                                                               <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)
                                                        throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/UIMAException.html?is-external=true" title="class or interface in org.apache.uima">UIMAException</A>,
                                                               <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
@@ -332,7 +332,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createCollectionReader(java.lang.String, java.lang.Object...)"><!-- --></A><H3>
 createCollectionReader</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.96"><B>createCollectionReader</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;descriptorName,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.92"><B>createCollectionReader</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;descriptorName,
                                                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)
                                                throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/UIMAException.html?is-external=true" title="class or interface in org.apache.uima">UIMAException</A>,
                                                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
@@ -354,7 +354,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createCollectionReader(java.lang.Class, java.lang.Object...)"><!-- --></A><H3>
 createCollectionReader</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.119"><B>createCollectionReader</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.114"><B>createCollectionReader</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
                                                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)
                                                throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
@@ -376,7 +376,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createCollectionReader(java.lang.Class, org.apache.uima.resource.metadata.TypeSystemDescription, java.lang.Object...)"><!-- --></A><H3>
 createCollectionReader</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.141"><B>createCollectionReader</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.135"><B>createCollectionReader</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
                                                       <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A>&nbsp;typeSystem,
                                                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)
                                                throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
@@ -398,15 +398,14 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createCollectionReader(java.lang.Class, org.apache.uima.resource.metadata.TypeSystemDescription, java.lang.String[], java.lang.Object...)"><!-- --></A><H3>
 createCollectionReader</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.156"><B>createCollectionReader</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.142"><B>createCollectionReader</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
                                                       <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A>&nbsp;typeSystem,
                                                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>[]&nbsp;prioritizedTypeNames,
                                                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)
                                                throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>readerClass</CODE> - <DD><CODE>typeSystem</CODE> - <DD><CODE>prioritizedTypeNames</CODE> - <DD><CODE>configurationData</CODE> - 
-<DT><B>Returns:</B><DD>
+
 <DT><B>Throws:</B>
 <DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
 </DD>
@@ -416,15 +415,14 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createCollectionReader(java.lang.Class, org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, java.lang.Object...)"><!-- --></A><H3>
 createCollectionReader</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.172"><B>createCollectionReader</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.150"><B>createCollectionReader</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
                                                       <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A>&nbsp;typeSystem,
                                                       <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypePriorities.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypePriorities</A>&nbsp;typePriorities,
                                                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)
                                                throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>readerClass</CODE> - <DD><CODE>typeSystem</CODE> - <DD><CODE>typePriorities</CODE> - <DD><CODE>configurationData</CODE> - 
-<DT><B>Returns:</B><DD>
+
 <DT><B>Throws:</B>
 <DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
 </DD>
@@ -434,7 +432,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createCollectionReader(org.apache.uima.collection.CollectionReaderDescription, java.lang.Object...)"><!-- --></A><H3>
 createCollectionReader</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.192"><B>createCollectionReader</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A>&nbsp;desc,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.167"><B>createCollectionReader</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A>&nbsp;desc,
                                                       <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)
                                                throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
@@ -442,9 +440,8 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
  configuration parameter data as desired
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>desc</CODE> - <DD><CODE>configurationData</CODE> - configuration parameter data as name value pairs. Will override values already set
+<DT><B>Parameters:</B><DD><CODE>configurationData</CODE> - configuration parameter data as name value pairs. Will override values already set
             in the description.
-<DT><B>Returns:</B><DD>
 <DT><B>Throws:</B>
 <DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
 </DD>
@@ -454,7 +451,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createDescription(java.lang.Class, java.lang.Object...)"><!-- --></A><H3>
 createDescription</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.209"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.179"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
                                                             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)
                                                      throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
@@ -463,8 +460,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
  <A HREF="../../../org/uimafit/factory/TypeSystemDescriptionFactory.html#createTypeSystemDescription()"><CODE>TypeSystemDescriptionFactory.createTypeSystemDescription()</CODE></A>.
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>readerClass</CODE> - <DD><CODE>configurationData</CODE> - 
-<DT><B>Returns:</B><DD>
+
 <DT><B>Throws:</B>
 <DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
 </DD>
@@ -474,7 +470,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createDescription(java.lang.Class, org.apache.uima.resource.metadata.TypeSystemDescription, java.lang.Object...)"><!-- --></A><H3>
 createDescription</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.226"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.190"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A>&nbsp;typeSystem,
                                                             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)
                                                      throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
@@ -483,8 +479,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
  system description, and configuration data
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>readerClass</CODE> - <DD><CODE>typeSystem</CODE> - <DD><CODE>configurationData</CODE> - 
-<DT><B>Returns:</B><DD>
+
 <DT><B>Throws:</B>
 <DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
 </DD>
@@ -494,15 +489,14 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createDescription(java.lang.Class, org.apache.uima.resource.metadata.TypeSystemDescription, java.lang.String[], java.lang.Object...)"><!-- --></A><H3>
 createDescription</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.240"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.196"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A>&nbsp;typeSystem,
                                                             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>[]&nbsp;prioritizedTypeNames,
                                                             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)
                                                      throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>readerClass</CODE> - <DD><CODE>typeSystem</CODE> - <DD><CODE>prioritizedTypeNames</CODE> - <DD><CODE>configurationData</CODE> - 
-<DT><B>Returns:</B><DD>
+
 <DT><B>Throws:</B>
 <DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
 </DD>
@@ -512,15 +506,14 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createDescription(java.lang.Class, org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, java.lang.Object...)"><!-- --></A><H3>
 createDescription</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.256"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.204"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A>&nbsp;typeSystem,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypePriorities.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypePriorities</A>&nbsp;typePriorities,
                                                             <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)
                                                      throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>readerClass</CODE> - <DD><CODE>typeSystem</CODE> - <DD><CODE>typePriorities</CODE> - <DD><CODE>configurationData</CODE> - 
-<DT><B>Returns:</B><DD>
+
 <DT><B>Throws:</B>
 <DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
 </DD>
@@ -530,7 +523,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createDescription(java.lang.Class, org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, org.apache.uima.resource.metadata.FsIndexCollection, org.apache.uima.resource.metadata.Capability[], java.lang.Object...)"><!-- --></A><H3>
 createDescription</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.273"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.212"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A>&nbsp;typeSystem,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypePriorities.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypePriorities</A>&nbsp;typePriorities,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/FsIndexCollection.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">FsIndexCollection</A>&nbsp;indexes,
@@ -539,8 +532,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
                                                      throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>readerClass</CODE> - <DD><CODE>typeSystem</CODE> - <DD><CODE>typePriorities</CODE> - <DD><CODE>capabilities</CODE> - <DD><CODE>configurationData</CODE> - 
-<DT><B>Returns:</B><DD>
+
 <DT><B>Throws:</B>
 <DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
 </DD>
@@ -550,7 +542,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createDescription(java.lang.Class, org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, org.apache.uima.resource.metadata.FsIndexCollection, org.apache.uima.resource.metadata.Capability[], org.apache.uima.resource.metadata.ConfigurationParameter[], java.lang.Object[])"><!-- --></A><H3>
 createDescription</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.291"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.230"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A>&nbsp;typeSystem,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypePriorities.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypePriorities</A>&nbsp;typePriorities,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/FsIndexCollection.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">FsIndexCollection</A>&nbsp;indexes,
@@ -570,7 +562,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 <A NAME="createDescription(java.lang.Class, org.apache.uima.resource.metadata.TypeSystemDescription, org.apache.uima.resource.metadata.TypePriorities, org.apache.uima.resource.metadata.FsIndexCollection, org.apache.uima.resource.metadata.Capability[], org.apache.uima.resource.metadata.ConfigurationParameter[], java.lang.Object[], java.util.Map)"><!-- --></A><H3>
 createDescription</H3>
 <PRE>
-public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.313"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
+public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A> <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.243"><B>createDescription</B></A>(<A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReader.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReader</A>&gt;&nbsp;readerClass,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypeSystemDescription.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypeSystemDescription</A>&nbsp;typeSystem,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/TypePriorities.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">TypePriorities</A>&nbsp;typePriorities,
                                                             <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/metadata/FsIndexCollection.html?is-external=true" title="class or interface in org.apache.uima.resource.metadata">FsIndexCollection</A>&nbsp;indexes,
@@ -584,8 +576,7 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
  TypeSystemDescription, TypePriorities, capabilities, and configuration data
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>readerClass</CODE> - <DD><CODE>typeSystem</CODE> - <DD><CODE>typePriorities</CODE> - <DD><CODE>capabilities</CODE> - <DD><CODE>configurationParameters</CODE> - <DD><CODE>configurationValues</CODE> - 
-<DT><B>Returns:</B><DD>
+
 <DT><B>Throws:</B>
 <DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
 </DD>
@@ -596,17 +587,17 @@ public static <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/u
 setConfigurationParameters</H3>
 <PRE>
 <FONT SIZE="-1"><A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</A>
-</FONT>public static void <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.391"><B>setConfigurationParameters</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A>&nbsp;collectionReaderDescription,
+</FONT>public static void <A HREF="../../../src-html/org/uimafit/factory/CollectionReaderFactory.html#line.318"><B>setConfigurationParameters</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection">CollectionReaderDescription</A>&nbsp;collectionReaderDescription,
                                                          <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>...&nbsp;configurationData)
                                        throws <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></PRE>
 <DL>
-<DD><B>Deprecated.</B>&nbsp;
+<DD><B>Deprecated.</B>&nbsp;<I>use <A HREF="../../../org/uimafit/factory/ResourceCreationSpecifierFactory.html#setConfigurationParameters(org.apache.uima.resource.ResourceCreationSpecifier, java.lang.Object...)"><CODE>ResourceCreationSpecifierFactory.setConfigurationParameters(org.apache.uima.resource.ResourceCreationSpecifier, java.lang.Object...)</CODE></A></I>
 <P>
 <DD>Since the configuration parameters of a CollectionReader with the given configuration
  parameter data
 <P>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>collectionReaderDescription</CODE> - <DD><CODE>configurationData</CODE> - 
+
 <DT><B>Throws:</B>
 <DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceInitializationException.html?is-external=true" title="class or interface in org.apache.uima.resource">ResourceInitializationException</A></CODE></DL>
 </DD>
