@@ -231,7 +231,7 @@ public class CasUtil {
 	 *            the CAS hosting the type system.
 	 * @return A collection of the selected type.
 	 */
-	public static Collection<FeatureStructure> selectFS(final CAS aCas) {
+	public static Collection<FeatureStructure> selectAllFS(final CAS aCas) {
 		return selectFS(aCas, getType(aCas, CAS.TYPE_NAME_TOP));
 	}
 
@@ -255,7 +255,7 @@ public class CasUtil {
 	 *            the CAS hosting the type system.
 	 * @return A collection of the selected type.
 	 */
-	public static Collection<AnnotationFS> select(final CAS aCas) {
+	public static Collection<AnnotationFS> selectAll(final CAS aCas) {
 		return select(aCas, getType(aCas, CAS.TYPE_NAME_ANNOTATION));
 	}
 
@@ -751,7 +751,7 @@ public class CasUtil {
 	 * Get the single instance of the specified type from the JCas.
 	 *
 	 * @param cas
-	 *            a JCas containing the annotation.
+	 *            a CAS containing the annotation.
 	 * @param type
 	 *            a UIMA type.
 	 * @return the single instance of the given type. throws IllegalArgumentException if not exactly
@@ -772,6 +772,78 @@ public class CasUtil {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Return an annotation preceding or following of a given reference annotation.
+	 * 
+	 * @param type
+	 *            a type.
+	 * @param annotation
+	 *            anchor annotation
+	 * @param index
+	 *            relative position to access. A negative value selects a preceding annotation
+	 *            while a positive number selects a following annotation.
+	 * @return the addressed annotation.
+	 */
+	public static AnnotationFS selectSingleRelative(Type type,
+			AnnotationFS annotation, int index) {
+		return selectSingleRelative(annotation.getView(), type, annotation, index);
+	}
+	
+	/**
+	 * Return an annotation preceding or following of a given reference annotation.
+	 * 
+	 * @param cas
+	 *            a CAS containing the annotation.
+	 * @param type
+	 *            a type.
+	 * @param annotation
+	 *            anchor annotation
+	 * @param index
+	 *            relative position to access. A negative value selects a preceding annotation
+	 *            while a positive number selects a following annotation.
+	 * @return the addressed annotation.
+	 */
+	public static AnnotationFS selectSingleRelative(CAS cas, Type type,
+			AnnotationFS annotation, int index) {
+		if (!cas.getTypeSystem().subsumes(cas.getAnnotationType(), type)) {
+			throw new IllegalArgumentException("Type [" + type.getName()
+					+ "] is not an annotation type");
+		}
+
+		// move to first previous annotation
+		FSIterator<AnnotationFS> itr = cas.getAnnotationIndex(type).iterator();
+		itr.moveTo(annotation);
+
+		if (index < 0) {
+			// make sure we're past the beginning of the reference annotation
+			while (itr.isValid() && itr.get().getEnd() > annotation.getBegin()) {
+				itr.moveToPrevious();
+			}
+			
+			for (int i = 0; i < (-index - 1) && itr.isValid(); ++i, itr.moveToPrevious()) {
+				// Seeking
+			}
+			
+			return itr.isValid() ? itr.get() : null;
+		}
+		else if (index > 0) {
+			// make sure we're past the end of the reference annotation
+			while (itr.isValid() && itr.get().getBegin() < annotation.getEnd()) {
+				itr.moveToNext();
+			}
+			
+			List<AnnotationFS> precedingAnnotations = new LinkedList<AnnotationFS>();
+			for (int i = 0; i < (index - 1) && itr.isValid(); ++i, itr.moveToPrevious()) {
+				// Seeking
+			}
+			
+			return itr.isValid() ? itr.get() : null;
+		}
+		else {
+			return annotation;
+		}
 	}
 
 	/**

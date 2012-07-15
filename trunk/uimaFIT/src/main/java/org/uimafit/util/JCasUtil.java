@@ -254,7 +254,7 @@ public class JCasUtil {
 	 *            the type.
 	 * @return A collection of the selected type.
 	 */
-	public static Collection<TOP> select(final JCas jCas) {
+	public static Collection<TOP> selectAll(final JCas jCas) {
 		return select(jCas, TOP.class);
 	}
 
@@ -520,30 +520,44 @@ public class JCasUtil {
 	 * 
 	 * @param <T>
 	 *            the JCas type.
-	 * @param jCas
-	 *            a JCas.
-	 * @param type
+	 * @param aType
 	 *            a type.
 	 * @param annotation
 	 *            anchor annotation
 	 * @param index
-	 *            relative position to access. A negative value selectes a preceding annotation
+	 *            relative position to access. A negative value selects a preceding annotation
 	 *            while a positive number selects a following annotation.
 	 * @return the addressed annotation.
 	 */
-	public static <T extends Annotation> T selectRelative(JCas jCas, Class<T> type,
+	@SuppressWarnings("unchecked")
+	public static <T extends Annotation> T selectSingleRelative(Class<T> aType,
 			AnnotationFS annotation, int index) {
-		if (index > 0) {
-			List<T> xs = selectFollowing(jCas, type, annotation, index);
-			return (xs.size() >= index) ? xs.get(index - 1) : null;
-		}
-		else if (index < 0) {
-			List<T> xs = selectPreceding(jCas, type, annotation, -index);
-			return (xs.size() >= -index) ? xs.get(-index - 1) : null;
-		}
-		else {
-			return null;
-		}
+		CAS cas = annotation.getCAS();
+		Type t = CasUtil.getType(cas, aType);
+		return (T) CasUtil.selectSingleRelative(cas, t, annotation, index);
+	}
+
+	/**
+	 * Return an annotation preceding or following of a given reference annotation.
+	 * 
+	 * @param <T>
+	 *            the JCas type.
+	 * @param aJCas
+	 *            a JCas.
+	 * @param aType
+	 *            a type.
+	 * @param annotation
+	 *            anchor annotation
+	 * @param index
+	 *            relative position to access. A negative value selects a preceding annotation
+	 *            while a positive number selects a following annotation.
+	 * @return the addressed annotation.
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends Annotation> T selectSingleRelative(JCas aJCas, Class<T> aType,
+			AnnotationFS annotation, int index) {
+		Type t = getType(aJCas, aType);
+		return (T) CasUtil.selectSingleRelative(aJCas.getCas(), t, annotation, index);
 	}
 
 	/**

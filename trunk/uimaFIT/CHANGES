@@ -1,9 +1,11 @@
 changes in 1.4.0
+    - resolved issue #128 "Move over CpeBuilder"
     - resolved issue #123 "Debug utility to access all annotations by type"
-    - resolved issue #68 "Improve performance of selectCovered() using offsets"
-    - resolved issue #90 "JCasUtil.isCovered() is named somewhat confusing"
+    - resolved issue #120 "Additional method selectRelative() for JCasUtil"
     - resolved issue #104 "JCasUtil.selectCovered should accept AnnotationFS"
+    - resolved issue #90 "JCasUtil.isCovered() is named somewhat confusing"
     - resolved issue #79 "Use PropertyEditors to convert parameter values"
+    - resolved issue #68 "Improve performance of selectCovered() using offsets"
 
 changes in 1.3.1
     - resolved issue #115 "AAEs to run multi-step pipelines"
