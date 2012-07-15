@@ -12,6 +12,15 @@
 		<dependencySet>
 			<unpack>false</unpack>
 			<scope>runtime</scope>
+			<!-- 
+			 - These JARs are not needed by uimaFIT at runtime. But we do not exclude them in the
+			 - POM due to a dependency resolution bug in Maven (see issue 127).
+			 -->
+			<excludes>
+				<exclude>org.springframework:spring-aop</exclude>
+				<exclude>org.springframework:spring-asm</exclude>
+				<exclude>org.springframework:spring-expression</exclude>
+			</excludes>
 		</dependencySet>
 	</dependencySets>
 	<files>
