@@ -12,6 +12,7 @@ org.uimafit.factory
 org.uimafit.factory.initializable
 org.uimafit.factory.locator
 org.uimafit.pipeline
+org.uimafit.propertyeditors
 org.uimafit.spring
 org.uimafit.spring.factory
 org.uimafit.spring.util

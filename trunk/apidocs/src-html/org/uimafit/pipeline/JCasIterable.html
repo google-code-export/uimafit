@@ -60,78 +60,74 @@
 <FONT color="green">057</FONT>             *            The CollectionReader for loading documents.<a name="line.57"></a>
 <FONT color="green">058</FONT>             * @param aTypeSystemDescription<a name="line.58"></a>
 <FONT color="green">059</FONT>             *            a type system description<a name="line.59"></a>
-<FONT color="green">060</FONT>             * @throws UIMAException<a name="line.60"></a>
-<FONT color="green">061</FONT>             * @throws IOException<a name="line.61"></a>
-<FONT color="green">062</FONT>             */<a name="line.62"></a>
-<FONT color="green">063</FONT>            public JCasIterable(final CollectionReader aReader,<a name="line.63"></a>
-<FONT color="green">064</FONT>                            final TypeSystemDescription aTypeSystemDescription) throws UIMAException, IOException {<a name="line.64"></a>
-<FONT color="green">065</FONT>                    this(aReader, AnalysisEngineFactory.createPrimitive(NoOpAnnotator.class,<a name="line.65"></a>
-<FONT color="green">066</FONT>                                    aTypeSystemDescription));<a name="line.66"></a>
-<FONT color="green">067</FONT>            }<a name="line.67"></a>
-<FONT color="green">068</FONT>    <a name="line.68"></a>
-<FONT color="green">069</FONT>            /**<a name="line.69"></a>
-<FONT color="green">070</FONT>             * Iterate over the documents loaded by the CollectionReader, running the AnalysisEngine on each<a name="line.70"></a>
-<FONT color="green">071</FONT>             * one before yielding them.<a name="line.71"></a>
-<FONT color="green">072</FONT>             * <a name="line.72"></a>
-<FONT color="green">073</FONT>             * @param aReader<a name="line.73"></a>
-<FONT color="green">074</FONT>             *            The CollectionReader for loading documents.<a name="line.74"></a>
-<FONT color="green">075</FONT>             * @param aEngines<a name="line.75"></a>
-<FONT color="green">076</FONT>             *            The AnalysisEngines for processing documents.<a name="line.76"></a>
-<FONT color="green">077</FONT>             * @throws UIMAException<a name="line.77"></a>
-<FONT color="green">078</FONT>             * @throws IOException<a name="line.78"></a>
-<FONT color="green">079</FONT>             */<a name="line.79"></a>
-<FONT color="green">080</FONT>            public JCasIterable(final CollectionReader aReader, final AnalysisEngine... aEngines)<a name="line.80"></a>
-<FONT color="green">081</FONT>                            throws UIMAException, IOException {<a name="line.81"></a>
-<FONT color="green">082</FONT>                    this.collectionReader = aReader;<a name="line.82"></a>
-<FONT color="green">083</FONT>                    this.analysisEngines = aEngines;<a name="line.83"></a>
-<FONT color="green">084</FONT>                    final List&lt;ResourceMetaData&gt; metaData = new ArrayList&lt;ResourceMetaData&gt;();<a name="line.84"></a>
-<FONT color="green">085</FONT>                    metaData.add(aReader.getMetaData());<a name="line.85"></a>
-<FONT color="green">086</FONT>                    for (AnalysisEngine engine : aEngines) {<a name="line.86"></a>
-<FONT color="green">087</FONT>                            metaData.add(engine.getMetaData());<a name="line.87"></a>
-<FONT color="green">088</FONT>                    }<a name="line.88"></a>
-<FONT color="green">089</FONT>                    this.jCas = CasCreationUtils.createCas(metaData).getJCas();<a name="line.89"></a>
+<FONT color="green">060</FONT>             */<a name="line.60"></a>
+<FONT color="green">061</FONT>            public JCasIterable(final CollectionReader aReader,<a name="line.61"></a>
+<FONT color="green">062</FONT>                            final TypeSystemDescription aTypeSystemDescription) throws UIMAException, IOException {<a name="line.62"></a>
+<FONT color="green">063</FONT>                    this(aReader, AnalysisEngineFactory.createPrimitive(NoOpAnnotator.class,<a name="line.63"></a>
+<FONT color="green">064</FONT>                                    aTypeSystemDescription));<a name="line.64"></a>
+<FONT color="green">065</FONT>            }<a name="line.65"></a>
+<FONT color="green">066</FONT>    <a name="line.66"></a>
+<FONT color="green">067</FONT>            /**<a name="line.67"></a>
+<FONT color="green">068</FONT>             * Iterate over the documents loaded by the CollectionReader, running the AnalysisEngine on each<a name="line.68"></a>
+<FONT color="green">069</FONT>             * one before yielding them.<a name="line.69"></a>
+<FONT color="green">070</FONT>             * <a name="line.70"></a>
+<FONT color="green">071</FONT>             * @param aReader<a name="line.71"></a>
+<FONT color="green">072</FONT>             *            The CollectionReader for loading documents.<a name="line.72"></a>
+<FONT color="green">073</FONT>             * @param aEngines<a name="line.73"></a>
+<FONT color="green">074</FONT>             *            The AnalysisEngines for processing documents.<a name="line.74"></a>
+<FONT color="green">075</FONT>             */<a name="line.75"></a>
+<FONT color="green">076</FONT>            public JCasIterable(final CollectionReader aReader, final AnalysisEngine... aEngines)<a name="line.76"></a>
+<FONT color="green">077</FONT>                            throws UIMAException, IOException {<a name="line.77"></a>
+<FONT color="green">078</FONT>                    this.collectionReader = aReader;<a name="line.78"></a>
+<FONT color="green">079</FONT>                    this.analysisEngines = aEngines;<a name="line.79"></a>
+<FONT color="green">080</FONT>                    final List&lt;ResourceMetaData&gt; metaData = new ArrayList&lt;ResourceMetaData&gt;();<a name="line.80"></a>
+<FONT color="green">081</FONT>                    metaData.add(aReader.getMetaData());<a name="line.81"></a>
+<FONT color="green">082</FONT>                    for (AnalysisEngine engine : aEngines) {<a name="line.82"></a>
+<FONT color="green">083</FONT>                            metaData.add(engine.getMetaData());<a name="line.83"></a>
+<FONT color="green">084</FONT>                    }<a name="line.84"></a>
+<FONT color="green">085</FONT>                    this.jCas = CasCreationUtils.createCas(metaData).getJCas();<a name="line.85"></a>
+<FONT color="green">086</FONT>            }<a name="line.86"></a>
+<FONT color="green">087</FONT>    <a name="line.87"></a>
+<FONT color="green">088</FONT>            public Iterator&lt;JCas&gt; iterator() {<a name="line.88"></a>
+<FONT color="green">089</FONT>                    return this;<a name="line.89"></a>
 <FONT color="green">090</FONT>            }<a name="line.90"></a>
 <FONT color="green">091</FONT>    <a name="line.91"></a>
-<FONT color="green">092</FONT>            public Iterator&lt;JCas&gt; iterator() {<a name="line.92"></a>
-<FONT color="green">093</FONT>                    return this;<a name="line.93"></a>
-<FONT color="green">094</FONT>            }<a name="line.94"></a>
-<FONT color="green">095</FONT>    <a name="line.95"></a>
-<FONT color="green">096</FONT>            public boolean hasNext() {<a name="line.96"></a>
-<FONT color="green">097</FONT>                    try {<a name="line.97"></a>
-<FONT color="green">098</FONT>                            return this.collectionReader.hasNext();<a name="line.98"></a>
-<FONT color="green">099</FONT>                    }<a name="line.99"></a>
-<FONT color="green">100</FONT>                    catch (CollectionException e) {<a name="line.100"></a>
-<FONT color="green">101</FONT>                            throw new IllegalStateException(e);<a name="line.101"></a>
-<FONT color="green">102</FONT>                    }<a name="line.102"></a>
-<FONT color="green">103</FONT>                    catch (IOException e) {<a name="line.103"></a>
-<FONT color="green">104</FONT>                            throw new IllegalStateException(e);<a name="line.104"></a>
-<FONT color="green">105</FONT>                    }<a name="line.105"></a>
-<FONT color="green">106</FONT>            }<a name="line.106"></a>
-<FONT color="green">107</FONT>    <a name="line.107"></a>
-<FONT color="green">108</FONT>            public JCas next() {<a name="line.108"></a>
-<FONT color="green">109</FONT>                    this.jCas.reset();<a name="line.109"></a>
-<FONT color="green">110</FONT>                    try {<a name="line.110"></a>
-<FONT color="green">111</FONT>                            this.collectionReader.getNext(this.jCas.getCas());<a name="line.111"></a>
-<FONT color="green">112</FONT>                            for (AnalysisEngine engine : this.analysisEngines) {<a name="line.112"></a>
-<FONT color="green">113</FONT>                                    engine.process(this.jCas);<a name="line.113"></a>
-<FONT color="green">114</FONT>                            }<a name="line.114"></a>
-<FONT color="green">115</FONT>                    }<a name="line.115"></a>
-<FONT color="green">116</FONT>                    catch (CollectionException e) {<a name="line.116"></a>
-<FONT color="green">117</FONT>                            throw new IllegalStateException(e);<a name="line.117"></a>
-<FONT color="green">118</FONT>                    }<a name="line.118"></a>
-<FONT color="green">119</FONT>                    catch (IOException e) {<a name="line.119"></a>
-<FONT color="green">120</FONT>                            throw new IllegalStateException(e);<a name="line.120"></a>
-<FONT color="green">121</FONT>                    }<a name="line.121"></a>
-<FONT color="green">122</FONT>                    catch (AnalysisEngineProcessException e) {<a name="line.122"></a>
-<FONT color="green">123</FONT>                            throw new IllegalStateException(e);<a name="line.123"></a>
-<FONT color="green">124</FONT>                    }<a name="line.124"></a>
-<FONT color="green">125</FONT>                    return this.jCas;<a name="line.125"></a>
+<FONT color="green">092</FONT>            public boolean hasNext() {<a name="line.92"></a>
+<FONT color="green">093</FONT>                    try {<a name="line.93"></a>
+<FONT color="green">094</FONT>                            return this.collectionReader.hasNext();<a name="line.94"></a>
+<FONT color="green">095</FONT>                    }<a name="line.95"></a>
+<FONT color="green">096</FONT>                    catch (CollectionException e) {<a name="line.96"></a>
+<FONT color="green">097</FONT>                            throw new IllegalStateException(e);<a name="line.97"></a>
+<FONT color="green">098</FONT>                    }<a name="line.98"></a>
+<FONT color="green">099</FONT>                    catch (IOException e) {<a name="line.99"></a>
+<FONT color="green">100</FONT>                            throw new IllegalStateException(e);<a name="line.100"></a>
+<FONT color="green">101</FONT>                    }<a name="line.101"></a>
+<FONT color="green">102</FONT>            }<a name="line.102"></a>
+<FONT color="green">103</FONT>    <a name="line.103"></a>
+<FONT color="green">104</FONT>            public JCas next() {<a name="line.104"></a>
+<FONT color="green">105</FONT>                    this.jCas.reset();<a name="line.105"></a>
+<FONT color="green">106</FONT>                    try {<a name="line.106"></a>
+<FONT color="green">107</FONT>                            this.collectionReader.getNext(this.jCas.getCas());<a name="line.107"></a>
+<FONT color="green">108</FONT>                            for (AnalysisEngine engine : this.analysisEngines) {<a name="line.108"></a>
+<FONT color="green">109</FONT>                                    engine.process(this.jCas);<a name="line.109"></a>
+<FONT color="green">110</FONT>                            }<a name="line.110"></a>
+<FONT color="green">111</FONT>                    }<a name="line.111"></a>
+<FONT color="green">112</FONT>                    catch (CollectionException e) {<a name="line.112"></a>
+<FONT color="green">113</FONT>                            throw new IllegalStateException(e);<a name="line.113"></a>
+<FONT color="green">114</FONT>                    }<a name="line.114"></a>
+<FONT color="green">115</FONT>                    catch (IOException e) {<a name="line.115"></a>
+<FONT color="green">116</FONT>                            throw new IllegalStateException(e);<a name="line.116"></a>
+<FONT color="green">117</FONT>                    }<a name="line.117"></a>
+<FONT color="green">118</FONT>                    catch (AnalysisEngineProcessException e) {<a name="line.118"></a>
+<FONT color="green">119</FONT>                            throw new IllegalStateException(e);<a name="line.119"></a>
+<FONT color="green">120</FONT>                    }<a name="line.120"></a>
+<FONT color="green">121</FONT>                    return this.jCas;<a name="line.121"></a>
+<FONT color="green">122</FONT>            }<a name="line.122"></a>
+<FONT color="green">123</FONT>    <a name="line.123"></a>
+<FONT color="green">124</FONT>            public void remove() {<a name="line.124"></a>
+<FONT color="green">125</FONT>                    throw new UnsupportedOperationException();<a name="line.125"></a>
 <FONT color="green">126</FONT>            }<a name="line.126"></a>
-<FONT color="green">127</FONT>    <a name="line.127"></a>
-<FONT color="green">128</FONT>            public void remove() {<a name="line.128"></a>
-<FONT color="green">129</FONT>                    throw new UnsupportedOperationException();<a name="line.129"></a>
-<FONT color="green">130</FONT>            }<a name="line.130"></a>
-<FONT color="green">131</FONT>    }<a name="line.131"></a>
+<FONT color="green">127</FONT>    }<a name="line.127"></a>
 
 
 

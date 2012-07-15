@@ -72,30 +72,27 @@
 <FONT color="green">069</FONT>    public class JCasGenPomFriendly {<a name="line.69"></a>
 <FONT color="green">070</FONT>            /**<a name="line.70"></a>
 <FONT color="green">071</FONT>             * See class-level javadoc for instructions on running this program.<a name="line.71"></a>
-<FONT color="green">072</FONT>             * <a name="line.72"></a>
-<FONT color="green">073</FONT>             * @param args<a name="line.73"></a>
-<FONT color="green">074</FONT>             * @throws Exception<a name="line.74"></a>
-<FONT color="green">075</FONT>             */<a name="line.75"></a>
-<FONT color="green">076</FONT>            public static void main(String[] args) throws Exception {<a name="line.76"></a>
-<FONT color="green">077</FONT>                    Jg jg = new Jg();<a name="line.77"></a>
-<FONT color="green">078</FONT>                    for (String file : TypeSystemDescriptionFactory.resolve(args[0].split(";"))) {<a name="line.78"></a>
-<FONT color="green">079</FONT>                            generate(jg, file, args[1], load(file));<a name="line.79"></a>
-<FONT color="green">080</FONT>                    }<a name="line.80"></a>
-<FONT color="green">081</FONT>            }<a name="line.81"></a>
-<FONT color="green">082</FONT>    <a name="line.82"></a>
-<FONT color="green">083</FONT>            private static TypeSystemDescription load(String location) throws IOException,<a name="line.83"></a>
-<FONT color="green">084</FONT>                            InvalidXMLException {<a name="line.84"></a>
-<FONT color="green">085</FONT>                    XMLInputSource xmlInputType1 = new XMLInputSource(location);<a name="line.85"></a>
-<FONT color="green">086</FONT>                    return getXMLParser().parseTypeSystemDescription(xmlInputType1);<a name="line.86"></a>
-<FONT color="green">087</FONT>            }<a name="line.87"></a>
-<FONT color="green">088</FONT>    <a name="line.88"></a>
-<FONT color="green">089</FONT>            private static void generate(Jg jg, String inputFile, String outputDirectory,<a name="line.89"></a>
-<FONT color="green">090</FONT>                            TypeSystemDescription tsd) throws IOException, ResourceInitializationException {<a name="line.90"></a>
-<FONT color="green">091</FONT>                    CAS cas = CasCreationUtils.createCas(tsd, null, null);<a name="line.91"></a>
-<FONT color="green">092</FONT>                    jg.mainForCde(null, new UimaLoggerProgressMonitor(), new LogThrowErrorImpl(), inputFile,<a name="line.92"></a>
-<FONT color="green">093</FONT>                                    outputDirectory, tsd.getTypes(), (CASImpl) cas);<a name="line.93"></a>
-<FONT color="green">094</FONT>            }<a name="line.94"></a>
-<FONT color="green">095</FONT>    }<a name="line.95"></a>
+<FONT color="green">072</FONT>             */<a name="line.72"></a>
+<FONT color="green">073</FONT>            public static void main(String[] args) throws Exception {<a name="line.73"></a>
+<FONT color="green">074</FONT>                    Jg jg = new Jg();<a name="line.74"></a>
+<FONT color="green">075</FONT>                    for (String file : TypeSystemDescriptionFactory.resolve(args[0].split(";"))) {<a name="line.75"></a>
+<FONT color="green">076</FONT>                            generate(jg, file, args[1], load(file));<a name="line.76"></a>
+<FONT color="green">077</FONT>                    }<a name="line.77"></a>
+<FONT color="green">078</FONT>            }<a name="line.78"></a>
+<FONT color="green">079</FONT>    <a name="line.79"></a>
+<FONT color="green">080</FONT>            private static TypeSystemDescription load(String location) throws IOException,<a name="line.80"></a>
+<FONT color="green">081</FONT>                            InvalidXMLException {<a name="line.81"></a>
+<FONT color="green">082</FONT>                    XMLInputSource xmlInputType1 = new XMLInputSource(location);<a name="line.82"></a>
+<FONT color="green">083</FONT>                    return getXMLParser().parseTypeSystemDescription(xmlInputType1);<a name="line.83"></a>
+<FONT color="green">084</FONT>            }<a name="line.84"></a>
+<FONT color="green">085</FONT>    <a name="line.85"></a>
+<FONT color="green">086</FONT>            private static void generate(Jg jg, String inputFile, String outputDirectory,<a name="line.86"></a>
+<FONT color="green">087</FONT>                            TypeSystemDescription tsd) throws IOException, ResourceInitializationException {<a name="line.87"></a>
+<FONT color="green">088</FONT>                    CAS cas = CasCreationUtils.createCas(tsd, null, null);<a name="line.88"></a>
+<FONT color="green">089</FONT>                    jg.mainForCde(null, new UimaLoggerProgressMonitor(), new LogThrowErrorImpl(), inputFile,<a name="line.89"></a>
+<FONT color="green">090</FONT>                                    outputDirectory, tsd.getTypes(), (CASImpl) cas);<a name="line.90"></a>
+<FONT color="green">091</FONT>            }<a name="line.91"></a>
+<FONT color="green">092</FONT>    }<a name="line.92"></a>
 
 
 

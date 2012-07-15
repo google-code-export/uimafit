@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-AnnotationFactory (uimaFIT 1.3.1 API)
+AnnotationFactory (uimaFIT 1.4.0 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ AnnotationFactory (uimaFIT 1.3.1 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="AnnotationFactory (uimaFIT 1.3.1 API)";
+        parent.document.title="AnnotationFactory (uimaFIT 1.4.0 API)";
     }
 }
 </SCRIPT>
@@ -162,7 +162,7 @@ T</CODE></FONT></TD>
 <A NAME="createAnnotation(org.apache.uima.jcas.JCas, int, int, java.lang.Class)"><!-- --></A><H3>
 createAnnotation</H3>
 <PRE>
-public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; T <A HREF="../../../src-html/org/uimafit/factory/AnnotationFactory.html#line.45"><B>createAnnotation</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
+public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas">Annotation</A>&gt; T <A HREF="../../../src-html/org/uimafit/factory/AnnotationFactory.html#line.37"><B>createAnnotation</B></A>(<A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas">JCas</A>&nbsp;jCas,
                                                         int&nbsp;begin,
                                                         int&nbsp;end,
                                                         <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;cls)
@@ -171,8 +171,7 @@ public static &lt;T extends <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidoc
 <DD>Provides a convenient way to create an annotation and addToIndexes in a single line.
 <P>
 <DD><DL>
-<DT><B>Type Parameters:</B><DD><CODE>T</CODE> - <DT><B>Parameters:</B><DD><CODE>jCas</CODE> - <DD><CODE>begin</CODE> - <DD><CODE>end</CODE> - <DD><CODE>cls</CODE> - 
-<DT><B>Returns:</B><DD>
+
 <DT><B>Throws:</B>
 <DD><CODE><A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/UIMAException.html?is-external=true" title="class or interface in org.apache.uima">UIMAException</A></CODE></DL>
 </DD>

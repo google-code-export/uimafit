@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>
-Index (uimaFIT 1.3.1 API)
+Index (uimaFIT 1.4.0 API)
 </TITLE>
 
 
@@ -14,7 +14,7 @@ Index (uimaFIT 1.3.1 API)
 function windowTitle()
 {
     if (location.href.indexOf('is-external=true') == -1) {
-        parent.document.title="Index (uimaFIT 1.3.1 API)";
+        parent.document.title="Index (uimaFIT 1.4.0 API)";
     }
 }
 </SCRIPT>
@@ -306,10 +306,19 @@ Method in class org.uimafit.util.<A HREF="./org/uimafit/util/ContainmentIndex.ht
  boundaries on another type.<DT><A HREF="./org/uimafit/util/ContainmentIndex.html#ContainmentIndex(org.apache.uima.cas.CAS, org.apache.uima.cas.Type, org.apache.uima.cas.Type, org.uimafit.util.ContainmentIndex.Type)"><B>ContainmentIndex(CAS, Type, Type, ContainmentIndex.Type)</B></A> - 
 Constructor for class org.uimafit.util.<A HREF="./org/uimafit/util/ContainmentIndex.html" title="class in org.uimafit.util">ContainmentIndex</A>
 <DD>Create a new index on the given JCas using the specified two types.
-<DT><A HREF="./org/uimafit/util/ContainmentIndex.Type.html" title="enum in org.uimafit.util"><B>ContainmentIndex.Type</B></A> - Enum in <A HREF="./org/uimafit/util/package-summary.html">org.uimafit.util</A><DD>&nbsp;<DT><A HREF="./org/uimafit/component/initialize/ConfigurationParameterInitializer.html#convertValue(java.lang.reflect.Field, java.lang.Object)"><B>convertValue(Field, Object)</B></A> - 
-Static method in class org.uimafit.component.initialize.<A HREF="./org/uimafit/component/initialize/ConfigurationParameterInitializer.html" title="class in org.uimafit.component.initialize">ConfigurationParameterInitializer</A>
-<DD>This method converts UIMA values to values that are appropriate for instantiating the
- annotated member variable.
+<DT><A HREF="./org/uimafit/util/ContainmentIndex.Type.html" title="enum in org.uimafit.util"><B>ContainmentIndex.Type</B></A> - Enum in <A HREF="./org/uimafit/util/package-summary.html">org.uimafit.util</A><DD>&nbsp;<DT><A HREF="./org/uimafit/util/JCasUtil.html#contains(org.apache.uima.jcas.JCas, org.apache.uima.cas.text.AnnotationFS, java.lang.Class)"><B>contains(JCas, AnnotationFS, Class&lt;? extends Annotation&gt;)</B></A> - 
+Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
+<DD>Check if the given annotation contains any annotation of the given type.
+<DT><A HREF="./org/uimafit/factory/ConfigurationParameterFactory.html#convertParameterValue(org.apache.uima.resource.metadata.ConfigurationParameter, java.lang.Object)"><B>convertParameterValue(ConfigurationParameter, Object)</B></A> - 
+Static method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/ConfigurationParameterFactory.html" title="class in org.uimafit.factory">ConfigurationParameterFactory</A>
+<DD>Convert a value so it can be injected into a UIMA component.
+<DT><A HREF="./org/uimafit/factory/CpeBuilder.html" title="class in org.uimafit.factory"><B>CpeBuilder</B></A> - Class in <A HREF="./org/uimafit/factory/package-summary.html">org.uimafit.factory</A><DD>Build a Collection Processing Engine from a <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/collection/CollectionReaderDescription.html?is-external=true" title="class or interface in org.apache.uima.collection"><CODE>CollectionReaderDescription</CODE></A> and a
+ <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/analysis_engine/AnalysisEngineDescription.html?is-external=true" title="class or interface in org.apache.uima.analysis_engine"><CODE>AnalysisEngineDescription</CODE></A>.<DT><A HREF="./org/uimafit/factory/CpeBuilder.html#CpeBuilder()"><B>CpeBuilder()</B></A> - 
+Constructor for class org.uimafit.factory.<A HREF="./org/uimafit/factory/CpeBuilder.html" title="class in org.uimafit.factory">CpeBuilder</A>
+<DD>&nbsp;
+<DT><A HREF="./org/uimafit/pipeline/CpePipeline.html" title="class in org.uimafit.pipeline"><B>CpePipeline</B></A> - Class in <A HREF="./org/uimafit/pipeline/package-summary.html">org.uimafit.pipeline</A><DD>&nbsp;<DT><A HREF="./org/uimafit/pipeline/CpePipeline.html#CpePipeline()"><B>CpePipeline()</B></A> - 
+Constructor for class org.uimafit.pipeline.<A HREF="./org/uimafit/pipeline/CpePipeline.html" title="class in org.uimafit.pipeline">CpePipeline</A>
+<DD>&nbsp;
 <DT><A HREF="./org/uimafit/factory/initializable/InitializableFactory.html#create(org.apache.uima.UimaContext, java.lang.String, java.lang.Class)"><B>create(UimaContext, String, Class&lt;T&gt;)</B></A> - 
 Static method in class org.uimafit.factory.initializable.<A HREF="./org/uimafit/factory/initializable/InitializableFactory.html" title="class in org.uimafit.factory.initializable">InitializableFactory</A>
 <DD>Provides a way to create an instance of T.
@@ -485,6 +494,9 @@ Static method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/Config
 <DD>This method provides a convenient way to generate a configuration parameter name for a member
  variable that is annotated with <A HREF="./org/uimafit/descriptor/ConfigurationParameter.html" title="annotation in org.uimafit.descriptor"><CODE>ConfigurationParameter</CODE></A> and no
  name is provided in the annotation.
+<DT><A HREF="./org/uimafit/factory/CpeBuilder.html#createCpe(org.apache.uima.collection.StatusCallbackListener)"><B>createCpe(StatusCallbackListener)</B></A> - 
+Method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/CpeBuilder.html" title="class in org.uimafit.factory">CpeBuilder</A>
+<DD>&nbsp;
 <DT><A HREF="./org/uimafit/factory/ExternalResourceFactory.html#createDependency(org.apache.uima.resource.ResourceSpecifier, java.lang.String, java.lang.Class)"><B>createDependency(ResourceSpecifier, String, Class&lt;?&gt;)</B></A> - 
 Static method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/ExternalResourceFactory.html" title="class in org.uimafit.factory">ExternalResourceFactory</A>
 <DD>Create a new dependency for the specified resource and bind it.
@@ -973,10 +985,7 @@ Constructor for class org.uimafit.util.<A HREF="./org/uimafit/util/FSCollectionF
 <DT><A HREF="./org/uimafit/descriptor/FsIndex.html" title="annotation in org.uimafit.descriptor"><B>FsIndex</B></A> - Annotation Type in <A HREF="./org/uimafit/descriptor/package-summary.html">org.uimafit.descriptor</A><DD>&nbsp;<DT><A HREF="./org/uimafit/descriptor/FsIndex.NoClassSet.html" title="class in org.uimafit.descriptor"><B>FsIndex.NoClassSet</B></A> - Class in <A HREF="./org/uimafit/descriptor/package-summary.html">org.uimafit.descriptor</A><DD>&nbsp;<DT><A HREF="./org/uimafit/descriptor/FsIndex.NoClassSet.html#FsIndex.NoClassSet()"><B>FsIndex.NoClassSet()</B></A> - 
 Constructor for class org.uimafit.descriptor.<A HREF="./org/uimafit/descriptor/FsIndex.NoClassSet.html" title="class in org.uimafit.descriptor">FsIndex.NoClassSet</A>
 <DD>&nbsp;
-<DT><A HREF="./org/uimafit/descriptor/FsIndexCollection.html" title="annotation in org.uimafit.descriptor"><B>FsIndexCollection</B></A> - Annotation Type in <A HREF="./org/uimafit/descriptor/package-summary.html">org.uimafit.descriptor</A><DD>&nbsp;<DT><A HREF="./org/uimafit/factory/FsIndexFactory.html" title="class in org.uimafit.factory"><B>FsIndexFactory</B></A> - Class in <A HREF="./org/uimafit/factory/package-summary.html">org.uimafit.factory</A><DD>&nbsp;<DT><A HREF="./org/uimafit/factory/FsIndexFactory.html#FsIndexFactory()"><B>FsIndexFactory()</B></A> - 
-Constructor for class org.uimafit.factory.<A HREF="./org/uimafit/factory/FsIndexFactory.html" title="class in org.uimafit.factory">FsIndexFactory</A>
-<DD>&nbsp;
-<DT><A HREF="./org/uimafit/descriptor/FsIndexKey.html" title="annotation in org.uimafit.descriptor"><B>FsIndexKey</B></A> - Annotation Type in <A HREF="./org/uimafit/descriptor/package-summary.html">org.uimafit.descriptor</A><DD>&nbsp;</DL>
+<DT><A HREF="./org/uimafit/descriptor/FsIndexCollection.html" title="annotation in org.uimafit.descriptor"><B>FsIndexCollection</B></A> - Annotation Type in <A HREF="./org/uimafit/descriptor/package-summary.html">org.uimafit.descriptor</A><DD>&nbsp;<DT><A HREF="./org/uimafit/factory/FsIndexFactory.html" title="class in org.uimafit.factory"><B>FsIndexFactory</B></A> - Class in <A HREF="./org/uimafit/factory/package-summary.html">org.uimafit.factory</A><DD>&nbsp;<DT><A HREF="./org/uimafit/descriptor/FsIndexKey.html" title="annotation in org.uimafit.descriptor"><B>FsIndexKey</B></A> - Annotation Type in <A HREF="./org/uimafit/descriptor/package-summary.html">org.uimafit.descriptor</A><DD>&nbsp;</DL>
 <HR>
 <A NAME="_G_"><!-- --></A><H2>
 <B>G</B></H2>
@@ -998,6 +1007,16 @@ Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD>Get the CAS type for the given JCas wrapper class type making sure it inherits from
  <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/tcas/Annotation.html?is-external=true" title="class or interface in org.apache.uima.jcas.tcas"><CODE>Annotation</CODE></A>.
+<DT><A HREF="./org/uimafit/propertyeditors/GetAsTextStringEditor.html#getAsText()"><B>getAsText()</B></A> - 
+Method in class org.uimafit.propertyeditors.<A HREF="./org/uimafit/propertyeditors/GetAsTextStringEditor.html" title="class in org.uimafit.propertyeditors">GetAsTextStringEditor</A>
+<DD>&nbsp;
+<DT><A HREF="./org/uimafit/propertyeditors/LocaleEditor.html#getAsText()"><B>getAsText()</B></A> - 
+Method in class org.uimafit.propertyeditors.<A HREF="./org/uimafit/propertyeditors/LocaleEditor.html" title="class in org.uimafit.propertyeditors">LocaleEditor</A>
+<DD>&nbsp;
+<DT><A HREF="./org/uimafit/propertyeditors/GetAsTextStringEditor.html" title="class in org.uimafit.propertyeditors"><B>GetAsTextStringEditor</B></A> - Class in <A HREF="./org/uimafit/propertyeditors/package-summary.html">org.uimafit.propertyeditors</A><DD>Custom property editor that tries to look convert and value to a string by checking if there is
+ a registered property editor for the source value.<DT><A HREF="./org/uimafit/propertyeditors/GetAsTextStringEditor.html#GetAsTextStringEditor(org.springframework.beans.PropertyEditorRegistry)"><B>GetAsTextStringEditor(PropertyEditorRegistry)</B></A> - 
+Constructor for class org.uimafit.propertyeditors.<A HREF="./org/uimafit/propertyeditors/GetAsTextStringEditor.html" title="class in org.uimafit.propertyeditors">GetAsTextStringEditor</A>
+<DD>&nbsp;
 <DT><A HREF="./org/uimafit/factory/initializable/InitializableFactory.html#getClass(java.lang.String, java.lang.Class)"><B>getClass(String, Class&lt;T&gt;)</B></A> - 
 Static method in class org.uimafit.factory.initializable.<A HREF="./org/uimafit/factory/initializable/InitializableFactory.html" title="class in org.uimafit.factory.initializable">InitializableFactory</A>
 <DD>&nbsp;
@@ -1312,9 +1331,9 @@ Method in class org.uimafit.util.<A HREF="./org/uimafit/util/ContainmentIndex.ht
 <DT><A HREF="./org/uimafit/util/ContainmentIndex.html#isContainedInAny(U)"><B>isContainedInAny(U)</B></A> - 
 Method in class org.uimafit.util.<A HREF="./org/uimafit/util/ContainmentIndex.html" title="class in org.uimafit.util">ContainmentIndex</A>
 <DD>Checks if the given covered type is contained in any instance of the covering type.
-<DT><A HREF="./org/uimafit/util/JCasUtil.html#isCovered(org.apache.uima.jcas.JCas, org.apache.uima.jcas.tcas.Annotation, java.lang.Class)"><B>isCovered(JCas, Annotation, Class&lt;? extends Annotation&gt;)</B></A> - 
+<DT><A HREF="./org/uimafit/util/JCasUtil.html#isCovered(org.apache.uima.jcas.JCas, org.apache.uima.cas.text.AnnotationFS, java.lang.Class)"><B>isCovered(JCas, AnnotationFS, Class&lt;? extends Annotation&gt;)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
-<DD>Check if the given annotation contains any annotation of the given type.
+<DD><B>Deprecated.</B>&nbsp;<I>use <A HREF="./org/uimafit/util/JCasUtil.html#contains(org.apache.uima.jcas.JCas, org.apache.uima.cas.text.AnnotationFS, java.lang.Class)"><CODE>JCasUtil.contains(org.apache.uima.jcas.JCas, org.apache.uima.cas.text.AnnotationFS, java.lang.Class<? extends org.apache.uima.jcas.tcas.Annotation>)</CODE></A></I>
 <DT><A HREF="./org/uimafit/util/ExtendedLogger.html#isDebugEnabled()"><B>isDebugEnabled()</B></A> - 
 Method in class org.uimafit.util.<A HREF="./org/uimafit/util/ExtendedLogger.html" title="class in org.uimafit.util">ExtendedLogger</A>
 <DD>&nbsp;
@@ -1339,10 +1358,10 @@ Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html
 <DT><A HREF="./org/uimafit/util/JCasUtil.html#iterate(org.apache.uima.jcas.JCas, java.lang.Class)"><B>iterate(JCas, Class&lt;T&gt;)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD><B>Deprecated.</B>&nbsp;<I>use <A HREF="./org/uimafit/util/JCasUtil.html#select(org.apache.uima.jcas.cas.FSArray, java.lang.Class)"><CODE>JCasUtil.select(org.apache.uima.jcas.cas.FSArray, java.lang.Class<T>)</CODE></A></I>
-<DT><A HREF="./org/uimafit/util/JCasUtil.html#iterate(java.lang.Class, org.apache.uima.jcas.tcas.Annotation)"><B>iterate(Class&lt;T&gt;, Annotation)</B></A> - 
+<DT><A HREF="./org/uimafit/util/JCasUtil.html#iterate(java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><B>iterate(Class&lt;T&gt;, AnnotationFS)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD><B>Deprecated.</B>&nbsp;<I>use <A HREF="./org/uimafit/util/JCasUtil.html#selectCovered(java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><CODE>JCasUtil.selectCovered(java.lang.Class<T>, org.apache.uima.cas.text.AnnotationFS)</CODE></A></I>
-<DT><A HREF="./org/uimafit/util/JCasUtil.html#iterate(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation)"><B>iterate(JCas, Class&lt;T&gt;, Annotation)</B></A> - 
+<DT><A HREF="./org/uimafit/util/JCasUtil.html#iterate(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><B>iterate(JCas, Class&lt;T&gt;, AnnotationFS)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD><B>Deprecated.</B>&nbsp;<I>use <A HREF="./org/uimafit/util/JCasUtil.html#selectCovered(java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><CODE>JCasUtil.selectCovered(java.lang.Class<T>, org.apache.uima.cas.text.AnnotationFS)</CODE></A></I>
 <DT><A HREF="./org/uimafit/util/CasUtil.html#iterateFS(org.apache.uima.cas.CAS, org.apache.uima.cas.Type)"><B>iterateFS(CAS, Type)</B></A> - 
@@ -1357,7 +1376,7 @@ Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html
 <DT><A HREF="./org/uimafit/util/JCasUtil.html#iterator(org.apache.uima.jcas.JCas, java.lang.Class)"><B>iterator(JCas, Class&lt;T&gt;)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD>Get an iterator over the given feature structure type.
-<DT><A HREF="./org/uimafit/util/JCasUtil.html#iterator(org.apache.uima.jcas.tcas.Annotation, java.lang.Class, boolean, boolean)"><B>iterator(Annotation, Class&lt;T&gt;, boolean, boolean)</B></A> - 
+<DT><A HREF="./org/uimafit/util/JCasUtil.html#iterator(org.apache.uima.cas.text.AnnotationFS, java.lang.Class, boolean, boolean)"><B>iterator(AnnotationFS, Class&lt;T&gt;, boolean, boolean)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD>Convenience method to get a sub-iterator for the specified type.
 <DT><A HREF="./org/uimafit/util/CasUtil.html#iteratorFS(org.apache.uima.cas.CAS, org.apache.uima.cas.Type)"><B>iteratorFS(CAS, Type)</B></A> - 
@@ -1448,10 +1467,11 @@ Static method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/JCasFa
 Static method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/JCasFactory.html" title="class in org.uimafit.factory">JCasFactory</A>
 <DD>This method takes a JCas, resets it, and loads it with the contents of an XMI or XCAS input
  stream
-<DT><A HREF="./org/uimafit/util/LocaleUtil.html" title="class in org.uimafit.util"><B>LocaleUtil</B></A> - Class in <A HREF="./org/uimafit/util/package-summary.html">org.uimafit.util</A><DD>&nbsp;<DT><A HREF="./org/uimafit/util/LocaleUtil.html#LocaleUtil()"><B>LocaleUtil()</B></A> - 
-Constructor for class org.uimafit.util.<A HREF="./org/uimafit/util/LocaleUtil.html" title="class in org.uimafit.util">LocaleUtil</A>
+<DT><A HREF="./org/uimafit/propertyeditors/LocaleEditor.html" title="class in org.uimafit.propertyeditors"><B>LocaleEditor</B></A> - Class in <A HREF="./org/uimafit/propertyeditors/package-summary.html">org.uimafit.propertyeditors</A><DD>Custom property editor for <A HREF="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Locale.html?is-external=true" title="class or interface in java.util"><CODE>Locale</CODE></A> that supports "-" as separator and sets the default
+ locale when <code>null</code> or <code>""</code> is passed.<DT><A HREF="./org/uimafit/propertyeditors/LocaleEditor.html#LocaleEditor()"><B>LocaleEditor()</B></A> - 
+Constructor for class org.uimafit.propertyeditors.<A HREF="./org/uimafit/propertyeditors/LocaleEditor.html" title="class in org.uimafit.propertyeditors">LocaleEditor</A>
 <DD>&nbsp;
-<DT><A HREF="./org/uimafit/util/ExtendedLogger.html#log(java.lang.String)"><B>log(String)</B></A> - 
+<DT><A HREF="./org/uimafit/util/LocaleUtil.html" title="class in org.uimafit.util"><B>LocaleUtil</B></A> - Class in <A HREF="./org/uimafit/util/package-summary.html">org.uimafit.util</A><DD>&nbsp;<DT><A HREF="./org/uimafit/util/ExtendedLogger.html#log(java.lang.String)"><B>log(String)</B></A> - 
 Method in class org.uimafit.util.<A HREF="./org/uimafit/util/ExtendedLogger.html" title="class in org.uimafit.util">ExtendedLogger</A>
 <DD><B>Deprecated.</B>&nbsp;
 <DT><A HREF="./org/uimafit/util/ExtendedLogger.html#log(java.lang.String, java.lang.String, java.lang.Object[])"><B>log(String, String, Object[])</B></A> - 
@@ -1558,7 +1578,7 @@ Constructor for class org.uimafit.component.<A HREF="./org/uimafit/component/NoO
 <A NAME="_O_"><!-- --></A><H2>
 <B>O</B></H2>
 <DL>
-<DT><A HREF="./org/uimafit/descriptor/OperationalProperties.html" title="annotation in org.uimafit.descriptor"><B>OperationalProperties</B></A> - Annotation Type in <A HREF="./org/uimafit/descriptor/package-summary.html">org.uimafit.descriptor</A><DD>Control aspects of the UIMA analysis component.<DT><A HREF="./org/uimafit/component/package-summary.html"><B>org.uimafit.component</B></A> - package org.uimafit.component<DD>uimaFIT-enhanced base classes for UIMA components and some simple components.<DT><A HREF="./org/uimafit/component/initialize/package-summary.html"><B>org.uimafit.component.initialize</B></A> - package org.uimafit.component.initialize<DD>Reflection-based context and dependency injection.<DT><A HREF="./org/uimafit/component/xwriter/package-summary.html"><B>org.uimafit.component.xwriter</B></A> - package org.uimafit.component.xwriter<DD>&nbsp;<DT><A HREF="./org/uimafit/descriptor/package-summary.html"><B>org.uimafit.descriptor</B></A> - package org.uimafit.descriptor<DD>uimaFIT annotations used for dependency injection.<DT><A HREF="./org/uimafit/examples/experiment/pos/package-summary.html"><B>org.uimafit.examples.experiment.pos</B></A> - package org.uimafit.examples.experiment.pos<DD>Example for an UIMA-based experiment running an analysis and evaluating the results.<DT><A HREF="./org/uimafit/examples/getstarted/package-summary.html"><B>org.uimafit.examples.getstarted</B></A> - package org.uimafit.examples.getstarted<DD>Example for a simple analysis engine and pipeline.<DT><A HREF="./org/uimafit/examples/resource/package-summary.html"><B>org.uimafit.examples.resource</B></A> - package org.uimafit.examples.resource<DD>Examples for using the <A HREF="./org/uimafit/descriptor/ExternalResource.html" title="annotation in org.uimafit.descriptor"><CODE>ExternalResource</CODE></A> annotation.<DT><A HREF="./org/uimafit/examples/tutorial/ex1/package-summary.html"><B>org.uimafit.examples.tutorial.ex1</B></A> - package org.uimafit.examples.tutorial.ex1<DD>Example for using the <A HREF="./org/uimafit/descriptor/TypeCapability.html" title="annotation in org.uimafit.descriptor"><CODE>TypeCapability</CODE></A> annotation.<DT><A HREF="./org/uimafit/examples/tutorial/ex2/package-summary.html"><B>org.uimafit.examples.tutorial.ex2</B></A> - package org.uimafit.examples.tutorial.ex2<DD>Example for using the <A HREF="./org/uimafit/descriptor/ConfigurationParameter.html" title="annotation in org.uimafit.descriptor"><CODE>ConfigurationParameter</CODE></A> annotation.<DT><A HREF="./org/uimafit/examples/tutorial/ex6/package-summary.html"><B>org.uimafit.examples.tutorial.ex6</B></A> - package org.uimafit.examples.tutorial.ex6<DD>Example for using the <A HREF="./org/uimafit/descriptor/ExternalResource.html" title="annotation in org.uimafit.descriptor"><CODE>ExternalResource</CODE></A> annotation.<DT><A HREF="./org/uimafit/factory/package-summary.html"><B>org.uimafit.factory</B></A> - package org.uimafit.factory<DD>Factories to create different kinds of UIMA resource specifiers.<DT><A HREF="./org/uimafit/factory/initializable/package-summary.html"><B>org.uimafit.factory.initializable</B></A> - package org.uimafit.factory.initializable<DD>&nbsp;<DT><A HREF="./org/uimafit/factory/locator/package-summary.html"><B>org.uimafit.factory.locator</B></A> - package org.uimafit.factory.locator<DD>&nbsp;<DT><A HREF="./org/uimafit/pipeline/package-summary.html"><B>org.uimafit.pipeline</B></A> - package org.uimafit.pipeline<DD>Executing UIMA pipelines.<DT><A HREF="./org/uimafit/spring/package-summary.html"><B>org.uimafit.spring</B></A> - package org.uimafit.spring<DD>&nbsp;<DT><A HREF="./org/uimafit/spring/factory/package-summary.html"><B>org.uimafit.spring.factory</B></A> - package org.uimafit.spring.factory<DD>&nbsp;<DT><A HREF="./org/uimafit/spring/util/package-summary.html"><B>org.uimafit.spring.util</B></A> - package org.uimafit.spring.util<DD>&nbsp;<DT><A HREF="./org/uimafit/testing/factory/package-summary.html"><B>org.uimafit.testing.factory</B></A> - package org.uimafit.testing.factory<DD>&nbsp;<DT><A HREF="./org/uimafit/testing/util/package-summary.html"><B>org.uimafit.testing.util</B></A> - package org.uimafit.testing.util<DD>&nbsp;<DT><A HREF="./org/uimafit/util/package-summary.html"><B>org.uimafit.util</B></A> - package org.uimafit.util<DD>Utility classes like <A HREF="./org/uimafit/util/CasUtil.html" title="class in org.uimafit.util"><CODE>CasUtil</CODE></A> and <A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util"><CODE>JCasUtil</CODE></A>.<DT><A HREF="./org/uimafit/testing/util/HideOutput.html#out"><B>out</B></A> - 
+<DT><A HREF="./org/uimafit/descriptor/OperationalProperties.html" title="annotation in org.uimafit.descriptor"><B>OperationalProperties</B></A> - Annotation Type in <A HREF="./org/uimafit/descriptor/package-summary.html">org.uimafit.descriptor</A><DD>Control aspects of the UIMA analysis component.<DT><A HREF="./org/uimafit/component/package-summary.html"><B>org.uimafit.component</B></A> - package org.uimafit.component<DD>uimaFIT-enhanced base classes for UIMA components and some simple components.<DT><A HREF="./org/uimafit/component/initialize/package-summary.html"><B>org.uimafit.component.initialize</B></A> - package org.uimafit.component.initialize<DD>Reflection-based context and dependency injection.<DT><A HREF="./org/uimafit/component/xwriter/package-summary.html"><B>org.uimafit.component.xwriter</B></A> - package org.uimafit.component.xwriter<DD>&nbsp;<DT><A HREF="./org/uimafit/descriptor/package-summary.html"><B>org.uimafit.descriptor</B></A> - package org.uimafit.descriptor<DD>uimaFIT annotations used for dependency injection.<DT><A HREF="./org/uimafit/examples/experiment/pos/package-summary.html"><B>org.uimafit.examples.experiment.pos</B></A> - package org.uimafit.examples.experiment.pos<DD>Example for an UIMA-based experiment running an analysis and evaluating the results.<DT><A HREF="./org/uimafit/examples/getstarted/package-summary.html"><B>org.uimafit.examples.getstarted</B></A> - package org.uimafit.examples.getstarted<DD>Example for a simple analysis engine and pipeline.<DT><A HREF="./org/uimafit/examples/resource/package-summary.html"><B>org.uimafit.examples.resource</B></A> - package org.uimafit.examples.resource<DD>Examples for using the <A HREF="./org/uimafit/descriptor/ExternalResource.html" title="annotation in org.uimafit.descriptor"><CODE>ExternalResource</CODE></A> annotation.<DT><A HREF="./org/uimafit/examples/tutorial/ex1/package-summary.html"><B>org.uimafit.examples.tutorial.ex1</B></A> - package org.uimafit.examples.tutorial.ex1<DD>Example for using the <A HREF="./org/uimafit/descriptor/TypeCapability.html" title="annotation in org.uimafit.descriptor"><CODE>TypeCapability</CODE></A> annotation.<DT><A HREF="./org/uimafit/examples/tutorial/ex2/package-summary.html"><B>org.uimafit.examples.tutorial.ex2</B></A> - package org.uimafit.examples.tutorial.ex2<DD>Example for using the <A HREF="./org/uimafit/descriptor/ConfigurationParameter.html" title="annotation in org.uimafit.descriptor"><CODE>ConfigurationParameter</CODE></A> annotation.<DT><A HREF="./org/uimafit/examples/tutorial/ex6/package-summary.html"><B>org.uimafit.examples.tutorial.ex6</B></A> - package org.uimafit.examples.tutorial.ex6<DD>Example for using the <A HREF="./org/uimafit/descriptor/ExternalResource.html" title="annotation in org.uimafit.descriptor"><CODE>ExternalResource</CODE></A> annotation.<DT><A HREF="./org/uimafit/factory/package-summary.html"><B>org.uimafit.factory</B></A> - package org.uimafit.factory<DD>Factories to create different kinds of UIMA resource specifiers.<DT><A HREF="./org/uimafit/factory/initializable/package-summary.html"><B>org.uimafit.factory.initializable</B></A> - package org.uimafit.factory.initializable<DD>&nbsp;<DT><A HREF="./org/uimafit/factory/locator/package-summary.html"><B>org.uimafit.factory.locator</B></A> - package org.uimafit.factory.locator<DD>&nbsp;<DT><A HREF="./org/uimafit/pipeline/package-summary.html"><B>org.uimafit.pipeline</B></A> - package org.uimafit.pipeline<DD>Executing UIMA pipelines.<DT><A HREF="./org/uimafit/propertyeditors/package-summary.html"><B>org.uimafit.propertyeditors</B></A> - package org.uimafit.propertyeditors<DD>&nbsp;<DT><A HREF="./org/uimafit/spring/package-summary.html"><B>org.uimafit.spring</B></A> - package org.uimafit.spring<DD>&nbsp;<DT><A HREF="./org/uimafit/spring/factory/package-summary.html"><B>org.uimafit.spring.factory</B></A> - package org.uimafit.spring.factory<DD>&nbsp;<DT><A HREF="./org/uimafit/spring/util/package-summary.html"><B>org.uimafit.spring.util</B></A> - package org.uimafit.spring.util<DD>&nbsp;<DT><A HREF="./org/uimafit/testing/factory/package-summary.html"><B>org.uimafit.testing.factory</B></A> - package org.uimafit.testing.factory<DD>&nbsp;<DT><A HREF="./org/uimafit/testing/util/package-summary.html"><B>org.uimafit.testing.util</B></A> - package org.uimafit.testing.util<DD>&nbsp;<DT><A HREF="./org/uimafit/util/package-summary.html"><B>org.uimafit.util</B></A> - package org.uimafit.util<DD>Utility classes like <A HREF="./org/uimafit/util/CasUtil.html" title="class in org.uimafit.util"><CODE>CasUtil</CODE></A> and <A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util"><CODE>JCasUtil</CODE></A>.<DT><A HREF="./org/uimafit/testing/util/HideOutput.html#out"><B>out</B></A> - 
 Variable in class org.uimafit.testing.util.<A HREF="./org/uimafit/testing/util/HideOutput.html" title="class in org.uimafit.testing.util">HideOutput</A>
 <DD>&nbsp;
 <DT><A HREF="./org/uimafit/descriptor/OperationalProperties.html#OUTPUTS_NEW_CASES_DEFAULT"><B>OUTPUTS_NEW_CASES_DEFAULT</B></A> - 
@@ -1696,12 +1716,15 @@ Method in class org.uimafit.spring.factory.<A HREF="./org/uimafit/spring/factory
 <DT><A HREF="./org/uimafit/spring/factory/CustomResourceFactory_impl.html#produceResource(java.lang.Class, org.apache.uima.resource.ResourceSpecifier, java.util.Map)"><B>produceResource(Class&lt;? extends Resource&gt;, ResourceSpecifier, Map&lt;String, Object&gt;)</B></A> - 
 Method in class org.uimafit.spring.factory.<A HREF="./org/uimafit/spring/factory/CustomResourceFactory_impl.html" title="class in org.uimafit.spring.factory">CustomResourceFactory_impl</A>
 <DD>&nbsp;
-</DL>
+<DT><A HREF="./org/uimafit/propertyeditors/PropertyEditorUtil.html" title="class in org.uimafit.propertyeditors"><B>PropertyEditorUtil</B></A> - Class in <A HREF="./org/uimafit/propertyeditors/package-summary.html">org.uimafit.propertyeditors</A><DD>&nbsp;</DL>
 <HR>
 <A NAME="_R_"><!-- --></A><H2>
 <B>R</B></H2>
 <DL>
-<DT><A HREF="./org/uimafit/util/ReflectionUtil.html" title="class in org.uimafit.util"><B>ReflectionUtil</B></A> - Class in <A HREF="./org/uimafit/util/package-summary.html">org.uimafit.util</A><DD>&nbsp;<DT><A HREF="./org/uimafit/pipeline/JCasIterable.html#remove()"><B>remove()</B></A> - 
+<DT><A HREF="./org/uimafit/util/ReflectionUtil.html" title="class in org.uimafit.util"><B>ReflectionUtil</B></A> - Class in <A HREF="./org/uimafit/util/package-summary.html">org.uimafit.util</A><DD>&nbsp;<DT><A HREF="./org/uimafit/propertyeditors/PropertyEditorUtil.html#registerUimaFITEditors(org.springframework.beans.PropertyEditorRegistry)"><B>registerUimaFITEditors(PropertyEditorRegistry)</B></A> - 
+Static method in class org.uimafit.propertyeditors.<A HREF="./org/uimafit/propertyeditors/PropertyEditorUtil.html" title="class in org.uimafit.propertyeditors">PropertyEditorUtil</A>
+<DD>&nbsp;
+<DT><A HREF="./org/uimafit/pipeline/JCasIterable.html#remove()"><B>remove()</B></A> - 
 Method in class org.uimafit.pipeline.<A HREF="./org/uimafit/pipeline/JCasIterable.html" title="class in org.uimafit.pipeline">JCasIterable</A>
 <DD>&nbsp;
 <DT><A HREF="./org/uimafit/factory/TypeSystemDescriptionFactory.html#resolve(java.lang.String...)"><B>resolve(String...)</B></A> - 
@@ -1746,6 +1769,9 @@ Constructor for class org.uimafit.examples.tutorial.ex2.<A HREF="./org/uimafit/e
  works against that data.<DT><A HREF="./org/uimafit/examples/experiment/pos/RunExperiment.html#RunExperiment()"><B>RunExperiment()</B></A> - 
 Constructor for class org.uimafit.examples.experiment.pos.<A HREF="./org/uimafit/examples/experiment/pos/RunExperiment.html" title="class in org.uimafit.examples.experiment.pos">RunExperiment</A>
 <DD>&nbsp;
+<DT><A HREF="./org/uimafit/pipeline/CpePipeline.html#runPipeline(org.apache.uima.collection.CollectionReaderDescription, org.apache.uima.analysis_engine.AnalysisEngineDescription...)"><B>runPipeline(CollectionReaderDescription, AnalysisEngineDescription...)</B></A> - 
+Static method in class org.uimafit.pipeline.<A HREF="./org/uimafit/pipeline/CpePipeline.html" title="class in org.uimafit.pipeline">CpePipeline</A>
+<DD>Run the CollectionReader and AnalysisEngines as a multi-threaded pipeline.
 <DT><A HREF="./org/uimafit/pipeline/SimplePipeline.html#runPipeline(org.apache.uima.collection.CollectionReader, org.apache.uima.analysis_engine.AnalysisEngineDescription...)"><B>runPipeline(CollectionReader, AnalysisEngineDescription...)</B></A> - 
 Static method in class org.uimafit.pipeline.<A HREF="./org/uimafit/pipeline/SimplePipeline.html" title="class in org.uimafit.pipeline">SimplePipeline</A>
 <DD>Run the CollectionReader and AnalysisEngines as a pipeline.
@@ -1797,6 +1823,15 @@ Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.htm
 <DT><A HREF="./org/uimafit/util/JCasUtil.html#select(org.apache.uima.jcas.JCas, java.lang.Class)"><B>select(JCas, Class&lt;T&gt;)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD>Convenience method to iterator over all features structures of a given type.
+<DT><A HREF="./org/uimafit/util/CasUtil.html#selectAll(org.apache.uima.cas.CAS)"><B>selectAll(CAS)</B></A> - 
+Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html" title="class in org.uimafit.util">CasUtil</A>
+<DD>Convenience method to iterator over all annotations.
+<DT><A HREF="./org/uimafit/util/JCasUtil.html#selectAll(org.apache.uima.jcas.JCas)"><B>selectAll(JCas)</B></A> - 
+Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
+<DD>Convenience method to iterator over all features structures.
+<DT><A HREF="./org/uimafit/util/CasUtil.html#selectAllFS(org.apache.uima.cas.CAS)"><B>selectAllFS(CAS)</B></A> - 
+Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html" title="class in org.uimafit.util">CasUtil</A>
+<DD>Convenience method to iterator over all features structures.
 <DT><A HREF="./org/uimafit/util/CasUtil.html#selectBetween(org.apache.uima.cas.Type, org.apache.uima.cas.text.AnnotationFS, org.apache.uima.cas.text.AnnotationFS)"><B>selectBetween(Type, AnnotationFS, AnnotationFS)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html" title="class in org.uimafit.util">CasUtil</A>
 <DD>Get a list of annotations of the given annotation type located between two annotations.
@@ -1828,7 +1863,7 @@ Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD>Get a list of annotations of the given annotation type constrained by a 'covering'
  annotation.
-<DT><A HREF="./org/uimafit/util/JCasUtil.html#selectCovered(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation)"><B>selectCovered(JCas, Class&lt;T&gt;, Annotation)</B></A> - 
+<DT><A HREF="./org/uimafit/util/JCasUtil.html#selectCovered(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS)"><B>selectCovered(JCas, Class&lt;T&gt;, AnnotationFS)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD>Get a list of annotations of the given annotation type constrained by a 'covering'
  annotation.
@@ -1842,10 +1877,10 @@ Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html
 <DT><A HREF="./org/uimafit/util/JCasUtil.html#selectCovering(org.apache.uima.jcas.JCas, java.lang.Class, int, int)"><B>selectCovering(JCas, Class&lt;T&gt;, int, int)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD>Get a list of annotations of the given annotation type constraint by a certain annotation.
-<DT><A HREF="./org/uimafit/util/CasUtil.html#selectFollowing(org.apache.uima.cas.CAS, org.apache.uima.cas.Type, org.apache.uima.jcas.tcas.Annotation, int)"><B>selectFollowing(CAS, Type, Annotation, int)</B></A> - 
+<DT><A HREF="./org/uimafit/util/CasUtil.html#selectFollowing(org.apache.uima.cas.CAS, org.apache.uima.cas.Type, org.apache.uima.cas.text.AnnotationFS, int)"><B>selectFollowing(CAS, Type, AnnotationFS, int)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html" title="class in org.uimafit.util">CasUtil</A>
 <DD>Returns the n annotations following the given annotation
-<DT><A HREF="./org/uimafit/util/JCasUtil.html#selectFollowing(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation, int)"><B>selectFollowing(JCas, Class&lt;T&gt;, Annotation, int)</B></A> - 
+<DT><A HREF="./org/uimafit/util/JCasUtil.html#selectFollowing(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, int)"><B>selectFollowing(JCas, Class&lt;T&gt;, AnnotationFS, int)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD>Returns the n annotations following the given annotation
 <DT><A HREF="./org/uimafit/util/CasUtil.html#selectFS(org.apache.uima.cas.ArrayFS, org.apache.uima.cas.Type)"><B>selectFS(ArrayFS, Type)</B></A> - 
@@ -1857,10 +1892,10 @@ Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html
 <DT><A HREF="./org/uimafit/util/CasUtil.html#selectFSByIndex(org.apache.uima.cas.CAS, org.apache.uima.cas.Type, int)"><B>selectFSByIndex(CAS, Type, int)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html" title="class in org.uimafit.util">CasUtil</A>
 <DD>This method exists simply as a convenience method for unit testing.
-<DT><A HREF="./org/uimafit/util/CasUtil.html#selectPreceding(org.apache.uima.cas.CAS, org.apache.uima.cas.Type, org.apache.uima.jcas.tcas.Annotation, int)"><B>selectPreceding(CAS, Type, Annotation, int)</B></A> - 
+<DT><A HREF="./org/uimafit/util/CasUtil.html#selectPreceding(org.apache.uima.cas.CAS, org.apache.uima.cas.Type, org.apache.uima.cas.text.AnnotationFS, int)"><B>selectPreceding(CAS, Type, AnnotationFS, int)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html" title="class in org.uimafit.util">CasUtil</A>
 <DD>Returns the n annotations preceding the given annotation
-<DT><A HREF="./org/uimafit/util/JCasUtil.html#selectPreceding(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation, int)"><B>selectPreceding(JCas, Class&lt;T&gt;, Annotation, int)</B></A> - 
+<DT><A HREF="./org/uimafit/util/JCasUtil.html#selectPreceding(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, int)"><B>selectPreceding(JCas, Class&lt;T&gt;, AnnotationFS, int)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD>Returns the n annotations preceding the given annotation
 <DT><A HREF="./org/uimafit/util/CasUtil.html#selectSingle(org.apache.uima.cas.CAS, org.apache.uima.cas.Type)"><B>selectSingle(CAS, Type)</B></A> - 
@@ -1869,8 +1904,23 @@ Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html
 <DT><A HREF="./org/uimafit/util/JCasUtil.html#selectSingle(org.apache.uima.jcas.JCas, java.lang.Class)"><B>selectSingle(JCas, Class&lt;T&gt;)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD>Get the single instance of the specified type from the JCas.
+<DT><A HREF="./org/uimafit/util/CasUtil.html#selectSingleRelative(org.apache.uima.cas.Type, org.apache.uima.cas.text.AnnotationFS, int)"><B>selectSingleRelative(Type, AnnotationFS, int)</B></A> - 
+Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html" title="class in org.uimafit.util">CasUtil</A>
+<DD>Return an annotation preceding or following of a given reference annotation.
+<DT><A HREF="./org/uimafit/util/CasUtil.html#selectSingleRelative(org.apache.uima.cas.CAS, org.apache.uima.cas.Type, org.apache.uima.cas.text.AnnotationFS, int)"><B>selectSingleRelative(CAS, Type, AnnotationFS, int)</B></A> - 
+Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/CasUtil.html" title="class in org.uimafit.util">CasUtil</A>
+<DD>Return an annotation preceding or following of a given reference annotation.
+<DT><A HREF="./org/uimafit/util/JCasUtil.html#selectSingleRelative(java.lang.Class, org.apache.uima.cas.text.AnnotationFS, int)"><B>selectSingleRelative(Class&lt;T&gt;, AnnotationFS, int)</B></A> - 
+Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
+<DD>Return an annotation preceding or following of a given reference annotation.
+<DT><A HREF="./org/uimafit/util/JCasUtil.html#selectSingleRelative(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, int)"><B>selectSingleRelative(JCas, Class&lt;T&gt;, AnnotationFS, int)</B></A> - 
+Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
+<DD>Return an annotation preceding or following of a given reference annotation.
 <DT><A HREF="./org/uimafit/examples/experiment/pos/SentenceAndTokenCopier.html" title="class in org.uimafit.examples.experiment.pos"><B>SentenceAndTokenCopier</B></A> - Class in <A HREF="./org/uimafit/examples/experiment/pos/package-summary.html">org.uimafit.examples.experiment.pos</A><DD>This simple AE copies tokens and sentences from one view to another.<DT><A HREF="./org/uimafit/examples/experiment/pos/SentenceAndTokenCopier.html#SentenceAndTokenCopier()"><B>SentenceAndTokenCopier()</B></A> - 
 Constructor for class org.uimafit.examples.experiment.pos.<A HREF="./org/uimafit/examples/experiment/pos/SentenceAndTokenCopier.html" title="class in org.uimafit.examples.experiment.pos">SentenceAndTokenCopier</A>
+<DD>&nbsp;
+<DT><A HREF="./org/uimafit/factory/CpeBuilder.html#setAnalysisEngine(org.apache.uima.analysis_engine.AnalysisEngineDescription)"><B>setAnalysisEngine(AnalysisEngineDescription)</B></A> - 
+Method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/CpeBuilder.html" title="class in org.uimafit.factory">CpeBuilder</A>
 <DD>&nbsp;
 <DT><A HREF="./org/uimafit/spring/factory/AnalysisEngineFactory_impl.html#setApplicationContext(org.springframework.context.ApplicationContext)"><B>setApplicationContext(ApplicationContext)</B></A> - 
 Method in class org.uimafit.spring.factory.<A HREF="./org/uimafit/spring/factory/AnalysisEngineFactory_impl.html" title="class in org.uimafit.spring.factory">AnalysisEngineFactory_impl</A>
@@ -1890,6 +1940,12 @@ Method in class org.uimafit.spring.factory.<A HREF="./org/uimafit/spring/factory
 <DT><A HREF="./org/uimafit/spring/SpringContextResourceManager.html#setApplicationContext(org.springframework.context.ApplicationContext)"><B>setApplicationContext(ApplicationContext)</B></A> - 
 Method in class org.uimafit.spring.<A HREF="./org/uimafit/spring/SpringContextResourceManager.html" title="class in org.uimafit.spring">SpringContextResourceManager</A>
 <DD>&nbsp;
+<DT><A HREF="./org/uimafit/propertyeditors/GetAsTextStringEditor.html#setAsText(java.lang.String)"><B>setAsText(String)</B></A> - 
+Method in class org.uimafit.propertyeditors.<A HREF="./org/uimafit/propertyeditors/GetAsTextStringEditor.html" title="class in org.uimafit.propertyeditors">GetAsTextStringEditor</A>
+<DD>&nbsp;
+<DT><A HREF="./org/uimafit/propertyeditors/LocaleEditor.html#setAsText(java.lang.String)"><B>setAsText(String)</B></A> - 
+Method in class org.uimafit.propertyeditors.<A HREF="./org/uimafit/propertyeditors/LocaleEditor.html" title="class in org.uimafit.propertyeditors">LocaleEditor</A>
+<DD>&nbsp;
 <DT><A HREF="./org/uimafit/spring/SpringContextResourceManager.html#setAutowireEnabled(boolean)"><B>setAutowireEnabled(boolean)</B></A> - 
 Method in class org.uimafit.spring.<A HREF="./org/uimafit/spring/SpringContextResourceManager.html" title="class in org.uimafit.spring">SpringContextResourceManager</A>
 <DD>&nbsp;
@@ -1898,10 +1954,10 @@ Method in class org.uimafit.util.<A HREF="./org/uimafit/util/SimpleNamedResource
 <DD>&nbsp;
 <DT><A HREF="./org/uimafit/factory/AnalysisEngineFactory.html#setConfigurationParameters(org.apache.uima.analysis_engine.AnalysisEngineDescription, java.lang.Object...)"><B>setConfigurationParameters(AnalysisEngineDescription, Object...)</B></A> - 
 Static method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/AnalysisEngineFactory.html" title="class in org.uimafit.factory">AnalysisEngineFactory</A>
-<DD><B>Deprecated.</B>&nbsp;
+<DD><B>Deprecated.</B>&nbsp;<I>use <A HREF="./org/uimafit/factory/ResourceCreationSpecifierFactory.html#setConfigurationParameters(org.apache.uima.resource.ResourceCreationSpecifier, java.lang.Object...)"><CODE>ResourceCreationSpecifierFactory.setConfigurationParameters(org.apache.uima.resource.ResourceCreationSpecifier, java.lang.Object...)</CODE></A></I>
 <DT><A HREF="./org/uimafit/factory/CollectionReaderFactory.html#setConfigurationParameters(org.apache.uima.collection.CollectionReaderDescription, java.lang.Object...)"><B>setConfigurationParameters(CollectionReaderDescription, Object...)</B></A> - 
 Static method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/CollectionReaderFactory.html" title="class in org.uimafit.factory">CollectionReaderFactory</A>
-<DD><B>Deprecated.</B>&nbsp;
+<DD><B>Deprecated.</B>&nbsp;<I>use <A HREF="./org/uimafit/factory/ResourceCreationSpecifierFactory.html#setConfigurationParameters(org.apache.uima.resource.ResourceCreationSpecifier, java.lang.Object...)"><CODE>ResourceCreationSpecifierFactory.setConfigurationParameters(org.apache.uima.resource.ResourceCreationSpecifier, java.lang.Object...)</CODE></A></I>
 <DT><A HREF="./org/uimafit/factory/ResourceCreationSpecifierFactory.html#setConfigurationParameters(org.apache.uima.resource.ResourceCreationSpecifier, java.lang.Object...)"><B>setConfigurationParameters(ResourceCreationSpecifier, Object...)</B></A> - 
 Static method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/ResourceCreationSpecifierFactory.html" title="class in org.uimafit.factory">ResourceCreationSpecifierFactory</A>
 <DD>Create configuration parameter declarations and settings from a list of (name, value) pairs.
@@ -1927,6 +1983,9 @@ Method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/AggregateBuil
 <DT><A HREF="./org/uimafit/util/ExtendedLogger.html#setLevel(org.apache.uima.util.Level)"><B>setLevel(Level)</B></A> - 
 Method in class org.uimafit.util.<A HREF="./org/uimafit/util/ExtendedLogger.html" title="class in org.uimafit.util">ExtendedLogger</A>
 <DD>&nbsp;
+<DT><A HREF="./org/uimafit/factory/CpeBuilder.html#setMaxProcessingUnitThreatCount(int)"><B>setMaxProcessingUnitThreatCount(int)</B></A> - 
+Method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/CpeBuilder.html" title="class in org.uimafit.factory">CpeBuilder</A>
+<DD>&nbsp;
 <DT><A HREF="./org/uimafit/util/ExtendedLogger.html#setOutputStream(java.io.PrintStream)"><B>setOutputStream(PrintStream)</B></A> - 
 Method in class org.uimafit.util.<A HREF="./org/uimafit/util/ExtendedLogger.html" title="class in org.uimafit.util">ExtendedLogger</A>
 <DD><B>Deprecated.</B>&nbsp;
@@ -1939,12 +1998,18 @@ Static method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/Config
 <DT><A HREF="./org/uimafit/testing/factory/TokenBuilder.html#setPosFeatureName(java.lang.String)"><B>setPosFeatureName(String)</B></A> - 
 Method in class org.uimafit.testing.factory.<A HREF="./org/uimafit/testing/factory/TokenBuilder.html" title="class in org.uimafit.testing.factory">TokenBuilder</A>
 <DD>Set the feature name for the part-of-speech tag for your token type.
+<DT><A HREF="./org/uimafit/factory/CpeBuilder.html#setReader(org.apache.uima.collection.CollectionReaderDescription)"><B>setReader(CollectionReaderDescription)</B></A> - 
+Method in class org.uimafit.factory.<A HREF="./org/uimafit/factory/CpeBuilder.html" title="class in org.uimafit.factory">CpeBuilder</A>
+<DD>&nbsp;
 <DT><A HREF="./org/uimafit/util/ExtendedLogger.html#setResourceManager(org.apache.uima.resource.ResourceManager)"><B>setResourceManager(ResourceManager)</B></A> - 
 Method in class org.uimafit.util.<A HREF="./org/uimafit/util/ExtendedLogger.html" title="class in org.uimafit.util">ExtendedLogger</A>
 <DD>&nbsp;
 <DT><A HREF="./org/uimafit/testing/factory/TokenBuilder.html#setStemFeatureName(java.lang.String)"><B>setStemFeatureName(String)</B></A> - 
 Method in class org.uimafit.testing.factory.<A HREF="./org/uimafit/testing/factory/TokenBuilder.html" title="class in org.uimafit.testing.factory">TokenBuilder</A>
 <DD>Set the feature name for the stem for your token type.
+<DT><A HREF="./org/uimafit/propertyeditors/GetAsTextStringEditor.html#setValue(java.lang.Object)"><B>setValue(Object)</B></A> - 
+Method in class org.uimafit.propertyeditors.<A HREF="./org/uimafit/propertyeditors/GetAsTextStringEditor.html" title="class in org.uimafit.propertyeditors">GetAsTextStringEditor</A>
+<DD>&nbsp;
 <DT><A HREF="./org/uimafit/util/SimpleNamedResourceManager.html" title="class in org.uimafit.util"><B>SimpleNamedResourceManager</B></A> - Class in <A HREF="./org/uimafit/util/package-summary.html">org.uimafit.util</A><DD><b>EXPERIMENTAL CODE</b>
  
  Simple <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/resource/ResourceManager.html?is-external=true" title="class or interface in org.apache.uima.resource"><CODE>ResourceManager</CODE></A> allowing for direct injection of Java objects into UIMA
@@ -1963,7 +2028,7 @@ Static variable in class org.uimafit.factory.<A HREF="./org/uimafit/factory/FsIn
 <DT><A HREF="./org/uimafit/examples/tutorial/ex6/StringMapResource.html" title="interface in org.uimafit.examples.tutorial.ex6"><B>StringMapResource</B></A> - Interface in <A HREF="./org/uimafit/examples/tutorial/ex6/package-summary.html">org.uimafit.examples.tutorial.ex6</A><DD>&nbsp;<DT><A HREF="./org/uimafit/examples/tutorial/ex6/StringMapResource_impl.html" title="class in org.uimafit.examples.tutorial.ex6"><B>StringMapResource_impl</B></A> - Class in <A HREF="./org/uimafit/examples/tutorial/ex6/package-summary.html">org.uimafit.examples.tutorial.ex6</A><DD>&nbsp;<DT><A HREF="./org/uimafit/examples/tutorial/ex6/StringMapResource_impl.html#StringMapResource_impl()"><B>StringMapResource_impl()</B></A> - 
 Constructor for class org.uimafit.examples.tutorial.ex6.<A HREF="./org/uimafit/examples/tutorial/ex6/StringMapResource_impl.html" title="class in org.uimafit.examples.tutorial.ex6">StringMapResource_impl</A>
 <DD>&nbsp;
-<DT><A HREF="./org/uimafit/util/JCasUtil.html#subiterate(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.jcas.tcas.Annotation, boolean, boolean)"><B>subiterate(JCas, Class&lt;T&gt;, Annotation, boolean, boolean)</B></A> - 
+<DT><A HREF="./org/uimafit/util/JCasUtil.html#subiterate(org.apache.uima.jcas.JCas, java.lang.Class, org.apache.uima.cas.text.AnnotationFS, boolean, boolean)"><B>subiterate(JCas, Class&lt;T&gt;, AnnotationFS, boolean, boolean)</B></A> - 
 Static method in class org.uimafit.util.<A HREF="./org/uimafit/util/JCasUtil.html" title="class in org.uimafit.util">JCasUtil</A>
 <DD>Convenience method to iterator over all annotations of a given type occurring within the
  scope of a provided annotation (sub-iteration).
@@ -1979,7 +2044,7 @@ Static variable in class org.uimafit.examples.experiment.pos.<A HREF="./org/uima
  <A HREF="http://uima.apache.org/d/uimaj-2.4.0/apidocs/org/apache/uima/jcas/JCas.html?is-external=true" title="class or interface in org.apache.uima.jcas"><CODE>JCas</CODE></A>.<DT><A HREF="./org/uimafit/testing/factory/TokenBuilder.html#TokenBuilder(java.lang.Class, java.lang.Class)"><B>TokenBuilder(Class&lt;TOKEN_TYPE&gt;, Class&lt;SENTENCE_TYPE&gt;)</B></A> - 
 Constructor for class org.uimafit.testing.factory.<A HREF="./org/uimafit/testing/factory/TokenBuilder.html" title="class in org.uimafit.testing.factory">TokenBuilder</A>
 <DD>Calls <A HREF="./org/uimafit/testing/factory/TokenBuilder.html#TokenBuilder(java.lang.Class, java.lang.Class, java.lang.String, java.lang.String)"><CODE>TokenBuilder.TokenBuilder(Class, Class, String, String)</CODE></A> with the last two
- arguments as null
+ arguments as null.
 <DT><A HREF="./org/uimafit/testing/factory/TokenBuilder.html#TokenBuilder(java.lang.Class, java.lang.Class, java.lang.String, java.lang.String)"><B>TokenBuilder(Class&lt;TOKEN_TYPE&gt;, Class&lt;SENTENCE_TYPE&gt;, String, String)</B></A> - 
 Constructor for class org.uimafit.testing.factory.<A HREF="./org/uimafit/testing/factory/TokenBuilder.html" title="class in org.uimafit.testing.factory">TokenBuilder</A>
 <DD>Instantiates a TokenBuilder with the type system information that the builder needs to build
