@@ -1,5 +1,6 @@
 changes in 1.4.0
     - resolved issue #128 "Move over CpeBuilder"
+    - resolved issue #127 "Maven excludes on unnecessary Spring dependencies cause trouble"
     - resolved issue #123 "Debug utility to access all annotations by type"
     - resolved issue #120 "Additional method selectRelative() for JCasUtil"
     - resolved issue #104 "JCasUtil.selectCovered should accept AnnotationFS"
