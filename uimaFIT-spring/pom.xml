@@ -3,13 +3,13 @@
 	<artifactId>uimafit-spring</artifactId>
 	<packaging>jar</packaging>
 	<name>uimaFIT - Spring integration</name>
-	<version>1.4.0-SNAPSHOT</version>
+	<version>1.4.0</version>
 	<description>Factories, Injection, and Testing library for UIMA</description>
 	<url>http://uimafit.googlecode.com</url>
 	<parent>
 		<groupId>org.uimafit</groupId>
 		<artifactId>uimafit-parent</artifactId>
-		<version>1.4.0-SNAPSHOT</version>
+		<version>1.4.0</version>
 	</parent>
 	<dependencies>
 		<dependency>
@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>org.uimafit</groupId>
 			<artifactId>uimafit</artifactId>
-			<version>1.4.0-SNAPSHOT</version>
+			<version>1.4.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
