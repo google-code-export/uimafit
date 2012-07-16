@@ -1,4 +1,5 @@
 #summary Release notes for 1.4.0
+#labels Featured
 
 uimaFIT 1.4.0 is a feature release. It should be binary backwards compatible with 1.3.1 and provides new features some of which we introduce next. For a complete list of changes see the [https://uimafit.googlecode.com/svn/tags/uimafit-parent-1.4.0/uimaFIT/CHANGES CHANGES] file
 
@@ -17,6 +18,10 @@ now you can write
 }}}
 
 In the background, uimaFIT uses the Java PropertyEditor framework and Spring to perform conversions of values unsupported by UIMA to strings. This should work out-of-the-box for types that come with a String-only constructor, for any primitive types, for enums, and for a number of other types (e.g. Locale). Also collections and array of these types are supported.
+
+== New multi-threaded pipeline support ==
+
+uimaFIT now has a very basic support for running multi-threaded UIMA CPE pipelines. The simplest way to use the new feature is the !CpePipeline class. Forthcoming versions of uimaFIT are likely to further improve on this feature and offer more configuration options. 
 
 == New select methods ==
 
