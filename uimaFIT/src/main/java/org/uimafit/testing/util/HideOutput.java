@@ -17,18 +17,29 @@
 
 package org.uimafit.testing.util;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
 
+import org.apache.commons.io.output.NullOutputStream;
+
 /**
- * This class provides a way to hide system output which is sometimes desirable when running a suite
- * of unit tests which call methods that might contain sysout calls. This class is a hack and there
- * may be better ways of doing this. Please advise if you know better!
+ * This class provides a way to hide output sent to System.out and System.err. This may be useful
+ * when testing code that creates a lot of noisy output that can be ignored for testing purposes.
+ * This class works by redirecting System.out and System.err - note that this may have unintended
+ * side effects if you are not careful to call {@link #restoreOutput()} after the noisy code.
+ * Intended usage:
+ * 
+ * <code>
+ * HideOutput hider = new HideOutput();
+ * try {
+ *     ... noisy code ...
+ * } finally {
+ *     hider.restoreOutput();
+ * }
+ * </code>
  * 
  * @author Steven Bethard, Philip Ogren
  */
-public class HideOutput extends OutputStream {
+public class HideOutput {
 	protected PrintStream out;
 
 	protected PrintStream err;
@@ -40,8 +51,8 @@ public class HideOutput extends OutputStream {
 	public HideOutput() {
 		this.out = System.out;
 		this.err = System.err;
-		System.setOut(new PrintStream(this));
-		System.setErr(new PrintStream(this));
+		System.setOut(new PrintStream(NullOutputStream.NULL_OUTPUT_STREAM));
+		System.setErr(new PrintStream(NullOutputStream.NULL_OUTPUT_STREAM));
 	}
 
 	/**
@@ -51,10 +62,4 @@ public class HideOutput extends OutputStream {
 		System.setOut(this.out);
 		System.setErr(this.err);
 	}
-
-	@Override
-	public void write(int b) throws IOException {
-		// do nothing
-	}
-
 }

@@ -16,6 +16,12 @@
  */
 package org.uimafit.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.uimafit.testing.util.HideOutput;
 
@@ -26,13 +32,40 @@ import org.uimafit.testing.util.HideOutput;
 public class HideOutputTest {
 
 	@Test
-	public void testHideOutput() {
-		HideOutput ho = new HideOutput();
-		System.out
-				.println("you should not see this!  Please consider this a test failure!  Message brought to you by org.uimafit.util.HideOutputTest.testHideOutput()");
-		ho.restoreOutput();
-		System.out
-				.println("you should see this.  Message brought to you by org.uimafit.util.HideOutputTest.testHideOutput()");
+	public void testHideOutput() throws IOException {
+		// message that will be written to stdout and stderr
+		String className = this.getClass().getName();
+		String message = String.format("If you see this output, %s is failing\n", className);
+
+		// redirect stdout and stderr to streams we can read strings from
+		PrintStream oldOut = System.out;
+		PrintStream oldErr = System.err;
+		ByteArrayOutputStream stringOut = new ByteArrayOutputStream();
+		ByteArrayOutputStream stringErr = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(stringOut));
+		System.setErr(new PrintStream(stringErr));
+		try {
+			// check that nothing is written to stdout or stderr while hidden
+			HideOutput ho = new HideOutput();
+			System.out.print(message);
+			System.err.print(message);
+			Assert.assertEquals("", stringOut.toString());
+			Assert.assertEquals("", stringErr.toString());
+
+			// check that data is again written to stdout and stderr after restoring
+			ho.restoreOutput();
+			System.out.print(message);
+			System.err.print(message);
+			Assert.assertEquals(message, stringOut.toString());
+			Assert.assertEquals(message, stringErr.toString());
+		}
+		// restore stdout and stderr at the end of the test
+		finally {
+			System.setOut(oldOut);
+			System.setErr(oldErr);
+			stringOut.close();
+			stringErr.close();
+		}
 
 	}
 }
