@@ -1,6 +1,7 @@
 changes since 1.4.0
     - resolved issue #130 "upgrade dependencies?"
     - resolved issue #129 "HideOutput should not extend OutputStream"
+    - resolved issue #84 "upgrade to Java 6"
 
 changes in 1.4.0
     - resolved issue #128 "Move over CpeBuilder"
