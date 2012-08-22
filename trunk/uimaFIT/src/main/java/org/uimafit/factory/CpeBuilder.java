@@ -18,6 +18,9 @@
  */
 package org.uimafit.factory;
 
+import static org.apache.uima.UIMAFramework.getResourceSpecifierFactory;
+import static org.apache.uima.UIMAFramework.produceCollectionProcessingEngine;
+import static org.apache.uima.collection.impl.metadata.cpe.CpeDescriptorFactory.produceCasProcessor;
 import static org.apache.uima.collection.impl.metadata.cpe.CpeDescriptorFactory.produceCollectionReader;
 import static org.apache.uima.collection.impl.metadata.cpe.CpeDescriptorFactory.produceDescriptor;
 
@@ -28,8 +31,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.io.IOUtils;
 import org.apache.uima.UIMAFramework;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.analysis_engine.metadata.FixedFlow;
@@ -37,10 +39,9 @@ import org.apache.uima.collection.CollectionProcessingEngine;
 import org.apache.uima.collection.CollectionReaderDescription;
 import org.apache.uima.collection.StatusCallbackListener;
 import org.apache.uima.collection.impl.metadata.CpeDefaultValues;
-import org.apache.uima.collection.impl.metadata.cpe.CpeDescriptionImpl;
-import org.apache.uima.collection.impl.metadata.cpe.CpeDescriptorFactory;
 import org.apache.uima.collection.metadata.CpeCollectionReader;
 import org.apache.uima.collection.metadata.CpeComponentDescriptor;
+import org.apache.uima.collection.metadata.CpeDescription;
 import org.apache.uima.collection.metadata.CpeDescriptorException;
 import org.apache.uima.collection.metadata.CpeInclude;
 import org.apache.uima.collection.metadata.CpeIntegratedCasProcessor;
@@ -60,7 +61,7 @@ import org.xml.sax.SAXException;
  */
 public class CpeBuilder
 {
-	private Log log = LogFactory.getLog(getClass());
+//	private final Log log = LogFactory.getLog(getClass());
 
 	private static final String ACTION_ON_MAX_ERROR = "terminate";
 
@@ -68,13 +69,13 @@ public class CpeBuilder
 	 * used for calculating the CAS pool size which needs to be adjusted to the number of parallel
 	 * pipelines
 	 */
-	private int maxProcessingUnitThreatCount = 1;
+	private int maxProcessingUnitThreadCount = 1;
 
-	private final CpeDescriptionImpl cpeDesc = (CpeDescriptionImpl) produceDescriptor();
+	private final CpeDescription cpeDesc = produceDescriptor();
 
-	public void setMaxProcessingUnitThreatCount(int aMaxProcessingUnitThreatCount)
+	public void setMaxProcessingUnitThreadCount(int aMaxProcessingUnitThreadCount)
 	{
-		maxProcessingUnitThreatCount = aMaxProcessingUnitThreatCount;
+		maxProcessingUnitThreadCount = aMaxProcessingUnitThreadCount;
 	}
 
 	public void setReader(CollectionReaderDescription aDesc)
@@ -107,48 +108,57 @@ public class CpeBuilder
 			FixedFlow flow = (FixedFlow) aDesc.getAnalysisEngineMetaData().getFlowConstraints();
 			for (String key : flow.getFixedFlow()) {
 				AnalysisEngineDescription aeDesc = (AnalysisEngineDescription) delegates.get(key);
-				boolean multi = aeDesc.getAnalysisEngineMetaData()
-				.getOperationalProperties().isMultipleDeploymentAllowed();
-				log.info("["+key+"] runs "+ (multi ? "multi-threaded" : "single-threaded"));
+//				boolean multi = aeDesc.getAnalysisEngineMetaData().getOperationalProperties()
+//						.isMultipleDeploymentAllowed();
+//				log.info("["+key+"] runs "+ (multi ? "multi-threaded" : "single-threaded"));
 				CpeIntegratedCasProcessor proc = createProcessor(key, aeDesc);
 				cpeDesc.addCasProcessor(proc);
 			}
 		}
 	}
 
+	public CpeDescription getCpeDescription()
+	{
+		return cpeDesc;
+	}
+	
 	public CollectionProcessingEngine createCpe(StatusCallbackListener aListener)
 		throws ResourceInitializationException, CpeDescriptorException
 	{
 		ResourceManager resMgr = UIMAFramework.newDefaultResourceManager();
-		if (maxProcessingUnitThreatCount == 0) {
+		if (maxProcessingUnitThreadCount == 0) {
 			cpeDesc.getCpeCasProcessors().setPoolSize(3);
 		}
 		else {
-			cpeDesc.getCpeCasProcessors().setPoolSize(maxProcessingUnitThreatCount + 2);
-			cpeDesc.setProcessingUnitThreadCount(maxProcessingUnitThreatCount);
+			cpeDesc.getCpeCasProcessors().setPoolSize(maxProcessingUnitThreadCount + 2);
+			cpeDesc.setProcessingUnitThreadCount(maxProcessingUnitThreadCount);
 		}
-		CollectionProcessingEngine cpe = UIMAFramework.produceCollectionProcessingEngine(cpeDesc,
-				resMgr, null);
+		CollectionProcessingEngine cpe = produceCollectionProcessingEngine(cpeDesc, resMgr, null);
 		cpe.addStatusCallbackListener(aListener);
 		return cpe;
 	}
 
 	/**
-	 * Writes a temporary file containing a xml descriptor of the given resource. Returns the file.
+	 * Writes a temporary file containing a XML descriptor of the given resource. Returns the file.
 	 *
 	 * @param resource
 	 *            A resource specifier that should we materialized.
-	 * @return The file containing the xml representation of the given resource.
+	 * @return The file containing the XML representation of the given resource.
 	 */
 	private static File materializeDescriptor(ResourceSpecifier resource)
 		throws IOException, SAXException
 	{
 		File tempDesc = File.createTempFile("desc", ".xml");
 		tempDesc.deleteOnExit();
-
-		BufferedWriter out = new BufferedWriter(new FileWriter(tempDesc));
-		resource.toXML(out);
-		out.close();
+		
+		BufferedWriter out = null;
+		try {
+			out = new BufferedWriter(new FileWriter(tempDesc));
+			resource.toXML(out);
+		}
+		finally {
+			IOUtils.closeQuietly(out);
+		}
 
 		return tempDesc;
 	}
@@ -158,13 +168,13 @@ public class CpeBuilder
 	{
 		URL descUrl = materializeDescriptor(aDesc).toURI().toURL();
 
-		CpeInclude cpeInclude = UIMAFramework.getResourceSpecifierFactory().createInclude();
+		CpeInclude cpeInclude = getResourceSpecifierFactory().createInclude();
 		cpeInclude.set(descUrl.toString());
 
-		CpeComponentDescriptor ccd = UIMAFramework.getResourceSpecifierFactory().createDescriptor();
+		CpeComponentDescriptor ccd = getResourceSpecifierFactory().createDescriptor();
 		ccd.setInclude(cpeInclude);
 
-		CpeIntegratedCasProcessor proc = CpeDescriptorFactory.produceCasProcessor(key);
+		CpeIntegratedCasProcessor proc = produceCasProcessor(key);
 		proc.setCpeComponentDescriptor(ccd);
 		proc.setAttributeValue(CpeDefaultValues.PROCESSING_UNIT_THREAD_COUNT, 1);
 		proc.setActionOnMaxError(ACTION_ON_MAX_ERROR);
