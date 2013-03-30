@@ -9,9 +9,9 @@ UIMA pipelines into applications or for writing tests.
 
 As uimaFIT does not supply any readers or processing components, we just assume that we have written three components:
 
- * TextReader - reads text files from a directory
+ * !TextReader - reads text files from a directory
  * Tokenizer - annotates tokens
- * TokenFrequencyWriter - writes a list of tokens and their frequency to a file
+ * !TokenFrequencyWriter - writes a list of tokens and their frequency to a file
 
 We create descriptors for all components and run them as a pipeline:
 
