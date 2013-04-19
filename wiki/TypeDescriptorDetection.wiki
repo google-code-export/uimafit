@@ -1,4 +1,4 @@
-<h1>External Resources</h1>
+<h1>Type Descriptor Detection</h1>
 
 <wiki:toc max_depth="2" />
 
