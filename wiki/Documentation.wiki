@@ -15,7 +15,6 @@
  * [TypeDescriptorDetection Type systems]
  * [ConfigurationParameters Configuration parameters]
  * [ExternalResources External resources] 
- * [WorkingWithSofaViews Sofas/Views]
  
 == Use cases ==
 
