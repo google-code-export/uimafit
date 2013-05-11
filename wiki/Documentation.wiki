@@ -29,7 +29,7 @@
 
 == Language zoo ==
 
-* [https://github.com/jimpil/clojuima From Clojure to uimaFIT to UIMA and back...]
+ * [https://github.com/jimpil/clojuima From Clojure to uimaFIT to UIMA and back...]
  
 = Developer Documentation =
 
