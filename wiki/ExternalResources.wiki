@@ -156,6 +156,7 @@ public class TestSharedResourceObject implements SharedResourceObject, ExternalR
   }
 
   public void load(DataResource aData) throws ResourceInitializationException {
+    // Initialize the fields annotated with @ConfigurationParameter
     ConfigurationParameterInitializer.initialize(this, aData);
     // rest of the init logic that does not require external resources
   }
