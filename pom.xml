@@ -25,7 +25,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.target>1.6</java.target>
 		<spring.version>3.1.2.RELEASE</spring.version>
-		<uima.version>2.4.0</uima.version>
+		<uima.version>2.10.2</uima.version>
 	</properties>
 	<repositories>
 		<repository>
